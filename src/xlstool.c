@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with libxls.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  * Copyright 2004 Komarov Valery
  * Copyright 2006 Christophe Leitienne
  * Copyright 2008 David Hoerl
@@ -65,7 +65,7 @@ char* unicode_decode(const BYTE *s, int len, int *newlen, const char* to_enc)
 	// Do iconv conversion
     const char *from_enc = "UTF-16LE";
     char* outbuf = 0;
-
+    
     if(s && len && from_enc && to_enc)
     {
         size_t outlenleft = len;
@@ -77,7 +77,7 @@ char* unicode_decode(const BYTE *s, int len, int *newlen, const char* to_enc)
 
         if(ic != (iconv_t)-1)
         {
-            size_t st;
+            size_t st; 
             outbuf = (char*)malloc(outlen + 1);
 
 			if(outbuf)
@@ -162,7 +162,7 @@ char* get_string(BYTE *s, BYTE is2, BYTE fmt, char *charset)
     BYTE* str;
     char* ret;
     int new_len;
-
+	
 	new_len = 0;
 	flag = 0;
     str=s;
