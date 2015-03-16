@@ -26,3 +26,14 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// xls_sheets
+std::vector<std::string> xls_sheets(std::string path);
+RcppExport SEXP exell_xls_sheets(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(xls_sheets(path));
+    return __result;
+END_RCPP
+}

@@ -129,3 +129,26 @@ bool is_datetime(int id, formatMap formats) {
   return false;
 }
 
+
+// [[Rcpp::export]]
+std::vector<std::string> xls_sheets(std::string path) {
+  xls::xlsWorkBook* pWB = xls::xls_open(path.c_str(), "UTF8");
+
+  if (pWB == NULL)
+    Rcpp::stop("Failed to open %s", path);
+
+  int n = pWB->sheets.count;
+
+  std::vector<std::string> sheets;
+  sheets.reserve(n);
+
+  for (int i = 0; i < n; ++i) {
+    std::string name((char*) pWB->sheets.sheet[i].name);
+    sheets.push_back(name);
+  }
+
+  // Cleanup
+  xls_close(pWB);
+
+  return sheets;
+}

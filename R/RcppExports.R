@@ -9,3 +9,7 @@ xls_formats <- function(path) {
     .Call('exell_xls_formats', PACKAGE = 'exell', path)
 }
 
+xls_sheets <- function(path) {
+    .Call('exell_xls_sheets', PACKAGE = 'exell', path)
+}
+
