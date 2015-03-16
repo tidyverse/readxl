@@ -1,27 +1,90 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * This file is part of libxls -- A multiplatform, C library
+ * This file is part of libxls -- A multiplatform, C/C++ library
  * for parsing Excel(TM) files.
  *
- * libxls is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
  *
- * libxls is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ *    1. Redistributions of source code must retain the above copyright notice, this list of
+ *       conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with libxls.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *       of conditions and the following disclaimer in the documentation and/or other materials
+ *       provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY David Hoerl ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL David Hoerl OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  * Copyright 2004 Komarov Valery
  * Copyright 2006 Christophe Leitienne
- * Copyright 2008 David Hoerl
+ * Copyright 2013 Bob Colbert
+ * Copyright 2008-2013 David Hoerl
+ *
  */
 
-#include <libxls/ole.h>
+#ifndef XLS_STRUCT_INC
+#define XLS_STRUCT_INC
+
+#include "libxls/ole.h"
+
+#define XLS_RECORD_EOF          0x000A
+#define XLS_RECORD_DEFINEDNAME  0x0018
+#define XLS_RECORD_NOTE         0x001C
+#define XLS_RECORD_1904         0x0022
+#define XLS_RECORD_CONTINUE     0x003C
+#define XLS_RECORD_WINDOW1      0x003D
+#define XLS_RECORD_CODEPAGE     0x0042
+#define XLS_RECORD_OBJ          0x005D
+#define XLS_RECORD_MERGEDCELLS  0x00E5
+#define XLS_RECORD_DEFCOLWIDTH  0x0055
+#define XLS_RECORD_COLINFO      0x007D
+#define XLS_RECORD_BOUNDSHEET   0x0085
+#define XLS_RECORD_PALETTE      0x0092
+#define XLS_RECORD_MULRK        0x00BD
+#define XLS_RECORD_MULBLANK     0x00BE
+#define XLS_RECORD_DBCELL       0x00D7
+#define XLS_RECORD_XF           0x00E0
+#define XLS_RECORD_MSODRAWINGGROUP   0x00EB
+#define XLS_RECORD_MSODRAWING   0x00EC
+#define XLS_RECORD_SST          0x00FC
+#define XLS_RECORD_LABELSST     0x00FD
+#define XLS_RECORD_EXTSST       0x00FF
+#define XLS_RECORD_TXO          0x01B6
+#define XLS_RECORD_HYPERREF     0x01B8
+#define XLS_RECORD_BLANK        0x0201
+#define XLS_RECORD_NUMBER       0x0203
+#define XLS_RECORD_LABEL        0x0204
+#define XLS_RECORD_BOOLERR      0x0205
+#define XLS_RECORD_STRING       0x0207 // only follows a formula
+#define XLS_RECORD_ROW          0x0208
+#define XLS_RECORD_INDEX        0x020B
+#define XLS_RECORD_ARRAY        0x0221 // Array-entered formula
+#define XLS_RECORD_DEFAULTROWHEIGHT    0x0225
+#define XLS_RECORD_FONT         0x0031 // spec says 0x0231 but Excel expects 0x0031
+#define XLS_RECORD_FONT_ALT     0x0231
+#define XLS_RECORD_WINDOW2      0x023E
+#define XLS_RECORD_RK           0x027E
+#define XLS_RECORD_STYLE        0x0293
+#define XLS_RECORD_FORMULA      0x0006
+#define XLS_RECORD_FORMULA_ALT  0x0406 // Apple Numbers bug
+#define XLS_RECORD_FORMAT       0x041E
+#define XLS_RECORD_BOF          0x0809
+
+#define BLANK_CELL  XLS_RECORD_BLANK  // compat
+
+#ifdef AIX
+#pragma pack(1)
+#else
+#pragma pack(push, 1)
+#endif
 
 typedef struct BOF
 {
@@ -87,41 +150,92 @@ typedef struct COL
 COL;
 
 
-typedef struct FORMULA
+typedef struct FORMULA // BIFF8
 {
     WORD	row;
     WORD	col;
     WORD	xf;
-    //	ULLONG  res;
+	// next 8 bytes either a IEEE double, or encoded on a byte basis
     BYTE	resid;
     BYTE	resdata[5];
     WORD	res;
-    //	double	res;
     WORD	flags;
-    BYTE	chn[4];
+    BYTE	chn[4]; // BIFF8
     WORD	len;
     BYTE	value[1]; //var
 }
 FORMULA;
+
+typedef struct FARRAY // BIFF8
+{
+    WORD	row1;
+    WORD	row2;
+    BYTE	col1;
+    BYTE	col2;
+    WORD	flags;
+    BYTE	chn[4]; // BIFF8
+    WORD	len;
+    BYTE	value[1]; //var
+}
+FARRAY;
 
 typedef struct RK
 {
     WORD	row;
     WORD	col;
     WORD	xf;
-    BYTE	value[4];
+    DWORD_UA value;
 }
 RK;
 
-typedef struct LABELSST
+typedef struct MULRK
+{
+    WORD	row;
+    WORD	col;
+	struct {
+		WORD	xf;
+		DWORD_UA value;
+	}		rk[];
+	//WORD	last_col;
+}
+MULRK;
+
+typedef struct MULBLANK
+{
+    WORD	row;
+    WORD	col;
+    WORD	xf[];
+	//WORD	last_col;
+}
+MULBLANK;
+
+typedef struct BLANK
 {
     WORD	row;
     WORD	col;
     WORD	xf;
-    BYTE	value[4];
 }
-LABELSST;
+BLANK;
 
+typedef struct LABEL
+{
+    WORD	row;
+    WORD	col;
+    WORD	xf;
+    BYTE	value[1]; // var
+}
+LABEL;
+typedef LABEL LABELSST;
+
+typedef struct BOOLERR
+{
+    WORD    row;
+    WORD    col;
+    WORD    xf;
+    BYTE    value;
+    BYTE    iserror;
+}
+BOOLERR;
 
 typedef struct SST
 {
@@ -206,20 +320,23 @@ FONT;
 typedef struct FORMAT
 {
     WORD	index;
-    BYTE	value[1];
+    BYTE	value[0];
 }
 FORMAT;
 
+#pragma pack(pop)
+
 //---------------------------------------------------------
+
 typedef	struct st_sheet
-{		//Sheets
-    long count;
+{
+    DWORD count;        // Count of sheets
     struct st_sheet_data
     {
         DWORD filepos;
         BYTE visibility;
         BYTE type;
-        char* name;
+        BYTE* name;
     }
     * sheet;
 }
@@ -227,7 +344,7 @@ st_sheet;
 
 typedef	struct st_font
 {
-    long count;		//Count of FONT's
+    DWORD count;		// Count of FONT's
     struct st_font_data
     {
         WORD	height;
@@ -238,7 +355,7 @@ typedef	struct st_font
         BYTE	underline;
         BYTE	family;
         BYTE	charset;
-        char*	name;
+        BYTE*	name;
     }
     * font;
 }
@@ -246,11 +363,11 @@ st_font;
 
 typedef struct st_format
 {
-    long count;		//Count of FORMAT's
+    DWORD count;		// Count of FORMAT's
     struct st_format_data
     {
          WORD index;
-         char *value;
+         BYTE *value;
     }
     * format;
 }
@@ -258,7 +375,7 @@ st_format;
 
 typedef	struct st_xf
 {
-    long count;	//Count of XF
+    DWORD count;	// Count of XF
     //	XF** xf;
     struct st_xf_data
     {
@@ -274,7 +391,6 @@ typedef	struct st_xf
         WORD	groundcolor;
     }
     * xf;
-
 }
 st_xf;
 
@@ -289,8 +405,7 @@ typedef	struct st_sst
     DWORD lastsz;
     struct str_sst_string
     {
-        //	long len;
-        char* str;
+        BYTE* str;
     }
     * string;
 }
@@ -306,13 +421,13 @@ typedef	struct st_cell
         WORD	row;
         WORD	col;
         WORD	xf;
+        BYTE*	str;		// String value;
         double	d;
-        long	l;
-        char*	str;		//String value;
-        BYTE	ishiden;		//Is cell hident
-        WORD	width;		//Width of col
+        int32_t	l;
+        WORD	width;		// Width of col
         WORD	colspan;
         WORD	rowspan;
+        BYTE	isHidden;	// Is cell hidden
     }
     * cell;
 }
@@ -322,8 +437,8 @@ st_cell;
 typedef	struct st_row
 {
     //	DWORD count;
-    WORD lastcol;
-    WORD lastrow;
+    WORD lastcol;	// numCols - 1
+    WORD lastrow;	// numRows - 1
     struct st_row_data
     {
         WORD index;
@@ -342,7 +457,7 @@ st_row;
 
 typedef	struct st_colinfo
 {
-    long count;	//Count of COLINFO
+    DWORD count;				// Count of COLINFO
     struct st_colinfo_data
     {
         WORD	first;
@@ -357,22 +472,27 @@ st_colinfo;
 
 typedef struct xlsWorkBook
 {
-    //FILE*		file;		//
+    //FILE*		file;
     OLE2Stream*	olestr;
-    long		filepos;	//position in file
+    int32_t		filepos;		// position in file
 
     //From Header (BIFF)
     BYTE		is5ver;
+    BYTE		is1904;
     WORD		type;
+    WORD		activeSheetIdx;	// index of the active sheet
 
     //Other data
-    WORD		codepage;	//Charset codepage
+    WORD		codepage;		// Charset codepage
     char*		charset;
     st_sheet	sheets;
-    st_sst		sst;		//SST table
-    st_xf		xfs;		//XF table
+    st_sst		sst;			// SST table
+    st_xf		xfs;			// XF table
     st_font		fonts;
-    st_format	formats;	//FORMAT table
+    st_format	formats;		// FORMAT table
+
+	char		*summary;		// ole file
+	char		*docSummary;	// ole file
 }
 xlsWorkBook;
 
@@ -381,8 +501,34 @@ typedef struct xlsWorkSheet
     DWORD		filepos;
     WORD		defcolwidth;
     st_row		rows;
-    xlsWorkBook * 	workbook;
+    xlsWorkBook *workbook;
     st_colinfo	colinfo;
-    WORD		maxcol;
 }
 xlsWorkSheet;
+
+#ifdef __cplusplus
+typedef struct st_cell::st_cell_data xlsCell;
+typedef	struct st_row::st_row_data xlsRow;
+#else
+typedef struct st_cell_data xlsCell;
+typedef	struct st_row_data xlsRow;
+#endif
+
+typedef struct xls_summaryInfo
+{
+	BYTE		*title;
+	BYTE		*subject;
+	BYTE		*author;
+	BYTE		*keywords;
+	BYTE		*comment;
+	BYTE		*lastAuthor;
+	BYTE		*appName;
+	BYTE		*category;
+	BYTE		*manager;
+	BYTE		*company;
+}
+xlsSummaryInfo;
+
+typedef void (*xls_formula_handler)(WORD bof, WORD len, BYTE *formula);
+
+#endif

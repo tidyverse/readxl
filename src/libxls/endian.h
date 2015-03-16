@@ -23,48 +23,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
  * Copyright 2013 Bob Colbert
- * Copyright 2008-2013 David Hoerl
  *
  */
 
-#ifndef XLS_TYPES_INC
-#define XLS_TYPES_INC
+#include <libxls/xlsstruct.h>
 
-#include <stdint.h>
+int xls_is_bigendian();
+DWORD xlsIntVal (DWORD i);
+unsigned short xlsShortVal (short s);
 
-typedef unsigned char		BYTE;
-typedef uint16_t			WORD;
-typedef uint32_t			DWORD;
+void xlsConvertHeader(OLE2Header *h);
+void xlsConvertPss(PSS* pss);
 
-#ifdef NO_ALIGN
-typedef uint16_t			WORD_UA;
-typedef uint32_t			DWORD_UA;
-#else
-typedef uint16_t			WORD_UA		__attribute__ ((aligned (1)));	// 2 bytes
-typedef uint32_t			DWORD_UA	__attribute__ ((aligned (1)));	// 4 bytes
+void xlsConvertDouble(BYTE *d);
+void xlsConvertBof(BOF *b);
+void xlsConvertBiff(BIFF *b);
+void xlsConvertWindow(WIND1 *w);
+void xlsConvertSst(SST *s);
+void xlsConvertXf5(XF5 *x);
+void xlsConvertXf8(XF8 *x);
+void xlsConvertFont(FONT *f);
+void xlsConvertFormat(FORMAT *f);
+void xlsConvertBoundsheet(BOUNDSHEET *b);
+void xlsConvertColinfo(COLINFO *c);
+void xlsConvertRow(ROW *r);
+void xlsConvertMergedcells(MERGEDCELLS *m);
+void xlsConvertCol(COL *c);
+void xlsConvertFormula(FORMULA *f);
+void xlsConvertFormulaArray(FARRAY *f);
+void xlsConvertHeader(OLE2Header *h);
+void xlsConvertPss(PSS* pss);
+#if 0 // unused
+void xlsConvertUnicode(wchar_t *w, char *s, int len);
 #endif
 
-// Windows
-#if defined(_MSC_VER) && defined(WIN32)
-
-typedef unsigned __int64	unsigned64_t;
-
-// not windows
-#else
-
-#if defined(_UINT64_T)
-
-typedef uint64_t			unsigned64_t;
-
-#else
-
-typedef unsigned long long	unsigned64_t;
-
-// _UINT64_T
-#endif
-#endif
-
-#endif
+#define W_ENDIAN(a) a=xlsShortVal(a)
+#define D_ENDIAN(a) a=xlsIntVal(a)
