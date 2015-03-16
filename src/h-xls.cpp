@@ -3,6 +3,8 @@ using namespace Rcpp;
 
 #include <libxls/xls.h>
 
+typedef std::map<int,std::string> formatMap;
+
 // [[Rcpp::export]]
 void numSheets(std::string path) {
 
@@ -85,4 +87,43 @@ std::map<int,std::string> xls_formats(std::string path) {
   xls_close(pWB);
 
   return formats;
+}
+
+bool is_datetime(int id, formatMap formats) {
+  // Date formats:
+  // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
+  // 18.8.30 numFmt (Number Format)  (p1777)
+  // Date times: 14-22, 27-36, 45-47, 50-58, 71-81 (inclusive)
+  if ((id >= 14 & id <= 22) ||
+      (id >= 27 & id <= 36) ||
+      (id >= 45 & id <= 47) ||
+      (id >= 50 & id <= 58) ||
+      (id >= 71 & id <= 81))
+    return true;
+
+  // Built-in format that's not a date
+  if (id < 164)
+    return false;
+
+  if (id > 382)
+    Rcpp::stop("Invalid format specifier (%i)", id);
+
+  formatMap::iterator format = formats.find(id);
+  if (format == formats.end())
+    Rcpp::stop("Customer format specifier not defined (%i)", id);
+
+  std::string formatString = format->second;
+  for (int i = 0; i < formatString.size(); ++i) {
+    switch (formatString[i]) {
+    case 'd':
+    case 'm': // 'mm' for minutes
+    case 'y':
+    case 'h': // 'hh'
+    case 's': // 'ss'
+      return true;
+    default:
+      break;
+    }
+  }
+  return false;
 }
