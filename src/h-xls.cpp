@@ -32,19 +32,20 @@ void numSheets(std::string path) {
       xls::st_cell::st_cell_data cell = row.cells.cell[j];
 
       // Find codes in [MS-XLS] S2.3.2 (p175).
-      // See xls.c:868 for those used for cells
+      // See xls_addCell for those used for cells
       switch(cell.id) {
       case 253: // LabelSst
+      case 516: // Label
         Rcout << cell.str << "\n";
         break;
 
-      case 6: // formula
-        // libxls doesn't record the result type of the formula, so
-        // we don't support non-numeric results
+      case 6:    // formula
+      case 1030: // formula (Apple Numbers Bug)
         Rcout << "'" << cell.d << "'\n";
         break;
 
       case 189: // MulRk
+      case 515: // Number
       case 638: // Rk
         Rcout << cell.d << "\n";
         break;
@@ -127,3 +128,4 @@ bool is_datetime(int id, formatMap formats) {
   }
   return false;
 }
+
