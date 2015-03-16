@@ -7,6 +7,8 @@ inline std::string normalizePath(std::string path) {
   return Rcpp::as<std::string>(normalizePath(path, false));
 }
 
+typedef std::map<int,std::string> FormatMap;
+
 class XlsWorkBook {
   std::string path_;
   xls::xlsWorkBook* pWB_;
@@ -41,6 +43,23 @@ public:
     }
 
     return sheets;
+  }
+
+  int nFormats() {
+    return pWB_->formats.count;
+  }
+
+  FormatMap formats() {
+    std::map<int, std::string> formats;
+
+    for (int i = 0; i < nFormats(); ++i) {
+      xls::st_format::st_format_data format = pWB_->formats.format[i];
+      std::string value((char*) pWB_->formats.format[i].value);
+
+      formats.insert(std::make_pair(format.index, value));
+    }
+
+    return formats;
   }
 
 };

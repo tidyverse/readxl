@@ -4,8 +4,6 @@ using namespace Rcpp;
 #include "XlsWorkBook.h"
 #include <libxls/xls.h>
 
-typedef std::map<int,std::string> formatMap;
-
 // [[Rcpp::export]]
 void numSheets(std::string path) {
 
@@ -70,28 +68,11 @@ void numSheets(std::string path) {
 
 // [[Rcpp::export]]
 std::map<int,std::string> xls_formats(std::string path) {
-  xls::xlsWorkBook* pWB = xls::xls_open(path.c_str(), "UTF8");
-
-  if (pWB == NULL)
-    Rcpp::stop("Failed to open %s", path);
-
-  std::map<int, std::string> formats;
-
-  int n = pWB->formats.count;
-  for (int i = 0; i < n; ++i) {
-    xls::st_format::st_format_data format = pWB->formats.format[i];
-    std::string value((char*) pWB->formats.format[i].value);
-
-    formats.insert(std::make_pair(format.index, value));
-  }
-
-  // Cleanup
-  xls_close(pWB);
-
-  return formats;
+  XlsWorkBook wb(path);
+  return wb.formats();
 }
 
-bool is_datetime(int id, formatMap formats) {
+bool is_datetime(int id, FormatMap formats) {
   // Date formats:
   // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
   // 18.8.30 numFmt (Number Format)  (p1777)
@@ -110,7 +91,7 @@ bool is_datetime(int id, formatMap formats) {
   if (id > 382)
     Rcpp::stop("Invalid format specifier (%i)", id);
 
-  formatMap::iterator format = formats.find(id);
+  FormatMap::iterator format = formats.find(id);
   if (format == formats.end())
     Rcpp::stop("Customer format specifier not defined (%i)", id);
 
