@@ -7,8 +7,8 @@
 
 enum CellType {
   CELL_BLANK,
-  CELL_NUMERIC,
   CELL_DATE,
+  CELL_NUMERIC,
   CELL_TEXT
 };
 
@@ -47,6 +47,9 @@ inline CellType cellType(xls::st_cell::st_cell_data cell) {
   }
 }
 
+inline bool isBlank(xls::st_cell::st_cell_data cell)  {
+  return cell.id == 190 || cell.id == 513;
+}
 
 bool inline is_datetime(int id, const FormatMap& formats) {
   // Date formats:

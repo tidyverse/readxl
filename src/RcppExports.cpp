@@ -27,3 +27,43 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// xls_col_types
+CharacterVector xls_col_types(std::string path, int i, int nskip, int n);
+RcppExport SEXP exell_xls_col_types(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    __result = Rcpp::wrap(xls_col_types(path, i, nskip, n));
+    return __result;
+END_RCPP
+}
+// xls_col_names
+CharacterVector xls_col_names(std::string path, int i, int nskip);
+RcppExport SEXP exell_xls_col_names(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    __result = Rcpp::wrap(xls_col_names(path, i, nskip));
+    return __result;
+END_RCPP
+}
+// xls_cols
+List xls_cols(std::string path, int i, int nskip);
+RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    __result = Rcpp::wrap(xls_cols(path, i, nskip));
+    return __result;
+END_RCPP
+}
