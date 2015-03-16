@@ -23,36 +23,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
- * Copyright 2008-2012 David Hoerl
+ * Copyright 2013 Bob Colbert
  *
  */
 
-struct str_brdb
-{
-    WORD opcode;
-    char * name;			/* printable name */
-    char * desc;			/* printable description */
-};
-typedef struct str_brdb record_brdb;
+#include <libxls/xlsstruct.h>
 
-record_brdb brdb[] =
-    {
-#include <libxls/brdb.c.h>
-    };
+int xls_is_bigendian();
+int xlsIntVal (int i);
+unsigned short xlsShortVal (short s);
 
-static int get_brbdnum(int id)
-{
+void xlsConvertHeader(OLE2Header *h);
+void xlsConvertPss(PSS* pss);
 
-    int i;
-    i=0;
-    do
-    {
-        if (brdb[i].opcode==id)
-            return i;
-        i++;
-    }
-    while (brdb[i].opcode!=0xFFF);
-    return 0;
-}
+void xlsConvertDouble(BYTE *d);
+void xlsConvertBof(BOF *b);
+void xlsConvertBiff(BIFF *b);
+void xlsConvertWindow(WIND1 *w);
+void xlsConvertSst(SST *s);
+void xlsConvertXf5(XF5 *x);
+void xlsConvertXf8(XF8 *x);
+void xlsConvertFont(FONT *f);
+void xlsConvertFormat(FORMAT *f);
+void xlsConvertBoundsheet(BOUNDSHEET *b);
+void xlsConvertColinfo(COLINFO *c);
+void xlsConvertRow(ROW *r);
+void xlsConvertMergedcells(MERGEDCELLS *m);
+void xlsConvertCol(COL *c);
+void xlsConvertFormula(FORMULA *f);
+void xlsConvertFormulaArray(FARRAY *f);
+void xlsConvertHeader(OLE2Header *h);
+void xlsConvertPss(PSS* pss);
+#if 0 // unused
+void xlsConvertUnicode(wchar_t *w, char *s, int len);
+#endif
+
+#define W_ENDIAN(a) a=xlsShortVal(a)
+#define D_ENDIAN(a) a=xlsIntVal(a)
