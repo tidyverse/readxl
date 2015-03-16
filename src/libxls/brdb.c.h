@@ -1,24 +1,32 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * This file is part of libxls -- A multiplatform, C library
+ * This file is part of libxls -- A multiplatform, C/C++ library
  * for parsing Excel(TM) files.
  *
- * libxls is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
  *
- * libxls is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ *    1. Redistributions of source code must retain the above copyright notice, this list of
+ *       conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with libxls.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *       of conditions and the following disclaimer in the documentation and/or other materials
+ *       provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY David Hoerl ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL David Hoerl OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  * Copyright 2004 Komarov Valery
  * Copyright 2006 Christophe Leitienne
- * Copyright 2008 David Hoerl
+ * Copyright 2008-2012 David Hoerl
+ *
  */
 
 { 0x00, "Unknown",	""},
@@ -37,12 +45,13 @@
 { 0x15, "FOOTER",	"Print Footer on Each Page" },
 { 0x16, "EXTERNCOUNT",	"Number of External References" },
 { 0x17, "EXTERNSHEET",	"External Reference" },
+{ 0x18, "DEFINEDNAME",	"User Defined Formulas (and others)" },
 { 0x19, "?WINDOWPROTECT",	" (biffview guessed)" },
 { 0x1A, "VERTICALPAGEBREAKS",	"Explicit Column Page Breaks" },
 { 0x1B, "HORIZONTALPAGEBREAKS",	"Explicit Row Page Breaks" },
 { 0x1C, "NOTE",	"Comment Associated with a Cell" },
 { 0x1D, "SELECTION",	"Current Selection" },
-{ 0x22, "1904",	"1904 Date System" },
+{ 0x22, "DATEMODE",	"1904 Date System" },
 { 0x26, "LEFTMARGIN",	"Left Margin Measurement" },
 { 0x27, "RIGHTMARGIN",	"Right Margin Measurement" },
 { 0x28, "TOPMARGIN",	"Top Margin Measurement" },
@@ -102,7 +111,7 @@
 { 0xA9, "COORDLIST",	"Polygon Object Vertex Coordinates" },
 { 0xAB, "GCW",	"Global Column-Width Flags" },
 { 0xAE, "SCENMAN",	"Scenario Output Data" },
-{ 0xAF, "SCENARIO",	"Scenario Dataç" },
+{ 0xAF, "SCENARIO",	"Scenario Data" },
 { 0xB0, "SXVIEW",	"View Definition" },
 { 0xB1, "SXVD",	"View Fields" },
 { 0xB2, "SXVI",	"View Item" },
@@ -141,6 +150,7 @@
 { 0xEB, "MSODRAWINGGROUP",	"Microsoft Office Drawing Group" },
 { 0xEC, "MSODRAWING",	"Microsoft Office Drawing" },
 { 0xED, "MSODRAWINGSELECTION",	"Microsoft Office Drawing Selection" },
+{ 0xEF, "PHONETIC-INFO", "Specifies the default format for phonetic strings " },
 { 0xF0, "SXRULE",	"PivotTable Rule Data" },
 { 0xF1, "SXEX",	"PivotTable View Extended Information" },
 { 0xF2, "SXFILT",	"PivotTable Rule Filter" },
@@ -173,9 +183,11 @@
 { 0x1B6, "TXO",	"Text Object" },
 { 0x1B7, "REFRESHALL",	"Refresh Flag" },
 { 0x1B8, "HLINK",	"Hyperlink" },
+{ 0x1BA, "CODENAME",	"Name of a workbook object," },
 { 0x1BB, "SXFDBTYPE",	"SQL Datatype Identifier" },
 { 0x1BC, "PROT4REVPASS",	"Shared Workbook Protection Password" },
 { 0x1BE, "DV",	"Data Validation Criteria" },
+{ 0x1C1, "RECALC_ID", "identifier of the recalculation engine" },
 { 0x200, "DIMENSIONS",	"Cell Table Size" },
 { 0x201, "BLANK",	"Cell Value, Blank Cell" },
 { 0x203, "NUMBER",	"Cell Value, Floating-Point Number" },
@@ -197,4 +209,5 @@
 { 0x41E, "FORMAT",	"Number Format" },
 { 0x4BC, "?FORMULA-RELATED=?(BC=SHRFMLA))",	"Formula related, always before there are 0x06 (FORMULA)" },
 { 0x809, "BOF-BIFF5/7/8",	"Beginning of File" },
+{ 0x863, "BOOKEXT", "Specifies properties of a workbook file." },
 { 0xFFF, "",	"" },
