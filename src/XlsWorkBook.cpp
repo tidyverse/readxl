@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include "XlsWorkBook.h"
 #include <libxls/xls.h>
 
 typedef std::map<int,std::string> formatMap;
