@@ -1,3 +1,6 @@
+#ifndef EXELL_XLSWORKBOOK_
+#define EXELL_XLSWORKBOOK_
+
 #include <Rcpp.h>
 #include <libxls/xls.h>
 
@@ -6,6 +9,8 @@ inline std::string normalizePath(std::string path) {
   Rcpp::Function normalizePath = baseEnv["normalizePath"];
   return Rcpp::as<std::string>(normalizePath(path, false));
 }
+
+class XlsWorkSheet;
 
 typedef std::map<int,std::string> FormatMap;
 
@@ -18,22 +23,23 @@ public:
   XlsWorkBook(std::string path) {
     path_ = normalizePath(path);
     pWB_ = xls::xls_open(path_.c_str(), "UTF8");
-
-    if (pWB_ == NULL)
-      Rcpp::stop("Failed to open %s", path);
   }
 
   ~XlsWorkBook() {
     try {
-      xls_close(pWB_);
+      xls_close_WB(pWB_);
     } catch(...) {}
   }
 
-  int nSheets() {
+  xls::xlsWorkBook* workbook() const {
+    return pWB_;
+  }
+
+  int nSheets() const {
     return pWB_->sheets.count;
   }
 
-  std::vector<std::string> sheets() {
+  std::vector<std::string> sheets() const {
     std::vector<std::string> sheets;
     sheets.reserve(nSheets());
 
@@ -45,11 +51,11 @@ public:
     return sheets;
   }
 
-  int nFormats() {
+  int nFormats() const {
     return pWB_->formats.count;
   }
 
-  FormatMap formats() {
+  FormatMap formats() const {
     std::map<int, std::string> formats;
 
     for (int i = 0; i < nFormats(); ++i) {
@@ -62,4 +68,9 @@ public:
     return formats;
   }
 
+  XlsWorkSheet sheet(std::string name);
+  XlsWorkSheet sheet(int i);
+
 };
+
+#endif

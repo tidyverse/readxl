@@ -5,16 +5,6 @@
 
 using namespace Rcpp;
 
-// numSheets
-void numSheets(std::string path);
-RcppExport SEXP exell_numSheets(SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    numSheets(path);
-    return R_NilValue;
-END_RCPP
-}
 // xls_formats
 std::map<int,std::string> xls_formats(std::string path);
 RcppExport SEXP exell_xls_formats(SEXP pathSEXP) {
