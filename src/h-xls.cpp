@@ -62,3 +62,27 @@ void numSheets(std::string path) {
   // Cleanup
   xls_close(pWB);
 }
+
+
+// [[Rcpp::export]]
+std::map<int,std::string> xls_formats(std::string path) {
+  xls::xlsWorkBook* pWB = xls::xls_open(path.c_str(), "UTF8");
+
+  if (pWB == NULL)
+    Rcpp::stop("Failed to open %s", path);
+
+  std::map<int, std::string> formats;
+
+  int n = pWB->formats.count;
+  for (int i = 0; i < n; ++i) {
+    xls::st_format::st_format_data format = pWB->formats.format[i];
+    std::string value((char*) pWB->formats.format[i].value);
+
+    formats.insert(std::make_pair(format.index, value));
+  }
+
+  // Cleanup
+  xls_close(pWB);
+
+  return formats;
+}

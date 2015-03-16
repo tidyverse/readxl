@@ -15,3 +15,14 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// xls_formats
+std::map<int,std::string> xls_formats(std::string path);
+RcppExport SEXP exell_xls_formats(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(xls_formats(path));
+    return __result;
+END_RCPP
+}

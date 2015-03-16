@@ -5,3 +5,7 @@ numSheets <- function(path) {
     invisible(.Call('exell_numSheets', PACKAGE = 'exell', path))
 }
 
+xls_formats <- function(path) {
+    .Call('exell_xls_formats', PACKAGE = 'exell', path)
+}
+
