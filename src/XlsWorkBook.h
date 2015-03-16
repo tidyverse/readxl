@@ -7,7 +7,7 @@
 inline std::string normalizePath(std::string path) {
   Rcpp::Environment baseEnv = Rcpp::Environment::base_env();
   Rcpp::Function normalizePath = baseEnv["normalizePath"];
-  return Rcpp::as<std::string>(normalizePath(path, false));
+  return Rcpp::as<std::string>(normalizePath(path, "/", true));
 }
 
 class XlsWorkSheet;
