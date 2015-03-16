@@ -15,7 +15,7 @@ public:
 
   XlsWorkBook(std::string path) {
     path_ = normalizePath(path);
-    pWB_ = xls::xls_open(path.c_str(), "UTF8");
+    pWB_ = xls::xls_open(path_.c_str(), "UTF8");
 
     if (pWB_ == NULL)
       Rcpp::stop("Failed to open %s", path);
@@ -26,4 +26,21 @@ public:
       xls_close(pWB_);
     } catch(...) {}
   }
+
+  int nSheets() {
+    return pWB_->sheets.count;
+  }
+
+  std::vector<std::string> sheets() {
+    std::vector<std::string> sheets;
+    sheets.reserve(nSheets());
+
+    for (int i = 0; i < nSheets(); ++i) {
+      std::string name((char*) pWB_->sheets.sheet[i].name);
+      sheets.push_back(name);
+    }
+
+    return sheets;
+  }
+
 };
