@@ -28,16 +28,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // xls_col_types
-CharacterVector xls_col_types(std::string path, int i, int nskip, int n);
-RcppExport SEXP exell_xls_col_types(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
+CharacterVector xls_col_types(std::string path, std::string na, int i, int nskip, int n);
+RcppExport SEXP exell_xls_col_types(SEXP pathSEXP, SEXP naSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< std::string >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type i(iSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    __result = Rcpp::wrap(xls_col_types(path, i, nskip, n));
+    __result = Rcpp::wrap(xls_col_types(path, na, i, nskip, n));
     return __result;
 END_RCPP
 }
@@ -55,8 +56,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // xls_cols
-List xls_cols(std::string path, int i, CharacterVector col_names, CharacterVector col_types, int nskip);
-RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP nskipSEXP) {
+List xls_cols(std::string path, int i, CharacterVector col_names, CharacterVector col_types, std::string na, int nskip);
+RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -64,8 +65,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type i(iSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type col_names(col_namesSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type col_types(col_typesSEXP);
+    Rcpp::traits::input_parameter< std::string >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
-    __result = Rcpp::wrap(xls_cols(path, i, col_names, col_types, nskip));
+    __result = Rcpp::wrap(xls_cols(path, i, col_names, col_types, na, nskip));
     return __result;
 END_RCPP
 }

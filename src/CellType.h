@@ -35,14 +35,16 @@ inline std::vector<CellType> cellTypes(CharacterVector x) {
   return types;
 }
 
-inline CellType cellType(xls::st_cell::st_cell_data cell) {
+inline CellType cellType(xls::st_cell::st_cell_data cell, std::string na = "") {
   // Find codes in [MS-XLS] S2.3.2 (p175).
   // See xls_addCell for those used for cells
   switch(cell.id) {
   case 253: // LabelSst
-  case 516: // Label
-    return CELL_TEXT;
+  case 516: {// Label
+    std::string string((char*) cell.str);
+    return string == na ? CELL_BLANK : CELL_TEXT;
     break;
+  }
 
   case 6:    // formula
   case 1030: // formula (Apple Numbers Bug)

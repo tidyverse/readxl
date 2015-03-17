@@ -61,7 +61,7 @@ public:
     return out;
   }
 
-  std::vector<CellType> colTypes(int nskip = 0, int n_max = 100) {
+  std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
     std::vector<CellType> types(ncol_);
 
     for (int i = nskip; i < nrow_ && i < n_max; ++i) {
@@ -71,7 +71,7 @@ public:
       xls::st_row::st_row_data row = pWS_->rows.row[i];
 
       for (int j = 0; j < ncol_; ++j) {
-        CellType type = cellType(row.cells.cell[j]);
+        CellType type = cellType(row.cells.cell[j], na);
 
         // Excel is simple enough we can enforce a strict ordering
         if (type > types[j]) {
@@ -84,56 +84,89 @@ public:
   }
 
   Rcpp::List readCols(CharacterVector names, std::vector<CellType> types,
-                      int nskip = 0) {
+                      std::string na, int nskip = 0) {
     if (names.size() != ncol_ || types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
     Rcpp::List cols(ncol_);
 
     // Initialise columns
+    int n = nrow_ - nskip;
     for (int j = 0; j < ncol_; ++j) {
       switch(types[j]) {
       case CELL_BLANK:
         break;
       case CELL_DATE: {
-          RObject col = Rcpp::NumericVector(nrow_);
+          RObject col = Rcpp::NumericVector(n);
           col.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
           cols[j] = col;
         }
         break;
       case CELL_NUMERIC:
-        cols[j] = Rcpp::NumericVector(nrow_);
+        cols[j] = Rcpp::NumericVector(n);
         break;
       case CELL_TEXT:
-        cols[j] = Rcpp::CharacterVector(nrow_);
+        cols[j] = Rcpp::CharacterVector(n);
         break;
       }
     }
 
     // Fill with data
-    for (int i = 0; i + nskip < nrow_; ++i) {
+    for (int i = 0; i < n; ++i) {
       xls::st_row::st_row_data row = pWS_->rows.row[i + nskip];
 
       for (int j = 0; j < ncol_; ++j) {
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
         RObject col = cols[j];
 
+        CellType type = cellType(cell, na);
+
         // Needs to compare to actual cell type to give warnings
         switch(types[j]) {
         case CELL_BLANK:
           break;
         case CELL_NUMERIC:
-          REAL(col)[i] = isBlank(cell) ? NA_REAL : cell.d;
+          switch(type) {
+          case CELL_BLANK:
+            REAL(col)[i] = NA_REAL;
+            break;
+          case CELL_NUMERIC:
+          case CELL_DATE:
+            REAL(col)[i] = cell.d;
+            break;
+          case CELL_TEXT:
+            Rcpp::warning("Expecting numeric in [%i, %i] got `%s`",
+              i + 1, j + 1, (char*) cell.str);
+            REAL(col)[i] = NA_REAL;
+          }
           break;
         case CELL_DATE:
-          REAL(col)[i] = isBlank(cell) ? NA_REAL : cell.d - offset_;
+          switch(type) {
+          case CELL_BLANK:
+            REAL(col)[i] = NA_REAL;
+            break;
+          case CELL_NUMERIC:
+            Rcpp::warning("Expecting date in [%i, %i] got %d",
+              i + 1, j + 1, cell.d);
+            REAL(col)[i] = NA_REAL;
+            break;
+          case CELL_DATE:
+            REAL(col)[i] = cell.d - offset_;
+            break;
+          case CELL_TEXT:
+            Rcpp::warning("Expecting date in [%i, %i] got '%s'",
+              i + 1, j + 1, cell.str);
+            REAL(col)[i] = NA_REAL;
+            break;
+          }
           break;
         case CELL_TEXT:
-          if (isBlank(cell)) {
+          if (type == CELL_BLANK) {
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
-            RObject string = Rf_mkCharCE((char*) cell.str, CE_UTF8);
-            SET_STRING_ELT(col, i, string);
+            std::string stdString((char*) cell.str);
+            RObject rString = stdString == na ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+            SET_STRING_ELT(col, i, rString);
           }
           break;
         }
@@ -161,7 +194,7 @@ public:
 
     // Turn list into a data frame
     out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
-    out.attr("row.names") = IntegerVector::create(NA_INTEGER, -nrow_);
+    out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n);
     out.attr("names") = names_out;
 
     return out;

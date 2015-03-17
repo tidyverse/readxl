@@ -9,15 +9,15 @@ xls_sheets <- function(path) {
     .Call('exell_xls_sheets', PACKAGE = 'exell', path)
 }
 
-xls_col_types <- function(path, i = 0L, nskip = 0L, n = 100L) {
-    .Call('exell_xls_col_types', PACKAGE = 'exell', path, i, nskip, n)
+xls_col_types <- function(path, na, i = 0L, nskip = 0L, n = 100L) {
+    .Call('exell_xls_col_types', PACKAGE = 'exell', path, na, i, nskip, n)
 }
 
 xls_col_names <- function(path, i = 0L, nskip = 0L) {
     .Call('exell_xls_col_names', PACKAGE = 'exell', path, i, nskip)
 }
 
-xls_cols <- function(path, i, col_names, col_types, nskip = 0L) {
-    .Call('exell_xls_cols', PACKAGE = 'exell', path, i, col_names, col_types, nskip)
+xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
+    .Call('exell_xls_cols', PACKAGE = 'exell', path, i, col_names, col_types, na, nskip)
 }
 

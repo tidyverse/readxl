@@ -8,9 +8,12 @@
 #'   or a character vector giving a name for each column.
 #' @param col_types Either \code{NULL} to guess from the spreadsheet or a
 #'   character containing "blank", "numeric", "date" or "text".
+#' @param na Missing value. By default exell converts blank cells to missing
+#'   data. Set this value if you have used a sentinel value for missing values.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
-read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL, skip = 0) {
+read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+                     na = "", skip = 0) {
   path <- check_file(path)
 
   if (is.character(sheet)) {
@@ -26,12 +29,13 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL, skip =
     col_names <- xls_col_names(path, i = i, nskip = skip)
     skip <- skip + 1
   } else if (isFALSE(col_names)) {
-    col_names <- paste0("X", seq_along())
+    col_names <- paste0("X", seq_along(xls_col_names(path, i = i)))
   }
 
   if (is.null(col_types)) {
-    col_types <- xls_col_types(path, i, nskip = skip)
+    col_types <- xls_col_types(path, i, na = na, nskip = skip)
   }
 
-  xls_cols(path, i, col_names = col_names, col_types = col_types, nskip = skip)
+  xls_cols(path, i, col_names = col_names, col_types = col_types, na = na,
+    nskip = skip)
 }
