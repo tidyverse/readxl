@@ -19,3 +19,4 @@ The exell package makes it easy to get data out of Excel and into R. Why exell?
   
   * Reads in dates as dates!
 
+  * Blank columns are automatically dropped.

@@ -88,25 +88,24 @@ public:
     if (names.size() != ncol_ || types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
-    Rcpp::List out(ncol_);
+    Rcpp::List cols(ncol_);
 
     // Initialise columns
     for (int j = 0; j < ncol_; ++j) {
       switch(types[j]) {
       case CELL_BLANK:
-        out[j] = Rcpp::LogicalVector(nrow_);
         break;
       case CELL_DATE: {
           RObject col = Rcpp::NumericVector(nrow_);
           col.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
-          out[j] = col;
+          cols[j] = col;
         }
         break;
       case CELL_NUMERIC:
-        out[j] = Rcpp::NumericVector(nrow_);
+        cols[j] = Rcpp::NumericVector(nrow_);
         break;
       case CELL_TEXT:
-        out[j] = Rcpp::CharacterVector(nrow_);
+        cols[j] = Rcpp::CharacterVector(nrow_);
         break;
       }
     }
@@ -117,7 +116,7 @@ public:
 
       for (int j = 0; j < ncol_; ++j) {
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
-        RObject col = out[j];
+        RObject col = cols[j];
 
         // Needs to compare to actual cell type to give warnings
         switch(types[j]) {
@@ -141,9 +140,29 @@ public:
       }
     }
 
+    // Drop blank columns
+    int p_out = 0;
+    for (int j = 0; j < ncol_; ++j) {
+      if (types[j] != CELL_BLANK)
+        p_out++;
+    }
+
+    Rcpp::List out(p_out);
+    Rcpp::CharacterVector names_out(p_out);
+    int j_out = 0;
+    for (int j = 0; j < ncol_; ++j) {
+      if (types[j] == CELL_BLANK)
+        continue;
+
+      out[j_out] = cols[j];
+      names_out[j_out] = names[j];
+      j_out++;
+    }
+
+    // Turn list into a data frame
     out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
     out.attr("row.names") = IntegerVector::create(NA_INTEGER, -nrow_);
-    out.attr("names") = names;
+    out.attr("names") = names_out;
 
     return out;
   }
