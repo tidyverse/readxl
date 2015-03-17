@@ -1,5 +1,7 @@
 # exell
 
+[![Travis-CI Build Status](https://travis-ci.org/hadley/exell.png?branch=master)](https://travis-ci.org/hadley/exell)
+
 The exell package makes it easy to get data out of Excel and into R. Why exell?
 
 * Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) exell
