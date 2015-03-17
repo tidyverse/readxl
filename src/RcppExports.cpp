@@ -55,15 +55,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // xls_cols
-List xls_cols(std::string path, int i, int nskip);
-RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
+List xls_cols(std::string path, int i, CharacterVector col_names, CharacterVector col_types, int nskip);
+RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type col_names(col_namesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type col_types(col_typesSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
-    __result = Rcpp::wrap(xls_cols(path, i, nskip));
+    __result = Rcpp::wrap(xls_cols(path, i, col_names, col_types, nskip));
     return __result;
 END_RCPP
 }

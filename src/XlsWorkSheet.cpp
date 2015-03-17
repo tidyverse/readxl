@@ -29,9 +29,13 @@ CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
 }
 
 // [[Rcpp::export]]
-List xls_cols(std::string path, int i = 0, int nskip = 0) {
+List xls_cols(std::string path, int i, CharacterVector col_names,
+              CharacterVector col_types, int nskip = 0) {
   XlsWorkSheet sheet = XlsWorkBook(path).sheet(i);
 
-  std::vector<CellType> types = sheet.colTypes(nskip);
-  return sheet.readCols(types, nskip);
+  if (col_names.size() != col_types.size())
+    stop("`col_names` and `col_types` must have the same length");
+
+  std::vector<CellType> types = cellTypes(col_types);
+  return sheet.readCols(col_names, types, nskip);
 }

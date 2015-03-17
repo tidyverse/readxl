@@ -83,7 +83,11 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(std::vector<CellType> types, int nskip = 0) {
+  Rcpp::List readCols(CharacterVector names, std::vector<CellType> types,
+                      int nskip = 0) {
+    if (names.size() != ncol_ || types.size() != ncol_)
+      Rcpp::stop("Need one name and type for each column");
+
     Rcpp::List out(ncol_);
 
     // Initialise columns
@@ -139,6 +143,7 @@ public:
 
     out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
     out.attr("row.names") = IntegerVector::create(NA_INTEGER, -nrow_);
+    out.attr("names") = names;
 
     return out;
   }

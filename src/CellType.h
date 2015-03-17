@@ -12,6 +12,29 @@ enum CellType {
   CELL_TEXT
 };
 
+inline std::vector<CellType> cellTypes(CharacterVector x) {
+  std::vector<CellType> types;
+  types.reserve(x.size());
+
+  for (int i = 0; i < x.size(); ++i) {
+    std::string type(x[i]);
+    if (type == "blank") {
+      types.push_back(CELL_BLANK);
+    } else if (type == "date") {
+      types.push_back(CELL_DATE);
+    } else if (type == "numeric") {
+      types.push_back(CELL_NUMERIC);
+    } else if (type == "text") {
+      types.push_back(CELL_TEXT);
+    } else {
+      Rcpp::warning("Unknown type '%s' at position %i. Using text instead.",
+        type, i + 1);
+    }
+  }
+
+  return types;
+}
+
 inline CellType cellType(xls::st_cell::st_cell_data cell) {
   // Find codes in [MS-XLS] S2.3.2 (p175).
   // See xls_addCell for those used for cells

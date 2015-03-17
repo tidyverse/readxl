@@ -17,7 +17,7 @@ xls_col_names <- function(path, i = 0L, nskip = 0L) {
     .Call('exell_xls_col_names', PACKAGE = 'exell', path, i, nskip)
 }
 
-xls_cols <- function(path, i = 0L, nskip = 0L) {
-    .Call('exell_xls_cols', PACKAGE = 'exell', path, i, nskip)
+xls_cols <- function(path, i, col_names, col_types, nskip = 0L) {
+    .Call('exell_xls_cols', PACKAGE = 'exell', path, i, col_names, col_types, nskip)
 }
 
