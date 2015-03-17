@@ -82,3 +82,14 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// xlsx_strings_
+std::vector<std::string> xlsx_strings_(RawVector xml);
+RcppExport SEXP exell_xlsx_strings_(SEXP xmlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< RawVector >::type xml(xmlSEXP);
+    __result = Rcpp::wrap(xlsx_strings_(xml));
+    return __result;
+END_RCPP
+}

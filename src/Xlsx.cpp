@@ -32,3 +32,27 @@ std::vector<std::string> xlsx_sheets_(RawVector xml) {
   return sheetNames;
 }
 
+// [[Rcpp::export]]
+std::vector<std::string> xlsx_strings_(RawVector xml) {
+  xml_document<> doc;
+  parse_raw(&doc, xml);
+
+  std::vector<std::string> sheetNames;
+  xml_node<>* sst = doc.first_node("sst");
+  if (sst == NULL)
+    stop("Invalid xlsx file: no sst tag found");
+
+  int n = atoi(sst->first_attribute("count")->value());
+  std::vector<std::string> strings;
+  strings.reserve(n);
+
+  for (xml_node<>* string = sst->first_node(); string;
+       string = string->next_sibling()) {
+    std::string value(string->first_node("t")->value());
+    strings.push_back(value);
+  }
+
+  return strings;
+}
+
+

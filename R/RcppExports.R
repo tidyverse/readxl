@@ -25,3 +25,7 @@ xlsx_sheets_ <- function(xml) {
     .Call('exell_xlsx_sheets_', PACKAGE = 'exell', xml)
 }
 
+xlsx_strings_ <- function(xml) {
+    .Call('exell_xlsx_strings_', PACKAGE = 'exell', xml)
+}
+
