@@ -111,8 +111,8 @@ public:
     }
 
     // Fill with data
-    for (int i = nskip; i < nrow_; ++i) {
-      xls::st_row::st_row_data row = pWS_->rows.row[i];
+    for (int i = 0; i + nskip < nrow_; ++i) {
+      xls::st_row::st_row_data row = pWS_->rows.row[i + nskip];
 
       for (int j = 0; j < ncol_; ++j) {
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
