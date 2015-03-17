@@ -1,2 +1,2 @@
-PKG_CPPFLAGS=-I.
+PKG_CPPFLAGS=-Iwindows -I.
 PKG_LIBS=-lRiconv
