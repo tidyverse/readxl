@@ -9,14 +9,15 @@ class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
   int nrow_, ncol_;
   double offset_;
+  std::set<int> customDateFormats_;
 
 public:
 
   XlsWorkSheet(const XlsWorkBook& wb, int i) {
     if (wb.workbook()->is1904) {
-      offset_ = 2082844800; // as.numeric(as.POSIXct(as.Date("1904-01-01")))
+      offset_ = 24107; // as.numeric(as.Date("1904-01-01"))
     } else {
-      offset_ = 2208988800; // as.numeric(as.POSIXct(as.Date("1900-01-01")))
+      offset_ = 25569; // as.numeric(as.Date("1899-12-30"))
     }
 
     pWS_ = xls_getWorkSheet(wb.workbook(), 0);
@@ -26,6 +27,8 @@ public:
 
     nrow_ = pWS_->rows.lastrow + 1;
     ncol_ = pWS_->rows.lastcol; // excel always pads with an empty column
+
+    customDateFormats_ = wb.customDateFormats();
   }
 
   ~XlsWorkSheet() {
@@ -71,7 +74,7 @@ public:
       xls::st_row::st_row_data row = pWS_->rows.row[i];
 
       for (int j = 0; j < ncol_; ++j) {
-        CellType type = cellType(row.cells.cell[j], na);
+        CellType type = cellType(row.cells.cell[j], pWS_->workbook->xfs, customDateFormats_, na);
 
         // Excel is simple enough we can enforce a strict ordering
         if (type > types[j]) {
@@ -99,6 +102,7 @@ public:
       case CELL_DATE: {
           RObject col = Rcpp::NumericVector(n);
           col.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
+          col.attr("tzone") = "UTC";
           cols[j] = col;
         }
         break;
@@ -119,7 +123,7 @@ public:
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
         RObject col = cols[j];
 
-        CellType type = cellType(cell, na);
+        CellType type = cellType(cell, pWS_->workbook->xfs, customDateFormats_, na);
 
         // Needs to compare to actual cell type to give warnings
         switch(types[j]) {
@@ -151,7 +155,7 @@ public:
             REAL(col)[i] = NA_REAL;
             break;
           case CELL_DATE:
-            REAL(col)[i] = cell.d - offset_;
+            REAL(col)[i] = (cell.d - offset_) * 86400;
             break;
           case CELL_TEXT:
             Rcpp::warning("Expecting date in [%i, %i] got '%s'",

@@ -12,6 +12,8 @@ enum CellType {
   CELL_TEXT
 };
 
+bool inline isDateTime(int id, const std::set<int> custom);
+
 inline std::vector<CellType> cellTypes(CharacterVector x) {
   std::vector<CellType> types;
   types.reserve(x.size());
@@ -35,16 +37,19 @@ inline std::vector<CellType> cellTypes(CharacterVector x) {
   return types;
 }
 
-inline CellType cellType(xls::st_cell::st_cell_data cell, std::string na = "") {
+inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf styles,
+                         const std::set<int>& customDateFormats,
+                         std::string na = "") {
   // Find codes in [MS-XLS] S2.3.2 (p175).
   // See xls_addCell for those used for cells
   switch(cell.id) {
   case 253: // LabelSst
-  case 516: {// Label
-    std::string string((char*) cell.str);
-    return string == na ? CELL_BLANK : CELL_TEXT;
+  case 516: // Label
+    {
+      std::string string((char*) cell.str);
+      return string == na ? CELL_BLANK : CELL_TEXT;
+    }
     break;
-  }
 
   case 6:    // formula
   case 1030: // formula (Apple Numbers Bug)
@@ -58,7 +63,10 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, std::string na = "") {
   case 189: // MulRk
   case 515: // Number
   case 638: // Rk
-    return CELL_NUMERIC;
+    {
+      int format = styles.xf[cell.xf].format;
+      return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+    }
     break;
 
   case 190: // MulBlank
@@ -72,11 +80,7 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, std::string na = "") {
   }
 }
 
-inline bool isBlank(xls::st_cell::st_cell_data cell)  {
-  return cell.id == 190 || cell.id == 513;
-}
-
-bool inline is_datetime(int id, const FormatMap& formats) {
+bool inline isDateTime(int id, const std::set<int> custom) {
   // Date formats:
   // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
   // 18.8.30 numFmt (Number Format)  (p1777)
@@ -92,16 +96,12 @@ bool inline is_datetime(int id, const FormatMap& formats) {
   if (id < 164)
     return false;
 
-  if (id > 382)
-    Rcpp::stop("Invalid format specifier (%i)", id);
+  return custom.count(id) > 0;
+}
 
-  FormatMap::const_iterator format = formats.find(id);
-  if (format == formats.end())
-    Rcpp::stop("Customer format specifier not defined (%i)", id);
-
-  std::string formatString = format->second;
-  for (int i = 0; i < formatString.size(); ++i) {
-    switch (formatString[i]) {
+inline bool isDateFormat(std::string x) {
+  for (int i = 0; i < x.size(); ++i) {
+    switch (x[i]) {
     case 'd':
     case 'm': // 'mm' for minutes
     case 'y':
@@ -112,6 +112,7 @@ bool inline is_datetime(int id, const FormatMap& formats) {
       break;
     }
   }
+
   return false;
 }
 

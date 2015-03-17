@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
+#include "CellType.h"
 
 inline std::string normalizePath(std::string path) {
   Rcpp::Environment baseEnv = Rcpp::Environment::base_env();
@@ -67,6 +68,21 @@ public:
 
     return formats;
   }
+
+  std::set<int> customDateFormats() const {
+    std::set<int> dateFormats;
+
+    for (int i = 0; i < nFormats(); ++i) {
+      xls::st_format::st_format_data format = pWB_->formats.format[i];
+      std::string value((char*) format.value);
+
+      if (isDateFormat(value))
+        dateFormats.insert(format.index);
+    }
+
+    return dateFormats;
+  }
+
 
   XlsWorkSheet sheet(std::string name);
   XlsWorkSheet sheet(int i);
