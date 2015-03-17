@@ -21,11 +21,11 @@ xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
     .Call('exell_xls_cols', PACKAGE = 'exell', path, i, col_names, col_types, na, nskip)
 }
 
-xlsx_sheets_ <- function(xml) {
-    .Call('exell_xlsx_sheets_', PACKAGE = 'exell', xml)
+xlsx_sheets <- function(path) {
+    .Call('exell_xlsx_sheets', PACKAGE = 'exell', path)
 }
 
-xlsx_strings_ <- function(xml) {
-    .Call('exell_xlsx_strings_', PACKAGE = 'exell', xml)
+xlsx_strings <- function(path) {
+    .Call('exell_xlsx_strings', PACKAGE = 'exell', path)
 }
 

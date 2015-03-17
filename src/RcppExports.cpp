@@ -71,25 +71,25 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// xlsx_sheets_
-std::vector<std::string> xlsx_sheets_(RawVector xml);
-RcppExport SEXP exell_xlsx_sheets_(SEXP xmlSEXP) {
+// xlsx_sheets
+std::vector<std::string> xlsx_sheets(std::string path);
+RcppExport SEXP exell_xlsx_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< RawVector >::type xml(xmlSEXP);
-    __result = Rcpp::wrap(xlsx_sheets_(xml));
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(xlsx_sheets(path));
     return __result;
 END_RCPP
 }
-// xlsx_strings_
-std::vector<std::string> xlsx_strings_(RawVector xml);
-RcppExport SEXP exell_xlsx_strings_(SEXP xmlSEXP) {
+// xlsx_strings
+std::vector<std::string> xlsx_strings(std::string path);
+RcppExport SEXP exell_xlsx_strings(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< RawVector >::type xml(xmlSEXP);
-    __result = Rcpp::wrap(xlsx_strings_(xml));
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(xlsx_strings(path));
     return __result;
 END_RCPP
 }
