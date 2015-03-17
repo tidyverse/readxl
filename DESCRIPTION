@@ -11,3 +11,4 @@ License: GPL-3
 LazyData: true
 LinkingTo: Rcpp
 Imports: Rcpp
+Suggests: testthat
