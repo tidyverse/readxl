@@ -135,15 +135,13 @@ public:
           break;
         }
       }
-
     }
 
-    out.attr("class") = "data.frame";
+    out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
     out.attr("row.names") = IntegerVector::create(NA_INTEGER, -nrow_);
 
     return out;
   }
-
 };
 
 #endif
