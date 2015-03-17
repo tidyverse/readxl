@@ -2,21 +2,37 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/hadley/exell.png?branch=master)](https://travis-ci.org/hadley/exell)
 
-The exell package makes it easy to get data out of Excel and into R. Why exell?
+The exell package makes it easy to get data out of Excel and into R. Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) exell has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
-* Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) exell
-  has no external dependencies so it's easy to install and use on all operating 
-  systems. It supports both the legacy `.xls` format and the more modern
-  `.xlsx` format.
+It currently supports only the legacy `.xls` format, but `.xlsx` support is planned.
 
-* Compared to opening Excel and saving as csv:
+## Installation
 
-  * Avoids one step with potential for errors (i.e. you save the csv file
-    in the wrong place) and it's faster since you don't need to click
-    through all warnings.
+Exell is not currently available from CRAN, but you can install it from github with:
 
-  * Exell correctly handles non-ASCII characters.
-  
-  * Reads in dates as dates!
+```R
+# install.packages("devtools")
+devtools::install_github("hadley/exell")
+```
 
-  * Blank columns are automatically dropped.
+## Usage
+
+```R
+library(excell)
+
+read_xls("my-spreadsheet.xls")
+read_xls("my-spreadsheet.xls", sheet = "data")
+read_xls("my-spreadsheet.xls", na = "NA")
+```
+
+## Features
+
+* Re-encodes non-ASCII characters to UTF-8.
+
+* Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) 
+  date specifications are processed correctly.
+
+* Blank columns are automatically dropped.
+
+* It returns data frames with additional `tbl_df` class, so if you have
+  dplyr loaded, you get nicer printing.
