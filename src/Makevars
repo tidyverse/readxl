@@ -1,1 +1,1 @@
-PKG_CPPFLAGS=-I.
+PKG_CPPFLAGS=-Iunix -I.
