@@ -20,7 +20,10 @@ public:
       offset_ = 25569; // as.numeric(as.Date("1899-12-30"))
     }
 
-    pWS_ = xls_getWorkSheet(wb.workbook(), 0);
+    if (i < 0 || i >= wb.nSheets())
+      Rcpp::stop("Invalid sheet index");
+
+    pWS_ = xls_getWorkSheet(wb.workbook(), i);
     if (pWS_ == NULL)
       Rcpp::stop("Failed open sheet");
     xls_parseWorkSheet(pWS_);

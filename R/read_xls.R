@@ -17,7 +17,7 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
 
   if (is.character(sheet)) {
-    i <- match(xls_sheets(path), sheet) - 1
+    i <- match(sheet, xls_sheets(path)) - 1
     if (is.na(i)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
     }
