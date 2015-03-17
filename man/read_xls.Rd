@@ -4,7 +4,8 @@
 \alias{read_xls}
 \title{Read an xls file (Excel 94-2007)}
 \usage{
-read_xls(path, sheet = 1, col_names = TRUE, col_types = NULL, skip = 0)
+read_xls(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
+  skip = 0)
 }
 \arguments{
 \item{path}{Path to the xls file}
@@ -18,6 +19,9 @@ or a character vector giving a name for each column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a
 character containing "blank", "numeric", "date" or "text".}
+
+\item{na}{Missing value. By default exell converts blank cells to missing
+data. Set this value if you have used a sentinel value for missing values.}
 
 \item{skip}{Number of rows to skip before reading any data.}
 }
