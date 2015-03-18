@@ -3,7 +3,9 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
+#include "XlsWorkBook.h"
 #include "CellType.h"
+#include "utils.h"
 
 class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
@@ -14,11 +16,7 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook& wb, int i) {
-    if (wb.workbook()->is1904) {
-      offset_ = 24107; // as.numeric(as.Date("1904-01-01"))
-    } else {
-      offset_ = 25569; // as.numeric(as.Date("1899-12-30"))
-    }
+    offset_ = dateOffset(wb.workbook()->is1904);
 
     if (i < 0 || i >= wb.nSheets())
       Rcpp::stop("Invalid sheet index");
