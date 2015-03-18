@@ -45,3 +45,7 @@ xlsx_col_types <- function(path, sheet = "sheet1", na = "", nskip = 0L, n = 100L
     .Call('exell_xlsx_col_types', PACKAGE = 'exell', path, sheet, na, nskip, n)
 }
 
+xlsx_col_names <- function(path, sheet = "sheet1", nskip = 0L) {
+    .Call('exell_xlsx_col_names', PACKAGE = 'exell', path, sheet, nskip)
+}
+

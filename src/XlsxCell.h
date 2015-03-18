@@ -79,6 +79,7 @@ public:
       return NA_STRING;
 
     std::string type = typeString();
+
     std::string string;
     if (type == "s") {
       int id = atoi(v->value());

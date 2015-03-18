@@ -18,20 +18,21 @@ class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
   rapidxml::xml_document<> sheetXml_;
+  rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
 
 public:
 
   XlsxWorkSheet(XlsxWorkBook wb, std::string sheet): wb_(wb) {
     std::string sheetPath = tfm::format("xl/worksheets/%s.xml", sheet);
-    std::string sheet_ = zip_buffer(wb.path(), sheetPath);
+    sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);
 
-    rapidxml::xml_node<>* rootNode = sheetXml_.first_node("worksheet");
-    if (rootNode == NULL)
+    rootNode_ = sheetXml_.first_node("worksheet");
+    if (rootNode_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <worksheet>)");
 
-    sheetData_ = rootNode->first_node("sheetData");
+    sheetData_ = rootNode_->first_node("sheetData");
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
   }
@@ -81,6 +82,32 @@ public:
     }
 
     return types;
+  }
+
+  Rcpp::CharacterVector colNames(int nskip = 0) {
+    rapidxml::xml_node<>* row = sheetData_->first_node("row");
+    while(nskip > 0 && row != NULL) {
+      row = row->next_sibling("row");
+      nskip--;
+    }
+    if (row == NULL)
+      Rcpp::stop("Skipped over all data");
+
+//     int p = 0;
+//     for (rapidxml::xml_node<>* cell = row->first_node("c");
+//          cell; cell = cell->next_sibling("c")) {
+//       p = XlsxCell(cell).col(); // assuming cells always ordered
+//     }
+
+    Rcpp::CharacterVector out(4);
+    for (rapidxml::xml_node<>* cell = row->first_node("c");
+         cell; cell = cell->next_sibling("c")) {
+      Rcpp::Rcout << "y\n";
+      XlsxCell xcell(cell);
+      out[xcell.col()] = xcell.asCharSxp("", wb_.strings());
+    }
+
+    return out;
   }
 
 };
