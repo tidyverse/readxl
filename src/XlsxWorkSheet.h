@@ -53,13 +53,8 @@ public:
 
 
   std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
+    rapidxml::xml_node<>* row = getRow(nskip);
     std::vector<CellType> types;
-
-    rapidxml::xml_node<>* row = sheetData_->first_node("row");
-    while(nskip > 0 && row != NULL) {
-      row = row->next_sibling("row");
-      nskip--;
-    }
 
     int i = 0;
     while(i < n_max && row != NULL) {
@@ -86,13 +81,7 @@ public:
   }
 
   Rcpp::CharacterVector colNames(int nskip = 0) {
-    rapidxml::xml_node<>* row = sheetData_->first_node("row");
-    while(nskip > 0 && row != NULL) {
-      row = row->next_sibling("row");
-      nskip--;
-    }
-    if (row == NULL)
-      Rcpp::stop("Skipped over all data");
+    rapidxml::xml_node<>* row = getRow(nskip);
 
     int p = 0;
     for (rapidxml::xml_node<>* cell = row->first_node("c");
@@ -109,6 +98,22 @@ public:
 
     return out;
   }
+
+
+private:
+
+  rapidxml::xml_node<>* getRow(int i) {
+    rapidxml::xml_node<>* row = sheetData_->first_node("row");
+    while(i > 0 && row != NULL) {
+      row = row->next_sibling("row");
+      i--;
+    }
+    if (row == NULL)
+      Rcpp::stop("Skipped over all data");
+
+    return row;
+  }
+
 
 };
 
