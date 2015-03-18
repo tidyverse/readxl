@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "CellType.h"
+#include "utils.h"
 
 inline std::string zip_buffer(std::string zip_path, std::string file_path) {
   Rcpp::Environment exellEnv = Rcpp::Environment("package:exell");
@@ -19,11 +20,13 @@ inline std::string zip_buffer(std::string zip_path, std::string file_path) {
 class XlsxWorkBook {
   std::string path_;
   std::set<int> dateStyles_;
+  double offset_;
 
 
 public:
 
   XlsxWorkBook(std::string path): path_(path) {
+    cacheOffset();
     cacheDateStyles();
   }
 
@@ -85,6 +88,10 @@ public:
     return dateStyles_;
   }
 
+  double offset() {
+    return offset_;
+  }
+
 private:
 
   void cacheDateStyles() {
@@ -123,6 +130,26 @@ private:
         dateStyles_.insert(i);
       ++i;
     }
+  }
+
+  void cacheOffset() {
+    std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
+    rapidxml::xml_document<> workbook;
+    workbook.parse<0>(&workbookXml[0]);
+
+    rapidxml::xml_node<>* root = workbook.first_node("workbook");
+    if (root == NULL) {
+      offset_ = dateOffset(false);
+      return;
+    }
+
+    rapidxml::xml_attribute<>* date1904 = root->first_attribute("date1904");
+    if (date1904 == NULL) {
+      offset_ = dateOffset(false);
+      return;
+    }
+
+    offset_ = dateOffset(atoi(date1904->value()) == 1);
   }
 
 };

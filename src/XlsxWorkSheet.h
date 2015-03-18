@@ -116,11 +116,11 @@ public:
     // Initialise columns
     Rcpp::List cols(p);
     for (int j = 0; j < p; ++j) {
-      cols[j] = makeCol(types[j], n);
+      cols[j] = makeCol(types[j], n + 1);
     }
 
     int i = 0;
-    for (rapidxml::xml_node<>* row = firstRow->next_sibling("row");
+    for (rapidxml::xml_node<>* row = firstRow;
          row; row = row->next_sibling("row")) {
 
       for (rapidxml::xml_node<>* cell = row->first_node("c");
@@ -149,7 +149,7 @@ public:
         case CELL_DATE:
           switch(type) {
           case CELL_DATE:
-            REAL(col)[i] = xcell.asDate(na, 0);
+            REAL(col)[i] = xcell.asDate(na, wb_.offset());
             break;
           case CELL_BLANK:
           case CELL_NUMERIC:

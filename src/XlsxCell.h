@@ -74,7 +74,8 @@ public:
     if (v == NULL || na.compare(v->value()) == 0)
       return NA_REAL;
 
-    return (v == NULL) ? 0 : (atof(v->value()) - offset) * 86400;
+    double value = atof(v->value());
+    return (v == NULL) ? 0 : (value - offset) * 86400;
   }
 
   Rcpp::RObject asCharSxp(const std::string& na,
