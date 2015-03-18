@@ -93,3 +93,25 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// xlsx_date_styles
+std::set<int> xlsx_date_styles(std::string path);
+RcppExport SEXP exell_xlsx_date_styles(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(xlsx_date_styles(path));
+    return __result;
+END_RCPP
+}
+// parse_ref
+IntegerVector parse_ref(std::string ref);
+RcppExport SEXP exell_parse_ref(SEXP refSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type ref(refSEXP);
+    __result = Rcpp::wrap(parse_ref(ref));
+    return __result;
+END_RCPP
+}

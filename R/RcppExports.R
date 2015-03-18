@@ -29,3 +29,11 @@ xlsx_strings <- function(path) {
     .Call('exell_xlsx_strings', PACKAGE = 'exell', path)
 }
 
+xlsx_date_styles <- function(path) {
+    .Call('exell_xlsx_date_styles', PACKAGE = 'exell', path)
+}
+
+parse_ref <- function(ref) {
+    .Call('exell_parse_ref', PACKAGE = 'exell', ref)
+}
+

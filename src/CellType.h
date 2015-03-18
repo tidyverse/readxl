@@ -3,7 +3,6 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
-#include "XlsWorkBook.h"
 
 enum CellType {
   CELL_BLANK,
