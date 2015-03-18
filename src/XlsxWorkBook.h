@@ -26,7 +26,7 @@ class XlsxWorkBook {
 public:
 
   XlsxWorkBook(std::string path): path_(path) {
-    cacheOffset();
+    offset_ = dateOffset(is1904());
     cacheDateStyles();
   }
 
@@ -132,24 +132,24 @@ private:
     }
   }
 
-  void cacheOffset() {
+  bool is1904() {
     std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
     rapidxml::xml_document<> workbook;
     workbook.parse<0>(&workbookXml[0]);
 
     rapidxml::xml_node<>* root = workbook.first_node("workbook");
-    if (root == NULL) {
-      offset_ = dateOffset(false);
-      return;
-    }
+    if (root == NULL)
+      return false;
 
-    rapidxml::xml_attribute<>* date1904 = root->first_attribute("date1904");
-    if (date1904 == NULL) {
-      offset_ = dateOffset(false);
-      return;
-    }
+    rapidxml::xml_node<>* workbookPr = root->first_node("workbookPr");
+    if (workbookPr == NULL)
+      return false;
 
-    offset_ = dateOffset(atoi(date1904->value()) == 1);
+    rapidxml::xml_attribute<>* date1904 = workbookPr->first_attribute("date1904");
+    if (date1904 == NULL)
+      return false;
+
+    return atoi(date1904->value()) == 1;
   }
 
 };
