@@ -26,7 +26,7 @@ inline std::pair<int, int> parseRef(std::string ref) {
     }
   }
 
-  return std::make_pair(row, col);
+  return std::make_pair(row - 1, col - 1); // zero indexed
 }
 
 class XlsxCell {
@@ -56,7 +56,7 @@ public:
     return (t == NULL) ? "n" : std::string(t->value());
   }
 
-  CellType type(const std::set<int>& dateStyles) {
+  CellType type(const std::string& na, const std::set<int>& dateStyles) {
     std::string type = typeString();
 
     if (type == "b") {
@@ -72,7 +72,12 @@ public:
 
       return (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
     } else if (type == "s" || type == "str") {
-      return CELL_TEXT;
+      rapidxml::xml_node<>* v = cell_->first_node("v");
+      if (v == NULL)
+        return CELL_BLANK;
+
+      std::string string(v->value());
+      return string == na ? CELL_BLANK : CELL_TEXT;
     } else {
       // I don't think Excel uses inline strings ("inlineStr")
       Rcpp::warning("Unknown type '%s' in [%i, %i]", type, row(), col());

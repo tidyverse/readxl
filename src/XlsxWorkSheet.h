@@ -45,10 +45,44 @@ public:
 
         XlsxCell xcell(cell);
         Rcpp::Rcout << xcell.row() << "," << xcell.row() << ": " <<
-          cellTypeDesc(xcell.type(wb_.dateStyles())) << "\n";
+          cellTypeDesc(xcell.type("", wb_.dateStyles())) << "\n";
       }
     }
   }
+
+  std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
+    std::vector<CellType> types;
+
+    rapidxml::xml_node<>* row = sheetData_->first_node("row");
+    while(nskip > 0 && row != NULL) {
+      row = row->next_sibling("row");
+      nskip--;
+    }
+
+    int i = 0;
+    while(i < n_max && row != NULL) {
+      for (rapidxml::xml_node<>* cell = row->first_node("c");
+           cell; cell = cell->next_sibling("c")) {
+
+        XlsxCell xcell(cell);
+        if (xcell.col() >= types.size()) {
+          types.resize(xcell.col() + 1);
+        }
+
+        CellType type = xcell.type("", wb_.dateStyles());
+        // Excel is simple enough we can enforce a strict ordering
+        if (type > types[xcell.col()]) {
+          types[xcell.col()] = type;
+        }
+      }
+
+      row = row->next_sibling("row");
+      i++;
+    }
+
+    return types;
+  }
+
 };
 
 #endif
