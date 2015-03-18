@@ -1,4 +1,4 @@
-Package: exell
+Package: readxl
 Title: Read excel files
 Version: 0.0.0.9000
 Authors@R: c(

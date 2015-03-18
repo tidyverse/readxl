@@ -1,5 +1,5 @@
-#ifndef EXELL_XLSXCELL_
-#define EXELL_XLSXCELL_
+#ifndef READXL_XLSXCELL_
+#define READXL_XLSXCELL_
 
 #include <Rcpp.h>
 #include "rapidxml.h"

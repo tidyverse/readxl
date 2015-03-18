@@ -2,54 +2,54 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 xls_formats <- function(path) {
-    .Call('exell_xls_formats', PACKAGE = 'exell', path)
+    .Call('readxl_xls_formats', PACKAGE = 'readxl', path)
 }
 
 xls_sheets <- function(path) {
-    .Call('exell_xls_sheets', PACKAGE = 'exell', path)
+    .Call('readxl_xls_sheets', PACKAGE = 'readxl', path)
 }
 
 xls_col_types <- function(path, na, i = 0L, nskip = 0L, n = 100L) {
-    .Call('exell_xls_col_types', PACKAGE = 'exell', path, na, i, nskip, n)
+    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, i, nskip, n)
 }
 
 xls_col_names <- function(path, i = 0L, nskip = 0L) {
-    .Call('exell_xls_col_names', PACKAGE = 'exell', path, i, nskip)
+    .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, i, nskip)
 }
 
 xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
-    .Call('exell_xls_cols', PACKAGE = 'exell', path, i, col_names, col_types, na, nskip)
+    .Call('readxl_xls_cols', PACKAGE = 'readxl', path, i, col_names, col_types, na, nskip)
 }
 
 xlsx_sheets <- function(path) {
-    .Call('exell_xlsx_sheets', PACKAGE = 'exell', path)
+    .Call('readxl_xlsx_sheets', PACKAGE = 'readxl', path)
 }
 
 xlsx_strings <- function(path) {
-    .Call('exell_xlsx_strings', PACKAGE = 'exell', path)
+    .Call('readxl_xlsx_strings', PACKAGE = 'readxl', path)
 }
 
 xlsx_date_styles <- function(path) {
-    .Call('exell_xlsx_date_styles', PACKAGE = 'exell', path)
+    .Call('readxl_xlsx_date_styles', PACKAGE = 'readxl', path)
 }
 
 xlsx_cells <- function(path, sheet) {
-    invisible(.Call('exell_xlsx_cells', PACKAGE = 'exell', path, sheet))
+    invisible(.Call('readxl_xlsx_cells', PACKAGE = 'readxl', path, sheet))
 }
 
 parse_ref <- function(ref) {
-    .Call('exell_parse_ref', PACKAGE = 'exell', ref)
+    .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
 }
 
 xlsx_col_types <- function(path, sheet, na = "", nskip = 0L, n = 100L) {
-    .Call('exell_xlsx_col_types', PACKAGE = 'exell', path, sheet, na, nskip, n)
+    .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet, na, nskip, n)
 }
 
 xlsx_col_names <- function(path, sheet, nskip = 0L) {
-    .Call('exell_xlsx_col_names', PACKAGE = 'exell', path, sheet, nskip)
+    .Call('readxl_xlsx_col_names', PACKAGE = 'readxl', path, sheet, nskip)
 }
 
 xlsx_cols <- function(path, sheet, col_names, col_types, na, nskip = 0L) {
-    .Call('exell_xlsx_cols', PACKAGE = 'exell', path, sheet, col_names, col_types, na, nskip)
+    .Call('readxl_xlsx_cols', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip)
 }
 

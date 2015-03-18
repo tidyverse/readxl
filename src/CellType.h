@@ -1,5 +1,5 @@
-#ifndef EXELL_CELLTYPE_
-#define EXELL_CELLTYPE_
+#ifndef READXL_CELLTYPE_
+#define READXL_CELLTYPE_
 
 #include <Rcpp.h>
 #include <libxls/xls.h>

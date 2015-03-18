@@ -2,4 +2,4 @@
 
 export(read_excel)
 importFrom(Rcpp,sourceCpp)
-useDynLib(exell)
+useDynLib(readxl)

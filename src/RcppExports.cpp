@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // xls_formats
 std::map<int,std::string> xls_formats(std::string path);
-RcppExport SEXP exell_xls_formats(SEXP pathSEXP) {
+RcppExport SEXP readxl_xls_formats(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // xls_sheets
 std::vector<std::string> xls_sheets(std::string path);
-RcppExport SEXP exell_xls_sheets(SEXP pathSEXP) {
+RcppExport SEXP readxl_xls_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -29,7 +29,7 @@ END_RCPP
 }
 // xls_col_types
 CharacterVector xls_col_types(std::string path, std::string na, int i, int nskip, int n);
-RcppExport SEXP exell_xls_col_types(SEXP pathSEXP, SEXP naSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
+RcppExport SEXP readxl_xls_col_types(SEXP pathSEXP, SEXP naSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -44,7 +44,7 @@ END_RCPP
 }
 // xls_col_names
 CharacterVector xls_col_names(std::string path, int i, int nskip);
-RcppExport SEXP exell_xls_col_names(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
+RcppExport SEXP readxl_xls_col_names(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -57,7 +57,7 @@ END_RCPP
 }
 // xls_cols
 List xls_cols(std::string path, int i, CharacterVector col_names, CharacterVector col_types, std::string na, int nskip);
-RcppExport SEXP exell_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP nskipSEXP) {
+RcppExport SEXP readxl_xls_cols(SEXP pathSEXP, SEXP iSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -73,7 +73,7 @@ END_RCPP
 }
 // xlsx_sheets
 std::vector<std::string> xlsx_sheets(std::string path);
-RcppExport SEXP exell_xlsx_sheets(SEXP pathSEXP) {
+RcppExport SEXP readxl_xlsx_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -84,7 +84,7 @@ END_RCPP
 }
 // xlsx_strings
 std::vector<std::string> xlsx_strings(std::string path);
-RcppExport SEXP exell_xlsx_strings(SEXP pathSEXP) {
+RcppExport SEXP readxl_xlsx_strings(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -95,7 +95,7 @@ END_RCPP
 }
 // xlsx_date_styles
 std::set<int> xlsx_date_styles(std::string path);
-RcppExport SEXP exell_xlsx_date_styles(SEXP pathSEXP) {
+RcppExport SEXP readxl_xlsx_date_styles(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -106,7 +106,7 @@ END_RCPP
 }
 // xlsx_cells
 void xlsx_cells(std::string path, int sheet);
-RcppExport SEXP exell_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP) {
+RcppExport SEXP readxl_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
@@ -117,7 +117,7 @@ END_RCPP
 }
 // parse_ref
 IntegerVector parse_ref(std::string ref);
-RcppExport SEXP exell_parse_ref(SEXP refSEXP) {
+RcppExport SEXP readxl_parse_ref(SEXP refSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -128,7 +128,7 @@ END_RCPP
 }
 // xlsx_col_types
 CharacterVector xlsx_col_types(std::string path, int sheet, std::string na, int nskip, int n);
-RcppExport SEXP exell_xlsx_col_types(SEXP pathSEXP, SEXP sheetSEXP, SEXP naSEXP, SEXP nskipSEXP, SEXP nSEXP) {
+RcppExport SEXP readxl_xlsx_col_types(SEXP pathSEXP, SEXP sheetSEXP, SEXP naSEXP, SEXP nskipSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -143,7 +143,7 @@ END_RCPP
 }
 // xlsx_col_names
 CharacterVector xlsx_col_names(std::string path, int sheet, int nskip);
-RcppExport SEXP exell_xlsx_col_names(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
+RcppExport SEXP readxl_xlsx_col_names(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -156,7 +156,7 @@ END_RCPP
 }
 // xlsx_cols
 List xlsx_cols(std::string path, int sheet, CharacterVector col_names, CharacterVector col_types, std::string na, int nskip);
-RcppExport SEXP exell_xlsx_cols(SEXP pathSEXP, SEXP sheetSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP nskipSEXP) {
+RcppExport SEXP readxl_xlsx_cols(SEXP pathSEXP, SEXP sheetSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;

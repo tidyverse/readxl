@@ -20,7 +20,7 @@ or a character vector giving a name for each column.}
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a
 character containing "blank", "numeric", "date" or "text".}
 
-\item{na}{Missing value. By default exell converts blank cells to missing
+\item{na}{Missing value. By default readxl converts blank cells to missing
 data. Set this value if you have used a sentinel value for missing values.}
 
 \item{skip}{Number of rows to skip before reading any data.}

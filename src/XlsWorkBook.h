@@ -1,5 +1,5 @@
-#ifndef EXELL_XLSWORKBOOK_
-#define EXELL_XLSWORKBOOK_
+#ifndef READXL_XLSWORKBOOK_
+#define READXL_XLSWORKBOOK_
 
 #include <Rcpp.h>
 #include <libxls/xls.h>

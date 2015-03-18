@@ -1,24 +1,24 @@
-# exell
+# readxl
 
-[![Travis-CI Build Status](https://travis-ci.org/hadley/exell.png?branch=master)](https://travis-ci.org/hadley/exell)
+[![Travis-CI Build Status](https://travis-ci.org/hadley/readxl.png?branch=master)](https://travis-ci.org/hadley/readxl)
 
-The exell package makes it easy to get data out of Excel and into R. Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) exell has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
+The readxl package makes it easy to get data out of Excel and into R. Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) readxl has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
-Exell supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. `.xls` support is made possible the with [libxls](http://sourceforge.net/projects/libxls/) C library, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+Readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. `.xls` support is made possible the with [libxls](http://sourceforge.net/projects/libxls/) C library, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
-Exell is not currently available from CRAN, but you can install it from github with:
+Readxl is not currently available from CRAN, but you can install it from github with:
 
 ```R
 # install.packages("devtools")
-devtools::install_github("hadley/exell")
+devtools::install_github("hadley/readxl")
 ```
 
 ## Usage
 
 ```R
-library(excell)
+library(readxl)
 
 # read_excel reads both xls and xlsx files
 read_excel("my-old-spreadsheet.xls")

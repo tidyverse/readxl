@@ -1,4 +1,4 @@
 library(testthat)
-library(exell)
+library(readxl)
 
-test_check("exell")
+test_check("readxl")

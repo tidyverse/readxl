@@ -1,3 +1,7 @@
+#' @useDynLib readxl
+#' @importFrom Rcpp sourceCpp
+NULL
+
 #' Read xls and xlsx files.
 #'
 #' @param path Path to the xls/xlsx file
@@ -8,7 +12,7 @@
 #'   or a character vector giving a name for each column.
 #' @param col_types Either \code{NULL} to guess from the spreadsheet or a
 #'   character containing "blank", "numeric", "date" or "text".
-#' @param na Missing value. By default exell converts blank cells to missing
+#' @param na Missing value. By default readxl converts blank cells to missing
 #'   data. Set this value if you have used a sentinel value for missing values.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
