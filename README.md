@@ -4,9 +4,7 @@
 
 The exell package makes it easy to get data out of Excel and into R. Compared to the existing packages (e.g. gdata, xlsx, xlsReadWrite etc) exell has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
-exell is built on top of the [libxls](http://sourceforge.net/projects/libxls/) C library, which abstracts away many of the complexities of the underlying binary format.
-
-It currently supports only the legacy `.xls` format, but `.xlsx` support is planned.
+Exell supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. `.xls` support is made possible the with [libxls](http://sourceforge.net/projects/libxls/) C library, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
