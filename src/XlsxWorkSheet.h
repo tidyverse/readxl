@@ -102,7 +102,6 @@ public:
     Rcpp::CharacterVector out(4);
     for (rapidxml::xml_node<>* cell = row->first_node("c");
          cell; cell = cell->next_sibling("c")) {
-      Rcpp::Rcout << "y\n";
       XlsxCell xcell(cell);
       out[xcell.col()] = xcell.asCharSxp("", wb_.strings());
     }
