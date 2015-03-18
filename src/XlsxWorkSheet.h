@@ -51,6 +51,7 @@ public:
     }
   }
 
+
   std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
     std::vector<CellType> types;
 
@@ -93,11 +94,11 @@ public:
     if (row == NULL)
       Rcpp::stop("Skipped over all data");
 
-//     int p = 0;
-//     for (rapidxml::xml_node<>* cell = row->first_node("c");
-//          cell; cell = cell->next_sibling("c")) {
-//       p = XlsxCell(cell).col(); // assuming cells always ordered
-//     }
+    int p = 0;
+    for (rapidxml::xml_node<>* cell = row->first_node("c");
+         cell; cell = cell->next_sibling("c")) {
+      p = XlsxCell(cell).col(); // assuming cells always ordered
+    }
 
     Rcpp::CharacterVector out(4);
     for (rapidxml::xml_node<>* cell = row->first_node("c");
