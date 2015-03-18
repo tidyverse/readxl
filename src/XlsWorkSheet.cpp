@@ -13,12 +13,7 @@ CharacterVector xls_col_types(std::string path, std::string na, int i = 0,
 
   CharacterVector out(types.size());
   for (int i = 0; i < types.size(); ++i) {
-    switch(types[i]) {
-    case CELL_BLANK:   out[i] = "blank"  ; break;
-    case CELL_DATE:    out[i] = "date"   ; break;
-    case CELL_NUMERIC: out[i] = "numeric"; break;
-    case CELL_TEXT:    out[i] = "text"   ; break;
-    }
+    out[i] = cellTypeDesc(types[i]);
   }
 
   return out;

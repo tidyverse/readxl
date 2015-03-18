@@ -36,6 +36,16 @@ inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
   return types;
 }
 
+inline std::string cellTypeDesc(CellType type) {
+  switch(type) {
+  case CELL_BLANK:   return "blank";
+  case CELL_DATE:    return "date";
+  case CELL_NUMERIC: return "numeric";
+  case CELL_TEXT:    return "text";
+  }
+  return "???";
+}
+
 inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf styles,
                          const std::set<int>& customDateFormats,
                          std::string na = "") {

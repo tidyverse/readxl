@@ -31,6 +31,38 @@ inline std::pair<int, int> parseRef(std::string ref) {
 // 18.3.1.96  v           (Cell Value) [p1709]
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
 
+inline std::string cellRef(rapidxml::xml_node<>* cell) {
+  rapidxml::xml_attribute<>* ref = cell->first_attribute("r");
+  return (ref == NULL) ? "??" : std::string(ref->value());
+}
+
+inline CellType cellType(rapidxml::xml_node<>* cell, std::set<int> dateStyles) {
+  rapidxml::xml_attribute<>* t = cell->first_attribute("t");
+  std::string type = (t == NULL) ? "n" : std::string(t->value());
+
+  if (type == "b") {
+    // TODO
+    return CELL_NUMERIC;
+  } else if (type == "d") {
+    // Does excel use this? Regardless, don't have cross-platform ISO8601
+    // parser (yet) so need to return as text
+    return CELL_TEXT;
+  } else if (type == "n") {
+    rapidxml::xml_attribute<>* s = cell->first_attribute("s");
+    int style = (s == NULL) ? -1 : atoi(s->value());
+
+    return (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
+  } else if (type == "s" || type == "str") {
+    return CELL_TEXT;
+  } else {
+    // I don't think Excel uses inline strings ("inlineStr")
+    Rcpp::warning("Unknown type '%s' in cell '%s'", type, cellRef(cell));
+  }
+
+  return CELL_NUMERIC;
+}
+
+
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
@@ -65,7 +97,8 @@ public:
           Rcpp::Rcout << "unknown";
         } else {
           std::pair<int,int> parsed = parseRef(std::string(ref->value()));
-          Rcpp::Rcout << parsed.first << ", " << parsed.second << "\n";
+          Rcpp::Rcout << parsed.first << "," << parsed.second << ": " <<
+            cellTypeDesc(cellType(cell, wb_.dateStyles())) << "\n";
         }
       }
     }
