@@ -49,3 +49,7 @@ xlsx_col_names <- function(path, sheet = "sheet1", nskip = 0L) {
     .Call('exell_xlsx_col_names', PACKAGE = 'exell', path, sheet, nskip)
 }
 
+xlsx_cols <- function(path, sheet, col_names, col_types, na, nskip = 0L) {
+    .Call('exell_xlsx_cols', PACKAGE = 'exell', path, sheet, col_names, col_types, na, nskip)
+}
+

@@ -35,3 +35,12 @@ CharacterVector xlsx_col_names(std::string path, std::string sheet = "sheet1",
 
   return XlsxWorkSheet(path, sheet).colNames(nskip);
 }
+
+// [[Rcpp::export]]
+List xlsx_cols(std::string path, std::string sheet, CharacterVector col_names,
+              CharacterVector col_types, std::string na, int nskip = 0) {
+  XlsxWorkSheet ws(path, sheet);
+
+  std::vector<CellType> types = cellTypes(col_types);
+  return ws.readCols(col_names, types, na, nskip);
+}

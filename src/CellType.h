@@ -125,4 +125,58 @@ inline bool isDateFormat(std::string x) {
   return false;
 }
 
+inline Rcpp::RObject makeCol(CellType type, int n) {
+  switch(type) {
+  case CELL_BLANK:
+    return R_NilValue;
+  case CELL_DATE: {
+    Rcpp::RObject col = Rcpp::NumericVector(n);
+    col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+    col.attr("tzone") = "UTC";
+    return col;
+  }
+    break;
+  case CELL_NUMERIC:
+    return Rcpp::NumericVector(n);
+    break;
+  case CELL_TEXT:
+    return Rcpp::CharacterVector(n);
+    break;
+  }
+
+  return R_NilValue;
+}
+
+// Make data frame from list of columns, dropping blanks
+inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
+                        std::vector<CellType> types) {
+  int p = cols.size();
+  int n = (p == 0) ? 0 : Rf_length(cols[1]);
+
+  int p_out = 0;
+  for (int j = 0; j < p; ++j) {
+    if (types[j] != CELL_BLANK)
+      p_out++;
+  }
+
+  Rcpp::List out(p_out);
+  Rcpp::CharacterVector names_out(p_out);
+  int j_out = 0;
+  for (int j = 0; j < p; ++j) {
+    if (types[j] == CELL_BLANK)
+      continue;
+
+    out[j_out] = cols[j];
+    names_out[j_out] = names[j];
+    j_out++;
+  }
+
+  // Turn list into a data frame
+  out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
+  out.attr("names") = names_out;
+
+  return out;
+}
+
 #endif

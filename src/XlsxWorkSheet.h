@@ -67,7 +67,6 @@ public:
         }
 
         CellType type = xcell.type("", wb_.dateStyles());
-        // Excel is simple enough we can enforce a strict ordering
         if (type > types[xcell.col()]) {
           types[xcell.col()] = type;
         }
@@ -99,6 +98,84 @@ public:
     return out;
   }
 
+  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
+                      std::string na, int nskip = 0) {
+    if (names.size() != types.size())
+      Rcpp::stop("Names and types must be same size");
+
+    rapidxml::xml_node<>* firstRow = getRow(nskip);
+
+    // Determine rows and cols
+    int p = types.size();
+    int n = 0;
+    for (rapidxml::xml_node<>* row = firstRow->next_sibling("row");
+         row; row = row->next_sibling("row")) {
+      n++;
+    }
+
+    // Initialise columns
+    Rcpp::List cols(p);
+    for (int j = 0; j < p; ++j) {
+      cols[j] = makeCol(types[j], n);
+    }
+
+    int i = 0;
+    for (rapidxml::xml_node<>* row = firstRow->next_sibling("row");
+         row; row = row->next_sibling("row")) {
+
+      for (rapidxml::xml_node<>* cell = row->first_node("c");
+           cell; cell = cell->next_sibling("c")) {
+
+        XlsxCell xcell(cell);
+        CellType type = xcell.type(na, wb_.dateStyles());
+        Rcpp::RObject col = cols[xcell.col()];
+        // Needs to compare to actual cell type to give warnings
+        switch(types[xcell.col()]) {
+        case CELL_BLANK:
+          break;
+        case CELL_NUMERIC:
+          switch(type) {
+          case CELL_NUMERIC:
+          case CELL_DATE:
+            REAL(col)[i] = xcell.asDouble(na);
+            break;
+          case CELL_BLANK:
+          case CELL_TEXT:
+            Rcpp::warning("[%i, %i]: expecting numeric: got `%s`",
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString());
+            REAL(col)[i] = NA_REAL;
+          }
+          break;
+        case CELL_DATE:
+          switch(type) {
+          case CELL_DATE:
+            REAL(col)[i] = xcell.asDate(na, 0);
+            break;
+          case CELL_BLANK:
+          case CELL_NUMERIC:
+          case CELL_TEXT:
+            Rcpp::warning("[%i, %i]: expecting date: got '%s'",
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString());
+            REAL(col)[i] = NA_REAL;
+            break;
+          }
+          break;
+        case CELL_TEXT:
+          if (type == CELL_BLANK) {
+            SET_STRING_ELT(col, i, NA_STRING);
+          } else {
+            SET_STRING_ELT(col, i, xcell.asCharSxp(na, wb_.strings()));
+          }
+          break;
+        }
+      }
+
+      ++i;
+    }
+
+    return colDataframe(cols, names, types);
+  }
+
 
 private:
 
@@ -113,8 +190,6 @@ private:
 
     return row;
   }
-
-
 };
 
 #endif

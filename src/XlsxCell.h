@@ -56,6 +56,11 @@ public:
     return (t == NULL) ? "n" : std::string(t->value());
   }
 
+  std::string asStdString() {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    return v == NULL ? "[NULL]" : std::string(v->value());
+  }
+
   double asDouble(const std::string& na) {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL || na.compare(v->value()) == 0)

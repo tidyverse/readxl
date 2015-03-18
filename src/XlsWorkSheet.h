@@ -99,23 +99,7 @@ public:
     // Initialise columns
     int n = nrow_ - nskip;
     for (int j = 0; j < ncol_; ++j) {
-      switch(types[j]) {
-      case CELL_BLANK:
-        break;
-      case CELL_DATE: {
-          Rcpp::RObject col = Rcpp::NumericVector(n);
-          col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
-          col.attr("tzone") = "UTC";
-          cols[j] = col;
-        }
-        break;
-      case CELL_NUMERIC:
-        cols[j] = Rcpp::NumericVector(n);
-        break;
-      case CELL_TEXT:
-        cols[j] = Rcpp::CharacterVector(n);
-        break;
-      }
+      cols[j] = makeCol(types[j], n);
     }
 
     // Fill with data
@@ -180,31 +164,7 @@ public:
       }
     }
 
-    // Drop blank columns
-    int p_out = 0;
-    for (int j = 0; j < ncol_; ++j) {
-      if (types[j] != CELL_BLANK)
-        p_out++;
-    }
-
-    Rcpp::List out(p_out);
-    Rcpp::CharacterVector names_out(p_out);
-    int j_out = 0;
-    for (int j = 0; j < ncol_; ++j) {
-      if (types[j] == CELL_BLANK)
-        continue;
-
-      out[j_out] = cols[j];
-      names_out[j_out] = names[j];
-      j_out++;
-    }
-
-    // Turn list into a data frame
-    out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-    out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
-    out.attr("names") = names_out;
-
-    return out;
+    return colDataframe(cols, names, types);
   }
 };
 
