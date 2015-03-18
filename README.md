@@ -20,7 +20,7 @@ devtools::install_github("hadley/exell")
 ## Usage
 
 ```R
-library(excell)
+library(exell)
 
 read_xls("my-spreadsheet.xls")
 read_xls("my-spreadsheet.xls", sheet = "data")
