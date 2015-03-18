@@ -20,9 +20,17 @@ devtools::install_github("hadley/exell")
 ```R
 library(excell)
 
-read_xls("my-spreadsheet.xls")
-read_xls("my-spreadsheet.xls", sheet = "data")
-read_xls("my-spreadsheet.xls", na = "NA")
+# read_excel reads both xls and xlsx files
+read_excel("my-old-spreadsheet.xls")
+read_excel("my-new-spreadsheet.xlsx")
+
+# Specify sheet with a number or name
+read_excel("my-spreadsheet.xls", sheet = "data")
+read_excel("my-spreadsheet.xls", sheet = 2)
+
+# If NAs are represented by something other than blank cells,
+# set the na argument
+read_excel("my-spreadsheet.xls", na = "NA")
 ```
 
 ## Features
