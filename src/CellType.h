@@ -151,7 +151,7 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
 inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
                         std::vector<CellType> types) {
   int p = cols.size();
-  int n = (p == 0) ? 0 : Rf_length(cols[1]);
+  int n = (p == 0) ? 0 : Rf_length(cols[0]);
 
   int p_out = 0;
   for (int j = 0; j < p; ++j) {
