@@ -26,7 +26,7 @@ inline std::string zip_buffer(std::string zip_path, std::string file_path) {
   Rcpp::Environment exellEnv = Rcpp::Environment("package:exell");
   Rcpp::Function zip_buffer = exellEnv["zip_buffer"];
 
-  RawVector xml = Rcpp::as<RawVector>(zip_buffer(zip_path, file_path));
+  Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
   std::string buffer(RAW(xml), RAW(xml) + xml.size());
   buffer.push_back('\0');
 
