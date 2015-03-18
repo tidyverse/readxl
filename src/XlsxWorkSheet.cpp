@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void xlsx_cells(std::string path, std::string sheet) {
+void xlsx_cells(std::string path, int sheet) {
   return XlsxWorkSheet(path, sheet).printCells();
 }
 
@@ -15,8 +15,8 @@ IntegerVector parse_ref(std::string ref) {
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_types(std::string path, std::string sheet = "sheet1",
-                               std::string na = "", int nskip = 0, int n = 100) {
+CharacterVector xlsx_col_types(std::string path, int sheet, std::string na = "",
+                               int nskip = 0, int n = 100) {
 
   XlsxWorkSheet ws(path, sheet);
   std::vector<CellType> types = ws.colTypes(na, nskip, n);
@@ -30,14 +30,13 @@ CharacterVector xlsx_col_types(std::string path, std::string sheet = "sheet1",
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_names(std::string path, std::string sheet = "sheet1",
-                               int nskip = 0) {
+CharacterVector xlsx_col_names(std::string path, int sheet, int nskip = 0) {
 
   return XlsxWorkSheet(path, sheet).colNames(nskip);
 }
 
 // [[Rcpp::export]]
-List xlsx_cols(std::string path, std::string sheet, CharacterVector col_names,
+List xlsx_cols(std::string path, int sheet, CharacterVector col_names,
               CharacterVector col_types, std::string na, int nskip = 0) {
   XlsxWorkSheet ws(path, sheet);
 

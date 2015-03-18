@@ -15,27 +15,36 @@
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
   path <- check_file(path)
-
-  if (is.character(sheet)) {
-    i <- match(sheet, xls_sheets(path)) - 1
-    if (is.na(i)) {
-      stop("Sheet '", sheet, "' not found", call. = FALSE)
-    }
-  } else {
-    i <- sheet - 1
-  }
+  sheet <- standardise_sheet(sheet, xls_sheets(path))
 
   if (isTRUE(col_names)) {
-    col_names <- xls_col_names(path, i = i, nskip = skip)
+    col_names <- xls_col_names(path, sheet, nskip = skip)
     skip <- skip + 1
   } else if (isFALSE(col_names)) {
-    col_names <- paste0("X", seq_along(xls_col_names(path, i = i)))
+    col_names <- paste0("X", seq_along(xls_col_names(path, sheet)))
   }
 
   if (is.null(col_types)) {
-    col_types <- xls_col_types(path, i, na = na, nskip = skip)
+    col_types <- xls_col_types(path, sheet, na = na, nskip = skip)
   }
 
-  xls_cols(path, i, col_names = col_names, col_types = col_types, na = na,
+  xls_cols(path, sheet, col_names = col_names, col_types = col_types, na = na,
     nskip = skip)
+}
+
+standardise_sheet <- function(sheet, sheet_names) {
+  if (length(sheet) != 1) {
+    stop("`sheet` must have length 1", call. = FALSE)
+  }
+
+  if (is.numeric(sheet)) {
+    floor(sheet) - 1L
+  } else if (is.character(sheet)) {
+    if (!(sheet %in% sheet_names)) {
+      stop("Sheet '", sheet, "' not found", call. = FALSE)
+    }
+    match(sheet, sheet_names) - 1L
+  } else {
+    stop("`sheet` must be either an integer or a string.", call. = FALSE)
+  }
 }

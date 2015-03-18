@@ -1,17 +1,9 @@
 #' @export
 #' @rdname read_xls
-read_xlsx <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                       na = "", skip = 0) {
   path <- check_file(path)
-
-  if (is.numeric(sheet)) {
-    sheet <- xlsx_sheets(path)[sheet]
-    if (is.na(sheet)) {
-      stop("Sheet '", sheet, "' not found", call. = FALSE)
-    }
-  } else if (!is.character(sheet)) {
-    stop("`sheet` must be character or integer.", call. = FALSE)
-  }
+  sheet <- standardise_sheet(sheet, xlsx_sheets(path))
 
   if (isTRUE(col_names)) {
     col_names <- xlsx_col_names(path, sheet, nskip = skip)
@@ -25,5 +17,5 @@ read_xlsx <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   }
 
   xlsx_cols(path, sheet, col_names = col_names, col_types = col_types, na = na,
-    nskip = skip)
+            nskip = skip)
 }
