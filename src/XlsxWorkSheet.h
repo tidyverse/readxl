@@ -23,7 +23,6 @@ inline std::pair<int, int> parseRef(std::string ref) {
   return std::make_pair(row, col);
 }
 
-
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
 // Section and page numbers below refer to the 4th edition
@@ -52,11 +51,9 @@ public:
     sheetData_ = rootNode->first_node("sheetData");
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
-
   }
 
   void printCells() {
-
     for (rapidxml::xml_node<>* row = sheetData_->first_node("row");
          row; row = row->next_sibling("row")) {
 
@@ -71,15 +68,8 @@ public:
           Rcpp::Rcout << parsed.first << ", " << parsed.second << "\n";
         }
       }
-
     }
-
   }
-
-
-
-
 };
-
 
 #endif
