@@ -56,6 +56,47 @@ public:
     return (t == NULL) ? "n" : std::string(t->value());
   }
 
+  double asDouble(const std::string& na) {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    if (v == NULL || na.compare(v->value()) == 0)
+      return NA_REAL;
+
+    return (v == NULL) ? 0 : atof(v->value());
+  }
+
+  double asDate(const std::string& na, int offset) {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    if (v == NULL || na.compare(v->value()) == 0)
+      return NA_REAL;
+
+    return (v == NULL) ? 0 : (atof(v->value()) - offset) * 86400;
+  }
+
+  Rcpp::RObject asCharSxp(const std::string& na,
+                          const std::vector<std::string>& stringTable) {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    if (v == NULL)
+      return NA_STRING;
+
+    std::string type = typeString();
+    std::string string;
+    if (type == "s") {
+      int id = atoi(v->value());
+      if (id < 0 || id >= stringTable.size())
+        Rcpp::stop("[%i, %i]: invalid string id '%i'", row() + 1, col() + 1, id);
+
+      string = stringTable[id];
+    } else if (type == "str") {
+      string = std::string(v->value());
+    } else {
+      Rcpp::stop("[%i, %i]: don't know how to convert type '%s' to string",
+        row() + 1, col() + 1, type);
+    }
+
+    return (string == na) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
+  }
+
+
   CellType type(const std::string& na, const std::set<int>& dateStyles) {
     std::string type = typeString();
 
