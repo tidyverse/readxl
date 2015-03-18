@@ -94,6 +94,10 @@ public:
     return strings;
   }
 
+  std::string path() {
+    return path_;
+  }
+
   std::set<int> dateStyles() {
     return dateStyles_;
   }
