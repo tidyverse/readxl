@@ -5,23 +5,6 @@
 #include "rapidxml.h"
 #include "CellType.h"
 
-// Simple parser: does not check that order of numbers and letters is correct
-std::pair<int, int> parseRef(std::string ref) {
-  int col = 0, row = 0;
-
-  for (std::string::iterator cur = ref.begin(); cur != ref.end(); ++cur) {
-    if (*cur >= '0' && *cur <= '9') {
-      row = row * 10 + (*cur - '0');
-    } else if (*cur >= 'A' && *cur <= 'Z') {
-      col = 26 * col + (*cur - 'A' + 1);
-    } else {
-      Rcpp::stop("Invalid character ('%s') in cell ref", *cur);
-    }
-  }
-
-  return std::make_pair(row, col);
-}
-
 inline std::string zip_buffer(std::string zip_path, std::string file_path) {
   Rcpp::Environment exellEnv = Rcpp::Environment("package:exell");
   Rcpp::Function zip_buffer = exellEnv["zip_buffer"];
@@ -140,11 +123,6 @@ private:
         dateStyles_.insert(i);
       ++i;
     }
-
-  }
-
-  std::set<int> customDateFormats() const {
-    std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
   }
 
 };

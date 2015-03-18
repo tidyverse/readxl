@@ -104,6 +104,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// xlsx_cells
+void xlsx_cells(std::string path, std::string sheet);
+RcppExport SEXP exell_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< std::string >::type sheet(sheetSEXP);
+    xlsx_cells(path, sheet);
+    return R_NilValue;
+END_RCPP
+}
 // parse_ref
 IntegerVector parse_ref(std::string ref);
 RcppExport SEXP exell_parse_ref(SEXP refSEXP) {

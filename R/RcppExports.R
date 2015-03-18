@@ -33,6 +33,10 @@ xlsx_date_styles <- function(path) {
     .Call('exell_xlsx_date_styles', PACKAGE = 'exell', path)
 }
 
+xlsx_cells <- function(path, sheet) {
+    invisible(.Call('exell_xlsx_cells', PACKAGE = 'exell', path, sheet))
+}
+
 parse_ref <- function(ref) {
     .Call('exell_parse_ref', PACKAGE = 'exell', ref)
 }
