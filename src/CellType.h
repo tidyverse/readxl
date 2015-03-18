@@ -13,7 +13,7 @@ enum CellType {
 
 bool inline isDateTime(int id, const std::set<int> custom);
 
-inline std::vector<CellType> cellTypes(CharacterVector x) {
+inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
   std::vector<CellType> types;
   types.reserve(x.size());
 
@@ -74,7 +74,7 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf styles,
     break;
 
   default:
-    Rcout << "Unknown type: " << cell.id << "\n";
+    Rcpp::Rcout << "Unknown type: " << cell.id << "\n";
   return CELL_NUMERIC;
   }
 }

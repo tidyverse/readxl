@@ -1,7 +1,7 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 #include "XlsWorkBook.h"
 #include "XlsWorkSheet.h"
+using namespace Rcpp;
 
 XlsWorkSheet XlsWorkBook::sheet(int i) {
   return XlsWorkSheet(*this, i);

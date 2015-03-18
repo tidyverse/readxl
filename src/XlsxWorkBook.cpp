@@ -1,6 +1,6 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 #include "XlsxWorkBook.h"
+using namespace Rcpp;
 
 // [[Rcpp::export]]
 std::vector<std::string> xlsx_sheets(std::string path) {

@@ -48,8 +48,8 @@ public:
     return ncol_;
   }
 
-  CharacterVector colNames(int nskip = 0) {
-    CharacterVector out(ncol_);
+  Rcpp::CharacterVector colNames(int nskip = 0) {
+    Rcpp::CharacterVector out(ncol_);
 
     if (nskip > nrow_)
       return out;
@@ -72,7 +72,7 @@ public:
 
     for (int i = nskip; i < nrow_ && i < n_max; ++i) {
       if ((i + 1) % 10000 == 0)
-        checkUserInterrupt();
+        Rcpp::checkUserInterrupt();
 
       xls::st_row::st_row_data row = pWS_->rows.row[i];
 
@@ -89,7 +89,7 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(CharacterVector names, std::vector<CellType> types,
+  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
                       std::string na, int nskip = 0) {
     if (names.size() != ncol_ || types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
@@ -103,8 +103,8 @@ public:
       case CELL_BLANK:
         break;
       case CELL_DATE: {
-          RObject col = Rcpp::NumericVector(n);
-          col.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
+          Rcpp::RObject col = Rcpp::NumericVector(n);
+          col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           col.attr("tzone") = "UTC";
           cols[j] = col;
         }
@@ -124,7 +124,7 @@ public:
 
       for (int j = 0; j < ncol_; ++j) {
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
-        RObject col = cols[j];
+        Rcpp::RObject col = cols[j];
 
         CellType type = cellType(cell, pWS_->workbook->xfs, customDateFormats_, na);
 
@@ -172,7 +172,7 @@ public:
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
             std::string stdString((char*) cell.str);
-            RObject rString = stdString == na ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+            Rcpp::RObject rString = stdString == na ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
             SET_STRING_ELT(col, i, rString);
           }
           break;
@@ -200,8 +200,8 @@ public:
     }
 
     // Turn list into a data frame
-    out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
-    out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n);
+    out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+    out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
     out.attr("names") = names_out;
 
     return out;

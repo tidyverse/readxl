@@ -1,9 +1,10 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 
 #include "XlsWorkBook.h"
 #include "XlsWorkSheet.h"
 #include <libxls/xls.h>
+
+using namespace Rcpp;
 
 // [[Rcpp::export]]
 CharacterVector xls_col_types(std::string path, std::string na, int i = 0,
