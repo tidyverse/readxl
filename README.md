@@ -18,7 +18,7 @@ devtools::install_github("hadley/exell")
 ## Usage
 
 ```R
-library(excell)
+library(exell)
 
 # read_excel reads both xls and xlsx files
 read_excel("my-old-spreadsheet.xls")
