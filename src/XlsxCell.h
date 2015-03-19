@@ -90,9 +90,7 @@ public:
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 
     if (t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
-      int id = atoi(v->value());
-      const std::string& string = stringTable.at(id);
-      return (string == na) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
+      return stringFromTable(v->value(), na, stringTable);
     } else {
       if (na.compare(v->value()) == 0) {
         return NA_STRING;
@@ -119,7 +117,7 @@ public:
       // Does excel use this? Regardless, don't have cross-platform ISO8601
       // parser (yet) so need to return as text
       return CELL_TEXT;
-    } else if (strncmp(t->value(), "s", 5) == 0 || strncmp(t->value(), "str", 5) == 0) {
+    } else if (strncmp(t->value(), "s", 5) == 0) {
       rapidxml::xml_node<>* v = cell_->first_node("v");
       if (v == NULL)
         return CELL_BLANK;
@@ -127,6 +125,8 @@ public:
       int id = atoi(v->value());
       const std::string& string = stringTable.at(id);
       return (string == na) ? CELL_BLANK : CELL_TEXT;
+    } else if (strncmp(t->value(), "str", 5) == 0) { // formula
+      return CELL_TEXT;
     } else {
       Rcpp::warning("[%i, %i]: unknown type '%s'",
         row() + 1, col() + 1, t->value());
@@ -134,6 +134,21 @@ public:
     }
 
     return CELL_NUMERIC;
+  }
+
+private:
+
+
+  Rcpp::RObject stringFromTable(const char* val, const std::string& na,
+                                const std::vector<std::string>& stringTable) {
+    int id = atoi(val);
+    if (id < 0 || id >= stringTable.size()) {
+      Rcpp::warning("[%i, %i]: Invalid string id %i", row() + 1, col() + 1, id);
+      return NA_STRING;
+    }
+
+    const std::string& string = stringTable.at(id);
+    return (string == na) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
   }
 
 };
