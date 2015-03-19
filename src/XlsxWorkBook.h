@@ -92,8 +92,11 @@ private:
 
     for (rapidxml::xml_node<>* string = sst->first_node();
       string; string = string->next_sibling()) {
-      std::string value(string->first_node("t")->value());
-      stringTable_.push_back(value);
+      rapidxml::xml_node<>* t = string->first_node("t");
+      if (t == NULL)
+        continue;
+
+      stringTable_.push_back(std::string(t->value()));
     }
   }
 
