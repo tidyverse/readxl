@@ -13,5 +13,5 @@ Description: Import excel files into R. Supports .xls via the embedded libxls
 License: GPL-3
 LazyData: true
 LinkingTo: Rcpp
-Imports: Rcpp
+Imports: Rcpp (>= 0.11.5)
 Suggests: testthat
