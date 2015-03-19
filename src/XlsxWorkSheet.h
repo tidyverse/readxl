@@ -50,9 +50,8 @@ public:
       ++refv;
     ++refv; // advanced past :
     std::pair<int, int> dim = parseRef(refv);
-    nrow_ = dim.first;
-    ncol_ = dim.second;
-
+    nrow_ = dim.first + 1; // size is one greater than max position
+    ncol_ = dim.second + 1;
   }
 
   int ncol() {
@@ -128,7 +127,7 @@ public:
       Rcpp::stop("Need one name and type for each column");
 
     // Initialise columns
-    int n = nrow_ - nskip + 1;
+    int n = nrow_ - nskip;
     Rcpp::List cols(ncol_);
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
