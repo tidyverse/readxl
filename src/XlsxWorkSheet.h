@@ -140,6 +140,8 @@ public:
             REAL(col)[i] = xcell.asDouble(na);
             break;
           case CELL_BLANK:
+            REAL(col)[i] = NA_REAL;
+            break;
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
               xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.stringTable()));
@@ -152,6 +154,8 @@ public:
             REAL(col)[i] = xcell.asDate(na, wb_.offset());
             break;
           case CELL_BLANK:
+            REAL(col)[i] = NA_REAL;
+            break;
           case CELL_NUMERIC:
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting date: got '%s'",
