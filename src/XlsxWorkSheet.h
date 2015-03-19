@@ -141,7 +141,7 @@ public:
             break;
           case CELL_BLANK:
           case CELL_TEXT:
-            Rcpp::warning("[%i, %i]: expecting numeric: got `%s`",
+            Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
               xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.strings()));
             REAL(col)[i] = NA_REAL;
           }
