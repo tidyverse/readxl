@@ -98,11 +98,9 @@ public:
     return out;
   }
 
-  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
-                      std::string na, int nskip = 0) {
-    if (names.size() != types.size())
-      Rcpp::stop("Names and types must be same size");
-
+  Rcpp::List readCols(Rcpp::CharacterVector names,
+                      const std::vector<CellType>& types,
+                      const std::string& na, int nskip = 0) {
     rapidxml::xml_node<>* firstRow = getRow(nskip);
 
     // Determine rows and cols
