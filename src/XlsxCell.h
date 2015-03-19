@@ -117,7 +117,9 @@ public:
       // Does excel use this? Regardless, don't have cross-platform ISO8601
       // parser (yet) so need to return as text
       return CELL_TEXT;
-    } else if (strncmp(t->value(), "s", 5) == 0) {
+    } else if (strncmp(t->value(), "e", 5) == 0) { // error
+      return CELL_BLANK;
+    } else if (strncmp(t->value(), "s", 5) == 0) { // string in string table
       rapidxml::xml_node<>* v = cell_->first_node("v");
       if (v == NULL)
         return CELL_BLANK;
