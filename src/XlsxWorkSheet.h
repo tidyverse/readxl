@@ -81,6 +81,7 @@ public:
   std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 100) {
     rapidxml::xml_node<>* row = getRow(nskip);
     std::vector<CellType> types;
+    types.resize(ncol_);
 
     int i = 0;
     while(i < n_max && row != NULL) {
@@ -88,10 +89,6 @@ public:
            cell; cell = cell->next_sibling("c")) {
 
         XlsxCell xcell(cell);
-        if (xcell.col() >= types.size()) {
-          types.resize(xcell.col() + 1);
-        }
-
         CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
         if (type > types[xcell.col()]) {
           types[xcell.col()] = type;
@@ -108,16 +105,13 @@ public:
   Rcpp::CharacterVector colNames(int nskip = 0) {
     rapidxml::xml_node<>* row = getRow(nskip);
 
-    int p = 0;
-    for (rapidxml::xml_node<>* cell = row->first_node("c");
-         cell; cell = cell->next_sibling("c")) {
-      p = XlsxCell(cell).col(); // assuming cells always ordered
-    }
-
-    Rcpp::CharacterVector out(p + 1);
+    Rcpp::CharacterVector out(ncol_);
     for (rapidxml::xml_node<>* cell = row->first_node("c");
          cell; cell = cell->next_sibling("c")) {
       XlsxCell xcell(cell);
+
+      if (xcell.col() >= ncol_)
+        continue;
       out[xcell.col()] = xcell.asCharSxp("", wb_.stringTable());
     }
 
@@ -127,24 +121,18 @@ public:
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
-    rapidxml::xml_node<>* firstRow = getRow(nskip);
-
-    // Determine rows and cols
-    int p = types.size();
-    int n = 0;
-    for (rapidxml::xml_node<>* row = firstRow->next_sibling("row");
-         row; row = row->next_sibling("row")) {
-      n++;
-    }
+    if (names.size() != ncol_ || types.size() != ncol_)
+      Rcpp::stop("Need one name and type for each column");
 
     // Initialise columns
-    Rcpp::List cols(p);
-    for (int j = 0; j < p; ++j) {
-      cols[j] = makeCol(types[j], n + 1);
+    int n = nrow_ - nskip + 1;
+    Rcpp::List cols(ncol_);
+    for (int j = 0; j < ncol_; ++j) {
+      cols[j] = makeCol(types[j], n);
     }
 
     int i = 0;
-    for (rapidxml::xml_node<>* row = firstRow;
+    for (rapidxml::xml_node<>* row = getRow(nskip);
          row; row = row->next_sibling("row")) {
       if ((i + 1) % 1000 == 0)
         Rcpp::checkUserInterrupt();
@@ -154,6 +142,9 @@ public:
 
         XlsxCell xcell(cell);
         CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
+        if (xcell.col() > ncol_)
+          continue;
+
         Rcpp::RObject col = cols[xcell.col()];
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {
