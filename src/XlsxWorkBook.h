@@ -90,13 +90,23 @@ private:
       stringTable_.reserve(n);
     }
 
+    // 18.4.8 si (String Item) [p1725]
     for (rapidxml::xml_node<>* string = sst->first_node();
-      string; string = string->next_sibling()) {
-      rapidxml::xml_node<>* t = string->first_node("t");
-      if (t == NULL)
-        continue;
+         string; string = string->next_sibling()) {
 
-      stringTable_.push_back(std::string(t->value()));
+      std::string out;
+      rapidxml::xml_node<>* r = string->first_node("r");
+      if (r != NULL) {
+        // iterate over all t elements
+        for (rapidxml::xml_node<>* t = r->first_node("t"); t != NULL;
+             t = t->next_sibling("t"))
+          out += t->value();
+      } else {
+        rapidxml::xml_node<>* t = string->first_node("t");
+        out = (t == NULL) ? "[INVALID]" : std::string(t->value());
+      }
+
+      stringTable_.push_back(out);
     }
   }
 
