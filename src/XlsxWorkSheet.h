@@ -122,6 +122,8 @@ public:
     int i = 0;
     for (rapidxml::xml_node<>* row = firstRow;
          row; row = row->next_sibling("row")) {
+      if ((i + 1) % 1000 == 0)
+        Rcpp::checkUserInterrupt();
 
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
