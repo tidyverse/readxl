@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 zip_buffer <- function(zip_path, file_path) {
-  files <- unzip(zip_path, list = TRUE)
+  files <- utils::unzip(zip_path, list = TRUE)
 
   indx <- match(file_path, files$Name)
   if (is.na(indx)) {
