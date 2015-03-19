@@ -89,8 +89,11 @@ public:
            cell; cell = cell->next_sibling("c")) {
 
         XlsxCell xcell(cell);
+        if (xcell.col() >= ncol_)
+          continue;
+
         CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
-        if (type > types[xcell.col()]) {
+        if (type >= types[xcell.col()]) {
           types[xcell.col()] = type;
         }
       }
@@ -142,7 +145,7 @@ public:
 
         XlsxCell xcell(cell);
         CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
-        if (xcell.col() > ncol_)
+        if (xcell.col() >= ncol_)
           continue;
 
         Rcpp::RObject col = cols[xcell.col()];
