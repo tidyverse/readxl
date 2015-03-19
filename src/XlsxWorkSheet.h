@@ -88,7 +88,7 @@ public:
       p = XlsxCell(cell).col(); // assuming cells always ordered
     }
 
-    Rcpp::CharacterVector out(4);
+    Rcpp::CharacterVector out(p + 1);
     for (rapidxml::xml_node<>* cell = row->first_node("c");
          cell; cell = cell->next_sibling("c")) {
       XlsxCell xcell(cell);
