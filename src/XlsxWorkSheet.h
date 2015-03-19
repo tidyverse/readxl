@@ -142,7 +142,7 @@ public:
           case CELL_BLANK:
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting numeric: got `%s`",
-              xcell.row() + 1, xcell.col() + 1, xcell.asStdString());
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.strings()));
             REAL(col)[i] = NA_REAL;
           }
           break;
@@ -155,7 +155,7 @@ public:
           case CELL_NUMERIC:
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting date: got '%s'",
-              xcell.row() + 1, xcell.col() + 1, xcell.asStdString());
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.strings()));
             REAL(col)[i] = NA_REAL;
             break;
           }

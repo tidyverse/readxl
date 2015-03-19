@@ -56,9 +56,17 @@ public:
     return (t == NULL) ? "n" : std::string(t->value());
   }
 
-  std::string asStdString() {
+  std::string asStdString(const std::vector<std::string>& stringTable) {
     rapidxml::xml_node<>* v = cell_->first_node("v");
-    return v == NULL ? "[NULL]" : std::string(v->value());
+    if (v == NULL)
+      return "[NULL]";
+
+    std::string type = typeString();
+    if (type != "s")
+      return std::string(v->value());
+
+    int id = atoi(v->value());
+    return stringTable.at(id);
   }
 
   double asDouble(const std::string& na) {
