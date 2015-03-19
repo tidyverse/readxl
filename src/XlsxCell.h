@@ -13,10 +13,10 @@
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
 
 // Simple parser: does not check that order of numbers and letters is correct
-inline std::pair<int, int> parseRef(std::string ref) {
+inline std::pair<int, int> parseRef(const char* ref) {
   int col = 0, row = 0;
 
-  for (std::string::iterator cur = ref.begin(); cur != ref.end(); ++cur) {
+  for (const char* cur = ref; *cur != '\0'; ++cur) {
     if (*cur >= '0' && *cur <= '9') {
       row = row * 10 + (*cur - '0');
     } else if (*cur >= 'A' && *cur <= 'Z') {
@@ -40,7 +40,7 @@ public:
     if (ref == NULL)
       Rcpp::stop("Invalid cell: lacks ref attribute");
 
-    location_ = parseRef(std::string(ref->value()));
+    location_ = parseRef(ref->value());
   }
 
   int row() {

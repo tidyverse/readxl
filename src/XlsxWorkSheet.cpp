@@ -9,7 +9,7 @@ void xlsx_cells(std::string path, int sheet) {
 
 // [[Rcpp::export]]
 IntegerVector parse_ref(std::string ref) {
-  std::pair<int,int> parsed = parseRef(ref);
+  std::pair<int,int> parsed = parseRef(ref.c_str());
 
   return IntegerVector::create(parsed.first, parsed.second);
 }
