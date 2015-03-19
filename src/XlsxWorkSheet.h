@@ -46,7 +46,7 @@ public:
 
         XlsxCell xcell(cell);
         Rcpp::Rcout << xcell.row() << "," << xcell.row() << ": " <<
-          cellTypeDesc(xcell.type("", wb_.dateStyles())) << "\n";
+          cellTypeDesc(xcell.type("", wb_.strings(), wb_.dateStyles())) << "\n";
       }
     }
   }
@@ -66,7 +66,7 @@ public:
           types.resize(xcell.col() + 1);
         }
 
-        CellType type = xcell.type(na, wb_.dateStyles());
+        CellType type = xcell.type(na, wb_.strings(), wb_.dateStyles());
         if (type > types[xcell.col()]) {
           types[xcell.col()] = type;
         }
@@ -127,7 +127,7 @@ public:
            cell; cell = cell->next_sibling("c")) {
 
         XlsxCell xcell(cell);
-        CellType type = xcell.type(na, wb_.dateStyles());
+        CellType type = xcell.type(na, wb_.strings(), wb_.dateStyles());
         Rcpp::RObject col = cols[xcell.col()];
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {

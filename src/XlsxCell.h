@@ -100,7 +100,8 @@ public:
     return (string == na) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
   }
 
-  CellType type(const std::string& na, const std::set<int>& dateStyles) {
+  CellType type(const std::string& na, const std::vector<std::string> stringTable,
+                const std::set<int>& dateStyles) {
     std::string type = typeString();
 
     if (type == "b") {
@@ -120,7 +121,7 @@ public:
       if (v == NULL)
         return CELL_BLANK;
 
-      std::string string(v->value());
+      std::string string = stringTable.at(atoi(v->value()));
       return (string == na) ? CELL_BLANK : CELL_TEXT;
     } else {
       // I don't think Excel uses inline strings ("inlineStr")
