@@ -20,13 +20,14 @@ inline std::string zip_buffer(std::string zip_path, std::string file_path) {
 class XlsxWorkBook {
   std::string path_;
   std::set<int> dateStyles_;
+  std::vector<std::string> stringTable_;
   double offset_;
-
 
 public:
 
   XlsxWorkBook(std::string path): path_(path) {
     offset_ = dateOffset(is1904());
+    cacheStringTable();
     cacheDateStyles();
   }
 
@@ -54,38 +55,17 @@ public:
     return sheetNames;
   }
 
-  std::vector<std::string> strings() {
-    std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
-    rapidxml::xml_document<> sharedStrings;
-    sharedStrings.parse<0>(&sharedStringsXml[0]);
 
-    std::vector<std::string> strings;
-
-    rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
-    if (sst == NULL)
-      return strings;
-
-    rapidxml::xml_attribute<>* count = sst->first_attribute("count");
-    if (count != NULL) {
-      int n = atoi(count->value());
-      strings.reserve(n);
-    }
-
-    for (rapidxml::xml_node<>* string = sst->first_node();
-         string; string = string->next_sibling()) {
-      std::string value(string->first_node("t")->value());
-      strings.push_back(value);
-    }
-
-    return strings;
-  }
-
-  std::string path() {
+  const std::string& path() {
     return path_;
   }
 
-  std::set<int> dateStyles() {
+  const std::set<int>& dateStyles() {
     return dateStyles_;
+  }
+
+  const std::vector<std::string>& stringTable() {
+    return stringTable_;
   }
 
   double offset() {
@@ -93,6 +73,28 @@ public:
   }
 
 private:
+
+  void cacheStringTable() {
+    std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
+    rapidxml::xml_document<> sharedStrings;
+    sharedStrings.parse<0>(&sharedStringsXml[0]);
+
+    rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
+    if (sst == NULL)
+      return;
+
+    rapidxml::xml_attribute<>* count = sst->first_attribute("count");
+    if (count != NULL) {
+      int n = atoi(count->value());
+      stringTable_.reserve(n);
+    }
+
+    for (rapidxml::xml_node<>* string = sst->first_node();
+      string; string = string->next_sibling()) {
+      std::string value(string->first_node("t")->value());
+      stringTable_.push_back(value);
+    }
+  }
 
   void cacheDateStyles() {
     std::string sharedStringsXml = zip_buffer(path_, "xl/styles.xml");

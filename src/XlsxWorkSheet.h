@@ -46,7 +46,7 @@ public:
 
         XlsxCell xcell(cell);
         Rcpp::Rcout << xcell.row() << "," << xcell.row() << ": " <<
-          cellTypeDesc(xcell.type("", wb_.strings(), wb_.dateStyles())) << "\n";
+          cellTypeDesc(xcell.type("", wb_.stringTable(), wb_.dateStyles())) << "\n";
       }
     }
   }
@@ -66,7 +66,7 @@ public:
           types.resize(xcell.col() + 1);
         }
 
-        CellType type = xcell.type(na, wb_.strings(), wb_.dateStyles());
+        CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
         if (type > types[xcell.col()]) {
           types[xcell.col()] = type;
         }
@@ -92,7 +92,7 @@ public:
     for (rapidxml::xml_node<>* cell = row->first_node("c");
          cell; cell = cell->next_sibling("c")) {
       XlsxCell xcell(cell);
-      out[xcell.col()] = xcell.asCharSxp("", wb_.strings());
+      out[xcell.col()] = xcell.asCharSxp("", wb_.stringTable());
     }
 
     return out;
@@ -127,7 +127,7 @@ public:
            cell; cell = cell->next_sibling("c")) {
 
         XlsxCell xcell(cell);
-        CellType type = xcell.type(na, wb_.strings(), wb_.dateStyles());
+        CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
         Rcpp::RObject col = cols[xcell.col()];
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {
@@ -142,7 +142,7 @@ public:
           case CELL_BLANK:
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.strings()));
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.stringTable()));
             REAL(col)[i] = NA_REAL;
           }
           break;
@@ -155,7 +155,7 @@ public:
           case CELL_NUMERIC:
           case CELL_TEXT:
             Rcpp::warning("[%i, %i]: expecting date: got '%s'",
-              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.strings()));
+              xcell.row() + 1, xcell.col() + 1, xcell.asStdString(wb_.stringTable()));
             REAL(col)[i] = NA_REAL;
             break;
           }
@@ -164,7 +164,7 @@ public:
           if (type == CELL_BLANK) {
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
-            SET_STRING_ELT(col, i, xcell.asCharSxp(na, wb_.strings()));
+            SET_STRING_ELT(col, i, xcell.asCharSxp(na, wb_.stringTable()));
           }
           break;
         }

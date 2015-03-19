@@ -9,7 +9,7 @@ std::vector<std::string> xlsx_sheets(std::string path) {
 
 // [[Rcpp::export]]
 std::vector<std::string> xlsx_strings(std::string path) {
-  return XlsxWorkBook(path).strings();
+  return XlsxWorkBook(path).stringTable();
 }
 
 // [[Rcpp::export]]
