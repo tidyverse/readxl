@@ -36,10 +36,48 @@ CharacterVector xlsx_col_names(std::string path, int sheet, int nskip = 0) {
 }
 
 // [[Rcpp::export]]
-List xlsx_cols(std::string path, int sheet, CharacterVector col_names,
-              CharacterVector col_types, std::string na, int nskip = 0) {
+List read_xlsx_(std::string path, int sheet, RObject col_names,
+                RObject col_types, std::string na, int nskip = 0) {
+
   XlsxWorkSheet ws(path, sheet);
 
-  std::vector<CellType> types = cellTypes(col_types);
-  return ws.readCols(col_names, types, na, nskip);
+  // Standardise column names --------------------------------------------------
+  CharacterVector colNames;
+  switch(TYPEOF(col_names)) {
+  case CHARSXP:
+    colNames = as<CharacterVector>(col_names);
+    break;
+  case LGLSXP:
+  {
+    bool firstRow = as<bool>(col_names);
+    if (firstRow) {
+      colNames = ws.colNames(nskip);
+      nskip++;
+    } else {
+      int p = ws.ncol();
+      colNames = CharacterVector(p + 1);
+      for (int j = 0; j < p; ++j) {
+        colNames[j] = tfm::format("X%i", j);
+      }
+    }
+    break;
+  }
+  default:
+    Rcpp::stop("`col_names` must be a logical or character vector");
+  }
+
+  // Standardise column types --------------------------------------------------
+  std::vector<CellType> colTypes;
+  switch(TYPEOF(col_types)) {
+  case NILSXP:
+    colTypes = ws.colTypes(na, nskip, 100);
+    break;
+  case STRSXP:
+    colTypes = cellTypes(as<CharacterVector>(col_types));
+    break;
+  default:
+    Rcpp::stop("`col_types` must be a character vector or NULL");
+  }
+
+  return ws.readCols(colNames, colTypes, na, nskip);
 }

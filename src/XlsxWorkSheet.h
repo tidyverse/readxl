@@ -20,6 +20,7 @@ class XlsxWorkSheet {
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
+  int ncol_, nrow_;
 
 public:
 
@@ -35,6 +36,31 @@ public:
     sheetData_ = rootNode_->first_node("sheetData");
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
+
+    // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
+    rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
+    if (dimension == NULL)
+      Rcpp::stop("Invalid sheet xml (no <dimension>)");
+    rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
+    if (ref == NULL)
+      Rcpp::stop("Invalid sheet xml (no ref attribute of <dimension>)");
+
+    const char* refv = ref->value();
+    while (*refv != ':' && *refv != '\0')
+      ++refv;
+    ++refv; // advanced past :
+    std::pair<int, int> dim = parseRef(refv);
+    nrow_ = dim.first;
+    ncol_ = dim.second;
+
+  }
+
+  int ncol() {
+    return ncol_;
+  }
+
+  int nrow() {
+    return nrow_;
   }
 
   void printCells() {

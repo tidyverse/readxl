@@ -57,7 +57,7 @@ xlsx_col_names <- function(path, sheet, nskip = 0L) {
     .Call('readxl_xlsx_col_names', PACKAGE = 'readxl', path, sheet, nskip)
 }
 
-xlsx_cols <- function(path, sheet, col_names, col_types, na, nskip = 0L) {
-    .Call('readxl_xlsx_cols', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip)
+read_xlsx_ <- function(path, sheet, col_names, col_types, na, nskip = 0L) {
+    .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip)
 }
 
