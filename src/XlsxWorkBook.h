@@ -6,7 +6,8 @@
 #include "CellType.h"
 #include "utils.h"
 
-inline std::string zip_buffer(std::string zip_path, std::string file_path) {
+inline std::string zip_buffer(const std::string& zip_path,
+                              const std::string& file_path) {
   Rcpp::Environment env = Rcpp::Environment("package:readxl");
   Rcpp::Function zip_buffer = env["zip_buffer"];
 
@@ -25,7 +26,7 @@ class XlsxWorkBook {
 
 public:
 
-  XlsxWorkBook(std::string path): path_(path) {
+  XlsxWorkBook(const std::string& path): path_(path) {
     offset_ = dateOffset(is1904());
     cacheStringTable();
     cacheDateStyles();
