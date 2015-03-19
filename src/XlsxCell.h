@@ -93,16 +93,12 @@ public:
         Rcpp::stop("[%i, %i]: invalid string id '%i'", row() + 1, col() + 1, id);
 
       string = stringTable[id];
-    } else if (type == "str") {
-      string = std::string(v->value());
     } else {
-      Rcpp::stop("[%i, %i]: don't know how to convert type '%s' to string",
-        row() + 1, col() + 1, type);
+      string = std::string(v->value());
     }
 
     return (string == na) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
   }
-
 
   CellType type(const std::string& na, const std::set<int>& dateStyles) {
     std::string type = typeString();
@@ -125,7 +121,7 @@ public:
         return CELL_BLANK;
 
       std::string string(v->value());
-      return string == na ? CELL_BLANK : CELL_TEXT;
+      return (string == na) ? CELL_BLANK : CELL_TEXT;
     } else {
       // I don't think Excel uses inline strings ("inlineStr")
       Rcpp::warning("Unknown type '%s' in [%i, %i]", type, row(), col());
