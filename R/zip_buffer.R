@@ -1,3 +1,7 @@
+#' Load a file inside a zip into a raw vector
+#'
+#' @export
+#' @keywords internal
 zip_buffer <- function(zip_path, file_path) {
   files <- unzip(zip_path, list = TRUE)
 
