@@ -103,7 +103,7 @@ public:
   }
 
   CellType type(const std::string& na,
-                const std::vector<std::string> stringTable,
+                const std::vector<std::string>& stringTable,
                 const std::set<int>& dateStyles) {
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 
