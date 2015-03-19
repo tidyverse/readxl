@@ -41,19 +41,23 @@ xlsx_date_styles <- function(path) {
     .Call('readxl_xlsx_date_styles', PACKAGE = 'readxl', path)
 }
 
-xlsx_cells <- function(path, sheet) {
+xlsx_cells <- function(path, sheet = 0L) {
     invisible(.Call('readxl_xlsx_cells', PACKAGE = 'readxl', path, sheet))
+}
+
+xlsx_dim <- function(path, sheet = 0L) {
+    .Call('readxl_xlsx_dim', PACKAGE = 'readxl', path, sheet)
 }
 
 parse_ref <- function(ref) {
     .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
 }
 
-xlsx_col_types <- function(path, sheet, na = "", nskip = 0L, n = 100L) {
+xlsx_col_types <- function(path, sheet = 0L, na = "", nskip = 0L, n = 100L) {
     .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet, na, nskip, n)
 }
 
-xlsx_col_names <- function(path, sheet, nskip = 0L) {
+xlsx_col_names <- function(path, sheet = 0L, nskip = 0L) {
     .Call('readxl_xlsx_col_names', PACKAGE = 'readxl', path, sheet, nskip)
 }
 

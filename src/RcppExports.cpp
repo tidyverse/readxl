@@ -138,6 +138,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// xlsx_dim
+IntegerVector xlsx_dim(std::string path, int sheet);
+RcppExport SEXP readxl_xlsx_dim(SEXP pathSEXP, SEXP sheetSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
+    __result = Rcpp::wrap(xlsx_dim(path, sheet));
+    return __result;
+END_RCPP
+}
 // parse_ref
 IntegerVector parse_ref(std::string ref);
 RcppExport SEXP readxl_parse_ref(SEXP refSEXP) {

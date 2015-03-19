@@ -3,8 +3,14 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void xlsx_cells(std::string path, int sheet) {
+void xlsx_cells(std::string path, int sheet = 0) {
   return XlsxWorkSheet(path, sheet).printCells();
+}
+
+// [[Rcpp::export]]
+IntegerVector xlsx_dim(std::string path, int sheet = 0) {
+  XlsxWorkSheet ws(path, sheet);
+  return IntegerVector::create(ws.nrow(), ws.ncol());
 }
 
 // [[Rcpp::export]]
@@ -15,8 +21,9 @@ IntegerVector parse_ref(std::string ref) {
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_types(std::string path, int sheet, std::string na = "",
-                               int nskip = 0, int n = 100) {
+CharacterVector xlsx_col_types(std::string path, int sheet = 0,
+                               std::string na = "", int nskip = 0,
+                               int n = 100) {
 
   XlsxWorkSheet ws(path, sheet);
   std::vector<CellType> types = ws.colTypes(na, nskip, n);
@@ -30,8 +37,7 @@ CharacterVector xlsx_col_types(std::string path, int sheet, std::string na = "",
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_names(std::string path, int sheet, int nskip = 0) {
-
+CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
   return XlsxWorkSheet(path, sheet).colNames(nskip);
 }
 
