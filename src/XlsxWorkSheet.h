@@ -66,7 +66,7 @@ public:
           types.resize(xcell.col() + 1);
         }
 
-        CellType type = xcell.type("", wb_.dateStyles());
+        CellType type = xcell.type(na, wb_.dateStyles());
         if (type > types[xcell.col()]) {
           types[xcell.col()] = type;
         }
