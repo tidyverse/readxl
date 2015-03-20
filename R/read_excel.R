@@ -20,18 +20,12 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
 
   path <- check_file(path)
-  ext <- tools::file_ext(path)
-
-  format <- switch(tolower(ext),
-    xls = "xls",
-    xlsx = "xlsx",
-    xlsm = "xlsx",
-    stop("Don't know how to parse extension ", ext, call. = FALSE)
-  )
+  ext <- tolower(tools::file_ext(path))
 
   switch(format,
-    xls = read_xls(path, sheet, col_names, col_types, na, skip),
+    xls =  read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip),
+    xlsm = read_xlsx(path, sheet, col_names, col_types, na, skip),
     stop("Unsupported format ", format, call. = FALSE)
   )
 }
