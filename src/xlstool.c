@@ -57,8 +57,6 @@
 
 extern int xls_debug;
 
-static void xls_showBOUNDSHEET(void* bsheet);
-
 static const DWORD colors[] =
     {
         0x000000,
@@ -135,7 +133,7 @@ static int asprintf(char **ret, const char *format, ...)
         return -1;
 
     while (1) {
-	    va_start(ap, format); 
+	    va_start(ap, format);
 
 	    i = _vsnprintf(p, size, format, ap);
 
@@ -173,7 +171,7 @@ static int asprintf(char **ret, const char *format, ...)
 
 	va_list ap;
 
-	va_start(ap, format); 
+	va_start(ap, format);
 
 	i = vsnprintf(NULL, 0, format, ap) + 1;
 	str = (char *)malloc(i);
@@ -209,13 +207,13 @@ BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
 	int utf8_chars = 0;
 	BYTE *ret;
     DWORD i;
-	
+
 	for(i=0; i<len; ++i) {
 		if(str[i] & (BYTE)0x80) {
 			++utf8_chars;
 		}
 	}
-	
+
 	if(utf8_chars == 0 || strcmp(encoding, "UTF-8")) {
 		ret = (BYTE *)malloc(len+1);
 		memcpy(ret, str, len);
@@ -283,7 +281,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
                 return outbuf;
             }
         }
-        size_t st; 
+        size_t st;
         outbuf = (BYTE*)malloc(outlen + 1);
 
 		if(outbuf)
@@ -377,7 +375,7 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
     BYTE flag;
     BYTE* str;
     BYTE* ret;
-	
+
 	flag = 0;
     str=s;
 
@@ -425,9 +423,9 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
 		printf("ofs=%d ret[0]=%d\n", ofs, *ret);
 		{
 			unsigned char *ptr;
-			
+
 			ptr = ret;
-			
+
 			printf("%x %x %x %x %x %x %x %x\n", ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7] );
 			printf("%s\n", ret);
 		}
@@ -608,7 +606,7 @@ void xls_showFormat(struct st_format_data* frmt)
 void xls_showXF(XF8* xf)
 {
 	static int idx;
-	
+
     printf("      Index: %u\n",idx++);
     printf("       Font: %u\n",xf->font);
     printf("     Format: %u\n",xf->format);
