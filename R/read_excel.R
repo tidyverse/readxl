@@ -22,7 +22,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
   ext <- tolower(tools::file_ext(path))
 
-  switch(format,
+  switch(ext,
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip),
     xlsm = read_xlsx(path, sheet, col_names, col_types, na, skip),
