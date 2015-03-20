@@ -94,11 +94,11 @@ bool inline isDateTime(int id, const std::set<int> custom) {
   // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
   // 18.8.30 numFmt (Number Format)  (p1777)
   // Date times: 14-22, 27-36, 45-47, 50-58, 71-81 (inclusive)
-  if ((id >= 14 & id <= 22) ||
-    (id >= 27 & id <= 36) ||
-    (id >= 45 & id <= 47) ||
-    (id >= 50 & id <= 58) ||
-    (id >= 71 & id <= 81))
+  if ((id >= 14 && id <= 22) ||
+    (id >= 27 && id <= 36) ||
+    (id >= 45 && id <= 47) ||
+    (id >= 50 && id <= 58) ||
+    (id >= 71 && id <= 81))
     return true;
 
   // Built-in format that's not a date
