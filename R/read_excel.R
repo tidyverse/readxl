@@ -22,10 +22,17 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
   ext <- tools::file_ext(path)
 
-  switch(ext,
+  format <- switch(tolower(ext),
+    xls = "xls",
+    xlsx = "xlsx",
+    xlsm = "xlsx",
+    stop("Don't know how to parse extension ", ext, call. = FALSE)
+  )
+
+  switch(format,
     xls = read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip),
-    stop("Don't know how to parse extension ", ext, call. = FALSE)
+    stop("Unsupported format ", format, call. = FALSE)
   )
 }
 
