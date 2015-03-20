@@ -144,7 +144,7 @@ private:
   Rcpp::RObject stringFromTable(const char* val, const std::string& na,
                                 const std::vector<std::string>& stringTable) {
     int id = atoi(val);
-    if (id < 0 || id >= stringTable.size()) {
+    if (id < 0 || id >= (int) stringTable.size()) {
       Rcpp::warning("[%i, %i]: Invalid string id %i", row() + 1, col() + 1, id);
       return NA_STRING;
     }

@@ -123,7 +123,7 @@ public:
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
-    if (names.size() != ncol_ || types.size() != ncol_)
+    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
     // Initialise columns

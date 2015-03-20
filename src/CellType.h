@@ -109,7 +109,7 @@ bool inline isDateTime(int id, const std::set<int> custom) {
 }
 
 inline bool isDateFormat(std::string x) {
-  for (int i = 0; i < x.size(); ++i) {
+  for (size_t i = 0; i < x.size(); ++i) {
     switch (x[i]) {
     case 'd':
     case 'm': // 'mm' for minutes

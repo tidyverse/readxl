@@ -12,7 +12,7 @@ CharacterVector xls_col_types(std::string path, std::string na, int i = 0,
   std::vector<CellType> types = XlsWorkBook(path).sheet(i).colTypes(na, nskip, n);
 
   CharacterVector out(types.size());
-  for (int i = 0; i < types.size(); ++i) {
+  for (size_t i = 0; i < types.size(); ++i) {
     out[i] = cellTypeDesc(types[i]);
   }
 
