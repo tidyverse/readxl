@@ -16,3 +16,8 @@ zip_buffer <- function(zip_path, file_path) {
   on.exit(close(con), add = TRUE)
   readBin(con, raw(), n = size)
 }
+
+
+zip_list <- function(zip_path) {
+  unzip(zip_path, list = TRUE)
+}
