@@ -130,17 +130,17 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   case CELL_BLANK:
     return R_NilValue;
   case CELL_DATE: {
-    Rcpp::RObject col = Rcpp::NumericVector(n);
+    Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
     col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
     col.attr("tzone") = "UTC";
     return col;
   }
     break;
   case CELL_NUMERIC:
-    return Rcpp::NumericVector(n);
+    return Rcpp::NumericVector(n, NA_REAL);
     break;
   case CELL_TEXT:
-    return Rcpp::CharacterVector(n);
+    return Rcpp::CharacterVector(n, NA_STRING);
     break;
   }
 

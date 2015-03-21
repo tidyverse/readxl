@@ -1,5 +1,17 @@
 context("Missing values")
 
+test_that("blanks read as missing [xlsx]", {
+  blanks <- read_excel("blanks.xlsx")
+  expect_equal(blanks$x, c(NA, 1))
+  expect_equal(blanks$y, c("a", NA))
+})
+
+test_that("blanks read as missing [xls]", {
+  blanks <- read_excel("blanks.xls")
+  expect_equal(blanks$x, c(NA, 1))
+  expect_equal(blanks$y, c("a", NA))
+})
+
 test_that("By default, NA read as text", {
   df <- read_xls("missing-values.xls")
   expect_equal(df$x, c("NA", "1.000000", "1.000000"))
