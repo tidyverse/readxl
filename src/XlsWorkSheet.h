@@ -75,7 +75,7 @@ public:
       xls::st_row::st_row_data row = pWS_->rows.row[i];
 
       for (int j = 0; j < ncol_; ++j) {
-        CellType type = cellType(row.cells.cell[j], pWS_->workbook->xfs, customDateFormats_, na);
+        CellType type = cellType(row.cells.cell[j], &pWS_->workbook->xfs, customDateFormats_, na);
 
         // Excel is simple enough we can enforce a strict ordering
         if (type > types[j]) {
@@ -108,7 +108,7 @@ public:
         xls::st_cell::st_cell_data cell = row.cells.cell[j];
         Rcpp::RObject col = cols[j];
 
-        CellType type = cellType(cell, pWS_->workbook->xfs, customDateFormats_, na);
+        CellType type = cellType(cell, &pWS_->workbook->xfs, customDateFormats_, na);
 
         // Needs to compare to actual cell type to give warnings
         switch(types[j]) {

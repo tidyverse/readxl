@@ -46,7 +46,7 @@ inline std::string cellTypeDesc(CellType type) {
   return "???";
 }
 
-inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf styles,
+inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
                          const std::set<int>& customDateFormats,
                          std::string na = "") {
   // Find codes in [MS-XLS] S2.3.2 (p175).
@@ -73,7 +73,10 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf styles,
   case 515: // Number
   case 638: // Rk
     {
-      int format = styles.xf[cell.xf].format;
+      if (styles == NULL)
+        return CELL_NUMERIC;
+
+      int format = styles->xf[cell.xf].format;
       return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
     }
     break;
