@@ -26,7 +26,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip),
     xlsm = read_xlsx(path, sheet, col_names, col_types, na, skip),
-    stop("Unsupported format ", format, call. = FALSE)
+    stop("Unsupported format ", ext, call. = FALSE)
   )
 }
 
