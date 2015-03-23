@@ -220,7 +220,7 @@ namespace rapidxml
         {
             assert(node->type() == node_data);
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             out = copy_and_expand_chars(node->value(), node->value() + node->value_size(), Ch(0), out);
             return out;
         }
@@ -231,7 +231,7 @@ namespace rapidxml
         {
             assert(node->type() == node_cdata);
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'); ++out;
             *out = Ch('!'); ++out;
             *out = Ch('['); ++out;
@@ -256,7 +256,7 @@ namespace rapidxml
 
             // Print element name and attributes, if any
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'), ++out;
             out = copy_chars(node->name(), node->name() + node->name_size(), out);
             out = print_attributes(out, node, flags);
@@ -292,7 +292,7 @@ namespace rapidxml
                         *out = Ch('\n'), ++out;
                     out = print_children(out, node, flags, indent + 1);
                     if (!(flags & print_no_indenting))
-                        out = fill_chars(out, indent, Ch('\t'));
+                        out = fill_chars(out, indent * 2, Ch(' '));
                 }
 
                 // Print node end
@@ -310,7 +310,7 @@ namespace rapidxml
         {
             // Print declaration start
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'), ++out;
             *out = Ch('?'), ++out;
             *out = Ch('x'), ++out;
@@ -333,7 +333,7 @@ namespace rapidxml
         {
             assert(node->type() == node_comment);
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'), ++out;
             *out = Ch('!'), ++out;
             *out = Ch('-'), ++out;
@@ -351,7 +351,7 @@ namespace rapidxml
         {
             assert(node->type() == node_doctype);
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'), ++out;
             *out = Ch('!'), ++out;
             *out = Ch('D'), ++out;
@@ -373,7 +373,7 @@ namespace rapidxml
         {
             assert(node->type() == node_pi);
             if (!(flags & print_no_indenting))
-                out = fill_chars(out, indent, Ch('\t'));
+                out = fill_chars(out, indent * 2, Ch(' '));
             *out = Ch('<'), ++out;
             *out = Ch('?'), ++out;
             out = copy_chars(node->name(), node->name() + node->name_size(), out);
