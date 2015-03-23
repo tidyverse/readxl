@@ -65,3 +65,7 @@ read_xlsx_ <- function(path, sheet, col_names, col_types, na, nskip = 0L) {
     .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip)
 }
 
+zip_xml <- function(zip_path, file_path) {
+    invisible(.Call('readxl_zip_xml', PACKAGE = 'readxl', zip_path, file_path))
+}
+
