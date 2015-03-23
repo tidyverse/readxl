@@ -37,21 +37,7 @@ public:
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
-    // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
-    rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
-    if (dimension == NULL)
-      Rcpp::stop("Invalid sheet xml (no <dimension>)");
-    rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
-    if (ref == NULL)
-      Rcpp::stop("Invalid sheet xml (no ref attribute of <dimension>)");
-
-    const char* refv = ref->value();
-    while (*refv != ':' && *refv != '\0')
-      ++refv;
-    ++refv; // advanced past :
-    std::pair<int, int> dim = parseRef(refv);
-    nrow_ = dim.first + 1; // size is one greater than max position
-    ncol_ = dim.second + 1;
+    cacheDimension();
   }
 
   int ncol() {
@@ -213,6 +199,47 @@ private:
 
     return row;
   }
+
+  void cacheDimension() {
+    // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
+    rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
+    if (dimension != NULL) {
+      rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
+      if (ref == NULL)
+        Rcpp::stop("Invalid sheet xml (no ref attribute of <dimension>)");
+
+      const char* refv = ref->value();
+      while (*refv != ':' && *refv != '\0')
+        ++refv;
+      ++refv; // advanced past :
+      std::pair<int, int> dim = parseRef(refv);
+      nrow_ = dim.first + 1; // size is one greater than max position
+      ncol_ = dim.second + 1;
+    } else {
+      // If <dimension> not present, iterate over all rows and cells to count
+      nrow_ = 0;
+      ncol_ = 0;
+
+      for (rapidxml::xml_node<>* row = sheetData_->first_node("row");
+           row; row = row->next_sibling("row")) {
+
+        for (rapidxml::xml_node<>* cell = row->first_node("c");
+             cell; cell = cell->next_sibling("c")) {
+
+          XlsxCell xcell(cell);
+          if (nrow_ < xcell.row())
+            nrow_ = xcell.row();
+
+          if (ncol_ < xcell.col())
+            ncol_ = xcell.col();
+
+        }
+      }
+      nrow_++;
+      ncol_++;
+    }
+  }
+
 };
 
 #endif
