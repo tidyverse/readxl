@@ -12,4 +12,8 @@ excel_sheets(path)
 \description{
 List all sheets in an excel spreadsheet.
 }
+\examples{
+excel_sheets(system.file("extdata/datasets.xlsx", package = "readxl"))
+excel_sheets(system.file("extdata/datasets.xls", package = "readxl"))
+}
 

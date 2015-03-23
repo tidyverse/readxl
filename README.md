@@ -44,3 +44,12 @@ read_excel("my-spreadsheet.xls", na = "NA")
 
 * It returns data frames with additional `tbl_df` class, so if you have
   dplyr loaded, you get nicer printing.
+
+## Example data
+
+The package includes an example file created with openxlsx:
+
+```R
+l <- list("iris" = iris, "mtcars" = mtcars, chickwts = chickwts, quakes = quakes)
+openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
+```
