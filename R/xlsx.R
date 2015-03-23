@@ -51,3 +51,7 @@ zip_buffer <- function(zip_path, file_path) {
   on.exit(close(con), add = TRUE)
   readBin(con, raw(), n = size)
 }
+
+zip_has_file <- function(zip_path, file_path) {
+  file_path %in% utils::unzip(zip_path, list = TRUE)$Name
+}

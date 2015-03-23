@@ -65,6 +65,9 @@ public:
 private:
 
   void cacheStringTable() {
+    if (!zip_has_file(path_, "xl/sharedStrings.xml"))
+      return;
+
     std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
     rapidxml::xml_document<> sharedStrings;
     sharedStrings.parse<0>(&sharedStringsXml[0]);
