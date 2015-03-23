@@ -22,11 +22,9 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
   ext <- tolower(tools::file_ext(path))
 
-  switch(ext,
+  switch(excel_format(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
-    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip),
-    xlsm = read_xlsx(path, sheet, col_names, col_types, na, skip),
-    stop("Unsupported format ", ext, call. = FALSE)
+    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
   )
 }
 
@@ -60,6 +58,17 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 }
 
 # Helper functions -------------------------------------------------------------
+
+excel_format <- function(path) {
+  ext <- tolower(tools::file_ext(path))
+
+  switch(ext,
+    xls = "xls",
+    xlsx = "xlsx",
+    xlsm = "xlsx",
+    stop("Unknown format .", ext, call. = FALSE)
+  )
+}
 
 standardise_sheet <- function(sheet, sheet_names) {
   if (length(sheet) != 1) {
