@@ -2,6 +2,5 @@
 
 export(excel_sheets)
 export(read_excel)
-export(zip_buffer)
 importFrom(Rcpp,sourceCpp)
 useDynLib(readxl)

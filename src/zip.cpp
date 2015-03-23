@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
-  Rcpp::Environment env = Rcpp::Environment("package:readxl");
+  Rcpp::Environment env = Rcpp::Environment::namespace_env("readxl");
   Rcpp::Function zip_buffer = env["zip_buffer"];
 
   Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
