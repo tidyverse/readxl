@@ -128,7 +128,11 @@ public:
       const std::string& string = stringTable.at(id);
       return (string == na) ? CELL_BLANK : CELL_TEXT;
     } else if (strncmp(t->value(), "str", 5) == 0) { // formula
-      return CELL_TEXT;
+      rapidxml::xml_node<>* v = cell_->first_node("v");
+      if (v == NULL)
+        return CELL_BLANK;
+
+      return (na.compare(v->value()) == 0) ? CELL_BLANK : CELL_TEXT;
     } else {
       Rcpp::warning("[%i, %i]: unknown type '%s'",
         row() + 1, col() + 1, t->value());

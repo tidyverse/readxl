@@ -54,10 +54,7 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
   switch(cell.id) {
   case 253: // LabelSst
   case 516: // Label
-    {
-      std::string string((char*) cell.str);
-      return string == na ? CELL_BLANK : CELL_TEXT;
-    }
+    return (na.compare((char*) cell.str) == 0) ? CELL_BLANK : CELL_TEXT;
     break;
 
   case 6:    // formula
@@ -65,7 +62,11 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
     if (cell.l == 0) {
       return CELL_NUMERIC;
     } else {
-      return CELL_TEXT;
+      if (na.compare((char*) cell.str) == 0) {
+        return CELL_BLANK;
+      } else {
+        return CELL_TEXT;
+      }
     }
     break;
 
