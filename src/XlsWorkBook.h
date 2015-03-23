@@ -42,13 +42,11 @@ public:
     return pWB_->sheets.count;
   }
 
-  std::vector<std::string> sheets() const {
-    std::vector<std::string> sheets;
-    sheets.reserve(nSheets());
+  Rcpp::CharacterVector sheets() const {
+    Rcpp::CharacterVector sheets(nSheets());
 
     for (int i = 0; i < nSheets(); ++i) {
-      std::string name((char*) pWB_->sheets.sheet[i].name);
-      sheets.push_back(name);
+      sheets[i] = Rf_mkCharCE((char*) pWB_->sheets.sheet[i].name, CE_UTF8);
     }
 
     return sheets;

@@ -40,7 +40,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // xls_sheets
-std::vector<std::string> xls_sheets(std::string path);
+CharacterVector xls_sheets(std::string path);
 RcppExport SEXP readxl_xls_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
@@ -95,7 +95,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlsx_sheets
-std::vector<std::string> xlsx_sheets(std::string path);
+CharacterVector xlsx_sheets(std::string path);
 RcppExport SEXP readxl_xlsx_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;

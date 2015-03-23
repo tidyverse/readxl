@@ -24,7 +24,7 @@ std::map<int,std::string> xls_formats(std::string path) {
 }
 
 // [[Rcpp::export]]
-std::vector<std::string> xls_sheets(std::string path) {
+CharacterVector xls_sheets(std::string path) {
   XlsWorkBook wb(path);
   return wb.sheets();
 }

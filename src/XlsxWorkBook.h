@@ -21,12 +21,13 @@ public:
     cacheDateStyles();
   }
 
-  std::vector<std::string> sheets() {
+  Rcpp::CharacterVector sheets() {
     std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
     rapidxml::xml_document<> workbook;
     workbook.parse<0>(&workbookXml[0]);
 
-    std::vector<std::string> sheetNames;
+    int n = 100;
+    Rcpp::CharacterVector sheetNames(n);
 
     rapidxml::xml_node<>* root = workbook.first_node("workbook");
     if (root == NULL)
@@ -36,11 +37,20 @@ public:
     if (sheets == NULL)
       return sheetNames;
 
+    int i = 0;
     for (rapidxml::xml_node<>* sheet = sheets->first_node();
          sheet; sheet = sheet->next_sibling()) {
-      std::string value(sheet->first_attribute("name")->value());
-      sheetNames.push_back(value);
+      if (i >= n) {
+        n *= 2;
+        sheetNames = Rf_lengthgets(sheetNames, n);
+      }
+      rapidxml::xml_attribute<>* name = sheet->first_attribute("name");
+      sheetNames[i] = (name != NULL) ? Rf_mkCharCE(name->value(), CE_UTF8) : NA_STRING;
+      i++;
     }
+
+    if (i != n)
+      sheetNames = Rf_lengthgets(sheetNames, i);
 
     return sheetNames;
   }

@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-std::vector<std::string> xlsx_sheets(std::string path) {
+CharacterVector xlsx_sheets(std::string path) {
   return XlsxWorkBook(path).sheets();
 }
 
