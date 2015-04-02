@@ -155,7 +155,6 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
 inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
                         std::vector<CellType> types) {
   int p = cols.size();
-  int n = (p == 0) ? 0 : Rf_length(cols[0]);
 
   int p_out = 0;
   for (int j = 0; j < p; ++j) {
@@ -176,6 +175,7 @@ inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
   }
 
   // Turn list into a data frame
+  int n = (p_out == 0) ? 0 : Rf_length(out[0]);
   out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
   out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
   out.attr("names") = names_out;
