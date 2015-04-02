@@ -6,7 +6,7 @@ NULL
 #'
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or
-#'   a integer (the position of the sheet). Defaults to the first sheet.
+#'   an integer (the position of the sheet). Defaults to the first sheet.
 #' @param col_names Either \code{TRUE} to use the first row as column names,
 #'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn},
 #'   or a character vector giving a name for each column.
