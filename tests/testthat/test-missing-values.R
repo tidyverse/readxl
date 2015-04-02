@@ -46,3 +46,10 @@ test_that("empty first column gives valid data.frame", {
   df <- read_excel("missing-first-column.xlsx", col_names=F)
   expect_equal(nrow(df), length(df[,1]))
 })
+
+test_that("empty named column gives NA column", {
+  df1 <- read_excel("empty-named-column.xlsx", col_names=T)
+  df2 <- read_excel("empty-named-column.xls", col_names=T)
+  expect_equal(ncol(df1), 4)
+  expect_equal(ncol(df2), 4)
+})
