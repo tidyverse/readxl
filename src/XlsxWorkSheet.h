@@ -63,8 +63,8 @@ public:
   }
 
 
-  std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 100) {
-    rapidxml::xml_node<>* row = getRow(nskip);
+  std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 100, bool has_col_names = false) {
+    rapidxml::xml_node<>* row = getRow(nskip + has_col_names);
     std::vector<CellType> types;
     types.resize(ncol_);
 
@@ -85,6 +85,15 @@ public:
 
       row = row->next_sibling("row");
       i++;
+    }
+
+    if (has_col_names) {
+      // blank columns with a name aren't blank
+      Rcpp::CharacterVector names = colNames(nskip);
+      for (int i = 0; i < types.size(); i++) {
+        if (types[i] == CELL_BLANK && names[i] != "")
+          types[i] = CELL_NUMERIC;
+      }
     }
 
     return types;

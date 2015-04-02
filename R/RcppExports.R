@@ -17,12 +17,12 @@ xls_sheets <- function(path) {
     .Call('readxl_xls_sheets', PACKAGE = 'readxl', path)
 }
 
-xls_col_types <- function(path, na, i = 0L, nskip = 0L, n = 100L) {
-    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, i, nskip, n)
-}
-
 xls_col_names <- function(path, i = 0L, nskip = 0L) {
     .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, i, nskip)
+}
+
+xls_col_types <- function(path, na, sheet = 0L, nskip = 0L, n = 100L, has_col_names = FALSE) {
+    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, sheet, nskip, n, has_col_names)
 }
 
 xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
