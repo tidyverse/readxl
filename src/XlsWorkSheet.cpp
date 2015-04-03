@@ -7,23 +7,32 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector xls_col_types(std::string path, std::string na, int i = 0,
-                              int nskip = 0, int n = 100) {
+CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  std::vector<CellType> types = wb.sheet(i).colTypes(na, nskip, n);
+  return wb.sheet(i).colNames(nskip);
+}
+
+// [[Rcpp::export]]
+CharacterVector xls_col_types(std::string path, std::string na, int sheet = 0,
+                              int nskip = 0, int n = 100, bool has_col_names = false) {
+  XlsWorkBook wb = XlsWorkBook(path);
+  std::vector<CellType> types = wb.sheet(sheet).colTypes(na, nskip + has_col_names, n);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
     out[i] = cellTypeDesc(types[i]);
   }
 
-  return out;
-}
+  if (has_col_names) {
+    // blank columns with a name aren't blank
+    CharacterVector names = xls_col_names(path, sheet, nskip);
+    for (size_t i = 0; i < types.size(); ++i) {
+      if (types[i] == CELL_BLANK && names[i] != "")
+        out[i] = cellTypeDesc(CELL_NUMERIC);
+    }
+  }
 
-// [[Rcpp::export]]
-CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
-  XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(i).colNames(nskip);
+  return out;
 }
 
 // [[Rcpp::export]]

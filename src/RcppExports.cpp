@@ -50,21 +50,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// xls_col_types
-CharacterVector xls_col_types(std::string path, std::string na, int i, int nskip, int n);
-RcppExport SEXP readxl_xls_col_types(SEXP pathSEXP, SEXP naSEXP, SEXP iSEXP, SEXP nskipSEXP, SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< std::string >::type na(naSEXP);
-    Rcpp::traits::input_parameter< int >::type i(iSEXP);
-    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    __result = Rcpp::wrap(xls_col_types(path, na, i, nskip, n));
-    return __result;
-END_RCPP
-}
 // xls_col_names
 CharacterVector xls_col_names(std::string path, int i, int nskip);
 RcppExport SEXP readxl_xls_col_names(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
@@ -75,6 +60,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type i(iSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
     __result = Rcpp::wrap(xls_col_names(path, i, nskip));
+    return __result;
+END_RCPP
+}
+// xls_col_types
+CharacterVector xls_col_types(std::string path, std::string na, int sheet, int nskip, int n, bool has_col_names);
+RcppExport SEXP readxl_xls_col_types(SEXP pathSEXP, SEXP naSEXP, SEXP sheetSEXP, SEXP nskipSEXP, SEXP nSEXP, SEXP has_col_namesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< std::string >::type na(naSEXP);
+    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type has_col_names(has_col_namesSEXP);
+    __result = Rcpp::wrap(xls_col_types(path, na, sheet, nskip, n, has_col_names));
     return __result;
 END_RCPP
 }

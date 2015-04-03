@@ -49,16 +49,16 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
 
   // Standardise column names --------------------------------------------------
   CharacterVector colNames;
+  bool sheetHasColumnNames = false;
   switch(TYPEOF(col_names)) {
   case CHARSXP:
     colNames = as<CharacterVector>(col_names);
     break;
   case LGLSXP:
   {
-    bool firstRow = as<bool>(col_names);
-    if (firstRow) {
+    sheetHasColumnNames = as<bool>(col_names);
+    if (sheetHasColumnNames) {
       colNames = ws.colNames(nskip);
-      nskip++;
     } else {
       int p = ws.ncol();
       colNames = CharacterVector(p);
@@ -76,7 +76,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, nskip, 100);
+    colTypes = ws.colTypes(na, nskip, 100, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
@@ -85,5 +85,5 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
 
-  return ws.readCols(colNames, colTypes, na, nskip);
+  return ws.readCols(colNames, colTypes, na, nskip + sheetHasColumnNames);
 }
