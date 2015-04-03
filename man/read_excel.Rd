@@ -11,14 +11,14 @@ read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
 \item{path}{Path to the xls/xlsx file}
 
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or
-a integer (the position of the sheet). Defaults to the first sheet.}
+an integer (the position of the sheet). Defaults to the first sheet.}
 
 \item{col_names}{Either \code{TRUE} to use the first row as column names,
 \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn},
 or a character vector giving a name for each column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a
-character containing "blank", "numeric", "date" or "text".}
+character vector containing "blank", "numeric", "date" or "text".}
 
 \item{na}{Missing value. By default readxl converts blank cells to missing
 data. Set this value if you have used a sentinel value for missing values.}
