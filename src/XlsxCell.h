@@ -83,6 +83,25 @@ public:
 
   Rcpp::RObject asCharSxp(const std::string& na,
                           const std::vector<std::string>& stringTable) {
+
+    // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
+    rapidxml::xml_node<>* is = cell_->first_node("is");
+    if (is != NULL) {
+      // Is there rich text?
+      rapidxml::xml_node<>* r = is->first_node("r");
+
+      rapidxml::xml_node<>* t = ((r == NULL) ? is : r)->first_node("t");
+      if (t == NULL)
+        return NA_STRING;
+
+      if (na.compare(t->value()) == 0) {
+        return NA_STRING;
+      } else {
+        return Rf_mkCharCE(t->value(), CE_UTF8);
+      }
+    }
+
+
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL)
       return NA_STRING;
@@ -133,6 +152,8 @@ public:
         return CELL_BLANK;
 
       return (na.compare(v->value()) == 0) ? CELL_BLANK : CELL_TEXT;
+    } else if  (strncmp(t->value(), "inlineStr", 9) == 0) { // formula
+      return CELL_TEXT;
     } else {
       Rcpp::warning("[%i, %i]: unknown type '%s'",
         row() + 1, col() + 1, t->value());
