@@ -203,27 +203,24 @@ private:
   void cacheDimension() {
     // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
     rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
-    if (dimension == NULL) {
-      computeDimensions();
-      return;
-    }
+    if (dimension == NULL)
+      return computeDimensions();
 
     rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
-    if (ref == NULL) {
-      computeDimensions();
-      return;
-    }
+    if (ref == NULL)
+      return computeDimensions();
 
     const char* refv = ref->value();
     while (*refv != ':' && *refv != '\0')
       ++refv;
-    if (*refv == '\0'){
-      computeDimensions();
-      return;
-    }
+    if (*refv == '\0')
+      return computeDimensions();
 
     ++refv; // advanced past :
     std::pair<int, int> dim = parseRef(refv);
+    if (dim.first == -1 || dim.second == -1)
+      return computeDimensions();
+
     nrow_ = dim.first + 1; // size is one greater than max position
     ncol_ = dim.second + 1;
   }
