@@ -31,7 +31,7 @@
 
 #ifndef XLS_INCLUDE
 #define XLS_INCLUDE
- 
+
 #ifdef __cplusplus
 namespace xls {
 extern "C" {
@@ -40,7 +40,8 @@ extern "C" {
 #include "libxls/xlstypes.h"
 #include "libxls/xlsstruct.h"
 #include "libxls/xlstool.h"
-
+// Mask illegal functions for CMD check
+#include "cran.h"
 
 #define BLANK_CELL		0x0201
 

@@ -1,6 +1,3 @@
-/* Mask illegal functions for CMD check */
-#include "cran.h"
-
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.in by autoheader.  */
 

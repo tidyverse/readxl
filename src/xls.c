@@ -711,7 +711,7 @@ void xls_parseWorkBook(xlsWorkBook* pWB)
     {
 		if(xls_debug > 10) {
 			printf("READ WORKBOOK filePos=%ld\n",  (long)pWB->filepos);
-			printf("  OLE: start=%d pos=%zd size=%zd fatPos=%zu\n", pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos); 
+			printf("  OLE: start=%d pos=%zd size=%zd fatPos=%zu\n", pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos);
 		}
 
         ole2_read(&bof1, 1, 4, pWB->olestr);
@@ -910,7 +910,7 @@ printf("DRAWING! %u\n", bof1.size);
 					uint32_t cspSaved;
 					uint32_t cdgSaved;
 				} fog;
-				memcpy(&fog, buf+off, 16); // OfficeArtRecordHeader F001 - specified BLIP - this is the imaged 
+				memcpy(&fog, buf+off, 16); // OfficeArtRecordHeader F001 - specified BLIP - this is the imaged
 				printf("SpidMax=%d cidcl=%d cspSaved=%d cdgSaved=%d\n", fog.spidMax, fog.cidcl, fog.cspSaved, fog.cdgSaved);
 				off += 16, fooper.len -= 16;
 			}
@@ -919,7 +919,7 @@ printf("DRAWING! %u\n", bof1.size);
 					uint32_t dgid;
 					uint32_t cspidCur;
 				} fog;
-				memcpy(&fog, buf+off, 8); // OfficeArtRecordHeader F001 - specified BLIP - this is the imaged 
+				memcpy(&fog, buf+off, 8); // OfficeArtRecordHeader F001 - specified BLIP - this is the imaged
 				printf("  dgid=%d cspidCur=%d\n", fog.dgid, fog.cspidCur);
 				off += 8;
 			}
@@ -951,7 +951,7 @@ printf("DRAWING! %u\n", bof1.size);
 			memcpy(&fooper, buf+off, 8); //
 			printf("rec=%x instance=%x type=%x len=%d [size=%d off=%d]\n", fooper.rec, fooper.instance, fooper.type, fooper.len, bof1.size, off);
 			off += 8 + fooper.len;
-			
+
 		}	break;
 #endif
         default:
@@ -1305,7 +1305,7 @@ void xls_close_WB(xlsWorkBook* pWB)
 
     // OLE first
 	ole=pWB->olestr->ole;
-	
+
 	ole2_fclose(pWB->olestr);
 
 	ole2_close(ole);

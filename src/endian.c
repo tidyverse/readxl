@@ -37,6 +37,8 @@ int xls_is_bigendian()
 {
 #if defined (__BIG_ENDIAN__)
     return 1;
+#elif defined (_WIN32)
+    return 0;
 #elif defined (__LITTLE_ENDIAN__)
     return 0;
 #else
@@ -73,11 +75,11 @@ int xlsIntVal (int i)
 unsigned short xlsShortVal (short s)
 {
     unsigned char c1, c2;
-    
+
     if (xls_is_bigendian()) {
         c1 = s & 255;
         c2 = (s >> 8) & 255;
-    
+
         return (c1 << 8) + c2;
     } else {
         return s;
