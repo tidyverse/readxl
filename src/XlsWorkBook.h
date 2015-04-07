@@ -23,7 +23,7 @@ public:
 
   XlsWorkBook(std::string path) {
     path_ = normalizePath(path);
-    pWB_ = xls::xls_open(path_.c_str(), "UTF8");
+    pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
     if (pWB_ == NULL)
       Rcpp::stop("Failed to open %s", path);
   }
