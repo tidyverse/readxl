@@ -51,7 +51,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   CharacterVector colNames;
   bool sheetHasColumnNames = false;
   switch(TYPEOF(col_names)) {
-  case CHARSXP:
+  case STRSXP:
     colNames = as<CharacterVector>(col_names);
     break;
   case LGLSXP:
