@@ -130,17 +130,11 @@ public:
     // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
     rapidxml::xml_node<>* is = cell_->first_node("is");
     if (is != NULL) {
-      // Is there rich text?
-      rapidxml::xml_node<>* r = is->first_node("r");
-
-      rapidxml::xml_node<>* t = ((r == NULL) ? is : r)->first_node("t");
-      if (t == NULL)
-        return NA_STRING;
-
-      if (na.compare(t->value()) == 0) {
+      std::string value;
+      if (!parseString(is, &value) || na.compare(value) == 0) {
         return NA_STRING;
       } else {
-        return Rf_mkCharCE(t->value(), CE_UTF8);
+        return Rf_mkCharCE(value.c_str(), CE_UTF8);
       }
     }
 
