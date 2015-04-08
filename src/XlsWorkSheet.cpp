@@ -27,7 +27,7 @@ CharacterVector xls_col_types(std::string path, std::string na, int sheet = 0,
     // blank columns with a name aren't blank
     CharacterVector names = xls_col_names(path, sheet, nskip);
     for (size_t i = 0; i < types.size(); ++i) {
-      if (types[i] == CELL_BLANK && names[i] != "")
+      if (types[i] == CELL_BLANK && names[i] != NA_STRING && names[i] != "")
         out[i] = cellTypeDesc(CELL_NUMERIC);
     }
   }

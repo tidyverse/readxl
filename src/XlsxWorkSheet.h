@@ -91,7 +91,7 @@ public:
       // blank columns with a name aren't blank
       Rcpp::CharacterVector names = colNames(nskip);
       for (size_t i = 0; i < types.size(); i++) {
-        if (types[i] == CELL_BLANK && names[i] != "")
+        if (types[i] == CELL_BLANK && names[i] != NA_STRING && names[i] != "")
           types[i] = CELL_NUMERIC;
       }
     }
