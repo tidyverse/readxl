@@ -19,3 +19,10 @@ test_that("rich text inside inlineStr", {
   expect_equal(names(x)[1], "NNNN")
   expect_equal(names(x)[2], "BeforeHierarchy")
 })
+
+test_that("strings containing escaped hexcodes are read", {
+  df <- read_excel("new_line_errors.xlsx")
+  expect_false(grepl("_x000D_", df[1,1]))
+  expect_equal(substring(df[1,1],20,21), "\u000d\r")
+  expect_equal(substring(df[2,1],11,19), "\"_x000D_\"")
+})
