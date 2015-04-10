@@ -53,7 +53,7 @@ parse_ref <- function(ref) {
     .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
 }
 
-xlsx_col_types <- function(path, sheet = 0L, na = "", nskip = 0L, n = 100L) {
+xlsx_col_types <- function(path, sheet = 0L, na = character(), nskip = 0L, n = 100L) {
     .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet, na, nskip, n)
 }
 

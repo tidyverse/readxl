@@ -65,7 +65,7 @@ public:
     return out;
   }
 
-  std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
+  std::vector<CellType> colTypes(const StringSet &na, int nskip = 0, int n_max = 100) {
     std::vector<CellType> types(ncol_);
 
     for (int i = nskip; i < nrow_ && i < n_max; ++i) {
@@ -88,7 +88,7 @@ public:
   }
 
   Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
-                      std::string na, int nskip = 0) {
+                      const StringSet &na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
@@ -154,7 +154,7 @@ public:
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
             std::string stdString((char*) cell.str);
-            Rcpp::RObject rString = stdString == na ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+            Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
             SET_STRING_ELT(col, i, rString);
           }
           break;
