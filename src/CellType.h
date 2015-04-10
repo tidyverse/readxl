@@ -61,7 +61,7 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
   case 6:    // formula
   case 1030: // formula (Apple Numbers Bug)
     if (cell.l == 0) {
-      return CELL_NUMERIC;
+      return na.contains(cell.d) ? CELL_BLANK : CELL_NUMERIC;
     } else {
       if (na.contains((char*) cell.str)) {
         return CELL_BLANK;
@@ -75,6 +75,9 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
   case 515: // Number
   case 638: // Rk
     {
+      if (na.contains(cell.d))
+        return CELL_BLANK;
+
       if (styles == NULL)
         return CELL_NUMERIC;
 
