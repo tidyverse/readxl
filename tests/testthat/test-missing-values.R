@@ -23,10 +23,22 @@ test_that("na arg maps strings to to NA [xls]", {
   expect_equal(df$y, c(NA, 1, 1)) # formula column
 })
 
+test_that("na arg allows multiple strings [xls]", {
+  df <- read_excel("missing-values.xls", na = c("NA", "1"))
+  expect_true(all(is.na(df$x)))
+  expect_true(all(is.na(df$y))) # formula column
+})
+
 test_that("na arg maps strings to to NA [xlsx]", {
   df <- read_excel("missing-values.xlsx", na = "NA")
   expect_equal(df$x, c(NA, 1, 1))
   expect_equal(df$y, c(NA, 1, 1)) # formula column
+})
+
+test_that("na arg allows multiple strings [xlsx]", {
+  df <- read_excel("missing-values.xlsx", na = c("NA", "1"))
+  expect_true(all(is.na(df$x)))
+  expect_true(all(is.na(df$y))) # formula column
 })
 
 test_that("text values in numeric column gives warning & NA", {
