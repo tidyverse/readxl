@@ -30,7 +30,7 @@
 #include <libxls/xlsstruct.h>
 
 int xls_is_bigendian();
-int xlsIntVal (int i);
+DWORD xlsIntVal (DWORD i);
 unsigned short xlsShortVal (short s);
 
 void xlsConvertHeader(OLE2Header *h);

@@ -57,6 +57,8 @@
 
 extern int xls_debug;
 
+static void xls_showBOUNDSHEET(void* bsheet);
+
 static const DWORD colors[] =
     {
         0x000000,
@@ -133,7 +135,7 @@ static int asprintf(char **ret, const char *format, ...)
         return -1;
 
     while (1) {
-	    va_start(ap, format);
+	    va_start(ap, format); 
 
 	    i = _vsnprintf(p, size, format, ap);
 
@@ -171,7 +173,7 @@ static int asprintf(char **ret, const char *format, ...)
 
 	va_list ap;
 
-	va_start(ap, format);
+	va_start(ap, format); 
 
 	i = vsnprintf(NULL, 0, format, ap) + 1;
 	str = (char *)malloc(i);
@@ -207,13 +209,13 @@ BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
 	int utf8_chars = 0;
 	BYTE *ret;
     DWORD i;
-
+	
 	for(i=0; i<len; ++i) {
 		if(str[i] & (BYTE)0x80) {
 			++utf8_chars;
 		}
 	}
-
+	
 	if(utf8_chars == 0 || strcmp(encoding, "UTF-8")) {
 		ret = (BYTE *)malloc(len+1);
 		memcpy(ret, str, len);
@@ -245,7 +247,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 #ifdef HAVE_ICONV
 	// Do iconv conversion
 #if defined(_AIX) || defined(__sun)
-	  const char *from_enc = "UTF-16le";
+    const char *from_enc = "UTF-16le";
 #else
     const char *from_enc = "UTF-16LE";
 #endif
@@ -281,7 +283,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
                 return outbuf;
             }
         }
-        size_t st;
+        size_t st; 
         outbuf = (BYTE*)malloc(outlen + 1);
 
 		if(outbuf)
@@ -379,7 +381,7 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
     BYTE flag;
     BYTE* str;
     BYTE* ret;
-
+	
 	flag = 0;
     str=s;
 
@@ -427,9 +429,9 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
 		printf("ofs=%d ret[0]=%d\n", ofs, *ret);
 		{
 			unsigned char *ptr;
-
+			
 			ptr = ret;
-
+			
 			printf("%x %x %x %x %x %x %x %x\n", ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7] );
 			printf("%s\n", ret);
 		}
@@ -562,7 +564,7 @@ void xls_showCell(struct st_cell_data* cell)
     printf("   Cell: %c:%u  [%u:%u]\n",cell->col+'A',cell->row+1,cell->col,cell->row);
 //    printf("   Cell: %u:%u\n",cell->col+1,cell->row+1);
     printf("     xf: %i\n",cell->xf);
-	if(cell->id == 0x0201) {
+	if(cell->id == XLS_RECORD_BLANK) {
 		//printf("BLANK_CELL!\n");
 		return;
 	}
@@ -610,7 +612,7 @@ void xls_showFormat(struct st_format_data* frmt)
 void xls_showXF(XF8* xf)
 {
 	static int idx;
-
+	
     printf("      Index: %u\n",idx++);
     printf("       Font: %u\n",xf->font);
     printf("     Format: %u\n",xf->format);
@@ -632,18 +634,17 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,WORD *label)
 
     xf=&pWB->xfs.xf[cell->xf];
 
-    //LABELSST
     switch (cell->id)
     {
-    case 0x00FD:		//LABELSST
+    case XLS_RECORD_LABELSST:
 		//printf("WORD: %u short: %u str: %s\n", *label, xlsShortVal(*label), pWB->sst.string[xlsShortVal(*label)].str );
         asprintf(&ret,"%s",pWB->sst.string[xlsShortVal(*label)].str);
         break;
-    case 0x0201:		//BLANK
-    case 0x00BE:		//MULBLANK
+    case XLS_RECORD_BLANK:
+    case XLS_RECORD_MULBLANK:
         asprintf(&ret, "");
         break;
-    case 0x0204:		//LABEL (xlslib generates these)
+    case XLS_RECORD_LABEL:
 		len = xlsShortVal(*label);
         label++;
 		if(pWB->is5ver) {
@@ -657,8 +658,8 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,WORD *label)
 		    ret = (char *)unicode_decode((BYTE *)label + 1, len*2, &newlen, pWB->charset);
 		}
         break;
-    case 0x027E:		//RK
-    case 0x0203:		//NUMBER
+    case XLS_RECORD_RK:
+    case XLS_RECORD_NUMBER:
         asprintf(&ret,"%lf", cell->d);
 		break;
 		//		if( RK || MULRK || NUMBER || FORMULA)

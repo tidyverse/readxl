@@ -47,4 +47,24 @@ typedef uint16_t			WORD_UA		__attribute__ ((aligned (1)));	// 2 bytes
 typedef uint32_t			DWORD_UA	__attribute__ ((aligned (1)));	// 4 bytes
 #endif
 
+// Windows
+#if defined(_MSC_VER) && defined(WIN32)
+
+typedef unsigned __int64	unsigned64_t;
+
+// not windows
+#else
+
+#if defined(_UINT64_T)
+
+typedef uint64_t			unsigned64_t;
+
+#else
+
+typedef unsigned long long	unsigned64_t;
+
+// _UINT64_T
+#endif
+#endif
+
 #endif

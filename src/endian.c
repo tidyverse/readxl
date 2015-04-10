@@ -55,7 +55,7 @@ int xls_is_bigendian()
 #endif
 }
 
-int xlsIntVal (int i)
+DWORD xlsIntVal (DWORD i)
 {
     unsigned char c1, c2, c3, c4;
 

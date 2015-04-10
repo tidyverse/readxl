@@ -30,7 +30,7 @@
  *
  */
 
-#include "config.h"
+#include "config.h" 
 
 #include <memory.h>
 #include <math.h>
@@ -60,7 +60,7 @@ static int sector_read(OLE2* ole2, BYTE *buffer, size_t sid);
 static size_t read_MSAT(OLE2* ole2, OLE2Header *oleh);
 
 // Read next sector of stream
-void ole2_bufread(OLE2Stream* olest)
+void ole2_bufread(OLE2Stream* olest) 
 {
 	BYTE *ptr;
 
@@ -75,12 +75,14 @@ void ole2_bufread(OLE2Stream* olest)
 			assert(olest->ole->SSecID);
 
 			ptr = olest->ole->SSAT + olest->fatpos*olest->ole->lssector;
-			memcpy(olest->buf, ptr, olest->bufsize);
+			memcpy(olest->buf, ptr, olest->bufsize); 
 
 			olest->fatpos=xlsIntVal(olest->ole->SSecID[olest->fatpos]);
 			olest->pos=0;
 			olest->cfat++;
 		} else {
+
+			assert(olest->fatpos >= 0);
 
 			//printf("fatpos: %d max=%u\n",olest->fatpos, (olest->ole->cfat*olest->ole->lsector)/4);
 			if(olest->fatpos > (olest->ole->cfat*olest->ole->lsector)/4) exit(-1);
@@ -116,7 +118,7 @@ size_t ole2_read(void* buf,size_t size,size_t count,OLE2Stream* olest)
     if ((long)olest->size>=0 && !olest->sfat)	// directory is -1
     {
 		size_t rem;
-		rem = olest->size - (olest->cfat*olest->ole->lsector+olest->pos);
+		rem = olest->size - (olest->cfat*olest->ole->lsector+olest->pos);		
         totalReadCount = rem<totalReadCount?rem:totalReadCount;
         if (rem<=0) olest->eof=1;
 
@@ -309,7 +311,7 @@ OLE2* ole2_open(const BYTE *file)
     ole->lssector=64;
 	assert(oleh->lsectorB==9);	// 2**9 == 512
 	assert(oleh->lssectorB==6);	// 2**6 == 64
-
+	
     ole->cfat=oleh->cfat;
     ole->dirstart=oleh->dirstart;
     ole->sectorcutoff=oleh->sectorcutoff;
@@ -330,7 +332,7 @@ OLE2* ole2_open(const BYTE *file)
 		printf ("mini len:      %X (%i)\n",ole->lssector,ole->lssector);	// ole
 		printf ("Fat sect.:     %i \n",oleh->cfat);
 		printf ("Dir Start:     %i \n",oleh->dirstart);
-
+		
 		printf ("Mini Cutoff:   %i \n",oleh->sectorcutoff);
 		printf ("MiniFat Start: %X \n",oleh->sfatstart);
 		printf ("Count MFat:    %i \n",oleh->csfat);
@@ -344,22 +346,22 @@ OLE2* ole2_open(const BYTE *file)
 	// reuse this buffer
     pss = (PSS*)oleh;
 	// oleh = (void *)NULL; // Not needed as oleh not used from here on
-
+	
     olest=ole2_sopen(ole,ole->dirstart, -1);
     do
     {
         ole2_read(pss,1,sizeof(PSS),olest);
         xlsConvertPss(pss);
         name=unicode_decode(pss->name, pss->bsize, 0, "UTF-8");
-#ifdef OLE_DEBUG
+#ifdef OLE_DEBUG	
 		printf("OLE NAME: %s count=%d\n", name, ole->files.count);
 #endif
-        if (pss->type == PS_USER_ROOT || pss->type == PS_USER_STREAM) // (name!=NULL) //
+        if (pss->type == PS_USER_ROOT || pss->type == PS_USER_STREAM) // (name!=NULL) // 
         {
 
-#ifdef OLE_DEBUG
+#ifdef OLE_DEBUG		
 			printf("OLE TYPE: %s file=%d \n", pss->type == PS_USER_ROOT ? "root" : "user", ole->files.count);
-#endif
+#endif		
             if (ole->files.count==0)
             {
                 ole->files.file=malloc(sizeof(struct st_olefiles_data));
@@ -370,7 +372,7 @@ OLE2* ole2_open(const BYTE *file)
             ole->files.file[ole->files.count].start=pss->sstart;
             ole->files.file[ole->files.count].size=pss->size;
             ole->files.count++;
-
+			
 			if(pss->sstart == ENDOFCHAIN) {
 				if (xls_debug) verbose("END OF CHAIN\n");
 			} else
@@ -394,13 +396,13 @@ OLE2* ole2_open(const BYTE *file)
 			if(pss->type == PS_USER_ROOT) {
 				DWORD sector, k, blocks;
 				BYTE *wptr;
-
+				
 				blocks = (pss->size + (ole->lsector - 1)) / ole->lsector;	// count partial
 				ole->SSAT = (BYTE *)malloc(blocks*ole->lsector);
 				// printf("blocks %d\n", blocks);
 
 				assert(ole->SSecID);
-
+				
 				sector = pss->sstart;
 				wptr=(BYTE*)ole->SSAT;
 				for(k=0; k<blocks; ++k) {
@@ -411,7 +413,7 @@ OLE2* ole2_open(const BYTE *file)
 					wptr += ole->lsector;
 					sector = xlsIntVal(ole->SecID[sector]);
 				}
-			}
+			}	
 		} else {
 			free(name);
 		}
@@ -462,7 +464,7 @@ static int sector_read(OLE2* ole2, BYTE *buffer, size_t sid)
 		printf("seek: wanted to seek to sector %zu (0x%zx) loc=%zu\n", sid, sid, sector_pos(ole2, sid));
 	}
 	assert(seeked == 0);
-
+	
 	num = fread(buffer, ole2->lsector, 1, ole2->file);
 	if(num != 1) {
 		fprintf(stderr, "fread: wanted 1 got %zu loc=%zu\n", num, sector_pos(ole2, sid));
@@ -535,7 +537,7 @@ static size_t read_MSAT(OLE2* ole2, OLE2Header* oleh)
 	if(ole2->sfatstart != ENDOFCHAIN) {
 		DWORD sector, k;
 		BYTE *wptr;
-
+		
 		ole2->SSecID = (DWORD *)malloc(ole2->csfat*ole2->lsector);
 		sector = ole2->sfatstart;
 		wptr=(BYTE*)ole2->SSecID;

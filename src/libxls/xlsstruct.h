@@ -35,6 +35,51 @@
 
 #include "libxls/ole.h"
 
+#define XLS_RECORD_EOF          0x000A
+#define XLS_RECORD_DEFINEDNAME  0x0018
+#define XLS_RECORD_NOTE         0x001C
+#define XLS_RECORD_1904         0x0022
+#define XLS_RECORD_CONTINUE     0x003C
+#define XLS_RECORD_WINDOW1      0x003D
+#define XLS_RECORD_CODEPAGE     0x0042
+#define XLS_RECORD_OBJ          0x005D
+#define XLS_RECORD_MERGEDCELLS  0x00E5
+#define XLS_RECORD_DEFCOLWIDTH  0x0055
+#define XLS_RECORD_COLINFO      0x007D
+#define XLS_RECORD_BOUNDSHEET   0x0085
+#define XLS_RECORD_PALETTE      0x0092
+#define XLS_RECORD_MULRK        0x00BD
+#define XLS_RECORD_MULBLANK     0x00BE
+#define XLS_RECORD_DBCELL       0x00D7
+#define XLS_RECORD_XF           0x00E0
+#define XLS_RECORD_MSODRAWINGGROUP   0x00EB
+#define XLS_RECORD_MSODRAWING   0x00EC
+#define XLS_RECORD_SST          0x00FC
+#define XLS_RECORD_LABELSST     0x00FD
+#define XLS_RECORD_EXTSST       0x00FF
+#define XLS_RECORD_TXO          0x01B6
+#define XLS_RECORD_HYPERREF     0x01B8
+#define XLS_RECORD_BLANK        0x0201
+#define XLS_RECORD_NUMBER       0x0203
+#define XLS_RECORD_LABEL        0x0204
+#define XLS_RECORD_BOOLERR      0x0205
+#define XLS_RECORD_STRING       0x0207 // only follows a formula
+#define XLS_RECORD_ROW          0x0208
+#define XLS_RECORD_INDEX        0x020B
+#define XLS_RECORD_ARRAY        0x0221 // Array-entered formula
+#define XLS_RECORD_DEFAULTROWHEIGHT    0x0225
+#define XLS_RECORD_FONT         0x0031 // spec says 0x0231 but Excel expects 0x0031
+#define XLS_RECORD_FONT_ALT     0x0231
+#define XLS_RECORD_WINDOW2      0x023E
+#define XLS_RECORD_RK           0x027E
+#define XLS_RECORD_STYLE        0x0293
+#define XLS_RECORD_FORMULA      0x0006
+#define XLS_RECORD_FORMULA_ALT  0x0406 // Apple Numbers bug
+#define XLS_RECORD_FORMAT       0x041E
+#define XLS_RECORD_BOF          0x0809
+
+#define BLANK_CELL  XLS_RECORD_BLANK  // compat
+
 #if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
@@ -181,6 +226,16 @@ typedef struct LABEL
 }
 LABEL;
 typedef LABEL LABELSST;
+
+typedef struct BOOLERR
+{
+    WORD    row;
+    WORD    col;
+    WORD    xf;
+    BYTE    value;
+    BYTE    iserror;
+}
+BOOLERR;
 
 typedef struct SST
 {
@@ -402,7 +457,7 @@ st_row;
 
 typedef	struct st_colinfo
 {
-    DWORD count;				//Count of COLINFO
+    DWORD count;				// Count of COLINFO
     struct st_colinfo_data
     {
         WORD	first;
@@ -425,15 +480,16 @@ typedef struct xlsWorkBook
     BYTE		is5ver;
     BYTE		is1904;
     WORD		type;
+    WORD		activeSheetIdx;	// index of the active sheet
 
     //Other data
-    WORD		codepage;		//Charset codepage
+    WORD		codepage;		// Charset codepage
     char*		charset;
     st_sheet	sheets;
-    st_sst		sst;			//SST table
-    st_xf		xfs;			//XF table
+    st_sst		sst;			// SST table
+    st_xf		xfs;			// XF table
     st_font		fonts;
-    st_format	formats;		//FORMAT table
+    st_format	formats;		// FORMAT table
 
 	char		*summary;		// ole file
 	char		*docSummary;	// ole file
