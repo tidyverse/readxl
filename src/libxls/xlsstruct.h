@@ -35,7 +35,7 @@
 
 #include "libxls/ole.h"
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -79,7 +79,7 @@ typedef struct BOUNDSHEET
     DWORD	filepos;
     BYTE	type;
     BYTE	visible;
-    BYTE	name[];
+    BYTE	name[1];
 }
 BOUNDSHEET;
 
@@ -150,7 +150,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD_UA value;
-	}		rk[];
+	}		rk[1];
 	//WORD	last_col;
 }
 MULRK;
@@ -159,7 +159,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[];
+    WORD	xf[1];
 	//WORD	last_col;
 }
 MULBLANK;
@@ -265,7 +265,7 @@ FONT;
 typedef struct FORMAT
 {
     WORD	index;
-    BYTE	value[0];
+    BYTE	value[1];
 }
 FORMAT;
 

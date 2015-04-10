@@ -244,8 +244,8 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 {
 #ifdef HAVE_ICONV
 	// Do iconv conversion
-#ifdef AIX
-    const char *from_enc = "UTF-16le";
+#if defined(_AIX) || defined(__sun)
+	  const char *from_enc = "UTF-16le";
 #else
     const char *from_enc = "UTF-16LE";
 #endif

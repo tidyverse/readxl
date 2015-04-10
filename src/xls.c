@@ -73,7 +73,7 @@ extern void xls_formatColumn(xlsWorkSheet* pWS);
 extern void xls_parseWorkSheet(xlsWorkSheet* pWS);
 extern void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo	*pSI);
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -90,7 +90,7 @@ typedef struct {
 	uint32_t		os;
 	uint32_t		format[4];
 	uint32_t		count;
-	sectionList		secList[0];
+	sectionList		secList[1];
 } header;
 
 typedef struct {
@@ -101,12 +101,12 @@ typedef struct {
 typedef struct {
 	uint32_t		length;
 	uint32_t		numProperties;
-	propertyList	properties[0];
+	propertyList	properties[1];
 } sectionHeader;
 
 typedef struct {
 	uint32_t		propertyID;
-	uint32_t		data[0];
+	uint32_t		data[1];
 } property;
 
 #pragma pack(pop)
