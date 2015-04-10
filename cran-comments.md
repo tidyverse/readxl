@@ -4,7 +4,7 @@ This is a resubmission:
 
 * The DESCRIPTION now includes the individual readxl authors
 * I have noted in LICENSE that libxls is licensed with BSD 2-clause
-
+* I have wrapped external package names with single quotes
 
 ## Test environments
 * local OS X install, R 3.1.3
@@ -14,12 +14,9 @@ This is a resubmission:
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There were 2 NOTE:
+There was 1 NOTE:
 
 * This is a new submission
-
-* There were four false positives in the spell check:
-  RapidXML, libxls, xls, xlsx.
 
 ## Downstream dependencies
 This is a new submission
