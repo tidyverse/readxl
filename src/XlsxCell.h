@@ -29,6 +29,49 @@ inline std::pair<int, int> parseRef(const char* ref) {
   return std::make_pair(row - 1, col - 1); // zero indexed
 }
 
+// Parser for <si> and <is> inlineStr tags CT_Rst [p3893]
+// returns true if a string is found, false if missing.
+inline bool parseString(const rapidxml::xml_node<>* string, std::string *out) {
+  bool found = false;
+  out->clear();
+
+  const rapidxml::xml_node<>* t = string->first_node("t");
+  if (t != NULL) {
+    // According to the spec (CT_Rst, p3893) a single <t> element
+    // may coexist with zero or more <r> elements.
+    //
+    // However, software that read these files do not appear to exclusively
+    // follow this spec.
+    //
+    // MacOSX preview, considers only the <t> element if found and ignores any
+    // additional r elements.
+    //
+    //
+    // Excel 2010 appears to produce only elements with r elements or with a
+    // single t element and no mixtures. It will, however, consider an element
+    // with a single t element followed by one or more r elements as valid,
+    // concatenating the results. Any other combination of r and t elements
+    // is considered invalid.
+    //
+    // We read the <t> tag, if present, first, then concatenate any <r> tags.
+    // All Excel 2010 sheets will read correctly under this regime.
+    *out = std::string(t->value());
+    found = true;
+  }
+  // iterate over all r elements
+  for (const rapidxml::xml_node<>* r = string->first_node("r"); r != NULL;
+       r = r->next_sibling("r")) {
+    // a unique t element should be present (CT_RElt [p3893])
+    // but MacOSX preview just ignores chunks with no t element present
+    const rapidxml::xml_node<>* t = r->first_node("t");
+    if (t != NULL) {
+      *out += t->value();
+      found = true;
+    }
+  }
+  return found;
+}
+
 class XlsxCell {
   rapidxml::xml_node<>* cell_;
   std::pair<int,int> location_;
@@ -87,17 +130,11 @@ public:
     // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
     rapidxml::xml_node<>* is = cell_->first_node("is");
     if (is != NULL) {
-      // Is there rich text?
-      rapidxml::xml_node<>* r = is->first_node("r");
-
-      rapidxml::xml_node<>* t = ((r == NULL) ? is : r)->first_node("t");
-      if (t == NULL)
-        return NA_STRING;
-
-      if (na.compare(t->value()) == 0) {
+      std::string value;
+      if (!parseString(is, &value) || na.compare(value) == 0) {
         return NA_STRING;
       } else {
-        return Rf_mkCharCE(t->value(), CE_UTF8);
+        return Rf_mkCharCE(value.c_str(), CE_UTF8);
       }
     }
 
