@@ -13,7 +13,7 @@ Authors@R: c(
 Description: Import excel files into R. Supports .xls via the embedded libxls
     C library (http://sourceforge.net/projects/libxls/) and .xlsx via the
     embedded RapidXML C++ library (http://rapidxml.sourceforge.net).
-License: GPL-3
+License: GPL-3 + file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports: Rcpp (>= 0.11.5)

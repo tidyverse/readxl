@@ -3,6 +3,8 @@
 This is a resubmission:
 
 * The DESCRIPTION now includes the individual readxl authors
+* I have noted in LICENSE that libxls is licensed with BSD 2-clause
+
 
 ## Test environments
 * local OS X install, R 3.1.3
