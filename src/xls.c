@@ -50,7 +50,7 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
-#define DEBUG_DRAWINGS
+// #define DEBUG_DRAWINGS
 int xls_debug = 0;
 
 static double NumFromRk(DWORD_UA drk);
@@ -121,8 +121,8 @@ struct drawHeader {
 static char *formData;
 static char *formFunc;
 static struct drawHeader drawProc(uint8_t *buf, uint32_t maxLen, uint32_t *off, int level);
-static void dumpRec(char *comment, struct drawHeader *h, int len, uint8_t *buf);
-static int finder(uint8_t *buf, uint32_t len, uint16_t pattern);
+// static void dumpRec(char *comment, struct drawHeader *h, int len, uint8_t *buf);
+// static int finder(uint8_t *buf, uint32_t len, uint16_t pattern);
 static uint32_t sheetOffset;
 #endif
 
@@ -736,7 +736,7 @@ void xls_parseWorkBook(xlsWorkBook* pWB)
     {
 		if(xls_debug > 10) {
 			printf("READ WORKBOOK filePos=%ld\n",  (long)pWB->filepos);
-			printf("  OLE: start=%d pos=%zd size=%zd fatPos=%zu\n", pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos); 
+			printf("  OLE: start=%d pos=%zd size=%zd fatPos=%zu\n", pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos);
 		}
 
         ole2_read(&bof1, 1, 4, pWB->olestr);
@@ -1055,7 +1055,6 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
     BOF tmp;
     BYTE* buf;
 	long offset = pWS->filepos;
-	int continueRec = 0;
 
 	struct st_cell_data *cell;
 	xlsWorkBook *pWB = pWS->workbook;
@@ -1190,7 +1189,7 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
 			sheetOffset = 100;
 			unsigned int total = tmp.size;
 			unsigned int off = 0;
-			
+
 			while(off < total) {
 				struct drawHeader fooper  = drawProc(buf, total, &off, 0);
 				(void)fooper;
@@ -1201,9 +1200,9 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
 			if(formFunc) printf("%s\n", formFunc);
 			free(formData), formData = NULL;
 			free(formFunc), formFunc = NULL;
-			
+
 		}	break;
-		
+
 		case XLS_RECORD_TXO:
 		{
 			struct {
@@ -1341,7 +1340,6 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
 #endif
 
         default:
-		  printBOF:
 			if(xls_debug)
 			{
 				//xls_showBOF(&tmp);
@@ -2081,6 +2079,7 @@ static struct drawHeader drawProc(uint8_t *buf, uint32_t maxLen, uint32_t *off_p
 	return head;
 }
 
+#if 0
 static void dumpData(char *data);
 static void dumpFunc(char *func);
 
@@ -2146,7 +2145,6 @@ static void dumpFunc(char *func)
 	free(oldStr);
 }
 
-#if 0
 static int finder(uint8_t *buf, uint32_t len, uint16_t pattern)
 {
 	int ret = 0;
