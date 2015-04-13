@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "CellType.h"
+#include "XlsxCell.h"
 #include "utils.h"
 #include "zip.h"
 
@@ -92,39 +93,11 @@ private:
       stringTable_.reserve(n);
     }
 
-    // 18.4.8 si (String Item) [p1725], CT_Rst [p3893]
+    // 18.4.8 si (String Item) [p1725]
     for (rapidxml::xml_node<>* string = sst->first_node();
          string; string = string->next_sibling()) {
-
       std::string out;
-      rapidxml::xml_node<>* t = string->first_node("t");
-      if (t != NULL) {
-        // t elements trump any r elements present
-        //
-        // NOTE: Excel 2010 appears to produce only si elements with r elements
-        //       or with a single t element.
-        //       It will, however, consider an si element with a single t element
-        //       followed by one or more r elements as valid.
-        //       Any other combination of r and t elements is considered invalid.
-        //
-        //       MacOSX preview, however, considers only the t element of mixed
-        //       r/t elements.
-        //
-        //       The spec seems to allow a single t and zero or more r elements
-        //       to coexist.
-        //
-        out = std::string(t->value());
-      }
-      // iterate over all r elements
-      for (rapidxml::xml_node<>* r = string->first_node("r"); r != NULL;
-           r = r->next_sibling("r")) {
-        // a unique t element should be present (CT_RElt [p3893])
-        // but MacOSX preview just ignores chunks with no t element present
-        rapidxml::xml_node<>* t = r->first_node("t");
-        if (t != NULL)
-          out += t->value();
-      }
-
+      parseString(string, &out);    // missing strings are treated as empty
       stringTable_.push_back(out);
     }
   }
