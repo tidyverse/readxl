@@ -4,6 +4,11 @@ This is a resubmission. In the second round of changes:
 
 * I clarified the copyright status of the package.
 
+* Clarified in the description that the package only works on Linux, Mac and
+  Windows. Clearly the libxls package does not work on solaris. I have
+  the skill to make minor fixes, but getting it working on a big endian
+  system is beyond my abilities.
+
 ---
 
 In the first round of changes:
