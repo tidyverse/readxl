@@ -1,6 +1,12 @@
 ## Changes
 
-This is a resubmission:
+This is a resubmission. In the second round of changes:
+
+* I clarified the copyright status of the package.
+
+---
+
+In the first round of changes:
 
 * The DESCRIPTION now includes the individual readxl authors
 * I have noted in LICENSE that libxls is licensed with BSD 2-clause
