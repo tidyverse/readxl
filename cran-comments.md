@@ -1,6 +1,12 @@
 ## Changes
 
-This is a resubmission. In the second round of changes:
+This is a resubmission. In the third round of changes:
+
+* I use C++11 where available - this ensures C99 support for included C code.
+
+----
+
+In the second round of changes:
 
 * I clarified the copyright status of the package.
 
