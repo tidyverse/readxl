@@ -3,6 +3,30 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
+#include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
+
+// unescape an ST_Xstring. See 22.9.2.19 [p3786]
+inline std::string unescape(const std::string &s) {
+  std::string out;
+  out.reserve(s.size());
+
+  for (size_t i = 0; i < s.size(); i++) {
+    if (i+6 < s.size() && s[i] == '_' && s[i+1] == 'x'
+     && isxdigit(s[i+2]) && isxdigit(s[i+3])
+     && isxdigit(s[i+4]) && isxdigit(s[i+5]) && s[i+6] == '_') {
+      // extract character
+      unsigned int ch = strtoul(&s[i+2], NULL, 16);
+      char utf8[16]; // 16 from definition of Rf_ucstoutf8
+      Rf_ucstoutf8(utf8, ch);
+      out += utf8;
+      i += 6; // skip to the final '_'
+    } else {
+      out.push_back(s[i]);
+    }
+  }
+
+  return out;
+}
 
 // Parser for <si> and <is> inlineStr tags CT_Rst [p3893]
 // returns true if a string is found, false if missing.
@@ -30,7 +54,7 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string *out) {
     //
     // We read the <t> tag, if present, first, then concatenate any <r> tags.
     // All Excel 2010 sheets will read correctly under this regime.
-    *out = std::string(t->value());
+    *out = unescape(t->value());
     found = true;
   }
   // iterate over all r elements
@@ -40,7 +64,7 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string *out) {
     // but MacOSX preview just ignores chunks with no t element present
     const rapidxml::xml_node<>* t = r->first_node("t");
     if (t != NULL) {
-      *out += t->value();
+      *out += unescape(t->value());
       found = true;
     }
   }
