@@ -8,7 +8,15 @@ Readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` f
 
 ## Installation
 
-Readxl is not currently available from CRAN, but you can install it from github with:
+You can install:
+
+* the latest released version from CRAN with:
+*
+```R
+install.packages("readxl")
+```
+
+* the latest development version from github with:
 
 ```R
 # install.packages("devtools")
