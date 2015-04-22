@@ -58,7 +58,7 @@ public:
       if (cell.str == NULL) {
         out[j] = NA_STRING;
       } else {
-        out[j] = std::string((char*) cell.str);
+        out[j] = Rf_mkCharCE((char*) cell.str, CE_UTF8);
       }
     }
 
