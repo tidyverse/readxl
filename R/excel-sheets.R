@@ -9,11 +9,10 @@
 #' # To load all sheets in a workbook, use lapply
 #' path <- system.file("extdata/datasets.xls", package = "readxl")
 #' lapply(excel_sheets(path), read_excel, path = path)
-excel_sheets <- function(path) {
+excel_sheets <- function(path, excel_format = format_from_extension(path)) {
   path <- check_file(path)
-  ext <- tolower(tools::file_ext(path))
 
-  switch(excel_format(path),
+  switch(excel_format,
     xls =  xls_sheets(path),
     xlsx = xlsx_sheets(path)
   )

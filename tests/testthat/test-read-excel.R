@@ -13,3 +13,16 @@ test_that("can read sheets with inlineStr", {
   x <- read_excel("inlineStr.xlsx")
   expect_equal(x$ID, "RQ11610")
 })
+
+test_that("can read file without ending", {
+
+  file.copy("iris-excel.xlsx", "iris-xlsx-no-ending")
+  x <- read_excel("iris-xlsx-no-ending", excel_format = "xlsx")
+  expect_error(read_excel("iris-xlsx-no-ending", excel_format = "xls"))
+  file.remove("iris-xlsx-no-ending")
+
+  file.copy("iris-excel.xls", "iris-xls-no-ending")
+  x <- read_excel("iris-xls-no-ending", excel_format = "xls")
+  file.remove("iris-xls-no-ending")
+
+})

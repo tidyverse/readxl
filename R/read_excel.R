@@ -15,6 +15,8 @@ NULL
 #' @param na Missing value. By default readxl converts blank cells to missing
 #'   data. Set this value if you have used a sentinel value for missing values.
 #' @param skip Number of rows to skip before reading any data.
+#' @param excel_format string specifying whether file to read has fomat xls ("xls")
+#' or xlsx ("xlsx"). Defaults to detection from file ending.
 #' @export
 #' @examples
 #' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
@@ -24,12 +26,12 @@ NULL
 #' read_excel(datasets, 2)
 #' read_excel(datasets, "mtcars")
 read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
-                       na = "", skip = 0) {
+                       na = "", skip = 0,
+                       excel_format = format_from_extension(path)) {
 
   path <- check_file(path)
-  ext <- tolower(tools::file_ext(path))
 
-  switch(excel_format(path),
+  switch(excel_format,
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
   )
@@ -65,17 +67,6 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 }
 
 # Helper functions -------------------------------------------------------------
-
-excel_format <- function(path) {
-  ext <- tolower(tools::file_ext(path))
-
-  switch(ext,
-    xls = "xls",
-    xlsx = "xlsx",
-    xlsm = "xlsx",
-    stop("Unknown format .", ext, call. = FALSE)
-  )
-}
 
 standardise_sheet <- function(sheet, sheet_names) {
   if (length(sheet) != 1) {
