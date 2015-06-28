@@ -2,10 +2,18 @@
 % Please edit documentation in R/read_excel.R
 \name{read_excel}
 \alias{read_excel}
+\alias{read_xls}
+\alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
 read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, excel_format = format_from_extension(path))
+  skip = 0)
+
+read_xls(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
+  skip = 0)
+
+read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
+  skip = 0)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
@@ -24,12 +32,13 @@ character vector containing "blank", "numeric", "date" or "text".}
 data. Set this value if you have used a sentinel value for missing values.}
 
 \item{skip}{Number of rows to skip before reading any data.}
-
-\item{excel_format}{string specifying whether file to read has fomat xls ("xls")
-or xlsx ("xlsx"). Defaults to detection from file ending.}
 }
 \description{
 Read xls and xlsx files.
+
+While \code{read_excel} auto detects the format from the file
+extension, \code{read_xls} and \code{read_xlsx} can be used to
+read files without extension.
 }
 \examples{
 datasets <- system.file("extdata/datasets.xlsx", package = "readxl")

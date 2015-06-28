@@ -15,8 +15,6 @@ NULL
 #' @param na Missing value. By default readxl converts blank cells to missing
 #'   data. Set this value if you have used a sentinel value for missing values.
 #' @param skip Number of rows to skip before reading any data.
-#' @param excel_format string specifying whether file to read has fomat xls ("xls")
-#' or xlsx ("xlsx"). Defaults to detection from file ending.
 #' @export
 #' @examples
 #' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
@@ -26,17 +24,22 @@ NULL
 #' read_excel(datasets, 2)
 #' read_excel(datasets, "mtcars")
 read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
-                       na = "", skip = 0,
-                       excel_format = format_from_extension(path)) {
+                       na = "", skip = 0) {
 
   path <- check_file(path)
 
-  switch(excel_format,
+  switch(format_from_extension(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
     xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
   )
 }
 
+#' While \code{read_excel} auto detects the format from the file
+#' extension, \code{read_xls} and \code{read_xlsx} can be used to
+#' read files without extension.
+#'
+#' @rdname read_excel
+#' @export
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
@@ -57,6 +60,8 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
     nskip = skip + has_col_names)
 }
 
+#' @rdname read_excel
+#' @export
 read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                       na = "", skip = 0) {
   path <- check_file(path)

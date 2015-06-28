@@ -4,13 +4,10 @@
 \alias{excel_sheets}
 \title{List all sheets in an excel spreadsheet.}
 \usage{
-excel_sheets(path, excel_format = format_from_extension(path))
+excel_sheets(path)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
-
-\item{excel_format}{string specifying whether file to read has fomat xls ("xls")
-or xlsx ("xlsx"). Defaults to detection from file ending.}
 }
 \description{
 List all sheets in an excel spreadsheet.
