@@ -120,10 +120,8 @@ public:
                       const std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_) { 
-      std::string message;
-      message = Rcpp::sprintf<100>("Recieved %d names and %d types but worksheet contains %d columns.", 
-                                  names.size(), types.size(),  ncol_);
-      Rcpp::stop(message.c_str());
+      Rcpp::stop(Rcpp::sprintf<100>("Recieved %d names and %d types but worksheet contains %d columns.", 
+				    names.size(), types.size(),  ncol_).c_str());
     } 
     
     // Initialise columns
