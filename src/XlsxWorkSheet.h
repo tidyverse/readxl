@@ -116,10 +116,19 @@ public:
   }
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
-                      const std::vector<CellType>& types,
+                      std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
+    if ((int) names.size() != ncol_)
+      Rcpp::stop("Need one name for each of the existing " + std::to_string(ncol_) + " column(s)");
+
+    if ((types.size() == 1) && (int) types.size() != ncol_) {
+      for (int col = 1; col < ncol_; col++) {
+        types.push_back(types[0]);
+      }
+    }
+
+    if (((int) types.size() != ncol_))
+      Rcpp::stop("Need one type for each of the existing " + std::to_string(ncol_) + " column(s)");
 
     // Initialise columns
     int n = nrow_ - nskip;
