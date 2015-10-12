@@ -12,8 +12,8 @@ NULL
 #'   or a character vector giving a name for each column.
 #' @param col_types Either \code{NULL} to guess from the spreadsheet or a
 #'   character vector containing "blank", "numeric", "date" or "text".
-#' @param na Missing value. By default readxl converts blank cells to missing
-#'   data. Set this value if you have used a sentinel value for missing values.
+#' @param na Missing values. By default readxl converts blank cells to missing
+#'   data. Set this value if you have used sentinel values for missing values.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples

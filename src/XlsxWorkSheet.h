@@ -57,13 +57,13 @@ public:
 
         XlsxCell xcell(cell);
         Rcpp::Rcout << xcell.row() << "," << xcell.row() << ": " <<
-          cellTypeDesc(xcell.type("", wb_.stringTable(), wb_.dateStyles())) << "\n";
+          cellTypeDesc(xcell.type({""}, wb_.stringTable(), wb_.dateStyles())) << "\n";
       }
     }
   }
 
 
-  std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 100, bool has_col_names = false) {
+  std::vector<CellType> colTypes(const std::vector<std::string>& na, int nskip = 0, int n_max = 100, bool has_col_names = false) {
     rapidxml::xml_node<>* row = getRow(nskip + has_col_names);
     std::vector<CellType> types;
     types.resize(ncol_);
@@ -109,7 +109,7 @@ public:
 
       if (xcell.col() >= ncol_)
         continue;
-      out[xcell.col()] = xcell.asCharSxp("", wb_.stringTable());
+      out[xcell.col()] = xcell.asCharSxp({""}, wb_.stringTable());
     }
 
     return out;
@@ -117,7 +117,7 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<CellType>& types,
-                      const std::string& na, int nskip = 0) {
+                      const std::vector<std::string>& na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
