@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "CellType.h"
-#include "XlsxCell.h"
+#include "XlsxString.h"
 #include "utils.h"
 #include "zip.h"
 
