@@ -15,6 +15,7 @@ NULL
 #' @param na Character vector of strings to use for missing values. By default
 #'   readxl treats blank cells as missing data.
 #' @param skip Number of rows to skip before reading any data.
+#' @param n Number of rows from which to guess `col_types`.
 #' @export
 #' @examples
 #' datasets <- readxl_example("datasets.xlsx")
@@ -26,14 +27,14 @@ NULL
 #'
 #' # Skipping rows and using default column names
 #' read_excel(datasets, skip = 148, col_names = FALSE)
-read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-                       na = "", skip = 0) {
+read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+                       na = "", skip = 0, n = 100) {
 
   path <- check_file(path)
 
   switch(excel_format(path),
-    xls =  read_xls(path, sheet, col_names, col_types, na, skip),
-    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
+    xls =  read_xls(path, sheet, col_names, col_types, na, skip, n),
+    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip, n)
   )
 }
 
@@ -44,7 +45,7 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 #' @rdname read_excel
 #' @export
 read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-                     na = "", skip = 0) {
+                     na = "", skip = 0, n = 100) {
 
   sheet <- standardise_sheet(sheet, xls_sheets(path))
 
@@ -56,7 +57,8 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   }
 
   if (is.null(col_types)) {
-    col_types <- xls_col_types(path, sheet, na = na, nskip = skip, has_col_names = has_col_names)
+    col_types <- xls_col_types(path, sheet, na = na, nskip = skip,
+                               has_col_names = has_col_names, n = n)
   }
 
   tibble::repair_names(
@@ -72,14 +74,14 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 #' @rdname read_excel
 #' @export
 read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-                      na = "", skip = 0) {
+                      na = "", skip = 0, n = 100) {
   path <- check_file(path)
   sheet <- standardise_sheet(sheet, xlsx_sheets(path))
 
   tibble::repair_names(
     tibble::as_tibble(
       read_xlsx_(path, sheet, col_names = col_names, col_types = col_types,
-                 na = na, nskip = skip),
+                 na = na, nskip = skip, n_max = n),
       validate = FALSE
     ),
     prefix = "X", sep = "__"

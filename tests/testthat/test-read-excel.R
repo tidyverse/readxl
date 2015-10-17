@@ -1,10 +1,15 @@
 context("read_excel")
 
 test_that("types imputed & read correctly", {
-  types <- read_excel(test_sheet("types.xlsx"))
+  types <- read_excel(test_sheet("types.xlsx"), n = 120)
   expect_is(types$number, "numeric")
   expect_is(types$string, "character")
   expect_is(types$date, "POSIXct")
+  expect_is(types$string_at_102, "character")
+  expect_warning(
+    read_excel(test_sheet("types.xlsx")),
+    "expecting numeric")
+  expect_silent(read_excel(test_sheet("types.xlsx"), n = 120))
 })
 
 test_that("can read sheets with inlineStr", {

@@ -38,7 +38,8 @@ CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
 
 // [[Rcpp::export]]
 List read_xlsx_(std::string path, int sheet, RObject col_names,
-                RObject col_types, std::vector<std::string> na, int nskip = 0) {
+                RObject col_types, std::vector<std::string> na, int nskip = 0,
+                int n_max = 100) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
 
@@ -67,7 +68,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, 100, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, n_max, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
