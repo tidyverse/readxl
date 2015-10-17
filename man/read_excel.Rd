@@ -6,8 +6,8 @@
 \alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
-read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, guess_max = 1000)
+read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+  na = "", skip = 0, guess_max = 1000)
 
 read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
   skip = 0, guess_max = 1000)
