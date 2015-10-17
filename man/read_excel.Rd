@@ -5,7 +5,7 @@
 \title{Read xls and xlsx files.}
 \usage{
 read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0)
+  skip = 0, n = 100)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
@@ -24,6 +24,8 @@ character vector containing "blank", "numeric", "date" or "text".}
 data. Set this value if you have used a sentinel value for missing values.}
 
 \item{skip}{Number of rows to skip before reading any data.}
+
+\item{n}{Number of rows from which to guess \code{col_types}.}
 }
 \description{
 Read xls and xlsx files.
