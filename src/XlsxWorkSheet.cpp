@@ -76,7 +76,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, nskip, 100, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, nskip, 1000, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
