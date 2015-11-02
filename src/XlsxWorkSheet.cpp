@@ -23,7 +23,7 @@ IntegerVector parse_ref(std::string ref) {
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                std::string na = "", int nskip = 0,
-                               int n = 100) {
+                               int n = 1000) {
 
   XlsxWorkSheet ws(path, sheet);
   std::vector<CellType> types = ws.colTypes(na, nskip, n);
