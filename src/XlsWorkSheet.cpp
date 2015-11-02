@@ -14,7 +14,7 @@ CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
 
 // [[Rcpp::export]]
 CharacterVector xls_col_types(std::string path, std::string na, int sheet = 0,
-                              int nskip = 0, int n = 100, bool has_col_names = false) {
+                              int nskip = 0, int n = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
   std::vector<CellType> types = wb.sheet(sheet).colTypes(na, nskip + has_col_names, n);
 
