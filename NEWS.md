@@ -1,3 +1,5 @@
+# readxl 0.1.1.9000
+
 # readxl 0.1.1
 
 * Add support for correctly reading strings in .xlsx files containing escaped 
