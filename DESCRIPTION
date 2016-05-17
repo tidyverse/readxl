@@ -19,7 +19,8 @@ License: GPL-3 + file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp (>= 0.11.5)
+    Rcpp (>= 0.11.5),
+    tibble
 Suggests:
     testthat
 RoxygenNote: 5.0.1

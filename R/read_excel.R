@@ -1,5 +1,6 @@
 #' @useDynLib readxl
 #' @importFrom Rcpp sourceCpp
+#' @importFrom tibble as_data_frame
 NULL
 
 #' Read xls and xlsx files.
