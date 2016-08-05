@@ -169,13 +169,14 @@ static int asprintf(char **ret, const char *format, ...)
 	int i;
     char *str;
 
-	va_list ap;
+	va_list ap, ap2;
 
 	va_start(ap, format); 
+	va_copy(ap2, ap);
 
 	i = vsnprintf(NULL, 0, format, ap) + 1;
 	str = (char *)malloc(i);
-	i = vsnprintf(str, i, format, ap);
+	i = vsnprintf(str, i, format, ap2);
 
 	va_end(ap);
 
