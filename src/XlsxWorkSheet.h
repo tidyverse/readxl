@@ -119,7 +119,7 @@ public:
                       const std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
+      Rcpp::stop("Need one name and type for each column (%d columns)", ncol_);
 
     // Initialise columns
     int n = nrow_ - nskip;
