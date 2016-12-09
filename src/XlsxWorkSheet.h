@@ -247,7 +247,6 @@ public:
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {
         case CELL_BLANK:
-          Rcpp::warning("Blank cells: %s\n", cell->first_attribute("r")->value());
           break;
         case CELL_NUMERIC:
           switch(type) {
@@ -256,6 +255,7 @@ public:
             REAL(col)[i] = xcell.asDouble(na);
             break;
           case CELL_BLANK:
+            Rcpp::warning("Blank cells: %s\n", cell->first_attribute("r")->value());
             REAL(col)[i] = NA_REAL;
             break;
           case CELL_TEXT:
@@ -282,6 +282,7 @@ public:
           break;
         case CELL_TEXT:
           if (type == CELL_BLANK) {
+            Rcpp::warning("Blank cells: %s\n", cell->first_attribute("r")->value());
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
             SET_STRING_ELT(col, i, xcell.asCharSxp(na, wb_.stringTable()));
