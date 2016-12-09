@@ -14,6 +14,26 @@
 // 18.3.1.96  v           (Cell Value) [p1709]
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
 
+inline std::string getColumnName(int columnNumber) {
+    int dividend = columnNumber;
+    std::string columnName;
+    int modulo;
+
+    while (dividend > 0)
+    {
+        modulo = (dividend - 1) % 26;
+        char c = (char) (65+modulo);
+        columnName = std::string(1,c) + columnName;
+        dividend = (int)((dividend - modulo) / 26);
+    } 
+    
+    return columnName;
+}
+
+
+
+
+
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
