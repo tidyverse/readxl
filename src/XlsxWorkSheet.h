@@ -247,6 +247,7 @@ public:
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {
         case CELL_BLANK:
+          Rcpp::warning("Blank cells: %s\n", cell->first_attribute("r")->value());
           break;
         case CELL_NUMERIC:
           switch(type) {
