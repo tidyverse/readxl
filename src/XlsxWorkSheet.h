@@ -88,14 +88,14 @@ public:
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
             
-//           rapidxml::xml_node<> *cloned_node = sheetXml_.clone_node( base_node );
-//           row->insert_node(cloned_node,current_node);
-//           rapidxml::xml_node<>* next_node = current_node->next_sibling("c");
-//           row->remove_node(current_node);
-//           rapidxml::xml_node<>* current_node = next_node 
-//           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
-          sheetXml_->clone_node(base_node, current_node);
+          rapidxml::xml_node<> *cloned_node = sheetXml_.clone_node( base_node );
+          row->insert_node(cloned_node,current_node);
+          rapidxml::xml_node<>* next_node = current_node->next_sibling("c");
+          row->remove_node(current_node);
+          rapidxml::xml_node<>* current_node = next_node 
           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
+//           sheetXml_.clone_node(base_node, current_node);
+//           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
         }
         rapidxml::xml_node<>* row = row->next_sibling("r");     
       }
