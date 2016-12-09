@@ -92,7 +92,7 @@ public:
           row->insert_node(cloned_node,current_node);
           rapidxml::xml_node<>* next_node = current_node->next_sibling("c");
           row->remove_node(current_node);
-          rapidxml::xml_node<>* current_node = next_node 
+          rapidxml::xml_node<>* current_node = next_node;
           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
 //           sheetXml_.clone_node(base_node, current_node);
 //           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
