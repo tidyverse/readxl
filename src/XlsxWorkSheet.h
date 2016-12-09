@@ -84,7 +84,7 @@ public:
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
-        print("TEST PRINT");
+        Rcpp::warning("TEST PRINT");
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
