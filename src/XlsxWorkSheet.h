@@ -285,6 +285,7 @@ public:
             Rcpp::warning("Blank cells: %s\n", cell->first_attribute("r")->value());
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
+            Rcpp::warning("Ok cells: %s\n", cell->first_attribute("r")->value());
             SET_STRING_ELT(col, i, xcell.asCharSxp(na, wb_.stringTable()));
           }
           break;
