@@ -94,7 +94,7 @@ public:
 //           sheetXml_.clone_node(base_node, current_node);
 //           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
         }
-        rapidxml::xml_node<>* row = row->next_sibling("r");     
+        row = row->next_sibling("r");     
       }
       
       return;
