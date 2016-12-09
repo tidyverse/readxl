@@ -57,13 +57,13 @@ public:
   }
   
   void duplicateMergedCells() {
-    mergeCells_ = rootNode_->first_node("mergeCells");
+    rapidxml::xml_node<>* mergeCells_ = rootNode_->first_node("mergeCells");
     if (mergeCells_ == NULL)
       return;
     for (rapidxml::xml_node<>* merged_cell = mergeCells_->first_node("mergeCell");
          merged_cell; merged_cell = merged_cell->next_sibling("mergeCell")) {
       
-      rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
+      rapidxml::xml_attribute<>* ref = merged_cell->first_attribute("ref");
       if (ref == NULL)
         Rcpp::stop("Invalid sheet xml (no ref for <mergeCell>)");
       
@@ -82,7 +82,7 @@ public:
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second);
       
       
-      return
+      return;
       
       
     }
