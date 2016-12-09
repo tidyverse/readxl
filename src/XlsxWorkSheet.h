@@ -110,8 +110,9 @@ public:
             
           rapidxml::xml_node<>* old_node = current_node;
             
-          copied_node->remove_attribute(copied_node->first_attribute("r"));
+          
           copied_node->append_attribute(current_node_r);
+          copied_node->remove_attribute(copied_node->first_attribute("r"));
           current_node = current_node->next_sibling("c");
           row->remove_node(old_node);
           
