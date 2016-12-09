@@ -88,7 +88,7 @@ public:
           
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
-          current_node->append(baby);
+          current_node->append_node(baby);
           current_node = current_node->next_sibling("c");
 
 //           sheetXml_.clone_node(base_node, current_node);
