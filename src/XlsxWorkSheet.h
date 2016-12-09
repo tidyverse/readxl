@@ -103,14 +103,13 @@ public:
           rapidxml::print(std::back_inserter(s), *current_node, 0);
           Rcpp::warning("Before: %s\n", s.c_str());
             
-          
-          rapidxml::xml_node<>* a = xmlseg.first_node(); /* Node to append */
-          rapidxml::xml_node<>* copied_node = sheetXML_.clone_node( base_node );
+         
+          rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( base_node );
           //rapidxml::xml_node<> *node = xmldoc.allocate_node( rapidxml::node_element, a->name(), a->value() );
           row->append_node( copied_node ); /* Appending node a to the tree in src */
           rapidxml::xml_node<>* old_node = current_node;
           current_node = current_node->next_sibling("c");
-          row->remove_node(old_node)
+          row->remove_node(old_node);
           
 
             
