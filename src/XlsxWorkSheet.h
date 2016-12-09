@@ -103,30 +103,27 @@ public:
           rapidxml::print(std::back_inserter(s), *current_node, 0);
           Rcpp::warning("Before: %s\n", s.c_str());
             
-          //current_node->remove_all_attributes();
-          current_node->remove_all_nodes();
-          current_node->type(base_node->type());
-            
-          for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
-              current_node->append_node(child);
-            
-          for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute()) {
-              current_node->prepend_attribute(attr);
-              Rcpp::warning("Attributes being appended: %s\n", attr->value());
-          }
-              
-            
-          std::string s2;
-          rapidxml::print(std::back_inserter(s2), *current_node, 0);
-          Rcpp::warning("After: %s\n", s2.c_str());
           
-          //current_node->remove_attribute(current_node->first_attribute("r"));
-          //current_node->prepend_attribute(current_node_r);
+          rapidxml::xml_node<>* a = xmlseg.first_node(); /* Node to append */
+          rapidxml::xml_node<>* copied_node = sheetXML_.clone_node( base_node );
+          //rapidxml::xml_node<> *node = xmldoc.allocate_node( rapidxml::node_element, a->name(), a->value() );
+          row->append_node( copied_node ); /* Appending node a to the tree in src */
+          rapidxml::xml_node<>* old_node = current_node;
           current_node = current_node->next_sibling("c");
+          row->remove_node(old_node)
+          
 
-//           sheetXml_.clone_node(base_node, current_node);
-//           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
+            
+//           std::string s2;
+//           rapidxml::print(std::back_inserter(s2), *current_node, 0);
+//           Rcpp::warning("After: %s\n", s2.c_str());
+              
+//           current_node = current_node->next_sibling("c");
+            
         }
+        std::string s3;
+        rapidxml::print(std::back_inserter(s3), *row, 0);
+        Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
         row = row->next_sibling("r");     
       }
       
