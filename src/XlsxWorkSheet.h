@@ -89,7 +89,7 @@ public:
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
           rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
-          current_node->remove_all_attributes();
+          //current_node->remove_all_attributes();
           current_node->remove_all_nodes();
           current_node->type(base_node->type());
           for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
