@@ -2,9 +2,11 @@
 #define READXL_XLSXWORKSHEET_
 
 #include <Rcpp.h>
+#include <sstream>
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
 #include "XlsxCell.h"
+
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
@@ -84,8 +86,12 @@ public:
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
-        Rcpp::warning("TEST PRINT");
+        
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
+        std::stringstream stream;
+        std::ostream_iterator<char> iter(stream);
+        rapidxml::print(iter, current_node, rapidxml::print_no_indenting);
+        Rcpp::warning("TEST PRINT: %s\n", stream.str().c_str());
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
             
@@ -97,6 +103,9 @@ public:
                 current_node->append_node(child);
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute())
                 current_node->append_attribute(attr);
+          for (rapidxml::xml_attribute<>* attr = current_node->first_attribute(); attr; attr = attr->next_attribute())
+                current_node->append_attribute(attr);
+          
           //current_node->remove_attribute(current_node->first_attribute("r"));
           //current_node->prepend_attribute(current_node_r);
           current_node = current_node->next_sibling("c");
