@@ -54,7 +54,7 @@ public:
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
     cacheDimension();
-    //duplicateMergedCells();
+    duplicateMergedCells();
   }
   
   void duplicateMergedCells() {
