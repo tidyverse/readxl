@@ -54,6 +54,7 @@ public:
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
     cacheDimension();
+    //duplicateMergedCells();
   }
   
   void duplicateMergedCells() {
@@ -80,7 +81,8 @@ public:
       std::pair<int, int> second_coord = parseRef(second_str);
         
       rapidxml::xml_node<>* row = getRow(first_coord.first);
-      rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second);  
+      const rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
+      
       
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
