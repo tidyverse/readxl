@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <sstream>
 #include "rapidxml.h"
+#include "rapidxml_print.h"
 #include "XlsxWorkBook.h"
 #include "XlsxCell.h"
 
