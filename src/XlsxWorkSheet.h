@@ -114,8 +114,6 @@ public:
                 current_node->append_node(child);
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute())
                 current_node->append_attribute(attr);
-          for (rapidxml::xml_attribute<>* attr = current_node->first_attribute(); attr; attr = attr->next_attribute())
-                current_node->append_attribute(attr);
             
           std::string s2;
           rapidxml::print(std::back_inserter(s2), *current_node, 0);
