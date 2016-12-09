@@ -113,7 +113,7 @@ public:
           for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
               current_node->append_node(child);
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute())
-              Rcpp::warning("Attributes being appended: %s\n", attr->value())
+              Rcpp::warning("Attributes being appended: %s\n", attr->value());
               current_node->append_attribute(attr);
             
           std::string s2;
