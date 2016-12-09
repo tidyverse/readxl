@@ -258,6 +258,19 @@ private:
 
     return row;
   }
+    
+  rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
+    rapidxml::xml_node<>* column = row_node->first_node("c");
+    if (column == NULL)
+        Rcpp::stop("Row does not have column");
+    while(i > 0 && column != NULL) {
+      column = column->next_sibling("c");
+      i--;
+    }
+    if (column == NULL)
+      Rcpp::stop("Column index probably out of bounds");
+    return column;
+  }
 
   void cacheDimension() {
     // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
