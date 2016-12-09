@@ -95,9 +95,9 @@ public:
           for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
                 current_node->append_node(child);
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute())
-                current_node->append_attribute(sheetXml_.allocate_attribute(attr->name(), attr->value(), attr->name_size(), attr->value_size()));
-          current_node->remove_attribute(current_node->first_attribute("r"));
-          current_node->prepend_attribute(current_node_r);
+                current_node->append_attribute(attr);
+          //current_node->remove_attribute(current_node->first_attribute("r"));
+          //current_node->prepend_attribute(current_node_r);
           current_node = current_node->next_sibling("c");
 
 //           sheetXml_.clone_node(base_node, current_node);
