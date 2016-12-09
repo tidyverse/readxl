@@ -91,7 +91,7 @@ public:
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
         std::stringstream stream;
         std::ostream_iterator<char> iter(stream);
-        rapidxml::print(iter, current_node, rapidxml::print_no_indenting);
+        rapidxml_print::print(iter, current_node, rapidxml::print_no_indenting);
         Rcpp::warning("TEST PRINT: %s\n", stream.str().c_str());
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
