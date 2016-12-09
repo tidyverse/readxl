@@ -82,17 +82,15 @@ public:
         
       rapidxml::xml_node<>* row = getRow(first_coord.first);
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
+      rapidxml::xml_node<>* baby = base_node->first_node("v");
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
           
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
-            
-          rapidxml::xml_node<> *cloned_node = sheetXml_.clone_node( base_node );
-          row->insert_node(cloned_node,current_node);
-          rapidxml::xml_node<>* next_node = current_node->next_sibling("c");
-          row->remove_node(current_node);
-          current_node = next_node;
+          current_node->append(baby);
+          current_node = current_node->next_sibling("c");
+
 //           sheetXml_.clone_node(base_node, current_node);
 //           rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
         }
