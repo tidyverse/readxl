@@ -82,12 +82,13 @@ public:
         
       rapidxml::xml_node<>* row = getRow(first_coord.first);
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
-      rapidxml::xml_node<>* baby = base_node->first_node("v");
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
-          
+        print("TEST PRINT");
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
+          
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
+            
           rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
           //current_node->remove_all_attributes();
           current_node->remove_all_nodes();
