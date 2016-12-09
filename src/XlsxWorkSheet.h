@@ -111,9 +111,10 @@ public:
           current_node->remove_all_nodes();
           current_node->type(base_node->type());
           for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
-                current_node->append_node(child);
+              current_node->append_node(child);
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute())
-                current_node->append_attribute(attr);
+              Rcpp::warning("Attributes being appended: %s\n", attr->value())
+              current_node->append_attribute(attr);
             
           std::string s2;
           rapidxml::print(std::back_inserter(s2), *current_node, 0);
