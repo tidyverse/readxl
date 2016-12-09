@@ -39,6 +39,36 @@ public:
 
     cacheDimension();
   }
+  
+  void duplicateMergedCells() {
+    mergeCells_ = rootNode_->first_node("mergeCells");
+    if (mergeCells_ == NULL)
+      return;
+    for (rapidxml::xml_node<>* merged_cell = mergeCells_->first_node("mergeCell");
+         merged_cell; merged_cell = merged_cell->next_sibling("mergeCell")) {
+      
+      rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
+      if (ref == NULL)
+        Rcpp::stop("Invalid sheet xml (no ref for <mergeCell>)");
+      
+      const char* refv = ref->value();
+      std::string ref_string = std::string(refv);
+      
+      if (ref_string.find(":") == std::string::npos)
+        Rcpp::stop("No ':' in mergeCell ref '%s'", ref_string);
+        
+      const char * first_str = ref_string.substr(0, ref_string.find(':')).c_str();
+      const char * second_str = ref_string.substr(ref_string.find(':')+1, ref_string.length()).c_str();
+      
+      std::pair<int, int> first_coord = parseRef(first_str);
+      std::pair<int, int> second_coord = parseRef(second_str);
+      
+      return
+      
+      
+    }
+    
+  }
 
   int ncol() {
     return ncol_;
