@@ -96,7 +96,7 @@ public:
 //         Rcpp::warning("TEST PRINT: %s\n", stream.str().c_str());
           
         std::string s;
-        print(std::back_inserter(s), current_node, 0);
+        rapidxml::print(std::back_inserter(s), *current_node, 0);
         Rcpp::warning("TEST PRINT: %s\n", s.c_str());
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
