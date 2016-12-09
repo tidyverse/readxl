@@ -85,19 +85,15 @@ public:
         
       rapidxml::xml_node<>* row = getRow(first_coord.first);
       rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
+        
+//       for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute()) {
+//             current_node->append_attribute(attr);
+//             Rcpp::warning("Attributes TO BE appended: %s\n", attr->value());
+//         }
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
         
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
-        
-//         std::stringstream stream;
-//         std::ostream_iterator<char> iter(stream);
-//         rapidxml::print(iter, current_node, rapidxml::print_no_indenting);
-//         Rcpp::warning("TEST PRINT: %s\n", stream.str().c_str());
-          
-//         std::string s;
-//         rapidxml::print(std::back_inserter(s), *current_node, 0);
-//         Rcpp::warning("TEST PRINT: %s\n", s.c_str());
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
             
@@ -110,11 +106,13 @@ public:
           //current_node->remove_all_attributes();
           current_node->remove_all_nodes();
           current_node->type(base_node->type());
+            
           for (rapidxml::xml_node<>* child = base_node->first_node(); child; child = child->next_sibling())
               current_node->append_node(child);
+            
           for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute()) {
+              current_node->prepend_attribute(attr);
               Rcpp::warning("Attributes being appended: %s\n", attr->value());
-              current_node->append_attribute(attr);
           }
               
             
