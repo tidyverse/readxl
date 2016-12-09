@@ -78,9 +78,18 @@ public:
       
       std::pair<int, int> first_coord = parseRef(first_str);
       std::pair<int, int> second_coord = parseRef(second_str);
+        
       rapidxml::xml_node<>* row = getRow(first_coord.first);
-      rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second);
+      rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second);  
       
+      for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
+        rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
+        for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
+          rapidxml::memory_pool::clone_node(base_node, current_node);
+          rapidxml::xml_node<>* current_node = current_node->next_sibling("c");
+        }
+        rapidxml::xml_node<>* row = row->next_sibling("r");     
+      }
       
       return;
       
