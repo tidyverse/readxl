@@ -30,10 +30,6 @@ inline std::string getColumnName(int columnNumber) {
     return columnName;
 }
 
-
-
-
-
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
@@ -82,6 +78,9 @@ public:
       
       std::pair<int, int> first_coord = parseRef(first_str);
       std::pair<int, int> second_coord = parseRef(second_str);
+      rapidxml::xml_node<>* row = getRow(first_coord.first);
+      rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second);
+      
       
       return
       
