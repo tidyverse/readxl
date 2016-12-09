@@ -95,13 +95,18 @@ public:
 //         rapidxml::print(iter, current_node, rapidxml::print_no_indenting);
 //         Rcpp::warning("TEST PRINT: %s\n", stream.str().c_str());
           
-        std::string s;
-        rapidxml::print(std::back_inserter(s), *current_node, 0);
-        Rcpp::warning("TEST PRINT: %s\n", s.c_str());
+//         std::string s;
+//         rapidxml::print(std::back_inserter(s), *current_node, 0);
+//         Rcpp::warning("TEST PRINT: %s\n", s.c_str());
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
             
           rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
+            
+          std::string s;
+          rapidxml::print(std::back_inserter(s), *current_node, 0);
+          Rcpp::warning("Before: %s\n", s.c_str());
+            
           //current_node->remove_all_attributes();
           current_node->remove_all_nodes();
           current_node->type(base_node->type());
@@ -111,6 +116,10 @@ public:
                 current_node->append_attribute(attr);
           for (rapidxml::xml_attribute<>* attr = current_node->first_attribute(); attr; attr = attr->next_attribute())
                 current_node->append_attribute(attr);
+            
+          std::string s2;
+          rapidxml::print(std::back_inserter(s2), *current_node, 0);
+          Rcpp::warning("After: %s\n", s2.c_str());
           
           //current_node->remove_attribute(current_node->first_attribute("r"));
           //current_node->prepend_attribute(current_node_r);
