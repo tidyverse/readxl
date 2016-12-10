@@ -331,7 +331,7 @@ private:
     if (col_ref == NULL)
         Rcpp::stop("Cell doesn't have name");
     
-    while(column != NULL && strncmp(col_ref->value(), colname, strlen(colname)) != 0) {
+    while(column != NULL && strncmp(col_ref->value(), colname, colname.length()) != 0) {
       column = column->next_sibling("c");
     }
     if (column == NULL)
