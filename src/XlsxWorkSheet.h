@@ -93,7 +93,9 @@ public:
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
         Rcpp::warning("the current row is %s, final is %s", r_i, second_coord.first);
-        
+        std::string sr;
+        rapidxml::print(std::back_inserter(sr), *row, 0);
+        Rcpp::warning("Rowwwwww: %s\n", sr.c_str());
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
@@ -131,10 +133,7 @@ public:
         rapidxml::print(std::back_inserter(s3), *row, 0);
         Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
           
-        rapidxml::xml_node<>* papa = row->parent();
-        std::string sr;
-        rapidxml::print(std::back_inserter(sr), *papa, 0);
-        Rcpp::warning("Are there any rows left?: %s\n", sr.c_str());
+       
           
         row = row->next_sibling("row");     
         if (row == NULL)
