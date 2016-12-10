@@ -136,7 +136,7 @@ public:
         rapidxml::print(std::back_inserter(sr), *papa, 0);
         Rcpp::warning("Are there any rows left?: %s\n", sr.c_str());
           
-        row = row->next_sibling("r");     
+        row = row->next_sibling("row");     
         if (row == NULL)
             Rcpp::warning("Waaaah, null row!");
         
