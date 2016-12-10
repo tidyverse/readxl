@@ -91,7 +91,7 @@ public:
 //             Rcpp::warning("Attributes TO BE appended: %s\n", attr->value());
 //         }
      
-      for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
+      for (int r_i = first_coord.first; r_i <= second_coord.first; r_i++) {
         Rcpp::warning("the current row is %s, final is %s", r_i, second_coord.first);
         
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
