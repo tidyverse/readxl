@@ -133,6 +133,10 @@ public:
         row = row->next_sibling("r");     
         if (row == NULL)
             Rcpp::warning("Waaaah, null row!");
+        rapidxml::xml_node<>* papa = row->parent()
+        std::string sr;
+        rapidxml::print(std::back_inserter(sr), *papa, 0);
+        Rcpp::warning("Are there any rows left?: %s\n", sr.c_str());
         
       }  
     }
