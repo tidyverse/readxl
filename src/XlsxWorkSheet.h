@@ -105,6 +105,8 @@ public:
             
          
           rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( base_node );
+          copied_node->remove_attribute(copied_node->first_attribute("r"));
+          copied_node->prepend_attribute(sheetXml_.allocate_attribute(current_node_r->name(), current_node_r->value(), current_node_r->name_size(), current_node_r->value_size()));
           //rapidxml::xml_node<> *node = xmldoc.allocate_node( rapidxml::node_element, a->name(), a->value() );
           row->insert_node(current_node, copied_node ); /* Appending node a to the tree in src */
           row->remove_node(current_node);
