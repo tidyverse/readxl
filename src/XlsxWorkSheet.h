@@ -66,11 +66,7 @@ public:
       return;
     for (rapidxml::xml_node<>* merged_cell = mergeCells_->first_node("mergeCell");
          merged_cell; merged_cell = merged_cell->next_sibling("mergeCell")) {
-      
-      std::string sc;
-      rapidxml::print(std::back_inserter(sc), *merged_cell, 0);
-      Rcpp::warning("Before: %s\n", sc.c_str());  
-        
+    
       rapidxml::xml_attribute<>* ref = merged_cell->first_attribute("ref");
       if (ref == NULL)
         Rcpp::stop("Invalid sheet xml (no ref for <mergeCell>)");
@@ -133,13 +129,9 @@ public:
         rapidxml::print(std::back_inserter(s3), *row, 0);
         Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
         row = row->next_sibling("r");     
-      }
-      
-      return;
-      
-      
+      }  
     }
-    
+    return;
   }
 
   int ncol() {
