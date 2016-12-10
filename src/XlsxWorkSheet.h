@@ -131,7 +131,7 @@ public:
         rapidxml::print(std::back_inserter(s3), *row, 0);
         Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
           
-        apidxml::xml_node<>* papa = row->parent();
+        rapidxml::xml_node<>* papa = row->parent();
         std::string sr;
         rapidxml::print(std::back_inserter(sr), *papa, 0);
         Rcpp::warning("Are there any rows left?: %s\n", sr.c_str());
