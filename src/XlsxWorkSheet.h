@@ -131,9 +131,9 @@ public:
         rapidxml::print(std::back_inserter(s3), *row, 0);
         Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
         row = row->next_sibling("r");     
-        std::string sr;
-        rapidxml::print(std::back_inserter(sr), *row, 0);
-        Rcpp::warning("Next row!: %s\n", sr.c_str());
+        if (row == NULL)
+            Rcpp::warning("Waaaah, null row!");
+        
       }  
     }
     return;
