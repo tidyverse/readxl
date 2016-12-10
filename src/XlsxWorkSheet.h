@@ -324,10 +324,15 @@ private:
   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
     rapidxml::xml_node<>* column = row_node->first_node("c");
     if (column == NULL)
-        Rcpp::stop("Row does not have column");
-    while(i > 0 && column != NULL) {
+        Rcpp::stop("Row does not have columns");
+      
+    std::string colname = getColumnName(i);
+    rapidxml::xml_attribute<>* col_ref = column->first_attribute("r");
+    if (col_ref == NULL)
+        Rcpp::stop("Cell doesn't have name");
+    
+    while(column != NULL && strncmp(col_ref->value(), colname, strlen(colname)) != 0) {
       column = column->next_sibling("c");
-      i--;
     }
     if (column == NULL)
       Rcpp::stop("Column index probably out of bounds");
