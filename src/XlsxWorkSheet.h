@@ -92,10 +92,12 @@ public:
 //         }
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
+        Rcpp::warning("the current row is %s, final is %s", r_i, second_coord.first);
         
         rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
           
         for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
+          Rcpp::warning("the current col is %s, final is %s", c_i, second_coord.second);
             
           rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
             
