@@ -102,11 +102,7 @@ public:
           Rcpp::warning("the current col is %s, final is %s", c_i, second_coord.second);
             
           rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
-            
-          std::string s;
-          rapidxml::print(std::back_inserter(s), *current_node, 0);
-          Rcpp::warning("Before: %s\n", s.c_str());
-            
+           
          
           rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( base_node );
           copied_node->remove_attribute(copied_node->first_attribute("r"));
@@ -333,6 +329,9 @@ private:
     
     while(column != NULL && strncmp(col_ref->value(), colname.c_str(), colname.length()) != 0) {
       column = column->next_sibling("c");
+      col_ref = column->first_attribute("r");
+      if (col_ref == NULL)
+        Rcpp::stop("Cell doesn't have name");
     }
     if (column == NULL)
       Rcpp::stop("Column index probably out of bounds");
