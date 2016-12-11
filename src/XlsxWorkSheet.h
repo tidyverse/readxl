@@ -181,10 +181,6 @@ public:
       cols[j] = makeCol(types[j], n);
     }
       
-    rapidxml::xml_node<>* rowz = getRow(1);
-    std::string sz;
-    rapidxml::print(std::back_inserter(sz), *rowz, 0);
-    Rcpp::warning("At readCols: %s\n", sz.c_str());
 
     int i = 0;
     for (rapidxml::xml_node<>* row = getRow(nskip);
