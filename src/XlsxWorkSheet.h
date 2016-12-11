@@ -324,14 +324,17 @@ private:
       
     std::string colname = getColumnName(i);
     rapidxml::xml_attribute<>* col_ref = column->first_attribute("r");
+    rapidxml::xml_attribute<>* col_ref2 = column->first_attribute("r");
     if (col_ref == NULL)
         Rcpp::stop("Cell doesn't have name");
     
     while(column != NULL && strncmp(col_ref->value(), colname.c_str(), colname.length()) != 0) {
       column = column->next_sibling("c");
-      col_ref = column->first_attribute("r");
-      if (col_ref == NULL)
+      col_ref2 = column->first_attribute("r");
+      if (col_ref2 == NULL)
         Rcpp::stop("Cell doesn't have name");
+      if (col_ref2 != NULL)
+        Rcpp::warning("Column name: %s", col_ref2->value());
     }
     if (column == NULL)
       Rcpp::stop("Column index probably out of bounds");
