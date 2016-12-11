@@ -322,11 +322,11 @@ private:
   }
     
 //   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
-//      Rcpp::warning("GETTTING COLUMN: i=%f, nsmr=%s",i,getColumnName(i));
+//     Rcpp::warning("GETTTING COLUMN: i=%f, nsmr=%s", i, getColumnName(i));
       
 //     rapidxml::xml_node<>* column = row_node->first_node("c");
 //     if (column == NULL)
-//         Rcpp::stop("Row does not have column");
+//       Rcpp::stop("Row does not have column");
 //     while(i > 0 && column != NULL) {
 //       std::string colname = getColumnName(i);
 //       Rcpp::warning("column name=%s, i=%d, gen=%s", column->first_attribute("r")->value(), i, colname);
@@ -341,31 +341,27 @@ private:
 //       Rcpp::stop("Column index probably out of bounds");
 //     return column;
 //   }
-    
-    
-    
+      
   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
-    rapidxml::xml_node<>* column = row_node->first_node("c");
-    if (column == NULL)
+    rapidxml::xml_node<>* cell = row_node->first_node("c");
+    if (cell == NULL)
         Rcpp::stop("Row does not have columns");
       
     std::string colname = getColumnName(i);
-    rapidxml::xml_attribute<>* col_ref = column->first_attribute("r");
-    rapidxml::xml_attribute<>* col_ref2 = column->first_attribute("r");
-    if (col_ref == NULL)
-        Rcpp::stop("Cell doesn't have name");
+    rapidxml::xml_attribute<>* col_ref;
     
-    while(column != NULL && strncmp(col_ref->value(), colname.c_str(), colname.length()) == 0) {
-      column = column->next_sibling("c");
-      col_ref2 = column->first_attribute("r");
-      if (col_ref2 == NULL)
+    while(cell != NULL) {
+      col_ref = cell->first_attribute("r");
+      if (col_ref == NULL)
         Rcpp::stop("Cell doesn't have name");
-      if (col_ref2 != NULL)
-        Rcpp::warning("Column name: %s", col_ref2->value());
+      int col = parseRef(col_ref->value()).second;
+      if (col == i)
+         break;
+      cell = cell->next_sibling("c");    
     }
-    if (column == NULL)
+    if (cell == NULL)
       Rcpp::stop("Column index probably out of bounds");
-    return column;
+    return cell;
   }
 
   void cacheDimension() {
