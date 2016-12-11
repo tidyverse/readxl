@@ -275,14 +275,14 @@ private:
     if (cell == NULL)
         Rcpp::stop("Row does not have columns");
       
-    std::string colname = getColumnName(i);
     rapidxml::xml_attribute<>* col_ref;
+    int col;
     
     while(cell != NULL) {
       col_ref = cell->first_attribute("r");
       if (col_ref == NULL)
         Rcpp::stop("Cell doesn't have name");
-      int col = parseRef(col_ref->value()).second;
+      col = parseRef(col_ref->value()).second;
       if (col == i)
          break;
       cell = cell->next_sibling("c");    
