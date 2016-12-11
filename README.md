@@ -1,6 +1,6 @@
 # readxl
 
-[![Build Status](https://travis-ci.org/burchill/readxl.svg?branch=master)](https://travis-ci.org/burchill/readxl)
+[![Travis-CI Build Status](https://travis-ci.org/hadley/readxl.png?branch=master)](https://travis-ci.org/hadley/readxl)
 
 The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
