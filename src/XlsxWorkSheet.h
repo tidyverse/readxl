@@ -17,22 +17,6 @@
 // 18.3.1.96  v           (Cell Value) [p1709]
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
 
-inline std::string getColumnName(int columnNumber) {
-    int dividend = columnNumber + 1;
-    std::string columnName;
-    int modulo;
-
-    while (dividend > 0)
-    {
-        modulo = (dividend - 1) % 26;
-        char c = (char) (65+modulo);
-        columnName = std::string(1,c) + columnName;
-        dividend = (int)((dividend - modulo) / 26);
-    } 
-    
-    return columnName;
-}
-
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
@@ -84,61 +68,26 @@ public:
       std::pair<int, int> second_coord = parseRef(second_str);
         
       rapidxml::xml_node<>* row = getRow(first_coord.first);
-      rapidxml::xml_node<>* base_node = getColumn(row,first_coord.second); 
-        
-//       for (rapidxml::xml_attribute<>* attr = base_node->first_attribute(); attr; attr = attr->next_attribute()) {
-//             current_node->append_attribute(attr);
-//             Rcpp::warning("Attributes TO BE appended: %s\n", attr->value());
-//         }
+      rapidxml::xml_node<>* to_be_duplicated = getColumn(row, first_coord.second); // node to be duplicated in all the merged cells
      
       for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
-        Rcpp::warning("the current row is %s, final is %s", r_i, second_coord.first);
-        std::string sr;
-        rapidxml::print(std::back_inserter(sr), *row, 0);
-        Rcpp::warning("Rowwwwww: %s\n", sr.c_str());
-        rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);
-          
-        for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
-          Rcpp::warning("the current col is %s, final is %s", c_i, second_coord.second);
-            
-          rapidxml::xml_attribute<>* current_node_r=current_node->first_attribute("r");
-            
-          std::string s;
-          rapidxml::print(std::back_inserter(s), *current_node, 0);
-          Rcpp::warning("Before: %s\n", s.c_str());
-            
-         
-          rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( base_node );
-          copied_node->remove_attribute(copied_node->first_attribute("r"));
-          copied_node->prepend_attribute(sheetXml_.allocate_attribute(current_node_r->name(), current_node_r->value(), current_node_r->name_size(), current_node_r->value_size()));
-          //rapidxml::xml_node<> *node = xmldoc.allocate_node( rapidxml::node_element, a->name(), a->value() );
-          row->insert_node(current_node, copied_node ); /* Appending node a to the tree in src */
-          row->remove_node(current_node);
-          
-         // copied_node->append_attribute(current_node_r);
-          //copied_node->remove_attribute(copied_node->first_attribute("r"));
-          current_node = current_node->next_sibling("c");
-          
-          
-
-            
-//           std::string s2;
-//           rapidxml::print(std::back_inserter(s2), *current_node, 0);
-//           Rcpp::warning("After: %s\n", s2.c_str());
-              
-//           current_node = current_node->next_sibling("c");
-            
-        }
-        std::string s3;
-        rapidxml::print(std::back_inserter(s3), *row, 0);
-        Rcpp::warning("ALL items, after cols done: %s\n", s3.c_str());
-          
-       
-          
-        row = row->next_sibling("row");     
-        if (row == NULL)
-            Rcpp::warning("Waaaah, null row!");
         
+        rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);  
+        for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
+            
+          rapidxml::xml_attribute<>* current_node_r = current_node->first_attribute("r"); // gets the old node's name
+           
+          rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( to_be_duplicated ); // clones node 
+          copied_node->remove_attribute(copied_node->first_attribute("r")); // removes new cloned node's name
+          copied_node->prepend_attribute(sheetXml_.allocate_attribute(current_node_r->name(), 
+                                                                      current_node_r->value(), 
+                                                                      current_node_r->name_size(), 
+                                                                      current_node_r->value_size())); // adds old node's name to new node by creating new attribute
+          row->insert_node(current_node, copied_node ); // inserts new node
+          row->remove_node(current_node); // removes old node
+          current_node = current_node->next_sibling("c");
+        }          
+        row = row->next_sibling("row");     
       }  
     }
     return;
@@ -320,28 +269,7 @@ private:
 
     return row;
   }
-    
-//   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
-//     Rcpp::warning("GETTTING COLUMN: i=%f, nsmr=%s", i, getColumnName(i));
-      
-//     rapidxml::xml_node<>* column = row_node->first_node("c");
-//     if (column == NULL)
-//       Rcpp::stop("Row does not have column");
-//     while(i > 0 && column != NULL) {
-//       std::string colname = getColumnName(i);
-//       Rcpp::warning("column name=%s, i=%d, gen=%s", column->first_attribute("r")->value(), i, colname);
-//       if (strncmp(column->first_attribute("r")->value(), colname.c_str(), colname.length()) != 0)
-//           Rcpp::warning("THIS IS THE WRONG COLUMN??");
-        
-        
-//       column = column->next_sibling("c");
-//       i--;
-//     }
-//     if (column == NULL)
-//       Rcpp::stop("Column index probably out of bounds");
-//     return column;
-//   }
-      
+
   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
     rapidxml::xml_node<>* cell = row_node->first_node("c");
     if (cell == NULL)
@@ -360,7 +288,7 @@ private:
       cell = cell->next_sibling("c");    
     }
     if (cell == NULL)
-      Rcpp::stop("Column index probably out of bounds");
+      Rcpp::stop("No cell exists at column %d in current row. Presumably because improperly formatted .xlsx file", i);
     return cell;
   }
 
