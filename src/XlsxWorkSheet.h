@@ -18,7 +18,7 @@
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
 
 inline std::string getColumnName(int columnNumber) {
-    int dividend = columnNumber;
+    int dividend = columnNumber + 1;
     std::string columnName;
     int modulo;
 
