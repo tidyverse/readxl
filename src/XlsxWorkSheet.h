@@ -331,7 +331,7 @@ private:
       std::string colname = getColumnName(i);
       Rcpp::warning("column name=%s, i=%d, gen=%s", column->first_attribute("r")->value(), i, colname);
       if (strncmp(colname->first_attribute("r")->value(), colname.c_str(), colname.length()) != 0)
-          Rcpp::warning("THIS IS THE WRONG COLUMN??")
+          Rcpp::warning("THIS IS THE WRONG COLUMN??");
         
         
       column = column->next_sibling("c");
