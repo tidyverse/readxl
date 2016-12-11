@@ -322,6 +322,8 @@ private:
   }
     
   rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
+     Rcpp::warning("GETTTING COLUMN: i=%f, nsmr=%s",i,getColumnName(i));
+      
     rapidxml::xml_node<>* column = row_node->first_node("c");
     if (column == NULL)
         Rcpp::stop("Row does not have column");
