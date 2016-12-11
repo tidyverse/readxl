@@ -327,7 +327,7 @@ private:
         Rcpp::stop("Row does not have column");
     while(i > 0 && column != NULL) {
       std::string colname = getColumnName(i);
-      Rcpp::warning("column name=%s, i=%d, gen=%s", column->first_attribute("r")->value(), i, colname)
+      Rcpp::warning("column name=%s, i=%d, gen=%s", column->first_attribute("r")->value(), i, colname);
       column = column->next_sibling("c");
       i--;
     }
