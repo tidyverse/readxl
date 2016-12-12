@@ -1,5 +1,13 @@
 context("Missing values")
 
+test_that("Merged cell values are duplicated [xlsx]", {
+  df <- read_excel("merge_test.xlsx")
+  expect_equal(df$Col1,c("OneAndTwo","Regular","FormulaFill","FormulaFill"))
+  expect_equal(df$Col2,c("OneAndTwo",NA,"FormulaFill","FormulaFill"))
+  expect_equal(df$Col3,c(5,5,NA,NA))
+  expect_equal(df$Col4,c("Test",NA,NA,"FormulaFill"))
+})
+
 test_that("blanks read as missing [xlsx]", {
   blanks <- read_excel("blanks.xlsx")
   expect_equal(blanks$x, c(NA, 1))
@@ -55,3 +63,6 @@ test_that("empty named column gives NA column", {
   expect_equal(ncol(df2), 4)
   expect_equal(names(df2)[2], "y")
 })
+
+
+
