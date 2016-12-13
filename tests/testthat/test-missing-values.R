@@ -2,10 +2,6 @@ context("Missing values")
 
 test_that("Merged cell values are duplicated [xlsx]", {
   df <- read_excel("merge_test.xlsx")
-  warning(paste(" Vals: ",df$Col1))
-  warning(paste(" Vals: ",df$Col2))
-  warning(paste(" Vals: ",df$Col3))
-  warning(paste(" Vals: ",df$Col4))
   expect_equal(df$Col1,c("OneAndTwo","Regular","FormulaFill","FormulaFill"))
   expect_equal(df$Col2,c("OneAndTwo",NA,"FormulaFill","FormulaFill"))
   expect_equal(df$Col3,c(5,5,NA,NA))
