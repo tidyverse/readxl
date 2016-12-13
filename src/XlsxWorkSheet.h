@@ -100,7 +100,7 @@ public:
 
   void printCells() {
     for (rapidxml::xml_node<>* row = sheetData_->first_node("row");
-         row; row = row->next_sibling("row")) {
+         row; row = row->next_sibling("row"))  {
 
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
