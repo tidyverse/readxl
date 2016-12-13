@@ -21,7 +21,7 @@ test_that("blanks read as missing [xls]", {
 })
 
 test_that("By default, NA read as text", {
-  df <- read_xls("missing-values.xls")
+  df <- read_excel("missing-values.xls")
   expect_equal(df$x, c("NA", "1.000000", "1.000000"))
 })
 
@@ -52,7 +52,7 @@ test_that("text values in numeric column gives warning & NA", {
 
 test_that("empty first column gives valid data.frame", {
   df <- read_excel("missing-first-column.xlsx", col_names=F)
-  expect_equal(nrow(df), length(df[,1]))
+  expect_equal(nrow(df), length(unlist(df[,1])))
 })
 
 test_that("empty named column gives NA column", {
