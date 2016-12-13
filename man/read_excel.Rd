@@ -29,11 +29,11 @@ data. Set this value if you have used a sentinel value for missing values.}
 Read xls and xlsx files.
 }
 \examples{
-datasets <- system.file("extdata/merge_test.xlsx", package = "readxl")
+datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
 read_excel(datasets)
 
 # Specific sheet either by position or by name
-read_excel(datasets)
+read_excel(datasets, 2)
 read_excel(datasets, "mtcars")
 }
 

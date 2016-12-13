@@ -17,11 +17,11 @@ NULL
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
-#' datasets <- system.file("extdata/merge_test.xlsx", package = "readxl")
+#' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
 #' read_excel(datasets)
 #'
 #' # Specific sheet either by position or by name
-#' read_excel(datasets)
+#' read_excel(datasets, 2)
 #' read_excel(datasets, "mtcars")
 read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
