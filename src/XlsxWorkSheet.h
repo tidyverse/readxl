@@ -191,7 +191,7 @@ public:
       ++i;
     }
 
-    return colDataframe(cols, names, types);
+    return removeBlankColumns(cols, names, types);
   }
 
 
