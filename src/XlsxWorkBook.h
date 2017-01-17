@@ -141,12 +141,13 @@ private:
     int i = 0;
     for (rapidxml::xml_node<>* cellXf = cellXfs->first_node();
          cellXf; cellXf = cellXf->next_sibling()) {
-      if (cellXf->first_attribute("numFmtId") != NULL) {
-        int formatId = atoi(cellXf->first_attribute("numFmtId")->value());
-        if (isDateTime(formatId, customDateFormats))
-          dateStyles_.insert(i);
-        ++i;
+      if (cellXf->first_attribute("numFmtId") == NULL) {
+        continue;
       }
+      int formatId = atoi(cellXf->first_attribute("numFmtId")->value());
+      if (isDateTime(formatId, customDateFormats))
+        dateStyles_.insert(i);
+      ++i;
     }
   }
 
