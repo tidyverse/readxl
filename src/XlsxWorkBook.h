@@ -31,12 +31,14 @@ public:
     Rcpp::CharacterVector sheetNames(n);
 
     rapidxml::xml_node<>* root = workbook.first_node("workbook");
-    if (root == NULL)
+    if (root == NULL) {
       return sheetNames;
+    }
 
     rapidxml::xml_node<>* sheets = root->first_node("sheets");
-    if (sheets == NULL)
+    if (sheets == NULL) {
       return sheetNames;
+    }
 
     int i = 0;
     for (rapidxml::xml_node<>* sheet = sheets->first_node();
@@ -50,8 +52,9 @@ public:
       i++;
     }
 
-    if (i != n)
+    if (i != n) {
       sheetNames = Rf_lengthgets(sheetNames, i);
+    }
 
     return sheetNames;
   }
@@ -76,16 +79,18 @@ public:
 private:
 
   void cacheStringTable() {
-    if (!zip_has_file(path_, "xl/sharedStrings.xml"))
+    if (!zip_has_file(path_, "xl/sharedStrings.xml")) {
       return;
+    }
 
     std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
     rapidxml::xml_document<> sharedStrings;
     sharedStrings.parse<0>(&sharedStringsXml[0]);
 
     rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
-    if (sst == NULL)
+    if (sst == NULL) {
       return;
+    }
 
     rapidxml::xml_attribute<>* count = sst->first_attribute("count");
     if (count != NULL) {
@@ -108,8 +113,9 @@ private:
     sharedStrings.parse<0>(&sharedStringsXml[0]);
 
     rapidxml::xml_node<>* styleSheet = sharedStrings.first_node("styleSheet");
-    if (styleSheet == NULL)
+    if (styleSheet == NULL) {
       return;
+    }
 
     // Figure out which custom formats are dates
     std::set<int> customDateFormats;
@@ -120,15 +126,17 @@ private:
         std::string code(numFmt->first_attribute("formatCode")->value());
         int id = atoi(numFmt->first_attribute("numFmtId")->value());
 
-        if (isDateFormat(code))
+        if (isDateFormat(code)) {
           customDateFormats.insert(id);
+        }
       }
     }
 
     // Cache styles that have date formatting
     rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
-    if (cellXfs == NULL)
+    if (cellXfs == NULL) {
       return;
+    }
 
     int i = 0;
     for (rapidxml::xml_node<>* cellXf = cellXfs->first_node();
@@ -146,16 +154,19 @@ private:
     workbook.parse<0>(&workbookXml[0]);
 
     rapidxml::xml_node<>* root = workbook.first_node("workbook");
-    if (root == NULL)
+    if (root == NULL) {
       return false;
+    }
 
     rapidxml::xml_node<>* workbookPr = root->first_node("workbookPr");
-    if (workbookPr == NULL)
+    if (workbookPr == NULL) {
       return false;
+    }
 
     rapidxml::xml_attribute<>* date1904 = workbookPr->first_attribute("date1904");
-    if (date1904 == NULL)
+    if (date1904 == NULL) {
       return false;
+    }
 
     return atoi(date1904->value()) == 1;
   }
