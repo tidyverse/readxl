@@ -20,4 +20,3 @@ excel_sheets(system.file("extdata/datasets.xls", package = "readxl"))
 path <- system.file("extdata/datasets.xls", package = "readxl")
 lapply(excel_sheets(path), read_excel, path = path)
 }
-
