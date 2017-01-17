@@ -50,6 +50,9 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
 
   if (is.null(col_types)) {
     col_types <- xls_col_types(path, sheet, na = na, nskip = skip, has_col_names = has_col_names)
+    if (any(idx <- col_types == "blank")) 
+      warning("Found blank columns: ", 
+              paste(which(idx), collapse = ","))
   }
 
   as_data_frame(
