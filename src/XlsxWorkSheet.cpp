@@ -63,7 +63,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
       int p = ws.ncol();
       colNames = CharacterVector(p);
       for (int j = 0; j < p; ++j) {
-        colNames[j] = tfm::format("X%i", j);
+        colNames[j] = tfm::format("X%i", j+1);
       }
     }
     break;
