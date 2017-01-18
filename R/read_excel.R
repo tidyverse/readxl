@@ -89,12 +89,12 @@ standardise_sheet <- function(sheet, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
-    floor(sheet) - 1L
+    floor(sheet)
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
     }
-    match(sheet, sheet_names) - 1L
+    match(sheet, sheet_names)
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }

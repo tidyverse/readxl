@@ -24,8 +24,8 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(XlsxWorkBook wb, int i): wb_(wb) {
-    std::string sheetPath = tfm::format("xl/worksheets/sheet%i.xml", i + 1);
+  XlsxWorkSheet(XlsxWorkBook wb, int sheet_id): wb_(wb) {
+    std::string sheetPath = wb.sheetPath(sheet_id);
     sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);
 
