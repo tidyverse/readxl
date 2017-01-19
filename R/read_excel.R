@@ -28,7 +28,6 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
 
   path <- check_file(path)
-  ext <- tolower(tools::file_ext(path))
 
   switch(excel_format(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip),
