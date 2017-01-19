@@ -38,7 +38,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
-  sheet <- standardise_sheet(sheet, xls_sheets(path))
+  sheet <- standardise_sheet(sheet, xls_sheets(path)) - 1L
 
   has_col_names <- isTRUE(col_names)
   if (has_col_names) {
