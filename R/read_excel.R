@@ -6,15 +6,15 @@ NULL
 #' Read xls and xlsx files.
 #'
 #' @param path Path to the xls/xlsx file
-#' @param sheet Sheet to read. Either a string (the name of a sheet), or
-#'   an integer (the position of the sheet). Defaults to the first sheet.
+#' @param sheet Sheet to read. Either a string (the name of a sheet), or an
+#'   integer (the position of the sheet). Defaults to the first sheet.
 #' @param col_names Either \code{TRUE} to use the first row as column names,
-#'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn},
-#'   or a character vector giving a name for each column.
+#'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
+#'   a character vector giving a name for each column.
 #' @param col_types Either \code{NULL} to guess from the spreadsheet or a
 #'   character vector containing "blank", "numeric", "date" or "text".
-#' @param na Missing value. By default readxl converts blank cells to missing
-#'   data. Set this value if you have used a sentinel value for missing values.
+#' @param na Character vector of strings to use for missing values. By
+#'   default readxl converts blank cells to missing data.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
