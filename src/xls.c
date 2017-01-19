@@ -914,9 +914,11 @@ void xls_parseWorkBook(xlsWorkBook* pWB)
 			break;
 		
 		case XLS_RECORD_DEFINEDNAME:
-			printf("DEFINEDNAME: ");
-			for(int i=0; i<bof1.size; ++i) printf("%2.2x ", buf[i]);
-			printf("\n");
+			if(xls_debug) {
+				printf("DEFINEDNAME: ");
+				for(int i=0; i<bof1.size; ++i) printf("%2.2x ", buf[i]);
+				printf("\n");
+			}
 			break;
 			
 #ifdef DEBUG_DRAWINGS
