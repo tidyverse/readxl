@@ -23,7 +23,7 @@ IntegerVector parse_ref(std::string ref) {
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                std::string na = "", int nskip = 0,
-                               int n = 100) {
+                               int n = 1000) {
 
   XlsxWorkSheet ws(path, sheet);
   std::vector<CellType> types = ws.colTypes(na, nskip, n);
@@ -76,7 +76,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, nskip, 100, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, nskip, 1000, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));

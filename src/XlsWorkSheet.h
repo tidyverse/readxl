@@ -65,7 +65,7 @@ public:
     return out;
   }
 
-  std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 100) {
+  std::vector<CellType> colTypes(std::string na, int nskip = 0, int n_max = 1000) {
     std::vector<CellType> types(ncol_);
 
     for (int i = nskip; i < nrow_ && i < n_max; ++i) {

@@ -63,7 +63,7 @@ public:
   }
 
 
-  std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 100, bool has_col_names = false) {
+  std::vector<CellType> colTypes(const std::string& na, int nskip = 0, int n_max = 1000, bool has_col_names = false) {
     rapidxml::xml_node<>* row = getRow(nskip + has_col_names);
     std::vector<CellType> types;
     types.resize(ncol_);
