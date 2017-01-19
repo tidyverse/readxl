@@ -48,13 +48,13 @@ inline std::string cellTypeDesc(CellType type) {
 
 inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
                          const std::set<int>& customDateFormats,
-                         std::string na = "") {
+                         std::vector<std::string> na = {""}) {
   // Find codes in [MS-XLS] S2.3.2 (p175).
   // See xls_addCell for those used for cells
   switch(cell.id) {
   case 253: // LabelSst
   case 516: // Label
-    return (na.compare((char*) cell.str) == 0) ? CELL_BLANK : CELL_TEXT;
+    return (std::any_of(na.cbegin(), na.cend(), [&](std::string i){ return i.compare((char*) cell.str) == 0; })) ? CELL_BLANK : CELL_TEXT;
     break;
 
   case 6:    // formula
@@ -62,7 +62,7 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
     if (cell.l == 0) {
       return CELL_NUMERIC;
     } else {
-      if (na.compare((char*) cell.str) == 0) {
+      if (std::any_of(na.cbegin(), na.cend(), [&](std::string i){ return i.compare((char*) cell.str) == 0; })) {
         return CELL_BLANK;
       } else {
         return CELL_TEXT;

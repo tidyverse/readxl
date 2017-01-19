@@ -22,7 +22,7 @@ IntegerVector parse_ref(std::string ref) {
 
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
-                               std::string na = "", int nskip = 0,
+                               std::vector<std::string> na = {""}, int nskip = 0,
                                int n = 100) {
 
   XlsxWorkSheet ws(path, sheet);
@@ -43,7 +43,7 @@ CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
 
 // [[Rcpp::export]]
 List read_xlsx_(std::string path, int sheet, RObject col_names,
-                RObject col_types, std::string na, int nskip = 0) {
+                RObject col_types, std::vector<std::string> na, int nskip = 0) {
 
   XlsxWorkSheet ws(path, sheet);
 
