@@ -1,5 +1,9 @@
 # readxl 0.1.1.9000
 
+* Parse dates from .xlsx files saved with LibreOffice (#134, @zeehio).
+
+* Default column names on .xlsx files now start with X1 instead of X0 (#98, @zeehio, @krlmlr).
+
 * Unwanted printed output (e.g., `DEFINEDNAME: 21 00 00 ...`) is suppressed when reading .xls that contains a defined range, (#82, #188, @PedramNavid).
 
 * Don't access value of `numFmtId` attribute when it does not exist. Can occur in xlsx written by <http://epplus.codeplex.com/> (#191, #229).

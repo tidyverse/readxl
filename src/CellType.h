@@ -116,10 +116,15 @@ inline bool isDateFormat(std::string x) {
   for (size_t i = 0; i < x.size(); ++i) {
     switch (x[i]) {
     case 'd':
+    case 'D':
     case 'm': // 'mm' for minutes
+    case 'M':
     case 'y':
+    case 'Y':
     case 'h': // 'hh'
+    case 'H':
     case 's': // 'ss'
+    case 'S':
       return true;
     default:
       break;
