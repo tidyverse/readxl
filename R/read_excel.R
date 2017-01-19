@@ -27,13 +27,26 @@ NULL
 read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
 
-  path <- check_file(path)
-  ext <- tolower(tools::file_ext(path))
+  if (substring(path, 1, 7) == "http://" ||
+      substring(path, 1, 6) == "ftp://") {
+    ext <- tolower(tools::file_ext(path))
+    tmp <- tempfile(fileext = paste0(".", ext))
+    download.file(path, destfile = tmp, mode = "wb")
 
-  switch(excel_format(path),
-    xls =  read_xls(path, sheet, col_names, col_types, na, skip),
-    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
-  )
+    switch(excel_format(tmp),
+           xls =  read_xls(tmp, sheet, col_names, col_types, na, skip),
+           xlsx = read_xlsx(tmp, sheet, col_names, col_types, na, skip)
+    )
+  }
+  else {
+    path <- check_file(path)
+    ext <- tolower(tools::file_ext(path))
+
+    switch(excel_format(path),
+           xls =  read_xls(path, sheet, col_names, col_types, na, skip),
+           xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip)
+    )
+  }
 }
 
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
