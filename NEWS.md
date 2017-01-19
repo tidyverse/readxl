@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Support multiple NA values, e.g., `read_excel("missing-values.xls", na = c("NA", "1"))` (#13, #56, @jmarshallnz).
+
 * Parse dates from .xlsx files saved with LibreOffice (#134, @zeehio).
 
 * Default column names on .xlsx files now start with X1 instead of X0 (#98, @zeehio, @krlmlr).
