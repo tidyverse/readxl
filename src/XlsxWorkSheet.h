@@ -5,6 +5,7 @@
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
 #include "XlsxCell.h"
+#include <string>
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
@@ -118,9 +119,11 @@ public:
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<CellType>& types,
                       const std::string& na, int nskip = 0) {
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
-
+    if ((int) names.size() != ncol_ || (int) types.size() != ncol_) { 
+      Rcpp::stop(Rcpp::sprintf<100>("Recieved %d names and %d types but worksheet contains %d columns.", 
+				    names.size(), types.size(),  ncol_).c_str());
+    } 
+    
     // Initialise columns
     int n = nrow_ - nskip;
     Rcpp::List cols(ncol_);

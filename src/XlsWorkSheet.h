@@ -6,6 +6,7 @@
 #include "XlsWorkBook.h"
 #include "CellType.h"
 #include "utils.h"
+#include <string>
 
 class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
@@ -18,9 +19,10 @@ public:
   XlsWorkSheet(const XlsWorkBook& wb, int i) {
     offset_ = dateOffset(wb.workbook()->is1904);
 
-    if (i < 0 || i >= wb.nSheets())
-      Rcpp::stop("Invalid sheet index");
-
+    if (i < 0 || i >= wb.nSheets()) {
+      Rcpp::stop(Rcpp::sprintf<80>( "Invalid sheet index.  Should be in [0, %d]", wb.nSheets() ).c_str());
+    }
+    
     pWS_ = xls_getWorkSheet(wb.workbook(), i);
     if (pWS_ == NULL)
       Rcpp::stop("Failed open sheet");
@@ -89,9 +91,11 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
                       std::string na, int nskip = 0) {
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
-
+    if ((int) names.size() != ncol_ || (int) types.size() != ncol_) {
+      Rcpp::stop(Rcpp::sprintf<100>("Recieved %d names and %d types but worksheet contains %d columns.", 
+				    names.size(), types.size(),  ncol_).c_str());
+    } 
+    
     Rcpp::List cols(ncol_);
 
     // Initialise columns
