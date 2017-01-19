@@ -19,7 +19,7 @@ License: GPL-3 + file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp (>= 0.11.5),
+    Rcpp (>= 0.11.6),
     tibble
 Suggests:
     testthat
