@@ -22,5 +22,6 @@ Imports:
     Rcpp (>= 0.11.6),
     tibble
 Suggests:
+    covr,
     testthat
 RoxygenNote: 5.0.1.9000

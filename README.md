@@ -1,6 +1,6 @@
 # readxl
 
-[![Travis-CI Build Status](https://travis-ci.org/hadley/readxl.svg?branch=master)](https://travis-ci.org/hadley/readxl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/readxl?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/readxl) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
+[![Travis-CI Build Status](https://travis-ci.org/hadley/readxl.svg?branch=master)](https://travis-ci.org/hadley/readxl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/readxl?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/readxl) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/readxl/master.svg)](https://codecov.io/github/hadley/readxl?branch=master) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
 
 The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
