@@ -25,6 +25,10 @@ class XlsxWorkSheet {
 public:
 
   XlsxWorkSheet(XlsxWorkBook wb, int sheet_id): wb_(wb) {
+    if (sheet_id > wb.n_sheets()) {
+      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheets found.",
+                 sheet_id,  wb.n_sheets());
+    }
     std::string sheetPath = wb.sheetPath(sheet_id);
     sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);

@@ -94,6 +94,9 @@ class XlsxWorkBook {
     Rcpp::CharacterVector names() {
       return names_;
     }
+    int n_sheets() {
+      return n_;
+    }
 
     std::string target(int sheet_id) {
       std::string id = Rcpp::as<std::string>(id_[sheet_id - 1]);
@@ -124,6 +127,10 @@ public:
 
   Rcpp::CharacterVector sheets() {
       return rel_.names();
+  }
+
+  int n_sheets() {
+    return rel_.n_sheets();
   }
 
   std::string sheetPath(int sheet_id) {
