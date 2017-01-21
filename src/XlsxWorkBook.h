@@ -23,12 +23,14 @@ class XlsxWorkBook {
       workbook.parse<0>(&workbookXml[0]);
 
       rapidxml::xml_node<>* root = workbook.first_node("workbook");
-      if (root == NULL)
+      if (root == NULL) {
         return;
+      }
 
       rapidxml::xml_node<>* sheets = root->first_node("sheets");
-      if (sheets == NULL)
+      if (sheets == NULL) {
         return;
+      }
 
       int i = 0;
       for (rapidxml::xml_node<>* sheet = sheets->first_node();
@@ -65,8 +67,9 @@ class XlsxWorkBook {
       rels_xml.parse<0>(&rels_xml_file[0]);
 
       rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
-      if (relationships == NULL)
+      if (relationships == NULL) {
         return;
+      }
 
       for (rapidxml::xml_node<>* relationship = relationships->first_node();
            relationship; relationship = relationship->next_sibling()) {
@@ -112,7 +115,8 @@ public:
 
   XlsxWorkBook(const std::string& path):
   path_(path),
-  rel_(path) {
+  rel_(path)
+  {
     offset_ = dateOffset(is1904());
     cacheStringTable();
     cacheDateStyles();
