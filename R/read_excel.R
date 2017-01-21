@@ -89,6 +89,9 @@ standardise_sheet <- function(sheet, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
+    if (sheet < 1) {
+      stop("`sheet` must be positive", call. = FALSE)
+    }
     floor(sheet)
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {

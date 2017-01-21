@@ -10,6 +10,23 @@ test_that("excel_sheets returns utf-8 encoded text", {
   # \u00b5 and libxls is giving \xb5
 })
 
+test_that("informative error when requesting non-existent sheet by name", {
+  expect_error(read_excel("iris-excel.xlsx", sheet = "tulip"),
+               "Sheet 'tulip' not found")
+})
+
+test_that("informative error when requesting non-existent sheet by position", {
+  expect_error(read_excel("iris-excel.xlsx", sheet = 200),
+               "Can't retrieve sheet in position")
+})
+
+test_that("invalid sheet values caught", {
+  expect_error(read_excel("iris-excel.xlsx", sheet = 0),
+               "`sheet` must be positive")
+  expect_error(read_excel("iris-excel.xlsx", sheet = rep(1L, 2)),
+               "`sheet` must have length 1")
+})
+
 ## #104, #168, some of #80
 ## #116, #200 (chartsheet case)
 test_that("sheet data xml target is explicitly looked up [xlsx]", {
@@ -25,6 +42,8 @@ test_that("sheet data xml target is explicitly looked up [xlsx]", {
   ## 4   Europe  rId6 xl/worksheets/sheet1.xml
   ## 5  Oceania  rId7 xl/worksheets/sheet2.xml
   ## tests that we find xml target like so: name -> Id -> Target
+  ## embedded-chartsheet.xlsx has an embedded chartsheet but I see no
+  ## current reason to write another test
   for (cty in countries) {
     df <- read_excel(xlsx, sheet = cty)
     expect_identical(df$continent[1], cty)
