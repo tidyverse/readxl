@@ -13,7 +13,6 @@ class XlsxWorkBook {
   class SheetRelations {
     int n_;
     Rcpp::CharacterVector names_;
-    Rcpp::IntegerVector sheet_id_;
     Rcpp::CharacterVector id_;
     std::unordered_map<std::string, std::string> target_;
 
@@ -38,14 +37,10 @@ class XlsxWorkBook {
         if (i >= n_) {
           n_ *= 2;
           names_ = Rf_lengthgets(names_, n_);
-          sheet_id_ = Rf_lengthgets(sheet_id_, n_);
           id_ = Rf_lengthgets(id_, n_);
         }
         rapidxml::xml_attribute<>* name = sheet->first_attribute("name");
         names_[i] = (name != NULL) ? Rf_mkCharCE(name->value(), CE_UTF8) : NA_STRING;
-
-        rapidxml::xml_attribute<>* sheet_id = sheet->first_attribute("sheetId");
-        sheet_id_[i] = (sheet_id != NULL) ? atoi(sheet_id->value()) : NA_INTEGER;
 
         rapidxml::xml_attribute<>* id = sheet->first_attribute("r:id");
         id_[i] = (id != NULL) ? Rf_mkCharCE(id->value(), CE_UTF8) : NA_STRING;
@@ -55,7 +50,6 @@ class XlsxWorkBook {
 
       if (i != n_) {
         names_ = Rf_lengthgets(names_, i);
-        sheet_id_ = Rf_lengthgets(sheet_id_, i);
         id_ = Rf_lengthgets(id_, i);
         n_ = i;
       }
@@ -85,7 +79,6 @@ class XlsxWorkBook {
     SheetRelations(const std::string& path) :
     n_(100),
     names_(n_),
-    sheet_id_(n_),
     id_(n_)
     {
       parse_workbook(path);
@@ -98,8 +91,8 @@ class XlsxWorkBook {
       return n_;
     }
 
-    std::string target(int sheet_id) {
-      std::string id = Rcpp::as<std::string>(id_[sheet_id - 1]);
+    std::string target(int sheet_i) {
+      std::string id = Rcpp::as<std::string>(id_[sheet_i - 1]);
       std::unordered_map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
         Rcpp::stop("`%s` not found", id);
@@ -133,8 +126,8 @@ public:
     return rel_.n_sheets();
   }
 
-  std::string sheetPath(int sheet_id) {
-    return "xl/" + rel_.target(sheet_id);
+  std::string sheetPath(int sheet_i) {
+    return "xl/" + rel_.target(sheet_i);
   }
 
   const std::string& path() {
