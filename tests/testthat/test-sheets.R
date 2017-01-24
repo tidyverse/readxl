@@ -35,9 +35,7 @@ test_that("invalid sheet values caught", {
   )
 })
 
-## #104, #168, some of #80
-## #116, #200 (chartsheet case)
-test_that("sheet data xml target is explicitly looked up [xlsx]", {
+test_that("sheet data xml target is explicitly looked up (#104, #80)", {
   xlsx <- "sheet-xml-lookup.xlsx"
   countries <- excel_sheets(xlsx)
   ## what's important about this workbook?
@@ -49,9 +47,9 @@ test_that("sheet data xml target is explicitly looked up [xlsx]", {
   ## 3     Asia  rId5 xl/worksheets/sheet5.xml
   ## 4   Europe  rId6 xl/worksheets/sheet1.xml
   ## 5  Oceania  rId7 xl/worksheets/sheet2.xml
-  ## tests that we find xml target like so: name -> Id -> Target
+  ## tests that we find xml target like so: (name ->) i -> Id -> Target
   ## embedded-chartsheet.xlsx has an embedded chartsheet but I see no
-  ## current reason to write another test
+  ## current reason to explicitly test (#116, #200)
   for (cty in countries) {
     df <- read_excel(xlsx, sheet = cty)
     expect_identical(df$continent[1], cty)
