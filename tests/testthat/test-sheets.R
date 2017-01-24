@@ -11,20 +11,28 @@ test_that("excel_sheets returns utf-8 encoded text", {
 })
 
 test_that("informative error when requesting non-existent sheet by name", {
-  expect_error(read_excel("iris-excel.xlsx", sheet = "tulip"),
-               "Sheet 'tulip' not found")
+  expect_error(
+    read_excel("iris-excel.xlsx", sheet = "tulip"),
+    "Sheet 'tulip' not found"
+  )
 })
 
 test_that("informative error when requesting non-existent sheet by position", {
-  expect_error(read_excel("iris-excel.xlsx", sheet = 200),
-               "Can't retrieve sheet in position")
+  expect_error(
+    read_excel("iris-excel.xlsx", sheet = 200),
+    "Can't retrieve sheet in position"
+  )
 })
 
 test_that("invalid sheet values caught", {
-  expect_error(read_excel("iris-excel.xlsx", sheet = 0),
-               "`sheet` must be positive")
-  expect_error(read_excel("iris-excel.xlsx", sheet = rep(1L, 2)),
-               "`sheet` must have length 1")
+  expect_error(
+    read_excel("iris-excel.xlsx", sheet = 0),
+    "`sheet` must be positive"
+  )
+  expect_error(
+    read_excel("iris-excel.xlsx", sheet = rep(1L, 2)),
+    "`sheet` must have length 1"
+  )
 })
 
 ## #104, #168, some of #80
