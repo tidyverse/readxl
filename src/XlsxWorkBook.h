@@ -55,7 +55,7 @@ class XlsxWorkBook {
       }
     }
 
-    void parse_workbook_rels(const std::string path) {
+    void parse_workbook_rels(const std::string& path) {
       std::string rels_xml_file = zip_buffer(path, "xl/_rels/workbook.xml.rels");
       rapidxml::xml_document<> rels_xml;
       rels_xml.parse<0>(&rels_xml_file[0]);
