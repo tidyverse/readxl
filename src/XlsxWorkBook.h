@@ -14,7 +14,7 @@ class XlsxWorkBook {
     int n_;
     Rcpp::CharacterVector names_;
     Rcpp::CharacterVector id_;
-    std::unordered_map<std::string, std::string> target_;
+    std::map<std::string, std::string> target_;
 
     void parse_workbook(const std::string& path) {
       std::string workbookXml = zip_buffer(path, "xl/workbook.xml");
@@ -93,7 +93,7 @@ class XlsxWorkBook {
 
     std::string target(int sheet_i) {
       std::string id = Rcpp::as<std::string>(id_[sheet_i - 1]);
-      std::unordered_map<std::string, std::string>::const_iterator it = target_.find(id);
+      std::map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
         Rcpp::stop("`%s` not found", id);
       }
