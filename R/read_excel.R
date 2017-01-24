@@ -38,7 +38,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
-  sheet <- standardise_sheet(sheet, xls_sheets(path))
+  sheet <- standardise_sheet(sheet, xls_sheets(path)) - 1L
 
   has_col_names <- isTRUE(col_names)
   if (has_col_names) {
@@ -89,12 +89,15 @@ standardise_sheet <- function(sheet, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
-    floor(sheet) - 1L
+    if (sheet < 1) {
+      stop("`sheet` must be positive", call. = FALSE)
+    }
+    floor(sheet)
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
     }
-    match(sheet, sheet_names) - 1L
+    match(sheet, sheet_names)
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }

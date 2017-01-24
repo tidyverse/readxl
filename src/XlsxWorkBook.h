@@ -9,56 +9,127 @@
 #include "zip.h"
 
 class XlsxWorkBook {
+
+  // holds objects related to sheet position, name, and xml target file
+  class SheetRelations {
+    int n_;
+    Rcpp::CharacterVector names_;
+    Rcpp::CharacterVector id_;
+    std::map<std::string, std::string> target_;
+
+    void parse_workbook(const std::string& path) {
+      std::string workbookXml = zip_buffer(path, "xl/workbook.xml");
+      rapidxml::xml_document<> workbook;
+      workbook.parse<0>(&workbookXml[0]);
+
+      rapidxml::xml_node<>* root = workbook.first_node("workbook");
+      if (root == NULL) {
+        return;
+      }
+
+      rapidxml::xml_node<>* sheets = root->first_node("sheets");
+      if (sheets == NULL) {
+        return;
+      }
+
+      int i = 0;
+      for (rapidxml::xml_node<>* sheet = sheets->first_node();
+           sheet; sheet = sheet->next_sibling()) {
+        if (i >= n_) {
+          n_ *= 2;
+          names_ = Rf_lengthgets(names_, n_);
+          id_ = Rf_lengthgets(id_, n_);
+        }
+        rapidxml::xml_attribute<>* name = sheet->first_attribute("name");
+        names_[i] = (name != NULL) ? Rf_mkCharCE(name->value(), CE_UTF8) : NA_STRING;
+
+        rapidxml::xml_attribute<>* id = sheet->first_attribute("r:id");
+        id_[i] = (id != NULL) ? Rf_mkCharCE(id->value(), CE_UTF8) : NA_STRING;
+
+        i++;
+      }
+
+      if (i != n_) {
+        names_ = Rf_lengthgets(names_, i);
+        id_ = Rf_lengthgets(id_, i);
+        n_ = i;
+      }
+    }
+
+    void parse_workbook_rels(const std::string& path) {
+      std::string rels_xml_file = zip_buffer(path, "xl/_rels/workbook.xml.rels");
+      rapidxml::xml_document<> rels_xml;
+      rels_xml.parse<0>(&rels_xml_file[0]);
+
+      rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
+      if (relationships == NULL) {
+        return;
+      }
+
+      for (rapidxml::xml_node<>* relationship = relationships->first_node();
+           relationship; relationship = relationship->next_sibling()) {
+        rapidxml::xml_attribute<>* id = relationship->first_attribute("Id");
+        rapidxml::xml_attribute<>* target = relationship->first_attribute("Target");
+        if (id != NULL && target != NULL) {
+          target_[id->value()] = target->value();
+        }
+      }
+    }
+
+  public:
+    SheetRelations(const std::string& path) :
+    n_(100),
+    names_(n_),
+    id_(n_)
+    {
+      parse_workbook(path);
+      parse_workbook_rels(path);
+    }
+    Rcpp::CharacterVector names() {
+      return names_;
+    }
+    int n_sheets() {
+      return n_;
+    }
+
+    std::string target(int sheet_i) {
+      std::string id = Rcpp::as<std::string>(id_[sheet_i - 1]);
+      std::map<std::string, std::string>::const_iterator it = target_.find(id);
+      if (it == target_.end()) {
+        Rcpp::stop("`%s` not found", id);
+      }
+      return it->second;
+    }
+  };
+
   std::string path_;
   std::set<int> dateStyles_;
   std::vector<std::string> stringTable_;
   double offset_;
+  SheetRelations rel_;
 
 public:
 
-  XlsxWorkBook(const std::string& path): path_(path) {
+  XlsxWorkBook(const std::string& path):
+  path_(path),
+  rel_(path)
+  {
     offset_ = dateOffset(is1904());
     cacheStringTable();
     cacheDateStyles();
   }
 
   Rcpp::CharacterVector sheets() {
-    std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
-    rapidxml::xml_document<> workbook;
-    workbook.parse<0>(&workbookXml[0]);
-
-    int n = 100;
-    Rcpp::CharacterVector sheetNames(n);
-
-    rapidxml::xml_node<>* root = workbook.first_node("workbook");
-    if (root == NULL) {
-      return sheetNames;
-    }
-
-    rapidxml::xml_node<>* sheets = root->first_node("sheets");
-    if (sheets == NULL) {
-      return sheetNames;
-    }
-
-    int i = 0;
-    for (rapidxml::xml_node<>* sheet = sheets->first_node();
-         sheet; sheet = sheet->next_sibling()) {
-      if (i >= n) {
-        n *= 2;
-        sheetNames = Rf_lengthgets(sheetNames, n);
-      }
-      rapidxml::xml_attribute<>* name = sheet->first_attribute("name");
-      sheetNames[i] = (name != NULL) ? Rf_mkCharCE(name->value(), CE_UTF8) : NA_STRING;
-      i++;
-    }
-
-    if (i != n) {
-      sheetNames = Rf_lengthgets(sheetNames, i);
-    }
-
-    return sheetNames;
+      return rel_.names();
   }
 
+  int n_sheets() {
+    return rel_.n_sheets();
+  }
+
+  std::string sheetPath(int sheet_i) {
+    return "xl/" + rel_.target(sheet_i);
+  }
 
   const std::string& path() {
     return path_;

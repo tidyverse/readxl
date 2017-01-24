@@ -24,8 +24,12 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(XlsxWorkBook wb, int i): wb_(wb) {
-    std::string sheetPath = tfm::format("xl/worksheets/sheet%i.xml", i + 1);
+  XlsxWorkSheet(XlsxWorkBook wb, int sheet_i): wb_(wb) {
+    if (sheet_i > wb.n_sheets()) {
+      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheets found.",
+                 sheet_i,  wb.n_sheets());
+    }
+    std::string sheetPath = wb.sheetPath(sheet_i);
     sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);
 
