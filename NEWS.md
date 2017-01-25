@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* read_xls and read_xlsx are now exposed, such that files without ending can be read (#85, @jirkalewandowski)
+
 * Support multiple NA values, e.g., `read_excel("missing-values.xls", na = c("NA", "1"))` (#13, #56, @jmarshallnz).
 
 * Parse dates from .xlsx files saved with LibreOffice (#134, @zeehio).
