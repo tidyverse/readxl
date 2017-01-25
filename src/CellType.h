@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
+#include "StringSet.h"
 
 enum CellType {
   CELL_BLANK,
@@ -48,21 +49,21 @@ inline std::string cellTypeDesc(CellType type) {
 
 inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
                          const std::set<int>& customDateFormats,
-                         std::string na = "") {
+                         const StringSet &na = "") {
   // Find codes in [MS-XLS] S2.3.2 (p175).
   // See xls_addCell for those used for cells
   switch(cell.id) {
   case 253: // LabelSst
   case 516: // Label
-    return (na.compare((char*) cell.str) == 0) ? CELL_BLANK : CELL_TEXT;
+    return na.contains((char*) cell.str) ? CELL_BLANK : CELL_TEXT;
     break;
 
   case 6:    // formula
   case 1030: // formula (Apple Numbers Bug)
     if (cell.l == 0) {
-      return CELL_NUMERIC;
+      return na.contains(cell.d) ? CELL_BLANK : CELL_NUMERIC;
     } else {
-      if (na.compare((char*) cell.str) == 0) {
+      if (na.contains((char*) cell.str)) {
         return CELL_BLANK;
       } else {
         return CELL_TEXT;
@@ -74,6 +75,9 @@ inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
   case 515: // Number
   case 638: // Rk
     {
+      if (na.contains(cell.d))
+        return CELL_BLANK;
+
       if (styles == NULL)
         return CELL_NUMERIC;
 
@@ -116,10 +120,15 @@ inline bool isDateFormat(std::string x) {
   for (size_t i = 0; i < x.size(); ++i) {
     switch (x[i]) {
     case 'd':
+    case 'D':
     case 'm': // 'mm' for minutes
+    case 'M':
     case 'y':
+    case 'Y':
     case 'h': // 'hh'
+    case 'H':
     case 's': // 'ss'
+    case 'S':
       return true;
     default:
       break;
@@ -151,9 +160,10 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   return R_NilValue;
 }
 
-// Make data frame from list of columns, dropping blanks
-inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
-                        std::vector<CellType> types) {
+// Drop blanks from list of columns
+inline Rcpp::List removeBlankColumns(Rcpp::List cols,
+                                     Rcpp::CharacterVector names,
+                                     std::vector<CellType> types) {
   int p = cols.size();
 
   int p_out = 0;
@@ -175,9 +185,6 @@ inline Rcpp::List colDataframe(Rcpp::List cols, Rcpp::CharacterVector names,
   }
 
   // Turn list into a data frame
-  int n = (p_out == 0) ? 0 : Rf_length(out[0]);
-  out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
   out.attr("names") = names_out;
 
   return out;

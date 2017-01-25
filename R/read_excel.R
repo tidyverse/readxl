@@ -1,19 +1,20 @@
 #' @useDynLib readxl
 #' @importFrom Rcpp sourceCpp
+#' @importFrom tibble as_data_frame
 NULL
 
 #' Read xls and xlsx files.
 #'
 #' @param path Path to the xls/xlsx file
-#' @param sheet Sheet to read. Either a string (the name of a sheet), or
-#'   an integer (the position of the sheet). Defaults to the first sheet.
+#' @param sheet Sheet to read. Either a string (the name of a sheet), or an
+#'   integer (the position of the sheet). Defaults to the first sheet.
 #' @param col_names Either \code{TRUE} to use the first row as column names,
-#'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn},
-#'   or a character vector giving a name for each column.
+#'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
+#'   a character vector giving a name for each column.
 #' @param col_types Either \code{NULL} to guess from the spreadsheet or a
 #'   character vector containing "blank", "numeric", "date" or "text".
-#' @param na Missing value. By default readxl converts blank cells to missing
-#'   data. Set this value if you have used a sentinel value for missing values.
+#' @param na Character vector of strings to use for missing values. By
+#'   default readxl converts blank cells to missing data.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
@@ -43,7 +44,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
 read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
-  sheet <- standardise_sheet(sheet, xls_sheets(path))
+  sheet <- standardise_sheet(sheet, xls_sheets(path)) - 1L
 
   has_col_names <- isTRUE(col_names)
   if (has_col_names) {
@@ -56,8 +57,11 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
     col_types <- xls_col_types(path, sheet, na = na, nskip = skip, has_col_names = has_col_names)
   }
 
-  xls_cols(path, sheet, col_names = col_names, col_types = col_types, na = na,
-    nskip = skip + has_col_names)
+  as_data_frame(
+    xls_cols(path, sheet, col_names = col_names, col_types = col_types, na = na,
+             nskip = skip + has_col_names),
+    validate = FALSE
+  )
 }
 
 #' @rdname read_excel
@@ -67,8 +71,11 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
   sheet <- standardise_sheet(sheet, xlsx_sheets(path))
 
-  read_xlsx_(path, sheet, col_names = col_names, col_types = col_types, na = na,
-             nskip = skip)
+  as_data_frame(
+    read_xlsx_(path, sheet, col_names = col_names, col_types = col_types, na = na,
+               nskip = skip),
+    validate = FALSE
+  )
 }
 
 # Helper functions -------------------------------------------------------------
@@ -79,12 +86,15 @@ standardise_sheet <- function(sheet, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
-    floor(sheet) - 1L
+    if (sheet < 1) {
+      stop("`sheet` must be positive", call. = FALSE)
+    }
+    floor(sheet)
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
     }
-    match(sheet, sheet_names) - 1L
+    match(sheet, sheet_names)
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }

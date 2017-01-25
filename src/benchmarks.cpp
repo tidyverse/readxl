@@ -14,6 +14,8 @@ void parseXml(std::string base, std::string internal) {
 
 // [[Rcpp::export]]
 int countRows(std::string base, int sheet) {
+  // FYI: sheet lookup logic has changed in main package
+  // this is not generally correct
   std::string sheetPath = tfm::format("xl/worksheets/sheet%i.xml", sheet + 1);
 
   std::string file = zip_buffer(base, sheetPath);
