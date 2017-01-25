@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Logic for sheet lookup in xlsx is more robust. Improves compatibility with xlsx written by tools other than Excel and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester, @jennybc)
+
 * Support multiple NA values, e.g., `read_excel("missing-values.xls", na = c("NA", "1"))` (#13, #56, @jmarshallnz).
 
 * Parse dates from .xlsx files saved with LibreOffice (#134, @zeehio).
