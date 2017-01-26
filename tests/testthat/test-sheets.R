@@ -1,7 +1,7 @@
 context("Sheets")
 
 test_that("excel_sheets returns utf-8 encoded text", {
-  sheets <- excel_sheets("utf8-sheets.xlsx")
+  sheets <- excel_sheets(test_sheet("utf8-sheets.xlsx"))
   expect_equal(Encoding(sheets), rep("UTF-8", 2))
   expect_equal(sheets, c("\u00b5", "\u2202"))
 
@@ -12,31 +12,31 @@ test_that("excel_sheets returns utf-8 encoded text", {
 
 test_that("informative error when requesting non-existent sheet by name", {
   expect_error(
-    read_excel("iris-excel.xlsx", sheet = "tulip"),
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = "tulip"),
     "Sheet 'tulip' not found"
   )
 })
 
 test_that("informative error when requesting non-existent sheet by position", {
   expect_error(
-    read_excel("iris-excel.xlsx", sheet = 200),
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = 200),
     "Can't retrieve sheet in position"
   )
 })
 
 test_that("invalid sheet values caught", {
   expect_error(
-    read_excel("iris-excel.xlsx", sheet = 0),
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = 0),
     "`sheet` must be positive"
   )
   expect_error(
-    read_excel("iris-excel.xlsx", sheet = rep(1L, 2)),
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = rep(1L, 2)),
     "`sheet` must have length 1"
   )
 })
 
 test_that("sheet data xml target is explicitly looked up (#104, #80)", {
-  xlsx <- "sheet-xml-lookup.xlsx"
+  xlsx <- test_sheet("sheet-xml-lookup.xlsx")
   countries <- excel_sheets(xlsx)
   ## what's important about this workbook?
   ## xml target for worksheet i is NOT sheeti.xml
