@@ -23,5 +23,6 @@ Imports:
     tibble
 Suggests:
     covr,
+    rprojroot (>= 1.1),
     testthat
 RoxygenNote: 5.0.1.9000
