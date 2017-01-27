@@ -36,12 +36,13 @@ class XlsxCell {
 
 public:
 
-  XlsxCell(rapidxml::xml_node<>* cell): cell_(cell) {
+  XlsxCell(rapidxml::xml_node<>* cell, int row = -1, int col = -1): cell_(cell) {
     rapidxml::xml_attribute<>* ref = cell_->first_attribute("r");
-    if (ref == NULL)
-      Rcpp::stop("Invalid cell: lacks ref attribute");
-
-    location_ = parseRef(ref->value());
+    if (ref == NULL) {
+      location_ = std::make_pair(row, col);
+    } else {
+      location_ = parseRef(ref->value());
+    }
   }
 
   int row() {

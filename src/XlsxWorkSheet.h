@@ -20,6 +20,7 @@ class XlsxWorkSheet {
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
+  std::vector<XlsxCell> cells_;
   int ncol_, nrow_;
 
 public:
@@ -41,6 +42,7 @@ public:
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
+    loadCells();
     cacheDimension();
   }
 
@@ -65,7 +67,6 @@ public:
       }
     }
   }
-
 
   std::vector<CellType> colTypes(const StringSet& na, int nskip = 0, int n_max = 100, bool has_col_names = false) {
     rapidxml::xml_node<>* row = getRow(nskip + has_col_names);
@@ -216,47 +217,69 @@ private:
   void cacheDimension() {
     // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
     rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
-    if (dimension == NULL)
+    if (dimension == NULL) {
       return computeDimensions();
+    }
 
     rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
-    if (ref == NULL)
+    if (ref == NULL) {
       return computeDimensions();
+    }
 
     const char* refv = ref->value();
     while (*refv != ':' && *refv != '\0')
       ++refv;
-    if (*refv == '\0')
+    if (*refv == '\0') {
       return computeDimensions();
+    }
 
     ++refv; // advanced past :
     std::pair<int, int> dim = parseRef(refv);
-    if (dim.first == -1 || dim.second == -1)
+    if (dim.first == -1 || dim.second == -1) {
       return computeDimensions();
+    }
 
     nrow_ = dim.first + 1; // size is one greater than max position
     ncol_ = dim.second + 1;
   }
 
+  void loadCells() {
+    rapidxml::xml_node<>* row = sheetData_->first_node("row");
+    if (row == NULL) {
+      Rcpp::stop("Invalid sheet xml: no <row>");
+    }
+
+    int j = 0;
+    for (int i = 0; row; row = row->next_sibling("row")) {
+      j = 0;
+      for (rapidxml::xml_node<>* cell = row->first_node("c");
+           cell; cell = cell->next_sibling("c")) {
+        XlsxCell xcell(cell, i, j);
+        cells_.push_back(xcell);
+        j++;
+      }
+      i++;
+    }
+  }
+
+  // If <dimension> not present, consult location data stored in cells
   void computeDimensions() {
-    // If <dimension> not present, iterate over all rows and cells to count
     nrow_ = 0;
     ncol_ = 0;
+    typedef std::vector<XlsxCell>::size_type vec_sz;
+    vec_sz n_cells = cells_.size();
 
-    for (rapidxml::xml_node<>* row = sheetData_->first_node("row");
-      row; row = row->next_sibling("row")) {
+    for (vec_sz i = 0; i != n_cells; ++i) {
 
-      for (rapidxml::xml_node<>* cell = row->first_node("c");
-        cell; cell = cell->next_sibling("c")) {
-
-        XlsxCell xcell(cell);
-        if (nrow_ < xcell.row())
-          nrow_ = xcell.row();
-
-        if (ncol_ < xcell.col())
-          ncol_ = xcell.col();
-
+      XlsxCell xcell = cells_[i];
+      if (nrow_ < xcell.row()) {
+        nrow_ = xcell.row();
       }
+
+      if (ncol_ < xcell.col()) {
+        ncol_ = xcell.col();
+      }
+
     }
     nrow_++;
     ncol_++;
