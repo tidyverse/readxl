@@ -4,3 +4,7 @@
 ^cran-comments\.md$
 ^appveyor\.yml$
 ^codecov\.yml$
+~.*\.xlsx$
+~.*\.xls$
+^tests/testthat/sheets/~.*\.xlsx$
+^tests/testthat/sheets/~.*\.xls$
