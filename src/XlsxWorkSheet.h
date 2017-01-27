@@ -42,6 +42,56 @@ public:
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
     cacheDimension();
+    duplicateMergedCells();
+  }
+  
+  void duplicateMergedCells() {
+    rapidxml::xml_node<>* mergeCells_ = rootNode_->first_node("mergeCells");
+    if (mergeCells_ == NULL)
+      return;
+    for (rapidxml::xml_node<>* merged_cell = mergeCells_->first_node("mergeCell");
+         merged_cell; merged_cell = merged_cell->next_sibling("mergeCell")) {
+    
+      rapidxml::xml_attribute<>* ref = merged_cell->first_attribute("ref");
+      if (ref == NULL)
+        Rcpp::stop("Invalid sheet xml (no ref for <mergeCell>)");
+      
+      const char* refv = ref->value();
+      std::string ref_string = std::string(refv);
+      
+      if (ref_string.find(":") == std::string::npos)
+        Rcpp::stop("No ':' in mergeCell ref '%s'", ref_string);
+        
+      const char * first_str = ref_string.substr(0, ref_string.find(':')).c_str();
+      const char * second_str = ref_string.substr(ref_string.find(':')+1, ref_string.length()).c_str();
+      
+      std::pair<int, int> first_coord = parseRef(first_str);
+      std::pair<int, int> second_coord = parseRef(second_str);
+        
+      rapidxml::xml_node<>* row = getRow(first_coord.first);
+      rapidxml::xml_node<>* to_be_duplicated = getColumn(row, first_coord.second); // node to be duplicated in all the merged cells
+     
+      for (int r_i = first_coord.first; r_i <= second_coord.first && row; r_i++) {
+        
+        rapidxml::xml_node<>* current_node = getColumn(row, first_coord.second);  
+        for (int c_i = first_coord.second; c_i <= second_coord.second; c_i++) {
+            
+          rapidxml::xml_attribute<>* current_node_r = current_node->first_attribute("r"); // gets the old node's name
+           
+          rapidxml::xml_node<>* copied_node = sheetXml_.clone_node( to_be_duplicated ); // clones node 
+          copied_node->remove_attribute(copied_node->first_attribute("r")); // removes new cloned node's name
+          copied_node->prepend_attribute(sheetXml_.allocate_attribute(current_node_r->name(), 
+                                                                      current_node_r->value(), 
+                                                                      current_node_r->name_size(), 
+                                                                      current_node_r->value_size())); // adds old node's name to new node by creating new attribute
+          row->insert_node(current_node, copied_node ); // inserts new node
+          row->remove_node(current_node); // removes old node
+          current_node = current_node->next_sibling("c");
+        }          
+        row = row->next_sibling("row");     
+      }  
+    }
+    return;
   }
 
   int ncol() {
@@ -131,7 +181,7 @@ public:
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
     }
-
+    
     int i = 0;
     for (rapidxml::xml_node<>* row = getRow(nskip);
          row; row = row->next_sibling("row")) {
@@ -211,6 +261,28 @@ private:
       Rcpp::stop("Skipped over all data");
 
     return row;
+  }
+
+  rapidxml::xml_node<>* getColumn(rapidxml::xml_node<>* row_node, int i) {
+    rapidxml::xml_node<>* cell = row_node->first_node("c");
+    if (cell == NULL)
+        Rcpp::stop("Row does not have columns");
+      
+    rapidxml::xml_attribute<>* col_ref;
+    int col;
+    
+    while(cell != NULL) {
+      col_ref = cell->first_attribute("r");
+      if (col_ref == NULL)
+        Rcpp::stop("Cell doesn't have name");
+      col = parseRef(col_ref->value()).second;
+      if (col == i)
+         break;
+      cell = cell->next_sibling("c");    
+    }
+    if (cell == NULL)
+      Rcpp::stop("No cell exists at column %d in current row. Presumably because improperly formatted .xlsx file", i);
+    return cell;
   }
 
   void cacheDimension() {
