@@ -24,7 +24,7 @@ NULL
 #' # Specific sheet either by position or by name
 #' read_excel(datasets, 2)
 #' read_excel(datasets, "mtcars")
-read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
 
   path <- check_file(path)
@@ -35,10 +35,10 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
   )
 }
 
-read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
-  sheet <- standardise_sheet(sheet, xls_sheets(path)) - 1L
+  sheet <- standardise_sheet(sheet, xls_sheets(path))
 
   has_col_names <- isTRUE(col_names)
   if (has_col_names) {
@@ -92,12 +92,12 @@ standardise_sheet <- function(sheet, sheet_names) {
     if (sheet < 1) {
       stop("`sheet` must be positive", call. = FALSE)
     }
-    floor(sheet)
+    floor(sheet) - 1L
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
     }
-    match(sheet, sheet_names)
+    match(sheet, sheet_names) - 1L
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }

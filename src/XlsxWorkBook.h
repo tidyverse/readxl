@@ -93,7 +93,7 @@ class XlsxWorkBook {
     }
 
     std::string target(int sheet_i) {
-      std::string id = Rcpp::as<std::string>(id_[sheet_i - 1]);
+      std::string id = Rcpp::as<std::string>(id_[sheet_i]);
       std::map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
         Rcpp::stop("`%s` not found", id);
