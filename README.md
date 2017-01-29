@@ -46,7 +46,7 @@ read_excel("my-spreadsheet.xls", na = "NA")
 * Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) 
   date specifications are processed correctly.
 
-* Blank columns and rows are automatically dropped.
+* Blank columns are automatically dropped. Blank rows that appear before the data are automatically dropped; embedded blank rows are not.
 
 * It returns data frames with additional `tbl_df` class, so if you have
   dplyr loaded, you get nicer printing.

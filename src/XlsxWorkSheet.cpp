@@ -47,6 +47,11 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
 
   XlsxWorkSheet ws(path, sheet);
 
+  if (ws.nrow() == 0 && ws.ncol() == 0) {
+    Rcpp::List empty(0);
+    return empty;
+  }
+
   // Standardise column names --------------------------------------------------
   CharacterVector colNames;
   bool sheetHasColumnNames = false;
@@ -58,7 +63,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   {
     sheetHasColumnNames = as<bool>(col_names);
     if (sheetHasColumnNames) {
-      colNames = ws.colNames(nskip);
+      colNames = ws.colNames(std::max(ws.min_row(), nskip));
     } else {
       int p = ws.ncol();
       colNames = CharacterVector(p);
@@ -72,11 +77,16 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_names` must be a logical or character vector");
   }
 
+  // if we know there's no data reading to be done, we should return a
+  // 0 row tibble HERE with the correct colNames
+  // TO THINK: case where colTypes were explicitly specified but no data to read
+
   // Standardise column types --------------------------------------------------
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, nskip, 100, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, std::max(ws.min_row(), nskip),
+                           100, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
@@ -85,5 +95,6 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
 
-  return ws.readCols(colNames, colTypes, na, nskip + sheetHasColumnNames);
+  return ws.readCols(colNames, colTypes, na,
+                     std::max(ws.min_row(), nskip), sheetHasColumnNames);
 }

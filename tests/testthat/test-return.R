@@ -1,4 +1,4 @@
-context("read_excel")
+context("Return type")
 
 test_that("return type for xlsx files", {
   types <- read_excel(test_sheet("missing-values.xlsx"))

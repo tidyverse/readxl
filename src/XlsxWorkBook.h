@@ -10,7 +10,7 @@
 
 class XlsxWorkBook {
 
-  // holds objects related to sheet position, name, and xml target file
+  // holds objects related to sheet position, name, Id, and xml target file
   class SheetRelations {
     int n_;
     Rcpp::CharacterVector names_;
