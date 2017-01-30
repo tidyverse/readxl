@@ -48,8 +48,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   XlsxWorkSheet ws(path, sheet);
 
   if (ws.nrow() == 0 && ws.ncol() == 0) {
-    Rcpp::List empty(0);
-    return empty;
+    return Rcpp::List(0);
   }
 
   // Standardise column names --------------------------------------------------
