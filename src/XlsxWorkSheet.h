@@ -90,8 +90,8 @@ public:
     int base = it->row();
     // advance past column names and any embedded blank rows
     if (has_col_names) {
-      it = getNextRow(base + 1);
-      base = it->row();
+      base++;
+      it = getNextRow(base);
     }
     std::vector<XlsxCell>::const_iterator row_end;
 
@@ -166,7 +166,6 @@ public:
     int base = it->row();
     // advance past column names and any embedded blank rows
     if (has_col_names) {
-      // this is intentionally different from handling in colTypes
       base++;
       it = getNextRow(base);
     }
