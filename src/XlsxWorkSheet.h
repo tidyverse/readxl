@@ -57,15 +57,15 @@ public:
     markRows();
   }
 
-  int ncol() {
+  int ncol() const {
     return ncol_;
   }
 
-  int nrow() {
+  int nrow() const {
     return nrow_;
   }
 
-  std::string sheetName() {
+  std::string sheetName() const {
     return sheetName_;
   }
 
