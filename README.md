@@ -8,7 +8,7 @@ readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` f
 
 ## Installation
 
-The easiest way to install the latest released version from CRAN is to install the whole tidyverse:
+The easiest way to install the latest released version from CRAN is to install the whole tidyverse (NOTE: you will still need to load readxl explicitly, i.e. it is not a core tidyverse package loaded via `library(tidyverse)`.)
 
 ``` r
 install.packages("tidyverse")
