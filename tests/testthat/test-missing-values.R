@@ -1,15 +1,27 @@
 context("Missing values")
 
-test_that("blanks read as missing [xlsx]", {
-  blanks <- read_excel(test_sheet("blanks.xlsx"))
+test_that("blanks in different rows read as missing [xlsx]", {
+  blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "different_rows")
   expect_equal(blanks$x, c(NA, 1))
   expect_equal(blanks$y, c("a", NA))
 })
 
 test_that("blanks read as missing [xls]", {
-  blanks <- read_excel(test_sheet("blanks.xls"))
+  blanks <- read_excel(test_sheet("blanks.xls"), sheet = "different_rows")
   expect_equal(blanks$x, c(NA, 1))
   expect_equal(blanks$y, c("a", NA))
+})
+
+test_that("blanks in same middle row are read as missing [xlsx]", {
+  blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "same_row_middle")
+  expect_equal(blanks$x, c(1, NA, 2))
+  expect_equal(blanks$y, c("a", NA, "b"))
+})
+
+test_that("blanks in same, first row are read as missing [xlsx]", {
+  blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "same_row_first")
+  expect_equal(blanks$x, c(NA, 1))
+  expect_equal(blanks$y, c(NA, "a"))
 })
 
 test_that("By default, NA read as text", {
@@ -57,13 +69,13 @@ test_that("text values in numeric column gives warning & NA", {
 })
 
 test_that("empty first column gives valid data.frame", {
-  df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names=F)
+  df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names = FALSE)
   expect_equal(nrow(df), length(df[[1]]))
 })
 
 test_that("empty named column gives NA column", {
-  df1 <- read_excel(test_sheet("empty-named-column.xlsx"), col_names=T)
-  df2 <- read_excel(test_sheet("empty-named-column.xls"), col_names=T)
+  df1 <- read_excel(test_sheet("empty-named-column.xlsx"), col_names = TRUE)
+  df2 <- read_excel(test_sheet("empty-named-column.xls"), col_names = TRUE)
   expect_equal(ncol(df1), 4)
   expect_equal(names(df1)[2], "y")
   expect_equal(ncol(df2), 4)

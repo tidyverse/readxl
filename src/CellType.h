@@ -142,6 +142,7 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   switch(type) {
   case CELL_BLANK:
     return R_NilValue;
+    break;
   case CELL_DATE: {
     Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
     col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");

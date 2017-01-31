@@ -128,26 +128,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// xlsx_cells
-void xlsx_cells(std::string path, int sheet);
-RcppExport SEXP readxl_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    xlsx_cells(path, sheet);
-    return R_NilValue;
-END_RCPP
-}
 // xlsx_dim
-IntegerVector xlsx_dim(std::string path, int sheet);
-RcppExport SEXP readxl_xlsx_dim(SEXP pathSEXP, SEXP sheetSEXP) {
+IntegerVector xlsx_dim(std::string path, int sheet, int nskip);
+RcppExport SEXP readxl_xlsx_dim(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_dim(path, sheet));
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_dim(path, sheet, nskip));
     return rcpp_result_gen;
 END_RCPP
 }

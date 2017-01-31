@@ -41,12 +41,8 @@ xlsx_date_styles <- function(path) {
     .Call('readxl_xlsx_date_styles', PACKAGE = 'readxl', path)
 }
 
-xlsx_cells <- function(path, sheet = 0L) {
-    invisible(.Call('readxl_xlsx_cells', PACKAGE = 'readxl', path, sheet))
-}
-
-xlsx_dim <- function(path, sheet = 0L) {
-    .Call('readxl_xlsx_dim', PACKAGE = 'readxl', path, sheet)
+xlsx_dim <- function(path, sheet = 0L, nskip = 0L) {
+    .Call('readxl_xlsx_dim', PACKAGE = 'readxl', path, sheet, nskip)
 }
 
 parse_ref <- function(ref) {

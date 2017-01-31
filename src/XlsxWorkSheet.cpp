@@ -3,13 +3,8 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void xlsx_cells(std::string path, int sheet = 0) {
-  return XlsxWorkSheet(path, sheet).printCells();
-}
-
-// [[Rcpp::export]]
-IntegerVector xlsx_dim(std::string path, int sheet = 0) {
-  XlsxWorkSheet ws(path, sheet);
+IntegerVector xlsx_dim(std::string path, int sheet = 0, int nskip = 0) {
+  XlsxWorkSheet ws(path, sheet, nskip);
   return IntegerVector::create(ws.nrow(), ws.ncol());
 }
 
@@ -25,7 +20,7 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                CharacterVector na = CharacterVector(), int nskip = 0,
                                int n = 100) {
 
-  XlsxWorkSheet ws(path, sheet);
+  XlsxWorkSheet ws(path, sheet, nskip);
   std::vector<CellType> types = ws.colTypes(na, nskip, n);
 
   CharacterVector out(types.size());
@@ -38,14 +33,18 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
 
 // [[Rcpp::export]]
 CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
-  return XlsxWorkSheet(path, sheet).colNames(nskip);
+  return XlsxWorkSheet(path, sheet, nskip).colNames();
 }
 
 // [[Rcpp::export]]
 List read_xlsx_(std::string path, int sheet, RObject col_names,
                 RObject col_types, std::vector<std::string> na, int nskip = 0) {
 
-  XlsxWorkSheet ws(path, sheet);
+  XlsxWorkSheet ws(path, sheet, nskip);
+
+  if (ws.nrow() == 0 && ws.ncol() == 0) {
+    return Rcpp::List(0);
+  }
 
   // Standardise column names --------------------------------------------------
   CharacterVector colNames;
@@ -58,7 +57,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   {
     sheetHasColumnNames = as<bool>(col_names);
     if (sheetHasColumnNames) {
-      colNames = ws.colNames(nskip);
+      colNames = ws.colNames();
     } else {
       int p = ws.ncol();
       colNames = CharacterVector(p);
@@ -76,7 +75,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, nskip, 100, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, 100, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
@@ -85,5 +84,5 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
 
-  return ws.readCols(colNames, colTypes, na, nskip + sheetHasColumnNames);
+  return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }
