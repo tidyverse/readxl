@@ -1,10 +1,10 @@
 # readxl 0.1.1.9000
 
-* Improved parsing of sheet geometry for xlsx. (#224, #222, #194, #178, #163, #157, #156, #144, #102, #101, #65, @jennybc).
+* Improved parsing of sheet geometry for xlsx. (#240, @jennybc).
 
-    - Better handling of leading and embedded blank rows and explicit row skipping.
-    - Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows.
-    - Location is inferred for cells that do not declare their location (e.g. xlsx written by JMP).
+    - Better handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)
+    - Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)
+    - Location is inferred for cells that do not declare their location (e.g. xlsx written by JMP). (#163, #102)
 
 * Logic for sheet lookup in xlsx is more robust. Improves compatibility with xlsx written by tools other than Excel and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester, @jennybc)
 
