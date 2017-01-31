@@ -1,10 +1,7 @@
 context("Empty sheets")
 
 test_that("completely empty sheets are handled", {
-  expect_warning(
-    out <- read_excel(test_sheet("empty-sheets.xlsx"), "empty"),
-    "No <row> in sheet xml. No data read."
-  )
+  out <- read_excel(test_sheet("empty-sheets.xlsx"), "empty")
   expect_identical(out, tibble::tibble())
 })
 

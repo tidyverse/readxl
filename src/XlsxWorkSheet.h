@@ -292,10 +292,6 @@ private:
   void loadCells() {
     rapidxml::xml_node<>* row = sheetData_->first_node("row");
     if (row == NULL) {
-      // JB: it feels like I should reveal sheet ?name? here
-      // currently worksheet doesn't know it's own name, though
-      // Or perhaps I should say nothing at all?
-      Rcpp::warning("No <row> in sheet xml. No data read.");
       return;
     }
 
