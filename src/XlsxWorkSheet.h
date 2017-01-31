@@ -77,12 +77,8 @@ public:
     std::vector<CellType> types;
     types.resize(ncol_);
 
-    std::vector<XlsxCell>::const_iterator it;
-    if (has_col_names) {
-      it = secondRow_;
-    } else {
-      it = firstRow_;
-    }
+    std::vector<XlsxCell>::const_iterator it, row_end;
+    it = has_col_names ? secondRow_: firstRow_;
 
     // no cell data to consult re: types
     if (it == cells_.end()) {
@@ -93,8 +89,6 @@ public:
     }
 
     int base = firstRow_->row() + has_col_names;
-    std::vector<XlsxCell>::const_iterator row_end;
-
     // we have consulted i rows re: determining col types
     int i;
     // account for any empty rows between column headers and data start
@@ -160,12 +154,8 @@ public:
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
-    std::vector<XlsxCell>::const_iterator it;
-    if (has_col_names) {
-      it = secondRow_;
-    } else {
-      it = firstRow_;
-    }
+    std::vector<XlsxCell>::const_iterator it, row_end;
+    it = has_col_names ? secondRow_: firstRow_;
 
     // no cell data to read
     if (it == cells_.end()) {
@@ -177,8 +167,6 @@ public:
     }
 
     int base = firstRow_->row() + has_col_names;
-    std::vector<XlsxCell>::const_iterator row_end;
-
     // we have read i rows of data
     int i;
     // account for any empty rows between column headers and data start
