@@ -3,11 +3,6 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void xlsx_cells(std::string path, int sheet = 0, int nskip = 0) {
-  return XlsxWorkSheet(path, sheet, nskip).printCells();
-}
-
-// [[Rcpp::export]]
 IntegerVector xlsx_dim(std::string path, int sheet = 0, int nskip = 0) {
   XlsxWorkSheet ws(path, sheet, nskip);
   return IntegerVector::create(ws.nrow(), ws.ncol());

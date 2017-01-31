@@ -61,23 +61,6 @@ public:
     return nrow_;
   }
 
-  // JB: this seems to be leftover from previous development?
-  // not updated in light of the new sheet ingest
-  // but maybe still has value re: traversing and printing the xml?
-  void printCells() {
-    for (rapidxml::xml_node<>* row = sheetData_->first_node("row");
-         row; row = row->next_sibling("row")) {
-
-      for (rapidxml::xml_node<>* cell = row->first_node("c");
-           cell; cell = cell->next_sibling("c")) {
-
-        XlsxCell xcell(cell);
-        Rcpp::Rcout << xcell.row() << "," << xcell.row() << ": " <<
-          cellTypeDesc(xcell.type("", wb_.stringTable(), wb_.dateStyles())) << "\n";
-      }
-    }
-  }
-
   // JB: this should either take colNames as an argument or have a bit of code
   // moved out of here, so we don't read column names again inside this fxn.
   // More comments near end of fxn.
