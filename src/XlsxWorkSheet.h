@@ -16,13 +16,12 @@
 
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
-  // JB QUESTION: seems like a worksheet should know its own name (and/or
-  // position). This could be used in messaging, such as, "SHEET has no data"
   std::string sheet_;
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
   std::vector<XlsxCell> cells_;
+  std::string sheetName_;
   int ncol_, nrow_, nskip_;
   std::vector<XlsxCell>::const_iterator firstRow_, secondRow_;
 
@@ -35,17 +34,22 @@ public:
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheets found.",
                  sheet_i,  wb.n_sheets());
     }
+    sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
     sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);
 
     rootNode_ = sheetXml_.first_node("worksheet");
-    if (rootNode_ == NULL)
-      Rcpp::stop("Invalid sheet xml (no <worksheet>)");
+    if (rootNode_ == NULL) {
+      Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
+                 sheetName_, sheet_i + 1);
+    }
 
     sheetData_ = rootNode_->first_node("sheetData");
-    if (sheetData_ == NULL)
-      Rcpp::stop("Invalid sheet xml (no <sheetData>)");
+    if (sheetData_ == NULL) {
+      Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
+                 sheetName_, sheet_i + 1);
+    }
 
     nskip_ = nskip;
     loadCells();
@@ -59,6 +63,10 @@ public:
 
   int nrow() {
     return nrow_;
+  }
+
+  std::string sheetName() {
+    return sheetName_;
   }
 
   // JB: this should either take colNames as an argument or have a bit of code
