@@ -5,29 +5,6 @@
 
 using namespace Rcpp;
 
-// parseXml
-void parseXml(std::string base, std::string internal);
-RcppExport SEXP readxl_parseXml(SEXP baseSEXP, SEXP internalSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    Rcpp::traits::input_parameter< std::string >::type internal(internalSEXP);
-    parseXml(base, internal);
-    return R_NilValue;
-END_RCPP
-}
-// countRows
-int countRows(std::string base, int sheet);
-RcppExport SEXP readxl_countRows(SEXP baseSEXP, SEXP sheetSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    rcpp_result_gen = Rcpp::wrap(countRows(base, sheet));
-    return rcpp_result_gen;
-END_RCPP
-}
 // xls_formats
 std::map<int,std::string> xls_formats(std::string path);
 RcppExport SEXP readxl_xls_formats(SEXP pathSEXP) {
@@ -129,25 +106,27 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlsx_cells
-void xlsx_cells(std::string path, int sheet);
-RcppExport SEXP readxl_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP) {
+void xlsx_cells(std::string path, int sheet, int nskip);
+RcppExport SEXP readxl_xlsx_cells(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    xlsx_cells(path, sheet);
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    xlsx_cells(path, sheet, nskip);
     return R_NilValue;
 END_RCPP
 }
 // xlsx_dim
-IntegerVector xlsx_dim(std::string path, int sheet);
-RcppExport SEXP readxl_xlsx_dim(SEXP pathSEXP, SEXP sheetSEXP) {
+IntegerVector xlsx_dim(std::string path, int sheet, int nskip);
+RcppExport SEXP readxl_xlsx_dim(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_dim(path, sheet));
+    Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_dim(path, sheet, nskip));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -203,6 +182,29 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::vector<std::string> >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
     rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet, col_names, col_types, na, nskip));
+    return rcpp_result_gen;
+END_RCPP
+}
+// parseXml
+void parseXml(std::string base, std::string internal);
+RcppExport SEXP readxl_parseXml(SEXP baseSEXP, SEXP internalSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< std::string >::type internal(internalSEXP);
+    parseXml(base, internal);
+    return R_NilValue;
+END_RCPP
+}
+// countRows
+int countRows(std::string base, int sheet);
+RcppExport SEXP readxl_countRows(SEXP baseSEXP, SEXP sheetSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
+    rcpp_result_gen = Rcpp::wrap(countRows(base, sheet));
     return rcpp_result_gen;
 END_RCPP
 }

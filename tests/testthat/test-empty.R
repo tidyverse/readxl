@@ -9,8 +9,6 @@ test_that("completely empty sheets are handled", {
 })
 
 test_that("sheets with column names only are handled", {
-  ## eventually these won't error, but I haven't gotten to a point where
-  ## I can fix that yet
-  expect_error(read_excel(test_sheet("empty-sheets.xlsx"), "header_only"),
-               "No data for row 2 or higher")
+  out <- read_excel(test_sheet("empty-sheets.xlsx"), "header_only")
+  expect_identical(out, tibble::tibble(var1 = numeric(), var2 = numeric()))
 })

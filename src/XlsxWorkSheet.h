@@ -23,11 +23,14 @@ class XlsxWorkSheet {
   rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
   std::vector<XlsxCell> cells_;
-  int ncol_, nrow_, min_row_;
+  int ncol_, nrow_, nskip_;
+  std::vector<XlsxCell>::const_iterator firstRow_, secondRow_;
 
 public:
 
-  XlsxWorkSheet(XlsxWorkBook wb, int sheet_i): wb_(wb) {
+  XlsxWorkSheet(XlsxWorkBook wb, int sheet_i, int nskip):
+  wb_(wb)
+  {
     if (sheet_i > wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheets found.",
                  sheet_i,  wb.n_sheets());
@@ -44,8 +47,10 @@ public:
     if (sheetData_ == NULL)
       Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 
+    nskip_ = nskip;
     loadCells();
     cacheDimension();
+    markRows();
   }
 
   int ncol() {
@@ -54,10 +59,6 @@ public:
 
   int nrow() {
     return nrow_;
-  }
-
-  int min_row() {
-    return min_row_;
   }
 
   // JB: this seems to be leftover from previous development?
@@ -80,19 +81,27 @@ public:
   // JB: this should either take colNames as an argument or have a bit of code
   // moved out of here, so we don't read column names again inside this fxn.
   // More comments near end of fxn.
-  std::vector<CellType> colTypes(const StringSet& na, int nskip = 0,
+  std::vector<CellType> colTypes(const StringSet& na,
                                  int n_max = 100, bool has_col_names = false) {
     std::vector<CellType> types;
     types.resize(ncol_);
 
-    // go to row nskip or, if impossible, the next row that exists
-    std::vector<XlsxCell>::const_iterator it = getNextRow(nskip);
-    int base = it->row();
-    // advance past column names and any embedded blank rows
+    std::vector<XlsxCell>::const_iterator it;
     if (has_col_names) {
-      base++;
-      it = getNextRow(base);
+      it = secondRow_;
+    } else {
+      it = firstRow_;
     }
+
+    // no cell data to consult re: types
+    if (it == cells_.end()) {
+      for (size_t i = 0; i < types.size(); i++) {
+        types[i] = CELL_NUMERIC;
+      }
+      return types;
+    }
+
+    int base = firstRow_->row() + has_col_names;
     std::vector<XlsxCell>::const_iterator row_end;
 
     // we have consulted i rows re: determining col types
@@ -126,7 +135,7 @@ public:
     // of here and into the parent function , read_xlsx_()
     if (has_col_names) {
       // blank columns with a name aren't blank
-      Rcpp::CharacterVector names = colNames(nskip);
+      Rcpp::CharacterVector names = colNames();
       for (size_t i = 0; i < types.size(); i++) {
         if (types[i] == CELL_BLANK && names[i] != NA_STRING && names[i] != "")
           types[i] = CELL_NUMERIC;
@@ -135,16 +144,15 @@ public:
     return types;
   }
 
-  Rcpp::CharacterVector colNames(int nskip = 0) {
+  Rcpp::CharacterVector colNames() {
     Rcpp::CharacterVector out(ncol_);
-    // go to row nskip or, if impossible, the next row that has data
-    std::vector<XlsxCell>::const_iterator it = getNextRow(nskip);
+    std::vector<XlsxCell>::const_iterator it = firstRow_;
     int base = it->row();
 
     while(it != cells_.end() && it->row() == base) {
       XlsxCell xcell = *it;
       if (xcell.col() >= ncol_) {
-        continue; // or break?
+        break;
       }
       out[xcell.col()] = xcell.asCharSxp("", wb_.stringTable());
       it++;
@@ -154,21 +162,30 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<CellType>& types,
-                      const StringSet& na, int nskip = 0,
+                      const StringSet& na,
                       bool has_col_names = false) {
     // JB: suspect this should move out of here and into a function that does
     // this and the last rationalization re col names and types in colTypes
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
 
-    // go to row nskip or, if impossible, the next row that exists
-    std::vector<XlsxCell>::const_iterator it = getNextRow(nskip);
-    int base = it->row();
-    // advance past column names and any embedded blank rows
+    std::vector<XlsxCell>::const_iterator it;
     if (has_col_names) {
-      base++;
-      it = getNextRow(base);
+      it = secondRow_;
+    } else {
+      it = firstRow_;
     }
+
+    // no cell data to read
+    if (it == cells_.end()) {
+      Rcpp::List cols(ncol_);
+      for (int j = 0; j < ncol_; ++j) {
+        cols[j] = makeCol(types[j], 0);
+      }
+      return removeBlankColumns(cols, names, types);
+    }
+
+    int base = firstRow_->row() + has_col_names;
     std::vector<XlsxCell>::const_iterator row_end;
 
     // we have read i rows of data
@@ -260,19 +277,6 @@ public:
 
 private:
 
-  // returns iterator positioned at first cell in row i, if it exists
-  // otherwise returns next cell that does exist
-  std::vector<XlsxCell>::const_iterator getNextRow(int i) {
-    std::vector<XlsxCell>::const_iterator it;
-
-    for (it = cells_.begin(); it != cells_.end(); it++) {
-      if (it->row() >= i) {
-        return it;
-      }
-    }
-    Rcpp::stop("No data for row %d or higher", i + 1);
-  }
-
   void cacheDimension() {
     // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
     rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
@@ -323,7 +327,6 @@ private:
       }
       i++;
     }
-    min_row_ = cells_[0].row();
 
   }
 
@@ -348,6 +351,40 @@ private:
     }
     nrow_++;
     ncol_++;
+  }
+
+  // Position iterators at various landmarks for reading:
+  // firstRow_ = first cell for which declared row >= nskip
+  // secondRow_ = first cell for which declared row > that of firstRow_
+  // fallback value is cells_.end() if the above not possible
+  void markRows() {
+    // empty sheet case
+    if (cells_.size() == 0) {
+      return;
+    }
+
+    firstRow_ = cells_.end();
+    secondRow_ = cells_.end();
+
+    std::vector<XlsxCell>::const_iterator it = cells_.begin();
+    while (it != cells_.end() && it->row() < nskip_) {
+      it++;
+    }
+    if (it == cells_.end()) {
+      return;
+    }
+    firstRow_ = it++;
+
+    while (it != cells_.end()) {
+      if (it->row() < firstRow_->row()) {
+        secondRow_ = firstRow_;
+        firstRow_ = it;
+      } else if (it->row() > firstRow_->row() &&
+        (secondRow_ == cells_.end() || it->row() < secondRow_->row())) {
+        secondRow_ = it;
+      }
+      ++it;
+    }
   }
 
 };

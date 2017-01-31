@@ -50,4 +50,3 @@ test_that("explicit skip of leading junk", {
   out <- read_excel(skipping, sheet = "two_occupied_rows", skip = 2)
   expect_identical(out, df)
 })
-
