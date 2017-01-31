@@ -3,6 +3,7 @@ Title: Read Excel Files
 Version: 0.1.1.9000
 Authors@R: c(
     person("Hadley", "Wickham", ,"hadley@rstudio.com", role = c("aut", "cre")),
+    person("Jennifer", "Bryan", ,"jenny.f.bryan@gmail.com", role = c("aut")),
     person("RStudio", role = "cph", comment = "Copyright holder of all R code
       and all C/C++ code without explicit copyright attribution"),
     person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of included RapidXML code"),
@@ -12,8 +13,8 @@ Authors@R: c(
     person("David Hoerl", role = c("ctb", "cph"), comment = "Author of included libxls code")
     )
 Description: Import excel files into R. Supports '.xls' via the embedded
-    'libxls' C library (http://sourceforge.net/projects/libxls/) and '.xlsx' via
-    the embedded 'RapidXML' C++ library (http://rapidxml.sourceforge.net). Works on
+    'libxls' C library <https://sourceforge.net/projects/libxls/> and '.xlsx' via
+    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net>. Works on
     Windows, Mac and Linux without external dependencies.
 License: GPL-3 + file LICENSE
 LazyData: true
@@ -26,3 +27,5 @@ Suggests:
     rprojroot (>= 1.1),
     testthat
 RoxygenNote: 5.0.1.9000
+URL: https://github.com/tidyverse/readxl
+BugReports: https://github.com/tidyverse/readxl/issues
