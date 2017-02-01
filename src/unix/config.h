@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Define to 1 if you have the `asprintf' function. */
-#if defined(_GNU_SOURCE) || defined(_DEFAULT_SOURCE) || defined(__APPLE__) || defined(__sun)
+#if defined(_GNU_SOURCE) || defined(_DEFAULT_SOURCE) || defined(__APPLE__) || defined(__sun) || defined(__gnu_linux__)
 #define HAVE_ASPRINTF 1
 #endif
 
