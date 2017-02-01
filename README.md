@@ -24,7 +24,7 @@ Or install the development version from GitHub:
  
 ``` r
 # install.packages("devtools")
-devtools::install_github("tidyverse/readr")
+devtools::install_github("tidyverse/readxl")
 ```
 
 ## Usage
