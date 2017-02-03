@@ -7,6 +7,12 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef HAVE_DLFCN_H */
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#define HAVE_ASPRINTF 1
+
 /* Define if you have the iconv() function. */
 #define HAVE_ICONV 1
 
