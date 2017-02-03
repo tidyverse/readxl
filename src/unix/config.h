@@ -1,10 +1,13 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
-/* Define to 1 if you have the `asprintf' function. */
-#if defined(_GNU_SOURCE) || defined(_DEFAULT_SOURCE) || defined(__APPLE__) || defined(__sun)
-#define HAVE_ASPRINTF 1
+/* Ensure extensions are enabled (e.g. ASPRINTF) */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
 #endif
+
+/* Define to 1 if you have the `asprintf' function. */
+#define HAVE_ASPRINTF 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
