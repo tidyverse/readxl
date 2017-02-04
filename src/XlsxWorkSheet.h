@@ -296,8 +296,12 @@ private:
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
-        XlsxCell xcell(cell, i, j);
-        cells_.push_back(xcell);
+        // don't load a cell with no child nodes, e.g. it only has style
+        rapidxml::xml_node<>* first_child = cell->first_node(0);
+        if (first_child != NULL) {
+          XlsxCell xcell(cell, i, j);
+          cells_.push_back(xcell);
+        }
         j++;
       }
       i++;
