@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Fix compilation warning/failure (FreeBSD 10.3 #221, gcc 4.9.3 #124) and/or problems reading xls (CentOS 6.6 #189). (#244, #245, #246 @jeroenooms)
+
 * `read_xls()` and `read_xlsx()` are now exposed, such that files without an `.xls` or `.xlsx` extension can be read. (#85, @jirkalewandowski)
 
 * Improved parsing of sheet geometry for xlsx. (#240, @jennybc)
