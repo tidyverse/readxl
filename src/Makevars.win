@@ -1,2 +1,7 @@
-PKG_CPPFLAGS=-Iwindows -I.
+PKG_CPPFLAGS=-Iwindows -I. -D__USE_MINGW_ANSI_STDIO
 PKG_LIBS=-lRiconv
+
+all: clean
+
+clean:
+	rm -Rf $(SHLIB) $(OBJECTS)
