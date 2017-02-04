@@ -35,7 +35,13 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   )
 }
 
-read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+#' While \code{read_excel} auto detects the format from the file
+#' extension, \code{read_xls} and \code{read_xlsx} can be used to
+#' read files without extension.
+#'
+#' @rdname read_excel
+#' @export
+read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
   sheet <- standardise_sheet(sheet, xls_sheets(path))
@@ -58,6 +64,8 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   )
 }
 
+#' @rdname read_excel
+#' @export
 read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                       na = "", skip = 0) {
   path <- check_file(path)
@@ -75,11 +83,16 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 excel_format <- function(path) {
   ext <- tolower(tools::file_ext(path))
 
-  switch(ext,
+  switch(
+    ext,
     xls = "xls",
     xlsx = "xlsx",
     xlsm = "xlsx",
-    stop("Unknown format .", ext, call. = FALSE)
+    if (nzchar(ext)) {
+      stop("Unknown file extension: ", ext, call. = FALSE)
+    } else {
+      stop("Missing file extension.", call. = FALSE)
+    }
   )
 }
 
