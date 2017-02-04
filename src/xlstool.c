@@ -642,7 +642,7 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,WORD *label)
         break;
     case XLS_RECORD_BLANK:
     case XLS_RECORD_MULBLANK:
-        asprintf(&ret, "");
+        asprintf(&ret, "%s", "");
         break;
     case XLS_RECORD_LABEL:
 		len = xlsShortVal(*label);
