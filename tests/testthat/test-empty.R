@@ -28,3 +28,31 @@ test_that("non-empty sheets act that way if we skip past everything", {
   expect_identical(nrow(out), 0L)
   skip("figure out why empty unnamed columns aren't dropped and update test")
 })
+
+test_that("empty cells with a style are not loaded", {
+  ## what's important about this sheet?
+  ## contains empty cells with a custom format
+  ## therefore they appear in the xml and have a style attribute
+  ## where are they?
+  ## in the embedded empty columns, w/ and w/o a name
+  ## in a trailing empty column
+  ## in some trailing rows
+  out <- read_excel(test_sheet("style-only-cells.xlsx"))
+  expect_equal(
+    out,
+    tibble::tibble(var1 = c("val1,1", "val2,1", "val3,1"),
+                   var2 = NA_real_,
+                   var3 = c("aa", "bb", "cc"),
+                   var5 = c(1, 2, 3))
+  )
+  skip("revisit this when dust settles re: treatment of empty columns")
+})
+
+test_that("user-supplied column names play nicely with empty columns", {
+  skip("waiting for dust to settle re: treatment of empty columns")
+  ## do stuff like this:
+  out <- read_excel(test_sheet("style-only-cells.xlsx"),
+                    col_names = LETTERS[1:4])
+  out <- read_excel(test_sheet("style-only-cells.xlsx"),
+                    col_names = LETTERS[1:5])
+})
