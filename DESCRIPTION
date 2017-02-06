@@ -21,7 +21,7 @@ LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp (>= 0.11.6),
-    tibble
+    tibble (>= 1.1)
 Suggests:
     covr,
     rprojroot (>= 1.1),

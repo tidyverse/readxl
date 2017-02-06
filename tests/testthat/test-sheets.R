@@ -59,3 +59,17 @@ test_that("sheet data xml target is explicitly looked up (#104, #80)", {
     expect_identical(df$continent[1], countries[i])
   }
 })
+
+test_that("missing column names are populated", {
+  df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
+  expect_identical(names(df)[c(1, 3)], c("V1", "V2"))
+  df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
+  expect_identical(names(df)[c(1, 3)], c("V1", "V2"))
+})
+
+test_that("column names are de-duplicated", {
+  df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
+  expect_identical(names(df)[4], "var21")
+  df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
+  expect_identical(names(df)[4], "var21")
+})
