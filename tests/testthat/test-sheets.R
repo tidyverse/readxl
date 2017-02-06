@@ -62,14 +62,14 @@ test_that("sheet data xml target is explicitly looked up (#104, #80)", {
 
 test_that("missing column names are populated", {
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[c(1, 3)], c("V1", "V2"))
+  expect_identical(names(df)[c(1, 3)], c("X__1", "X__2"))
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[c(1, 3)], c("V1", "V2"))
+  expect_identical(names(df)[c(1, 3)], c("X__1", "X__2"))
 })
 
 test_that("column names are de-duplicated", {
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[4], "var21")
+  expect_identical(names(df)[4], "var2__1")
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[4], "var21")
+  expect_identical(names(df)[4], "var2__1")
 })
