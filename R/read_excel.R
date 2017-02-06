@@ -56,7 +56,7 @@ read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
     col_types <- xls_col_types(path, sheet, na = na, nskip = skip, has_col_names = has_col_names)
   }
 
-  tibble::repair_names(tibble::as_data_frame(
+  tibble::repair_names(tibble::as_tibble(
     xls_cols(path, sheet, col_names = col_names, col_types = col_types, na = na,
              nskip = skip + has_col_names),
     validate = FALSE
@@ -70,7 +70,7 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   path <- check_file(path)
   sheet <- standardise_sheet(sheet, xlsx_sheets(path))
 
-  tibble::repair_names(tibble::as_data_frame(
+  tibble::repair_names(tibble::as_tibble(
     read_xlsx_(path, sheet, col_names = col_names, col_types = col_types, na = na,
                nskip = skip),
     validate = FALSE
