@@ -1,16 +1,22 @@
 # readxl 0.1.1.9000
 
+* Improved handling of empty cells for xlsx. (#248 @jennybc)
+
+    - Cells with no content are not loaded. Sheet extent is always computed from loaded cells, instead of the nominal dimensions reported in the worksheet. The result is to not consult the XML for empty cells that appear there simply because they have an associated style or format. This is detectable in Excel as seemingly empty cells with a format other than "General".
+    - Eliminates a source of trailing rows (#203, although original report was re: xls, which is not fixed yet) and columns (#236, #162, #146) consisting entirely of `NA`.
+    - Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81). 
+
 * `tibble::repair_names()` is used to prevent empty, `NA`, or duplicated names. (#216, #208, #199 #182, #53, #247 @jennybc)
 
 * Fix compilation warning/failure (FreeBSD 10.3 #221, gcc 4.9.3 #124) and/or problems reading xls (CentOS 6.6 #189). (#244, #245, #246 @jeroenooms)
 
-* `read_xls()` and `read_xlsx()` are now exposed, such that files without an `.xls` or `.xlsx` extension can be read. (#85, @jirkalewandowski)
-
 * Improved parsing of sheet geometry for xlsx. (#240, @jennybc)
 
-    - Better handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)
-    - Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)
     - Location is inferred for cells that do not declare their location (e.g. xlsx written by JMP). (#163, #102)
+    - Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)
+    - Better handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)
+
+* `read_xls()` and `read_xlsx()` are now exposed, such that files without an `.xls` or `.xlsx` extension can be read. (#85, @jirkalewandowski)
 
 * Logic for sheet lookup in xlsx is more robust. Improves compatibility with xlsx written by tools other than Excel and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester, @jennybc)
 

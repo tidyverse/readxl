@@ -53,7 +53,7 @@ public:
 
     nskip_ = nskip;
     loadCells();
-    cacheDimension();
+    computeDimensions();
     markRows();
   }
 
@@ -256,35 +256,6 @@ public:
 
 private:
 
-  void cacheDimension() {
-    // 18.3.1.35 dimension (Worksheet Dimensions) [p 1627]
-    rapidxml::xml_node<>* dimension = rootNode_->first_node("dimension");
-    if (dimension == NULL) {
-      return computeDimensions();
-    }
-
-    rapidxml::xml_attribute<>* ref = dimension->first_attribute("ref");
-    if (ref == NULL) {
-      return computeDimensions();
-    }
-
-    const char* refv = ref->value();
-    while (*refv != ':' && *refv != '\0')
-      ++refv;
-    if (*refv == '\0') {
-      return computeDimensions();
-    }
-
-    ++refv; // advanced past :
-    std::pair<int, int> dim = parseRef(refv);
-    if (dim.first == -1 || dim.second == -1) {
-      return computeDimensions();
-    }
-
-    nrow_ = dim.first + 1; // size is one greater than max position
-    ncol_ = dim.second + 1;
-  }
-
   void loadCells() {
     rapidxml::xml_node<>* row = sheetData_->first_node("row");
     if (row == NULL) {
@@ -296,8 +267,12 @@ private:
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
-        XlsxCell xcell(cell, i, j);
-        cells_.push_back(xcell);
+        // don't load a cell with no child nodes, e.g. it only has style
+        rapidxml::xml_node<>* first_child = cell->first_node(0);
+        if (first_child != NULL) {
+          XlsxCell xcell(cell, i, j);
+          cells_.push_back(xcell);
+        }
         j++;
       }
       i++;
@@ -305,7 +280,7 @@ private:
 
   }
 
-  // If <dimension> not present, consult location data stored in cells
+  // compute dimension directly from loaded cells
   void computeDimensions() {
     nrow_ = 0;
     ncol_ = 0;
