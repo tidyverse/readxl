@@ -10,3 +10,5 @@
 ^tests/testthat/sheets/~.*\.xls$
 ^README\.Rmd$
 ^README-.*\.png$
+^_pkgdown\.yml$
+^docs$
