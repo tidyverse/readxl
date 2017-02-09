@@ -20,13 +20,8 @@ test_that("sheets with column names only are handled", {
 })
 
 test_that("non-empty sheets act that way if we skip past everything", {
-  ## currently we get a 0-row tibble with 2 unnamed columns
-  ## a big improvement but when I rationlize column names, see why these
-  ## empty column names aren't causing the columns to be dropped and fix it
   out <- read_excel(test_sheet("skipping.xlsx"), skip = 10)
-  expect_is(out, "tbl_df")
-  expect_identical(nrow(out), 0L)
-  skip("figure out why empty unnamed columns aren't dropped and update test")
+  expect_identical(out, tibble::tibble())
 })
 
 test_that("empty cells with a style are not loaded", {
