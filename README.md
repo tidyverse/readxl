@@ -108,6 +108,8 @@ read_excel(xlsx_example, na = "setosa")
 #> # ... with 147 more rows
 ```
 
+If you are new to the tidyverse conventions for data import, you may want to consult the [data import chapter](http://r4ds.had.co.nz/data-import.html) in R for Data Science. readxl will become increasingly consistent with other packages, such as [readr](http://readr.tidyverse.org).
+
 Features
 --------
 

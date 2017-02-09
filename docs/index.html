@@ -62,8 +62,7 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="readxl" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#readxl" class="anchor"> </a>readxl</h1></div>
+
 
 <p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data stored in a single sheet.</p>
 <p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <code>.xls</code> <a href="http://sourceforge.net/projects/libxls/">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net">RapidXML</a> C++ library.</p>
@@ -135,6 +134,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<s
 <span class="co">#&gt; 2          4.9         3.0          1.4         0.2    &lt;NA&gt;</span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2    &lt;NA&gt;</span>
 <span class="co">#&gt; # ... with 147 more rows</span></code></pre></div>
+<p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org">readr</a>.</p>
 </div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
@@ -158,6 +158,8 @@ xls_example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<s
 <li>Browse source code at <br><a href="https://github.com/tidyverse/readxl">https://​github.com/​tidyverse/​readxl</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/tidyverse/readxl/issues">https://​github.com/​tidyverse/​readxl/​issues</a>
+</li>
+<li>Learn more at <br><a href="http://r4ds.had.co.nz/data-import.html">http://​r4ds.had.co.nz/​data-import.html</a>
 </li>
 </ul>
 <h2>License</h2>
