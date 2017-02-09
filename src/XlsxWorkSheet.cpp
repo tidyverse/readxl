@@ -56,15 +56,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   case LGLSXP:
   {
     sheetHasColumnNames = as<bool>(col_names);
-    if (sheetHasColumnNames) {
-      colNames = ws.colNames();
-    } else {
-      int p = ws.ncol();
-      colNames = CharacterVector(p);
-      for (int j = 0; j < p; ++j) {
-        colNames[j] = tfm::format("X%i", j+1);
-      }
-    }
+    colNames = sheetHasColumnNames ? ws.colNames() : CharacterVector(ws.ncol(), "");
     break;
   }
   default:
