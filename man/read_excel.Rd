@@ -22,7 +22,7 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 integer (the position of the sheet). Defaults to the first sheet.}
 
 \item{col_names}{Either \code{TRUE} to use the first row as column names,
-\code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
+\code{FALSE} to number columns sequentially from \code{X__1} to \code{X__n}, or
 a character vector giving a name for each column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a
@@ -36,8 +36,8 @@ default readxl converts blank cells to missing data.}
 \description{
 Read xls and xlsx files.
 
-While \code{read_excel} auto detects the format from the file
-extension, \code{read_xls} and \code{read_xlsx} can be used to
+While \code{read_excel()} auto detects the format from the file
+extension, \code{read_xls()} and \code{read_xlsx()} can be used to
 read files without extension.
 }
 \examples{
