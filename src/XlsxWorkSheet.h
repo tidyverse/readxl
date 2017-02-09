@@ -31,8 +31,8 @@ public:
   wb_(wb)
   {
     if (sheet_i > wb.n_sheets()) {
-      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheets found.",
-                 sheet_i,  wb.n_sheets());
+      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+                 sheet_i + 1,  wb.n_sheets());
     }
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
