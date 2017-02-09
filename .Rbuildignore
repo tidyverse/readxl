@@ -8,3 +8,5 @@
 ~.*\.xls$
 ^tests/testthat/sheets/~.*\.xlsx$
 ^tests/testthat/sheets/~.*\.xls$
+^README\.Rmd$
+^README-.*\.png$
