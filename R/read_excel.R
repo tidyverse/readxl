@@ -18,7 +18,7 @@ NULL
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
-#' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+#' datasets <- readxl_example("datasets.xlsx")
 #' read_excel(datasets)
 #'
 #' # Specific sheet either by position or by name

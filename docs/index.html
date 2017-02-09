@@ -80,13 +80,13 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/rea
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"> </a>Usage</h2>
-<p>readxl includes example files <code>datasets.xlsx</code> and <code>datasets.xls</code>, containing datasets you already know and love. These files were created with the help of openxlsx and Excel.</p>
+<p>readxl includes example files <code>datasets.xlsx</code> and <code>datasets.xls</code>, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the shortcut <code><a href="reference/readxl_example.html">readxl_example()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"iris"</span> =<span class="st"> </span>iris, <span class="st">"mtcars"</span> =<span class="st"> </span>mtcars, <span class="dt">chickwts =</span> chickwts, <span class="dt">quakes =</span> quakes)
 openxlsx::<span class="kw">write.xlsx</span>(l, <span class="dt">file =</span> <span class="st">"inst/extdata/datasets.xlsx"</span>)</code></pre></div>
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
 
-xlsx_example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/datasets.xlsx"</span>, <span class="dt">package =</span> <span class="st">"readxl"</span>)
+xlsx_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example)
 <span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
@@ -96,7 +96,7 @@ xlsx_example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
 <span class="co">#&gt; # ... with 147 more rows</span>
 
-xls_example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/datasets.xls"</span>, <span class="dt">package =</span> <span class="st">"readxl"</span>)
+xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example)
 <span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>

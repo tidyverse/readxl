@@ -42,7 +42,7 @@ extension, \code{read_xls()} and \code{read_xlsx()} can be used to
 read files without extension.
 }
 \examples{
-datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+datasets <- readxl_example("datasets.xlsx")
 read_excel(datasets)
 
 # Specific sheet either by position or by name
