@@ -22,7 +22,7 @@ class XlsxWorkSheet {
   rapidxml::xml_node<>* sheetData_;
   std::vector<XlsxCell> cells_;
   std::string sheetName_;
-  int ncol_, nrow_, nskip_;
+  int ncol_, nrow_;
   std::vector<XlsxCell>::const_iterator firstRow_, secondRow_;
 
 public:
@@ -51,14 +51,8 @@ public:
                  sheetName_, sheet_i + 1);
     }
 
-    nskip_ = nskip;
-    nrow_ = 0;
-    ncol_ = 0;
     loadCells();
-    markRows();
-    if (firstRow_ != cells_.end()) {
-      computeDimensions();
-    }
+    parseGeometry(nskip);
   }
 
   int ncol() const {
@@ -271,8 +265,9 @@ private:
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
-        // don't load a cell with no child nodes, e.g. it only has style
         rapidxml::xml_node<>* first_child = cell->first_node(0);
+        // only load cells that have >= 1 child nodes
+        // we require cell to have content, not just, e.g., a style
         if (first_child != NULL) {
           XlsxCell xcell(cell, i, j);
           cells_.push_back(xcell);
@@ -284,8 +279,15 @@ private:
 
   }
 
-  // compute dimension directly from loaded cells
-  void computeDimensions() {
+  // Compute sheet extent (= lower right corner) directly from loaded cells.
+  //   recorded in nrow_ and ncol_
+  // Return early if there is no data. Otherwise ...
+  // Position iterators at two landmarks for reading:
+  //   firstRow_ = first cell for which declared row >= nskip
+  //   secondRow_ = first cell for which declared row > that of firstRow_
+  //   fallback to cells_.end() if the above not possible
+  // Assumes loaded cells are arranged s.t. row is non-decreasing
+  void parseGeometry(int nskip) {
     nrow_ = 0;
     ncol_ = 0;
 
@@ -293,52 +295,39 @@ private:
     if (cells_.size() == 0) {
       return;
     }
-    for (std::vector<XlsxCell>::const_iterator it = cells_.begin();
-         it != cells_.end(); ++it) {
-      XlsxCell xcell = *it;
-      if (nrow_ < xcell.row()) {
-        nrow_ = xcell.row();
-      }
-      if (ncol_ < xcell.col()) {
-        ncol_ = xcell.col();
-      }
-    }
-    nrow_++;
-    ncol_++;
-  }
-
-  // Position iterators at various landmarks for reading:
-  // firstRow_ = first cell for which declared row >= nskip
-  // secondRow_ = first cell for which declared row > that of firstRow_
-  // fallback value is cells_.end() if the above not possible
-  void markRows() {
-    // empty sheet case
-    if (cells_.size() == 0) {
-      return;
-    }
 
     firstRow_ = cells_.end();
     secondRow_ = cells_.end();
-
     std::vector<XlsxCell>::const_iterator it = cells_.begin();
-    while (it != cells_.end() && it->row() < nskip_) {
+
+    // advance past nskip rows
+    while (it != cells_.end() && it->row() < nskip) {
       it++;
     }
+    // 'skipped past all the data' case
     if (it == cells_.end()) {
       return;
     }
-    firstRow_ = it++;
 
+    firstRow_ = it;
     while (it != cells_.end()) {
-      if (it->row() < firstRow_->row()) {
-        secondRow_ = firstRow_;
-        firstRow_ = it;
-      } else if (it->row() > firstRow_->row() &&
-        (secondRow_ == cells_.end() || it->row() < secondRow_->row())) {
+
+      if (nrow_ < it->row()) {
+        nrow_ = it->row();
+      }
+      if (ncol_ < it->col()) {
+        ncol_ = it->col();
+      }
+
+      if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
         secondRow_ = it;
       }
+
       ++it;
     }
+
+    nrow_++;
+    ncol_++;
   }
 
 };
