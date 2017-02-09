@@ -9,7 +9,7 @@
 read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   na = "", skip = 0)
 
-read_xls(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
+read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
   skip = 0)
 
 read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
@@ -22,14 +22,15 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 integer (the position of the sheet). Defaults to the first sheet.}
 
 \item{col_names}{Either \code{TRUE} to use the first row as column names,
-\code{FALSE} to number columns sequentially from \code{X__1} to \code{X__n}, or
+\code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
 a character vector giving a name for each column.}
 
-\item{col_types}{Either \code{NULL} to guess from the spreadsheet or a
-character vector containing "blank", "numeric", "date" or "text".}
+\item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
+vector containing one entry per column from these options: "blank",
+"numeric", "date" or "text".}
 
-\item{na}{Character vector of strings to use for missing values. By
-default readxl converts blank cells to missing data.}
+\item{na}{Character vector of strings to use for missing values. By default
+readxl treats blank cells as missing data.}
 
 \item{skip}{Number of rows to skip before reading any data.}
 }
@@ -47,4 +48,7 @@ read_excel(datasets)
 # Specific sheet either by position or by name
 read_excel(datasets, 2)
 read_excel(datasets, "mtcars")
+
+# Skipping rows and using default column names
+read_excel(datasets, skip = 148, col_names = FALSE)
 }

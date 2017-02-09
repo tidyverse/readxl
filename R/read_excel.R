@@ -8,12 +8,13 @@ NULL
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
 #' @param col_names Either `TRUE` to use the first row as column names,
-#'   `FALSE` to number columns sequentially from `X__1` to `X__n`, or
+#'   `FALSE` to number columns sequentially from `X1` to `Xn`, or
 #'   a character vector giving a name for each column.
-#' @param col_types Either `NULL` to guess from the spreadsheet or a
-#'   character vector containing "blank", "numeric", "date" or "text".
-#' @param na Character vector of strings to use for missing values. By
-#'   default readxl converts blank cells to missing data.
+#' @param col_types Either `NULL` to guess from the spreadsheet or a character
+#'   vector containing one entry per column from these options: "blank",
+#'   "numeric", "date" or "text".
+#' @param na Character vector of strings to use for missing values. By default
+#'   readxl treats blank cells as missing data.
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
@@ -23,6 +24,9 @@ NULL
 #' # Specific sheet either by position or by name
 #' read_excel(datasets, 2)
 #' read_excel(datasets, "mtcars")
+#'
+#' # Skipping rows and using default column names
+#' read_excel(datasets, skip = 148, col_names = FALSE)
 read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0) {
 
@@ -40,7 +44,7 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 #'
 #' @rdname read_excel
 #' @export
-read_xls <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0) {
 
   sheet <- standardise_sheet(sheet, xls_sheets(path))
