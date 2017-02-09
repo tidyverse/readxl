@@ -34,7 +34,7 @@ devtools::install_github("tidyverse/readxl")
 Usage
 -----
 
-readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. These files were created with the help of openxlsx and Excel.
+readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the shortcut `readxl_example()`.
 
 ``` r
 l <- list("iris" = iris, "mtcars" = mtcars, chickwts = chickwts, quakes = quakes)
@@ -46,7 +46,7 @@ openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ``` r
 library(readxl)
 
-xlsx_example <- system.file("extdata/datasets.xlsx", package = "readxl")
+xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
 #> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -56,7 +56,7 @@ read_excel(xlsx_example)
 #> 3          4.7         3.2          1.3         0.2  setosa
 #> # ... with 147 more rows
 
-xls_example <- system.file("extdata/datasets.xls", package = "readxl")
+xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
 #> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
