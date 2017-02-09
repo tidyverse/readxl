@@ -21,9 +21,8 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.}
 
-\item{col_names}{Either \code{TRUE} to use the first row as column names,
-\code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
-a character vector giving a name for each column.}
+\item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE}
+to get default names, or a character vector giving a name for each column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
 vector containing one entry per column from these options: "blank",
@@ -42,7 +41,7 @@ extension, \code{read_xls()} and \code{read_xlsx()} can be used to
 read files without extension.
 }
 \examples{
-datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+datasets <- readxl_example("datasets.xlsx")
 read_excel(datasets)
 
 # Specific sheet either by position or by name

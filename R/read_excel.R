@@ -7,9 +7,8 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
-#' @param col_names Either `TRUE` to use the first row as column names,
-#'   `FALSE` to number columns sequentially from `X1` to `Xn`, or
-#'   a character vector giving a name for each column.
+#' @param col_names `TRUE` to use the first row as column names, `FALSE`
+#'   to get default names, or a character vector giving a name for each column.
 #' @param col_types Either `NULL` to guess from the spreadsheet or a character
 #'   vector containing one entry per column from these options: "blank",
 #'   "numeric", "date" or "text".
@@ -18,7 +17,7 @@ NULL
 #' @param skip Number of rows to skip before reading any data.
 #' @export
 #' @examples
-#' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+#' datasets <- readxl_example("datasets.xlsx")
 #' read_excel(datasets)
 #'
 #' # Specific sheet either by position or by name
@@ -53,7 +52,7 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   if (has_col_names) {
     col_names <- xls_col_names(path, sheet, nskip = skip)
   } else if (isFALSE(col_names)) {
-    col_names <- paste0("X", seq_along(xls_col_names(path, sheet)))
+    col_names <- rep.int("", length(xls_col_names(path, sheet)))
   }
 
   if (is.null(col_types)) {
