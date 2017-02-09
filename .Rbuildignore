@@ -12,3 +12,4 @@
 ^README-.*\.png$
 ^_pkgdown\.yml$
 ^docs$
+^clippy$
