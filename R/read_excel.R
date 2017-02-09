@@ -7,10 +7,10 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
-#' @param col_names Either \code{TRUE} to use the first row as column names,
-#'   \code{FALSE} to number columns sequentially from \code{X1} to \code{Xn}, or
+#' @param col_names Either `TRUE` to use the first row as column names,
+#'   `FALSE` to number columns sequentially from `X__1` to `X__n`, or
 #'   a character vector giving a name for each column.
-#' @param col_types Either \code{NULL} to guess from the spreadsheet or a
+#' @param col_types Either `NULL` to guess from the spreadsheet or a
 #'   character vector containing "blank", "numeric", "date" or "text".
 #' @param na Character vector of strings to use for missing values. By
 #'   default readxl converts blank cells to missing data.
@@ -34,8 +34,8 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   )
 }
 
-#' While \code{read_excel} auto detects the format from the file
-#' extension, \code{read_xls} and \code{read_xlsx} can be used to
+#' While `read_excel()` auto detects the format from the file
+#' extension, `read_xls()` and `read_xlsx()` can be used to
 #' read files without extension.
 #'
 #' @rdname read_excel

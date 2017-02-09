@@ -26,6 +26,7 @@ Suggests:
     covr,
     rprojroot (>= 1.1),
     testthat
-RoxygenNote: 5.0.1.9000
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.0.9000
 URL: https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
