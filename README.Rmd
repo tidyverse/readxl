@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/tidyverse/readxl.svg?branch=master)](https://travis-ci.org/tidyverse/readxl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/readxl?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/readxl) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg)](https://codecov.io/github/tidyverse/readxl?branch=master) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
 
-The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
+The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data stored in a single sheet.
 
-readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. `.xls` support is made possible the with [libxls](http://sourceforge.net/projects/libxls/) C library, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. The `.xls` [libxls](http://sourceforge.net/projects/libxls/) C library is used to support `.xls`, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
@@ -43,14 +43,14 @@ devtools::install_github("tidyverse/readxl")
 
 ## Usage
 
-readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. They were created with the help of openxlsx and Excel.
+readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. These files were created with the help of openxlsx and Excel.
 
 ```{r eval = FALSE}
 l <- list("iris" = iris, "mtcars" = mtcars, chickwts = chickwts, quakes = quakes)
 openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ```
 
-readxl reads both xls and xlsx files.
+`read_excel()` reads both xls and xlsx files and detects the format from the extension.
 
 ```{r include = FALSE}
 options(tibble.print_min = 3, tibble.print_max = 3)
