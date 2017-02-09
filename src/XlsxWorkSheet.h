@@ -52,9 +52,13 @@ public:
     }
 
     nskip_ = nskip;
+    nrow_ = 0;
+    ncol_ = 0;
     loadCells();
-    computeDimensions();
     markRows();
+    if (firstRow_ != cells_.end()) {
+      computeDimensions();
+    }
   }
 
   int ncol() const {
