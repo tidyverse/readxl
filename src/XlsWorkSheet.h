@@ -65,8 +65,8 @@ public:
     return out;
   }
 
-  std::vector<CellType> colTypes(const StringSet &na, int nskip = 0, int n_max = 100) {
-    std::vector<CellType> types(ncol_);
+  std::vector<ColType> colTypes(const StringSet &na, int nskip = 0, int n_max = 100) {
+    std::vector<ColType> types(ncol_);
 
     for (int i = nskip; i < nrow_ && i < n_max; ++i) {
       if ((i + 1) % 10000 == 0)
@@ -75,7 +75,7 @@ public:
       xls::st_row::st_row_data row = pWS_->rows.row[i];
 
       for (int j = 0; j < ncol_; ++j) {
-        CellType type = cellType(row.cells.cell[j], &pWS_->workbook->xfs, customDateFormats_, na);
+        ColType type = as_ColType(cellType(row.cells.cell[j], &pWS_->workbook->xfs, customDateFormats_, na));
 
         // Excel is simple enough we can enforce a strict ordering
         if (type > types[j]) {
@@ -87,7 +87,7 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
+  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<ColType> types,
                       const StringSet &na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
       Rcpp::stop("Need one name and type for each column");
@@ -112,9 +112,9 @@ public:
 
         // Needs to compare to actual cell type to give warnings
         switch(types[j]) {
-        case CELL_BLANK:
+        case COL_BLANK:
           break;
-        case CELL_NUMERIC:
+        case COL_NUMERIC:
           switch(type) {
           case CELL_BLANK:
             REAL(col)[i] = NA_REAL;
@@ -129,7 +129,7 @@ public:
             REAL(col)[i] = NA_REAL;
           }
           break;
-        case CELL_DATE:
+        case COL_DATE:
           switch(type) {
           case CELL_BLANK:
             REAL(col)[i] = NA_REAL;
@@ -149,7 +149,7 @@ public:
             break;
           }
           break;
-        case CELL_TEXT:
+        case COL_TEXT:
           if (type == CELL_BLANK) {
             SET_STRING_ELT(col, i, NA_STRING);
           } else {
@@ -158,8 +158,34 @@ public:
             SET_STRING_ELT(col, i, rString);
           }
           break;
-        }
+        case COL_LIST:
+          switch(type) {
+          case CELL_BLANK: {
+            Rcpp::as<Rcpp::List>(col)[i] = Rcpp::LogicalVector(1, NA_LOGICAL);
+            break;
+          }
+          case CELL_NUMERIC: {
+            Rcpp::as<Rcpp::List>(col)[i] = Rcpp::NumericVector(1, cell.d);
+            break;
+          }
+          case CELL_DATE: {
+            Rcpp::RObject cell_val = Rcpp::NumericVector(1, (cell.d - offset_) * 86400);
+            cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+            cell_val.attr("tzone") = "UTC";
+            Rcpp::as<Rcpp::List>(col)[i] = cell_val;
+            break;
+          }
+          case CELL_TEXT: {
+            Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+            std::string stdString((char*) cell.str);
+            Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+            SET_STRING_ELT(rStringVector, 0, rString);
+            Rcpp::as<Rcpp::List>(col)[i] = rStringVector;
+            break;
+          }
+          }
       }
+    }
     }
 
     return removeBlankColumns(cols, names, types);

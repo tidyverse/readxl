@@ -7,6 +7,20 @@ test_that("types imputed & read correctly", {
   expect_is(types$date, "POSIXct")
 })
 
+test_that("list column preserves type [xlsx]", {
+  types <- read_excel(test_sheet("list_type.xlsx"), col_types = "list")
+  expect_is(types$var1[[1]], "numeric")
+  expect_is(types$var1[[2]], "character")
+  expect_is(types$var1[[3]], "POSIXct")
+})
+
+test_that("list column preserves type [xls]", {
+  types <- read_excel(test_sheet("list_type.xls"), col_types = "list")
+  expect_is(types$var1[[1]], "numeric")
+  expect_is(types$var1[[2]], "character")
+  expect_is(types$var1[[3]], "POSIXct")
+})
+
 test_that("can read sheets with inlineStr", {
   # Original source: http://our.componentone.com/wp-content/uploads/2011/12/TestExcel.xlsx
   # These appear to come from LibreOffice 4.2.7.2.
