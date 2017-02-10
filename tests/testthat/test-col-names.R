@@ -57,3 +57,10 @@ test_that("column names are de-duplicated", {
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
   expect_identical(names(df)[4], "var2__1")
 })
+
+test_that("wrong length column names are rejected", {
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"),col_names = LETTERS[1:3]),
+    "Need one name and type for each column"
+  )
+})
