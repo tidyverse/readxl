@@ -34,7 +34,7 @@ devtools::install_github("tidyverse/readxl")
 Usage
 -----
 
-readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the shortcut `readxl_example()`.
+readxl includes example files `datasets.xlsx` and `datasets.xls`, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the helper `readxl_example()`.
 
 ``` r
 l <- list("iris" = iris, "mtcars" = mtcars, chickwts = chickwts, quakes = quakes)
