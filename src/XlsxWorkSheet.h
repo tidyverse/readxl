@@ -18,7 +18,6 @@ class XlsxWorkSheet {
   XlsxWorkBook wb_;
   std::string sheet_;
   rapidxml::xml_document<> sheetXml_;
-  rapidxml::xml_node<>* rootNode_;
   rapidxml::xml_node<>* sheetData_;
   std::vector<XlsxCell> cells_;
   std::string sheetName_;
@@ -30,6 +29,8 @@ public:
   XlsxWorkSheet(XlsxWorkBook wb, int sheet_i, int nskip):
   wb_(wb)
   {
+    rapidxml::xml_node<>* rootNode;
+
     if (sheet_i > wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1,  wb.n_sheets());
@@ -39,13 +40,13 @@ public:
     sheet_ = zip_buffer(wb.path(), sheetPath);
     sheetXml_.parse<0>(&sheet_[0]);
 
-    rootNode_ = sheetXml_.first_node("worksheet");
-    if (rootNode_ == NULL) {
+    rootNode = sheetXml_.first_node("worksheet");
+    if (rootNode == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
                  sheetName_, sheet_i + 1);
     }
 
-    sheetData_ = rootNode_->first_node("sheetData");
+    sheetData_ = rootNode->first_node("sheetData");
     if (sheetData_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
                  sheetName_, sheet_i + 1);
