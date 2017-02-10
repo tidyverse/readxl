@@ -58,9 +58,16 @@ test_that("column names are de-duplicated", {
   expect_identical(names(df)[4], "var2__1")
 })
 
-test_that("wrong length column names are rejected", {
+test_that("wrong length column names are rejected [xlsx]", {
   expect_error(
     read_excel(test_sheet("iris-excel.xlsx"),col_names = LETTERS[1:3]),
-    "Need one name and type for each column"
+    "Sheet 1 has 5 columns, but `col_names` has length 3."
+  )
+})
+
+test_that("wrong length column names are rejected [xls]", {
+  expect_error(
+    read_excel(test_sheet("iris-excel.xls"),col_names = LETTERS[1:3]),
+    "`col_names` and `col_types` must have the same length"
   )
 })

@@ -65,6 +65,11 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_names` must be a logical or character vector");
   }
 
+  if ((int) colNames.size() != ws.ncol()) {
+    Rcpp::stop("Sheet %d has %d columns, but `col_names` has length %d.",
+               sheet + 1, ws.ncol(), colNames.size());
+  }
+
   // Get column types --------------------------------------------------
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
@@ -78,15 +83,17 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
 
+  if ((int) colTypes.size() != ws.ncol()) {
+    Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+               sheet + 1, ws.ncol(), colTypes.size());
+  }
+
   // convert blank columns to numeric
   for (size_t i = 0; i < colTypes.size(); i++) {
     if (colTypes[i] == CELL_BLANK)
       colTypes[i] = CELL_NUMERIC;
   }
 
-  if ((int) colNames.size() != ws.ncol() || (int) colTypes.size() != ws.ncol()) {
-    Rcpp::stop("Need one name and type for each column");
-  }
 
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }
