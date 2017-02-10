@@ -21,11 +21,11 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                int n = 100) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
-  std::vector<CellType> types = ws.colTypes(na, nskip, n);
+  std::vector<ColType> types = ws.colTypes(na, nskip, n);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = cellTypeDesc(types[i]);
+    out[i] = colTypeDesc(types[i]);
   }
 
   return out;
@@ -64,13 +64,13 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   }
 
   // Standardise column types --------------------------------------------------
-  std::vector<CellType> colTypes;
+  std::vector<ColType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
     colTypes = ws.colTypes(na, 100, sheetHasColumnNames);
     break;
   case STRSXP:
-    colTypes = cellTypes(as<CharacterVector>(col_types));
+    colTypes = colTypeStrings(as<CharacterVector>(col_types));
     break;
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");

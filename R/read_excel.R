@@ -11,7 +11,9 @@ NULL
 #'   to get default names, or a character vector giving a name for each column.
 #' @param col_types Either `NULL` to guess from the spreadsheet or a character
 #'   vector containing one entry per column from these options: "blank",
-#'   "numeric", "date" or "text".
+#'   "numeric", "date", "text" or "list". Option "list" loads the column as
+#'   a list, with each row as a vector of length 1 preserving the type information
+#'   from excel.
 #' @param na Character vector of strings to use for missing values. By default
 #'   readxl treats blank cells as missing data.
 #' @param skip Number of rows to skip before reading any data.

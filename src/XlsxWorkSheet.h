@@ -72,9 +72,9 @@ public:
   // JB: this should either take colNames as an argument or have a bit of code
   // moved out of here, so we don't read column names again inside this fxn.
   // More comments near end of fxn.
-  std::vector<CellType> colTypes(const StringSet& na,
+  std::vector<ColType> colTypes(const StringSet& na,
                                  int n_max = 100, bool has_col_names = false) {
-    std::vector<CellType> types;
+    std::vector<ColType> types;
     types.resize(ncol_);
 
     std::vector<XlsxCell>::const_iterator it, row_end;
@@ -83,7 +83,7 @@ public:
     // no cell data to consult re: types
     if (it == cells_.end()) {
       for (size_t i = 0; i < types.size(); i++) {
-        types[i] = CELL_NUMERIC;
+        types[i] = COL_NUMERIC;
       }
       return types;
     }
@@ -104,7 +104,7 @@ public:
       while (it != row_end) {
         XlsxCell xcell = *it;
         if (xcell.col() < ncol_) {
-          CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
+          ColType type = as_ColType(xcell.type(na, wb_.stringTable(), wb_.dateStyles()));
           if (type > types[xcell.col()]) {
             types[xcell.col()] = type;
           }
@@ -122,8 +122,8 @@ public:
       // blank columns with a name aren't blank
       Rcpp::CharacterVector names = colNames();
       for (size_t i = 0; i < types.size(); i++) {
-        if (types[i] == CELL_BLANK && names[i] != NA_STRING && names[i] != "")
-          types[i] = CELL_NUMERIC;
+        if (types[i] == COL_BLANK && names[i] != NA_STRING && names[i] != "")
+          types[i] = COL_NUMERIC;
       }
     }
     return types;
@@ -146,7 +146,7 @@ public:
   }
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
-                      const std::vector<CellType>& types,
+                      const std::vector<ColType>& types,
                       const StringSet& na,
                       bool has_col_names = false) {
     // JB: suspect this should move out of here and into a function that does
@@ -202,9 +202,9 @@ public:
         int row = xcell.row() - base;
         // Needs to compare to actual cell type to give warnings
         switch(types[xcell.col()]) {
-        case CELL_BLANK:
+        case COL_BLANK:
           break;
-        case CELL_NUMERIC:
+        case COL_NUMERIC:
           switch(type) {
           case CELL_NUMERIC:
           case CELL_DATE:
@@ -220,7 +220,7 @@ public:
             REAL(col)[row] = NA_REAL;
           }
           break;
-        case CELL_DATE:
+        case COL_DATE:
           switch(type) {
           case CELL_DATE:
             REAL(col)[row] = xcell.asDate(na, wb_.offset());
@@ -237,11 +237,36 @@ public:
             break;
           }
           break;
-        case CELL_TEXT:
+        case COL_TEXT:
           if (type == CELL_BLANK) {
             SET_STRING_ELT(col, row, NA_STRING);
           } else {
             SET_STRING_ELT(col, row, xcell.asCharSxp(na, wb_.stringTable()));
+          }
+          break;
+        case COL_LIST:
+          switch(type) {
+          case CELL_BLANK: {
+            Rcpp::as<Rcpp::List>(col)[row] = Rcpp::LogicalVector(1, NA_LOGICAL);
+            break;
+          }
+          case CELL_NUMERIC: {
+            Rcpp::as<Rcpp::List>(col)[row] = Rcpp::NumericVector(1, xcell.asDouble(na));
+            break;
+          }
+          case CELL_DATE: {
+            Rcpp::RObject cell_val = Rcpp::NumericVector(1, xcell.asDate(na, wb_.offset()));
+            cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+            cell_val.attr("tzone") = "UTC";
+            Rcpp::as<Rcpp::List>(col)[row] = cell_val;
+            break;
+          }
+          case CELL_TEXT: {
+            Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+            SET_STRING_ELT(rStringVector, 0, xcell.asCharSxp(na, wb_.stringTable()));
+            Rcpp::as<Rcpp::List>(col)[row] = rStringVector;
+            break;
+          }
           }
           break;
         }
