@@ -142,10 +142,11 @@ public:
     // no cell data to read
     if (it == cells_.end()) {
       Rcpp::List cols(ncol_);
+      cols.attr("names") = names;
       for (int j = 0; j < ncol_; ++j) {
         cols[j] = makeCol(types[j], 0);
       }
-      return removeBlankColumns(cols, names, types);
+      return cols;
     }
 
     int base = firstRow_->row() + has_col_names;
@@ -157,6 +158,7 @@ public:
     // Initialise columns, accounting for leading skipped or blank rows
     int n = nrow_ - base;
     Rcpp::List cols(ncol_);
+    cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
     }
@@ -232,7 +234,7 @@ public:
       ++i;
     }
 
-    return removeBlankColumns(cols, names, types);
+    return cols;
   }
 
 

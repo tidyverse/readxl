@@ -78,14 +78,10 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
 
-  if (sheetHasColumnNames) {
-    // convert blank columns that have a name to numeric
-    for (size_t i = 0; i < colTypes.size(); i++) {
-      if (colTypes[i] == CELL_BLANK &&
-          colNames[i] != NA_STRING &&
-          colNames[i] != "")
-        colTypes[i] = CELL_NUMERIC;
-    }
+  // convert blank columns to numeric
+  for (size_t i = 0; i < colTypes.size(); i++) {
+    if (colTypes[i] == CELL_BLANK)
+      colTypes[i] = CELL_NUMERIC;
   }
 
   if ((int) colNames.size() != ws.ncol() || (int) colTypes.size() != ws.ncol()) {

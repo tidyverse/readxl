@@ -161,6 +161,8 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   return R_NilValue;
 }
 
+// JB: although we don't call this at the moment, I keep it because it will
+// be resurrected when we have a notion of skipping a column
 // Drop blanks from list of columns
 inline Rcpp::List removeBlankColumns(Rcpp::List cols,
                                      Rcpp::CharacterVector names,

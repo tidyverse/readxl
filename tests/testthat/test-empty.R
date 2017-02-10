@@ -36,9 +36,9 @@ test_that("empty cells with a style are not loaded", {
   df <- tibble::tibble(var1 = c("val1,1", "val2,1", "val3,1"),
                        var2 = NA_real_,
                        var3 = c("aa", "bb", "cc"),
+                       X__1 = NA_real_,
                        var5 = c(1, 2, 3))
   expect_equal(out, df)
-  skip("revisit this when dust settles re: treatment of empty columns")
 })
 
 test_that("user-supplied column names play nicely with empty columns", {
