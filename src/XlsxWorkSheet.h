@@ -68,9 +68,6 @@ public:
     return sheetName_;
   }
 
-  // JB: this should either take colNames as an argument or have a bit of code
-  // moved out of here, so we don't read column names again inside this fxn.
-  // More comments near end of fxn.
   std::vector<CellType> colTypes(const StringSet& na,
                                  int guess_max = 1000,
                                  bool has_col_names = false) {
@@ -115,17 +112,6 @@ public:
       i++;
     }
 
-    // JB: this usually rederives the column names, which seems unwise
-    // I propose to move such reconciliation of column names and types out
-    // of here and into the parent function , read_xlsx_()
-    if (has_col_names) {
-      // blank columns with a name aren't blank
-      Rcpp::CharacterVector names = colNames();
-      for (size_t i = 0; i < types.size(); i++) {
-        if (types[i] == CELL_BLANK && names[i] != NA_STRING && names[i] != "")
-          types[i] = CELL_NUMERIC;
-      }
-    }
     return types;
   }
 

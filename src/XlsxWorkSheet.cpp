@@ -43,11 +43,12 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
 
   XlsxWorkSheet ws(path, sheet, nskip);
 
+  // catches empty sheets and sheets where we skip past all data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
     return Rcpp::List(0);
   }
 
-  // Standardise column names --------------------------------------------------
+  // Get column names --------------------------------------------------
   CharacterVector colNames;
   bool sheetHasColumnNames = false;
   switch(TYPEOF(col_names)) {
@@ -64,7 +65,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_names` must be a logical or character vector");
   }
 
-  // Standardise column types --------------------------------------------------
+  // Get column types --------------------------------------------------
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
@@ -75,6 +76,16 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     break;
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");
+  }
+
+  if (sheetHasColumnNames) {
+    // convert blank columns that have a name to numeric
+    for (size_t i = 0; i < colTypes.size(); i++) {
+      if (colTypes[i] == CELL_BLANK &&
+          colNames[i] != NA_STRING &&
+          colNames[i] != "")
+        colTypes[i] = CELL_NUMERIC;
+    }
   }
 
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
