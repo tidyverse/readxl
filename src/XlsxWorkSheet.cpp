@@ -88,5 +88,9 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     }
   }
 
+  if ((int) colNames.size() != ws.ncol() || (int) colTypes.size() != ws.ncol()) {
+    Rcpp::stop("Need one name and type for each column");
+  }
+
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }

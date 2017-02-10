@@ -135,10 +135,6 @@ public:
                       const std::vector<CellType>& types,
                       const StringSet& na,
                       bool has_col_names = false) {
-    // JB: suspect this should move out of here and into a function that does
-    // this and the last rationalization re col names and types in colTypes
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
 
     std::vector<XlsxCell>::const_iterator it, row_end;
     it = has_col_names ? secondRow_: firstRow_;
