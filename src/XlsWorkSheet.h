@@ -90,7 +90,7 @@ public:
   Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
                       const StringSet &na, int nskip = 0) {
     if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
+      Rcpp::stop("Need one name and type for each column (%d columns)", ncol_);
 
     Rcpp::List cols(ncol_);
 
