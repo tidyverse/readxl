@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* New argument `guess_max` lets user adjust the number of rows used to guess column types, similar to functions in readr. (#223, #257 @tklebel, @jennybc)
+
 * Improved handling of empty cells for xlsx. (#248 @jennybc)
 
     - Cells with no content are not loaded. Sheet extent is always computed from loaded cells, instead of the nominal dimensions reported in the worksheet. The result is to not consult the XML for empty cells that appear there simply because they have an associated style or format. This is detectable in Excel as seemingly empty cells with a format other than "General".
