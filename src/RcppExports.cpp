@@ -5,6 +5,29 @@
 
 using namespace Rcpp;
 
+// parseXml
+void parseXml(std::string base, std::string internal);
+RcppExport SEXP readxl_parseXml(SEXP baseSEXP, SEXP internalSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< std::string >::type internal(internalSEXP);
+    parseXml(base, internal);
+    return R_NilValue;
+END_RCPP
+}
+// countRows
+int countRows(std::string base, int sheet);
+RcppExport SEXP readxl_countRows(SEXP baseSEXP, SEXP sheetSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
+    rcpp_result_gen = Rcpp::wrap(countRows(base, sheet));
+    return rcpp_result_gen;
+END_RCPP
+}
 // xls_formats
 std::map<int,std::string> xls_formats(std::string path);
 RcppExport SEXP readxl_xls_formats(SEXP pathSEXP) {
@@ -171,29 +194,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
     rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet, col_names, col_types, na, nskip, guess_max));
-    return rcpp_result_gen;
-END_RCPP
-}
-// parseXml
-void parseXml(std::string base, std::string internal);
-RcppExport SEXP readxl_parseXml(SEXP baseSEXP, SEXP internalSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    Rcpp::traits::input_parameter< std::string >::type internal(internalSEXP);
-    parseXml(base, internal);
-    return R_NilValue;
-END_RCPP
-}
-// countRows
-int countRows(std::string base, int sheet);
-RcppExport SEXP readxl_countRows(SEXP baseSEXP, SEXP sheetSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
-    rcpp_result_gen = Rcpp::wrap(countRows(base, sheet));
     return rcpp_result_gen;
 END_RCPP
 }
