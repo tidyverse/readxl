@@ -27,7 +27,7 @@ NULL
 #'
 #' # Skipping rows and using default column names
 #' read_excel(datasets, skip = 148, col_names = FALSE)
-read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
+read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, guess_max = 1000) {
 
   path <- check_file(path)
