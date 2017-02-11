@@ -65,10 +65,8 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_names` must be a logical or character vector");
   }
 
-  if ((int) colNames.size() != ws.ncol()) {
-    Rcpp::stop("Sheet %d has %d columns, but `col_names` has length %d.",
-               sheet + 1, ws.ncol(), colNames.size());
-  }
+  // don't complain about the length yet!
+  // wait and see if we are skipping columns
 
   // Get column types --------------------------------------------------
   std::vector<CellType> colTypes;
@@ -82,18 +80,30 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
-
   if ((int) colTypes.size() != ws.ncol()) {
     Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                sheet + 1, ws.ncol(), colTypes.size());
   }
 
-  // convert blank columns to numeric
+  // are there skipped columns? deal with that now
+  //   * rationalize column names
+  //   * length = number of unskipped columns? OK, spread them out
+  //   * length = number of columns? OK
+  //   * anything else? not OK
+  if ((int) colNames.size() != ws.ncol()) {
+    Rcpp::stop("Sheet %d has %d columns, but `col_names` has length %d.",
+               sheet + 1, ws.ncol(), colNames.size());
+  }
+
+  // convert blank columns to numeric (default will eventually be logical)
+  // the only way to have a blank column is for it to be empty
+  // or, more precisely, for it to not match one of our other types
+  // this can only happen when col_types = NULL
   for (size_t i = 0; i < colTypes.size(); i++) {
     if (colTypes[i] == CELL_BLANK)
       colTypes[i] = CELL_NUMERIC;
   }
 
-
+  // readCols should not read/vet cells in skipped columns
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }
