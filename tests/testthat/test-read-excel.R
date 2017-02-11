@@ -1,12 +1,5 @@
 context("read_excel")
 
-test_that("types imputed & read correctly", {
-  types <- read_excel(test_sheet("types.xlsx"))
-  expect_is(types$number, "numeric")
-  expect_is(types$string, "character")
-  expect_is(types$date, "POSIXct")
-})
-
 test_that("can read sheets with inlineStr", {
   # Original source: http://our.componentone.com/wp-content/uploads/2011/12/TestExcel.xlsx
   # These appear to come from LibreOffice 4.2.7.2.
@@ -38,4 +31,28 @@ test_that("can read file without extension", {
   expect_error(read_excel("iris-xls-no-ending"), "Missing file extension.")
   expect_error(read_xlsx("iris-xls-no-ending"), "cannot be opened")
 
+})
+
+test_that("read_excel catches invalid guess_max", {
+
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = NA),
+    "`guess_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = -1),
+    "`guess_max` must be a positive integer"
+  )
+  expect_warning(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = Inf),
+    "`guess_max` is a very large value"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = NULL),
+    "`guess_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = 1:2),
+    "`guess_max` must be a positive integer"
+  )
 })

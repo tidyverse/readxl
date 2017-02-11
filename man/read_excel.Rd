@@ -6,14 +6,14 @@
 \alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
-read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-  na = "", skip = 0)
+read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
+  skip = 0, guess_max = 1000)
 
 read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0)
+  skip = 0, guess_max = 1000)
 
 read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0)
+  skip = 0, guess_max = 1000)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
@@ -32,6 +32,8 @@ vector containing one entry per column from these options: "blank",
 readxl treats blank cells as missing data.}
 
 \item{skip}{Number of rows to skip before reading any data.}
+
+\item{guess_max}{Maximum number of rows to use for guessing column types.}
 }
 \description{
 Read xls and xlsx files.
