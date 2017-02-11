@@ -21,8 +21,11 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.}
 
-\item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE}
-to get default names, or a character vector giving a name for each column.}
+\item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
+default names, or a character vector giving a name for each column. If user
+provides \code{col_types} as a vector, \code{col_names} can have one entry per
+column, i.e. have the same length as \code{col_types}, or one entry per
+unskipped column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
 vector containing one entry per column from these options: "skip",

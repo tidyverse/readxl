@@ -8,7 +8,7 @@ test_that("illegal col_types are rejected", {
   )
 })
 
-test_that("request for 'blank' col type gets deprecation warning", {
+test_that("request for 'blank' col type gets deprecation message and fix", {
   expect_message(
     read_excel(test_sheet("types.xlsx"),
                col_types = rep_len(c("blank", "text"), length.out = 5)),

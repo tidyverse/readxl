@@ -7,8 +7,11 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
-#' @param col_names `TRUE` to use the first row as column names, `FALSE`
-#'   to get default names, or a character vector giving a name for each column.
+#' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
+#'   default names, or a character vector giving a name for each column. If user
+#'   provides `col_types` as a vector, `col_names` can have one entry per
+#'   column, i.e. have the same length as `col_types`, or one entry per
+#'   unskipped column.
 #' @param col_types Either `NULL` to guess from the spreadsheet or a character
 #'   vector containing one entry per column from these options: "skip",
 #'   "numeric", "date" or "text". The content of a cell in a skipped column is
@@ -137,7 +140,7 @@ check_col_types <- function(col_types) {
   }
   stopifnot(is.character(col_types), length(col_types) > 0, !anyNA(col_types))
 
-  blank <- "blank" %in% col_types
+  blank <- col_types == "blank"
   if (any(blank)) {
     message("`col_type = \"blank\"` deprecated. Use \"skip\" instead.")
     col_types[blank] <- "skip"
