@@ -115,12 +115,15 @@ public:
         switch(types[j]) {
         case CELL_BLANK:
           break;
+        case CELL_SKIP:
+          break;
         case CELL_NUMERIC:
           switch(type) {
           case CELL_BLANK:
             REAL(col)[i] = NA_REAL;
             break;
           case CELL_NUMERIC:
+          case CELL_SKIP:
           case CELL_DATE:
             REAL(col)[i] = cell.d;
             break;
@@ -132,6 +135,7 @@ public:
           break;
         case CELL_DATE:
           switch(type) {
+          case CELL_SKIP:
           case CELL_BLANK:
             REAL(col)[i] = NA_REAL;
             break;
@@ -163,7 +167,7 @@ public:
       }
     }
 
-    return removeBlankColumns(cols, names, types);
+    return removeSkippedColumns(cols, names, types);
   }
 };
 

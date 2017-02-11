@@ -8,6 +8,30 @@ test_that("illegal col_types are rejected", {
   )
 })
 
+test_that("request for 'blank' col type gets deprecation warning", {
+  expect_message(
+    read_excel(test_sheet("types.xlsx"),
+               col_types = rep_len(c("blank", "text"), length.out = 5)),
+    "`col_type = \"blank\"` deprecated. Use \"skip\" instead.",
+    fixed = TRUE
+  )
+})
+
+test_that("invalid col_types are rejected", {
+  expect_error(
+    read_excel(test_sheet("types.xlsx"), col_types = character()),
+    "length(col_types) > 0 is not TRUE", fixed = TRUE
+  )
+  expect_error(
+    read_excel(test_sheet("types.xlsx"), col_types = 1:3),
+    "is.character(col_types) is not TRUE", fixed = TRUE
+  )
+  expect_error(
+    read_excel(test_sheet("types.xlsx"), col_types = c(NA, "text", "numeric")),
+    "!anyNA(col_types) is not TRUE", fixed = TRUE
+  )
+})
+
 test_that("col_types can be specified", {
   df <- read_excel(test_sheet("iris-excel.xlsx"),
                    col_types = c("numeric", "text", "numeric", "numeric", "text"))
@@ -39,8 +63,15 @@ test_that("types imputed & read correctly [xlsx]", {
 
 test_that("types imputed & read correctly [xls]", {
   expect_output(
+    ## valgrind reports this
+    ## Conditional jump or move depends on uninitialised value(s)
     types <- read_excel(test_sheet("types.xls")),
     "Unknown type: 517"
+    ## definitely due to these 'Unknown type: 517' msgs
+    ## line 102 in CellType.h
+    ##   Rcpp::Rcout << "Unknown type: " << cell.id << "\n";
+    ## if I skip this test, memcheck report is as clean as it ever gets
+    ## https://github.com/tidyverse/readxl/issues/259
   )
   expect_is(types$number, "numeric")
   expect_is(types$string, "character")

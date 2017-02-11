@@ -25,13 +25,15 @@ integer (the position of the sheet). Defaults to the first sheet.}
 to get default names, or a character vector giving a name for each column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
-vector containing one entry per column from these options: "blank",
-"numeric", "date" or "text".}
+vector containing one entry per column from these options: "skip",
+"numeric", "date" or "text". The content of a cell in a skipped column is
+never read and that column will not appear in the data frame output.}
 
-\item{na}{Character vector of strings to use for missing values. By default
+\item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}
 
-\item{skip}{Number of rows to skip before reading any data.}
+\item{skip}{Number of rows to skip before reading any data. Leading blank
+rows are automatically skipped.}
 
 \item{guess_max}{Maximum number of rows to use for guessing column types.}
 }

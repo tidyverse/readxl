@@ -75,7 +75,7 @@ public:
     types.resize(ncol_);
 
     std::vector<XlsxCell>::const_iterator it;
-    it = has_col_names ? secondRow_: firstRow_;
+    it = has_col_names ? secondRow_ : firstRow_;
 
     // no cell data to consult re: types
     if (it == cells_.end()) {
@@ -85,6 +85,7 @@ public:
       return types;
     }
 
+    // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
     // we have consulted i rows re: determining col types
     int i;
@@ -135,6 +136,7 @@ public:
     std::vector<XlsxCell>::const_iterator it;
     it = has_col_names ? secondRow_: firstRow_;
 
+    // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
     int n = (it == cells_.end()) ? 0 : nrow_ - base;
     Rcpp::List cols(ncol_);
@@ -143,7 +145,7 @@ public:
       cols[j] = makeCol(types[j], n);
     }
 
-    if (it == cells_.end()) {
+    if (n == 0) {
       return cols;
     }
 
@@ -160,19 +162,25 @@ public:
       }
 
       XlsxCell xcell = *it;
-      if (xcell.col() >= ncol_) {
+      if (types[xcell.col()] == CELL_SKIP || xcell.col() >= ncol_) {
+        it++;
         continue;
       }
+
       CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
       Rcpp::RObject col = cols[xcell.col()];
       // row to write into
       int row = xcell.row() - base;
       // Needs to compare to actual cell type to give warnings
       switch(types[xcell.col()]) {
+      case CELL_SKIP:
+        break;
       case CELL_BLANK:
         break;
       case CELL_NUMERIC:
         switch(type) {
+        case CELL_SKIP:
+          break;
         case CELL_NUMERIC:
         case CELL_DATE:
           REAL(col)[row] = xcell.asDouble(na);
@@ -189,6 +197,8 @@ public:
         break;
       case CELL_DATE:
         switch(type) {
+        case CELL_SKIP:
+          break;
         case CELL_DATE:
           REAL(col)[row] = xcell.asDate(na, wb_.offset());
           break;
@@ -218,7 +228,8 @@ public:
       }
       it++;
     }
-    return cols;
+
+    return removeSkippedColumns(cols, names, types);
   }
 
 private:

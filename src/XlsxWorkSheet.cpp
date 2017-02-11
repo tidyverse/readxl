@@ -110,6 +110,5 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
       colTypes[i] = CELL_NUMERIC;
   }
 
-  // readCols should not read/vet cells in skipped columns
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }

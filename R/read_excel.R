@@ -10,11 +10,13 @@ NULL
 #' @param col_names `TRUE` to use the first row as column names, `FALSE`
 #'   to get default names, or a character vector giving a name for each column.
 #' @param col_types Either `NULL` to guess from the spreadsheet or a character
-#'   vector containing one entry per column from these options: "blank",
-#'   "numeric", "date" or "text".
-#' @param na Character vector of strings to use for missing values. By default
+#'   vector containing one entry per column from these options: "skip",
+#'   "numeric", "date" or "text". The content of a cell in a skipped column is
+#'   never read and that column will not appear in the data frame output.
+#' @param na Character vector of strings to use for missing values. By default,
 #'   readxl treats blank cells as missing data.
-#' @param skip Number of rows to skip before reading any data.
+#' @param skip Number of rows to skip before reading any data. Leading blank
+#'   rows are automatically skipped.
 #' @param guess_max Maximum number of rows to use for guessing column types.
 #' @export
 #' @examples
@@ -133,8 +135,15 @@ check_col_types <- function(col_types) {
   if (is.null(col_types)) {
     return(col_types)
   }
-  stopifnot(is.character(col_types), length(col_types) > 0)
-  accepted_types <- c("blank", "numeric", "date", "text")
+  stopifnot(is.character(col_types), length(col_types) > 0, !anyNA(col_types))
+
+  blank <- "blank" %in% col_types
+  if (any(blank)) {
+    message("`col_type = \"blank\"` deprecated. Use \"skip\" instead.")
+    col_types[blank] <- "skip"
+  }
+
+  accepted_types <- c("skip", "numeric", "date", "text")
   ok <- col_types %in% accepted_types
   if (any(!ok)) {
     info <- paste(
