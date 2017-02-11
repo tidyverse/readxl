@@ -80,7 +80,7 @@ public:
     // no cell data to consult re: types
     if (it == cells_.end()) {
       for (size_t i = 0; i < types.size(); i++) {
-        types[i] = CELL_NUMERIC;
+        types[i] = CELL_BLANK;
       }
       return types;
     }
