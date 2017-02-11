@@ -90,26 +90,22 @@ public:
     int i;
     // account for any empty rows between column headers and data start
     i = it->row() - base;
+    // m is the max row number seen so far
+    int m = it->row();
 
     while (i < guess_max && it != cells_.end()) {
-      // find the end of current row
-      row_end = it;
-      while(row_end != cells_.end() && row_end->row() == it->row()) {
-        row_end++;
-      }
-
-      while (it != row_end) {
-        XlsxCell xcell = *it;
-        if (xcell.col() < ncol_) {
-          CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
-          if (type > types[xcell.col()]) {
-            types[xcell.col()] = type;
-          }
+      XlsxCell xcell = *it;
+      if (xcell.col() < ncol_) {
+        CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
+        if (type > types[xcell.col()]) {
+          types[xcell.col()] = type;
         }
-        it++;
       }
-
-      i++;
+      if (xcell.row() > m) {
+        i++;
+        m = xcell.row();
+      }
+      it++;
     }
 
     return types;
