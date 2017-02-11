@@ -31,6 +31,7 @@ read_excel <- function(path, sheet = 1, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, guess_max = 1000) {
 
   path <- check_file(path)
+  guess_max <- check_guess_max(guess_max)
 
   switch(excel_format(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip, guess_max),
@@ -124,4 +125,20 @@ standardise_sheet <- function(sheet, sheet_names) {
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }
+}
+
+## from readr
+check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100) {
+
+  if (length(guess_max) != 1 || !is.numeric(guess_max) || !is_integerish(guess_max) ||
+      is.na(guess_max) || guess_max < 0) {
+    stop("`guess_max` must be a positive integer", call. = FALSE)
+  }
+
+  if (guess_max > max_limit) {
+    warning("`guess_max` is a very large value, setting to `", max_limit,
+            "` to avoid exhausting memory", call. = FALSE)
+    guess_max <- max_limit
+  }
+  guess_max
 }

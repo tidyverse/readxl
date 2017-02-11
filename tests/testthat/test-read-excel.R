@@ -32,3 +32,27 @@ test_that("can read file without extension", {
   expect_error(read_xlsx("iris-xls-no-ending"), "cannot be opened")
 
 })
+
+test_that("read_excel catches invalid guess_max", {
+
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = NA),
+    "`guess_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = -1),
+    "`guess_max` must be a positive integer"
+  )
+  expect_warning(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = Inf),
+    "`guess_max` is a very large value"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = NULL),
+    "`guess_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), guess_max = 1:2),
+    "`guess_max` must be a positive integer"
+  )
+})

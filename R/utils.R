@@ -15,3 +15,7 @@ is_absolute_path <- function(path) {
 }
 
 isFALSE <- function(x) identical(x, FALSE)
+
+is_integerish <- function(x) {
+  floor(x) == x
+}
