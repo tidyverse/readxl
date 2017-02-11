@@ -13,8 +13,8 @@ xls_col_names <- function(path, i = 0L, nskip = 0L) {
     .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, i, nskip)
 }
 
-xls_col_types <- function(path, na, sheet = 0L, nskip = 0L, n = 100L, has_col_names = FALSE) {
-    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, sheet, nskip, n, has_col_names)
+xls_col_types <- function(path, na, sheet = 0L, nskip = 0L, guess_max = 1000L, has_col_names = FALSE) {
+    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, sheet, nskip, guess_max, has_col_names)
 }
 
 xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
@@ -41,16 +41,16 @@ parse_ref <- function(ref) {
     .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
 }
 
-xlsx_col_types <- function(path, sheet = 0L, na = character(), nskip = 0L, n = 100L) {
-    .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet, na, nskip, n)
+xlsx_col_types <- function(path, sheet = 0L, na = character(), nskip = 0L, guess_max = 1000L) {
+    .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet, na, nskip, guess_max)
 }
 
 xlsx_col_names <- function(path, sheet = 0L, nskip = 0L) {
     .Call('readxl_xlsx_col_names', PACKAGE = 'readxl', path, sheet, nskip)
 }
 
-read_xlsx_ <- function(path, sheet, col_names, col_types, na, nskip = 0L, n_max = 100L) {
-    .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip, n_max)
+read_xlsx_ <- function(path, sheet, col_names, col_types, na, nskip = 0L, guess_max = 1000L) {
+    .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip, guess_max)
 }
 
 parseXml <- function(base, internal) {

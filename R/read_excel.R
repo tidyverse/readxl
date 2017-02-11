@@ -59,7 +59,8 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 
   if (is.null(col_types)) {
     col_types <- xls_col_types(path, sheet, na = na, nskip = skip,
-                               has_col_names = has_col_names, n = guess_max)
+                               has_col_names = has_col_names,
+                               guess_max = guess_max)
   }
 
   tibble::repair_names(
@@ -82,7 +83,7 @@ read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   tibble::repair_names(
     tibble::as_tibble(
       read_xlsx_(path, sheet, col_names, col_types, na,
-                 nskip = skip, n_max = guess_max),
+                 nskip = skip, guess_max = guess_max),
       validate = FALSE
     ),
     prefix = "X", sep = "__"

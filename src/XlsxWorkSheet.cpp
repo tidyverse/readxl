@@ -17,11 +17,11 @@ IntegerVector parse_ref(std::string ref) {
 
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
-                               CharacterVector na = CharacterVector(), int nskip = 0,
-                               int n = 100) {
+                               CharacterVector na = CharacterVector(),
+                               int nskip = 0, int guess_max = 1000) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
-  std::vector<CellType> types = ws.colTypes(na, nskip, n);
+  std::vector<CellType> types = ws.colTypes(na, nskip, guess_max);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
@@ -38,8 +38,8 @@ CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
 
 // [[Rcpp::export]]
 List read_xlsx_(std::string path, int sheet, RObject col_names,
-                RObject col_types, std::vector<std::string> na, int nskip = 0,
-                int n_max = 100) {
+                RObject col_types, std::vector<std::string> na,
+                int nskip = 0, int guess_max = 1000) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
 
@@ -68,7 +68,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, n_max, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, guess_max, sheetHasColumnNames);
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));

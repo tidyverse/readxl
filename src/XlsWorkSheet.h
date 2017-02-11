@@ -65,10 +65,11 @@ public:
     return out;
   }
 
-  std::vector<CellType> colTypes(const StringSet &na, int nskip = 0, int n_max = 100) {
+  std::vector<CellType> colTypes(const StringSet &na, int nskip = 0,
+                                 int guess_max = 1000) {
     std::vector<CellType> types(ncol_);
 
-    for (int i = nskip; i < nrow_ && i < nskip + n_max; ++i) {
+    for (int i = nskip; i < nrow_ && i < nskip + guess_max; ++i) {
       if ((i + 1) % 10000 == 0)
         Rcpp::checkUserInterrupt();
 

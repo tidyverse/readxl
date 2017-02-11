@@ -72,7 +72,8 @@ public:
   // moved out of here, so we don't read column names again inside this fxn.
   // More comments near end of fxn.
   std::vector<CellType> colTypes(const StringSet& na,
-                                 int n_max = 100, bool has_col_names = false) {
+                                 int guess_max = 1000,
+                                 bool has_col_names = false) {
     std::vector<CellType> types;
     types.resize(ncol_);
 
@@ -93,7 +94,7 @@ public:
     // account for any empty rows between column headers and data start
     i = it->row() - base;
 
-    while (i < n_max && it != cells_.end()) {
+    while (i < guess_max && it != cells_.end()) {
       // find the end of current row
       row_end = it;
       while(row_end != cells_.end() && row_end->row() == it->row()) {
