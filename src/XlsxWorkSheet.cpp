@@ -76,6 +76,12 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
+    if ((int) colTypes.size() == 1) {
+      colTypes.resize(ws.ncol());
+      for (size_t i = 0; i < ws.ncol(); i++) {
+        colTypes[i] = colTypes[0];
+      }
+    }
     break;
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");
@@ -95,8 +101,8 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
                sheet + 1, ws.ncol(), colNames.size());
   }
 
-  // convert blank columns to numeric (default will eventually be logical)
-  // the only way to have a blank column is for it to be empty
+  // convert blank columns to default type (numeric today, but logical soon)
+  // the only way to have a blank column is for it to be empty or all NA
   // or, more precisely, for it to not match one of our other types
   // this can only happen when col_types = NULL
   for (size_t i = 0; i < colTypes.size(); i++) {

@@ -14,6 +14,11 @@ test_that("col_types can be specified", {
   expect_is(df[[2]], "character")
 })
 
+test_that("col_types are recycled", {
+  df <- read_excel(test_sheet("types.xlsx"), col_types = "text")
+  expect_match(vapply(df, class, character(1)), "character")
+})
+
 test_that("inappropriate col_types generate warning", {
   expect_warning(
     read_excel(test_sheet("iris-excel.xlsx"),
