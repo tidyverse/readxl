@@ -32,6 +32,7 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 
   path <- check_file(path)
   guess_max <- check_guess_max(guess_max)
+  col_types <- check_col_types(col_types)
 
   switch(excel_format(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip, guess_max),
@@ -126,6 +127,23 @@ standardise_sheet <- function(sheet, sheet_names) {
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }
+}
+
+check_col_types <- function(col_types) {
+  if (is.null(col_types)) {
+    return(col_types)
+  }
+  stopifnot(is.character(col_types), length(col_types) > 0)
+  accepted_types <- c("blank", "numeric", "date", "text")
+  ok <- col_types %in% accepted_types
+  if (any(!ok)) {
+    info <- paste(
+      paste0("'", col_types[!ok], "' [", seq_along(col_types)[!ok], "]"),
+      collapse = ", "
+    )
+    stop(paste("Illegal column type:", info), call. = FALSE)
+  }
+  col_types
 }
 
 ## from readr
