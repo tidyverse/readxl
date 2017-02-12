@@ -1,5 +1,15 @@
 # readxl 0.1.1.9000
 
+*currently much of this applies only to xlsx, but will be extended to xls*
+
+* A user-specified `col_types` of length one will be replicated to have length equal to the number of columns. (#127, #114, #261 @jennybc)
+
+* Column type `"blank"` has been deprecated in favor of the more descriptive `"skip"`, which also support the goal to become more consistent with readr. (#260, #193, #261 @jennybc)
+
+* User-supplied `col_names` are processed relative to user-supplied `col_types`, if given. Specifically, `col_names` are considered valid if they have length equal to `col_types` or equal to `col_types` after removing skipped columns. (#81, #261 @jennybc)
+
+* Leading or embedded empty columns are no longer dropped, regardless of whether there is a column name. (#157, #261 @jennybc)
+
 * New argument `guess_max` lets user adjust the number of rows used to guess column types, similar to functions in readr. (#223, #257 @tklebel, @jennybc)
 
 * Improved handling of empty cells for xlsx. (#248 @jennybc)
