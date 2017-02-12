@@ -18,8 +18,10 @@ public:
   XlsWorkSheet(const XlsWorkBook& wb, int i) {
     offset_ = dateOffset(wb.workbook()->is1904);
 
-    if (i < 0 || i >= wb.nSheets())
-      Rcpp::stop("Invalid sheet index");
+    if (i >= wb.nSheets()) {
+      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+                 i + 1, wb.nSheets());
+    }
 
     pWS_ = xls_getWorkSheet(wb.workbook(), i);
     if (pWS_ == NULL)
@@ -90,8 +92,10 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<CellType> types,
                       const StringSet &na, int nskip = 0) {
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_)
-      Rcpp::stop("Need one name and type for each column");
+    if ((int) names.size() != ncol_ || (int) types.size() != ncol_){
+      Rcpp::stop("Received %d names and %d types, but worksheet contains %d columns.",
+                 names.size(), types.size(),  ncol_);
+    }
 
     Rcpp::List cols(ncol_);
 

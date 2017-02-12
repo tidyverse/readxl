@@ -69,7 +69,7 @@ test_that("wrong length column names are rejected [xlsx]", {
 test_that("wrong length column names are rejected [xls]", {
   expect_error(
     read_excel(test_sheet("iris-excel.xls"), col_names = LETTERS[1:3]),
-    "`col_names` and `col_types` must have the same length"
+    "Received 3 names but 5 types."
   )
 })
 

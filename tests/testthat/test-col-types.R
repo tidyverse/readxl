@@ -92,3 +92,16 @@ test_that("max_guess is honored for col_types [xlsx]", {
 test_that("max_guess is honored for col_types [xls]", {
   skip("write this test as xls problems are fixed")
 })
+
+test_that("wrong length col types generates error", {
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), col_types = c("numeric", "text")),
+    "Sheet 1 has 5 columns, but `col_types` has length 2."
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xls"), col_types = c("numeric", "text")),
+    "Received 5 names but 2 types."
+  )
+})
+
+

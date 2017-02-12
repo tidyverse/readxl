@@ -31,7 +31,7 @@ public:
   {
     rapidxml::xml_node<>* rootNode;
 
-    if (sheet_i > wb.n_sheets()) {
+    if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1,  wb.n_sheets());
     }
