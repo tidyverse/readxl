@@ -34,9 +34,7 @@ inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
     } else if (type == "text") {
       types.push_back(CELL_TEXT);
     } else {
-      Rcpp::warning("Unknown type '%s' at position %i. Using 'text' instead.",
-        type, i + 1);
-      types.push_back(CELL_TEXT);
+      Rcpp::stop("Unknown type '%s' at position %i", type, i + 1);
     }
   }
 
