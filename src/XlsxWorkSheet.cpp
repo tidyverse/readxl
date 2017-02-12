@@ -18,10 +18,11 @@ IntegerVector parse_ref(std::string ref) {
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                CharacterVector na = CharacterVector(),
-                               int nskip = 0, int guess_max = 1000) {
+                               int nskip = 0, int guess_max = 1000,
+                               bool sheetHasColumnNames = false) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
-  std::vector<CellType> types = ws.colTypes(na, nskip, guess_max);
+  std::vector<CellType> types = ws.colTypes(na, guess_max, sheetHasColumnNames);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {

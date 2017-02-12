@@ -153,8 +153,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlsx_col_types
-CharacterVector xlsx_col_types(std::string path, int sheet, CharacterVector na, int nskip, int guess_max);
-RcppExport SEXP readxl_xlsx_col_types(SEXP pathSEXP, SEXP sheetSEXP, SEXP naSEXP, SEXP nskipSEXP, SEXP guess_maxSEXP) {
+CharacterVector xlsx_col_types(std::string path, int sheet, CharacterVector na, int nskip, int guess_max, bool sheetHasColumnNames);
+RcppExport SEXP readxl_xlsx_col_types(SEXP pathSEXP, SEXP sheetSEXP, SEXP naSEXP, SEXP nskipSEXP, SEXP guess_maxSEXP, SEXP sheetHasColumnNamesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -163,7 +163,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_col_types(path, sheet, na, nskip, guess_max));
+    Rcpp::traits::input_parameter< bool >::type sheetHasColumnNames(sheetHasColumnNamesSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_col_types(path, sheet, na, nskip, guess_max, sheetHasColumnNames));
     return rcpp_result_gen;
 END_RCPP
 }
