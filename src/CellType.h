@@ -5,13 +5,14 @@
 #include <libxls/xls.h>
 #include "StringSet.h"
 
-// CELL_SKIP  can arise only as a user-specified column type
 // CELL_BLANK can arise only from an individual cell during type guessing
+// important that it be the first entry = default type, instead of ...
+// CELL_SKIP  which can arise only as a user-specified column type
 enum CellType {
   CELL_BLANK,
+  CELL_SKIP,
   CELL_DATE,
   CELL_NUMERIC,
-  CELL_SKIP,
   CELL_TEXT
 };
 
