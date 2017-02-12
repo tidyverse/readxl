@@ -82,7 +82,13 @@
     <div id="readxl-0-1-1-9000" class="section level1">
 <h1 class="hasAnchor">
 <a href="#readxl-0-1-1-9000" class="anchor"> </a>readxl 0.1.1.9000</h1>
+<p><em>currently much of this applies only to xlsx, but will be extended to xls</em></p>
 <ul>
+<li><p>A user-specified <code>col_types</code> of length one will be replicated to have length equal to the number of columns. (#127, #114, #261 @jennybc)</p></li>
+<li><p>Column type <code>"blank"</code> has been deprecated in favor of the more descriptive <code>"skip"</code>, which also support the goal to become more consistent with readr. (#260, #193, #261 @jennybc)</p></li>
+<li><p>User-supplied <code>col_names</code> are processed relative to user-supplied <code>col_types</code>, if given. Specifically, <code>col_names</code> are considered valid if they have length equal to <code>col_types</code> or equal to <code>col_types</code> after removing skipped columns. (#81, #261 @jennybc)</p></li>
+<li><p>Leading or embedded empty columns are no longer dropped, regardless of whether there is a column name. (#157, #261 @jennybc)</p></li>
+<li><p>New argument <code>guess_max</code> lets user adjust the number of rows used to guess column types, similar to functions in readr. (#223, #257 @tklebel, @jennybc)</p></li>
 <li>
 <p>Improved handling of empty cells for xlsx. (#248 @jennybc)</p>
 <ul>
