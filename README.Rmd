@@ -94,6 +94,8 @@ If you are new to the tidyverse conventions for data import, you may want to con
 * Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) 
   date specifications are processed correctly.
 
-* Blank columns are automatically dropped (*but this is changing!*). Blank rows that appear before the data are automatically dropped; embedded blank rows are not.
+* Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control of this with `skip`.
+
+* Column names and types are determined from the data in the sheet, by default, but user can also supply via `col_names` and `col_types`.
 
 * It returns a tibble, i.e. a data frame with an additional `tbl_df` class. Among other things, this provide nicer printing.

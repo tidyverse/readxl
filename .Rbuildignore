@@ -13,3 +13,5 @@
 ^_pkgdown\.yml$
 ^docs$
 ^clippy$
+^\[MS-XLS\]\.pdf$
+^excelfileformat\.pdf$

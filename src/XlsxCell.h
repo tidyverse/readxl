@@ -50,11 +50,11 @@ public:
     return location_.first;
   }
 
-  int col()  const {
+  int col() const {
     return location_.second;
   }
 
-  std::string asStdString(const std::vector<std::string>& stringTable) {
+  std::string asStdString(const std::vector<std::string>& stringTable) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL)
       return "[NULL]";
@@ -67,7 +67,7 @@ public:
     return stringTable.at(id);
   }
 
-  double asDouble(const StringSet& na) {
+  double asDouble(const StringSet& na) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL || na.contains(v->value()))
       return NA_REAL;
@@ -75,7 +75,7 @@ public:
     return (v == NULL) ? 0 : atof(v->value());
   }
 
-  double asDate(const StringSet& na, int offset) {
+  double asDate(const StringSet& na, int offset) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL || na.contains(v->value()))
       return NA_REAL;
@@ -85,7 +85,7 @@ public:
   }
 
   Rcpp::RObject asCharSxp(const StringSet& na,
-                          const std::vector<std::string>& stringTable) {
+                          const std::vector<std::string>& stringTable) const {
 
     // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
     rapidxml::xml_node<>* is = cell_->first_node("is");
@@ -97,7 +97,6 @@ public:
         return Rf_mkCharCE(value.c_str(), CE_UTF8);
       }
     }
-
 
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL)
@@ -118,7 +117,7 @@ public:
 
   CellType type(const StringSet& na,
                 const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles) {
+                const std::set<int>& dateStyles) const {
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 
     if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
@@ -164,7 +163,7 @@ private:
 
 
   Rcpp::RObject stringFromTable(const char* val, const StringSet& na,
-                                const std::vector<std::string>& stringTable) {
+                                const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
       Rcpp::warning("[%i, %i]: Invalid string id %i", row() + 1, col() + 1, id);

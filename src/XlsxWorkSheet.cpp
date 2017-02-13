@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 #include "XlsxWorkSheet.h"
+#include "ColSpec.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -18,10 +19,11 @@ IntegerVector parse_ref(std::string ref) {
 // [[Rcpp::export]]
 CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                CharacterVector na = CharacterVector(),
-                               int nskip = 0, int guess_max = 1000) {
+                               int nskip = 0, int guess_max = 1000,
+                               bool sheetHasColumnNames = false) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
-  std::vector<CellType> types = ws.colTypes(na, nskip, guess_max);
+  std::vector<CellType> types = ws.colTypes(na, guess_max, sheetHasColumnNames);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
@@ -43,11 +45,12 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
 
   XlsxWorkSheet ws(path, sheet, nskip);
 
+  // catches empty sheets and sheets where we skip past all data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
     return Rcpp::List(0);
   }
 
-  // Standardise column names --------------------------------------------------
+  // Get column names --------------------------------------------------
   CharacterVector colNames;
   bool sheetHasColumnNames = false;
   switch(TYPEOF(col_names)) {
@@ -64,7 +67,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     Rcpp::stop("`col_names` must be a logical or character vector");
   }
 
-  // Standardise column types --------------------------------------------------
+  // Get column types --------------------------------------------------
   std::vector<CellType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
@@ -72,10 +75,27 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
+    colTypes = recycleTypes(colTypes, ws.ncol());
     break;
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");
   }
+  if ((int) colTypes.size() != ws.ncol()) {
+    Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+               sheet + 1, ws.ncol(), colTypes.size());
+  }
+
+  // convert blank columns to a default type (numeric today, but logical soon)
+  // can only happen when
+  //   * col_types = NULL and we've learned them from data
+  //   * all cells in column are empty or match one of the na strings
+  for (size_t i = 0; i < colTypes.size(); i++) {
+    if (colTypes[i] == CELL_BLANK) {
+      colTypes[i] = CELL_NUMERIC;
+    }
+  }
+
+  colNames = reconcileNames(colNames, colTypes, sheet);
 
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }

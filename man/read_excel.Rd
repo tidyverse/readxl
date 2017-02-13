@@ -6,8 +6,8 @@
 \alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
-read_excel(path, sheet = 1, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, guess_max = 1000)
+read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+  na = "", skip = 0, guess_max = 1000)
 
 read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
   skip = 0, guess_max = 1000)
@@ -21,17 +21,22 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.}
 
-\item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE}
-to get default names, or a character vector giving a name for each column.}
+\item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
+default names, or a character vector giving a name for each column. If user
+provides \code{col_types} as a vector, \code{col_names} can have one entry per
+column, i.e. have the same length as \code{col_types}, or one entry per
+unskipped column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
-vector containing one entry per column from these options: "blank",
-"numeric", "date" or "text".}
+vector containing one entry per column from these options: "skip",
+"numeric", "date" or "text". The content of a cell in a skipped column is
+never read and that column will not appear in the data frame output.}
 
-\item{na}{Character vector of strings to use for missing values. By default
+\item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}
 
-\item{skip}{Number of rows to skip before reading any data.}
+\item{skip}{Number of rows to skip before reading any data. Leading blank
+rows are automatically skipped.}
 
 \item{guess_max}{Maximum number of rows to use for guessing column types.}
 }

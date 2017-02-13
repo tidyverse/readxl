@@ -42,8 +42,10 @@ List xls_cols(std::string path, int i, CharacterVector col_names,
   XlsWorkBook wb = XlsWorkBook(path);
   XlsWorkSheet sheet = wb.sheet(i);
 
-  if (col_names.size() != col_types.size())
-    stop("`col_names` and `col_types` must have the same length");
+  if (col_names.size() != col_types.size()) {
+    Rcpp::stop("Received %d names but %d types.",
+               col_names.size(), col_types.size());
+  }
 
   std::vector<CellType> types = cellTypes(col_types);
   return sheet.readCols(col_names, types, na, nskip);

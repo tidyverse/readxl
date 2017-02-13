@@ -70,7 +70,7 @@ test_that("text values in numeric column gives warning & NA", {
 
 test_that("empty first column gives valid data.frame", {
   df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names = FALSE)
-  expect_equal(nrow(df), length(df[[1]]))
+  expect_equal(nrow(df), length(df[[2]]))
 })
 
 test_that("empty named column gives NA column", {
@@ -78,6 +78,29 @@ test_that("empty named column gives NA column", {
   df2 <- read_excel(test_sheet("empty-named-column.xls"), col_names = TRUE)
   expect_equal(ncol(df1), 4)
   expect_equal(names(df1)[2], "y")
+  expect_true(all(is.na(df1$y)))
+  expect_true(all(is.numeric(df1$y)))
   expect_equal(ncol(df2), 4)
   expect_equal(names(df2)[2], "y")
+  expect_true(all(is.na(df2$y)))
+  expect_true(all(is.numeric(df2$y)))
+})
+
+test_that("empty (styled) cells are not loaded, but can survive as NA", {
+  ## what's important about this sheet?
+  ## contains empty cells with a custom format
+  ## therefore they appear in the xml and have a style attribute
+  ## where are they?
+  ## in the embedded empty columns, w/ and w/o a name
+  ## in a trailing empty column WHICH SHOULD BE DROPPED
+  ## in some trailing rows WHICH SHOULD BE DROPPED
+  out <- read_excel(test_sheet("style-only-cells.xlsx"))
+  df <- tibble::tibble(
+    var1 = c("val1,1", "val2,1", "val3,1"),
+    var2 = NA_real_,
+    var3 = c("aa", "bb", "cc"),
+    X__1 = NA_real_,
+    var5 = c(1, 2, 3)
+  )
+  expect_equal(out, df)
 })

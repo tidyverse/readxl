@@ -7,14 +7,19 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
-#' @param col_names `TRUE` to use the first row as column names, `FALSE`
-#'   to get default names, or a character vector giving a name for each column.
+#' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
+#'   default names, or a character vector giving a name for each column. If user
+#'   provides `col_types` as a vector, `col_names` can have one entry per
+#'   column, i.e. have the same length as `col_types`, or one entry per
+#'   unskipped column.
 #' @param col_types Either `NULL` to guess from the spreadsheet or a character
-#'   vector containing one entry per column from these options: "blank",
-#'   "numeric", "date" or "text".
-#' @param na Character vector of strings to use for missing values. By default
+#'   vector containing one entry per column from these options: "skip",
+#'   "numeric", "date" or "text". The content of a cell in a skipped column is
+#'   never read and that column will not appear in the data frame output.
+#' @param na Character vector of strings to use for missing values. By default,
 #'   readxl treats blank cells as missing data.
-#' @param skip Number of rows to skip before reading any data.
+#' @param skip Number of rows to skip before reading any data. Leading blank
+#'   rows are automatically skipped.
 #' @param guess_max Maximum number of rows to use for guessing column types.
 #' @export
 #' @examples
@@ -32,6 +37,7 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 
   path <- check_file(path)
   guess_max <- check_guess_max(guess_max)
+  col_types <- check_col_types(col_types)
 
   switch(excel_format(path),
     xls =  read_xls(path, sheet, col_names, col_types, na, skip, guess_max),
@@ -126,6 +132,30 @@ standardise_sheet <- function(sheet, sheet_names) {
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }
+}
+
+check_col_types <- function(col_types) {
+  if (is.null(col_types)) {
+    return(col_types)
+  }
+  stopifnot(is.character(col_types), length(col_types) > 0, !anyNA(col_types))
+
+  blank <- col_types == "blank"
+  if (any(blank)) {
+    message("`col_type = \"blank\"` deprecated. Use \"skip\" instead.")
+    col_types[blank] <- "skip"
+  }
+
+  accepted_types <- c("skip", "numeric", "date", "text")
+  ok <- col_types %in% accepted_types
+  if (any(!ok)) {
+    info <- paste(
+      paste0("'", col_types[!ok], "' [", seq_along(col_types)[!ok], "]"),
+      collapse = ", "
+    )
+    stop(paste("Illegal column type:", info), call. = FALSE)
+  }
+  col_types
 }
 
 ## from readr

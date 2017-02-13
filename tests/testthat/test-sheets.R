@@ -19,8 +19,14 @@ test_that("informative error when requesting non-existent sheet by name", {
 
 test_that("informative error when requesting non-existent sheet by position", {
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = 200),
-    "Can't retrieve sheet in position 200"
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = 2),
+    "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xls"), sheet = 2),
+    "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
+    fixed = TRUE
   )
 })
 

@@ -5,8 +5,12 @@
 #include <libxls/xls.h>
 #include "StringSet.h"
 
+// CELL_BLANK can arise only from an individual cell during type guessing
+// important that it be the first entry = default type, instead of ...
+// CELL_SKIP  which can arise only as a user-specified column type
 enum CellType {
   CELL_BLANK,
+  CELL_SKIP,
   CELL_DATE,
   CELL_NUMERIC,
   CELL_TEXT
@@ -26,11 +30,12 @@ inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
       types.push_back(CELL_DATE);
     } else if (type == "numeric") {
       types.push_back(CELL_NUMERIC);
+    } else if (type == "skip") {
+      types.push_back(CELL_SKIP);
     } else if (type == "text") {
       types.push_back(CELL_TEXT);
     } else {
-      Rcpp::warning("Unknown type '%s' at position %i. Using text instead.",
-        type, i + 1);
+      Rcpp::stop("Unknown type '%s' at position %i", type, i + 1);
     }
   }
 
@@ -42,6 +47,7 @@ inline std::string cellTypeDesc(CellType type) {
   case CELL_BLANK:   return "blank";
   case CELL_DATE:    return "date";
   case CELL_NUMERIC: return "numeric";
+  case CELL_SKIP:    return "skip";
   case CELL_TEXT:    return "text";
   }
   return "???";
@@ -153,6 +159,9 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   case CELL_NUMERIC:
     return Rcpp::NumericVector(n, NA_REAL);
     break;
+  case CELL_SKIP:
+    return R_NilValue;
+    break;
   case CELL_TEXT:
     return Rcpp::CharacterVector(n, NA_STRING);
     break;
@@ -161,15 +170,14 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
   return R_NilValue;
 }
 
-// Drop blanks from list of columns
-inline Rcpp::List removeBlankColumns(Rcpp::List cols,
-                                     Rcpp::CharacterVector names,
-                                     std::vector<CellType> types) {
+inline Rcpp::List removeSkippedColumns(Rcpp::List cols,
+                                       Rcpp::CharacterVector names,
+                                       std::vector<CellType> types) {
   int p = cols.size();
 
   int p_out = 0;
   for (int j = 0; j < p; ++j) {
-    if (types[j] != CELL_BLANK)
+    if (types[j] != CELL_SKIP)
       p_out++;
   }
 
@@ -177,8 +185,9 @@ inline Rcpp::List removeBlankColumns(Rcpp::List cols,
   Rcpp::CharacterVector names_out(p_out);
   int j_out = 0;
   for (int j = 0; j < p; ++j) {
-    if (types[j] == CELL_BLANK)
+    if (types[j] == CELL_SKIP) {
       continue;
+    }
 
     out[j_out] = cols[j];
     names_out[j_out] = names[j];

@@ -86,13 +86,13 @@ read files without extension.</p>
     
 
     <pre><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
 <span class='fu'>read_xls</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
 <span class='fu'>read_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -102,17 +102,24 @@ read files without extension.</p>
       <dd>Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.</dd>
       <dt>col_names</dt>
-      <dd><code>TRUE</code> to use the first row as column names, <code>FALSE</code>
-to get default names, or a character vector giving a name for each column.</dd>
+      <dd><code>TRUE</code> to use the first row as column names, <code>FALSE</code> to get
+default names, or a character vector giving a name for each column. If user
+provides <code>col_types</code> as a vector, <code>col_names</code> can have one entry per
+column, i.e. have the same length as <code>col_types</code>, or one entry per
+unskipped column.</dd>
       <dt>col_types</dt>
       <dd>Either <code>NULL</code> to guess from the spreadsheet or a character
-vector containing one entry per column from these options: &quot;blank&quot;,
-&quot;numeric&quot;, &quot;date&quot; or &quot;text&quot;.</dd>
+vector containing one entry per column from these options: &quot;skip&quot;,
+&quot;numeric&quot;, &quot;date&quot; or &quot;text&quot;. The content of a cell in a skipped column is
+never read and that column will not appear in the data frame output.</dd>
       <dt>na</dt>
-      <dd>Character vector of strings to use for missing values. By default
+      <dd>Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.</dd>
       <dt>skip</dt>
-      <dd>Number of rows to skip before reading any data.</dd>
+      <dd>Number of rows to skip before reading any data. Leading blank
+rows are automatically skipped.</dd>
+      <dt>guess_max</dt>
+      <dd>Maximum number of rows to use for guessing column types.</dd>
     </dl>
     
 
