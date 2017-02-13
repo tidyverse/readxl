@@ -76,9 +76,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     colTypes = cellTypes(as<CharacterVector>(col_types));
     if ((int) colTypes.size() == 1) {
       colTypes.resize(ws.ncol());
-      for (size_t i = 0; i < ws.ncol(); i++) {
-        colTypes[i] = colTypes[0];
-      }
+      std::fill(colTypes.begin(), colTypes.end(), colTypes[0]);
     }
     break;
   default:
