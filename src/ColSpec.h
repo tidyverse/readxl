@@ -4,6 +4,15 @@
 #include <Rcpp.h>
 #include "CellType.h"
 
+inline std::vector<CellType> recycleTypes(std::vector<CellType> types,
+                                          int ncol) {
+  if (types.size() == 1) {
+    types.resize(ncol);
+    std::fill(types.begin(), types.end(), types[0]);
+  }
+  return types;
+}
+
 inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
                                             std::vector<CellType> types,
                                             int sheet) {

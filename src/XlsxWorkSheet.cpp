@@ -75,10 +75,7 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     break;
   case STRSXP:
     colTypes = cellTypes(as<CharacterVector>(col_types));
-    if ((int) colTypes.size() == 1) {
-      colTypes.resize(ws.ncol());
-      std::fill(colTypes.begin(), colTypes.end(), colTypes[0]);
-    }
+    colTypes = recycleTypes(colTypes, ws.ncol());
     break;
   default:
     Rcpp::stop("`col_types` must be a character vector or NULL");
