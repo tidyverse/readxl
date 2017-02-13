@@ -54,7 +54,7 @@ public:
     return location_.second;
   }
 
-  std::string asStdString(const std::vector<std::string>& stringTable) {
+  std::string asStdString(const std::vector<std::string>& stringTable) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL)
       return "[NULL]";
@@ -67,7 +67,7 @@ public:
     return stringTable.at(id);
   }
 
-  double asDouble(const StringSet& na) {
+  double asDouble(const StringSet& na) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL || na.contains(v->value()))
       return NA_REAL;
@@ -75,7 +75,7 @@ public:
     return (v == NULL) ? 0 : atof(v->value());
   }
 
-  double asDate(const StringSet& na, int offset) {
+  double asDate(const StringSet& na, int offset) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     if (v == NULL || na.contains(v->value()))
       return NA_REAL;

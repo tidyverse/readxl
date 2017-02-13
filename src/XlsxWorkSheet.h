@@ -120,12 +120,12 @@ public:
                       const StringSet& na,
                       bool has_col_names = false) {
 
-    std::vector<XlsxCell>::const_iterator it;
-    it = has_col_names ? secondRow_: firstRow_;
+    std::vector<XlsxCell>::const_iterator xcell;
+    xcell = has_col_names ? secondRow_: firstRow_;
 
     // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
-    int n = (it == cells_.end()) ? 0 : nrow_ - base;
+    int n = (xcell == cells_.end()) ? 0 : nrow_ - base;
     Rcpp::List cols(ncol_);
     cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
@@ -136,30 +136,23 @@ public:
       return cols;
     }
 
-    // we have read i rows of data
-    int i;
-    // account for any empty rows between column headers and data start
-    i = it->row() - base;
-    // m is the max row number seen so far
-    int m = it->row();
-    while (it != cells_.end()) {
+    int i = xcell->row();
+    while (xcell != cells_.end()) {
 
       if ((i + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-
-      XlsxCell xcell = *it;
-      if (types[xcell.col()] == CELL_SKIP || xcell.col() >= ncol_) {
-        it++;
+      if (types[xcell->col()] == CELL_SKIP || xcell->col() >= ncol_) {
+        xcell++;
         continue;
       }
 
-      CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
-      Rcpp::RObject col = cols[xcell.col()];
+      CellType type = xcell->type(na, wb_.stringTable(), wb_.dateStyles());
+      Rcpp::RObject col = cols[xcell->col()];
       // row to write into
-      int row = xcell.row() - base;
+      int row = xcell->row() - base;
       // Needs to compare to actual cell type to give warnings
-      switch(types[xcell.col()]) {
+      switch(types[xcell->col()]) {
       case CELL_SKIP:
         break;
       case CELL_BLANK:
@@ -170,15 +163,15 @@ public:
           break;
         case CELL_NUMERIC:
         case CELL_DATE:
-          REAL(col)[row] = xcell.asDouble(na);
+          REAL(col)[row] = xcell->asDouble(na);
           break;
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        xcell.row() + 1, xcell.col() + 1,
-                        xcell.asStdString(wb_.stringTable()));
+                        xcell->row() + 1, xcell->col() + 1,
+                        xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
         }
         break;
@@ -187,7 +180,7 @@ public:
         case CELL_SKIP:
           break;
         case CELL_DATE:
-          REAL(col)[row] = xcell.asDate(na, wb_.offset());
+          REAL(col)[row] = xcell->asDate(na, wb_.offset());
           break;
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
@@ -195,8 +188,8 @@ public:
         case CELL_NUMERIC:
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting date: got '%s'",
-                        xcell.row() + 1, xcell.col() + 1,
-                        xcell.asStdString(wb_.stringTable()));
+                        xcell->row() + 1, xcell->col() + 1,
+                        xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
           break;
         }
@@ -205,15 +198,11 @@ public:
         if (type == CELL_BLANK) {
           SET_STRING_ELT(col, row, NA_STRING);
         } else {
-          SET_STRING_ELT(col, row, xcell.asCharSxp(na, wb_.stringTable()));
+          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
         }
         break;
       }
-      if (xcell.row() > m) {
-        i++;
-        m = xcell.row();
-      }
-      it++;
+    xcell++;
     }
 
     return removeSkippedColumns(cols, names, types);
