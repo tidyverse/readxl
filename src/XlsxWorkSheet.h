@@ -136,23 +136,24 @@ public:
       return cols;
     }
 
-    int i = xcell->row();
     while (xcell != cells_.end()) {
 
+      int i = xcell->row();
+      int j = xcell->col();
       if ((i + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      if (types[xcell->col()] == CELL_SKIP || xcell->col() >= ncol_) {
+      if (types[j] == CELL_SKIP || j >= ncol_) {
         xcell++;
         continue;
       }
 
       CellType type = xcell->type(na, wb_.stringTable(), wb_.dateStyles());
-      Rcpp::RObject col = cols[xcell->col()];
+      Rcpp::RObject col = cols[j];
       // row to write into
-      int row = xcell->row() - base;
+      int row = i - base;
       // Needs to compare to actual cell type to give warnings
-      switch(types[xcell->col()]) {
+      switch(types[j]) {
       case CELL_SKIP:
         break;
       case CELL_BLANK:
@@ -170,8 +171,7 @@ public:
           break;
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        xcell->row() + 1, xcell->col() + 1,
-                        xcell->asStdString(wb_.stringTable()));
+                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
         }
         break;
@@ -188,8 +188,7 @@ public:
         case CELL_NUMERIC:
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting date: got '%s'",
-                        xcell->row() + 1, xcell->col() + 1,
-                        xcell->asStdString(wb_.stringTable()));
+                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
           break;
         }
