@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 #include "XlsxWorkSheet.h"
+#include "ColSpec.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -87,40 +88,18 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
                sheet + 1, ws.ncol(), colTypes.size());
   }
 
-  // count unskipped columns
-  // and
   // convert blank columns to a default type (numeric today, but logical soon)
   // can only happen when
   //   * col_types = NULL and we've learned them from data
   //   * all cells in column are empty or match one of the na strings
-  size_t ncol_noskip = 0;
   for (size_t i = 0; i < colTypes.size(); i++) {
     if (colTypes[i] == CELL_BLANK) {
       colTypes[i] = CELL_NUMERIC;
     }
-    if (colTypes[i] != CELL_SKIP) {
-      ncol_noskip++;
-    }
   }
 
   // Rationalize column names w.r.t. types -----------------------------
-  size_t ncol_names = colNames.size();
-  if (ncol_names != ws.ncol() && ncol_names != ncol_noskip) {
-    Rcpp::stop("Sheet %d has %d columns (%d unskipped), but `col_names` has length %d.",
-               sheet + 1, ws.ncol(), ncol_noskip, colNames.size());
-  }
-  if (ncol_noskip < ws.ncol() && ncol_names == ncol_noskip) {
-    CharacterVector newNames(ws.ncol(), "");
-    size_t j_short = 0;
-    for (size_t j_long = 0; j_long < ws.ncol(); ++j_long) {
-      if (colTypes[j_long] == CELL_SKIP) {
-        continue;
-      }
-      newNames[j_long] = colNames[j_short];
-      j_short++;
-    }
-    colNames = newNames;
-  }
+  colNames = reconcileNames(colNames, colTypes, sheet);
 
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
 }
