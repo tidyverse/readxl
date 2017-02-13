@@ -74,11 +74,11 @@ public:
     std::vector<CellType> types;
     types.resize(ncol_);
 
-    std::vector<XlsxCell>::const_iterator it;
-    it = has_col_names ? secondRow_ : firstRow_;
+    std::vector<XlsxCell>::const_iterator xcell;
+    xcell = has_col_names ? secondRow_ : firstRow_;
 
     // no cell data to consult re: types
-    if (it == cells_.end()) {
+    if (xcell == cells_.end()) {
       for (size_t i = 0; i < types.size(); i++) {
         types[i] = CELL_BLANK;
       }
@@ -87,26 +87,14 @@ public:
 
     // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
-    // we have consulted i rows re: determining col types
-    int i;
-    // account for any empty rows between column headers and data start
-    i = it->row() - base;
-    // m is the max row number seen so far
-    int m = it->row();
-
-    while (i < guess_max && it != cells_.end()) {
-      XlsxCell xcell = *it;
-      if (xcell.col() < ncol_) {
-        CellType type = xcell.type(na, wb_.stringTable(), wb_.dateStyles());
-        if (type > types[xcell.col()]) {
-          types[xcell.col()] = type;
+    while (xcell != cells_.end() && xcell->row() - base < guess_max) {
+      if (xcell->col() < ncol_) {
+        CellType type = xcell->type(na, wb_.stringTable(), wb_.dateStyles());
+        if (type > types[xcell->col()]) {
+          types[xcell->col()] = type;
         }
       }
-      if (xcell.row() > m) {
-        i++;
-        m = xcell.row();
-      }
-      it++;
+      xcell++;
     }
 
     return types;
@@ -114,16 +102,15 @@ public:
 
   Rcpp::CharacterVector colNames() {
     Rcpp::CharacterVector out(ncol_);
-    std::vector<XlsxCell>::const_iterator it = firstRow_;
-    int base = it->row();
+    std::vector<XlsxCell>::const_iterator xcell = firstRow_;
+    int base = xcell->row();
 
-    while(it != cells_.end() && it->row() == base) {
-      XlsxCell xcell = *it;
-      if (xcell.col() >= ncol_) {
+    while(xcell != cells_.end() && xcell->row() == base) {
+      if (xcell->col() >= ncol_) {
         break;
       }
-      out[xcell.col()] = xcell.asCharSxp("", wb_.stringTable());
-      it++;
+      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable());
+      xcell++;
     }
     return out;
   }

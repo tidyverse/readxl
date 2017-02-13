@@ -14,7 +14,7 @@ inline std::vector<CellType> recycleTypes(std::vector<CellType> types,
 }
 
 inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
-                                            std::vector<CellType> types,
+                                            const std::vector<CellType>& types,
                                             int sheet) {
   size_t ncol_names = names.size();
   size_t ncol_types = types.size();
