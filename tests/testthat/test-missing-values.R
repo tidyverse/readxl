@@ -100,6 +100,7 @@ test_that("empty (styled) cells are not loaded, but can survive as NA", {
     var2 = NA_real_,
     var3 = c("aa", "bb", "cc"),
     X__1 = NA_real_,
-    var5 = c(1, 2, 3))
+    var5 = c(1, 2, 3)
+  )
   expect_equal(out, df)
 })

@@ -95,7 +95,6 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
     }
   }
 
-  // Rationalize column names w.r.t. types -----------------------------
   colNames = reconcileNames(colNames, colTypes, sheet);
 
   return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
