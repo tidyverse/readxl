@@ -95,10 +95,11 @@ test_that("empty (styled) cells are not loaded, but can survive as NA", {
   ## in a trailing empty column WHICH SHOULD BE DROPPED
   ## in some trailing rows WHICH SHOULD BE DROPPED
   out <- read_excel(test_sheet("style-only-cells.xlsx"))
-  df <- tibble::tibble(var1 = c("val1,1", "val2,1", "val3,1"),
-                       var2 = NA_real_,
-                       var3 = c("aa", "bb", "cc"),
-                       X__1 = NA_real_,
-                       var5 = c(1, 2, 3))
+  df <- tibble::tibble(
+    var1 = c("val1,1", "val2,1", "val3,1"),
+    var2 = NA_real_,
+    var3 = c("aa", "bb", "cc"),
+    X__1 = NA_real_,
+    var5 = c(1, 2, 3))
   expect_equal(out, df)
 })
