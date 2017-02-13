@@ -5,35 +5,51 @@
 #include <libxls/xls.h>
 #include "StringSet.h"
 
-// CELL_BLANK can arise only from an individual cell during type guessing
-// important that it be the first entry = default type, instead of ...
-// CELL_SKIP  which can arise only as a user-specified column type
 enum CellType {
   CELL_BLANK,
-  CELL_SKIP,
   CELL_DATE,
   CELL_NUMERIC,
   CELL_TEXT
 };
 
+// COL_BLANK is a column full of CELL_BLANKs,
+// while COL_SKIP is a column the user-specified type
+enum ColType {
+  COL_BLANK,
+  COL_DATE,
+  COL_NUMERIC,
+  COL_TEXT,
+  COL_SKIP,
+  COL_LIST
+};
+
+// ColType enum is ordered such that a simple cast
+// is sufficient to convert from CellType (user-specified
+// columns come after cell types)
+ColType inline as_ColType(CellType cell) {
+  return (ColType) cell;
+}
+
 bool inline isDateTime(int id, const std::set<int> custom);
 
-inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
-  std::vector<CellType> types;
+inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
+  std::vector<ColType> types;
   types.reserve(x.size());
 
   for (int i = 0; i < x.size(); ++i) {
     std::string type(x[i]);
     if (type == "blank") {
-      types.push_back(CELL_BLANK);
+      types.push_back(COL_BLANK);
     } else if (type == "date") {
-      types.push_back(CELL_DATE);
+      types.push_back(COL_DATE);
     } else if (type == "numeric") {
-      types.push_back(CELL_NUMERIC);
+      types.push_back(COL_NUMERIC);
     } else if (type == "skip") {
-      types.push_back(CELL_SKIP);
+      types.push_back(COL_SKIP);
     } else if (type == "text") {
-      types.push_back(CELL_TEXT);
+      types.push_back(COL_TEXT);
+    } else if (type == "list") {
+      types.push_back(COL_LIST);
     } else {
       Rcpp::stop("Unknown type '%s' at position %i", type, i + 1);
     }
@@ -42,13 +58,14 @@ inline std::vector<CellType> cellTypes(Rcpp::CharacterVector x) {
   return types;
 }
 
-inline std::string cellTypeDesc(CellType type) {
+inline std::string colTypeDesc(ColType type) {
   switch(type) {
-  case CELL_BLANK:   return "blank";
-  case CELL_DATE:    return "date";
-  case CELL_NUMERIC: return "numeric";
-  case CELL_SKIP:    return "skip";
-  case CELL_TEXT:    return "text";
+  case COL_BLANK:   return "blank";
+  case COL_SKIP:    return "skip";
+  case COL_DATE:    return "date";
+  case COL_NUMERIC: return "numeric";
+  case COL_TEXT:    return "text";
+  case COL_LIST:    return "list";
   }
   return "???";
 }
@@ -144,26 +161,27 @@ inline bool isDateFormat(std::string x) {
   return false;
 }
 
-inline Rcpp::RObject makeCol(CellType type, int n) {
+inline Rcpp::RObject makeCol(ColType type, int n) {
   switch(type) {
-  case CELL_BLANK:
+  case COL_BLANK:
+  case COL_SKIP:
     return R_NilValue;
     break;
-  case CELL_DATE: {
+  case COL_DATE: {
     Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
     col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
     col.attr("tzone") = "UTC";
     return col;
   }
     break;
-  case CELL_NUMERIC:
+  case COL_NUMERIC:
     return Rcpp::NumericVector(n, NA_REAL);
     break;
-  case CELL_SKIP:
-    return R_NilValue;
-    break;
-  case CELL_TEXT:
+  case COL_TEXT:
     return Rcpp::CharacterVector(n, NA_STRING);
+    break;
+  case COL_LIST:
+    return Rcpp::List(n, R_NilValue);
     break;
   }
 
@@ -172,12 +190,12 @@ inline Rcpp::RObject makeCol(CellType type, int n) {
 
 inline Rcpp::List removeSkippedColumns(Rcpp::List cols,
                                        Rcpp::CharacterVector names,
-                                       std::vector<CellType> types) {
+                                       std::vector<ColType> types) {
   int p = cols.size();
 
   int p_out = 0;
   for (int j = 0; j < p; ++j) {
-    if (types[j] != CELL_SKIP)
+    if (types[j] != COL_SKIP)
       p_out++;
   }
 
@@ -185,7 +203,7 @@ inline Rcpp::List removeSkippedColumns(Rcpp::List cols,
   Rcpp::CharacterVector names_out(p_out);
   int j_out = 0;
   for (int j = 0; j < p; ++j) {
-    if (types[j] == CELL_SKIP) {
+    if (types[j] == COL_SKIP) {
       continue;
     }
 

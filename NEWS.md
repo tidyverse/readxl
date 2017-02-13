@@ -1,5 +1,8 @@
 # readxl 0.1.1.9000
 
+* `col_types = "list"` loads data as a list of length-1 vectors, preserving the type from excel
+(#262 @gergness).
+
 *currently much of this applies only to xlsx, but will be extended to xls*
 
 * A user-specified `col_types` of length one will be replicated to have length equal to the number of columns. (#127, #114, #261 @jennybc)

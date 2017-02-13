@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 #include "CellType.h"
 
-inline std::vector<CellType> recycleTypes(std::vector<CellType> types,
+inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
                                           int ncol) {
   if (types.size() == 1) {
     types.resize(ncol);
@@ -14,7 +14,7 @@ inline std::vector<CellType> recycleTypes(std::vector<CellType> types,
 }
 
 inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
-                                            const std::vector<CellType>& types,
+                                            const std::vector<ColType>& types,
                                             int sheet) {
   size_t ncol_names = names.size();
   size_t ncol_types = types.size();
@@ -25,7 +25,7 @@ inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
 
   size_t ncol_noskip = 0;
   for (size_t i = 0; i < types.size(); i++) {
-    if (types[i] != CELL_SKIP) {
+    if (types[i] != COL_SKIP) {
       ncol_noskip++;
     }
   }
@@ -37,7 +37,7 @@ inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
   Rcpp::CharacterVector newNames(ncol_types, "");
   size_t j_short = 0;
   for (size_t j_long = 0; j_long < ncol_types; ++j_long) {
-    if (types[j_long] == CELL_SKIP) {
+    if (types[j_long] == COL_SKIP) {
       continue;
     }
     newNames[j_long] = names[j_short];
