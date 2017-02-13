@@ -81,7 +81,7 @@ test_that("types imputed & read correctly [xls]", {
   skip("revisit these expectations as xls problems are fixed")
 })
 
-test_that("max_guess is honored for col_types [xlsx]", {
+test_that("guess_max is honored for col_types [xlsx]", {
   expect_warning(
     types <- read_excel(test_sheet("types.xlsx"), guess_max = 2),
     "expecting numeric"
@@ -89,7 +89,7 @@ test_that("max_guess is honored for col_types [xlsx]", {
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
-test_that("max_guess is honored for col_types [xls]", {
+test_that("guess_max is honored for col_types [xls]", {
   skip("write this test as xls problems are fixed")
 })
 
