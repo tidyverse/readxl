@@ -181,7 +181,7 @@ inline Rcpp::RObject makeCol(ColType type, int n) {
     return Rcpp::CharacterVector(n, NA_STRING);
     break;
   case COL_LIST:
-    return Rcpp::List(n, R_NilValue);
+    return Rcpp::List(n, Rcpp::LogicalVector(1, NA_LOGICAL));
     break;
   }
 

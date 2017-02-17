@@ -107,13 +107,15 @@ test_that("wrong length col types generates error", {
 test_that("list column preserves type [xlsx]", {
   types <- read_excel(test_sheet("list_type.xlsx"), col_types = "list")
   expect_is(types$var1[[1]], "numeric")
-  expect_is(types$var1[[2]], "character")
-  expect_is(types$var1[[3]], "POSIXct")
+  expect_is(types$var1[[2]], "logical")
+  expect_is(types$var1[[3]], "character")
+  expect_is(types$var1[[4]], "POSIXct")
 })
 
 test_that("list column preserves type [xls]", {
   types <- read_excel(test_sheet("list_type.xls"), col_types = "list")
   expect_is(types$var1[[1]], "numeric")
-  expect_is(types$var1[[2]], "character")
-  expect_is(types$var1[[3]], "POSIXct")
+  expect_is(types$var1[[2]], "logical")
+  expect_is(types$var1[[3]], "character")
+  expect_is(types$var1[[4]], "POSIXct")
 })
