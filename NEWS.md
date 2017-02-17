@@ -1,7 +1,7 @@
 # readxl 0.1.1.9000
 
-* `col_types = "list"` loads data as a list of length-1 vectors, preserving the type from excel
-(#262 @gergness).
+* `col_types = "list"` loads data as a list of length-1 vectors, that are typed using
+the logic from `col_types = NULL`, but on a cell-by-cell basis (#262 @gergness).
 
 *currently much of this applies only to xlsx, but will be extended to xls*
 
