@@ -19,8 +19,8 @@ enum ColType {
   COL_DATE,
   COL_NUMERIC,
   COL_TEXT,
-  COL_SKIP,
-  COL_LIST
+  COL_LIST,
+  COL_SKIP
 };
 
 // ColType enum is ordered such that a simple cast
@@ -44,12 +44,12 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
       types.push_back(COL_DATE);
     } else if (type == "numeric") {
       types.push_back(COL_NUMERIC);
-    } else if (type == "skip") {
-      types.push_back(COL_SKIP);
     } else if (type == "text") {
       types.push_back(COL_TEXT);
     } else if (type == "list") {
       types.push_back(COL_LIST);
+    } else if (type == "skip") {
+      types.push_back(COL_SKIP);
     } else {
       Rcpp::stop("Unknown type '%s' at position %i", type, i + 1);
     }
@@ -61,11 +61,11 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
 inline std::string colTypeDesc(ColType type) {
   switch(type) {
   case COL_BLANK:   return "blank";
-  case COL_SKIP:    return "skip";
   case COL_DATE:    return "date";
   case COL_NUMERIC: return "numeric";
   case COL_TEXT:    return "text";
   case COL_LIST:    return "list";
+  case COL_SKIP:    return "skip";
   }
   return "???";
 }
