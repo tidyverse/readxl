@@ -167,18 +167,18 @@ public:
         case COL_LIST:
           switch(type) {
           case CELL_BLANK: {
-            Rcpp::as<Rcpp::List>(col)[i] = Rcpp::LogicalVector(1, NA_LOGICAL);
+            SET_VECTOR_ELT(col, i, Rcpp::LogicalVector(1, NA_LOGICAL));
             break;
           }
           case CELL_NUMERIC: {
-            Rcpp::as<Rcpp::List>(col)[i] = Rcpp::NumericVector(1, cell.d);
+            SET_VECTOR_ELT(col, i, Rcpp::NumericVector(1, cell.d));
             break;
           }
           case CELL_DATE: {
             Rcpp::RObject cell_val = Rcpp::NumericVector(1, (cell.d - offset_) * 86400);
             cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
             cell_val.attr("tzone") = "UTC";
-            Rcpp::as<Rcpp::List>(col)[i] = cell_val;
+            SET_VECTOR_ELT(col, i, cell_val);
             break;
           }
           case CELL_TEXT: {
@@ -186,7 +186,7 @@ public:
             std::string stdString((char*) cell.str);
             Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
             SET_STRING_ELT(rStringVector, 0, rString);
-            Rcpp::as<Rcpp::List>(col)[i] = rStringVector;
+            SET_VECTOR_ELT(col, i, rStringVector);
             break;
           }
           }

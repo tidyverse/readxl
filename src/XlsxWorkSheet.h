@@ -198,24 +198,24 @@ public:
       case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
-          Rcpp::as<Rcpp::List>(col)[row] = Rcpp::LogicalVector(1, NA_LOGICAL);
+          SET_VECTOR_ELT(col, row, Rcpp::LogicalVector(1, NA_LOGICAL));
           break;
         }
         case CELL_NUMERIC: {
-          Rcpp::as<Rcpp::List>(col)[row] = Rcpp::NumericVector(1, xcell->asDouble(na));
+          SET_VECTOR_ELT(col, row, Rcpp::NumericVector(1, xcell->asDouble(na)));
           break;
         }
         case CELL_DATE: {
           Rcpp::RObject cell_val = Rcpp::NumericVector(1, xcell->asDate(na, wb_.offset()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
-          Rcpp::as<Rcpp::List>(col)[row] = cell_val;
+          SET_VECTOR_ELT(col, row, cell_val);
           break;
         }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(na, wb_.stringTable()));
-          Rcpp::as<Rcpp::List>(col)[row] = rStringVector;
+          SET_VECTOR_ELT(col, row, rStringVector);
           break;
         }
         }
