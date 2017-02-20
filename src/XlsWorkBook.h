@@ -38,14 +38,14 @@ public:
     return pWB_;
   }
 
-  int nSheets() const {
+  int n_sheets() const {
     return pWB_->sheets.count;
   }
 
   Rcpp::CharacterVector sheets() const {
-    Rcpp::CharacterVector sheets(nSheets());
+    Rcpp::CharacterVector sheets(n_sheets());
 
-    for (int i = 0; i < nSheets(); ++i) {
+    for (int i = 0; i < n_sheets(); ++i) {
       sheets[i] = Rf_mkCharCE((char*) pWB_->sheets.sheet[i].name, CE_UTF8);
     }
 

@@ -9,23 +9,27 @@
 
 class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
-  int nrow_, ncol_;
+  std::string sheetName_;
+  int ncol_, nrow_;
   double offset_;
   std::set<int> customDateFormats_;
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook& wb, int i) {
+  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i) {
     offset_ = dateOffset(wb.workbook()->is1904);
 
-    if (i >= wb.nSheets()) {
+    if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
-                 i + 1, wb.nSheets());
+                 sheet_i + 1, wb.n_sheets());
     }
+    sheetName_ = wb.sheets()[sheet_i];
 
-    pWS_ = xls_getWorkSheet(wb.workbook(), i);
-    if (pWS_ == NULL)
-      Rcpp::stop("Failed open sheet");
+    pWS_ = xls_getWorkSheet(wb.workbook(), sheet_i);
+    if (pWS_ == NULL) {
+      Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
+                 sheetName_, sheet_i + 1);
+    }
     xls_parseWorkSheet(pWS_);
 
     nrow_ = pWS_->rows.lastrow + 1;
