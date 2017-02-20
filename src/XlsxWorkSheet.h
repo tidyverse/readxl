@@ -198,15 +198,15 @@ public:
       case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
-          SET_VECTOR_ELT(col, row, Rcpp::LogicalVector(1, NA_LOGICAL));
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         }
         case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rcpp::NumericVector(1, xcell->asDouble(na)));
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na)));
           break;
         }
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rcpp::NumericVector(1, xcell->asDate(na, wb_.offset()));
+          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(na, wb_.offset()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
