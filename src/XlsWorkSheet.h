@@ -16,7 +16,7 @@ class XlsWorkSheet {
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i) {
+  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int nskip) {
     offset_ = dateOffset(wb.workbook()->is1904);
 
     if (sheet_i >= wb.n_sheets()) {

@@ -9,7 +9,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(i).colNames(nskip);
+  return wb.sheet(i, nskip).colNames(nskip);
 }
 
 // [[Rcpp::export]]
@@ -17,7 +17,8 @@ CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
                               int sheet = 0, int nskip = 0,
                               int guess_max = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
-  std::vector<ColType> types = wb.sheet(sheet).colTypes(na, nskip + has_col_names, guess_max);
+  std::vector<ColType> types = wb.sheet(sheet, nskip).colTypes(na,
+                                        nskip + has_col_names, guess_max);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
@@ -40,7 +41,7 @@ CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
 List xls_cols(std::string path, int i, CharacterVector col_names,
               CharacterVector col_types, std::vector<std::string> na, int nskip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  XlsWorkSheet sheet = wb.sheet(i);
+  XlsWorkSheet sheet = wb.sheet(i, nskip);
 
   if (col_names.size() != col_types.size()) {
     Rcpp::stop("Received %d names but %d types.",

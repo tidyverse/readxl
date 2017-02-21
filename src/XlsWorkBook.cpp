@@ -3,8 +3,8 @@
 #include "XlsWorkSheet.h"
 using namespace Rcpp;
 
-XlsWorkSheet XlsWorkBook::sheet(int i) {
-  return XlsWorkSheet(*this, i);
+XlsWorkSheet XlsWorkBook::sheet(int sheet_i, int nskip) {
+  return XlsWorkSheet(*this, sheet_i, nskip);
 }
 
 // [[Rcpp::export]]

@@ -83,7 +83,7 @@ public:
     return dateFormats;
   }
 
-  XlsWorkSheet sheet(int i);
+  XlsWorkSheet sheet(int sheet_i, int nskip);
 
 };
 
