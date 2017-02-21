@@ -110,6 +110,7 @@ test_that("list column reads data correctly [xlsx]", {
   expect_equal(types$var1[[2]], NA)
   expect_equal(types$var1[[3]], "a")
   expect_equal(types$var1[[4]], as.POSIXct("2017-01-01", tz = "UTC"))
+  expect_equal(types$var1[[5]], "abc")
 })
 
 test_that("setting `na` works in list columns [xlsx]", {
@@ -123,6 +124,7 @@ test_that("list column reads data correctly [xls]", {
   expect_equal(types$var1[[2]], NA)
   expect_equal(types$var1[[3]], "a")
   expect_equal(types$var1[[4]], as.POSIXct("2017-01-01", tz = "UTC"))
+  expect_equal(types$var1[[5]], "abc")
 })
 
 test_that("setting `na` works in list columns [xls]", {

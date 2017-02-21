@@ -183,7 +183,7 @@ public:
           }
           case CELL_TEXT: {
             std::string stdString((char*) cell.str);
-            Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharLenCE(stdString.c_str(), 1, CE_UTF8);
+            Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
             SET_VECTOR_ELT(col, i, rString);
             break;
           }
