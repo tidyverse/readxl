@@ -83,8 +83,6 @@ public:
     return dateFormats;
   }
 
-
-  XlsWorkSheet sheet(std::string name);
   XlsWorkSheet sheet(int i);
 
 };
