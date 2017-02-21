@@ -18,8 +18,20 @@ test_that("blanks in same middle row are read as missing [xlsx]", {
   expect_equal(blanks$y, c("a", NA, "b"))
 })
 
+test_that("blanks in same middle row are read as missing [xls]", {
+  blanks <- read_excel(test_sheet("blanks.xls"), sheet = "same_row_middle")
+  expect_equal(blanks$x, c(1, NA, 2))
+  expect_equal(blanks$y, c("a", NA, "b"))
+})
+
 test_that("blanks in same, first row are read as missing [xlsx]", {
   blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "same_row_first")
+  expect_equal(blanks$x, c(NA, 1))
+  expect_equal(blanks$y, c(NA, "a"))
+})
+
+test_that("blanks in same, first row are read as missing [xls]", {
+  blanks <- read_excel(test_sheet("blanks.xls"), sheet = "same_row_first")
   expect_equal(blanks$x, c(NA, 1))
   expect_equal(blanks$y, c(NA, "a"))
 })
@@ -86,7 +98,7 @@ test_that("empty named column gives NA column", {
   expect_true(all(is.numeric(df2$y)))
 })
 
-test_that("empty (styled) cells are not loaded, but can survive as NA", {
+test_that("empty (styled) cells are not loaded, but can survive as NA [xlsx]", {
   ## what's important about this sheet?
   ## contains empty cells with a custom format
   ## therefore they appear in the xml and have a style attribute
@@ -95,6 +107,18 @@ test_that("empty (styled) cells are not loaded, but can survive as NA", {
   ## in a trailing empty column WHICH SHOULD BE DROPPED
   ## in some trailing rows WHICH SHOULD BE DROPPED
   out <- read_excel(test_sheet("style-only-cells.xlsx"))
+  df <- tibble::tibble(
+    var1 = c("val1,1", "val2,1", "val3,1"),
+    var2 = NA_real_,
+    var3 = c("aa", "bb", "cc"),
+    X__1 = NA_real_,
+    var5 = c(1, 2, 3)
+  )
+  expect_equal(out, df)
+})
+
+test_that("empty (styled) cells are not loaded, but can survive as NA [xls]", {
+  out <- read_excel(test_sheet("style-only-cells.xls"))
   df <- tibble::tibble(
     var1 = c("val1,1", "val2,1", "val3,1"),
     var2 = NA_real_,
