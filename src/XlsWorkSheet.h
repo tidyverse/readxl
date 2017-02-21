@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
+#include <libxls/xlstypes.h>
 #include "XlsWorkBook.h"
 #include "CellType.h"
 #include "utils.h"
@@ -11,6 +12,7 @@ class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
   std::string sheetName_;
   int ncol_, nrow_;
+  int first_row_, second_row_;
   double offset_;
   std::set<int> customDateFormats_;
 
@@ -31,9 +33,11 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
-
-    nrow_ = pWS_->rows.lastrow + 1;
-    ncol_ = pWS_->rows.lastcol; // excel always pads with an empty column
+    parseGeometry(nskip);
+    // Rcpp::Rcout << "back from parseGeometry()\n";
+    Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
+    Rcpp::Rcout << "first_row_ = " << first_row_ <<
+      ", second_row_ = " << second_row_ << "\n";
 
     customDateFormats_ = wb.customDateFormats();
   }
@@ -52,22 +56,24 @@ public:
     return ncol_;
   }
 
-  Rcpp::CharacterVector colNames(int nskip = 0) {
+  Rcpp::CharacterVector colNames() {
     Rcpp::CharacterVector out(ncol_);
-
-    if (nskip > nrow_)
-      return out;
-
-    xls::st_row::st_row_data row = pWS_->rows.row[nskip];
-    for (int j = 0; j < ncol_; ++j) {
-      xls::st_cell::st_cell_data cell = row.cells.cell[j];
-      if (cell.str == NULL) {
-        out[j] = NA_STRING;
-      } else {
-        out[j] = Rf_mkCharCE((char*) cell.str, CE_UTF8);
-      }
+    if (first_row_ >= nrow_) {
+      // remove this once things look more like xlsx
+      return Rcpp::CharacterVector();
+      //return out;
     }
 
+    for(int j = 0; j < ncol_; ++j) {
+      xls::WORD cellRow = (xls::WORD)first_row_;
+      xls::WORD cellCol = (xls::WORD)j;
+      xls::xlsCell *cell = xls_cell(pWS_, cellRow, cellCol);
+      if (cell->str == NULL) {
+        out[j] = NA_STRING;
+      } else {
+        out[j] = Rf_mkCharCE((char*) cell->str, CE_UTF8);
+      }
+    }
     return out;
   }
 
@@ -198,6 +204,128 @@ public:
 
     return removeSkippedColumns(cols, names, types);
   }
+
+  // Compute sheet extent (= lower right corner) directly from cells.
+  //   recorded in nrow_ and ncol_
+  // Modify the below for xls vs xlsx!
+  // ?? Return early if there is no data. Otherwise ...
+  // Record position of two landmarks for reading:
+  //   firstRow_ = first cell for which declared row >= nskip
+  //   secondRow_ = first cell for which declared row > that of firstRow_
+  void parseGeometry(int nskip) {
+    ncol_ = 0;
+    nrow_ = 0;
+
+    // Rcpp::Rcout << "nskip = " << nskip << "\n";
+
+    // note the nominal dimensions
+    // both are allegedly 0-indexed, but rows.lastcol appears to generally
+    // indicate one more column than sheet actually has
+    int nominal_ncol = pWS_->rows.lastcol;
+    int nominal_nrow = pWS_->rows.lastrow;
+    first_row_ = nominal_nrow + 1;
+    second_row_ = nominal_nrow + 2;
+
+    // Rcpp::Rcout << "nominal_nrow = " << nominal_nrow <<
+    //   ", nominal_ncol = " << nominal_ncol << "\n";
+
+    // empty sheet case (taking advantage of ncol's +1 behavior)
+    if (nominal_ncol == 0) {
+      return;
+    }
+
+    for (int i = 0; i <= nominal_nrow; ++i) {
+      xls::WORD cellRow = (xls::WORD)i;
+      xls::WORD cellCol;
+      for (cellCol = 0; cellCol <= nominal_ncol; cellCol++) {
+        // Rcpp::Rcout << "row = " << cellRow + 1 <<
+        //   ", col = " << cellCol + 1 << "\n";
+        xls::xlsCell *cell = xls_cell(pWS_, cellRow, cellCol);
+
+        if (!cell) {
+          // Rcpp::Rcout << "no cell found!\n";
+          continue;
+        }
+
+        if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203 ||
+            // cell holds a number:
+            //   0x27e --> 638     RK (section 2.4.220) p376 of [MS-XLS]
+            //   0x0BD --> 189  MulRk (section 2.4.175) p344
+            //   0x203 --> 515 Number (section 2.4.180) p348
+            cell->id == 0x06 ||
+            // cell holds a formula:
+            //   0x06 -->   6 Formula (section 2.4.127) p309
+            cell->id == 0x205 ||
+            // cell holds either Boolean or error:
+            //   0x205 --> 517 BoolErr (section 2.4.24) p216
+            cell->id == 0x0FD
+            // cell holds a string:
+            //   0x0FD --> 253 LabelSst (section 2.4.149) p325
+        ) {
+          if (nrow_ < cellRow) {
+            nrow_ = cellRow;
+          }
+          if (ncol_ < cellCol) {
+            ncol_ = cellCol;
+          }
+          if (cellRow < first_row_ && cellRow >= nskip) {
+            first_row_ = cellRow;
+          }
+          if (cellRow < second_row_ && cellRow > first_row_) {
+            second_row_ = cellRow;
+          }
+        }
+      }
+    }
+    nrow_++;
+    ncol_++;
+
+    // Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
+
+  }
+
+  // Rcpp::CharacterVector out(1);
+  // if (cell->str == NULL) {
+  //   out[0] = NA_STRING;
+  // } else {
+  //   out[0] = Rf_mkCharCE((char*) cell->str, CE_UTF8);
+    // }
+    // Rcpp::Rcout << "contents of lower right corner cell = " << out[0] << "\n";
+
+    // firstRow_ = cells_.end();
+    // secondRow_ = cells_.end();
+    // std::vector<XlsxCell>::const_iterator it = cells_.begin();
+
+    // advance past nskip rows
+    // while (it != cells_.end() && it->row() < nskip) {
+    //   it++;
+    // }
+    // 'skipped past all the data' case
+    // if (it == cells_.end()) {
+    //   return;
+    // }
+    //
+    // firstRow_ = it;
+    // while (it != cells_.end()) {
+    //
+    //   if (nrow_ < it->row()) {
+    //     nrow_ = it->row();
+    //   }
+    //   if (ncol_ < it->col()) {
+    //     ncol_ = it->col();
+    //   }
+    //
+    //   if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
+    //     secondRow_ = it;
+    //   }
+    //
+    //   ++it;
+    // }
+    //
+    // nrow_++;
+    // ncol_++;
+  //}
+
 };
 
 #endif

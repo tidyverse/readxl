@@ -76,10 +76,15 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                                guess_max = guess_max)
   }
 
+  ## temporary measure, so I can bring more tests online
+  tmp <- xls_cols(path, sheet, col_names = col_names, col_types = col_types,
+                  na = na, nskip = skip + has_col_names)
+  fixme <- vapply(tmp, is.null, logical(1))
+  tmp[fixme] <- NA_real_
+
   tibble::repair_names(
     tibble::as_tibble(
-      xls_cols(path, sheet, col_names = col_names, col_types = col_types,
-               na = na, nskip = skip + has_col_names),
+      tmp,
       validate = FALSE
     ),
     prefix = "X", sep = "__"

@@ -9,7 +9,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(i, nskip).colNames(nskip);
+  return wb.sheet(i, nskip).colNames();
 }
 
 // [[Rcpp::export]]
