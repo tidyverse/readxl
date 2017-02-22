@@ -69,16 +69,19 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
   } else if (isFALSE(col_names)) {
     col_names <- rep.int("", length(xls_col_names(path, sheet)))
   }
+  cat("just after col name stuff\n")
 
   if (is.null(col_types)) {
     col_types <- xls_col_types(path, sheet, na = na, nskip = skip,
                                has_col_names = has_col_names,
                                guess_max = guess_max)
   }
+  cat("just after col type stuff\n")
 
   ## temporary measure, so I can bring more tests online
   tmp <- xls_cols(path, sheet, col_names = col_names, col_types = col_types,
                   na = na, nskip = skip + has_col_names)
+  cat("just after xls_cols()\n")
   fixme <- vapply(tmp, is.null, logical(1))
   tmp[fixme] <- NA_real_
 

@@ -68,11 +68,25 @@ public:
     return sheetName_;
   }
 
+  Rcpp::CharacterVector colNames() {
+    Rcpp::CharacterVector out(ncol_);
+    std::vector<XlsxCell>::const_iterator xcell = firstRow_;
+    int base = xcell->row();
+
+    while(xcell != cells_.end() && xcell->row() == base) {
+      if (xcell->col() >= ncol_) {
+        break;
+      }
+      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable());
+      xcell++;
+    }
+    return out;
+  }
+
   std::vector<ColType> colTypes(const StringSet& na,
-                                 int guess_max = 1000,
-                                 bool has_col_names = false) {
-    std::vector<ColType> types;
-    types.resize(ncol_);
+                                int guess_max = 1000,
+                                bool has_col_names = false) {
+    std::vector<ColType> types(ncol_);
 
     std::vector<XlsxCell>::const_iterator xcell;
     xcell = has_col_names ? secondRow_ : firstRow_;
@@ -88,6 +102,9 @@ public:
     // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
+      if ((xcell->row() - base + 1) % 1000 == 0) {
+        Rcpp::checkUserInterrupt();
+      }
       if (xcell->col() < ncol_) {
         ColType type = as_ColType(xcell->type(na, wb_.stringTable(), wb_.dateStyles()));
         if (type > types[xcell->col()]) {
@@ -98,21 +115,6 @@ public:
     }
 
     return types;
-  }
-
-  Rcpp::CharacterVector colNames() {
-    Rcpp::CharacterVector out(ncol_);
-    std::vector<XlsxCell>::const_iterator xcell = firstRow_;
-    int base = xcell->row();
-
-    while(xcell != cells_.end() && xcell->row() == base) {
-      if (xcell->col() >= ncol_) {
-        break;
-      }
-      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable());
-      xcell++;
-    }
-    return out;
   }
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
