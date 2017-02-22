@@ -34,8 +34,8 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_names(std::string path, int sheet = 0, int nskip = 0) {
-  return XlsxWorkSheet(path, sheet, nskip).colNames();
+CharacterVector xlsx_col_names(std::string path, int i = 0, int nskip = 0) {
+  return XlsxWorkSheet(path, i, nskip).colNames();
 }
 
 // [[Rcpp::export]]

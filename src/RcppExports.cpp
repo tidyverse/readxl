@@ -146,15 +146,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlsx_col_names
-CharacterVector xlsx_col_names(std::string path, int sheet, int nskip);
-RcppExport SEXP readxl_xlsx_col_names(SEXP pathSEXP, SEXP sheetSEXP, SEXP nskipSEXP) {
+CharacterVector xlsx_col_names(std::string path, int i, int nskip);
+RcppExport SEXP readxl_xlsx_col_names(SEXP pathSEXP, SEXP iSEXP, SEXP nskipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< int >::type sheet(sheetSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
     Rcpp::traits::input_parameter< int >::type nskip(nskipSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_col_names(path, sheet, nskip));
+    rcpp_result_gen = Rcpp::wrap(xlsx_col_names(path, i, nskip));
     return rcpp_result_gen;
 END_RCPP
 }

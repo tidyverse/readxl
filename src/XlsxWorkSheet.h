@@ -26,7 +26,7 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(XlsxWorkBook wb, int sheet_i, int nskip):
+  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int nskip):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
