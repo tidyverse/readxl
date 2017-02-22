@@ -23,11 +23,11 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
                                bool sheetHasColumnNames = false) {
 
   XlsxWorkSheet ws(path, sheet, nskip);
-  std::vector<CellType> types = ws.colTypes(na, guess_max, sheetHasColumnNames);
+  std::vector<ColType> types = ws.colTypes(na, guess_max, sheetHasColumnNames);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = cellTypeDesc(types[i]);
+    out[i] = colTypeDesc(types[i]);
   }
 
   return out;
@@ -68,13 +68,13 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   }
 
   // Get column types --------------------------------------------------
-  std::vector<CellType> colTypes;
+  std::vector<ColType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
     colTypes = ws.colTypes(na, guess_max, sheetHasColumnNames);
     break;
   case STRSXP:
-    colTypes = cellTypes(as<CharacterVector>(col_types));
+    colTypes = colTypeStrings(as<CharacterVector>(col_types));
     colTypes = recycleTypes(colTypes, ws.ncol());
     break;
   default:
@@ -90,8 +90,8 @@ List read_xlsx_(std::string path, int sheet, RObject col_names,
   //   * col_types = NULL and we've learned them from data
   //   * all cells in column are empty or match one of the na strings
   for (size_t i = 0; i < colTypes.size(); i++) {
-    if (colTypes[i] == CELL_BLANK) {
-      colTypes[i] = CELL_NUMERIC;
+    if (colTypes[i] == COL_BLANK) {
+      colTypes[i] = COL_NUMERIC;
     }
   }
 

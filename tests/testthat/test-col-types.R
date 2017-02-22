@@ -104,4 +104,30 @@ test_that("wrong length col types generates error", {
   )
 })
 
+test_that("list column reads data correctly [xlsx]", {
+  types <- read_excel(test_sheet("list_type.xlsx"), col_types = "list")
+  expect_equal(types$var1[[1]], 1)
+  expect_equal(types$var1[[2]], NA)
+  expect_equal(types$var1[[3]], "a")
+  expect_equal(types$var1[[4]], as.POSIXct("2017-01-01", tz = "UTC"))
+  expect_equal(types$var1[[5]], "abc")
+})
 
+test_that("setting `na` works in list columns [xlsx]", {
+  na_defined <-  read_excel(test_sheet("list_type.xlsx"), col_types = "list", na = "a")
+  expect_equal(na_defined$var1[[3]], NA)
+})
+
+test_that("list column reads data correctly [xls]", {
+  types <- read_excel(test_sheet("list_type.xls"), col_types = "list")
+  expect_equal(types$var1[[1]], 1)
+  expect_equal(types$var1[[2]], NA)
+  expect_equal(types$var1[[3]], "a")
+  expect_equal(types$var1[[4]], as.POSIXct("2017-01-01", tz = "UTC"))
+  expect_equal(types$var1[[5]], "abc")
+})
+
+test_that("setting `na` works in list columns [xls]", {
+  na_defined <-  read_excel(test_sheet("list_type.xls"), col_types = "list", na = "a")
+  expect_equal(na_defined$var1[[3]], NA)
+})
