@@ -59,4 +59,9 @@ read_excel(datasets, "mtcars")
 
 # Skipping rows and using default column names
 read_excel(datasets, skip = 148, col_names = FALSE)
+
+# "list" col_type can handle information of disparate types
+df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
+df
+df$value
 }

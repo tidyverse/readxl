@@ -110,8 +110,10 @@ unskipped column.</dd>
       <dt>col_types</dt>
       <dd>Either <code>NULL</code> to guess from the spreadsheet or a character
 vector containing one entry per column from these options: &quot;skip&quot;,
-&quot;numeric&quot;, &quot;date&quot; or &quot;text&quot;. The content of a cell in a skipped column is
-never read and that column will not appear in the data frame output.</dd>
+&quot;numeric&quot;, &quot;date&quot;, &quot;text&quot; or &quot;list&quot;. The content of a cell in a skipped column is
+never read and that column will not appear in the data frame output. A list cell
+loads a column as a list of length 1 vectors, which are typed using the type
+guessing logic from <code>col_types = NULL</code>, but on a cell-by-cell basis.</dd>
       <dt>na</dt>
       <dd>Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.</dd>
@@ -152,7 +154,27 @@ rows are automatically skipped.</dd>
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;chr&gt;
 #&gt; 1   6.5   3.0   5.2   2.0 virginica
 #&gt; 2   6.2   3.4   5.4   2.3 virginica
-#&gt; 3   5.9   3.0   5.1   1.8 virginica</div></pre>
+#&gt; 3   5.9   3.0   5.1   1.8 virginica</div><div class='input'>
+<span class='co'># "list" col_type can handle information of disparate types</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>), <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"text"</span>, <span class='st'>"list"</span>))
+<span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 4 × 2
+#&gt;                   name      value
+#&gt;                  &lt;chr&gt;     &lt;list&gt;
+#&gt; 1                 Name  &lt;chr [1]&gt;
+#&gt; 2              Species  &lt;chr [1]&gt;
+#&gt; 3 Approx date of death &lt;dttm [1]&gt;
+#&gt; # ... with 1 more rows</div><div class='input'><span class='no'>df</span>$<span class='no'>value</span></div><div class='output co'>#&gt; [[1]]
+#&gt; [1] &quot;Clippy&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;paperclip&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] &quot;2007-01-01 UTC&quot;
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] 0.9
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
