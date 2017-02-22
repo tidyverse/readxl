@@ -4,12 +4,14 @@
 #include <Rcpp.h>
 #include <libxls/xls.h>
 #include <libxls/xlstypes.h>
+#include "XlsCell.h"
 #include "XlsWorkBook.h"
 #include "CellType.h"
 #include "utils.h"
 
 class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;
+  std::vector<XlsCell> cells_;
   std::string sheetName_;
   int ncol_, nrow_;
   int first_row_, second_row_;
@@ -33,6 +35,7 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
+    loadCells();
     parseGeometry(nskip);
     // Rcpp::Rcout << "back from parseGeometry()\n";
     Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
@@ -203,6 +206,28 @@ public:
     }
 
     return removeSkippedColumns(cols, names, types);
+  }
+
+private:
+
+  void loadCells() {
+    int nominal_ncol = pWS_->rows.lastcol;
+    int nominal_nrow = pWS_->rows.lastrow;
+
+    for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
+      for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
+        Rcpp::Rcout << "row = " << i + 1 << ", col = " << j + 1 << "\n";
+        xls::xlsCell *cell = xls_cell(pWS_, i, j);
+
+        if (!cell) {
+          Rcpp::Rcout << "no cell found!\n";
+          continue;
+        }
+
+        cells_.push_back(cell);
+
+      }
+    }
   }
 
   // Compute sheet extent (= lower right corner) directly from cells.
