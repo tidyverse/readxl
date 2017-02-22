@@ -70,7 +70,8 @@ inline std::string colTypeDesc(ColType type) {
   return "???";
 }
 
-inline CellType cellType(xls::st_cell::st_cell_data cell, xls::st_xf* styles,
+inline CellType cellType(const xls::st_cell::st_cell_data cell,
+                         xls::st_xf* styles,
                          const std::set<int>& customDateFormats,
                          const StringSet &na = "") {
   // Find codes in [MS-XLS] S2.3.2 (p175).

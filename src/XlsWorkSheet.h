@@ -77,24 +77,36 @@ public:
     return out;
   }
 
-  std::vector<ColType> colTypes(const StringSet &na, int nskip = 0,
-                                 int guess_max = 1000) {
+  std::vector<ColType> colTypes(const StringSet &na,
+                                int guess_max = 1000,
+                                bool has_col_names = false) {
     std::vector<ColType> types(ncol_);
 
-    for (int i = nskip; i < nrow_ && i < nskip + guess_max; ++i) {
-      if ((i + 1) % 10000 == 0)
+    std::vector<XlsCell>::const_iterator xcell;
+    xcell = has_col_names ? secondRow_ : firstRow_;
+
+    // no cell data to consult re: types
+    if (xcell == cells_.end()) {
+      for (size_t i = 0; i < types.size(); i++) {
+        types[i] = COL_BLANK;
+      }
+      return types;
+    }
+
+    // base is row the data starts on **in the spreadsheet**
+    int base = firstRow_->row() + has_col_names;
+    while (xcell != cells_.end() && xcell->row() - base < guess_max) {
+      if ((xcell->row() - base + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
-
-      xls::st_row::st_row_data row = pWS_->rows.row[i];
-
-      for (int j = 0; j < ncol_; ++j) {
-        ColType type = as_ColType(cellType(row.cells.cell[j], &pWS_->workbook->xfs, customDateFormats_, na));
-
-        // Excel is simple enough we can enforce a strict ordering
-        if (type > types[j]) {
-          types[j] = type;
+      }
+      if (xcell->col() < ncol_) {
+        ColType type = as_ColType(cellType(*xcell->cell(),
+                                           &pWS_->workbook->xfs, customDateFormats_, na));
+        if (type > types[xcell->col()]) {
+          types[xcell->col()] = type;
         }
       }
+      xcell++;
     }
 
     return types;

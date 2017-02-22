@@ -18,7 +18,7 @@ CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
                               int guess_max = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
   std::vector<ColType> types = wb.sheet(sheet, nskip).colTypes(na,
-                                        nskip + has_col_names, guess_max);
+                                        guess_max, has_col_names);
 
   CharacterVector out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
