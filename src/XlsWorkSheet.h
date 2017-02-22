@@ -3,10 +3,8 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
-#include <libxls/xlstypes.h>
-#include "XlsCell.h"
 #include "XlsWorkBook.h"
-#include "CellType.h"
+#include "XlsCell.h"
 #include "utils.h"
 
 class XlsWorkSheet {
@@ -35,6 +33,7 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
+
     loadCells();
     parseGeometry(nskip);
     // Rcpp::Rcout << "back from parseGeometry()\n";
@@ -51,12 +50,12 @@ public:
     } catch(...) {}
   }
 
-  int nrow() const {
-    return nrow_;
-  }
-
   int ncol() const {
     return ncol_;
+  }
+
+  int nrow() const {
+    return nrow_;
   }
 
   Rcpp::CharacterVector colNames() {
