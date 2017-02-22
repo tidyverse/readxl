@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <libxls/xls.h>
 #include "CellType.h"
+#include "utils.h"
 
 inline std::string normalizePath(std::string path) {
   Rcpp::Environment baseEnv = Rcpp::Environment::base_env();
@@ -18,14 +19,21 @@ typedef std::map<int,std::string> FormatMap;
 class XlsWorkBook {
   std::string path_;
   xls::xlsWorkBook* pWB_;
+  std::set<int> customDateFormats_;
+  double offset_;
 
 public:
 
-  XlsWorkBook(std::string path) {
+  XlsWorkBook(const std::string path)
+  {
     path_ = normalizePath(path);
     pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
-    if (pWB_ == NULL)
+    if (pWB_ == NULL) {
       Rcpp::stop("Failed to open %s", path);
+    }
+    offset_ = dateOffset(pWB_->is1904);
+    customDateFormats_ = customDateFormats();
+
   }
 
   ~XlsWorkBook() {
@@ -69,6 +77,18 @@ public:
     return formats;
   }
 
+  XlsWorkSheet sheet(int sheet_i, int nskip);
+
+  const std::set<int>& customDateFormats() {
+    return customDateFormats_;
+  }
+
+  double offset() {
+    return offset_;
+  }
+
+private:
+
   std::set<int> customDateFormats() const {
     std::set<int> dateFormats;
 
@@ -82,8 +102,6 @@ public:
 
     return dateFormats;
   }
-
-  XlsWorkSheet sheet(int sheet_i, int nskip);
 
 };
 
