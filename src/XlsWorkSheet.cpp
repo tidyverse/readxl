@@ -13,7 +13,8 @@ CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
 }
 
 // [[Rcpp::export]]
-CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
+CharacterVector xls_col_types(std::string path,
+                              std::vector<std::string> na,
                               int sheet = 0, int nskip = 0,
                               int guess_max = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
@@ -39,7 +40,8 @@ CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
 
 // [[Rcpp::export]]
 List xls_cols(std::string path, int i, CharacterVector col_names,
-              CharacterVector col_types, std::vector<std::string> na, int nskip = 0) {
+              CharacterVector col_types, std::vector<std::string> na,
+              int nskip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
   XlsWorkSheet sheet = wb.sheet(i, nskip);
 

@@ -112,106 +112,119 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(Rcpp::CharacterVector names, std::vector<ColType> types,
-                      const StringSet &na, int nskip = 0) {
-    if ((int) names.size() != ncol_ || (int) types.size() != ncol_){
-      Rcpp::stop("Received %d names and %d types, but worksheet contains %d columns.",
-                 names.size(), types.size(),  ncol_);
-    }
+  Rcpp::List readCols(Rcpp::CharacterVector names,
+                      const std::vector<ColType>& types,
+                      const StringSet &na,
+                      bool has_col_names = false) {
 
+    std::vector<XlsCell>::const_iterator xcell;
+    xcell = has_col_names ? secondRow_: firstRow_;
+
+    // base is row the data starts on **in the spreadsheet**
+    int base = firstRow_->row() + has_col_names;
+    int n = (xcell == cells_.end()) ? 0 : nrow_ - base;
     Rcpp::List cols(ncol_);
-
-    // Initialise columns
-    int n = nrow_ - nskip;
+    cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
     }
 
-    // Fill with data
-    for (int i = 0; i < n; ++i) {
-      xls::st_row::st_row_data row = pWS_->rows.row[i + nskip];
+    if (n == 0) {
+      return cols;
+    }
 
-      for (int j = 0; j < ncol_; ++j) {
-        xls::st_cell::st_cell_data cell = row.cells.cell[j];
-        Rcpp::RObject col = cols[j];
+    while (xcell != cells_.end()) {
 
-        CellType type = cellType(cell, &pWS_->workbook->xfs, customDateFormats_, na);
+      int i = xcell->row();
+      int j = xcell->col();
+      if ((i + 1) % 1000 == 0) {
+        Rcpp::checkUserInterrupt();
+      }
+      if (types[j] == COL_SKIP || j >= ncol_) {
+        xcell++;
+        continue;
+      }
 
-        // Needs to compare to actual cell type to give warnings
-        switch(types[j]) {
-        case COL_BLANK:
-        case COL_SKIP:
+      CellType type = cellType(*xcell->cell(),
+                               &pWS_->workbook->xfs, customDateFormats_, na);
+      Rcpp::RObject col = cols[j];
+      // row to write into
+      int row = i - base;
+      // Needs to compare to actual cell type to give warnings
+      switch(types[j]) {
+      case COL_BLANK:
+      case COL_SKIP:
+        break;
+      case COL_NUMERIC:
+        switch(type) {
+        case CELL_BLANK:
+          REAL(col)[i] = NA_REAL;
           break;
-        case COL_NUMERIC:
-          switch(type) {
-          case CELL_BLANK:
-            REAL(col)[i] = NA_REAL;
-            break;
-          case CELL_NUMERIC:
-          case CELL_DATE:
-            REAL(col)[i] = cell.d;
-            break;
-          case COL_TEXT:
-            Rcpp::warning("Expecting numeric in [%i, %i] got `%s`",
-              i + 1, j + 1, (char*) cell.str);
-            REAL(col)[i] = NA_REAL;
-          }
-          break;
-        case COL_DATE:
-          switch(type) {
-          case CELL_BLANK:
-            REAL(col)[i] = NA_REAL;
-            break;
-          case CELL_NUMERIC:
-            Rcpp::warning("Expecting date in [%i, %i] got %d",
-              i + 1, j + 1, cell.d);
-            REAL(col)[i] = NA_REAL;
-            break;
-          case CELL_DATE:
-            REAL(col)[i] = (cell.d - offset_) * 86400;
-            break;
-          case CELL_TEXT:
-            Rcpp::warning("Expecting date in [%i, %i] got '%s'",
-              i + 1, j + 1, cell.str);
-            REAL(col)[i] = NA_REAL;
-            break;
-          }
+        case CELL_NUMERIC:
+        case CELL_DATE:
+          REAL(col)[i] = xcell->cell()->d;
           break;
         case COL_TEXT:
-          if (type == CELL_BLANK) {
-            SET_STRING_ELT(col, i, NA_STRING);
-          } else {
-            std::string stdString((char*) cell.str);
-            Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-            SET_STRING_ELT(col, i, rString);
-          }
+          Rcpp::warning("Expecting numeric in [%i, %i] got `%s`",
+                        i + 1, j + 1, (char*) xcell->cell()->str);
+          REAL(col)[i] = NA_REAL;
+        }
+        break;
+      case COL_DATE:
+        switch(type) {
+        case CELL_BLANK:
+          REAL(col)[i] = NA_REAL;
           break;
-        case COL_LIST:
-          switch(type) {
-          case CELL_BLANK: {
-            SET_VECTOR_ELT(col, i, Rf_ScalarLogical(NA_LOGICAL));
-            break;
-          }
-          case CELL_NUMERIC: {
-            SET_VECTOR_ELT(col, i, Rf_ScalarReal(cell.d));
-            break;
-          }
-          case CELL_DATE: {
-            Rcpp::RObject cell_val = Rf_ScalarReal((cell.d - offset_) * 86400);
-            cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
-            cell_val.attr("tzone") = "UTC";
-            SET_VECTOR_ELT(col, i, cell_val);
-            break;
-          }
-          case CELL_TEXT: {
-            std::string stdString((char*) cell.str);
-            Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-            SET_VECTOR_ELT(col, i, rString);
-            break;
-          }
-          }
+        case CELL_NUMERIC:
+          Rcpp::warning("Expecting date in [%i, %i] got %d",
+                        i + 1, j + 1, xcell->cell()->d);
+          REAL(col)[i] = NA_REAL;
+          break;
+        case CELL_DATE:
+          REAL(col)[i] = (xcell->cell()->d - offset_) * 86400;
+          break;
+        case CELL_TEXT:
+          Rcpp::warning("Expecting date in [%i, %i] got '%s'",
+                        i + 1, j + 1, xcell->cell()->str);
+          REAL(col)[i] = NA_REAL;
+          break;
+        }
+        break;
+      case COL_TEXT:
+        if (type == CELL_BLANK) {
+          SET_STRING_ELT(col, i, NA_STRING);
+        } else {
+          std::string stdString((char*) xcell->cell()->str);
+          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+          SET_STRING_ELT(col, i, rString);
+        }
+        break;
+      case COL_LIST:
+        switch(type) {
+        case CELL_BLANK: {
+          SET_VECTOR_ELT(col, i, Rf_ScalarLogical(NA_LOGICAL));
+          break;
+        }
+        case CELL_NUMERIC: {
+          SET_VECTOR_ELT(col, i, Rf_ScalarReal(xcell->cell()->d));
+          break;
+        }
+        case CELL_DATE: {
+          Rcpp::RObject cell_val = Rf_ScalarReal((xcell->cell()->d - offset_) * 86400);
+          cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+          cell_val.attr("tzone") = "UTC";
+          SET_VECTOR_ELT(col, i, cell_val);
+          break;
+        }
+        case CELL_TEXT: {
+          std::string stdString((char*) xcell->cell()->str);
+          Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+          SET_VECTOR_ELT(col, i, rString);
+          break;
+        }
         }
       }
+      xcell++;
     }
 
     return removeSkippedColumns(cols, names, types);
