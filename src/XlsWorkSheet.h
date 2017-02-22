@@ -14,7 +14,7 @@ class XlsWorkSheet {
   std::vector<XlsCell> cells_;
   std::string sheetName_;
   int ncol_, nrow_;
-  int first_row_, second_row_;
+  std::vector<XlsCell>::const_iterator firstRow_, secondRow_;
   double offset_;
   std::set<int> customDateFormats_;
 
@@ -38,9 +38,9 @@ public:
     loadCells();
     parseGeometry(nskip);
     // Rcpp::Rcout << "back from parseGeometry()\n";
-    Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
-    Rcpp::Rcout << "first_row_ = " << first_row_ <<
-      ", second_row_ = " << second_row_ << "\n";
+    //Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
+    //Rcpp::Rcout << "first_row_ = " << first_row_ <<
+    //  ", second_row_ = " << second_row_ << "\n";
 
     customDateFormats_ = wb.customDateFormats();
   }
@@ -61,21 +61,19 @@ public:
 
   Rcpp::CharacterVector colNames() {
     Rcpp::CharacterVector out(ncol_);
-    if (first_row_ >= nrow_) {
-      // remove this once things look more like xlsx
-      return Rcpp::CharacterVector();
-      //return out;
-    }
+    std::vector<XlsCell>::const_iterator xcell = firstRow_;
+    int base = xcell->row();
 
-    for(int j = 0; j < ncol_; ++j) {
-      xls::WORD cellRow = (xls::WORD)first_row_;
-      xls::WORD cellCol = (xls::WORD)j;
-      xls::xlsCell *cell = xls_cell(pWS_, cellRow, cellCol);
-      if (cell->str == NULL) {
-        out[j] = NA_STRING;
-      } else {
-        out[j] = Rf_mkCharCE((char*) cell->str, CE_UTF8);
+    while(xcell != cells_.end() && xcell->row() == base) {
+      if (xcell->col() >= ncol_) {
+        break;
       }
+      if (xcell->cell()->str == NULL) {
+        out[xcell->col()] = NA_STRING;
+      } else {
+        out[xcell->col()] = Rf_mkCharCE((char*) xcell->cell()->str, CE_UTF8);
+      }
+      xcell++;
     }
     return out;
   }
@@ -216,59 +214,11 @@ private:
 
     for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
-        Rcpp::Rcout << "row = " << i + 1 << ", col = " << j + 1 << "\n";
+        //Rcpp::Rcout << "row = " << i + 1 << ", col = " << j + 1 << "\n";
         xls::xlsCell *cell = xls_cell(pWS_, i, j);
 
         if (!cell) {
-          Rcpp::Rcout << "no cell found!\n";
-          continue;
-        }
-
-        cells_.push_back(cell);
-
-      }
-    }
-  }
-
-  // Compute sheet extent (= lower right corner) directly from cells.
-  //   recorded in nrow_ and ncol_
-  // Modify the below for xls vs xlsx!
-  // ?? Return early if there is no data. Otherwise ...
-  // Record position of two landmarks for reading:
-  //   firstRow_ = first cell for which declared row >= nskip
-  //   secondRow_ = first cell for which declared row > that of firstRow_
-  void parseGeometry(int nskip) {
-    ncol_ = 0;
-    nrow_ = 0;
-
-    // Rcpp::Rcout << "nskip = " << nskip << "\n";
-
-    // note the nominal dimensions
-    // both are allegedly 0-indexed, but rows.lastcol appears to generally
-    // indicate one more column than sheet actually has
-    int nominal_ncol = pWS_->rows.lastcol;
-    int nominal_nrow = pWS_->rows.lastrow;
-    first_row_ = nominal_nrow + 1;
-    second_row_ = nominal_nrow + 2;
-
-    // Rcpp::Rcout << "nominal_nrow = " << nominal_nrow <<
-    //   ", nominal_ncol = " << nominal_ncol << "\n";
-
-    // empty sheet case (taking advantage of ncol's +1 behavior)
-    if (nominal_ncol == 0) {
-      return;
-    }
-
-    for (int i = 0; i <= nominal_nrow; ++i) {
-      xls::WORD cellRow = (xls::WORD)i;
-      xls::WORD cellCol;
-      for (cellCol = 0; cellCol <= nominal_ncol; cellCol++) {
-        // Rcpp::Rcout << "row = " << cellRow + 1 <<
-        //   ", col = " << cellCol + 1 << "\n";
-        xls::xlsCell *cell = xls_cell(pWS_, cellRow, cellCol);
-
-        if (!cell) {
-          // Rcpp::Rcout << "no cell found!\n";
+          //Rcpp::Rcout << "no cell found!\n";
           continue;
         }
 
@@ -279,7 +229,7 @@ private:
             //   0x203 --> 515 Number (section 2.4.180) p348
             cell->id == 0x06 ||
             // cell holds a formula:
-            //   0x06 -->   6 Formula (section 2.4.127) p309
+            //    0x06 -->   6 Formula (section 2.4.127) p309
             cell->id == 0x205 ||
             // cell holds either Boolean or error:
             //   0x205 --> 517 BoolErr (section 2.4.24) p216
@@ -287,26 +237,63 @@ private:
             // cell holds a string:
             //   0x0FD --> 253 LabelSst (section 2.4.149) p325
         ) {
-          if (nrow_ < cellRow) {
-            nrow_ = cellRow;
-          }
-          if (ncol_ < cellCol) {
-            ncol_ = cellCol;
-          }
-          if (cellRow < first_row_ && cellRow >= nskip) {
-            first_row_ = cellRow;
-          }
-          if (cellRow < second_row_ && cellRow > first_row_) {
-            second_row_ = cellRow;
-          }
+          cells_.push_back(cell);
         }
       }
     }
+  }
+
+  // Compute sheet extent (= lower right corner) directly from loaded cells.
+  //   recorded in nrow_ and ncol_
+  // Return early if there is no data. Otherwise ...
+  // Position iterators at two landmarks for reading:
+  //   firstRow_ = first cell for which declared row >= nskip
+  //   secondRow_ = first cell for which declared row > that of firstRow_
+  //   fallback to cells_.end() if the above not possible
+  // Assumes loaded cells are arranged s.t. row is non-decreasing
+  void parseGeometry(int nskip) {
+    ncol_ = 0;
+    nrow_ = 0;
+
+    // empty sheet case
+    if (cells_.size() == 0) {
+      return;
+    }
+
+    // Rcpp::Rcout << "nskip = " << nskip << "\n";
+
+    firstRow_ = cells_.end();
+    secondRow_ = cells_.end();
+    std::vector<XlsCell>::const_iterator it = cells_.begin();
+
+    // advance past nskip rows
+    while (it != cells_.end() && it->row() < nskip) {
+      it++;
+    }
+    // 'skipped past all the data' case
+    if (it == cells_.end()) {
+      return;
+    }
+
+    firstRow_ = it;
+    while (it != cells_.end()) {
+
+      if (nrow_ < it->row()) {
+        nrow_ = it->row();
+      }
+      if (ncol_ < it->col()) {
+        ncol_ = it->col();
+      }
+
+      if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
+        secondRow_ = it;
+      }
+
+      ++it;
+    }
+
     nrow_++;
     ncol_++;
-
-    // Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
-
   }
 
   // Rcpp::CharacterVector out(1);
@@ -314,42 +301,8 @@ private:
   //   out[0] = NA_STRING;
   // } else {
   //   out[0] = Rf_mkCharCE((char*) cell->str, CE_UTF8);
-    // }
-    // Rcpp::Rcout << "contents of lower right corner cell = " << out[0] << "\n";
-
-    // firstRow_ = cells_.end();
-    // secondRow_ = cells_.end();
-    // std::vector<XlsxCell>::const_iterator it = cells_.begin();
-
-    // advance past nskip rows
-    // while (it != cells_.end() && it->row() < nskip) {
-    //   it++;
-    // }
-    // 'skipped past all the data' case
-    // if (it == cells_.end()) {
-    //   return;
-    // }
-    //
-    // firstRow_ = it;
-    // while (it != cells_.end()) {
-    //
-    //   if (nrow_ < it->row()) {
-    //     nrow_ = it->row();
-    //   }
-    //   if (ncol_ < it->col()) {
-    //     ncol_ = it->col();
-    //   }
-    //
-    //   if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
-    //     secondRow_ = it;
-    //   }
-    //
-    //   ++it;
-    // }
-    //
-    // nrow_++;
-    // ncol_++;
-  //}
+  // }
+  // Rcpp::Rcout << "contents of lower right corner cell = " << out[0] << "\n";
 
 };
 

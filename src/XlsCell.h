@@ -24,5 +24,9 @@ public:
     return location_.second;
   }
 
+  xls::xlsCell* cell() const {
+    return cell_;
+  }
+
 };
 #endif
