@@ -7,27 +7,25 @@
 #include "XlsCell.h"
 
 class XlsWorkSheet {
-  XlsWorkBook wb_;
   xls::xlsWorkSheet* pWS_;
+  double offset_;
+  std::set<int> customDateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;
   int ncol_, nrow_;
   std::vector<XlsCell>::const_iterator firstRow_, secondRow_;
-  //double offset_;
-  //std::set<int> customDateFormats_;
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int nskip):
-  wb_(wb)
-  {
-    if (sheet_i >= wb_.n_sheets()) {
+  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int nskip) {
+    offset_ = dateOffset(wb.workbook()->is1904);
+    if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
-                 sheet_i + 1, wb_.n_sheets());
+                 sheet_i + 1, wb.n_sheets());
     }
-    sheetName_ = wb_.sheets()[sheet_i];
+    sheetName_ = wb.sheets()[sheet_i];
 
-    pWS_ = xls_getWorkSheet(wb_.workbook(), sheet_i);
+    pWS_ = xls_getWorkSheet(wb.workbook(), sheet_i);
     if (pWS_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
                  sheetName_, sheet_i + 1);
@@ -40,6 +38,7 @@ public:
     //Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
     //Rcpp::Rcout << "first_row_ = " << first_row_ <<
     //  ", second_row_ = " << second_row_ << "\n";
+    customDateFormats_ = wb.customDateFormats();
   }
 
   ~XlsWorkSheet() {
@@ -100,7 +99,7 @@ public:
       if (xcell->col() < ncol_) {
         ColType type = as_ColType(cellType(*xcell->cell(),
                                            &pWS_->workbook->xfs,
-                                           wb_.customDateFormats(), na));
+                                           customDateFormats_, na));
         if (type > types[xcell->col()]) {
           types[xcell->col()] = type;
         }
@@ -146,7 +145,7 @@ public:
 
       CellType type = cellType(*xcell->cell(),
                                &pWS_->workbook->xfs,
-                               wb_.customDateFormats(), na);
+                               customDateFormats_, na);
       Rcpp::RObject col = cols[j];
       // row to write into
       int row = i - base;
@@ -181,7 +180,7 @@ public:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
-          REAL(col)[row] = (xcell->cell()->d - wb_.offset()) * 86400;
+          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i] got '%s'",
@@ -210,7 +209,7 @@ public:
           break;
         }
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal((xcell->cell()->d - wb_.offset()) * 86400);
+          Rcpp::RObject cell_val = Rf_ScalarReal((xcell->cell()->d - offset_) * 86400);
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);

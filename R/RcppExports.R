@@ -21,8 +21,8 @@ xls_cols <- function(path, i, col_names, col_types, na, nskip = 0L) {
     .Call('readxl_xls_cols', PACKAGE = 'readxl', path, i, col_names, col_types, na, nskip)
 }
 
-read_xls_ <- function(path, sheet, col_names, col_types, na, nskip = 0L, guess_max = 1000L) {
-    .Call('readxl_read_xls_', PACKAGE = 'readxl', path, sheet, col_names, col_types, na, nskip, guess_max)
+read_xls_ <- function(path, sheet_i, col_names, col_types, na, nskip = 0L, guess_max = 1000L) {
+    .Call('readxl_read_xls_', PACKAGE = 'readxl', path, sheet_i, col_names, col_types, na, nskip, guess_max)
 }
 
 xlsx_sheets <- function(path) {

@@ -94,13 +94,14 @@ test_that("guess_max is honored for col_types [xls]", {
 })
 
 test_that("wrong length col types generates error", {
+  err_msg <- "Sheet 1 has 5 columns, but `col_types` has length 2."
   expect_error(
     read_excel(test_sheet("iris-excel.xlsx"), col_types = c("numeric", "text")),
-    "Sheet 1 has 5 columns, but `col_types` has length 2."
+    err_msg
   )
   expect_error(
     read_excel(test_sheet("iris-excel.xls"), col_types = c("numeric", "text")),
-    "Received 5 names but 2 types."
+    err_msg
   )
 })
 
