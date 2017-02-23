@@ -41,14 +41,11 @@ NULL
 #' df$value
 read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, guess_max = 1000) {
-
-  path <- check_file(path)
-  guess_max <- check_guess_max(guess_max)
-  col_types <- check_col_types(col_types)
-
-  switch(excel_format(path),
-    xls =  read_xls(path, sheet, col_names, col_types, na, skip, guess_max),
-    xlsx = read_xlsx(path, sheet, col_names, col_types, na, skip, guess_max)
+  read_excel_(
+    path = path, sheet = sheet,
+    col_names = col_names, col_types = col_types,
+    na = na, skip = skip, guess_max = guess_max,
+    excel_format(path)
   )
 }
 
@@ -60,59 +57,43 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 #' @export
 read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                      na = "", skip = 0, guess_max = 1000) {
-
-  sheet <- standardise_sheet(sheet, xls_sheets(path))
-  tibble::repair_names(
-    tibble::as_tibble(
-      read_xls_(path, sheet, col_names, col_types, na,
-                nskip = skip, guess_max = guess_max),
-      validate = FALSE
-    ),
-    prefix = "X", sep = "__"
+  read_excel_(
+    path = path, sheet = sheet,
+    col_names = col_names, col_types = col_types,
+    na = na, skip = skip, guess_max = guess_max,
+    format = "xls"
   )
-
-  # has_col_names <- isTRUE(col_names)
-  # if (has_col_names) {
-  #   col_names <- xls_col_names(path, sheet, nskip = skip)
-  # } else if (isFALSE(col_names)) {
-  #   col_names <- rep.int("", length(xls_col_names(path, sheet)))
-  # }
-  # cat("just after col name stuff\n")
-  #
-  # if (is.null(col_types)) {
-  #   col_types <- xls_col_types(path, sheet, na = na, nskip = skip,
-  #                              has_col_names = has_col_names,
-  #                              guess_max = guess_max)
-  # }
-  # cat("just after col type stuff\n")
-  #
-  # ## temporary measure, so I can bring more tests online
-  # tmp <- xls_cols(path, sheet, col_names = col_names, col_types = col_types,
-  #                 na = na, nskip = skip + has_col_names)
-  # cat("just after xls_cols()\n")
-  # fixme <- vapply(tmp, is.null, logical(1))
-  # tmp[fixme] <- NA_real_
-  #
-  # tibble::repair_names(
-  #   tibble::as_tibble(
-  #     tmp,
-  #     validate = FALSE
-  #   ),
-  #   prefix = "X", sep = "__"
-  # )
 }
 
 #' @rdname read_excel
 #' @export
 read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
                       na = "", skip = 0, guess_max = 1000) {
-  path <- check_file(path)
-  sheet <- standardise_sheet(sheet, xlsx_sheets(path))
+  read_excel_(
+    path = path, sheet = sheet,
+    col_names = col_names, col_types = col_types,
+    na = na, skip = skip, guess_max = guess_max,
+    format = "xlsx"
+  )
+}
 
+read_excel_ <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+                        na = "", skip = 0, guess_max = 1000, format) {
+  if (format == "xls") {
+    sheets_fun <- xls_sheets
+    read_fun <- read_xls_
+  } else {
+    sheets_fun <- xlsx_sheets
+    read_fun <- read_xlsx_
+  }
+  sheet <- standardise_sheet(sheet, sheets_fun(path))
+  guess_max <- check_guess_max(guess_max)
+  col_types <- check_col_types(col_types)
   tibble::repair_names(
     tibble::as_tibble(
-      read_xlsx_(path, sheet, col_names, col_types, na,
-                 nskip = skip, guess_max = guess_max),
+      read_fun(path = path, sheet = sheet,
+               col_names = col_names, col_types = col_types,
+               na = na, nskip = skip, guess_max = guess_max),
       validate = FALSE
     ),
     prefix = "X", sep = "__"
