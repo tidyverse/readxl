@@ -90,7 +90,14 @@ test_that("guess_max is honored for col_types [xlsx]", {
 })
 
 test_that("guess_max is honored for col_types [xls]", {
-  skip("write this test as xls problems are fixed")
+  expect_output(
+    expect_warning(
+      types <- read_excel(test_sheet("types.xls"), guess_max = 2),
+      "expecting numeric"
+    ),
+    "Unknown type: 517"
+  )
+  expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
 test_that("wrong length col types generates error", {

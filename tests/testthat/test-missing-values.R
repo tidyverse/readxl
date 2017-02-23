@@ -69,7 +69,7 @@ test_that("text values in numeric column gives warning & NA", {
   expect_warning(
     df <- read_excel(test_sheet("missing-values.xls"),
                      col_types = rep("numeric", 2)),
-    "Expecting numeric"
+    "expecting numeric"
   )
   expect_equal(df$x, c(NA, 1, 1))
   expect_warning(

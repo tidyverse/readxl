@@ -161,26 +161,26 @@ public:
         break;
       case COL_NUMERIC:
         switch(type) {
+        case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+          break;
         case CELL_NUMERIC:
         case CELL_DATE:
           REAL(col)[row] = xcell->asDouble(na);
           break;
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
+                        row + 1, j + 1, xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
         }
         break;
       case COL_DATE:
         switch(type) {
-        case CELL_DATE:
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
-          break;
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_DATE:
+          REAL(col)[row] = xcell->asDate(na, wb_.offset());
           break;
         case CELL_NUMERIC:
         case CELL_TEXT:

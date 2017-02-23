@@ -163,9 +163,9 @@ public:
         case CELL_DATE:
           REAL(col)[row] = xcell->cell()->d;
           break;
-        case COL_TEXT:
-          Rcpp::warning("Expecting numeric in [%i, %i] got `%s`",
-                        i + 1, j + 1, (char*) xcell->cell()->str);
+        case CELL_TEXT:
+          Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
+                        row + 1, j + 1, (char*) xcell->cell()->str);
           REAL(col)[row] = NA_REAL;
         }
         break;
@@ -174,13 +174,13 @@ public:
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
           break;
+        case CELL_DATE:
+          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
+          break;
         case CELL_NUMERIC:
           Rcpp::warning("Expecting date in [%i, %i] got %d",
                         i + 1, j + 1, xcell->cell()->d);
           REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_DATE:
-          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i] got '%s'",
