@@ -56,3 +56,8 @@ test_that("read_excel catches invalid guess_max", {
     "`guess_max` must be a positive integer"
   )
 })
+
+test_that("read_excel only accepts file exts xlsx and xls", {
+  expect_error(read_excel("foo.txt"), "Unknown file extension")
+})
+
