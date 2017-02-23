@@ -21,13 +21,13 @@ public:
   XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int nskip):
   wb_(wb)
   {
-    if (sheet_i >= wb.n_sheets()) {
+    if (sheet_i >= wb_.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
-                 sheet_i + 1, wb.n_sheets());
+                 sheet_i + 1, wb_.n_sheets());
     }
-    sheetName_ = wb.sheets()[sheet_i];
+    sheetName_ = wb_.sheets()[sheet_i];
 
-    pWS_ = xls_getWorkSheet(wb.workbook(), sheet_i);
+    pWS_ = xls_getWorkSheet(wb_.workbook(), sheet_i);
     if (pWS_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
                  sheetName_, sheet_i + 1);
