@@ -158,68 +158,68 @@ public:
       case COL_NUMERIC:
         switch(type) {
         case CELL_BLANK:
-          REAL(col)[i] = NA_REAL;
+          REAL(col)[row] = NA_REAL;
           break;
         case CELL_NUMERIC:
         case CELL_DATE:
-          REAL(col)[i] = xcell->cell()->d;
+          REAL(col)[row] = xcell->cell()->d;
           break;
         case COL_TEXT:
           Rcpp::warning("Expecting numeric in [%i, %i] got `%s`",
                         i + 1, j + 1, (char*) xcell->cell()->str);
-          REAL(col)[i] = NA_REAL;
+          REAL(col)[row] = NA_REAL;
         }
         break;
       case COL_DATE:
         switch(type) {
         case CELL_BLANK:
-          REAL(col)[i] = NA_REAL;
+          REAL(col)[row] = NA_REAL;
           break;
         case CELL_NUMERIC:
           Rcpp::warning("Expecting date in [%i, %i] got %d",
                         i + 1, j + 1, xcell->cell()->d);
-          REAL(col)[i] = NA_REAL;
+          REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
-          REAL(col)[i] = (xcell->cell()->d - wb_.offset()) * 86400;
+          REAL(col)[row] = (xcell->cell()->d - wb_.offset()) * 86400;
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i] got '%s'",
                         i + 1, j + 1, xcell->cell()->str);
-          REAL(col)[i] = NA_REAL;
+          REAL(col)[row] = NA_REAL;
           break;
         }
         break;
       case COL_TEXT:
         if (type == CELL_BLANK) {
-          SET_STRING_ELT(col, i, NA_STRING);
+          SET_STRING_ELT(col, row, NA_STRING);
         } else {
           std::string stdString((char*) xcell->cell()->str);
           Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_STRING_ELT(col, i, rString);
+          SET_STRING_ELT(col, row, rString);
         }
         break;
       case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
-          SET_VECTOR_ELT(col, i, Rf_ScalarLogical(NA_LOGICAL));
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         }
         case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, i, Rf_ScalarReal(xcell->cell()->d));
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->cell()->d));
           break;
         }
         case CELL_DATE: {
           Rcpp::RObject cell_val = Rf_ScalarReal((xcell->cell()->d - wb_.offset()) * 86400);
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
-          SET_VECTOR_ELT(col, i, cell_val);
+          SET_VECTOR_ELT(col, row, cell_val);
           break;
         }
         case CELL_TEXT: {
           std::string stdString((char*) xcell->cell()->str);
           Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_VECTOR_ELT(col, i, rString);
+          SET_VECTOR_ELT(col, row, rString);
           break;
         }
         }
