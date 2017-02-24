@@ -19,7 +19,6 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int skip) {
-    offset_ = dateOffset(wb.workbook()->is1904);
     if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1, wb.n_sheets());
@@ -32,14 +31,11 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
+    offset_ = dateOffset(wb.workbook()->is1904);
+    customDateFormats_ = wb.customDateFormats();
 
     loadCells();
     parseGeometry(skip);
-    // Rcpp::Rcout << "back from parseGeometry()\n";
-    //Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
-    //Rcpp::Rcout << "first_row_ = " << first_row_ <<
-    //  ", second_row_ = " << second_row_ << "\n";
-    customDateFormats_ = wb.customDateFormats();
   }
 
   ~XlsWorkSheet() {
@@ -284,8 +280,6 @@ private:
       return;
     }
 
-    // Rcpp::Rcout << "skip = " << skip << "\n";
-
     firstRow_ = cells_.end();
     secondRow_ = cells_.end();
     std::vector<XlsCell>::const_iterator it = cells_.begin();
@@ -319,14 +313,6 @@ private:
     nrow_++;
     ncol_++;
   }
-
-  // Rcpp::CharacterVector out(1);
-  // if (cell->str == NULL) {
-  //   out[0] = NA_STRING;
-  // } else {
-  //   out[0] = Rf_mkCharCE((char*) cell->str, CE_UTF8);
-  // }
-  // Rcpp::Rcout << "contents of lower right corner cell = " << out[0] << "\n";
 
 };
 

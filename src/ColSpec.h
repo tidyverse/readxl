@@ -95,7 +95,6 @@ inline Rcpp::CharacterVector colTypeDescs(std::vector<ColType> types) {
   return out;
 }
 
-
 inline bool isDateFormat(std::string x) {
   for (size_t i = 0; i < x.size(); ++i) {
     switch (x[i]) {
@@ -123,6 +122,19 @@ inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
   if (types.size() == 1) {
     types.resize(ncol);
     std::fill(types.begin(), types.end(), types[0]);
+  }
+  return types;
+}
+
+inline std::vector<ColType> finalizeTypes(std::vector<ColType> types) {
+  // convert blank columns to a default type (numeric today, but logical soon)
+  // can only happen when
+  //   * col_types = NULL and we've learned them from data
+  //   * all cells in column are empty or match one of the na strings
+  for (size_t i = 0; i < types.size(); i++) {
+    if (types[i] == COL_BLANK) {
+      types[i] = COL_NUMERIC;
+    }
   }
   return types;
 }

@@ -78,17 +78,7 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
     Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                sheet_i + 1, ws.ncol(), colTypes.size());
   }
-
-  // convert blank columns to a default type (numeric today, but logical soon)
-  // can only happen when
-  //   * col_types = NULL and we've learned them from data
-  //   * all cells in column are empty or match one of the na strings
-  for (size_t i = 0; i < colTypes.size(); i++) {
-    if (colTypes[i] == COL_BLANK) {
-      colTypes[i] = COL_NUMERIC;
-    }
-  }
-
+  colTypes = finalizeTypes(colTypes);
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
   return ws.readCols(colNames, colTypes, na, has_col_names);
