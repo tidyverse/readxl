@@ -234,11 +234,10 @@ private:
 
     for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
-        //Rcpp::Rcout << "row = " << i + 1 << ", col = " << j + 1 << "\n";
+
         xls::xlsCell *cell = xls_cell(pWS_, i, j);
 
         if (!cell) {
-          //Rcpp::Rcout << "no cell found!\n";
           continue;
         }
 

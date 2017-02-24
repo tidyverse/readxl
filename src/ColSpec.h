@@ -34,7 +34,7 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
   std::vector<ColType> types;
   types.reserve(x.size());
 
-  for (size_t i = 0; i < x.size(); ++i) {
+  for (int i = 0; i < x.size(); ++i) {
     std::string type(x[i]);
     if (type == "blank") {
       types.push_back(COL_BLANK);
