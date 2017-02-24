@@ -41,7 +41,7 @@ test_that("By default, NA read as text", {
   expect_equal(df$x, c("NA", "1.000000", "1.000000"))
 })
 
-test_that("na arg maps strings to to NA [xls]", {
+test_that("na arg maps strings to NA [xls]", {
   df <- read_excel(test_sheet("missing-values.xls"), na = "NA")
   expect_equal(df$x, c(NA, 1, 1))
   expect_equal(df$y, c(NA, 1, 1)) # formula column
@@ -82,6 +82,8 @@ test_that("text values in numeric column gives warning & NA", {
 
 test_that("empty first column gives valid data.frame", {
   df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names = FALSE)
+  expect_equal(nrow(df), length(df[[2]]))
+  df <- read_excel(test_sheet("missing-first-column.xls"), col_names = FALSE)
   expect_equal(nrow(df), length(df[[2]]))
 })
 

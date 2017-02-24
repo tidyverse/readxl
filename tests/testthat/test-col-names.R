@@ -72,7 +72,8 @@ test_that("wrong length column names are rejected", {
   )
 })
 
-test_that("column_names can anticipate skipping [xlsx]", {
+test_that("column_names can anticipate skipping", {
+
   ## xlsx
   expect_silent(
     df <- read_excel(test_sheet("iris-excel.xlsx"),

@@ -21,8 +21,8 @@ test_that("completely empty sheets are handled [xls]", {
   out <- read_excel(test_sheet("empty-sheets.xls"), "empty", skip = 3)
   expect_identical(out, tibble::tibble())
 
-  #out <- read_excel(test_sheet("empty-sheets.xls"), "empty", col_names = "a")
-  #expect_identical(out, tibble::tibble())
+  out <- read_excel(test_sheet("empty-sheets.xls"), "empty", col_names = "a")
+  expect_identical(out, tibble::tibble())
 
   out <- read_excel(test_sheet("empty-sheets.xls"), "empty", col_names = FALSE)
   expect_identical(out, tibble::tibble())
@@ -38,7 +38,6 @@ test_that("sheets with column names only are handled", {
 test_that("non-empty sheets act that way if we skip past everything", {
   out <- read_excel(test_sheet("skipping.xlsx"), skip = 10)
   expect_identical(out, tibble::tibble())
-  skip("come back when xls is skipping properly")
   out <- read_excel(test_sheet("skipping.xls"), skip = 10)
   expect_identical(out, tibble::tibble())
 })
