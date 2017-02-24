@@ -16,3 +16,4 @@
 ^\[MS-XLS\]\.pdf$
 ^excelfileformat\.pdf$
 ^src/libxls/xls2csv\.c$
+^iss$
