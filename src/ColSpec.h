@@ -34,7 +34,7 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
   std::vector<ColType> types;
   types.reserve(x.size());
 
-  for (int i = 0; i < x.size(); ++i) {
+  for (size_t i = 0; i < x.size(); ++i) {
     std::string type(x[i]);
     if (type == "blank") {
       types.push_back(COL_BLANK);
@@ -129,7 +129,7 @@ inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
 
 inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
                                             const std::vector<ColType>& types,
-                                            int sheet) {
+                                            int sheet_i) {
   size_t ncol_names = names.size();
   size_t ncol_types = types.size();
 
@@ -145,7 +145,7 @@ inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
   }
   if (ncol_names != ncol_noskip) {
     Rcpp::stop("Sheet %d has %d columns (%d unskipped), but `col_names` has length %d.",
-               sheet + 1, ncol_types, ncol_noskip, ncol_names);
+               sheet_i + 1, ncol_types, ncol_noskip, ncol_names);
   }
 
   Rcpp::CharacterVector newNames(ncol_types, "");

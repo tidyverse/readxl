@@ -18,7 +18,7 @@ class XlsWorkSheet {
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int nskip) {
+  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int skip) {
     offset_ = dateOffset(wb.workbook()->is1904);
     if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
@@ -34,7 +34,7 @@ public:
     xls_parseWorkSheet(pWS_);
 
     loadCells();
-    parseGeometry(nskip);
+    parseGeometry(skip);
     // Rcpp::Rcout << "back from parseGeometry()\n";
     //Rcpp::Rcout << "nrow_ = " << nrow_ << ", ncol_ = " << ncol_ << "\n";
     //Rcpp::Rcout << "first_row_ = " << first_row_ <<
@@ -271,11 +271,11 @@ private:
   //   recorded in nrow_ and ncol_
   // Return early if there is no data. Otherwise ...
   // Position iterators at two landmarks for reading:
-  //   firstRow_ = first cell for which declared row >= nskip
+  //   firstRow_ = first cell for which declared row >= skip
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(int nskip) {
+  void parseGeometry(int skip) {
     ncol_ = 0;
     nrow_ = 0;
 
@@ -284,14 +284,14 @@ private:
       return;
     }
 
-    // Rcpp::Rcout << "nskip = " << nskip << "\n";
+    // Rcpp::Rcout << "skip = " << skip << "\n";
 
     firstRow_ = cells_.end();
     secondRow_ = cells_.end();
     std::vector<XlsCell>::const_iterator it = cells_.begin();
 
-    // advance past nskip rows
-    while (it != cells_.end() && it->row() < nskip) {
+    // advance past skip rows
+    while (it != cells_.end() && it->row() < skip) {
       it++;
     }
     // 'skipped past all the data' case

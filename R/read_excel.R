@@ -93,7 +93,7 @@ read_excel_ <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
     tibble::as_tibble(
       read_fun(path = path, sheet = sheet,
                col_names = col_names, col_types = col_types,
-               na = na, nskip = skip, guess_max = guess_max),
+               na = na, skip = skip, guess_max = guess_max),
       validate = FALSE
     ),
     prefix = "X", sep = "__"

@@ -27,7 +27,7 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int nskip):
+  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
@@ -54,7 +54,7 @@ public:
     }
 
     loadCells();
-    parseGeometry(nskip);
+    parseGeometry(skip);
   }
 
   int ncol() const {
@@ -260,11 +260,11 @@ private:
   //   recorded in nrow_ and ncol_
   // Return early if there is no data. Otherwise ...
   // Position iterators at two landmarks for reading:
-  //   firstRow_ = first cell for which declared row >= nskip
+  //   firstRow_ = first cell for which declared row >= skip
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(int nskip) {
+  void parseGeometry(int skip) {
     nrow_ = 0;
     ncol_ = 0;
 
@@ -277,8 +277,8 @@ private:
     secondRow_ = cells_.end();
     std::vector<XlsxCell>::const_iterator it = cells_.begin();
 
-    // advance past nskip rows
-    while (it != cells_.end() && it->row() < nskip) {
+    // advance past skip rows
+    while (it != cells_.end() && it->row() < skip) {
       it++;
     }
     // 'skipped past all the data' case

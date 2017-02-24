@@ -48,7 +48,7 @@ public:
   Rcpp::CharacterVector sheets() const {
     Rcpp::CharacterVector sheets(n_sheets());
 
-    for (int i = 0; i < n_sheets(); ++i) {
+    for (size_t i = 0; i < n_sheets(); ++i) {
       sheets[i] = Rf_mkCharCE((char*) pWB_->sheets.sheet[i].name, CE_UTF8);
     }
 
@@ -62,7 +62,7 @@ public:
   FormatMap formats() const {
     std::map<int, std::string> formats;
 
-    for (int i = 0; i < nFormats(); ++i) {
+    for (size_t i = 0; i < nFormats(); ++i) {
       xls::st_format::st_format_data format = pWB_->formats.format[i];
       std::string value((char*) pWB_->formats.format[i].value);
 
@@ -72,12 +72,12 @@ public:
     return formats;
   }
 
-  XlsWorkSheet sheet(int sheet_i, int nskip);
+  XlsWorkSheet sheet(int sheet_i, int skip);
 
   std::set<int> customDateFormats() const {
     std::set<int> dateFormats;
 
-    for (int i = 0; i < nFormats(); ++i) {
+    for (size_t i = 0; i < nFormats(); ++i) {
       xls::st_format::st_format_data format = pWB_->formats.format[i];
       std::string value((char*) format.value);
 

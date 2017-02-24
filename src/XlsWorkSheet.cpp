@@ -8,39 +8,39 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
+CharacterVector xls_col_names(std::string path, int sheet_i = 0, int skip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(i, nskip).colNames();
+  return wb.sheet(sheet_i, skip).colNames();
 }
 
 // [[Rcpp::export]]
 CharacterVector xls_col_types(std::string path,
                               std::vector<std::string> na,
-                              int sheet = 0, int nskip = 0,
+                              int sheet_i = 0, int skip = 0,
                               int guess_max = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
-  std::vector<ColType> types = wb.sheet(sheet, nskip).colTypes(na,
+  std::vector<ColType> types = wb.sheet(sheet_i, skip).colTypes(na,
                                         guess_max, has_col_names);
 
   return colTypeDescs(types);
 }
 
 // [[Rcpp::export]]
-List xls_cols(std::string path, int i, CharacterVector col_names,
+List xls_cols(std::string path, int sheet_i, CharacterVector col_names,
               CharacterVector col_types, std::vector<std::string> na,
-              int nskip = 0) {
+              int skip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
   std::vector<ColType> types = colTypeStrings(col_types);
-  XlsWorkSheet sheet = wb.sheet(i, nskip);
-  return sheet.readCols(col_names, types, na, nskip);
+  XlsWorkSheet sheet = wb.sheet(sheet_i, skip);
+  return sheet.readCols(col_names, types, na, skip);
 }
 
 // [[Rcpp::export]]
 List read_xls_(std::string path, int sheet_i, RObject col_names,
                 RObject col_types, std::vector<std::string> na,
-                int nskip = 0, int guess_max = 1000) {
+                int skip = 0, int guess_max = 1000) {
   XlsWorkBook wb = XlsWorkBook(path);
-  XlsWorkSheet ws = wb.sheet(sheet_i, nskip);
+  XlsWorkSheet ws = wb.sheet(sheet_i, skip);
 
   // catches empty sheets and sheets where we skip past all data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
@@ -49,15 +49,15 @@ List read_xls_(std::string path, int sheet_i, RObject col_names,
 
   // Get column names --------------------------------------------------
   CharacterVector colNames;
-  bool sheetHasColumnNames = false;
+  bool has_col_names = false;
   switch(TYPEOF(col_names)) {
   case STRSXP:
     colNames = as<CharacterVector>(col_names);
     break;
   case LGLSXP:
   {
-    sheetHasColumnNames = as<bool>(col_names);
-    colNames = sheetHasColumnNames ? ws.colNames() : CharacterVector(ws.ncol(), "");
+    has_col_names = as<bool>(col_names);
+    colNames = has_col_names ? ws.colNames() : CharacterVector(ws.ncol(), "");
     break;
   }
   default:
@@ -68,7 +68,7 @@ List read_xls_(std::string path, int sheet_i, RObject col_names,
   std::vector<ColType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, guess_max, sheetHasColumnNames);
+    colTypes = ws.colTypes(na, guess_max, has_col_names);
     break;
   case STRSXP:
     colTypes = colTypeStrings(as<CharacterVector>(col_types));
@@ -94,5 +94,5 @@ List read_xls_(std::string path, int sheet_i, RObject col_names,
 
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
-  return ws.readCols(colNames, colTypes, na, sheetHasColumnNames);
+  return ws.readCols(colNames, colTypes, na, has_col_names);
 }
