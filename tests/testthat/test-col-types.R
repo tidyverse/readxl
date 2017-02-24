@@ -36,16 +36,26 @@ test_that("col_types can be specified", {
   df <- read_excel(test_sheet("iris-excel.xlsx"),
                    col_types = c("numeric", "text", "numeric", "numeric", "text"))
   expect_is(df[[2]], "character")
+  df <- read_excel(test_sheet("iris-excel.xls"),
+                   col_types = c("numeric", "text", "numeric", "numeric", "text"))
+  expect_is(df[[2]], "character")
 })
 
 test_that("col_types are recycled", {
-  df <- read_excel(test_sheet("types.xlsx"), col_types = "text")
+  df <- read_excel(test_sheet("iris-excel.xlsx"), col_types = "text")
+  expect_match(vapply(df, class, character(1)), "character")
+  df <- read_excel(test_sheet("iris-excel.xls"), col_types = "text")
   expect_match(vapply(df, class, character(1)), "character")
 })
 
 test_that("inappropriate col_types generate warning", {
   expect_warning(
     read_excel(test_sheet("iris-excel.xlsx"),
+               col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
+    "expecting numeric"
+  )
+  expect_warning(
+    read_excel(test_sheet("iris-excel.xls"),
                col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
     "expecting numeric"
   )
@@ -68,7 +78,7 @@ test_that("types imputed & read correctly [xls]", {
     types <- read_excel(test_sheet("types.xls")),
     "Unknown type: 517"
     ## definitely due to these 'Unknown type: 517' msgs
-    ## line 102 in CellType.h
+    ## line 52 in ColSpec.h
     ##   Rcpp::Rcout << "Unknown type: " << cell.id << "\n";
     ## if I skip this test, memcheck report is as clean as it ever gets
     ## https://github.com/tidyverse/readxl/issues/259
@@ -78,29 +88,34 @@ test_that("types imputed & read correctly [xls]", {
   #expect_is(types$boolean, "numeric")
   #expect_is(types$date, "POSIXct")
   expect_is(types$string_in_row_3, "character")
-  skip("revisit these expectations as xls problems are fixed")
+  skip("revisit these expectations when xls record type 517 is handled")
 })
 
-test_that("guess_max is honored for col_types [xlsx]", {
+test_that("guess_max is honored for col_types", {
   expect_warning(
     types <- read_excel(test_sheet("types.xlsx"), guess_max = 2),
     "expecting numeric"
   )
   expect_identical(types$string_in_row_3, c(1, 2, NA))
-})
-
-test_that("guess_max is honored for col_types [xls]", {
-  skip("write this test as xls problems are fixed")
+  expect_output(
+    expect_warning(
+      types <- read_excel(test_sheet("types.xls"), guess_max = 2),
+      "expecting numeric"
+    ),
+    "Unknown type: 517"
+  )
+  expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
 test_that("wrong length col types generates error", {
+  err_msg <- "Sheet 1 has 5 columns, but `col_types` has length 2."
   expect_error(
     read_excel(test_sheet("iris-excel.xlsx"), col_types = c("numeric", "text")),
-    "Sheet 1 has 5 columns, but `col_types` has length 2."
+    err_msg
   )
   expect_error(
     read_excel(test_sheet("iris-excel.xls"), col_types = c("numeric", "text")),
-    "Received 5 names but 2 types."
+    err_msg
   )
 })
 

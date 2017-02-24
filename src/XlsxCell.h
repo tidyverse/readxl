@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
-#include "CellType.h"
+#include "ColSpec.h"
 #include "XlsxString.h"
 
 // Key reference for understanding the structure of the XML is
@@ -175,6 +175,5 @@ private:
   }
 
 };
-
 
 #endif

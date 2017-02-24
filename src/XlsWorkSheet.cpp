@@ -2,51 +2,87 @@
 
 #include "XlsWorkBook.h"
 #include "XlsWorkSheet.h"
+#include "ColSpec.h"
 #include <libxls/xls.h>
 
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector xls_col_names(std::string path, int i = 0, int nskip = 0) {
+CharacterVector xls_col_names(std::string path, int sheet_i = 0, int skip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(i).colNames(nskip);
+  return wb.sheet(sheet_i, skip).colNames();
 }
 
 // [[Rcpp::export]]
-CharacterVector xls_col_types(std::string path, std::vector<std::string> na,
-                              int sheet = 0, int nskip = 0,
+CharacterVector xls_col_types(std::string path,
+                              std::vector<std::string> na,
+                              int sheet_i = 0, int skip = 0,
                               int guess_max = 1000, bool has_col_names = false) {
   XlsWorkBook wb = XlsWorkBook(path);
-  std::vector<ColType> types = wb.sheet(sheet).colTypes(na, nskip + has_col_names, guess_max);
+  std::vector<ColType> types = wb.sheet(sheet_i, skip).colTypes(na,
+                                        guess_max, has_col_names);
 
-  CharacterVector out(types.size());
-  for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = colTypeDesc(types[i]);
-  }
-
-  if (has_col_names) {
-    // blank columns with a name aren't blank
-    CharacterVector names = xls_col_names(path, sheet, nskip);
-    for (size_t i = 0; i < types.size(); ++i) {
-      if (types[i] == COL_BLANK && names[i] != NA_STRING && names[i] != "")
-        out[i] = colTypeDesc(COL_NUMERIC);
-    }
-  }
-
-  return out;
+  return colTypeDescs(types);
 }
 
 // [[Rcpp::export]]
-List xls_cols(std::string path, int i, CharacterVector col_names,
-              CharacterVector col_types, std::vector<std::string> na, int nskip = 0) {
+List xls_cols(std::string path, int sheet_i, CharacterVector col_names,
+              CharacterVector col_types, std::vector<std::string> na,
+              int skip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  XlsWorkSheet sheet = wb.sheet(i);
+  std::vector<ColType> types = colTypeStrings(col_types);
+  XlsWorkSheet sheet = wb.sheet(sheet_i, skip);
+  return sheet.readCols(col_names, types, na, skip);
+}
 
-  if (col_names.size() != col_types.size()) {
-    Rcpp::stop("Received %d names but %d types.",
-               col_names.size(), col_types.size());
+// [[Rcpp::export]]
+List read_xls_(std::string path, int sheet_i, RObject col_names,
+                RObject col_types, std::vector<std::string> na,
+                int skip = 0, int guess_max = 1000) {
+  XlsWorkBook wb = XlsWorkBook(path);
+  XlsWorkSheet ws = wb.sheet(sheet_i, skip);
+
+  // catches empty sheets and sheets where we skip past all data
+  if (ws.nrow() == 0 && ws.ncol() == 0) {
+   return Rcpp::List(0);
   }
 
-  std::vector<ColType> types = colTypeStrings(col_types);
-  return sheet.readCols(col_names, types, na, nskip);
+  // Get column names --------------------------------------------------
+  CharacterVector colNames;
+  bool has_col_names = false;
+  switch(TYPEOF(col_names)) {
+  case STRSXP:
+    colNames = as<CharacterVector>(col_names);
+    break;
+  case LGLSXP:
+  {
+    has_col_names = as<bool>(col_names);
+    colNames = has_col_names ? ws.colNames() : CharacterVector(ws.ncol(), "");
+    break;
+  }
+  default:
+    Rcpp::stop("`col_names` must be a logical or character vector");
+  }
+
+  // Get column types --------------------------------------------------
+  std::vector<ColType> colTypes;
+  switch(TYPEOF(col_types)) {
+  case NILSXP:
+    colTypes = ws.colTypes(na, guess_max, has_col_names);
+    break;
+  case STRSXP:
+    colTypes = colTypeStrings(as<CharacterVector>(col_types));
+    colTypes = recycleTypes(colTypes, ws.ncol());
+    break;
+  default:
+    Rcpp::stop("`col_types` must be a character vector or NULL");
+  }
+  if ((int) colTypes.size() != ws.ncol()) {
+    Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+               sheet_i + 1, ws.ncol(), colTypes.size());
+  }
+  colTypes = finalizeTypes(colTypes);
+  colNames = reconcileNames(colNames, colTypes, sheet_i);
+
+  return ws.readCols(colNames, colTypes, na, has_col_names);
 }

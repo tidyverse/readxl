@@ -1,4 +1,4 @@
-context("Compatability")
+context("Compatibility")
 
 test_that("can read document from google doc", {
   iris_1 <- read_excel(test_sheet("iris-excel.xlsx"))

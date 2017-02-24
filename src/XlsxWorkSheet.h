@@ -5,6 +5,7 @@
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
 #include "XlsxCell.h"
+#include "ColSpec.h"
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
@@ -26,7 +27,7 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(XlsxWorkBook wb, int sheet_i, int nskip):
+  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
@@ -53,7 +54,7 @@ public:
     }
 
     loadCells();
-    parseGeometry(nskip);
+    parseGeometry(skip);
   }
 
   int ncol() const {
@@ -66,38 +67,6 @@ public:
 
   std::string sheetName() const {
     return sheetName_;
-  }
-
-  std::vector<ColType> colTypes(const StringSet& na,
-                                 int guess_max = 1000,
-                                 bool has_col_names = false) {
-    std::vector<ColType> types;
-    types.resize(ncol_);
-
-    std::vector<XlsxCell>::const_iterator xcell;
-    xcell = has_col_names ? secondRow_ : firstRow_;
-
-    // no cell data to consult re: types
-    if (xcell == cells_.end()) {
-      for (size_t i = 0; i < types.size(); i++) {
-        types[i] = COL_BLANK;
-      }
-      return types;
-    }
-
-    // base is row the data starts on **in the spreadsheet**
-    int base = firstRow_->row() + has_col_names;
-    while (xcell != cells_.end() && xcell->row() - base < guess_max) {
-      if (xcell->col() < ncol_) {
-        ColType type = as_ColType(xcell->type(na, wb_.stringTable(), wb_.dateStyles()));
-        if (type > types[xcell->col()]) {
-          types[xcell->col()] = type;
-        }
-      }
-      xcell++;
-    }
-
-    return types;
   }
 
   Rcpp::CharacterVector colNames() {
@@ -113,6 +82,40 @@ public:
       xcell++;
     }
     return out;
+  }
+
+  std::vector<ColType> colTypes(const StringSet& na,
+                                int guess_max = 1000,
+                                bool has_col_names = false) {
+    std::vector<ColType> types(ncol_);
+
+    std::vector<XlsxCell>::const_iterator xcell;
+    xcell = has_col_names ? secondRow_ : firstRow_;
+
+    // no cell data to consult re: types
+    if (xcell == cells_.end()) {
+      for (size_t i = 0; i < types.size(); i++) {
+        types[i] = COL_BLANK;
+      }
+      return types;
+    }
+
+    // base is row the data starts on **in the spreadsheet**
+    int base = firstRow_->row() + has_col_names;
+    while (xcell != cells_.end() && xcell->row() - base < guess_max) {
+      if ((xcell->row() - base + 1) % 1000 == 0) {
+        Rcpp::checkUserInterrupt();
+      }
+      if (xcell->col() < ncol_) {
+        ColType type = as_ColType(xcell->type(na, wb_.stringTable(), wb_.dateStyles()));
+        if (type > types[xcell->col()]) {
+          types[xcell->col()] = type;
+        }
+      }
+      xcell++;
+    }
+
+    return types;
   }
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
@@ -159,26 +162,26 @@ public:
         break;
       case COL_NUMERIC:
         switch(type) {
+        case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+          break;
         case CELL_NUMERIC:
         case CELL_DATE:
           REAL(col)[row] = xcell->asDouble(na);
           break;
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
         case CELL_TEXT:
           Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
+                        row + 1, j + 1, xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
         }
         break;
       case COL_DATE:
         switch(type) {
-        case CELL_DATE:
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
-          break;
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_DATE:
+          REAL(col)[row] = xcell->asDate(na, wb_.offset());
           break;
         case CELL_NUMERIC:
         case CELL_TEXT:
@@ -257,11 +260,11 @@ private:
   //   recorded in nrow_ and ncol_
   // Return early if there is no data. Otherwise ...
   // Position iterators at two landmarks for reading:
-  //   firstRow_ = first cell for which declared row >= nskip
+  //   firstRow_ = first cell for which declared row >= skip
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(int nskip) {
+  void parseGeometry(int skip) {
     nrow_ = 0;
     ncol_ = 0;
 
@@ -274,8 +277,8 @@ private:
     secondRow_ = cells_.end();
     std::vector<XlsxCell>::const_iterator it = cells_.begin();
 
-    // advance past nskip rows
-    while (it != cells_.end() && it->row() < nskip) {
+    // advance past skip rows
+    while (it != cells_.end() && it->row() < skip) {
       it++;
     }
     // 'skipped past all the data' case

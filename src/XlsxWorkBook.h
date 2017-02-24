@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
-#include "CellType.h"
+#include "ColSpec.h"
 #include "XlsxString.h"
 #include "utils.h"
 #include "zip.h"
@@ -85,14 +85,14 @@ class XlsxWorkBook {
       parse_workbook(path);
       parse_workbook_rels(path);
     }
-    Rcpp::CharacterVector names() {
+    Rcpp::CharacterVector names() const {
       return names_;
     }
-    int n_sheets() {
+    int n_sheets() const {
       return n_;
     }
 
-    std::string target(int sheet_i) {
+    std::string target(int sheet_i) const {
       std::string id = Rcpp::as<std::string>(id_[sheet_i]);
       std::map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
@@ -119,31 +119,31 @@ public:
     cacheDateStyles();
   }
 
-  Rcpp::CharacterVector sheets() {
+  Rcpp::CharacterVector sheets() const {
       return rel_.names();
   }
 
-  int n_sheets() {
+  int n_sheets() const {
     return rel_.n_sheets();
   }
 
-  std::string sheetPath(int sheet_i) {
+  std::string sheetPath(int sheet_i) const {
     return "xl/" + rel_.target(sheet_i);
   }
 
-  const std::string& path() {
+  const std::string& path() const{
     return path_;
   }
 
-  const std::set<int>& dateStyles() {
+  const std::set<int>& dateStyles() const {
     return dateStyles_;
   }
 
-  const std::vector<std::string>& stringTable() {
+  const std::vector<std::string>& stringTable() const {
     return stringTable_;
   }
 
-  double offset() {
+  double offset() const {
     return offset_;
   }
 

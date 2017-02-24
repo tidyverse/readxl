@@ -3,18 +3,8 @@
 #include "XlsWorkSheet.h"
 using namespace Rcpp;
 
-XlsWorkSheet XlsWorkBook::sheet(int i) {
-  return XlsWorkSheet(*this, i);
-}
-XlsWorkSheet XlsWorkBook::sheet(std::string name) {
-  for (int i = 0; i < nSheets(); ++i) {
-    std::string this_name((char*) pWB_->sheets.sheet[i].name);
-    if (this_name == name)
-      return sheet(i);
-  }
-
-  stop("Couldn't find sheet called '%s'", name);
-  return sheet(0);
+XlsWorkSheet XlsWorkBook::sheet(int sheet_i, int skip) {
+  return XlsWorkSheet(*this, sheet_i, skip);
 }
 
 // [[Rcpp::export]]
