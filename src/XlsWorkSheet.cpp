@@ -22,12 +22,7 @@ CharacterVector xls_col_types(std::string path,
   std::vector<ColType> types = wb.sheet(sheet, nskip).colTypes(na,
                                         guess_max, has_col_names);
 
-  CharacterVector out(types.size());
-  for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = colTypeDesc(types[i]);
-  }
-
-  return out;
+  return colTypeDescs(types);
 }
 
 // [[Rcpp::export]]

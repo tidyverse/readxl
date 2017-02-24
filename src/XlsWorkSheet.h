@@ -5,6 +5,7 @@
 #include <libxls/xls.h>
 #include "XlsWorkBook.h"
 #include "XlsCell.h"
+#include "ColSpec.h"
 
 class XlsWorkSheet {
   xls::xlsWorkSheet* pWS_;

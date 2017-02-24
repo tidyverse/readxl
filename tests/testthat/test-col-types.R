@@ -68,7 +68,7 @@ test_that("types imputed & read correctly [xls]", {
     types <- read_excel(test_sheet("types.xls")),
     "Unknown type: 517"
     ## definitely due to these 'Unknown type: 517' msgs
-    ## line 102 in CellType.h
+    ## line 52 in ColSpec.h
     ##   Rcpp::Rcout << "Unknown type: " << cell.id << "\n";
     ## if I skip this test, memcheck report is as clean as it ever gets
     ## https://github.com/tidyverse/readxl/issues/259

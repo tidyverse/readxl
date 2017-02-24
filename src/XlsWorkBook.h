@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include <libxls/xls.h>
-#include "CellType.h"
+#include "ColSpec.h"
 #include "utils.h"
 
 inline std::string normalizePath(std::string path) {

@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
-#include "CellType.h"
+#include "ColSpec.h"
 #include "XlsxString.h"
 #include "utils.h"
 #include "zip.h"

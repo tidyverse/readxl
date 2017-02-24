@@ -24,13 +24,7 @@ CharacterVector xlsx_col_types(std::string path, int sheet = 0,
 
   XlsxWorkSheet ws(path, sheet, nskip);
   std::vector<ColType> types = ws.colTypes(na, guess_max, sheetHasColumnNames);
-
-  CharacterVector out(types.size());
-  for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = colTypeDesc(types[i]);
-  }
-
-  return out;
+  return colTypeDescs(types);
 }
 
 // [[Rcpp::export]]
