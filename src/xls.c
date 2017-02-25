@@ -1450,7 +1450,7 @@ xlsCell	*xls_cell(xlsWorkSheet* pWS, WORD cellRow, WORD cellCol)
 
     if(cellRow > pWS->rows.lastrow) return NULL;
     row = &pWS->rows.row[cellRow];
-    if(cellCol >= row->lcell) return NULL;
+    if(cellCol > row->lcell) return NULL;
 
     return &row->cells.cell[cellCol];
 }
