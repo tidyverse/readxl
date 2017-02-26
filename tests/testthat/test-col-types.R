@@ -11,7 +11,7 @@ test_that("illegal col_types are rejected", {
 test_that("request for 'blank' col type gets deprecation message and fix", {
   expect_message(
     read_excel(test_sheet("types.xlsx"),
-               col_types = rep_len(c("blank", "text"), length.out = 5)),
+               col_types = rep_len(c("blank", "text"), length.out = 6)),
     "`col_type = \"blank\"` deprecated. Use \"skip\" instead.",
     fixed = TRUE
   )
@@ -68,27 +68,17 @@ test_that("types imputed & read correctly [xlsx]", {
   expect_is(types$boolean, "numeric")
   expect_is(types$date, "POSIXct")
   expect_is(types$string_in_row_3, "character")
-  skip("switch expecation to logical (vs numeric) when possible")
+  skip("switch expectation to logical (vs numeric) when possible (for xls too!)")
 })
 
 test_that("types imputed & read correctly [xls]", {
-  expect_output(
-    ## valgrind reports this
-    ## Conditional jump or move depends on uninitialised value(s)
-    types <- read_excel(test_sheet("types.xls")),
-    "Unknown type: 517"
-    ## definitely due to these 'Unknown type: 517' msgs
-    ## line 52 in ColSpec.h
-    ##   Rcpp::Rcout << "Unknown type: " << cell.id << "\n";
-    ## if I skip this test, memcheck report is as clean as it ever gets
-    ## https://github.com/tidyverse/readxl/issues/259
-  )
+  types <- read_excel(test_sheet("types.xls"))
   expect_is(types$number, "numeric")
   expect_is(types$string, "character")
-  #expect_is(types$boolean, "numeric")
+  expect_is(types$boolean, "numeric")
   #expect_is(types$date, "POSIXct")
   expect_is(types$string_in_row_3, "character")
-  skip("revisit these expectations when xls record type 517 is handled")
+  skip("activate date expectation when xls formula dates are sorted")
 })
 
 test_that("guess_max is honored for col_types", {
@@ -97,12 +87,9 @@ test_that("guess_max is honored for col_types", {
     "expecting numeric"
   )
   expect_identical(types$string_in_row_3, c(1, 2, NA))
-  expect_output(
-    expect_warning(
-      types <- read_excel(test_sheet("types.xls"), guess_max = 2),
-      "expecting numeric"
-    ),
-    "Unknown type: 517"
+  expect_warning(
+    types <- read_excel(test_sheet("types.xls"), guess_max = 2),
+    "expecting numeric"
   )
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
