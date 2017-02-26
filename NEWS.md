@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Boolean cells are now detected in xls. Suppresses message `"Unknown type: 517"`. For now, Boolean cells in both xls and xlsx become numeric, with values 0 and 1. (#274, #259 @jennybc)
+
 * xls files written by some third party software report both row and column dimensions as 0-indexed, which prevents libxls from reading the last column. Small change to libxls restores access to those cells. (#273, #180, #152, #99 @jennybc)
 
 * `col_types = "list"` loads data as a list of length-1 vectors, that are typed using the logic from `col_types = NULL`, but on a cell-by-cell basis (#262 @gergness).
