@@ -94,9 +94,7 @@ public:
 
     // no cell data to consult re: types
     if (xcell == cells_.end()) {
-      for (size_t i = 0; i < types.size(); i++) {
-        types[i] = COL_BLANK;
-      }
+      std::fill(types.begin(), types.end(), COL_BLANK);
       return types;
     }
 
@@ -107,7 +105,9 @@ public:
         Rcpp::checkUserInterrupt();
       }
       if (xcell->col() < ncol_) {
-        ColType type = as_ColType(xcell->type(na, wb_.stringTable(), wb_.dateStyles()));
+        ColType type = as_ColType(
+          xcell->type(na, wb_.stringTable(), wb_.dateStyles())
+        );
         if (type > types[xcell->col()]) {
           types[xcell->col()] = type;
         }
@@ -157,55 +157,145 @@ public:
       int row = i - base;
       // Needs to compare to actual cell type to give warnings
       switch(types[j]) {
+
       case COL_BLANK:
       case COL_SKIP:
         break;
-      case COL_NUMERIC:
+
+      case COL_LOGICAL:
         switch(type) {
         case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
+          LOGICAL(col)[row] = NA_LOGICAL;
           break;
-        case CELL_NUMERIC:
         case CELL_DATE:
-          REAL(col)[row] = xcell->asDouble(na);
+          // print date string here, when/if it's possible to do so
+          Rcpp::warning("Expecting logical in [%i, %i]: got a date",
+                        i + 1, j + 1);
+          LOGICAL(col)[row] = NA_LOGICAL;
+          break;
+        case CELL_LOGICAL:
+        case CELL_NUMERIC:
+          LOGICAL(col)[row] = xcell->asInteger(na) ? TRUE : FALSE;
           break;
         case CELL_TEXT:
-          Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        row + 1, j + 1, xcell->asStdString(wb_.stringTable()));
-          REAL(col)[row] = NA_REAL;
+        {
+          static const std::string trues [] = {"T", "TRUE", "True", "true"};
+          static const std::string falses [] = {"F", "FALSE", "False", "false"};
+          std::vector<std::string> true_strings(
+              trues,
+              trues + (sizeof(trues)/sizeof(std::string))
+          );
+          std::vector<std::string> false_strings(
+              falses,
+              falses + (sizeof(falses)/sizeof(std::string))
+          );
+          StringSet true_values(true_strings);
+          StringSet false_values(false_strings);
+          std::string text_string = xcell->asStdString(na, wb_.stringTable(),
+                                                       wb_.dateStyles());
+          if (true_values.contains(text_string)) {
+            LOGICAL(col)[row] = TRUE;
+          } else if (false_values.contains(text_string)) {
+            LOGICAL(col)[row] = FALSE;
+          } else {
+            Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
+                          i + 1, j + 1, text_string);
+            LOGICAL(col)[row] = NA_LOGICAL;
+          }
+        }
         }
         break;
+
       case COL_DATE:
         switch(type) {
         case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_LOGICAL:
+          Rcpp::warning("Expecting date in [%i, %i]: got boolean",
+                        i + 1, j + 1);
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
           REAL(col)[row] = xcell->asDate(na, wb_.offset());
           break;
         case CELL_NUMERIC:
+          Rcpp::warning("Expecting date in [%i, %i]: got %f",
+                        i + 1, j + 1, xcell->asDouble(na));
+          REAL(col)[row] = NA_REAL;
         case CELL_TEXT:
-          Rcpp::warning("[%i, %i]: expecting date: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
+          Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
+                        i + 1, j + 1, xcell->asStdString(na, wb_.stringTable(),
+                                                         wb_.dateStyles()));
           REAL(col)[row] = NA_REAL;
           break;
         }
         break;
-      case COL_TEXT:
-        if (type == CELL_BLANK) {
-          SET_STRING_ELT(col, row, NA_STRING);
-        } else {
-          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
+
+      case COL_NUMERIC:
+        switch(type) {
+        case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_LOGICAL:
+          Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
+                        i + 1, j + 1);
+          REAL(col)[row] = xcell->asDouble(na);
+          break;
+        case CELL_DATE:
+          // print date string here, when it's easier to do so
+          Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
+                        i + 1, j + 1);
+          REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_NUMERIC:
+          REAL(col)[row] = xcell->asDouble(na);
+          break;
+        case CELL_TEXT:
+          Rcpp::warning("Expecting numeric in [%i, %i]: got '%s'",
+                        i + 1, j + 1, xcell->asStdString(na, wb_.stringTable(),
+                                                         wb_.dateStyles()));
+          REAL(col)[row] = NA_REAL;
         }
         break;
+
+      case COL_TEXT:
+        // not issuing warnings for NAs or coercion, because "text" is the
+        // fallback column type and there are too many warnings to be helpful
+        switch(type) {
+        case CELL_BLANK:
+          SET_STRING_ELT(col, row, NA_STRING);
+          break;
+        case CELL_LOGICAL:
+        {
+          int true_or_false = xcell->asInteger(na);
+          if (true_or_false) {
+            SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
+          } else {
+            SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
+          }
+        }
+          break;
+        case CELL_DATE:
+          // would be nice: use date string
+          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
+          break;
+        case CELL_NUMERIC:
+        case CELL_TEXT:
+        {
+          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
+        }
+        }
+        break;
+
       case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         }
-        case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na)));
+        case CELL_LOGICAL: {
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger(na)));
           break;
         }
         case CELL_DATE: {
@@ -213,6 +303,10 @@ public:
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
+          break;
+        }
+        case CELL_NUMERIC: {
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na)));
           break;
         }
         case CELL_TEXT: {
@@ -223,7 +317,7 @@ public:
         }
         }
       }
-    xcell++;
+      xcell++;
     }
 
     return removeSkippedColumns(cols, names, types);
@@ -269,7 +363,7 @@ private:
     ncol_ = 0;
 
     // empty sheet case
-    if (cells_.size() == 0) {
+    if (cells_.empty()) {
       return;
     }
 

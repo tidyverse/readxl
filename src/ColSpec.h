@@ -7,27 +7,59 @@
 
 enum CellType {
   CELL_BLANK,
+  CELL_LOGICAL,
   CELL_DATE,
   CELL_NUMERIC,
   CELL_TEXT
 };
 
-// COL_BLANK is a column full of CELL_BLANKs,
-// while COL_SKIP is a user-specified column type
 enum ColType {
-  COL_BLANK,
+  COL_BLANK,   // occurs when col_types == NULL and observe only CELL_BLANKs
+  COL_LOGICAL,
   COL_DATE,
   COL_NUMERIC,
   COL_TEXT,
-  COL_LIST,
-  COL_SKIP
+  COL_LIST,    // occurs only as user-specified column type
+  COL_SKIP     // occurs only as user-specified column type
 };
 
 // ColType enum is ordered such that a simple cast
 // is sufficient to convert from CellType (user-specified
-// columns come after cell types)
-ColType inline as_ColType(CellType cell) {
-  return (ColType) cell;
+// column types come after cell types)
+ColType inline as_ColType(CellType celltype) {
+  return (ColType) celltype;
+}
+
+inline std::string cellTypeDesc(CellType type) {
+  switch(type) {
+  case CELL_BLANK:    return "blank";
+  case CELL_LOGICAL:  return "logical";
+  case CELL_DATE:     return "date";
+  case CELL_NUMERIC:  return "numeric";
+  case CELL_TEXT:     return "text";
+  }
+  return "???";
+}
+
+inline std::string colTypeDesc(ColType type) {
+  switch(type) {
+  case COL_BLANK:   return "blank";
+  case COL_LOGICAL: return "logical";
+  case COL_DATE:    return "date";
+  case COL_NUMERIC: return "numeric";
+  case COL_TEXT:    return "text";
+  case COL_LIST:    return "list";
+  case COL_SKIP:    return "skip";
+  }
+  return "???";
+}
+
+inline Rcpp::CharacterVector colTypeDescs(std::vector<ColType> types) {
+  Rcpp::CharacterVector out(types.size());
+  for (size_t i = 0; i < types.size(); ++i) {
+    out[i] = colTypeDesc(types[i]);
+  }
+  return out;
 }
 
 inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
@@ -38,6 +70,8 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
     std::string type(x[i]);
     if (type == "blank") {
       types.push_back(COL_BLANK);
+    } else if (type == "logical") {
+      types.push_back(COL_LOGICAL);
     } else if (type == "date") {
       types.push_back(COL_DATE);
     } else if (type == "numeric") {
@@ -49,24 +83,13 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
     } else if (type == "skip") {
       types.push_back(COL_SKIP);
     } else {
-      Rcpp::stop("Unknown type '%s' at position %i", type, i + 1);
+      Rcpp::stop("Unknown column type '%s' at position %i", type, i + 1);
     }
   }
 
   return types;
 }
 
-inline std::string colTypeDesc(ColType type) {
-  switch(type) {
-  case COL_BLANK:   return "blank";
-  case COL_DATE:    return "date";
-  case COL_NUMERIC: return "numeric";
-  case COL_TEXT:    return "text";
-  case COL_LIST:    return "list";
-  case COL_SKIP:    return "skip";
-  }
-  return "???";
-}
 
 bool inline isDateTime(int id, const std::set<int> custom) {
   // Date formats:
@@ -85,14 +108,6 @@ bool inline isDateTime(int id, const std::set<int> custom) {
     return false;
 
   return custom.count(id) > 0;
-}
-
-inline Rcpp::CharacterVector colTypeDescs(std::vector<ColType> types) {
-  Rcpp::CharacterVector out(types.size());
-  for (size_t i = 0; i < types.size(); ++i) {
-    out[i] = colTypeDesc(types[i]);
-  }
-  return out;
 }
 
 inline bool isDateFormat(std::string x) {
@@ -127,13 +142,13 @@ inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
 }
 
 inline std::vector<ColType> finalizeTypes(std::vector<ColType> types) {
-  // convert blank columns to a default type (numeric today, but logical soon)
+  // convert blank columns to a default type: logical
   // can only happen when
   //   * col_types = NULL and we've learned them from data
   //   * all cells in column are empty or match one of the na strings
   for (size_t i = 0; i < types.size(); i++) {
     if (types[i] == COL_BLANK) {
-      types[i] = COL_NUMERIC;
+      types[i] = COL_LOGICAL;
     }
   }
   return types;
@@ -177,6 +192,9 @@ inline Rcpp::RObject makeCol(ColType type, int n) {
   case COL_BLANK:
   case COL_SKIP:
     return R_NilValue;
+    break;
+  case COL_LOGICAL:
+    return Rcpp::LogicalVector(n, NA_LOGICAL);
     break;
   case COL_DATE: {
     Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);

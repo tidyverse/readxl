@@ -48,59 +48,73 @@ public:
     // See xls_addCell for those used for cells
     // and xlsstruct.h to confirm record numbers
     switch(cell_->id) {
-    case 253: // 0x00FD LabelSst
-    case 516: // 0x0204 Label
+    case 253: // 0x00FD LabelSst 2.4.149 p325:
+              // a string from the shared string table
+    case 516: // 0x0204 Label 2.4.148 p325:
+              // "Label record specifies a label on the category axis for
+              // each series"
+              // Jenny: I think this one is a red herring = not a cell type
       return na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
-      break;
 
-    case 6:    // 0x0006 formula
-    case 1030: // 0x0406 formula (Apple Numbers Bug)
-      if (cell_->l == 0) {
-        return na.contains(cell_->d) ? CELL_BLANK : CELL_NUMERIC;
-      } else {
-        if (na.contains((char*) cell_->str)) {
+    case 6:    // 0x0006 formula 2.4.127 p309
+    case 1030: // 0x0406 formula (Apple Numbers Bug) via libxls
+      if (cell_->l == 0) { // formula evaluates to numeric, possibly date
+        if (na.contains(cell_->d)) {
+          return CELL_BLANK;
+        }
+        int format = styles->xf[cell_->xf].format;
+        return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+      } else { // formula evaluates to Boolean, string, or error
+        if (!strcmp((char *) cell_->str, "bool")) {
+          return CELL_LOGICAL;
+        } else if (na.contains((char*) cell_->str)) {
           return CELL_BLANK;
         } else {
-          return CELL_TEXT;
+          // error should become NA
+          return cell_->d == 0 ? CELL_TEXT : CELL_BLANK;
         }
       }
-      break;
 
-    case 189: // 0x00BD MulRk
-    case 515: // 0x0203 Number
-    case 638: // 0x027E Rk
+    case 189: // 0x00BD MulRk 2.4.175 p344:
+              // numeric data originating from series of cells
+    case 515: // 0x0203 Number 2.4.180 p348:
+              // floating-point number from single cell
+    case 638: // 0x027E Rk 2.4.220 p376:
+              // numeric data from single cell
       {
-        if (na.contains(cell_->d))
+        if (na.contains(cell_->d)) {
           return CELL_BLANK;
+        }
 
-        if (styles == NULL)
+        if (styles == NULL) {
           return CELL_NUMERIC;
+        }
 
         int format = styles->xf[cell_->xf].format;
         return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
       }
-      break;
 
-    case 190: // 0x00BE MulBlank
-    case 513: // 0x0201 Blank
+    case 190: // 0x00BE MulBlank 2.4.174 p344:
+              // blank cell originating from series of blank cells
+    case 513: // 0x0201 Blank 2.4.20 p212:
+              // an empty cell with no formula or value
       return CELL_BLANK;
-      break;
 
-    case 517: // 0x0205 BoolErr
-      {
-        if (!strcmp((char *) cell_->str, "bool")) {
-        // switch to CELL_LOGICAL once exists; cell.d is 0/1 for FALSE/TRUE
-        return CELL_NUMERIC;
-      } else {
-        return CELL_TEXT;
+    case 517: // 0x0205 BoolErr 2.4.24 p216:
+              //  a cell that contains either a Boolean value or an error value
+      if (na.contains((char*) cell_->str)) {
+        return CELL_BLANK;
       }
-      }
-      break;
+      // error should become NA
+      // 2.5.10 Bes p592 explains the codes, if we ever change our minds
+      return (!strcmp((char *) cell_->str, "bool")) ? CELL_LOGICAL : CELL_BLANK;
 
     default:
-      Rcpp::Rcout << "Unknown type: " << cell_->id << "\n";
-    return CELL_NUMERIC;
+      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                    row() + 1, col() + 1, cell_->id);
     }
+
+    return CELL_TEXT;
   }
 
 };

@@ -81,9 +81,7 @@ public:
 
     // no cell data to consult re: types
     if (xcell == cells_.end()) {
-      for (size_t i = 0; i < types.size(); i++) {
-        types[i] = COL_BLANK;
-      }
+      std::fill(types.begin(), types.end(), COL_BLANK);
       return types;
     }
 
@@ -146,61 +144,148 @@ public:
       int row = i - base;
       // Needs to compare to actual cell type to give warnings
       switch(types[j]) {
+
       case COL_BLANK:
       case COL_SKIP:
         break;
-      case COL_NUMERIC:
+
+      case COL_LOGICAL:
         switch(type) {
         case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
+          LOGICAL(col)[row] = NA_LOGICAL;
+          break;
+        case CELL_DATE:
+          // print date string here, when it's easier to do so
+          Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
+                        i + 1, j + 1, xcell->cell()->str);
+          LOGICAL(col)[row] = NA_LOGICAL;
+          break;
+        case CELL_LOGICAL:
+          LOGICAL(col)[row] = (xcell->cell()->d == 1) ? TRUE : FALSE;
           break;
         case CELL_NUMERIC:
-        case CELL_DATE:
-          REAL(col)[row] = xcell->cell()->d;
+          LOGICAL(col)[row] = (xcell->cell()->d != 0) ? TRUE : FALSE;
           break;
         case CELL_TEXT:
-          Rcpp::warning("[%i, %i]: expecting numeric: got '%s'",
-                        row + 1, j + 1, (char*) xcell->cell()->str);
-          REAL(col)[row] = NA_REAL;
+        {
+          static const std::string trues [] = {"T", "TRUE", "True", "true"};
+          static const std::string falses [] = {"F", "FALSE", "False", "false"};
+          std::vector<std::string> true_strings(
+              trues,
+              trues + (sizeof(trues)/sizeof(std::string))
+          );
+          std::vector<std::string> false_strings(
+              falses,
+              falses + (sizeof(falses)/sizeof(std::string))
+          );
+          StringSet true_values(true_strings);
+          StringSet false_values(false_strings);
+          if (true_values.contains((char*) xcell->cell()->str)) {
+            LOGICAL(col)[row] = TRUE;
+          } else if (false_values.contains((char*) xcell->cell()->str)) {
+            LOGICAL(col)[row] = FALSE;
+          } else {
+            Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
+                          i + 1, j + 1, xcell->cell()->str);
+            LOGICAL(col)[row] = NA_LOGICAL;
+          }
+        }
         }
         break;
+
       case COL_DATE:
         switch(type) {
         case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+        case CELL_LOGICAL:
+          Rcpp::warning("Expecting date in [%i, %i]: got boolean",
+                        i + 1, j + 1);
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
           REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
           break;
         case CELL_NUMERIC:
-          Rcpp::warning("Expecting date in [%i, %i] got %d",
+          Rcpp::warning("Expecting date in [%i, %i]: got %d",
                         i + 1, j + 1, xcell->cell()->d);
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_TEXT:
-          Rcpp::warning("Expecting date in [%i, %i] got '%s'",
+          Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
                         i + 1, j + 1, xcell->cell()->str);
           REAL(col)[row] = NA_REAL;
           break;
         }
         break;
+
+      case COL_NUMERIC:
+        switch(type) {
+        case CELL_BLANK:
+          REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_LOGICAL:
+          Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
+                        i + 1, j + 1);
+          REAL(col)[row] = xcell->cell()->d;
+          break;
+        case CELL_DATE:
+          // print date string here, when it's easier to do so
+          Rcpp::warning("Expecting numeric in [%i, %i]: got the date '%s'",
+                        i + 1, j + 1, xcell->cell()->str);
+          REAL(col)[row] = NA_REAL;
+          break;
+        case CELL_NUMERIC:
+          REAL(col)[row] = xcell->cell()->d;
+          break;
+        case CELL_TEXT:
+          Rcpp::warning("Expecting numeric in [%i, %i] got '%s'",
+                        i + 1, j + 1, (char*) xcell->cell()->str);
+          REAL(col)[row] = NA_REAL;
+        }
+        break;
+
       case COL_TEXT:
-        if (type == CELL_BLANK) {
+        switch(type) {
+        case CELL_BLANK:
           SET_STRING_ELT(col, row, NA_STRING);
-        } else {
+          break;
+        case CELL_LOGICAL:
+          //Rcpp::warning("Coercing boolean to text in [%i, %i]", i + 1, j + 1);
+          if (xcell->cell()->d == 0) {
+            SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
+          } else {
+            SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
+          }
+          break;
+        case CELL_DATE:
+        {
+          //Rcpp::warning("Coercing date to text in [%i, %i]", i + 1, j + 1);
+          // use date string here, when it's easier to do so
+          std::string stdString((char*) xcell->cell()->str);
+          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
+          SET_STRING_ELT(col, row, rString);
+          break;
+        }
+        case CELL_NUMERIC:
+          //Rcpp::warning("Coercing numeric to text in [%i, %i]", i + 1, j + 1);
+          // intentionally omitting the break
+        case CELL_TEXT:
+        {
           std::string stdString((char*) xcell->cell()->str);
           Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
           SET_STRING_ELT(col, row, rString);
         }
+        }
         break;
-      case COL_LIST:
+
+        case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         }
-        case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->cell()->d));
+        case CELL_LOGICAL: {
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical((xcell->cell()->d)));
           break;
         }
         case CELL_DATE: {
@@ -208,6 +293,10 @@ public:
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
+          break;
+        }
+        case CELL_NUMERIC: {
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->cell()->d));
           break;
         }
         case CELL_TEXT: {
@@ -239,20 +328,26 @@ private:
           continue;
         }
 
+        // Dimensions reported by xls itself include empty cells that have
+        // formatting, therefore we test explicitly for non-blank cell types
+        // and only load those cells.
+        // 2.4.90 Dimensions p273 of [MS-XLS]
+
         if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203 ||
             // cell holds a number:
-            //   0x27e --> 638     RK (section 2.4.220) p376 of [MS-XLS]
-            //   0x0BD --> 189  MulRk (section 2.4.175) p344
-            //   0x203 --> 515 Number (section 2.4.180) p348
-            cell->id == 0x06 ||
+            //   0x27e -->  638     RK (section 2.4.220) p376 of [MS-XLS]
+            //   0x0BD -->  189  MulRk (section 2.4.175) p344
+            //   0x203 -->  515 Number (section 2.4.180) p348
+            cell->id == 0x06 ||  cell->id == 0x0406 ||
             // cell holds a formula:
             //    0x06 -->   6 Formula (section 2.4.127) p309
+            //  0x0406 --> 1030 Formula (Apple Numbers Bug) via libxls
             cell->id == 0x205 ||
             // cell holds either Boolean or error:
-            //   0x205 --> 517 BoolErr (section 2.4.24) p216
+            //   0x205 -->  517 BoolErr (section 2.4.24) p216
             cell->id == 0x0FD
             // cell holds a string:
-            //   0x0FD --> 253 LabelSst (section 2.4.149) p325
+            //   0x0FD -->  253 LabelSst (section 2.4.149) p325
         ) {
           cells_.push_back(cell);
         }
@@ -273,7 +368,7 @@ private:
     nrow_ = 0;
 
     // empty sheet case
-    if (cells_.size() == 0) {
+    if (cells_.empty()) {
       return;
     }
 

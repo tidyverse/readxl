@@ -65,21 +65,6 @@ test_that("na arg allows multiple strings [xlsx]", {
   expect_true(all(is.na(df$y))) # formula column
 })
 
-test_that("text values in numeric column gives warning & NA", {
-  expect_warning(
-    df <- read_excel(test_sheet("missing-values.xls"),
-                     col_types = rep("numeric", 2)),
-    "expecting numeric"
-  )
-  expect_equal(df$x, c(NA, 1, 1))
-  expect_warning(
-    df <- read_excel(test_sheet("missing-values.xlsx"),
-                     col_types = rep("numeric", 2)),
-    "expecting numeric"
-  )
-  expect_equal(df$x, c(NA, 1, 1))
-})
-
 test_that("empty first column gives valid data.frame", {
   df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names = FALSE)
   expect_equal(nrow(df), length(df[[2]]))
@@ -93,11 +78,11 @@ test_that("empty named column gives NA column", {
   expect_equal(ncol(df1), 4)
   expect_equal(names(df1)[2], "y")
   expect_true(all(is.na(df1$y)))
-  expect_true(all(is.numeric(df1$y)))
+  expect_true(all(is.logical(df1$y)))
   expect_equal(ncol(df2), 4)
   expect_equal(names(df2)[2], "y")
   expect_true(all(is.na(df2$y)))
-  expect_true(all(is.numeric(df2$y)))
+  expect_true(all(is.logical(df2$y)))
 })
 
 test_that("empty (styled) cells are not loaded, but can survive as NA [xlsx]", {
@@ -111,9 +96,9 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xlsx]", {
   out <- read_excel(test_sheet("style-only-cells.xlsx"))
   df <- tibble::tibble(
     var1 = c("val1,1", "val2,1", "val3,1"),
-    var2 = NA_real_,
+    var2 = NA,
     var3 = c("aa", "bb", "cc"),
-    X__1 = NA_real_,
+    X__1 = NA,
     var5 = c(1, 2, 3)
   )
   expect_equal(out, df)
@@ -123,9 +108,9 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xls]", {
   out <- read_excel(test_sheet("style-only-cells.xls"))
   df <- tibble::tibble(
     var1 = c("val1,1", "val2,1", "val3,1"),
-    var2 = NA_real_,
+    var2 = NA,
     var3 = c("aa", "bb", "cc"),
-    X__1 = NA_real_,
+    X__1 = NA,
     var5 = c(1, 2, 3)
   )
   expect_equal(out, df)

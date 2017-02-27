@@ -5,6 +5,7 @@
 #include "rapidxml.h"
 #include "ColSpec.h"
 #include "XlsxString.h"
+#include "utils.h"
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
@@ -12,23 +13,6 @@
 // 18.3.1.4   c           (Cell)       [p1598]
 // 18.3.1.96  v           (Cell Value) [p1709]
 // 18.18.11   ST_CellType (Cell Type)  [p2443]
-
-// Simple parser: does not check that order of numbers and letters is correct
-inline std::pair<int, int> parseRef(const char* ref) {
-  int col = 0, row = 0;
-
-  for (const char* cur = ref; *cur != '\0'; ++cur) {
-    if (*cur >= '0' && *cur <= '9') {
-      row = row * 10 + (*cur - '0');
-    } else if (*cur >= 'A' && *cur <= 'Z') {
-      col = 26 * col + (*cur - 'A' + 1);
-    } else {
-      Rcpp::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
-    }
-  }
-
-  return std::make_pair(row - 1, col - 1); // zero indexed
-}
 
 class XlsxCell {
   rapidxml::xml_node<>* cell_;
@@ -54,17 +38,177 @@ public:
     return location_.second;
   }
 
-  std::string asStdString(const std::vector<std::string>& stringTable) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL)
-      return "[NULL]";
+  CellType type(const StringSet& na,
+                const std::vector<std::string>& stringTable,
+                const std::set<int>& dateStyles) const {
+    // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
+    // Section and page numbers below refer to the 4th edition
+    // 18.18.11   ST_CellType (Cell Type)  [p2443]
+    // This simple type is restricted to the values listed in the following table:
+    // -------------------------------------------------------------------------
+    // Enumeration Value          Description
+    // -------------------------------------------------------------------------
+    // b (Boolean)                Cell containing a boolean.
+    // d (Date)                   Cell contains a date in the ISO 8601 format.
+    // e (Error)                  Cell containing an error.
+    // inlineStr (Inline String)  Cell containing an (inline) rich string, i.e.,
+    //                            one not in the shared string table. If this
+    //                            cell type is used, then the cell value is in
+    //                            the is element rather than the v element in
+    //                            the cell (c element).
+    // n (Number)                 Cell containing a number.
+    // s (Shared String)          Cell containing a shared string.
+    // str (String)               Cell containing a formula string.
 
+    // the table above refers to the value of the t attribute of a cell
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
-    if (t == NULL || strncmp(t->value(), "s", 3) != 0)
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+
+    // inlineStr (Inline String)  Cell containing an (inline) rich string
+    if (t != NULL && strncmp(t->value(), "inlineStr", 9) == 0) {
+      // must do this first, because inlineStr cells do not have a v node
+      // and the check just below would otherwise make them all CELL_BLANK
+      rapidxml::xml_node<>* is = cell_->first_node("is");
+      std::string inline_string;
+      if (parseString(is, &inline_string)) {
+        return na.contains(inline_string) ? CELL_BLANK : CELL_TEXT;
+      } else {
+        return CELL_BLANK;
+      }
+    }
+
+    if (v == NULL || na.contains(v->value())) {
+      return CELL_BLANK;
+    }
+    // from here on, the only explicit NA check needed is the case of
+    // a shared string table lookup
+
+    // n (Number)                 Cell containing a number.
+    if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
+      rapidxml::xml_attribute<>* s = cell_->first_attribute("s");
+      int style = (s == NULL) ? -1 : atoi(s->value());
+      return (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
+    }
+
+    // b (Boolean)                Cell containing a boolean.
+    if (strncmp(t->value(), "b", 5) == 0) {
+      return CELL_LOGICAL;
+    }
+
+    // d (Date)                   Cell contains a date in the ISO 8601 format.
+    if (strncmp(t->value(), "d", 5) == 0) {
+      // Hadley:
+      // Does excel use this? Regardless, don't have cross-platform ISO8601
+      // parser (yet) so need to return as text
+      // Jenny:
+      // Not entirely sure what this is about. I've never seen one IRL.
+      return CELL_TEXT;
+    }
+
+    // e (Error)                  Cell containing an error.
+    if (strncmp(t->value(), "e", 5) == 0) {
+      return CELL_BLANK;
+    }
+
+    // s (Shared String)          Cell containing a shared string.
+    if (strncmp(t->value(), "s", 5) == 0) {
+      int id = atoi(v->value());
+      const std::string& string = stringTable.at(id);
+      return na.contains(string) ? CELL_BLANK : CELL_TEXT;
+    }
+
+    // str (String)               Cell containing a formula string.
+    if (strncmp(t->value(), "str", 5) == 0) {
+      return CELL_TEXT;
+    }
+
+    Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                  row() + 1, col() + 1, t->value());
+
+    return CELL_TEXT;
+
+    // summary of how Excel cell types have been mapped to our CellType
+    //
+    // CELL_BLANK
+    //   inlineStr cell and (string is na or string can't be found)
+    //   cell has no v node and is not an inlineStr cell
+    //   v->value() is na
+    //   error cell
+    //   shared string cell and string is na
+    //
+    // CELL_LOGICAL
+    //   Boolean cell and its value (TRUE or FALSE) is not in na
+    //
+    // CELL_DATE
+    //   numeric cell (t attr is "n" or does not exist) with a date style
+    //
+    // CELL_NUMERIC
+    //   numeric cell (t attr is "n" or does not exist) with no style or a
+    //   non-date style
+    //
+    // CELL_TEXT
+    //   inlineStr cell and string is found and string is not na
+    //   ISO 8601 date cell (t attr is "d") <- we're not sure this exists IRL
+    //   shared string cell and string is not na
+    //   formula string cell and string is not na
+    //   anything that is not explicitly addressed elsewhere
+  }
+
+  std::string asStdString(const StringSet& na,
+                          const std::vector<std::string>& stringTable,
+                          const std::set<int>& dateStyles) const {
+    CellType type = this->type(na, stringTable, dateStyles);
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
+
+    switch(type) {
+
+    case CELL_BLANK:
+      return "NA";
+
+    case CELL_LOGICAL:
+      return atoi(v->value()) ? "TRUE" : "FALSE";
+
+    case CELL_DATE:
+    case CELL_NUMERIC:
+      // not ideal for a date but will have to do ... one day: asDateString()?
       return std::string(v->value());
 
-    int id = atoi(v->value());
-    return stringTable.at(id);
+    case CELL_TEXT:
+    {
+      std::string out_string;
+
+      // inlineStr
+      rapidxml::xml_node<>* is = cell_->first_node("is");
+      if (is != NULL) {
+        return parseString(is, &out_string) ? out_string : "NA";
+      }
+
+      // shared string
+      if (strncmp(t->value(), "s", 5) == 0) {
+        int id = atoi(v->value());
+        if (id < 0 || id >= (int) stringTable.size()) {
+          Rcpp::warning("Invalid string id at [%i, %i]: %i",
+                        row() + 1, col() + 1, id);
+          return "NA";
+        }
+        return(stringTable.at(id));
+      }
+
+      //   the mythical ISO 8601 date cell
+      //   formula string cell
+      return(v->value());
+    }
+  }
+  }
+
+  int asInteger(const StringSet& na) const {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    if (v == NULL || na.contains(v->value())) {
+      return NA_LOGICAL;
+    }
+
+    return atoi(v->value());
   }
 
   double asDouble(const StringSet& na) const {
@@ -115,52 +259,8 @@ public:
     }
   }
 
-  CellType type(const StringSet& na,
-                const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles) const {
-    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
-
-    if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
-      rapidxml::xml_attribute<>* s = cell_->first_attribute("s");
-      int style = (s == NULL) ? -1 : atoi(s->value());
-
-      return (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
-    } else if (strncmp(t->value(), "b", 5) == 0) {
-      // TODO
-      return CELL_NUMERIC;
-    } else if (strncmp(t->value(), "d", 5) == 0) {
-      // Does excel use this? Regardless, don't have cross-platform ISO8601
-      // parser (yet) so need to return as text
-      return CELL_TEXT;
-    } else if (strncmp(t->value(), "e", 5) == 0) { // error
-      return CELL_BLANK;
-    } else if (strncmp(t->value(), "s", 5) == 0) { // string in string table
-      rapidxml::xml_node<>* v = cell_->first_node("v");
-      if (v == NULL)
-        return CELL_BLANK;
-
-      int id = atoi(v->value());
-      const std::string& string = stringTable.at(id);
-      return na.contains(string) ? CELL_BLANK : CELL_TEXT;
-    } else if (strncmp(t->value(), "str", 5) == 0) { // formula
-      rapidxml::xml_node<>* v = cell_->first_node("v");
-      if (v == NULL)
-        return CELL_BLANK;
-
-      return na.contains(v->value()) ? CELL_BLANK : CELL_TEXT;
-    } else if  (strncmp(t->value(), "inlineStr", 9) == 0) { // formula
-      return CELL_TEXT;
-    } else {
-      Rcpp::warning("[%i, %i]: unknown type '%s'",
-        row() + 1, col() + 1, t->value());
-      return CELL_TEXT;
-    }
-
-    return CELL_NUMERIC;
-  }
 
 private:
-
 
   Rcpp::RObject stringFromTable(const char* val, const StringSet& na,
                                 const std::vector<std::string>& stringTable) const {
