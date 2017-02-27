@@ -94,9 +94,9 @@ public:
         Rcpp::checkUserInterrupt();
       }
       if (xcell->col() < ncol_) {
-        ColType type = as_ColType(cellType(*xcell->cell(),
-                                           &pWS_->workbook->xfs,
-                                           customDateFormats_, na));
+        ColType type = as_ColType(
+          xcell->type(na, &pWS_->workbook->xfs, customDateFormats_)
+        );
         if (type > types[xcell->col()]) {
           types[xcell->col()] = type;
         }
@@ -140,9 +140,7 @@ public:
         continue;
       }
 
-      CellType type = cellType(*xcell->cell(),
-                               &pWS_->workbook->xfs,
-                               customDateFormats_, na);
+      CellType type = xcell->type(na, &pWS_->workbook->xfs, customDateFormats_);
       Rcpp::RObject col = cols[j];
       // row to write into
       int row = i - base;
