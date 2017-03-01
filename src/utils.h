@@ -1,6 +1,8 @@
 #ifndef UTILS_
 #define UTILS_
 
+#include "StringSet.h"
+
 inline double dateOffset(bool is1904) {
   // as.numeric(as.Date("1899-12-30"))
   // as.numeric(as.Date("1904-01-01"))
@@ -22,6 +24,31 @@ inline std::pair<int, int> parseRef(const char* ref) {
   }
 
   return std::make_pair(row - 1, col - 1); // zero indexed
+}
+
+inline bool logicalFromString(std::string maybe_tf, bool *out) {
+  bool matches = false;
+  static const std::string trues [] = {"T", "TRUE", "True", "true"};
+  static const std::string falses [] = {"F", "FALSE", "False", "false"};
+  std::vector<std::string> true_strings(
+      trues,
+      trues + (sizeof(trues)/sizeof(std::string))
+  );
+  std::vector<std::string> false_strings(
+      falses,
+      falses + (sizeof(falses)/sizeof(std::string))
+  );
+  StringSet true_values(true_strings);
+  StringSet false_values(false_strings);
+  if (true_values.contains(maybe_tf)) {
+    *out = true;
+    matches = true;
+  }
+  if (false_values.contains(maybe_tf)) {
+    *out = false;
+    matches = true;
+  }
+  return matches;
 }
 
 #endif

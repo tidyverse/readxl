@@ -179,30 +179,18 @@ public:
           break;
         case CELL_TEXT:
         {
-          static const std::string trues [] = {"T", "TRUE", "True", "true"};
-          static const std::string falses [] = {"F", "FALSE", "False", "false"};
-          std::vector<std::string> true_strings(
-              trues,
-              trues + (sizeof(trues)/sizeof(std::string))
-          );
-          std::vector<std::string> false_strings(
-              falses,
-              falses + (sizeof(falses)/sizeof(std::string))
-          );
-          StringSet true_values(true_strings);
-          StringSet false_values(false_strings);
           std::string text_string = xcell->asStdString(na, wb_.stringTable(),
                                                        wb_.dateStyles());
-          if (true_values.contains(text_string)) {
-            LOGICAL(col)[row] = TRUE;
-          } else if (false_values.contains(text_string)) {
-            LOGICAL(col)[row] = FALSE;
+          bool text_boolean;
+          if (logicalFromString(text_string, &text_boolean)) {
+            LOGICAL(col)[row] = text_boolean ? TRUE : FALSE;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
                           i + 1, j + 1, text_string);
             LOGICAL(col)[row] = NA_LOGICAL;
           }
         }
+        break;
         }
         break;
 

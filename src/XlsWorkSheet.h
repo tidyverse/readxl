@@ -168,28 +168,17 @@ public:
           break;
         case CELL_TEXT:
         {
-          static const std::string trues [] = {"T", "TRUE", "True", "true"};
-          static const std::string falses [] = {"F", "FALSE", "False", "false"};
-          std::vector<std::string> true_strings(
-              trues,
-              trues + (sizeof(trues)/sizeof(std::string))
-          );
-          std::vector<std::string> false_strings(
-              falses,
-              falses + (sizeof(falses)/sizeof(std::string))
-          );
-          StringSet true_values(true_strings);
-          StringSet false_values(false_strings);
-          if (true_values.contains((char*) xcell->cell()->str)) {
-            LOGICAL(col)[row] = TRUE;
-          } else if (false_values.contains((char*) xcell->cell()->str)) {
-            LOGICAL(col)[row] = FALSE;
+          std::string text_string((char*) xcell->cell()->str);
+          bool text_boolean;
+          if (logicalFromString(text_string, &text_boolean)) {
+            LOGICAL(col)[row] = text_boolean ? TRUE : FALSE;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
                           i + 1, j + 1, xcell->cell()->str);
             LOGICAL(col)[row] = NA_LOGICAL;
           }
         }
+          break;
         }
         break;
 
@@ -250,7 +239,6 @@ public:
           SET_STRING_ELT(col, row, NA_STRING);
           break;
         case CELL_LOGICAL:
-          //Rcpp::warning("Coercing boolean to text in [%i, %i]", i + 1, j + 1);
           if (xcell->cell()->d == 0) {
             SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
           } else {
@@ -259,16 +247,12 @@ public:
           break;
         case CELL_DATE:
         {
-          //Rcpp::warning("Coercing date to text in [%i, %i]", i + 1, j + 1);
-          // use date string here, when it's easier to do so
           std::string stdString((char*) xcell->cell()->str);
           Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
           SET_STRING_ELT(col, row, rString);
           break;
         }
         case CELL_NUMERIC:
-          //Rcpp::warning("Coercing numeric to text in [%i, %i]", i + 1, j + 1);
-          // intentionally omitting the break
         case CELL_TEXT:
         {
           std::string stdString((char*) xcell->cell()->str);
@@ -278,7 +262,7 @@ public:
         }
         break;
 
-        case COL_LIST:
+      case COL_LIST:
         switch(type) {
         case CELL_BLANK: {
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
