@@ -1,6 +1,8 @@
 # readxl 0.1.1.9000
 
-* Dates that appear in a numeric column are converted to `NA` instead of their integer representation. Also throws warning. (#277, #263, @jennybc)
+* Numeric data that appears in a `"date"` column is coerced to a date. Also throws a warning. (#277, #266 @jennybc)
+
+* Dates that appear in a numeric column are converted to `NA` instead of their integer representation. Also throws warning. (#277, #263 @jennybc)
 
 * "Number stored as text": when a text cell is found in a `"numeric"` column, `read_excel()` attempts to coerce the string to numeric and falls back to `NA` if unsuccessful. Also throws warning. (#277, #217, #106 @jennybc)
 

@@ -3,6 +3,14 @@
 
 #include "StringSet.h"
 
+// 18.2.28 workbookPr (Workbook Properties) p1582
+// date1904:
+// Value that indicates whether to use a 1900 or 1904 date system when
+// converting serial date-times in the workbook to dates.
+// A value of 1 or true indicates the workbook uses the 1904 date system.
+// A value of 0 or false indicates the workbook uses the 1900 date system. (See
+// 18.17.4.1 for the definition of the date systems.)
+// The default value for this attribute is false.
 inline double dateOffset(bool is1904) {
   // as.numeric(as.Date("1899-12-30"))
   // as.numeric(as.Date("1904-01-01"))

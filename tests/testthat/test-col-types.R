@@ -169,19 +169,23 @@ test_that("contaminated, explicit date is read as date", {
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "date_coercion",
                      col_types = "date"),
-    "Expecting date"
+    "Expecting date|Coercing numeric"
   )
   expect_is(df$date, "POSIXct")
-  expect_false(anyNA(df$date[c(1, 6, 7)]))
+  expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
+  expect_true(all(is.na(df$date[c(2, 3, 4)])))
+  expect_identical(df$date[6], as.POSIXct("2012-01-02 UTC", tz = "UTC"))
 
   ## xlsx
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "date_coercion",
                      col_types = "date"),
-    "Expecting date"
+    "Expecting date|Coercing numeric"
   )
   expect_is(df$date, "POSIXct")
-  expect_false(anyNA(df$date[c(1, 6, 7)]))
+  expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
+  expect_true(all(is.na(df$date[c(2, 3, 4)])))
+  expect_identical(df$date[6], as.POSIXct("2012-01-02 UTC", tz = "UTC"))
 })
 
 test_that("contaminated, explicit numeric is read as numeric", {

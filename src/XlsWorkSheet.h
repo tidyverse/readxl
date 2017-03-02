@@ -196,9 +196,9 @@ public:
           REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
           break;
         case CELL_NUMERIC:
-          Rcpp::warning("Expecting date in [%i, %i]: got %d",
-                        i + 1, j + 1, xcell->cell()->d);
-          REAL(col)[row] = NA_REAL;
+          Rcpp::warning("Coercing numeric to date in [%i, %i]",
+                        i + 1, j + 1);
+          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
