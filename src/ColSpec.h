@@ -14,7 +14,7 @@ enum CellType {
 };
 
 enum ColType {
-  COL_BLANK,   // occurs when col_types == NULL and observe only CELL_BLANKs
+  COL_BLANK,   // occurs when col_types = NULL and observe only CELL_BLANKs
   COL_LOGICAL,
   COL_DATE,
   COL_NUMERIC,
@@ -23,9 +23,8 @@ enum ColType {
   COL_SKIP     // occurs only as user-specified column type
 };
 
-// ColType enum is ordered such that a simple cast
-// is sufficient to convert from CellType (user-specified
-// column types come after cell types)
+// ColType enum is ordered such that a simple cast is sufficient to convert
+// from CellType (user-specified column types come after cell types)
 ColType inline as_ColType(CellType celltype) {
   return (ColType) celltype;
 }
