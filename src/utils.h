@@ -1,6 +1,7 @@
 #ifndef UTILS_
 #define UTILS_
 
+#include <cerrno>
 #include "StringSet.h"
 
 // 18.2.28 workbookPr (Workbook Properties) p1582
@@ -62,13 +63,12 @@ inline bool logicalFromString(std::string maybe_tf, bool *out) {
   return matches;
 }
 
-inline bool doubleFromString(std::string in, double& out) {
-  try {
-    size_t read = 0;
-    out = std::stod(in, &read);
-    if (in.size() != read)
-      return false;
-  } catch (std::invalid_argument) {
+inline bool doubleFromString(std::string mystring, double& out) {
+  char* e;
+  errno = 0;
+  out = std::strtod(mystring.c_str(), &e);
+  if (*e != '\0' ||  // error, we didn't consume the entire string
+      errno != 0 ) { // error, overflow or underflow
     return false;
   }
   return true;
