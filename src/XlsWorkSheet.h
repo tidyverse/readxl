@@ -227,9 +227,21 @@ public:
           REAL(col)[row] = xcell->cell()->d;
           break;
         case CELL_TEXT:
-          Rcpp::warning("Expecting numeric in [%i, %i] got '%s'",
-                        i + 1, j + 1, (char*) xcell->cell()->str);
-          REAL(col)[row] = NA_REAL;
+        {
+          std::string num_string((char*) xcell->cell()->str);
+          double num_num;
+          bool success = doubleFromString(num_string, num_num);
+          if (success) {
+            Rcpp::warning("Coercing text to numeric in [%i, %i]: '%s'",
+                          i + 1, j + 1, num_string);
+            REAL(col)[row] = num_num;
+          } else {
+            Rcpp::warning("Expecting numeric in [%i, %i]: got '%s'",
+                          i + 1, j + 1, num_string);
+            REAL(col)[row] = NA_REAL;
+          }
+        }
+          break;
         }
         break;
 

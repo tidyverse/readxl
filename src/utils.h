@@ -51,4 +51,16 @@ inline bool logicalFromString(std::string maybe_tf, bool *out) {
   return matches;
 }
 
+inline bool doubleFromString(std::string in, double& out) {
+  try {
+    size_t read = 0;
+    out = std::stod(in, &read);
+    if (in.size() != read)
+      return false;
+  } catch (std::invalid_argument) {
+    return false;
+  }
+  return true;
+}
+
 #endif

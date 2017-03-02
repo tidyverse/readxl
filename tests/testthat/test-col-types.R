@@ -189,19 +189,21 @@ test_that("contaminated, explicit numeric is read as numeric", {
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "numeric_coercion",
                      col_types = "numeric"),
-    "Expecting numeric|Coercing boolean"
+    "Expecting numeric|Coercing boolean|Coercing text"
   )
   expect_is(df$numeric, "numeric")
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
+  expect_equal(df$numeric[2], 72) # "Number stored as text"
 
   ## xlsx
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "numeric_coercion",
                      col_types = "numeric"),
-    "Expecting numeric|Coercing boolean"
+    "Expecting numeric|Coercing boolean|Coercing text"
   )
   expect_is(df$numeric, "numeric")
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
+  expect_equal(df$numeric[2], 72) # "Number stored as text"
 })
 
 test_that("contaminated, explicit text is read as text", {
