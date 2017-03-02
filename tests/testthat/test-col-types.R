@@ -52,12 +52,14 @@ test_that("inappropriate col_types generate warning", {
   expect_warning(
     read_excel(test_sheet("iris-excel.xlsx"),
                col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
-    "Expecting numeric"
+    "Expecting numeric",
+    all = TRUE
   )
   expect_warning(
     read_excel(test_sheet("iris-excel.xls"),
                col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
-    "Expecting numeric"
+    "Expecting numeric",
+    all = TRUE
   )
 })
 
@@ -90,7 +92,8 @@ test_that("guess_max is honored for col_types", {
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric"
+    "Expecting numeric",
+    all = TRUE
   )
   expect_identical(types$string_in_row_3, c(1, 2, NA))
   expect_warning(
@@ -99,7 +102,8 @@ test_that("guess_max is honored for col_types", {
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric"
+    "Expecting numeric",
+    all = TRUE
   )
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
@@ -149,7 +153,8 @@ test_that("contaminated, explicit logical is read as logical", {
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "logical_coercion",
                      col_types = "logical"),
-    "Expecting logical"
+    "Expecting logical",
+    all = TRUE
   )
   expect_is(df$logical, "logical")
   expect_false(anyNA(df$logical[c(1, 2, 4, 5, 7)]))
@@ -158,7 +163,8 @@ test_that("contaminated, explicit logical is read as logical", {
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "logical_coercion",
                      col_types = "logical"),
-    "Expecting logical"
+    "Expecting logical",
+    all = TRUE
   )
   expect_is(df$logical, "logical")
   expect_false(anyNA(df$logical[c(1, 2, 4, 5, 7)]))
@@ -169,7 +175,8 @@ test_that("contaminated, explicit date is read as date", {
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "date_coercion",
                      col_types = "date"),
-    "Expecting date|Coercing numeric"
+    "Expecting date|Coercing numeric",
+    all = TRUE
   )
   expect_is(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -180,7 +187,8 @@ test_that("contaminated, explicit date is read as date", {
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "date_coercion",
                      col_types = "date"),
-    "Expecting date|Coercing numeric"
+    "Expecting date|Coercing numeric",
+    all = TRUE
   )
   expect_is(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -193,7 +201,8 @@ test_that("contaminated, explicit numeric is read as numeric", {
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "numeric_coercion",
                      col_types = "numeric"),
-    "Expecting numeric|Coercing boolean|Coercing text"
+    "Expecting numeric|Coercing boolean|Coercing text",
+    all = TRUE
   )
   expect_is(df$numeric, "numeric")
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
@@ -203,7 +212,8 @@ test_that("contaminated, explicit numeric is read as numeric", {
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "numeric_coercion",
                      col_types = "numeric"),
-    "Expecting numeric|Coercing boolean|Coercing text"
+    "Expecting numeric|Coercing boolean|Coercing text",
+    all = TRUE
   )
   expect_is(df$numeric, "numeric")
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
