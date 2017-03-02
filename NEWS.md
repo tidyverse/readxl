@@ -1,14 +1,14 @@
 # readxl 0.1.1.9000
 
-* Dates that appear in a numeric column are converted to `NA` instead of their integer representation. (#277, #263, @jennybc)
+* Dates that appear in a numeric column are converted to `NA` instead of their integer representation. Also throws warning. (#277, #263, @jennybc)
 
-* "Number stored as text": when a text cell is found in a column that was guessed or specified as `"numeric"`, `read_excel()` attempts to coerce the string to numeric and falls back to `NA` if unsuccessful. (#277, #217, #106 @jennybc)
+* "Number stored as text": when a text cell is found in a `"numeric"` column, `read_excel()` attempts to coerce the string to numeric and falls back to `NA` if unsuccessful. Also throws warning. (#277, #217, #106 @jennybc)
 
-* Cells in error are treated as blank in xlsx and xls and are imported as `NA` instead of the string `"error"`. (#277, #62 @jennybc)
+* Cells in error are treated as blank and are imported as `NA` (instead of the string `"error"`). (#277, #62 @jennybc)
 
 * Dates that arise from a formula are now treated as dates (vs. numeric) in xls. (#277 @jennybc)
 
-* `"logical"` is a new column type. When `col_types = NULL`, it is the guessed column type for cells Excel recognizes as Boolean. It can be specified explicitly in `col_types`. (#277, #270 @jennybc)
+* `"logical"` is a new column type. When `col_types = NULL`, it is the guessed column type for cells Excel advertises as Boolean. It can be specified explicitly in `col_types`. (#277, #270 @jennybc)
 
 * BoolErr cells are now handled in xls. Suppresses message `"Unknown type: 517"`. (#274, #259 @jennybc)
 
