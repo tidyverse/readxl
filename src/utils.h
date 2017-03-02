@@ -28,6 +28,9 @@ inline std::pair<int, int> parseRef(const char* ref) {
 
 inline bool logicalFromString(std::string maybe_tf, bool *out) {
   bool matches = false;
+  // from the R help for ?logical
+  // Character strings c("T", "TRUE", "True", "true") are regarded as true
+  // c("F", "FALSE", "False", "false") as false, and all others as NA.
   static const std::string trues [] = {"T", "TRUE", "True", "true"};
   static const std::string falses [] = {"F", "FALSE", "False", "false"};
   std::vector<std::string> true_strings(

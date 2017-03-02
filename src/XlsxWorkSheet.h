@@ -190,7 +190,7 @@ public:
             LOGICAL(col)[row] = NA_LOGICAL;
           }
         }
-        break;
+          break;
         }
         break;
 
@@ -211,6 +211,7 @@ public:
           Rcpp::warning("Expecting date in [%i, %i]: got %f",
                         i + 1, j + 1, xcell->asDouble(na));
           REAL(col)[row] = NA_REAL;
+          break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
                         i + 1, j + 1, xcell->asStdString(na, wb_.stringTable(),
@@ -231,7 +232,7 @@ public:
           REAL(col)[row] = xcell->asDouble(na);
           break;
         case CELL_DATE:
-          // print date string here, when it's easier to do so
+          // print date string here, when/if possible
           Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
                         i + 1, j + 1);
           REAL(col)[row] = NA_REAL;
@@ -267,17 +268,14 @@ public:
           SET_STRING_ELT(col, row, NA_STRING);
           break;
         case CELL_LOGICAL:
-        {
-          int true_or_false = xcell->asInteger(na);
-          if (true_or_false) {
+          if (xcell->asInteger(na)) {
             SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
           } else {
             SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
           }
-        }
           break;
         case CELL_DATE:
-          // would be nice: use date string
+          // use date string here, when/if possible
           SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
           break;
         case CELL_NUMERIC:
@@ -285,6 +283,7 @@ public:
         {
           SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
         }
+          break;
         }
         break;
 

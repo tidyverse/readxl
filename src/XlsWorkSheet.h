@@ -155,9 +155,9 @@ public:
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
         case CELL_DATE:
-          // print date string here, when it's easier to do so
-          Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
-                        i + 1, j + 1, xcell->cell()->str);
+          // print date string here, when/if it's possible to do so
+          Rcpp::warning("Expecting logical in [%i, %i] got a date",
+                        i + 1, j + 1);
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
         case CELL_LOGICAL:
@@ -186,6 +186,7 @@ public:
         switch(type) {
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
+          break;
         case CELL_LOGICAL:
           Rcpp::warning("Expecting date in [%i, %i]: got boolean",
                         i + 1, j + 1);
@@ -218,9 +219,9 @@ public:
           REAL(col)[row] = xcell->cell()->d;
           break;
         case CELL_DATE:
-          // print date string here, when it's easier to do so
-          Rcpp::warning("Expecting numeric in [%i, %i]: got the date '%s'",
-                        i + 1, j + 1, xcell->cell()->str);
+          // print date string here, when/if possible
+          Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
+                        i + 1, j + 1);
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_NUMERIC:
@@ -246,6 +247,8 @@ public:
         break;
 
       case COL_TEXT:
+        // not issuing warnings for NAs or coercion, because "text" is the
+        // fallback column type and there are too many warnings to be helpful
         switch(type) {
         case CELL_BLANK:
           SET_STRING_ELT(col, row, NA_STRING);
@@ -258,6 +261,7 @@ public:
           }
           break;
         case CELL_DATE:
+          // use date string here, when/if possible
         {
           std::string stdString((char*) xcell->cell()->str);
           Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
@@ -271,6 +275,7 @@ public:
           Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
           SET_STRING_ELT(col, row, rString);
         }
+          break;
         }
         break;
 
