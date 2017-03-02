@@ -62,17 +62,41 @@ public:
         if (na.contains(cell_->d)) {
           return CELL_BLANK;
         }
+        if (styles == NULL) {
+          return CELL_NUMERIC;
+        }
         int format = styles->xf[cell_->xf].format;
         return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
       } else { // formula evaluates to Boolean, string, or error
+
+        // Boolean
         if (!strcmp((char *) cell_->str, "bool")) {
-          return CELL_LOGICAL;
-        } else if (na.contains((char*) cell_->str)) {
-          return CELL_BLANK;
-        } else {
-          // error should become NA
-          return cell_->d == 0 ? CELL_TEXT : CELL_BLANK;
+          if ( (cell_->d == 0 && na.contains("FALSE")) ||
+               (cell_->d == 1 && na.contains("TRUE")) ) {
+            return CELL_BLANK;
+          } else {
+            return CELL_LOGICAL;
+          }
         }
+
+        // error
+        // libxls puts "error" in str for all errors and
+        // puts the error code in d
+        //  Code Error
+        //  0x00 #NULL! <-- indistinguishable from "error" formula string :(
+        //  0x07 #DIV/0!
+        //  0x0F #VALUE!
+        //  0x17 #REF!
+        //  0x1D #NAME?
+        //  0x24 #NUM!
+        //  0x2A #N/A
+        //  0x2B #GETTING_DATA
+        if (!strcmp((char *) cell_->str, "error") && cell_->d > 0) {
+          return CELL_BLANK;
+        }
+
+        // string (or #NULL! error)
+        return na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
       }
 
     case 189: // 0x00BD MulRk 2.4.175 p344:
@@ -85,11 +109,9 @@ public:
         if (na.contains(cell_->d)) {
           return CELL_BLANK;
         }
-
         if (styles == NULL) {
           return CELL_NUMERIC;
         }
-
         int format = styles->xf[cell_->xf].format;
         return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
       }
@@ -102,12 +124,16 @@ public:
 
     case 517: // 0x0205 BoolErr 2.4.24 p216:
               //  a cell that contains either a Boolean value or an error value
-      if (na.contains((char*) cell_->str)) {
-        return CELL_BLANK;
+      if (!strcmp((char *) cell_->str, "bool")) {
+        if ( (cell_->d == 0 && na.contains("FALSE")) ||
+             (cell_->d == 1 && na.contains("TRUE")) ) {
+          return CELL_BLANK;
+        } else {
+          return CELL_LOGICAL;
+        }
       }
-      // error should become NA
-      // 2.5.10 Bes p592 explains the codes, if we ever change our minds
-      return (!strcmp((char *) cell_->str, "bool")) ? CELL_LOGICAL : CELL_BLANK;
+      // must be an error
+      return CELL_BLANK;
 
     default:
       Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
@@ -115,6 +141,39 @@ public:
     }
 
     return CELL_TEXT;
+
+    // summary of how Excel cell types have been mapped to our CellType
+    //
+    // CELL_BLANK
+    //   shared string that matches na
+    //   string formula whose value matches na
+    //   boolean whose value (TRUE or FALSE) matches na
+    //   boolean formula whose value (TRUE or FALSE) matches na
+    //   numeric formula whose double value (d) matches na
+    //   number whose double value (d) matches na
+    //   formula in error (except #NULL!)
+    //   explicit blank or empty cell
+    //
+    // CELL_LOGICAL
+    //   boolean whose value (TRUE or FALSE) does not match na
+    //   boolean formula whose value (TRUE or FALSE) does not match na
+    //
+    // CELL_DATE
+    //   numeric formula whose double value (d) does not match na,
+    //     with a date format
+    //   number whose double value (d) does not match na,
+    //     with a date format
+    //
+    // CELL_NUMERIC
+    //   numeric formula whose double value (d) does not match na,
+    //     with no format or a non-date format
+    //   number whose double value (d) does not match na,
+    //     with no format or a non-date format
+    //
+    // CELL_TEXT
+    //   shared string that does not match na
+    //   string formula whose value does not match na
+
   }
 
 };
