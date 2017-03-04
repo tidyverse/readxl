@@ -161,10 +161,10 @@ public:
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
         case CELL_LOGICAL:
-          LOGICAL(col)[row] = (xcell->cell()->d == 1) ? TRUE : FALSE;
+          LOGICAL(col)[row] = xcell->cell()->d == 1;
           break;
         case CELL_NUMERIC:
-          LOGICAL(col)[row] = (xcell->cell()->d != 0) ? TRUE : FALSE;
+          LOGICAL(col)[row] = xcell->cell()->d != 0;
           break;
         case CELL_TEXT:
         {
