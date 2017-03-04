@@ -61,6 +61,8 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
+      // revisit after this class gains functions for string conversion
+      // https://github.com/tidyverse/readxl/issues/282
       if (xcell->cell()->str == NULL) {
         out[xcell->col()] = NA_STRING;
       } else {
@@ -161,8 +163,6 @@ public:
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
         case CELL_LOGICAL:
-          LOGICAL(col)[row] = xcell->cell()->d == 1;
-          break;
         case CELL_NUMERIC:
           LOGICAL(col)[row] = xcell->cell()->d != 0;
           break;
