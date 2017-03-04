@@ -70,7 +70,7 @@ public:
       } else { // formula evaluates to Boolean, string, or error
 
         // Boolean
-        if (!strcmp((char *) cell_->str, "bool")) {
+        if (strncmp((char *) cell_->str, "bool", 4) == 0) {
           if ( (cell_->d == 0 && na.contains("FALSE")) ||
                (cell_->d == 1 && na.contains("TRUE")) ) {
             return CELL_BLANK;
@@ -91,7 +91,7 @@ public:
         //  0x24 #NUM!
         //  0x2A #N/A
         //  0x2B #GETTING_DATA
-        if (!strcmp((char *) cell_->str, "error") && cell_->d > 0) {
+        if (strncmp((char *) cell_->str, "error", 5) == 0 && cell_->d > 0) {
           return CELL_BLANK;
         }
 
@@ -124,7 +124,7 @@ public:
 
     case 517: // 0x0205 BoolErr 2.4.24 p216:
               //  a cell that contains either a Boolean value or an error value
-      if (!strcmp((char *) cell_->str, "bool")) {
+      if (strncmp((char *) cell_->str, "bool", 4) == 0) {
         if ( (cell_->d == 0 && na.contains("FALSE")) ||
              (cell_->d == 1 && na.contains("TRUE")) ) {
           return CELL_BLANK;
