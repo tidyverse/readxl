@@ -171,7 +171,7 @@ public:
           std::string text_string((char*) xcell->cell()->str);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
-            LOGICAL(col)[row] = text_boolean ? TRUE : FALSE;
+            LOGICAL(col)[row] = text_boolean;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
                           i + 1, j + 1, xcell->cell()->str);
