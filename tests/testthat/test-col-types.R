@@ -48,21 +48,6 @@ test_that("col_types are recycled", {
   expect_match(vapply(df, class, character(1)), "character")
 })
 
-test_that("inappropriate col_types generate warning", {
-  expect_warning(
-    read_excel(test_sheet("iris-excel.xlsx"),
-               col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
-    "Expecting numeric",
-    all = TRUE
-  )
-  expect_warning(
-    read_excel(test_sheet("iris-excel.xls"),
-               col_types = c("numeric", "text", "numeric", "numeric", "numeric")),
-    "Expecting numeric",
-    all = TRUE
-  )
-})
-
 test_that("types guessed correctly [xlsx]", {
   types <- read_excel(test_sheet("types.xlsx"), sheet = "guess_me")
   expect_is(types$X__1, "logical")
@@ -152,22 +137,24 @@ test_that("contaminated, explicit logical is read as logical", {
   ## xls
   expect_warning(
     df <- read_excel(test_sheet("types.xls"), sheet = "logical_coercion",
-                     col_types = "logical"),
+                     col_types = c("logical", "text")),
     "Expecting logical",
     all = TRUE
   )
   expect_is(df$logical, "logical")
-  expect_false(anyNA(df$logical[c(1, 2, 4, 5, 7)]))
+  should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
+  expect_false(anyNA(df$logical[!should_be_NA]))
 
   ## xlsx
   expect_warning(
     df <- read_excel(test_sheet("types.xlsx"), sheet = "logical_coercion",
-                     col_types = "logical"),
+                     col_types = c("logical", "text")),
     "Expecting logical",
     all = TRUE
   )
   expect_is(df$logical, "logical")
-  expect_false(anyNA(df$logical[c(1, 2, 4, 5, 7)]))
+  should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
+  expect_false(anyNA(df$logical[!should_be_NA]))
 })
 
 test_that("contaminated, explicit date is read as date", {

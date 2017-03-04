@@ -40,8 +40,7 @@ inline bool logicalFromString(std::string maybe_tf, bool *out) {
   if (Rf_StringTrue(maybe_tf.c_str())) {
     *out = true;
     matches = true;
-  }
-  if (Rf_StringFalse(maybe_tf.c_str())) {
+  } else if (Rf_StringFalse(maybe_tf.c_str())) {
     *out = false;
     matches = true;
   }
