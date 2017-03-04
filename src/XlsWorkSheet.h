@@ -286,7 +286,7 @@ public:
           break;
         }
         case CELL_LOGICAL: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical((xcell->cell()->d)));
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->cell()->d));
           break;
         }
         case CELL_DATE: {
