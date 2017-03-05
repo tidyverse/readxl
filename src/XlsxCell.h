@@ -41,8 +41,10 @@ public:
   CellType type(const StringSet& na,
                 const std::vector<std::string>& stringTable,
                 const std::set<int>& dateStyles) const {
-    // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
-    // Section and page numbers below refer to the 4th edition
+    // 1. Review of Excel's declared cell types, then
+    // 2. Summary of how Excel's cell types map to our CellType enum
+    //
+    // this table refers to the value of the t attribute of a cell
     // 18.18.11   ST_CellType (Cell Type)  [p2443]
     // This simple type is restricted to the values listed in the following table:
     // -------------------------------------------------------------------------
@@ -59,8 +61,34 @@ public:
     // n (Number)                 Cell containing a number.
     // s (Shared String)          Cell containing a shared string.
     // str (String)               Cell containing a formula string.
+    //
+    // We map Excel's cell types to the CellType enum based on declared type
+    // and contents.
+    //
+    // CELL_BLANK
+    //   inlineStr cell and (string is na or string can't be found)
+    //   cell has no v node and is not an inlineStr cell
+    //   v->value() is na
+    //   error cell
+    //   shared string cell and string is na
+    //
+    // CELL_LOGICAL
+    //   Boolean cell and its value (TRUE or FALSE) is not in na
+    //
+    // CELL_DATE
+    //   numeric cell (t attr is "n" or does not exist) with a date style
+    //
+    // CELL_NUMERIC
+    //   numeric cell (t attr is "n" or does not exist) with no style or a
+    //   non-date style
+    //
+    // CELL_TEXT
+    //   inlineStr cell and string is found and string is not na
+    //   ISO 8601 date cell (t attr is "d") <- we're not sure this exists IRL
+    //   shared string cell and string is not na
+    //   formula string cell and string is not na
+    //   anything that is not explicitly addressed elsewhere
 
-    // the table above refers to the value of the t attribute of a cell
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
     rapidxml::xml_node<>* v = cell_->first_node("v");
 
@@ -126,32 +154,6 @@ public:
                   row() + 1, col() + 1, t->value());
 
     return CELL_TEXT;
-
-    // summary of how Excel cell types have been mapped to our CellType
-    //
-    // CELL_BLANK
-    //   inlineStr cell and (string is na or string can't be found)
-    //   cell has no v node and is not an inlineStr cell
-    //   v->value() is na
-    //   error cell
-    //   shared string cell and string is na
-    //
-    // CELL_LOGICAL
-    //   Boolean cell and its value (TRUE or FALSE) is not in na
-    //
-    // CELL_DATE
-    //   numeric cell (t attr is "n" or does not exist) with a date style
-    //
-    // CELL_NUMERIC
-    //   numeric cell (t attr is "n" or does not exist) with no style or a
-    //   non-date style
-    //
-    // CELL_TEXT
-    //   inlineStr cell and string is found and string is not na
-    //   ISO 8601 date cell (t attr is "d") <- we're not sure this exists IRL
-    //   shared string cell and string is not na
-    //   formula string cell and string is not na
-    //   anything that is not explicitly addressed elsewhere
   }
 
   std::string asStdString(const StringSet& na,

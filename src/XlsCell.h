@@ -6,6 +6,13 @@
 #include <libxls/xlstypes.h>
 #include "ColSpec.h"
 
+// Key reference for understanding the structure of the xls format is
+// [MS-XLS]: Excel Binary File Format (.xls) Structure
+// https://msdn.microsoft.com/en-us/library/cc313154(v=office.12).aspx
+// http://interoperability.blob.core.windows.net/files/MS-XLS/[MS-XLS].pdf
+// Page and section numbers below refer to
+// v20161017, Release: October 17, 2016
+
 class XlsCell {
   xls::xlsCell *cell_;
   std::pair<int,int> location_;
@@ -31,13 +38,14 @@ public:
   CellType type(const StringSet& na,
                 const xls::st_xf* styles,
                 const std::set<int>& customDateFormats) const {
-
-    // [MS-XLS] - v20161017, Release: October 17, 2016
+    // 1. Review of Excel's declared cell types, then
+    // 2. Summary of how Excel's cell types map to our CellType enum
     //
-    // In 2.2.1 Cell Table on p80:
-    // "Cells are specified by any of the records specified in the CELL rule."
-    // (section 2.1.7.20.6).
-    // In 2.1.7.20.6 on p74, here is the CELL rule:
+    // 2.2.1 Cell Table p80:
+    // "Cells are specified by any of the records specified in the CELL rule
+    // (section 2.1.7.20.6)."
+    //
+    // 2.1.7.20.6 p74 The CELL Rule:
     // CELL = FORMULA / Blank / MulBlank / RK / MulRk / BoolErr / Number / LabelSst
     //
     // 2.3 Record Enumeration
@@ -45,8 +53,33 @@ public:
     // 2.3.1 starting p168 is ordered by name
     // 2.3.2 starting p180 is ordered by number
     //
-    // See xls_addCell for those used for cells
-    // and xlsstruct.h to confirm record numbers
+    // For info on how libxls extracts and exposes, see xls_addCell. Also
+    // consult xlsstruct.h to confirm record numbers.
+    //
+    // We map Excel's cell types to the CellType enum based on declared type
+    // and contents.
+    //
+    // CELL_BLANK
+    //   shared string or string formula whose value matches na
+    //   boolean or boolean formula whose value (TRUE or FALSE) matches na
+    //   number or numeric formula whose double value (d) matches na
+    //   formula in error (except #NULL!) or static error (#N/A)
+    //   explicit blank cell
+    //
+    // CELL_LOGICAL
+    //   boolean or boolean formula whose value (TRUE or FALSE) does not match na
+    //
+    // CELL_DATE
+    //   number or numeric formula with a date format, whose double value (d)
+    //   does not match na
+    //
+    // CELL_NUMERIC
+    //   number or numeric formula with no format or a non-date format, whose
+    //   double value (d) does not match na
+    //
+    // CELL_TEXT
+    //   shared string or string formula whose value does not match na
+
     switch(cell_->id) {
     case 253: // 0x00FD LabelSst 2.4.149 p325:
               // a string from the shared string table
@@ -141,39 +174,6 @@ public:
     }
 
     return CELL_TEXT;
-
-    // summary of how Excel cell types have been mapped to our CellType
-    //
-    // CELL_BLANK
-    //   shared string that matches na
-    //   string formula whose value matches na
-    //   boolean whose value (TRUE or FALSE) matches na
-    //   boolean formula whose value (TRUE or FALSE) matches na
-    //   numeric formula whose double value (d) matches na
-    //   number whose double value (d) matches na
-    //   formula in error (except #NULL!)
-    //   explicit blank or empty cell
-    //
-    // CELL_LOGICAL
-    //   boolean whose value (TRUE or FALSE) does not match na
-    //   boolean formula whose value (TRUE or FALSE) does not match na
-    //
-    // CELL_DATE
-    //   numeric formula whose double value (d) does not match na,
-    //     with a date format
-    //   number whose double value (d) does not match na,
-    //     with a date format
-    //
-    // CELL_NUMERIC
-    //   numeric formula whose double value (d) does not match na,
-    //     with no format or a non-date format
-    //   number whose double value (d) does not match na,
-    //     with no format or a non-date format
-    //
-    // CELL_TEXT
-    //   shared string that does not match na
-    //   string formula whose value does not match na
-
   }
 
 };
