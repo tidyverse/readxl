@@ -110,10 +110,11 @@ unskipped column.</dd>
       <dt>col_types</dt>
       <dd>Either <code>NULL</code> to guess from the spreadsheet or a character
 vector containing one entry per column from these options: &quot;skip&quot;,
-&quot;numeric&quot;, &quot;date&quot;, &quot;text&quot; or &quot;list&quot;. The content of a cell in a skipped column is
-never read and that column will not appear in the data frame output. A list cell
-loads a column as a list of length 1 vectors, which are typed using the type
-guessing logic from <code>col_types = NULL</code>, but on a cell-by-cell basis.</dd>
+&quot;logical&quot;, &quot;numeric&quot;, &quot;date&quot;, &quot;text&quot; or &quot;list&quot;. The content of a cell in a
+skipped column is never read and that column will not appear in the data
+frame output. A list cell loads a column as a list of length 1 vectors,
+which are typed using the type guessing logic from <code>col_types = NULL</code>, but
+on a cell-by-cell basis.</dd>
       <dt>na</dt>
       <dd>Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.</dd>

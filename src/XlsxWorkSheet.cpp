@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 #include "XlsxWorkSheet.h"
 #include "ColSpec.h"
+#include "utils.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]

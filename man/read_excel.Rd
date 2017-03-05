@@ -29,10 +29,11 @@ unskipped column.}
 
 \item{col_types}{Either \code{NULL} to guess from the spreadsheet or a character
 vector containing one entry per column from these options: "skip",
-"numeric", "date", "text" or "list". The content of a cell in a skipped column is
-never read and that column will not appear in the data frame output. A list cell
-loads a column as a list of length 1 vectors, which are typed using the type
-guessing logic from \code{col_types = NULL}, but on a cell-by-cell basis.}
+"logical", "numeric", "date", "text" or "list". The content of a cell in a
+skipped column is never read and that column will not appear in the data
+frame output. A list cell loads a column as a list of length 1 vectors,
+which are typed using the type guessing logic from \code{col_types = NULL}, but
+on a cell-by-cell basis.}
 
 \item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}

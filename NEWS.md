@@ -1,6 +1,18 @@
 # readxl 0.1.1.9000
 
-* Boolean cells are now detected in xls. Suppresses message `"Unknown type: 517"`. For now, Boolean cells in both xls and xlsx become numeric, with values 0 and 1. (#274, #259 @jennybc)
+* Numeric data that appears in a `"date"` column is coerced to a date. Also throws a warning. (#277, #266 @jennybc)
+
+* Dates that appear in a numeric column are converted to `NA` instead of their integer representation. Also throws warning. (#277, #263 @jennybc)
+
+* "Number stored as text": when a text cell is found in a `"numeric"` column, `read_excel()` attempts to coerce the string to numeric and falls back to `NA` if unsuccessful. Also throws warning. (#277, #217, #106 @jennybc)
+
+* Cells in error are treated as blank and are imported as `NA` (instead of the string `"error"`). (#277, #62 @jennybc)
+
+* Dates that arise from a formula are now treated as dates (vs. numeric) in xls. (#277 @jennybc)
+
+* `"logical"` is a new column type. When `col_types = NULL`, it is the guessed column type for cells Excel advertises as Boolean. It can be specified explicitly in `col_types`. (#277, #270 @jennybc)
+
+* BoolErr cells are now handled in xls. Suppresses message `"Unknown type: 517"`. (#274, #259 @jennybc)
 
 * xls files written by some third party software report both row and column dimensions as 0-indexed, which prevents libxls from reading the last column. Small change to libxls restores access to those cells. (#273, #180, #152, #99 @jennybc)
 
