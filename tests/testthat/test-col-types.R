@@ -70,6 +70,20 @@ test_that("types guessed correctly [xls]", {
   expect_true(all(vapply(types, function(x) is.na(x[3]), logical(1))))
 })
 
+test_that("we can specify some col_types and guess others", {
+  ctypes <- c("numeric", "text", "guess", "guess", "text", "guess")
+  exp_cls <- c("numeric", "character", "logical",
+               "POSIXct", "character", "character")
+
+  df <- read_excel(test_sheet("types.xlsx"), col_types = ctypes)
+  cls <- vapply(df, function(x) class(x)[1], character(1))
+  expect_equivalent(cls, exp_cls)
+
+  df <- read_excel(test_sheet("types.xls"), col_types = ctypes)
+  cls <- vapply(df, function(x) class(x)[1], character(1))
+  expect_equivalent(cls, exp_cls)
+})
+
 test_that("guess_max is honored for col_types", {
   expect_warning(
     types <- read_excel(

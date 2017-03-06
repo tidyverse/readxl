@@ -165,6 +165,7 @@ public:
 
     switch(type) {
 
+    case CELL_UNKNOWN:
     case CELL_BLANK:
       return "NA";
 

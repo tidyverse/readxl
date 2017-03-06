@@ -73,11 +73,10 @@ public:
     return out;
   }
 
-  std::vector<ColType> colTypes(const StringSet &na,
+  std::vector<ColType> colTypes(std::vector<ColType> types,
+                                const StringSet &na,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
-    std::vector<ColType> types(ncol_);
-
     std::vector<XlsCell>::const_iterator xcell;
     xcell = has_col_names ? secondRow_ : firstRow_;
 
@@ -87,19 +86,27 @@ public:
       return types;
     }
 
+    std::vector<bool> type_known(types.size());
+    for (size_t j = 0; j < types.size(); j++) {
+      type_known[j] = types[j] != COL_UNKNOWN;
+    }
+
     // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       if ((xcell->row() - base + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      if (xcell->col() < ncol_) {
-        ColType type = as_ColType(
-          xcell->type(na, &pWS_->workbook->xfs, customDateFormats_)
-        );
-        if (type > types[xcell->col()]) {
-          types[xcell->col()] = type;
-        }
+      int j = xcell->col();
+      if (type_known[j] || j >= ncol_) {
+        xcell++;
+        continue;
+      }
+      ColType type = as_ColType(
+        xcell->type(na, &pWS_->workbook->xfs, customDateFormats_)
+      );
+      if (type > types[j]) {
+        types[j] = type;
       }
       xcell++;
     }
@@ -147,12 +154,14 @@ public:
       // Needs to compare to actual cell type to give warnings
       switch(types[j]) {
 
+      case COL_UNKNOWN:
       case COL_BLANK:
       case COL_SKIP:
         break;
 
       case COL_LOGICAL:
         switch(type) {
+        case CELL_UNKNOWN:
         case CELL_BLANK:
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
@@ -184,6 +193,7 @@ public:
 
       case COL_DATE:
         switch(type) {
+        case CELL_UNKNOWN:
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
           break;
@@ -210,6 +220,7 @@ public:
 
       case COL_NUMERIC:
         switch(type) {
+        case CELL_UNKNOWN:
         case CELL_BLANK:
           REAL(col)[row] = NA_REAL;
           break;
@@ -250,6 +261,7 @@ public:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
         switch(type) {
+        case CELL_UNKNOWN:
         case CELL_BLANK:
           SET_STRING_ELT(col, row, NA_STRING);
           break;
@@ -281,6 +293,7 @@ public:
 
       case COL_LIST:
         switch(type) {
+        case CELL_UNKNOWN:
         case CELL_BLANK: {
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
