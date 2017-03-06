@@ -24,7 +24,9 @@ CharacterVector xlsx_col_types(std::string path, int sheet_i = 0,
                                bool has_col_names = false) {
 
   XlsxWorkSheet ws(path, sheet_i, skip);
-  std::vector<ColType> types = ws.colTypes(na, guess_max, has_col_names);
+  std::vector<ColType> types(ws.ncol());
+  std::fill(types.begin(), types.end(), COL_UNKNOWN);
+  types = ws.colTypes(types, na, guess_max, has_col_names);
   return colTypeDescs(types);
 }
 
@@ -63,21 +65,17 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
   }
 
   // Get column types --------------------------------------------------
-  std::vector<ColType> colTypes;
-  switch(TYPEOF(col_types)) {
-  case NILSXP:
-    colTypes = ws.colTypes(na, guess_max, has_col_names);
-    break;
-  case STRSXP:
-    colTypes = colTypeStrings(as<CharacterVector>(col_types));
-    colTypes = recycleTypes(colTypes, ws.ncol());
-    break;
-  default:
-    Rcpp::stop("`col_types` must be a character vector or NULL");
+  if (TYPEOF(col_types) != STRSXP) {
+    Rcpp::stop("`col_types` must be a character vector");
   }
+  std::vector<ColType> colTypes = colTypeStrings(as<CharacterVector>(col_types));
+  colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
     Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                sheet_i + 1, ws.ncol(), colTypes.size());
+  }
+  if (requiresGuess(colTypes)) {
+    colTypes = ws.colTypes(colTypes, na, guess_max, has_col_names);
   }
   colTypes = finalizeTypes(colTypes);
   colNames = reconcileNames(colNames, colTypes, sheet_i);

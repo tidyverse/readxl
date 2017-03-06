@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Selective column type guessing: `col_types` now accepts `"guess"` to allow user to specify some column types, while allowing others to be guessed (#286 @jennybc)
+
 * Numeric data that appears in a `"date"` column is coerced to a date. Also throws a warning. (#277, #266 @jennybc)
 
 * Dates that appear in a numeric column are converted to `NA` instead of their integer representation. Also throws warning. (#277, #263 @jennybc)

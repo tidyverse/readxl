@@ -6,6 +6,7 @@
 #include "StringSet.h"
 
 enum CellType {
+  CELL_UNKNOWN,
   CELL_BLANK,
   CELL_LOGICAL,
   CELL_DATE,
@@ -14,6 +15,7 @@ enum CellType {
 };
 
 enum ColType {
+  COL_UNKNOWN, // implies column type needs to be guessed
   COL_BLANK,   // occurs when col_types = NULL and observe only CELL_BLANKs
   COL_LOGICAL,
   COL_DATE,
@@ -31,6 +33,7 @@ ColType inline as_ColType(CellType celltype) {
 
 inline std::string cellTypeDesc(CellType type) {
   switch(type) {
+  case CELL_UNKNOWN:  return "unknown";
   case CELL_BLANK:    return "blank";
   case CELL_LOGICAL:  return "logical";
   case CELL_DATE:     return "date";
@@ -42,6 +45,7 @@ inline std::string cellTypeDesc(CellType type) {
 
 inline std::string colTypeDesc(ColType type) {
   switch(type) {
+  case COL_UNKNOWN: return "unknown";
   case COL_BLANK:   return "blank";
   case COL_LOGICAL: return "logical";
   case COL_DATE:    return "date";
@@ -67,7 +71,9 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
 
   for (int i = 0; i < x.size(); ++i) {
     std::string type(x[i]);
-    if (type == "blank") {
+    if (type == "guess") {
+      types.push_back(COL_UNKNOWN);
+    } else if (type == "blank") {
       types.push_back(COL_BLANK);
     } else if (type == "logical") {
       types.push_back(COL_LOGICAL);
@@ -89,6 +95,11 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
   return types;
 }
 
+bool inline requiresGuess(std::vector<ColType> types) {
+  std::vector<ColType>::iterator iter;
+  iter = find(types.begin(), types.end(), COL_UNKNOWN);
+  return iter != types.end();
+}
 
 bool inline isDateTime(int id, const std::set<int> custom) {
   // Date formats:
@@ -142,11 +153,12 @@ inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
 
 inline std::vector<ColType> finalizeTypes(std::vector<ColType> types) {
   // convert blank columns to a default type: logical
-  // can only happen when
-  //   * col_types = NULL and we've learned them from data
-  //   * all cells in column are empty or match one of the na strings
+  // can only happen when col_type = guess AND
+  //   * all cells in column are empty or
+  //   * all cells match one of the na strings or
+  //   * there is no cell data at all
   for (size_t i = 0; i < types.size(); i++) {
-    if (types[i] == COL_BLANK) {
+    if (types[i] == COL_BLANK || types[i] == COL_UNKNOWN) {
       types[i] = COL_LOGICAL;
     }
   }
@@ -188,6 +200,7 @@ inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
 
 inline Rcpp::RObject makeCol(ColType type, int n) {
   switch(type) {
+  case COL_UNKNOWN:
   case COL_BLANK:
   case COL_SKIP:
     return R_NilValue;

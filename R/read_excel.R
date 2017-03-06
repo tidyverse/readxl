@@ -12,13 +12,13 @@ NULL
 #'   provides `col_types` as a vector, `col_names` can have one entry per
 #'   column, i.e. have the same length as `col_types`, or one entry per
 #'   unskipped column.
-#' @param col_types Either `NULL` to guess from the spreadsheet or a character
-#'   vector containing one entry per column from these options: "skip",
-#'   "logical", "numeric", "date", "text" or "list". The content of a cell in a
-#'   skipped column is never read and that column will not appear in the data
-#'   frame output. A list cell loads a column as a list of length 1 vectors,
-#'   which are typed using the type guessing logic from `col_types = NULL`, but
-#'   on a cell-by-cell basis.
+#' @param col_types Either `NULL` to guess all from the spreadsheet or a
+#'   character vector containing one entry per column from these options:
+#'   "skip", "guess", "logical", "numeric", "date", "text" or "list". The
+#'   content of a cell in a skipped column is never read and that column will
+#'   not appear in the data frame output. A list cell loads a column as a list
+#'   of length 1 vectors, which are typed using the type guessing logic from
+#'   `col_types = NULL`, but on a cell-by-cell basis.
 #' @param na Character vector of strings to use for missing values. By default,
 #'   readxl treats blank cells as missing data.
 #' @param skip Number of rows to skip before reading any data. Leading blank
@@ -35,6 +35,12 @@ NULL
 #'
 #' # Skipping rows and using default column names
 #' read_excel(datasets, skip = 148, col_names = FALSE)
+#'
+#' # if col_types is of length one, it will be recycled
+#' read_excel(datasets, col_types = "text")
+#'
+#' # you can specify some col_types and guess others
+#' read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
 #'
 #' # "list" col_type can handle information of disparate types
 #' df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
@@ -141,7 +147,7 @@ standardise_sheet <- function(sheet, sheet_names) {
 
 check_col_types <- function(col_types) {
   if (is.null(col_types)) {
-    return(col_types)
+    return("guess")
   }
   stopifnot(is.character(col_types), length(col_types) > 0, !anyNA(col_types))
 
@@ -151,7 +157,8 @@ check_col_types <- function(col_types) {
     col_types[blank] <- "skip"
   }
 
-  accepted_types <- c("skip", "logical", "numeric", "date", "text", "list")
+  accepted_types <-
+    c("skip", "guess", "logical", "numeric", "date", "text", "list")
   ok <- col_types %in% accepted_types
   if (any(!ok)) {
     info <- paste(
