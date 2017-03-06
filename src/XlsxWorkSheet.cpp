@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 IntegerVector xlsx_dim(std::string path, int sheet_i = 0, int skip = 0) {
-  XlsxWorkSheet ws(path, sheet_i, skip);
+  XlsxWorkSheet ws(path, sheet_i, skip, "");
   return IntegerVector::create(ws.nrow(), ws.ncol());
 }
 
@@ -23,14 +23,14 @@ CharacterVector xlsx_col_types(std::string path, int sheet_i = 0,
                                int skip = 0, int guess_max = 1000,
                                bool has_col_names = false) {
 
-  XlsxWorkSheet ws(path, sheet_i, skip);
-  std::vector<ColType> types = ws.colTypes(na, guess_max, has_col_names);
+  XlsxWorkSheet ws(path, sheet_i, skip, na);
+  std::vector<ColType> types = ws.colTypes(guess_max, has_col_names);
   return colTypeDescs(types);
 }
 
 // [[Rcpp::export]]
 CharacterVector xlsx_col_names(std::string path, int sheet_i = 0, int skip = 0) {
-  return XlsxWorkSheet(path, sheet_i, skip).colNames();
+  return XlsxWorkSheet(path, sheet_i, skip, "").colNames();
 }
 
 // [[Rcpp::export]]
@@ -38,7 +38,7 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
                 RObject col_types, std::vector<std::string> na,
                 int skip = 0, int guess_max = 1000) {
 
-  XlsxWorkSheet ws(path, sheet_i, skip);
+  XlsxWorkSheet ws(path, sheet_i, skip, na);
 
   // catches empty sheets and sheets where we skip past all data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
@@ -66,7 +66,7 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
   std::vector<ColType> colTypes;
   switch(TYPEOF(col_types)) {
   case NILSXP:
-    colTypes = ws.colTypes(na, guess_max, has_col_names);
+    colTypes = ws.colTypes(guess_max, has_col_names);
     break;
   case STRSXP:
     colTypes = colTypeStrings(as<CharacterVector>(col_types));
@@ -82,5 +82,5 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
   colTypes = finalizeTypes(colTypes);
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
-  return ws.readCols(colNames, colTypes, na, has_col_names);
+  return ws.readCols(colNames, colTypes, has_col_names);
 }
