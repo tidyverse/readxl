@@ -17,17 +17,25 @@
 class XlsxCell {
   rapidxml::xml_node<>* cell_;
   std::pair<int,int> location_;
+  CellType type_;
 
 public:
 
   // if possible, provide guess at row and column based on position within xml
-  XlsxCell(rapidxml::xml_node<>* cell, int row = -1, int col = -1): cell_(cell) {
-    rapidxml::xml_attribute<>* ref = cell_->first_attribute("r");
+  XlsxCell(rapidxml::xml_node<>* cell,
+           const std::vector<std::string>& stringTable,
+           const std::set<int>& dateStyles,
+           const StringSet& na = "",
+           int row = -1, int col = -1):
+  cell_(cell)
+  {
+    rapidxml::xml_attribute<>* ref = cell->first_attribute("r");
     if (ref == NULL) {
       location_ = std::make_pair(row, col);
     } else {
       location_ = parseRef(ref->value());
     }
+    type_ = inferType(na, stringTable, dateStyles);
   }
 
   int row() const {
@@ -38,9 +46,102 @@ public:
     return location_.second;
   }
 
-  CellType type(const StringSet& na,
-                const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles) const {
+  CellType type() const {
+    return type_;
+  }
+
+  std::string asStdString(const std::vector<std::string>& stringTable) const {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
+
+    switch(type_) {
+
+    case CELL_BLANK:
+      return "NA";
+
+    case CELL_LOGICAL:
+      return atoi(v->value()) ? "TRUE" : "FALSE";
+
+    case CELL_DATE:
+    case CELL_NUMERIC:
+      // not ideal for a date but will have to do ... one day: asDateString()?
+      return std::string(v->value());
+
+    case CELL_TEXT:
+    {
+      std::string out_string;
+
+      // inlineStr
+      rapidxml::xml_node<>* is = cell_->first_node("is");
+      if (is != NULL) {
+        return parseString(is, &out_string) ? out_string : "NA";
+      }
+
+      // shared string
+      if (strncmp(t->value(), "s", 5) == 0) {
+        int id = atoi(v->value());
+        if (id < 0 || id >= (int) stringTable.size()) {
+          Rcpp::warning("Invalid string id at [%i, %i]: %i",
+                        row() + 1, col() + 1, id);
+          return "NA";
+        }
+        return(stringTable.at(id));
+      }
+
+      //   the mythical ISO 8601 date cell
+      //   formula string cell
+      return(v->value());
+    }
+    }
+  }
+
+  int asInteger() const {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    return v == NULL ? NA_LOGICAL : atoi(v->value());
+  }
+
+  double asDouble() const {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    return v == NULL ? NA_REAL : atof(v->value());
+  }
+
+  double asDate(int offset) const {
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    return v == NULL ? NA_REAL : (atof(v->value()) - offset) * 86400;
+  }
+
+  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable) const {
+
+    // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
+    rapidxml::xml_node<>* is = cell_->first_node("is");
+    if (is != NULL) {
+      std::string value;
+      if (parseString(is, &value)) {
+        return Rf_mkCharCE(value.c_str(), CE_UTF8);
+      } else {
+        return NA_STRING;
+      }
+    }
+
+    rapidxml::xml_node<>* v = cell_->first_node("v");
+    if (v == NULL) {
+      return NA_STRING;
+    }
+
+    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
+
+    if (t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
+      return stringFromTable(v->value(), stringTable);
+    } else {
+      return Rf_mkCharCE(v->value(), CE_UTF8);
+    }
+  }
+
+private:
+
+  CellType inferType(const StringSet& na,
+                     const std::vector<std::string>& stringTable,
+                     const std::set<int>& dateStyles) const {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -156,115 +257,7 @@ public:
     return CELL_TEXT;
   }
 
-  std::string asStdString(const StringSet& na,
-                          const std::vector<std::string>& stringTable,
-                          const std::set<int>& dateStyles) const {
-    CellType type = this->type(na, stringTable, dateStyles);
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
-
-    switch(type) {
-
-    case CELL_BLANK:
-      return "NA";
-
-    case CELL_LOGICAL:
-      return atoi(v->value()) ? "TRUE" : "FALSE";
-
-    case CELL_DATE:
-    case CELL_NUMERIC:
-      // not ideal for a date but will have to do ... one day: asDateString()?
-      return std::string(v->value());
-
-    case CELL_TEXT:
-    {
-      std::string out_string;
-
-      // inlineStr
-      rapidxml::xml_node<>* is = cell_->first_node("is");
-      if (is != NULL) {
-        return parseString(is, &out_string) ? out_string : "NA";
-      }
-
-      // shared string
-      if (strncmp(t->value(), "s", 5) == 0) {
-        int id = atoi(v->value());
-        if (id < 0 || id >= (int) stringTable.size()) {
-          Rcpp::warning("Invalid string id at [%i, %i]: %i",
-                        row() + 1, col() + 1, id);
-          return "NA";
-        }
-        return(stringTable.at(id));
-      }
-
-      //   the mythical ISO 8601 date cell
-      //   formula string cell
-      return(v->value());
-    }
-  }
-  }
-
-  int asInteger(const StringSet& na) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value())) {
-      return NA_LOGICAL;
-    }
-
-    return atoi(v->value());
-  }
-
-  double asDouble(const StringSet& na) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value()))
-      return NA_REAL;
-
-    return (v == NULL) ? 0 : atof(v->value());
-  }
-
-  double asDate(const StringSet& na, int offset) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value()))
-      return NA_REAL;
-
-    double value = atof(v->value());
-    return (v == NULL) ? 0 : (value - offset) * 86400;
-  }
-
-  Rcpp::RObject asCharSxp(const StringSet& na,
-                          const std::vector<std::string>& stringTable) const {
-
-    // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
-    rapidxml::xml_node<>* is = cell_->first_node("is");
-    if (is != NULL) {
-      std::string value;
-      if (!parseString(is, &value) || na.contains(value)) {
-        return NA_STRING;
-      } else {
-        return Rf_mkCharCE(value.c_str(), CE_UTF8);
-      }
-    }
-
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL)
-      return NA_STRING;
-
-    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
-
-    if (t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
-      return stringFromTable(v->value(), na, stringTable);
-    } else {
-      if (na.contains(v->value())) {
-        return NA_STRING;
-      } else {
-        return Rf_mkCharCE(v->value(), CE_UTF8);
-      }
-    }
-  }
-
-
-private:
-
-  Rcpp::RObject stringFromTable(const char* val, const StringSet& na,
+  Rcpp::RObject stringFromTable(const char* val,
                                 const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
@@ -273,7 +266,7 @@ private:
     }
 
     const std::string& string = stringTable.at(id);
-    return na.contains(string) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
+    return Rf_mkCharCE(string.c_str(), CE_UTF8);
   }
 
 };

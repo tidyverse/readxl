@@ -27,7 +27,8 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip):
+  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip,
+                const StringSet& na):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
@@ -53,7 +54,7 @@ public:
                  sheetName_, sheet_i + 1);
     }
 
-    loadCells();
+    loadCells(na, wb.stringTable(), wb.dateStyles());
     parseGeometry(skip);
   }
 
@@ -78,14 +79,13 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable());
+      out[xcell->col()] = xcell->asCharSxp(wb_.stringTable());
       xcell++;
     }
     return out;
   }
 
-  std::vector<ColType> colTypes(const StringSet& na,
-                                int guess_max = 1000,
+  std::vector<ColType> colTypes(int guess_max = 1000,
                                 bool has_col_names = false) {
     std::vector<ColType> types(ncol_);
 
@@ -105,9 +105,7 @@ public:
         Rcpp::checkUserInterrupt();
       }
       if (xcell->col() < ncol_) {
-        ColType type = as_ColType(
-          xcell->type(na, wb_.stringTable(), wb_.dateStyles())
-        );
+        ColType type = as_ColType(xcell->type());
         if (type > types[xcell->col()]) {
           types[xcell->col()] = type;
         }
@@ -120,7 +118,6 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<ColType>& types,
-                      const StringSet& na,
                       bool has_col_names = false) {
 
     std::vector<XlsxCell>::const_iterator xcell;
@@ -151,7 +148,7 @@ public:
         continue;
       }
 
-      CellType type = xcell->type(na, wb_.stringTable(), wb_.dateStyles());
+      CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into
       int row = i - base;
@@ -175,12 +172,11 @@ public:
           break;
         case CELL_LOGICAL:
         case CELL_NUMERIC:
-          LOGICAL(col)[row] = xcell->asInteger(na) ? TRUE : FALSE;
+          LOGICAL(col)[row] = xcell->asInteger() ? TRUE : FALSE;
           break;
         case CELL_TEXT:
         {
-          std::string text_string = xcell->asStdString(na, wb_.stringTable(),
-                                                       wb_.dateStyles());
+          std::string text_string = xcell->asStdString(wb_.stringTable());
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(col)[row] = text_boolean;
@@ -205,17 +201,16 @@ public:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
+          REAL(col)[row] = xcell->asDate(wb_.offset());
           break;
         case CELL_NUMERIC:
           Rcpp::warning("Coercing numeric to date in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
+          REAL(col)[row] = xcell->asDate(wb_.offset());
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(na, wb_.stringTable(),
-                                                         wb_.dateStyles()));
+                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
           REAL(col)[row] = NA_REAL;
           break;
         }
@@ -229,7 +224,7 @@ public:
         case CELL_LOGICAL:
           Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->asDouble(na);
+          REAL(col)[row] = xcell->asDouble();
           break;
         case CELL_DATE:
           // print date string here, when/if possible
@@ -238,12 +233,11 @@ public:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_NUMERIC:
-          REAL(col)[row] = xcell->asDouble(na);
+          REAL(col)[row] = xcell->asDouble();
           break;
         case CELL_TEXT:
         {
-          std::string num_string = xcell->asStdString(na, wb_.stringTable(),
-                                                      wb_.dateStyles());
+          std::string num_string = xcell->asStdString(wb_.stringTable());
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
@@ -268,7 +262,7 @@ public:
           SET_STRING_ELT(col, row, NA_STRING);
           break;
         case CELL_LOGICAL:
-          if (xcell->asInteger(na)) {
+          if (xcell->asInteger()) {
             SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
           } else {
             SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
@@ -276,12 +270,12 @@ public:
           break;
         case CELL_DATE:
           // use date string here, when/if possible
-          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
+          SET_STRING_ELT(col, row, xcell->asCharSxp(wb_.stringTable()));
           break;
         case CELL_NUMERIC:
         case CELL_TEXT:
         {
-          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
+          SET_STRING_ELT(col, row, xcell->asCharSxp(wb_.stringTable()));
         }
           break;
         }
@@ -294,23 +288,23 @@ public:
           break;
         }
         case CELL_LOGICAL: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger(na)));
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger()));
           break;
         }
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(na, wb_.offset()));
+          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.offset()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
           break;
         }
         case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na)));
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble()));
           break;
         }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
-          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(na, wb_.stringTable()));
+          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable()));
           SET_VECTOR_ELT(col, row, rStringVector);
           break;
         }
@@ -324,7 +318,9 @@ public:
 
 private:
 
-  void loadCells() {
+  void loadCells(const StringSet& na,
+                 const std::vector<std::string>& stringTable,
+                 const std::set<int>& dateStyles) {
     rapidxml::xml_node<>* row = sheetData_->first_node("row");
     if (row == NULL) {
       return;
@@ -339,7 +335,7 @@ private:
         // only load cells that have >= 1 child nodes
         // we require cell to have content, not just, e.g., a style
         if (first_child != NULL) {
-          XlsxCell xcell(cell, i, j);
+          XlsxCell xcell(cell, stringTable, dateStyles, na, i, j);
           cells_.push_back(xcell);
         }
         j++;
