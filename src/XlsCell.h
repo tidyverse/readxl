@@ -63,22 +63,37 @@ public:
     //   shared string or string formula whose value matches na
     //   boolean or boolean formula whose value (TRUE or FALSE) matches na
     //   number or numeric formula whose double value (d) matches na
-    //   formula in error (except #NULL!) or static error (#N/A)
     //   explicit blank cell
+    //   formula in error (except #NULL!) or static error (#N/A)
+    //   examples:
+    //   static: id = 517, str = "error", d = 42, l = 0, xf = 15
+    //   formula: id = 6, str = "error", d = 29, l = 65535, xf = 15
     //
     // CELL_LOGICAL
     //   boolean or boolean formula whose value (TRUE or FALSE) does not match na
+    //   examples:
+    //   static: id = 517, str = "bool", d = 0 or 1, l = 0, xf = 15
+    //   formula: id = 6, str = "bool", d = 0 or 1, l = 65535, xf = 15
     //
     // CELL_DATE
     //   number or numeric formula with a date format, whose double value (d)
     //   does not match na
+    //   examples:
+    //   static: id = 638, str = "42426.000000", d = 42426, l = 0, xf = 62
+    //   formula: id = 6, str = "42431", d = 42431, l = 0, xf = 62
     //
     // CELL_NUMERIC
     //   number or numeric formula with no format or a non-date format, whose
     //   double value (d) does not match na
+    //   examples:
+    //   static: id = 638, str = "1.300000", d = 1.3, l = 0, xf = 15
+    //   formula: id = 6, str = "1", d = 1.69, l = 0, xf = 15
     //
     // CELL_TEXT
     //   shared string or string formula whose value does not match na
+    //   examples:
+    //   static: id = 253, str = "something", d = 0, l = 0, xf = 15
+    //   formula: id = 6, str = "something", d = 0, l = 65535, xf = 15
 
     switch(cell_->id) {
     case 253: // 0x00FD LabelSst 2.4.149 p325:
@@ -91,7 +106,9 @@ public:
 
     case 6:    // 0x0006 formula 2.4.127 p309
     case 1030: // 0x0406 formula (Apple Numbers Bug) via libxls
-      if (cell_->l == 0) { // formula evaluates to numeric, possibly date
+      // l = 0     --> result is a number, possibly date
+      // l = 65535 --> everything else
+      if (cell_->l == 0) {
         if (na.contains(cell_->d)) {
           return CELL_BLANK;
         }
@@ -129,6 +146,7 @@ public:
         }
 
         // string (or #NULL! error)
+        // d = 0 and str holds string formula result
         return na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
       }
 
