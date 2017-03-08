@@ -78,7 +78,8 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable());
+      out[xcell->col()] = xcell->asCharSxp("", wb_.stringTable(),
+                     wb_.dateStyles());
       xcell++;
     }
     return out;
@@ -184,7 +185,8 @@ public:
           break;
         case CELL_LOGICAL:
         case CELL_NUMERIC:
-          LOGICAL(col)[row] = xcell->asInteger(na) ? TRUE : FALSE;
+          LOGICAL(col)[row] = xcell->asInteger(na, wb_.stringTable(),
+                  wb_.dateStyles());
           break;
         case CELL_TEXT:
         {
@@ -215,12 +217,14 @@ public:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_DATE:
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
+          REAL(col)[row] = xcell->asDate(na, wb_.stringTable(),
+               wb_.dateStyles(), wb_.offset());
           break;
         case CELL_NUMERIC:
           Rcpp::warning("Coercing numeric to date in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->asDate(na, wb_.offset());
+          REAL(col)[row] = xcell->asDate(na, wb_.stringTable(),
+               wb_.dateStyles(), wb_.offset());
           break;
         case CELL_TEXT:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
@@ -240,7 +244,8 @@ public:
         case CELL_LOGICAL:
           Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->asDouble(na);
+          REAL(col)[row] = xcell->asDouble(na, wb_.stringTable(),
+               wb_.dateStyles());
           break;
         case CELL_DATE:
           // print date string here, when/if possible
@@ -249,7 +254,8 @@ public:
           REAL(col)[row] = NA_REAL;
           break;
         case CELL_NUMERIC:
-          REAL(col)[row] = xcell->asDouble(na);
+          REAL(col)[row] = xcell->asDouble(na, wb_.stringTable(),
+               wb_.dateStyles());
           break;
         case CELL_TEXT:
         {
@@ -274,29 +280,8 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          SET_STRING_ELT(col, row, NA_STRING);
-          break;
-        case CELL_LOGICAL:
-          if (xcell->asInteger(na)) {
-            SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
-          } else {
-            SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
-          }
-          break;
-        case CELL_DATE:
-          // use date string here, when/if possible
-          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
-          break;
-        case CELL_NUMERIC:
-        case CELL_TEXT:
-        {
-          SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable()));
-        }
-          break;
-        }
+        SET_STRING_ELT(col, row, xcell->asCharSxp(na, wb_.stringTable(),
+                                                  wb_.dateStyles()));
         break;
 
       case COL_LIST:
@@ -307,23 +292,31 @@ public:
           break;
         }
         case CELL_LOGICAL: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger(na)));
+          SET_VECTOR_ELT(col, row,
+                         Rf_ScalarLogical(xcell->asInteger(na, wb_.stringTable(),
+                                                           wb_.dateStyles())));
           break;
         }
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(na, wb_.offset()));
+          Rcpp::RObject cell_val =
+            Rf_ScalarReal(xcell->asDate(na, wb_.stringTable(),
+                                        wb_.dateStyles(), wb_.offset()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
           break;
         }
         case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na)));
+          SET_VECTOR_ELT(col, row,
+                         Rf_ScalarReal(xcell->asDouble(na, wb_.stringTable(),
+                                                       wb_.dateStyles())));
           break;
         }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
-          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(na, wb_.stringTable()));
+          SET_STRING_ELT(rStringVector, 0,
+                         xcell->asCharSxp(na, wb_.stringTable(),
+                                          wb_.dateStyles()));
           SET_VECTOR_ELT(col, row, rStringVector);
           break;
         }

@@ -175,8 +175,7 @@ public:
         case CELL_NUMERIC:
           LOGICAL(col)[row] = xcell->cell()->d != 0;
           break;
-        case CELL_TEXT:
-        {
+        case CELL_TEXT: {
           std::string text_string((char*) xcell->cell()->str);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
