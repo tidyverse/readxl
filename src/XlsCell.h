@@ -31,10 +31,6 @@ public:
     return location_.second;
   }
 
-  xls::xlsCell* cell() const {
-    return cell_;
-  }
-
   CellType type(const StringSet& na,
                 const xls::st_xf* styles,
                 const std::set<int>& customDateFormats) const {
