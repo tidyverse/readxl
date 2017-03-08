@@ -173,8 +173,8 @@ public:
       return atoi(v->value()) ? "TRUE" : "FALSE";
 
     case CELL_DATE:
-    case CELL_NUMERIC:
       // not ideal for a date but will have to do ... one day: asDateString()?
+    case CELL_NUMERIC:
       return std::string(v->value());
 
     case CELL_TEXT:

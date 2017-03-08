@@ -31,8 +31,10 @@ CharacterVector xlsx_col_types(std::string path, int sheet_i = 0,
 }
 
 // [[Rcpp::export]]
-CharacterVector xlsx_col_names(std::string path, int sheet_i = 0, int skip = 0) {
-  return XlsxWorkSheet(path, sheet_i, skip).colNames();
+CharacterVector xlsx_col_names(std::string path,
+                               CharacterVector na = CharacterVector(),
+                               int sheet_i = 0, int skip = 0) {
+  return XlsxWorkSheet(path, sheet_i, skip).colNames(na);
 }
 
 // [[Rcpp::export]]
@@ -57,7 +59,7 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
   case LGLSXP:
   {
     has_col_names = as<bool>(col_names);
-    colNames = has_col_names ? ws.colNames() : CharacterVector(ws.ncol(), "");
+    colNames = has_col_names ? ws.colNames(na) : CharacterVector(ws.ncol(), "");
     break;
   }
   default:

@@ -277,9 +277,10 @@ public:
                                                                   customDateFormats_)));
           break;
         case CELL_TEXT: {
-          std::string out_string = xcell->asStdString(na, &pWS_->workbook->xfs, customDateFormats_);
-          Rcpp::CharacterVector rString = Rf_mkCharCE(out_string.c_str(), CE_UTF8);
-          SET_VECTOR_ELT(col, row, rString);
+          Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+          SET_STRING_ELT(rStringVector, 0,
+                         xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_));
+          SET_VECTOR_ELT(col, row, rStringVector);
         }
       }
       }
