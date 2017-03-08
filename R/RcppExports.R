@@ -9,8 +9,8 @@ xls_sheets <- function(path) {
     .Call('readxl_xls_sheets', PACKAGE = 'readxl', path)
 }
 
-xls_col_names <- function(path, sheet_i = 0L, skip = 0L) {
-    .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, sheet_i, skip)
+xls_col_names <- function(path, na, sheet_i = 0L, skip = 0L) {
+    .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, na, sheet_i, skip)
 }
 
 xls_col_types <- function(path, na, sheet_i = 0L, skip = 0L, guess_max = 1000L, has_col_names = FALSE) {

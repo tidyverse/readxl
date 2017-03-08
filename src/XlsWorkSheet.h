@@ -52,7 +52,7 @@ public:
     return nrow_;
   }
 
-  Rcpp::CharacterVector colNames() {
+  Rcpp::CharacterVector colNames(const StringSet &na) {
     Rcpp::CharacterVector out(ncol_);
     std::vector<XlsCell>::const_iterator xcell = firstRow_;
     int base = xcell->row();
@@ -61,13 +61,7 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      // revisit after this class gains functions for string conversion
-      // https://github.com/tidyverse/readxl/issues/282
-      if (xcell->cell()->str == NULL) {
-        out[xcell->col()] = NA_STRING;
-      } else {
-        out[xcell->col()] = Rf_mkCharCE((char*) xcell->cell()->str, CE_UTF8);
-      }
+      out[xcell->col()] = xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_);
       xcell++;
     }
     return out;
