@@ -194,6 +194,41 @@ public:
     return CELL_TEXT;
   }
 
+  std::string asStdString(const StringSet& na,
+                          const xls::st_xf* styles,
+                          const std::set<int>& customDateFormats) const {
+    CellType type = this->type(na, styles, customDateFormats);
+
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+      return "";
+
+    case CELL_LOGICAL:
+      return cell_->d ? "TRUE" : "FALSE";
+
+    case CELL_DATE:
+      // not ideal for a date but will have to do ... one day: asDateString()?
+    case CELL_NUMERIC: {
+      std::ostringstream strs;
+      strs << cell_->d;
+      std::string out_string = strs.str();
+      return out_string;
+    }
+
+    case CELL_TEXT:
+      return std::string((char*) cell_->str);
+  }
+  }
+
+  Rcpp::RObject asCharSxp(const StringSet& na,
+                          const xls::st_xf* styles,
+                          const std::set<int>& customDateFormats) const {
+    std::string out_string = asStdString(na, styles, customDateFormats);
+    return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
+  }
+
 };
 
 #endif

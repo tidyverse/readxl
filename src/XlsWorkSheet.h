@@ -259,35 +259,8 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          SET_STRING_ELT(col, row, NA_STRING);
-          break;
-        case CELL_LOGICAL:
-          if (xcell->cell()->d == 0) {
-            SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
-          } else {
-            SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
-          }
-          break;
-        case CELL_DATE:
-          // use date string here, when/if possible
-        {
-          std::string stdString((char*) xcell->cell()->str);
-          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_STRING_ELT(col, row, rString);
-          break;
-        }
-        case CELL_NUMERIC:
-        case CELL_TEXT:
-        {
-          std::string stdString((char*) xcell->cell()->str);
-          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_STRING_ELT(col, row, rString);
-        }
-          break;
-        }
+        SET_STRING_ELT(col, row,
+                       xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_));
         break;
 
       case COL_LIST:

@@ -38,7 +38,7 @@ test_that("blanks in same, first row are read as missing [xls]", {
 
 test_that("By default, NA read as text", {
   df <- read_xls(test_sheet("missing-values.xls"))
-  expect_equal(df$x, c("NA", "1.000000", "1.000000"))
+  expect_equal(df$x, c("NA", "1", "1"))
 })
 
 test_that("na arg maps strings to NA [xls]", {
