@@ -191,30 +191,21 @@ public:
         break;
 
       case COL_DATE:
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_LOGICAL:
+        //switch(type) {
+        if (type == CELL_LOGICAL) {
           Rcpp::warning("Expecting date in [%i, %i]: got boolean",
                         i + 1, j + 1);
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_DATE:
-          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
-          break;
-        case CELL_NUMERIC:
+        }
+        if (type == CELL_NUMERIC) {
           Rcpp::warning("Coercing numeric to date in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
-          break;
-        case CELL_TEXT:
+        }
+        if (type == CELL_TEXT) {
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
                         i + 1, j + 1, xcell->cell()->str);
-          REAL(col)[row] = NA_REAL;
-          break;
         }
+        REAL(col)[row] = xcell->asDate(na, &pWS_->workbook->xfs,
+             customDateFormats_, offset_);
         break;
 
       case COL_NUMERIC:

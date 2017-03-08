@@ -265,6 +265,25 @@ public:
     }
   }
 
+  double asDate(const StringSet& na,
+                const xls::st_xf* styles,
+                const std::set<int>& customDateFormats,
+                int offset) const {
+    CellType type = this->type(na, styles, customDateFormats);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_LOGICAL:
+    case CELL_TEXT:
+      return NA_REAL;
+
+    case CELL_DATE:
+    case CELL_NUMERIC:
+      return (cell_->d - offset) * 86400;
+    }
+  }
+
 };
 
 #endif
