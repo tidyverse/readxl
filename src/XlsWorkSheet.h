@@ -163,7 +163,10 @@ public:
         switch(type) {
         case CELL_UNKNOWN:
         case CELL_BLANK:
-          LOGICAL(col)[row] = NA_LOGICAL;
+        case CELL_LOGICAL:
+        case CELL_NUMERIC:
+          LOGICAL(col)[row] = xcell->asInteger(na, &pWS_->workbook->xfs,
+                  customDateFormats_);
           break;
         case CELL_DATE:
           // print date string here, when/if it's possible to do so
@@ -171,18 +174,15 @@ public:
                         i + 1, j + 1);
           LOGICAL(col)[row] = NA_LOGICAL;
           break;
-        case CELL_LOGICAL:
-        case CELL_NUMERIC:
-          LOGICAL(col)[row] = xcell->cell()->d != 0;
-          break;
         case CELL_TEXT: {
-          std::string text_string((char*) xcell->cell()->str);
+          std::string text_string = xcell->asStdString(na, &pWS_->workbook->xfs,
+                                                       customDateFormats_);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(col)[row] = text_boolean;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
-                          i + 1, j + 1, xcell->cell()->str);
+                          i + 1, j + 1, text_string);
             LOGICAL(col)[row] = NA_LOGICAL;
           }
         }

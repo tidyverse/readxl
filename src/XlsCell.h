@@ -229,6 +229,24 @@ public:
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
+  int asInteger(const StringSet& na,
+                const xls::st_xf* styles,
+                const std::set<int>& customDateFormats) const {
+    CellType type = this->type(na, styles, customDateFormats);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_DATE:
+    case CELL_TEXT:
+      return NA_LOGICAL;
+
+    case CELL_LOGICAL:
+    case CELL_NUMERIC:
+      return cell_->d != 0;
+    }
+  }
+
 };
 
 #endif
