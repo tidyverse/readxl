@@ -218,28 +218,27 @@ public:
         break;
 
       case COL_NUMERIC:
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_LOGICAL:
+        if (type == CELL_LOGICAL) {
           Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->cell()->d;
-          break;
-        case CELL_DATE:
+        }
+        if (type == CELL_DATE) {
           // print date string here, when/if possible
           Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
                         i + 1, j + 1);
-          REAL(col)[row] = NA_REAL;
-          break;
+        }
+        switch(type) {
+        case CELL_UNKNOWN:
+        case CELL_BLANK:
+        case CELL_LOGICAL:
+        case CELL_DATE:
         case CELL_NUMERIC:
-          REAL(col)[row] = xcell->cell()->d;
+          REAL(col)[row] = xcell->asDouble(na, &pWS_->workbook->xfs, customDateFormats_);
           break;
         case CELL_TEXT:
         {
-          std::string num_string((char*) xcell->cell()->str);
+          std::string num_string = xcell->asStdString(na, &pWS_->workbook->xfs,
+                                                      customDateFormats_);
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {

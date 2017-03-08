@@ -247,6 +247,24 @@ public:
     }
   }
 
+  double asDouble(const StringSet& na,
+                  const xls::st_xf* styles,
+                  const std::set<int>& customDateFormats) const {
+    CellType type = this->type(na, styles, customDateFormats);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_TEXT:
+      return NA_REAL;
+
+    case CELL_LOGICAL:
+    case CELL_DATE:
+    case CELL_NUMERIC:
+      return cell_->d;
+    }
+  }
+
 };
 
 #endif
