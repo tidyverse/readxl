@@ -16,11 +16,15 @@
 class XlsCell {
   xls::xlsCell *cell_;
   std::pair<int,int> location_;
+  CellType type_;
 
 public:
 
-  XlsCell(xls::xlsCell *cell): cell_(cell) {
+  XlsCell(xls::xlsCell *cell):
+  cell_(cell)
+  {
     location_ = std::make_pair(cell_->row, cell_->col);
+    type_ = CELL_UNKNOWN;
   }
 
   int row() const {
@@ -31,9 +35,13 @@ public:
     return location_.second;
   }
 
-  CellType type(const StringSet& na,
-                const xls::st_xf* styles,
-                const std::set<int>& customDateFormats) const {
+  CellType type() const {
+    return type_;
+  }
+
+  void inferType(const StringSet& na,
+                 const xls::st_xf* styles,
+                 const std::set<int>& customDateFormats) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -91,6 +99,11 @@ public:
     //   static: id = 253, str = "something", d = 0, l = 0, xf = 15
     //   formula: id = 6, str = "something", d = 0, l = 65535, xf = 15
 
+    if (type_ != CELL_UNKNOWN) {
+      return;
+    }
+
+    CellType ct;
     switch(cell_->id) {
     case 253: // 0x00FD LabelSst 2.4.149 p325:
               // a string from the shared string table
@@ -98,7 +111,8 @@ public:
               // "Label record specifies a label on the category axis for
               // each series"
               // Jenny: I think this one is a red herring = not a cell type
-      return na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+      ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+      break;
 
     case 6:    // 0x0006 formula 2.4.127 p309
     case 1030: // 0x0406 formula (Apple Numbers Bug) via libxls
@@ -106,23 +120,27 @@ public:
       // l = 65535 --> everything else
       if (cell_->l == 0) {
         if (na.contains(cell_->d)) {
-          return CELL_BLANK;
+          ct = CELL_BLANK;
+          break;
         }
         if (styles == NULL) {
-          return CELL_NUMERIC;
+          ct = CELL_NUMERIC;
+          break;
         }
         int format = styles->xf[cell_->xf].format;
-        return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+        ct = isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+        break;
       } else { // formula evaluates to Boolean, string, or error
 
         // Boolean
         if (strncmp((char *) cell_->str, "bool", 4) == 0) {
           if ( (cell_->d == 0 && na.contains("FALSE")) ||
                (cell_->d == 1 && na.contains("TRUE")) ) {
-            return CELL_BLANK;
+            ct = CELL_BLANK;
           } else {
-            return CELL_LOGICAL;
+            ct = CELL_LOGICAL;
           }
+          break;
         }
 
         // error
@@ -138,13 +156,15 @@ public:
         //  0x2A #N/A
         //  0x2B #GETTING_DATA
         if (strncmp((char *) cell_->str, "error", 5) == 0 && cell_->d > 0) {
-          return CELL_BLANK;
+          ct = CELL_BLANK;
+          break;
         }
 
         // string (or #NULL! error)
         // d = 0 and str holds string formula result
-        return na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+        ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
       }
+      break;
 
     case 189: // 0x00BD MulRk 2.4.175 p344:
               // numeric data originating from series of cells
@@ -154,48 +174,51 @@ public:
               // numeric data from single cell
       {
         if (na.contains(cell_->d)) {
-          return CELL_BLANK;
+          ct = CELL_BLANK;
+          break;
         }
         if (styles == NULL) {
-          return CELL_NUMERIC;
+          ct = CELL_NUMERIC;
+          break;
         }
         int format = styles->xf[cell_->xf].format;
-        return isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+        ct = isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
       }
+      break;
 
     case 190: // 0x00BE MulBlank 2.4.174 p344:
               // blank cell originating from series of blank cells
     case 513: // 0x0201 Blank 2.4.20 p212:
               // an empty cell with no formula or value
-      return CELL_BLANK;
+      ct = CELL_BLANK;
+      break;
 
     case 517: // 0x0205 BoolErr 2.4.24 p216:
               //  a cell that contains either a Boolean value or an error value
       if (strncmp((char *) cell_->str, "bool", 4) == 0) {
         if ( (cell_->d == 0 && na.contains("FALSE")) ||
              (cell_->d == 1 && na.contains("TRUE")) ) {
-          return CELL_BLANK;
+          ct = CELL_BLANK;
         } else {
-          return CELL_LOGICAL;
+          ct = CELL_LOGICAL;
         }
+      } else {
+        // must be an error
+        ct = CELL_BLANK;
       }
-      // must be an error
-      return CELL_BLANK;
+      break;
 
     default:
       Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
                     row() + 1, col() + 1, cell_->id);
+    ct = CELL_UNKNOWN;
     }
 
-    return CELL_TEXT;
+    type_ = ct;
   }
 
-  std::string asStdString(const StringSet& na,
-                          const xls::st_xf* styles,
-                          const std::set<int>& customDateFormats) const {
-    CellType type = this->type(na, styles, customDateFormats);
-
-    switch(type) {
+  std::string asStdString() const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -218,18 +241,13 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp(const StringSet& na,
-                          const xls::st_xf* styles,
-                          const std::set<int>& customDateFormats) const {
-    std::string out_string = asStdString(na, styles, customDateFormats);
+  Rcpp::RObject asCharSxp() const {
+    std::string out_string = asStdString();
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
-  int asInteger(const StringSet& na,
-                const xls::st_xf* styles,
-                const std::set<int>& customDateFormats) const {
-    CellType type = this->type(na, styles, customDateFormats);
-    switch(type) {
+  int asInteger() const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -243,11 +261,8 @@ public:
     }
   }
 
-  double asDouble(const StringSet& na,
-                  const xls::st_xf* styles,
-                  const std::set<int>& customDateFormats) const {
-    CellType type = this->type(na, styles, customDateFormats);
-    switch(type) {
+  double asDouble() const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -261,12 +276,8 @@ public:
     }
   }
 
-  double asDate(const StringSet& na,
-                const xls::st_xf* styles,
-                const std::set<int>& customDateFormats,
-                int offset) const {
-    CellType type = this->type(na, styles, customDateFormats);
-    switch(type) {
+  double asDate(int offset) const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
