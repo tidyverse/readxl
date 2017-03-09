@@ -167,14 +167,14 @@ public:
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
-      return "NA";
+      return "";
 
     case CELL_LOGICAL:
       return atoi(v->value()) ? "TRUE" : "FALSE";
 
     case CELL_DATE:
-    case CELL_NUMERIC:
       // not ideal for a date but will have to do ... one day: asDateString()?
+    case CELL_NUMERIC:
       return std::string(v->value());
 
     case CELL_TEXT:
@@ -189,92 +189,99 @@ public:
 
       // shared string
       if (strncmp(t->value(), "s", 5) == 0) {
-        int id = atoi(v->value());
-        if (id < 0 || id >= (int) stringTable.size()) {
-          Rcpp::warning("Invalid string id at [%i, %i]: %i",
-                        row() + 1, col() + 1, id);
-          return "NA";
-        }
-        return(stringTable.at(id));
+        return stringFromTable(v->value(), stringTable);
       }
 
+      //   formula string cell or
       //   the mythical ISO 8601 date cell
-      //   formula string cell
       return(v->value());
     }
   }
   }
 
-  int asInteger(const StringSet& na) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value())) {
-      return NA_LOGICAL;
-    }
-
-    return atoi(v->value());
-  }
-
-  double asDouble(const StringSet& na) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value()))
-      return NA_REAL;
-
-    return (v == NULL) ? 0 : atof(v->value());
-  }
-
-  double asDate(const StringSet& na, int offset) const {
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL || na.contains(v->value()))
-      return NA_REAL;
-
-    double value = atof(v->value());
-    return (v == NULL) ? 0 : (value - offset) * 86400;
-  }
-
   Rcpp::RObject asCharSxp(const StringSet& na,
-                          const std::vector<std::string>& stringTable) const {
+                          const std::vector<std::string>& stringTable,
+                          const std::set<int>& dateStyles) const {
+    std::string out_string = asStdString(na, stringTable, dateStyles);
+    return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
+  }
 
-    // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
-    rapidxml::xml_node<>* is = cell_->first_node("is");
-    if (is != NULL) {
-      std::string value;
-      if (!parseString(is, &value) || na.contains(value)) {
-        return NA_STRING;
-      } else {
-        return Rf_mkCharCE(value.c_str(), CE_UTF8);
-      }
+  int asInteger(const StringSet& na,
+                const std::vector<std::string>& stringTable,
+                const std::set<int>& dateStyles) const {
+    CellType type = this->type(na, stringTable, dateStyles);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_DATE:
+    case CELL_TEXT:
+      return NA_LOGICAL;
+
+    case CELL_LOGICAL:
+    case CELL_NUMERIC:
+    {
+      rapidxml::xml_node<>* v = cell_->first_node("v");
+      return atoi(v->value());
     }
-
-    rapidxml::xml_node<>* v = cell_->first_node("v");
-    if (v == NULL)
-      return NA_STRING;
-
-    rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
-
-    if (t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
-      return stringFromTable(v->value(), na, stringTable);
-    } else {
-      if (na.contains(v->value())) {
-        return NA_STRING;
-      } else {
-        return Rf_mkCharCE(v->value(), CE_UTF8);
-      }
     }
   }
 
+  double asDouble(const StringSet& na,
+                  const std::vector<std::string>& stringTable,
+                  const std::set<int>& dateStyles) const {
+    CellType type = this->type(na, stringTable, dateStyles);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_TEXT:
+      return NA_REAL;
+
+    case CELL_LOGICAL:
+    case CELL_DATE:
+    case CELL_NUMERIC:
+    {
+      rapidxml::xml_node<>* v = cell_->first_node("v");
+      return atof(v->value());
+    }
+    }
+  }
+
+  double asDate(const StringSet& na,
+                const std::vector<std::string>& stringTable,
+                const std::set<int>& dateStyles,
+                int offset) const {
+    CellType type = this->type(na, stringTable, dateStyles);
+    switch(type) {
+
+    case CELL_UNKNOWN:
+    case CELL_BLANK:
+    case CELL_LOGICAL:
+    case CELL_TEXT:
+      return NA_REAL;
+
+    case CELL_DATE:
+    case CELL_NUMERIC:
+    {
+      rapidxml::xml_node<>* v = cell_->first_node("v");
+      return (atof(v->value()) - offset) * 86400;
+    }
+    }
+  }
 
 private:
 
-  Rcpp::RObject stringFromTable(const char* val, const StringSet& na,
-                                const std::vector<std::string>& stringTable) const {
+  std::string stringFromTable(const char* val,
+                              const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
-      Rcpp::warning("[%i, %i]: Invalid string id %i", row() + 1, col() + 1, id);
-      return NA_STRING;
+      Rcpp::warning("Invalid string id at [%i, %i]:  %i",
+                    row() + 1, col() + 1, id);
+      return "";
     }
-
     const std::string& string = stringTable.at(id);
-    return na.contains(string) ? NA_STRING : Rf_mkCharCE(string.c_str(), CE_UTF8);
+    return string;
   }
 
 };

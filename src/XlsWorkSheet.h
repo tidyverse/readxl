@@ -52,7 +52,7 @@ public:
     return nrow_;
   }
 
-  Rcpp::CharacterVector colNames() {
+  Rcpp::CharacterVector colNames(const StringSet &na) {
     Rcpp::CharacterVector out(ncol_);
     std::vector<XlsCell>::const_iterator xcell = firstRow_;
     int base = xcell->row();
@@ -61,13 +61,7 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      // revisit after this class gains functions for string conversion
-      // https://github.com/tidyverse/readxl/issues/282
-      if (xcell->cell()->str == NULL) {
-        out[xcell->col()] = NA_STRING;
-      } else {
-        out[xcell->col()] = Rf_mkCharCE((char*) xcell->cell()->str, CE_UTF8);
-      }
+      out[xcell->col()] = xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_);
       xcell++;
     }
     return out;
@@ -151,7 +145,11 @@ public:
       Rcpp::RObject col = cols[j];
       // row to write into
       int row = i - base;
-      // Needs to compare to actual cell type to give warnings
+
+      // Fit cell of type x into a column of type y
+      // Conventions:
+      //   * process type in same order as enum, unless reason to do otherwise
+      //   * access cell contents only via asWhatever() methods
       switch(types[j]) {
 
       case COL_UNKNOWN:
@@ -160,30 +158,30 @@ public:
         break;
 
       case COL_LOGICAL:
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          LOGICAL(col)[row] = NA_LOGICAL;
-          break;
-        case CELL_DATE:
+        if (type == CELL_DATE) {
           // print date string here, when/if it's possible to do so
           Rcpp::warning("Expecting logical in [%i, %i] got a date",
                         i + 1, j + 1);
-          LOGICAL(col)[row] = NA_LOGICAL;
-          break;
+        }
+
+        switch(type) {
+        case CELL_UNKNOWN:
+        case CELL_BLANK:
         case CELL_LOGICAL:
+        case CELL_DATE:
         case CELL_NUMERIC:
-          LOGICAL(col)[row] = xcell->cell()->d != 0;
+          LOGICAL(col)[row] = xcell->asInteger(na, &pWS_->workbook->xfs,
+                  customDateFormats_);
           break;
-        case CELL_TEXT:
-        {
-          std::string text_string((char*) xcell->cell()->str);
+        case CELL_TEXT: {
+          std::string text_string = xcell->asStdString(na, &pWS_->workbook->xfs,
+                                                       customDateFormats_);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(col)[row] = text_boolean;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
-                          i + 1, j + 1, xcell->cell()->str);
+                          i + 1, j + 1, text_string);
             LOGICAL(col)[row] = NA_LOGICAL;
           }
         }
@@ -192,55 +190,47 @@ public:
         break;
 
       case COL_DATE:
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_LOGICAL:
+        if (type == CELL_LOGICAL) {
           Rcpp::warning("Expecting date in [%i, %i]: got boolean",
                         i + 1, j + 1);
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_DATE:
-          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
-          break;
-        case CELL_NUMERIC:
+        }
+        if (type == CELL_NUMERIC) {
           Rcpp::warning("Coercing numeric to date in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = (xcell->cell()->d - offset_) * 86400;
-          break;
-        case CELL_TEXT:
-          Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
-                        i + 1, j + 1, xcell->cell()->str);
-          REAL(col)[row] = NA_REAL;
-          break;
         }
+        if (type == CELL_TEXT) {
+          Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
+                        i + 1, j + 1,
+                        xcell->asStdString(na, &pWS_->workbook->xfs,
+                                           customDateFormats_));
+        }
+        REAL(col)[row] = xcell->asDate(na, &pWS_->workbook->xfs,
+             customDateFormats_, offset_);
         break;
 
       case COL_NUMERIC:
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          REAL(col)[row] = NA_REAL;
-          break;
-        case CELL_LOGICAL:
+        if (type == CELL_LOGICAL) {
           Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
                         i + 1, j + 1);
-          REAL(col)[row] = xcell->cell()->d;
-          break;
-        case CELL_DATE:
+        }
+        if (type == CELL_DATE) {
           // print date string here, when/if possible
           Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
                         i + 1, j + 1);
-          REAL(col)[row] = NA_REAL;
-          break;
+        }
+        switch(type) {
+        case CELL_UNKNOWN:
+        case CELL_BLANK:
+        case CELL_LOGICAL:
+        case CELL_DATE:
         case CELL_NUMERIC:
-          REAL(col)[row] = xcell->cell()->d;
+          REAL(col)[row] = xcell->asDouble(na, &pWS_->workbook->xfs,
+               customDateFormats_);
           break;
         case CELL_TEXT:
         {
-          std::string num_string((char*) xcell->cell()->str);
+          std::string num_string = xcell->asStdString(na, &pWS_->workbook->xfs,
+                                                      customDateFormats_);
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
@@ -260,66 +250,39 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        switch(type) {
-        case CELL_UNKNOWN:
-        case CELL_BLANK:
-          SET_STRING_ELT(col, row, NA_STRING);
-          break;
-        case CELL_LOGICAL:
-          if (xcell->cell()->d == 0) {
-            SET_STRING_ELT(col, row, Rf_mkChar("FALSE"));
-          } else {
-            SET_STRING_ELT(col, row, Rf_mkChar("TRUE"));
-          }
-          break;
-        case CELL_DATE:
-          // use date string here, when/if possible
-        {
-          std::string stdString((char*) xcell->cell()->str);
-          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_STRING_ELT(col, row, rString);
-          break;
-        }
-        case CELL_NUMERIC:
-        case CELL_TEXT:
-        {
-          std::string stdString((char*) xcell->cell()->str);
-          Rcpp::RObject rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_STRING_ELT(col, row, rString);
-        }
-          break;
-        }
+        SET_STRING_ELT(col, row,
+                       xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_));
         break;
 
       case COL_LIST:
         switch(type) {
         case CELL_UNKNOWN:
-        case CELL_BLANK: {
+        case CELL_BLANK:
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
-        }
-        case CELL_LOGICAL: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->cell()->d));
+        case CELL_LOGICAL:
+          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger(na, &pWS_->workbook->xfs,
+                                                                     customDateFormats_)));
           break;
-        }
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal((xcell->cell()->d - offset_) * 86400);
+          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(na, &pWS_->workbook->xfs,
+                                                               customDateFormats_, offset_));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
           break;
         }
-        case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->cell()->d));
+        case CELL_NUMERIC:
+          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble(na, &pWS_->workbook->xfs,
+                                                                  customDateFormats_)));
           break;
-        }
         case CELL_TEXT: {
-          std::string stdString((char*) xcell->cell()->str);
-          Rcpp::CharacterVector rString = na.contains(stdString) ? NA_STRING : Rf_mkCharCE(stdString.c_str(), CE_UTF8);
-          SET_VECTOR_ELT(col, row, rString);
-          break;
+          Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+          SET_STRING_ELT(rStringVector, 0,
+                         xcell->asCharSxp(na, &pWS_->workbook->xfs, customDateFormats_));
+          SET_VECTOR_ELT(col, row, rStringVector);
         }
-        }
+      }
       }
       xcell++;
     }

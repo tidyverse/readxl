@@ -8,9 +8,11 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector xls_col_names(std::string path, int sheet_i = 0, int skip = 0) {
+CharacterVector xls_col_names(std::string path,
+                              std::vector<std::string> na,
+                              int sheet_i = 0, int skip = 0) {
   XlsWorkBook wb = XlsWorkBook(path);
-  return wb.sheet(sheet_i, skip).colNames();
+  return wb.sheet(sheet_i, skip).colNames(na);
 }
 
 // [[Rcpp::export]]
@@ -58,7 +60,7 @@ List read_xls_(std::string path, int sheet_i, RObject col_names,
   case LGLSXP:
   {
     has_col_names = as<bool>(col_names);
-    colNames = has_col_names ? ws.colNames() : CharacterVector(ws.ncol(), "");
+    colNames = has_col_names ? ws.colNames(na) : CharacterVector(ws.ncol(), "");
     break;
   }
   default:

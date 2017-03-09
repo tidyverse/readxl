@@ -204,26 +204,20 @@ inline Rcpp::RObject makeCol(ColType type, int n) {
   case COL_BLANK:
   case COL_SKIP:
     return R_NilValue;
-    break;
   case COL_LOGICAL:
     return Rcpp::LogicalVector(n, NA_LOGICAL);
-    break;
   case COL_DATE: {
     Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
     col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
     col.attr("tzone") = "UTC";
     return col;
   }
-    break;
   case COL_NUMERIC:
     return Rcpp::NumericVector(n, NA_REAL);
-    break;
   case COL_TEXT:
     return Rcpp::CharacterVector(n, NA_STRING);
-    break;
   case COL_LIST:
     return Rcpp::List(n, Rcpp::LogicalVector(1, NA_LOGICAL));
-    break;
   }
 
   return R_NilValue;

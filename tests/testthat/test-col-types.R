@@ -221,16 +221,21 @@ test_that("contaminated, explicit numeric is read as numeric", {
   expect_equal(df$numeric[2], 72) # "Number stored as text"
 })
 
+## #75, #110: don't convert numbers to string a la "printf %lf"
+## i.e. don't right pad to get 6 decimal places
 test_that("contaminated, explicit text is read as text", {
   ## xls
   df <- read_excel(test_sheet("types.xls"), sheet = "text_coercion",
-                   col_types = "text")
+                   col_types = c("text", "text"))
   expect_is(df$text, "character")
-  expect_false(anyNA(df$text[-2]))
+  expect_false(anyNA(df$explanation != "blank"))
+  expect_identical(df$text[df$explanation == "floating point"], "1.3")
 
   ## xlsx
   df <- read_excel(test_sheet("types.xlsx"), sheet = "text_coercion",
-                   col_types = "text")
+                   col_types = c("text", "text"))
   expect_is(df$text, "character")
-  expect_false(anyNA(df$text[-2]))
+  expect_false(anyNA(df$explanation != "blank"))
+  expect_identical(df$text[df$explanation == "floating point"], "1.3")
+
 })
