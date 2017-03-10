@@ -17,17 +17,21 @@
 class XlsxCell {
   rapidxml::xml_node<>* cell_;
   std::pair<int,int> location_;
+  CellType type_;
 
 public:
 
   // if possible, provide guess at row and column based on position within xml
-  XlsxCell(rapidxml::xml_node<>* cell, int row = -1, int col = -1): cell_(cell) {
+  XlsxCell(rapidxml::xml_node<>* cell, int row = -1, int col = -1):
+  cell_(cell)
+  {
     rapidxml::xml_attribute<>* ref = cell_->first_attribute("r");
     if (ref == NULL) {
       location_ = std::make_pair(row, col);
     } else {
       location_ = parseRef(ref->value());
     }
+    type_ = CELL_UNKNOWN;
   }
 
   int row() const {
@@ -38,9 +42,13 @@ public:
     return location_.second;
   }
 
-  CellType type(const StringSet& na,
-                const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles) const {
+  CellType type() const {
+    return type_;
+  }
+
+  void inferType(const StringSet& na,
+                 const std::vector<std::string>& stringTable,
+                 const std::set<int>& dateStyles) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -89,6 +97,10 @@ public:
     //   formula string cell and string is not na
     //   anything that is not explicitly addressed elsewhere
 
+    if (type_ != CELL_UNKNOWN) {
+      return;
+    }
+
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
     rapidxml::xml_node<>* v = cell_->first_node("v");
 
@@ -99,14 +111,16 @@ public:
       rapidxml::xml_node<>* is = cell_->first_node("is");
       std::string inline_string;
       if (parseString(is, &inline_string)) {
-        return na.contains(inline_string) ? CELL_BLANK : CELL_TEXT;
+        type_ = na.contains(inline_string) ? CELL_BLANK : CELL_TEXT;
       } else {
-        return CELL_BLANK;
+        type_ = CELL_BLANK;
       }
+      return;
     }
 
     if (v == NULL || na.contains(v->value())) {
-      return CELL_BLANK;
+      type_ = CELL_BLANK;
+      return;
     }
     // from here on, the only explicit NA check needed is the case of
     // a shared string table lookup
@@ -115,12 +129,14 @@ public:
     if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
       rapidxml::xml_attribute<>* s = cell_->first_attribute("s");
       int style = (s == NULL) ? -1 : atoi(s->value());
-      return (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
+      type_ = (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
+      return;
     }
 
     // b (Boolean)                Cell containing a boolean.
     if (strncmp(t->value(), "b", 5) == 0) {
-      return CELL_LOGICAL;
+      type_ = CELL_LOGICAL;
+      return;
     }
 
     // d (Date)                   Cell contains a date in the ISO 8601 format.
@@ -130,40 +146,39 @@ public:
       // parser (yet) so need to return as text
       // Jenny:
       // Not entirely sure what this is about. I've never seen one IRL.
-      return CELL_TEXT;
+      type_ = CELL_TEXT;
+      return;
     }
 
     // e (Error)                  Cell containing an error.
     if (strncmp(t->value(), "e", 5) == 0) {
-      return CELL_BLANK;
+      type_ = CELL_BLANK;
+      return;
     }
 
     // s (Shared String)          Cell containing a shared string.
     if (strncmp(t->value(), "s", 5) == 0) {
       int id = atoi(v->value());
       const std::string& string = stringTable.at(id);
-      return na.contains(string) ? CELL_BLANK : CELL_TEXT;
+      type_ = na.contains(string) ? CELL_BLANK : CELL_TEXT;
+      return;
     }
 
     // str (String)               Cell containing a formula string.
     if (strncmp(t->value(), "str", 5) == 0) {
-      return CELL_TEXT;
+      type_ = CELL_TEXT;
+      return;
     }
 
     Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
                   row() + 1, col() + 1, t->value());
-
-    return CELL_TEXT;
   }
 
-  std::string asStdString(const StringSet& na,
-                          const std::vector<std::string>& stringTable,
-                          const std::set<int>& dateStyles) const {
-    CellType type = this->type(na, stringTable, dateStyles);
+  std::string asStdString(const std::vector<std::string>& stringTable) const {
     rapidxml::xml_node<>* v = cell_->first_node("v");
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 
-    switch(type) {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -199,18 +214,13 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp(const StringSet& na,
-                          const std::vector<std::string>& stringTable,
-                          const std::set<int>& dateStyles) const {
-    std::string out_string = asStdString(na, stringTable, dateStyles);
+  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable) const {
+    std::string out_string = asStdString(stringTable);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
-  int asInteger(const StringSet& na,
-                const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles) const {
-    CellType type = this->type(na, stringTable, dateStyles);
-    switch(type) {
+  int asInteger() const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -227,11 +237,8 @@ public:
     }
   }
 
-  double asDouble(const StringSet& na,
-                  const std::vector<std::string>& stringTable,
-                  const std::set<int>& dateStyles) const {
-    CellType type = this->type(na, stringTable, dateStyles);
-    switch(type) {
+  double asDouble() const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
@@ -248,12 +255,8 @@ public:
     }
   }
 
-  double asDate(const StringSet& na,
-                const std::vector<std::string>& stringTable,
-                const std::set<int>& dateStyles,
-                int offset) const {
-    CellType type = this->type(na, stringTable, dateStyles);
-    switch(type) {
+  double asDate(int offset) const {
+    switch(type_) {
 
     case CELL_UNKNOWN:
     case CELL_BLANK:
