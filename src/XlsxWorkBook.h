@@ -17,6 +17,7 @@ class XlsxWorkBook {
     Rcpp::CharacterVector id_;
     std::map<std::string, std::string> target_;
 
+    // populates n_, names_, id_
     void parse_workbook(const std::string& path) {
       std::string workbookXml = zip_buffer(path, "xl/workbook.xml");
       rapidxml::xml_document<> workbook;
@@ -56,6 +57,7 @@ class XlsxWorkBook {
       }
     }
 
+    // populates target_
     void parse_workbook_rels(const std::string& path) {
       std::string rels_xml_file = zip_buffer(path, "xl/_rels/workbook.xml.rels");
       rapidxml::xml_document<> rels_xml;
@@ -85,9 +87,11 @@ class XlsxWorkBook {
       parse_workbook(path);
       parse_workbook_rels(path);
     }
+
     Rcpp::CharacterVector names() const {
       return names_;
     }
+
     int n_sheets() const {
       return n_;
     }
@@ -100,7 +104,7 @@ class XlsxWorkBook {
       }
       return it->second;
     }
-  };
+  }; // end of class SheetRelations
 
   std::string path_;
   std::set<int> dateStyles_;
@@ -119,20 +123,24 @@ public:
     cacheDateStyles();
   }
 
-  Rcpp::CharacterVector sheets() const {
-      return rel_.names();
+  const std::string& path() const{
+    return path_;
   }
 
   int n_sheets() const {
     return rel_.n_sheets();
   }
 
-  std::string sheetPath(int sheet_i) const {
-    return "xl/" + rel_.target(sheet_i);
+  Rcpp::CharacterVector sheets() const {
+    return rel_.names();
   }
 
-  const std::string& path() const{
-    return path_;
+  double offset() const {
+    return offset_;
+  }
+
+  std::string sheetPath(int sheet_i) const {
+    return "xl/" + rel_.target(sheet_i);
   }
 
   const std::set<int>& dateStyles() const {
@@ -141,10 +149,6 @@ public:
 
   const std::vector<std::string>& stringTable() const {
     return stringTable_;
-  }
-
-  double offset() const {
-    return offset_;
   }
 
 private:

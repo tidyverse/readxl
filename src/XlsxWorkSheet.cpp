@@ -80,7 +80,10 @@ List read_xlsx_(std::string path, int sheet_i, RObject col_names,
     colTypes = ws.colTypes(colTypes, na, guess_max, has_col_names);
   }
   colTypes = finalizeTypes(colTypes);
+
+  // Reconcile column names and types ----------------------------------
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
+  // Get data ----------------------------------------------------------
   return ws.readCols(colNames, colTypes, na, has_col_names);
 }
