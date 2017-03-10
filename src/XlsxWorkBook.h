@@ -123,20 +123,24 @@ public:
     cacheDateStyles();
   }
 
-  Rcpp::CharacterVector sheets() const {
-      return rel_.names();
+  const std::string& path() const{
+    return path_;
   }
 
   int n_sheets() const {
     return rel_.n_sheets();
   }
 
-  std::string sheetPath(int sheet_i) const {
-    return "xl/" + rel_.target(sheet_i);
+  Rcpp::CharacterVector sheets() const {
+    return rel_.names();
   }
 
-  const std::string& path() const{
-    return path_;
+  double offset() const {
+    return offset_;
+  }
+
+  std::string sheetPath(int sheet_i) const {
+    return "xl/" + rel_.target(sheet_i);
   }
 
   const std::set<int>& dateStyles() const {
@@ -145,10 +149,6 @@ public:
 
   const std::vector<std::string>& stringTable() const {
     return stringTable_;
-  }
-
-  double offset() const {
-    return offset_;
   }
 
 private:

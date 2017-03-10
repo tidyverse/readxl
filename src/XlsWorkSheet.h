@@ -8,8 +8,8 @@
 #include "ColSpec.h"
 
 class XlsWorkSheet {
+  XlsWorkBook wb_;
   xls::xlsWorkSheet* pWS_;
-  double offset_;
   std::set<int> customDateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;
@@ -18,20 +18,23 @@ class XlsWorkSheet {
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook& wb, int sheet_i, int skip) {
+  XlsWorkSheet(const XlsWorkBook wb, int sheet_i, int skip):
+  wb_(wb)
+  {
     if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1, wb.n_sheets());
     }
     sheetName_ = wb.sheets()[sheet_i];
 
-    pWS_ = xls_getWorkSheet(wb.workbook(), sheet_i);
+    std::string path = wb_.path();
+    xls::xlsWorkBook* pWB = xls::xls_open(path.c_str(), "UTF-8");
+    pWS_ = xls_getWorkSheet(pWB, sheet_i);
     if (pWS_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
-    offset_ = dateOffset(wb.workbook()->is1904);
     customDateFormats_ = wb.customDateFormats();
 
     loadCells();
@@ -202,7 +205,7 @@ public:
                         i + 1, j + 1,
                         xcell->asStdString());
         }
-        REAL(col)[row] = xcell->asDate(offset_);
+        REAL(col)[row] = xcell->asDate(wb_.offset());
         break;
 
       case COL_NUMERIC:
@@ -258,7 +261,7 @@ public:
           SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger()));
           break;
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(offset_));
+          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.offset()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
