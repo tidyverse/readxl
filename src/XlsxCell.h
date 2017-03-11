@@ -268,7 +268,7 @@ public:
     case CELL_NUMERIC:
     {
       rapidxml::xml_node<>* v = cell_->first_node("v");
-      return (atof(v->value()) - offset) * 86400;
+      return dateRound((atof(v->value()) - offset) * 86400);
     }
     }
   }
