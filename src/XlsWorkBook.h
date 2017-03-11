@@ -13,11 +13,15 @@ inline std::string normalizePath(std::string path) {
 }
 
 class XlsWorkBook {
+
+  // common to Xls[x]WorkBook
   std::string path_;
+  double offset_;
+  std::set<int> dateStyles_;
+
+  // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
   int n_sheets_;
   Rcpp::CharacterVector sheets_;
-  double offset_;
-  std::set<int> customDateFormats_;
 
 public:
 
@@ -42,7 +46,7 @@ public:
       xls::st_format::st_format_data format = pWB_->formats.format[i];
       std::string value((char*) format.value);
       if (isDateFormat(value)) {
-        customDateFormats_.insert(format.index);
+        dateStyles_.insert(format.index);
       }
     }
 
@@ -65,8 +69,8 @@ public:
     return offset_;
   }
 
-  std::set<int> customDateFormats() const {
-    return customDateFormats_;
+  const std::set<int>& dateStyles() const {
+    return dateStyles_;
   }
 
 };

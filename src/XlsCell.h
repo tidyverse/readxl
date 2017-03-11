@@ -41,7 +41,7 @@ public:
 
   void inferType(const StringSet& na,
                  const xls::st_xf* styles,
-                 const std::set<int>& customDateFormats) {
+                 const std::set<int>& dateStyles) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -128,7 +128,7 @@ public:
           break;
         }
         int format = styles->xf[cell_->xf].format;
-        ct = isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+        ct = isDateTime(format, dateStyles) ? CELL_DATE : CELL_NUMERIC;
         break;
       } else { // formula evaluates to Boolean, string, or error
 
@@ -182,7 +182,7 @@ public:
           break;
         }
         int format = styles->xf[cell_->xf].format;
-        ct = isDateTime(format, customDateFormats) ? CELL_DATE : CELL_NUMERIC;
+        ct = isDateTime(format, dateStyles) ? CELL_DATE : CELL_NUMERIC;
       }
       break;
 

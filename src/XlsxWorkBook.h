@@ -106,11 +106,14 @@ class XlsxWorkBook {
     }
   }; // end of class SheetRelations
 
+  // common to Xls[x]WorkBook
   std::string path_;
-  std::set<int> dateStyles_;
-  std::vector<std::string> stringTable_;
   double offset_;
+  std::set<int> dateStyles_;
+
+  // specific to XlsxWorkBook
   SheetRelations rel_;
+  std::vector<std::string> stringTable_;
 
 public:
 
@@ -139,12 +142,12 @@ public:
     return offset_;
   }
 
-  std::string sheetPath(int sheet_i) const {
-    return "xl/" + rel_.target(sheet_i);
-  }
-
   const std::set<int>& dateStyles() const {
     return dateStyles_;
+  }
+
+  std::string sheetPath(int sheet_i) const {
+    return "xl/" + rel_.target(sheet_i);
   }
 
   const std::vector<std::string>& stringTable() const {
@@ -183,11 +186,11 @@ private:
   }
 
   void cacheDateStyles() {
-    std::string sharedStringsXml = zip_buffer(path_, "xl/styles.xml");
-    rapidxml::xml_document<> sharedStrings;
-    sharedStrings.parse<0>(&sharedStringsXml[0]);
+    std::string stylesXml = zip_buffer(path_, "xl/styles.xml");
+    rapidxml::xml_document<> styles;
+    styles.parse<0>(&stylesXml[0]);
 
-    rapidxml::xml_node<>* styleSheet = sharedStrings.first_node("styleSheet");
+    rapidxml::xml_node<>* styleSheet = styles.first_node("styleSheet");
     if (styleSheet == NULL) {
       return;
     }
