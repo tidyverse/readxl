@@ -13,7 +13,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^clippy$
-^\[MS-XLS\]\.pdf$
-^excelfileformat\.pdf$
+^xldocs$
 ^src/libxls/xls2csv\.c$
 ^iss$
