@@ -18,6 +18,17 @@ inline double dateOffset(bool is1904) {
   return is1904 ? 24107 : 25569;
 }
 
+// this is sort of horrible
+// convert serial date to decimilliseconds
+// use well-known hack to round to nearest integer w/o C++11 or boost, e.g.
+// http://stackoverflow.com/questions/485525/round-for-float-in-c
+// convert back to serial date
+inline double dateRound(double dttm) {
+  double ms = dttm * 10000;
+  ms = (ms >= 0.0 ? std::floor(ms + 0.5) : std::ceil(ms - 0.5));
+  return ms / 10000;
+}
+
 // Simple parser: does not check that order of numbers and letters is correct
 inline std::pair<int, int> parseRef(const char* ref) {
   int col = 0, row = 0;

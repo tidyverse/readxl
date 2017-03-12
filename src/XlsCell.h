@@ -5,6 +5,7 @@
 #include <libxls/xls.h>
 #include <libxls/xlstypes.h>
 #include "ColSpec.h"
+#include "utils.h"
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure
@@ -287,7 +288,7 @@ public:
 
     case CELL_DATE:
     case CELL_NUMERIC:
-      return (cell_->d - offset) * 86400;
+      return dateRound((cell_->d - offset) * 86400);
     }
   }
 
