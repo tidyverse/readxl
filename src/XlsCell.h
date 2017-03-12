@@ -277,7 +277,7 @@ public:
     }
   }
 
-  double asDate(int offset) const {
+  double asDate(bool is1904) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -288,7 +288,7 @@ public:
 
     case CELL_DATE:
     case CELL_NUMERIC:
-      return dateRound((cell_->d - offset) * 86400);
+      return POSIXctFromSerial(cell_->d, is1904);
     }
   }
 

@@ -16,7 +16,7 @@ class XlsWorkBook {
 
   // common to Xls[x]WorkBook
   std::string path_;
-  double offset_;
+  bool is1904_;
   std::set<int> dateStyles_;
 
   // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
@@ -39,7 +39,7 @@ public:
       sheets_[i] = Rf_mkCharCE((char*) pWB_->sheets.sheet[i].name, CE_UTF8);
     }
 
-    offset_ = dateOffset(pWB_->is1904);
+    is1904_ = pWB_->is1904;
 
     int n_formats = pWB_->formats.count;
     for (int i = 0; i < n_formats; ++i) {
@@ -65,8 +65,8 @@ public:
     return sheets_;
   }
 
-  double offset() const {
-    return offset_;
+  bool is1904() const {
+    return is1904_;
   }
 
   const std::set<int>& dateStyles() const {

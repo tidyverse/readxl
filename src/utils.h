@@ -4,14 +4,35 @@
 #include <cerrno>
 #include "StringSet.h"
 
+// The date offset needed to align Excel dates with R's use of 1970-01-01
+// depends on the "date system".
+//
+// xls ------------------------------------------------------------------------
+// Page and section numbers below refer to
+// [MS-XLS]: Excel Binary File Format (.xls) Structure
+// version, date, and download URL given in XlsCell.h
+//
+// 2.4.77 Date1904 p257 ... it boils down to a boolean
+// 0 --> 1900 date system
+// 1 --> 1904 date system
+//
+// xlsx ------------------------------------------------------------------------
+// Page and section numbers below refer to
+// ECMA-376
+// version, date, and download URL given in XlsxCell.h
+//
 // 18.2.28 workbookPr (Workbook Properties) p1582
-// date1904:
-// Value that indicates whether to use a 1900 or 1904 date system when
-// converting serial date-times in the workbook to dates.
-// A value of 1 or true indicates the workbook uses the 1904 date system.
-// A value of 0 or false indicates the workbook uses the 1900 date system. (See
-// 18.17.4.1 for the definition of the date systems.)
-// The default value for this attribute is false.
+// in xl/workbook.xml, node workbook, child node workbookPr
+// attribute date1904:
+// 0 or false --> 1900 date system
+// 1 or true --> 1904 date system (this is the default)
+//
+// 18.17.4.1 p2067 holds definition of the date systems
+//
+// Date systems ---------------------------------------------------------------
+// 1900 system: first possible date is 1900-01-01 00:00:00,
+//              which has serial value of **1**
+// 1904 system: origin 1904-01-01 00:00:00
 inline double dateOffset(bool is1904) {
   // as.numeric(as.Date("1899-12-30"))
   // as.numeric(as.Date("1904-01-01"))
@@ -27,6 +48,35 @@ inline double dateRound(double dttm) {
   double ms = dttm * 10000;
   ms = (ms >= 0.0 ? std::floor(ms + 0.5) : std::ceil(ms - 0.5));
   return ms / 10000;
+}
+
+// this is even more horrible
+// correct for Excel's faithful re-implementation of the Lotus 1-2-3 bug,
+// in which February 29, 1900 is included in the date system, even though 1900
+// was not actually a leap year
+// https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year
+// How we address this:
+// If date is *prior* to the non-existent leap day: add a day
+// If date is on the non-existent leap day: make negative and, in due course, NA
+// Otherwise: do nothing
+inline double removeLeapDay(double xlDate) {
+  if (xlDate >= 61) {
+    return xlDate;
+  } else {
+    return (xlDate < 60) ? ++xlDate : -1;
+  }
+}
+
+inline double POSIXctFromSerial(double xlDate, bool is1904) {
+  if (!is1904) {
+    xlDate = removeLeapDay(xlDate);
+  }
+  if (xlDate < 0) {
+    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    return NA_REAL;
+  } else {
+    return dateRound((xlDate - dateOffset(is1904)) * 86400);
+  }
 }
 
 // Simple parser: does not check that order of numbers and letters is correct

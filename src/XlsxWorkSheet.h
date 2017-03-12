@@ -219,7 +219,7 @@ public:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
                         i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
         }
-        REAL(col)[row] = xcell->asDate(wb_.offset());
+        REAL(col)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
@@ -278,7 +278,7 @@ public:
         }
         case CELL_DATE: {
           Rcpp::RObject cell_val =
-            Rf_ScalarReal(xcell->asDate(wb_.offset()));
+            Rf_ScalarReal(xcell->asDate(wb_.is1904()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
