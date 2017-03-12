@@ -20,7 +20,8 @@ inline double dateOffset(bool is1904) {
 
 // this is sort of horrible
 // convert serial date to decimilliseconds
-// use well-known hack to round to nearest integer
+// use well-known hack to round to nearest integer w/o C++11 or boost, e.g.
+// http://stackoverflow.com/questions/485525/round-for-float-in-c
 // convert back to serial date
 inline double dateRound(double dttm) {
   double ms = dttm * 10000;
