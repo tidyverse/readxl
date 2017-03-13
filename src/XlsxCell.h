@@ -255,7 +255,7 @@ public:
     }
   }
 
-  double asDate(int offset) const {
+  double asDate(bool is1904) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -268,7 +268,7 @@ public:
     case CELL_NUMERIC:
     {
       rapidxml::xml_node<>* v = cell_->first_node("v");
-      return dateRound((atof(v->value()) - offset) * 86400);
+      return POSIXctFromSerial(atof(v->value()), is1904);
     }
     }
   }

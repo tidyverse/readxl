@@ -108,7 +108,7 @@ class XlsxWorkBook {
 
   // common to Xls[x]WorkBook
   std::string path_;
-  double offset_;
+  bool is1904_;
   std::set<int> dateStyles_;
 
   // specific to XlsxWorkBook
@@ -121,7 +121,7 @@ public:
   path_(path),
   rel_(path)
   {
-    offset_ = dateOffset(is1904());
+    is1904_ = uses1904();
     cacheStringTable();
     cacheDateStyles();
   }
@@ -138,8 +138,8 @@ public:
     return rel_.names();
   }
 
-  double offset() const {
-    return offset_;
+  bool is1904() const {
+    return is1904_;
   }
 
   const std::set<int>& dateStyles() const {
@@ -229,7 +229,7 @@ private:
     }
   }
 
-  bool is1904() {
+  bool uses1904() {
     std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
     rapidxml::xml_document<> workbook;
     workbook.parse<0>(&workbookXml[0]);
