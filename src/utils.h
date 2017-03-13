@@ -59,17 +59,9 @@ inline double dateRound(double dttm) {
 // If date is *prior* to the non-existent leap day: add a day
 // If date is on the non-existent leap day: make negative and, in due course, NA
 // Otherwise: do nothing
-inline double removeLeapDay(double xlDate) {
-  if (xlDate >= 61) {
-    return xlDate;
-  } else {
-    return (xlDate < 60) ? ++xlDate : -1;
-  }
-}
-
 inline double POSIXctFromSerial(double xlDate, bool is1904) {
-  if (!is1904) {
-    xlDate = removeLeapDay(xlDate);
+  if (!is1904 && xlDate < 61) {
+    xlDate = (xlDate < 60) ? ++xlDate : -1;
   }
   if (xlDate < 0) {
     Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
