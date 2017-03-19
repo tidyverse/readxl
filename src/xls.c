@@ -530,7 +530,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
         break;
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
-		cell->str=xls_getfcell(pWS->workbook,cell,(WORD_UA *)&((LABEL*)buf)->value);
+		cell->str=xls_getfcell(pWS->workbook,cell,(DWORD_UA *)&((LABEL*)buf)->value);
 		sscanf((char *)cell->str, "%d", &cell->l);
 		sscanf((char *)cell->str, "%lf", &cell->d);
 		break;
