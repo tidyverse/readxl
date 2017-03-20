@@ -246,6 +246,16 @@ namespace rapidxml
     //! See xml_document::parse() function.
     const int parse_normalize_whitespace = 0x800;
 
+    // part of the readxl namespace-prefix-stripping patch
+    //! Parse flag instructing the parser to strip any XML namespace identifiers from element names and attributes.
+    //! Turning this flag on will remove the namespace prefix and colon from all tags and attributes.
+    //! By default, XML namespace identifiers are left as part of the names of tags and attributes.
+    //! This flag does not cause the parser to modify source text.
+    //! Can be combined with other flags by use of | operator.
+    //! <br><br>
+    //! See xml_document::parse() function.
+    const int parse_strip_xml_namespaces = 0x1000;
+
     // Compound flags
     
     //! Parse flags which represent default behaviour of the parser. 
@@ -1506,6 +1516,26 @@ namespace rapidxml
             }
         };
 
+        // part of the readxl namespace-prefix-stripping patch
+        // Detect element XML namespace prefix character
+        struct element_namespace_prefix_pred
+        {
+          static unsigned char test(Ch ch)
+          {
+            return ch != ':' && internal::lookup_tables<0>::lookup_node_name[static_cast<unsigned char>(ch)];
+          }
+        };
+
+        // part of the readxl namespace-prefix-stripping patch
+        // Detect attribute XML namespace prefix character
+        struct attribute_namespace_prefix_pred
+        {
+          static unsigned char test(Ch ch)
+          {
+            return ch != ':' && internal::lookup_tables<0>::lookup_attribute_name[static_cast<unsigned char>(ch)];
+          }
+        };
+
         // Insert coded character, using UTF8 or 8-bit ASCII
         template<int Flags>
         static void insert_coded_character(Ch *&text, unsigned long code)
@@ -2044,6 +2074,14 @@ namespace rapidxml
             skip<node_name_pred, Flags>(text);
             if (text == name)
                 RAPIDXML_PARSE_ERROR("expected element name", text);
+            // part of the readxl namespace-prefix-stripping patch
+            if (Flags & parse_strip_xml_namespaces)
+            {
+              Ch *saved_name = name;
+              skip<element_namespace_prefix_pred, Flags>(name);
+              if (name++ == text)
+                name = saved_name;
+            }
             element->name(name, text - name);
             
             // Skip whitespace between element name and attributes or >
@@ -2245,6 +2283,14 @@ namespace rapidxml
                 skip<attribute_name_pred, Flags>(text);
                 if (text == name)
                     RAPIDXML_PARSE_ERROR("expected attribute name", name);
+                // part of the readxl namespace-prefix-stripping patch
+                if (Flags & parse_strip_xml_namespaces)
+                {
+                  Ch *saved_name = name;
+                  skip<attribute_namespace_prefix_pred, Flags>(name);
+                  if (name++ == text)
+                    name = saved_name;
+                }
 
                 // Create new attribute
                 xml_attribute<Ch> *attribute = this->allocate_attribute();
