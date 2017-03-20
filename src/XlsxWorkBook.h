@@ -21,7 +21,7 @@ class XlsxWorkBook {
     void parse_workbook(const std::string& path) {
       std::string workbookXml = zip_buffer(path, "xl/workbook.xml");
       rapidxml::xml_document<> workbook;
-      workbook.parse<0>(&workbookXml[0]);
+      workbook.parse<rapidxml::parse_strip_xml_namespaces>(&workbookXml[0]);
 
       rapidxml::xml_node<>* root = workbook.first_node("workbook");
       if (root == NULL) {
@@ -44,7 +44,7 @@ class XlsxWorkBook {
         rapidxml::xml_attribute<>* name = sheet->first_attribute("name");
         names_[i] = (name != NULL) ? Rf_mkCharCE(name->value(), CE_UTF8) : NA_STRING;
 
-        rapidxml::xml_attribute<>* id = sheet->first_attribute("r:id");
+        rapidxml::xml_attribute<>* id = sheet->first_attribute("id");
         id_[i] = (id != NULL) ? Rf_mkCharCE(id->value(), CE_UTF8) : NA_STRING;
 
         i++;
@@ -61,7 +61,7 @@ class XlsxWorkBook {
     void parse_workbook_rels(const std::string& path) {
       std::string rels_xml_file = zip_buffer(path, "xl/_rels/workbook.xml.rels");
       rapidxml::xml_document<> rels_xml;
-      rels_xml.parse<0>(&rels_xml_file[0]);
+      rels_xml.parse<rapidxml::parse_strip_xml_namespaces>(&rels_xml_file[0]);
 
       rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
       if (relationships == NULL) {
@@ -163,7 +163,7 @@ private:
 
     std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
     rapidxml::xml_document<> sharedStrings;
-    sharedStrings.parse<0>(&sharedStringsXml[0]);
+    sharedStrings.parse<rapidxml::parse_strip_xml_namespaces>(&sharedStringsXml[0]);
 
     rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
     if (sst == NULL) {
@@ -188,7 +188,7 @@ private:
   void cacheDateStyles() {
     std::string stylesXml = zip_buffer(path_, "xl/styles.xml");
     rapidxml::xml_document<> styles;
-    styles.parse<0>(&stylesXml[0]);
+    styles.parse<rapidxml::parse_strip_xml_namespaces>(&stylesXml[0]);
 
     rapidxml::xml_node<>* styleSheet = styles.first_node("styleSheet");
     if (styleSheet == NULL) {
@@ -232,7 +232,7 @@ private:
   bool uses1904() {
     std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
     rapidxml::xml_document<> workbook;
-    workbook.parse<0>(&workbookXml[0]);
+    workbook.parse<rapidxml::parse_strip_xml_namespaces>(&workbookXml[0]);
 
     rapidxml::xml_node<>* root = workbook.first_node("workbook");
     if (root == NULL) {

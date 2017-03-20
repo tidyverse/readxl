@@ -1,5 +1,7 @@
 # readxl 0.1.1.9000
 
+* Nonstandard XML namespace prefixes in xlsx: Some 3rd party tools use different XML namespace prefixes than MS Excel. These are now stripped from element names and attributes during parsing. (#295, #268, #202, #80 @jennybc)
+
 * The [Lotus 1-2-3 leap year bug](https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year) is accounted for. Date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292 @jennybc)
 
 * Selective column type guessing: `col_types` now accepts `"guess"` to allow user to specify some column types, while allowing others to be guessed (#286 @jennybc)
