@@ -33,7 +33,7 @@ std::string xml_print(std::string xml) {
   rapidxml::xml_document<> doc;
 
   xml.push_back('\0');
-  doc.parse<0>(&xml[0]);
+  doc.parse<rapidxml::parse_strip_xml_namespaces>(&xml[0]);
 
   std::string s;
   rapidxml::print(std::back_inserter(s), doc, 0);

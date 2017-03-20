@@ -39,7 +39,7 @@ public:
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
     sheet_ = zip_buffer(wb.path(), sheetPath);
-    sheetXml_.parse<0>(&sheet_[0]);
+    sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&sheet_[0]);
 
     rootNode = sheetXml_.first_node("worksheet");
     if (rootNode == NULL) {
