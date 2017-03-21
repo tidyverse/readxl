@@ -73,7 +73,12 @@ class XlsxWorkBook {
         rapidxml::xml_attribute<>* id = relationship->first_attribute("Id");
         rapidxml::xml_attribute<>* target = relationship->first_attribute("Target");
         if (id != NULL && target != NULL) {
-          target_[id->value()] = target->value();
+          static const std::string prefix = "/xl/";
+          std::string target_value = target->value();
+          if (target_value.substr(0, prefix.size()) == prefix) {
+            target_value = target_value.substr(prefix.size());
+          }
+          target_[id->value()] = target_value;
         }
       }
     }
