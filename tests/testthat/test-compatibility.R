@@ -16,3 +16,16 @@ test_that("can tolerate xls that underreports number of columns", {
   df <- read_excel(test_sheet("mtcars.xls"))
   expect_identical(ncol(df), ncol(mtcars))
 })
+
+## #80
+## The infamous Ekaterinburg sheet is written by an unspecified BI tool.
+## Tricky for several reasons:
+##   * Worksheet target paths demand full lookup (#233)
+##   * Worksheet target paths are prefixed with `/xl/` (#294)
+##   * Nonstandard XML namespace prefixes (#295)
+test_that("we can finally read Ekaterinburg", {
+  expect_silent(
+    ek <- read_excel(test_sheet("Ekaterinburg_IP_9.xlsx"), skip = 2)
+  )
+  expect_identical(ek[[1,2]], "27.05.2004")
+})
