@@ -86,12 +86,12 @@
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>path</dt>
-      <dd>Path to the xls/xlsx file</dd>
+      <dd><p>Path to the xls/xlsx file</p></dd>
     </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>))</div><div class='output co'>#&gt; [1] &quot;iris&quot;     &quot;mtcars&quot;   &quot;chickwts&quot; &quot;quakes&quot;  </div><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>))</div><div class='output co'>#&gt; [1] &quot;iris&quot;     &quot;mtcars&quot;   &quot;chickwts&quot; &quot;quakes&quot;  </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'>
 <span class='co'># To load all sheets in a workbook, use lapply</span>
 <span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>)
 <span class='fu'>lapply</span>(<span class='fu'>excel_sheets</span>(<span class='no'>path</span>), <span class='no'>read_excel</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>path</span>)</div><div class='output co'>#&gt; [[1]]

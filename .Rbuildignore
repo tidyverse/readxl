@@ -16,3 +16,4 @@
 ^xldocs$
 ^src/libxls/xls2csv\.c$
 ^iss$
+^logo\.png$
