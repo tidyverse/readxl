@@ -9,6 +9,7 @@
 
 class XlsWorkSheet {
   XlsWorkBook wb_;
+  xls::xlsWorkBook* pWB_;
   xls::xlsWorkSheet* pWS_;
   std::set<int> dateStyles_;
   std::vector<XlsCell> cells_;
@@ -28,8 +29,8 @@ public:
     sheetName_ = wb.sheets()[sheet_i];
 
     std::string path = wb_.path();
-    xls::xlsWorkBook* pWB = xls::xls_open(path.c_str(), "UTF-8");
-    pWS_ = xls_getWorkSheet(pWB, sheet_i);
+    pWB_ = xls::xls_open(path.c_str(), "UTF-8");
+    pWS_ = xls_getWorkSheet(pWB_, sheet_i);
     if (pWS_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
                  sheetName_, sheet_i + 1);
@@ -43,7 +44,8 @@ public:
 
   ~XlsWorkSheet() {
     try {
-      xls_close_WS(pWS_);
+      xls::xls_close_WS(pWS_);
+      xls::xls_close_WB(pWB_);
     } catch(...) {}
   }
 
