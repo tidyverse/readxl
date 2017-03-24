@@ -79,8 +79,7 @@
 
     
     <p>Read xls and xlsx files.</p>
-
-    <p>While <code>read_excel()</code> auto detects the format from the file
+<p>While <code>read_excel()</code> auto detects the format from the file
 extension, <code>read_xls()</code> and <code>read_xlsx()</code> can be used to
 read files without extension.</p>
     
@@ -97,32 +96,32 @@ read files without extension.</p>
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>path</dt>
-      <dd>Path to the xls/xlsx file</dd>
+      <dd><p>Path to the xls/xlsx file</p></dd>
       <dt>sheet</dt>
-      <dd>Sheet to read. Either a string (the name of a sheet), or an
-integer (the position of the sheet). Defaults to the first sheet.</dd>
+      <dd><p>Sheet to read. Either a string (the name of a sheet), or an
+integer (the position of the sheet). Defaults to the first sheet.</p></dd>
       <dt>col_names</dt>
-      <dd><code>TRUE</code> to use the first row as column names, <code>FALSE</code> to get
+      <dd><p><code>TRUE</code> to use the first row as column names, <code>FALSE</code> to get
 default names, or a character vector giving a name for each column. If user
 provides <code>col_types</code> as a vector, <code>col_names</code> can have one entry per
 column, i.e. have the same length as <code>col_types</code>, or one entry per
-unskipped column.</dd>
+unskipped column.</p></dd>
       <dt>col_types</dt>
-      <dd>Either <code>NULL</code> to guess all from the spreadsheet or a
+      <dd><p>Either <code>NULL</code> to guess all from the spreadsheet or a
 character vector containing one entry per column from these options:
-&quot;skip&quot;, &quot;guess&quot;, &quot;logical&quot;, &quot;numeric&quot;, &quot;date&quot;, &quot;text&quot; or &quot;list&quot;. The
+"skip", "guess", "logical", "numeric", "date", "text" or "list". The
 content of a cell in a skipped column is never read and that column will
 not appear in the data frame output. A list cell loads a column as a list
 of length 1 vectors, which are typed using the type guessing logic from
-<code>col_types = NULL</code>, but on a cell-by-cell basis.</dd>
+<code>col_types = NULL</code>, but on a cell-by-cell basis.</p></dd>
       <dt>na</dt>
-      <dd>Character vector of strings to use for missing values. By default,
-readxl treats blank cells as missing data.</dd>
+      <dd><p>Character vector of strings to use for missing values. By default,
+readxl treats blank cells as missing data.</p></dd>
       <dt>skip</dt>
-      <dd>Number of rows to skip before reading any data. Leading blank
-rows are automatically skipped.</dd>
+      <dd><p>Number of rows to skip before reading any data. Leading blank
+rows are automatically skipped.</p></dd>
       <dt>guess_max</dt>
-      <dd>Maximum number of rows to use for guessing column types.</dd>
+      <dd><p>Maximum number of rows to use for guessing column types.</p></dd>
     </dl>
     
 
@@ -181,13 +180,13 @@ rows are automatically skipped.</dd>
 #&gt; 2              Species  &lt;chr [1]&gt;
 #&gt; 3 Approx date of death &lt;dttm [1]&gt;
 #&gt; # ... with 1 more rows</div><div class='input'><span class='no'>df</span>$<span class='no'>value</span></div><div class='output co'>#&gt; [[1]]
-#&gt; [1] &quot;Clippy&quot;
+#&gt; [1] "Clippy"
 #&gt; 
 #&gt; [[2]]
-#&gt; [1] &quot;paperclip&quot;
+#&gt; [1] "paperclip"
 #&gt; 
 #&gt; [[3]]
-#&gt; [1] &quot;2007-01-01 UTC&quot;
+#&gt; [1] "2007-01-01 UTC"
 #&gt; 
 #&gt; [[4]]
 #&gt; [1] 0.9
