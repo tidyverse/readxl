@@ -23,4 +23,4 @@ matrix:
       latex: false
 
 after_success:
-  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
+  - if [[ "${R_CODECOV}" ]]; then Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'; fi
