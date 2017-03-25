@@ -7,13 +7,13 @@
 #include "XlsxCell.h"
 #include "ColSpec.h"
 
-// Key reference for understanding the structure of the XML is
-// ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
-// Section and page numbers below refer to the 4th edition
-// 18.3.1.73  row         (Row)        [p1677]
-// 18.3.1.4   c           (Cell)       [p1598]
-// 18.3.1.96  v           (Cell Value) [p1709]
-// 18.18.11   ST_CellType (Cell Type)  [p2443]
+// Page and section numbers below refer to
+// ECMA-376
+// version, date, and download URL given in XlsxCell.h
+// 18.3.1.73  row         (Row)        [p1685]
+// 18.3.1.4   c           (Cell)       [p1593]
+// 18.3.1.96  v           (Cell Value) [p1707]
+// 18.18.11   ST_CellType (Cell Type)  [p2451]
 
 class XlsxWorkSheet {
   XlsxWorkBook wb_;
@@ -78,7 +78,7 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      xcell->inferType(na, wb_.stringTable(), wb_.dateStyles());
+      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
       out[xcell->col()] = xcell->asCharSxp(wb_.stringTable());
       xcell++;
     }
@@ -114,7 +114,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, wb_.stringTable(), wb_.dateStyles());
+      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -158,7 +158,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, wb_.stringTable(), wb_.dateStyles());
+      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into

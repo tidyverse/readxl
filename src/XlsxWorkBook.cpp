@@ -13,6 +13,6 @@ std::vector<std::string> xlsx_strings(std::string path) {
 }
 
 // [[Rcpp::export]]
-std::set<int> xlsx_date_styles(std::string path) {
-  return XlsxWorkBook(path).dateStyles();
+std::set<int> xlsx_date_formats(std::string path) {
+  return XlsxWorkBook(path).dateFormats();
 }

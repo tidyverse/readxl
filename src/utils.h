@@ -21,13 +21,13 @@
 // ECMA-376
 // version, date, and download URL given in XlsxCell.h
 //
-// 18.2.28 workbookPr (Workbook Properties) p1582
+// 18.2.28 workbookPr (Workbook Properties) p1586
 // in xl/workbook.xml, node workbook, child node workbookPr
 // attribute date1904:
 // 0 or false --> 1900 date system
 // 1 or true --> 1904 date system (this is the default)
 //
-// 18.17.4.1 p2067 holds definition of the date systems
+// 18.17.4.1 p2073 holds definition of the date systems
 //
 // Date systems ---------------------------------------------------------------
 // 1900 system: first possible date is 1900-01-01 00:00:00,
@@ -61,7 +61,7 @@ inline double dateRound(double dttm) {
 // Otherwise: do nothing
 inline double POSIXctFromSerial(double xlDate, bool is1904) {
   if (!is1904 && xlDate < 61) {
-    xlDate = (xlDate < 60) ? ++xlDate : -1;
+    xlDate = (xlDate < 60) ? xlDate + 1 : -1;
   }
   if (xlDate < 0) {
     Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");

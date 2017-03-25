@@ -5,6 +5,10 @@ xls_sheets <- function(path) {
     .Call('readxl_xls_sheets', PACKAGE = 'readxl', path)
 }
 
+xls_date_formats <- function(path) {
+    .Call('readxl_xls_date_formats', PACKAGE = 'readxl', path)
+}
+
 xls_col_names <- function(path, na, sheet_i = 0L, skip = 0L) {
     .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, na, sheet_i, skip)
 }
@@ -25,8 +29,8 @@ xlsx_strings <- function(path) {
     .Call('readxl_xlsx_strings', PACKAGE = 'readxl', path)
 }
 
-xlsx_date_styles <- function(path) {
-    .Call('readxl_xlsx_date_styles', PACKAGE = 'readxl', path)
+xlsx_date_formats <- function(path) {
+    .Call('readxl_xlsx_date_formats', PACKAGE = 'readxl', path)
 }
 
 xlsx_dim <- function(path, sheet_i = 0L, skip = 0L) {

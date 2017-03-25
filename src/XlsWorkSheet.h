@@ -11,7 +11,7 @@ class XlsWorkSheet {
   XlsWorkBook wb_;
   xls::xlsWorkBook* pWB_;
   xls::xlsWorkSheet* pWS_;
-  std::set<int> dateStyles_;
+  std::set<int> dateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;
   int ncol_, nrow_;
@@ -36,7 +36,7 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
-    dateStyles_ = wb.dateStyles();
+    dateFormats_ = wb.dateFormats();
 
     loadCells();
     parseGeometry(skip);
@@ -66,7 +66,7 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      xcell->inferType(na, &pWS_->workbook->xfs, dateStyles_);
+      xcell->inferType(na, dateFormats_);
       out[xcell->col()] = xcell->asCharSxp();
       xcell++;
     }
@@ -102,7 +102,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, &pWS_->workbook->xfs, dateStyles_);
+      xcell->inferType(na, dateFormats_);
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -146,7 +146,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, &pWS_->workbook->xfs, dateStyles_);
+      xcell->inferType(na, dateFormats_);
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into

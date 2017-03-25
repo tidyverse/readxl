@@ -114,7 +114,7 @@ class XlsxWorkBook {
   // common to Xls[x]WorkBook
   std::string path_;
   bool is1904_;
-  std::set<int> dateStyles_;
+  std::set<int> dateFormats_;
 
   // specific to XlsxWorkBook
   SheetRelations rel_;
@@ -128,7 +128,7 @@ public:
   {
     is1904_ = uses1904();
     cacheStringTable();
-    cacheDateStyles();
+    cacheDateFormats();
   }
 
   const std::string& path() const{
@@ -147,8 +147,8 @@ public:
     return is1904_;
   }
 
-  const std::set<int>& dateStyles() const {
-    return dateStyles_;
+  const std::set<int>& dateFormats() const {
+    return dateFormats_;
   }
 
   std::string sheetPath(int sheet_i) const {
@@ -190,7 +190,7 @@ private:
     }
   }
 
-  void cacheDateStyles() {
+  void cacheDateFormats() {
     std::string stylesXml = zip_buffer(path_, "xl/styles.xml");
     rapidxml::xml_document<> styles;
     styles.parse<rapidxml::parse_strip_xml_namespaces>(&stylesXml[0]);
@@ -201,12 +201,20 @@ private:
     }
 
     // Figure out which custom formats are dates
+    // 18.8.31 numFmts (Number Formats) p1793 5th ed
     std::set<int> customDateFormats;
     rapidxml::xml_node<>* numFmts = styleSheet->first_node("numFmts");
     if (numFmts != NULL) {
+      // Example with just one custom format (non date, in this case)
+      // <numFmts count="1">
+      //   <numFmt numFmtId="166" formatCode="&quot;$&quot;#,##0.00"/>
+      // </numFmts>
       for (rapidxml::xml_node<>* numFmt = numFmts->first_node();
            numFmt; numFmt = numFmt->next_sibling()) {
+        // formatCode: The number format code for this number format.
         std::string code(numFmt->first_attribute("formatCode")->value());
+        //   numFmtId: Id used by the master style records (xf's) to reference
+        //             this number format.
         int id = atoi(numFmt->first_attribute("numFmtId")->value());
 
         if (isDateFormat(code)) {
@@ -215,21 +223,24 @@ private:
       }
     }
 
-    // Cache styles that have date formatting
+    // Cache 0-based indices of the master cell style records that refer to a
+    // number format that is a date format
     rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
     if (cellXfs == NULL) {
       return;
     }
 
+    // inspecting i-th child of cellXfs = i-th cell style record = an <xf>
     int i = 0;
     for (rapidxml::xml_node<>* cellXf = cellXfs->first_node();
          cellXf; cellXf = cellXf->next_sibling()) {
       if (cellXf->first_attribute("numFmtId") == NULL) {
+        ++i;
         continue;
       }
       int formatId = atoi(cellXf->first_attribute("numFmtId")->value());
       if (isDateTime(formatId, customDateFormats))
-        dateStyles_.insert(i);
+        dateFormats_.insert(i);
       ++i;
     }
   }

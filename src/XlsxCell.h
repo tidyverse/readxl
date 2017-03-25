@@ -9,10 +9,10 @@
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
-// Section and page numbers below refer to the 4th edition
-// 18.3.1.4   c           (Cell)       [p1598]
-// 18.3.1.96  v           (Cell Value) [p1709]
-// 18.18.11   ST_CellType (Cell Type)  [p2443]
+// Section and page numbers below refer to the 5th edition October 2016
+// 18.3.1.4   c           (Cell)       [p1593]
+// 18.3.1.96  v           (Cell Value) [p1707]
+// 18.18.11   ST_CellType (Cell Type)  [p2451]
 
 class XlsxCell {
   rapidxml::xml_node<>* cell_;
@@ -48,12 +48,12 @@ public:
 
   void inferType(const StringSet& na,
                  const std::vector<std::string>& stringTable,
-                 const std::set<int>& dateStyles) {
+                 const std::set<int>& dateFormats) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
     // this table refers to the value of the t attribute of a cell
-    // 18.18.11   ST_CellType (Cell Type)  [p2443]
+    // 18.18.11   ST_CellType (Cell Type)  [p2451]
     // This simple type is restricted to the values listed in the following table:
     // -------------------------------------------------------------------------
     // Enumeration Value          Description
@@ -84,11 +84,11 @@ public:
     //   Boolean cell and its value (TRUE or FALSE) is not in na
     //
     // CELL_DATE
-    //   numeric cell (t attr is "n" or does not exist) with a date style
+    //   numeric cell (t attr is "n" or does not exist) with a date format
     //
     // CELL_NUMERIC
-    //   numeric cell (t attr is "n" or does not exist) with no style or a
-    //   non-date style
+    //   numeric cell (t attr is "n" or does not exist) with no format or a
+    //   non-date format
     //
     // CELL_TEXT
     //   inlineStr cell and string is found and string is not na
@@ -128,8 +128,8 @@ public:
     // n (Number)                 Cell containing a number.
     if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
       rapidxml::xml_attribute<>* s = cell_->first_attribute("s");
-      int style = (s == NULL) ? -1 : atoi(s->value());
-      type_ = (dateStyles.count(style) > 0) ? CELL_DATE : CELL_NUMERIC;
+      int format = (s == NULL) ? -1 : atoi(s->value());
+      type_ = (dateFormats.count(format) > 0) ? CELL_DATE : CELL_NUMERIC;
       return;
     }
 

@@ -102,9 +102,31 @@ bool inline requiresGuess(std::vector<ColType> types) {
 }
 
 bool inline isDateTime(int id, const std::set<int> custom) {
-  // Date formats:
-  // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)
-  // 18.8.30 numFmt (Number Format)  (p1777)
+  // Page and section numbers below refer to
+  // ECMA-376
+  // version, date, and download URL given in XlsxCell.h
+  //
+  // Example from L.2.7.4.4 p4698 for hypothetical cell D2
+  // Cell D2 contains the text "Q1" and is defined in the cell table of sheet1
+  // as:
+  //
+  // <c r="D2" s="7" t="s">
+  //     <v>0</v>
+  // </c>
+  //
+  // On this cell, the attribute value s="7" indicates that the 7th (zero-based)
+  // <xf> definition of <cellXfs> holds the formatting information for the cell.
+  // The 7th <xf> of <cellXfs> is defined as:
+  //
+  // <xf numFmtId="0" fontId="4" fillId="2" borderId="2" xfId="1" applyBorder="1"/>
+  //
+  // The number formatting information cannot be found in a <numFmt> definition
+  // because it is a built-in format; instead, it is implicitly understood to be
+  // the 0th built-in number format.
+  //
+  // This function stores knowledge about these built-in number formats.
+  //
+  // 18.8.30 numFmt (Number Format) p1786
   // Date times: 14-22, 27-36, 45-47, 50-58, 71-81 (inclusive)
   if ((id >= 14 && id <= 22) ||
       (id >= 27 && id <= 36) ||
@@ -121,6 +143,14 @@ bool inline isDateTime(int id, const std::set<int> custom) {
 }
 
 inline bool isDateFormat(std::string x) {
+  // TO FIX? So far no bug reports due to this.
+  // Logic below is too simple. For example, it deems this format string a date:
+  // "$"#,##0_);[Red]\("$"#,##0\)
+  // because of the `d` in `[Red]`
+  //
+  // Ideally this can wait until we are using something like
+  // https://github.com/WizardMac/TimeFormatStrings
+  // which presumably offers fancier ways to analyze format codes.
   for (size_t i = 0; i < x.size(); ++i) {
     switch (x[i]) {
     case 'd':
