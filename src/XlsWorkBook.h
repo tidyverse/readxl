@@ -50,7 +50,7 @@ public:
       }
     }
 
-    xls_close_WB(pWB_);
+    xls::xls_close_WB(pWB_);
   }
 
   const std::string& path() const{
