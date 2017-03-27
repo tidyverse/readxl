@@ -103,8 +103,7 @@ bool inline requiresGuess(std::vector<ColType> types) {
 
 bool inline isDateTime(int id, const std::set<int> custom) {
   // Page and section numbers below refer to
-  // ECMA-376
-  // version, date, and download URL given in XlsxCell.h
+  // ECMA-376 (version, date, and download URL given in XlsxCell.h)
   //
   // Example from L.2.7.4.4 p4698 for hypothetical cell D2
   // Cell D2 contains the text "Q1" and is defined in the cell table of sheet1
