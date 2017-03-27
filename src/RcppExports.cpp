@@ -16,6 +16,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xls_date_formats
+std::set<int> xls_date_formats(std::string path);
+RcppExport SEXP readxl_xls_date_formats(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(xls_date_formats(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 // xls_col_names
 CharacterVector xls_col_names(std::string path, std::vector<std::string> na, int sheet_i, int skip);
 RcppExport SEXP readxl_xls_col_names(SEXP pathSEXP, SEXP naSEXP, SEXP sheet_iSEXP, SEXP skipSEXP) {
@@ -85,14 +96,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// xlsx_date_styles
-std::set<int> xlsx_date_styles(std::string path);
-RcppExport SEXP readxl_xlsx_date_styles(SEXP pathSEXP) {
+// xlsx_date_formats
+std::set<int> xlsx_date_formats(std::string path);
+RcppExport SEXP readxl_xlsx_date_formats(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_date_styles(path));
+    rcpp_result_gen = Rcpp::wrap(xlsx_date_formats(path));
     return rcpp_result_gen;
 END_RCPP
 }
