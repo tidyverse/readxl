@@ -8,9 +8,14 @@
 #include "ColSpec.h"
 
 class XlsWorkSheet {
+  // the host workbook
   XlsWorkBook wb_;
+
+  // xls specifics
   xls::xlsWorkBook* pWB_;
   xls::xlsWorkSheet* pWS_;
+
+  // common to xls[x]
   std::set<int> dateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;

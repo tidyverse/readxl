@@ -8,18 +8,23 @@
 #include "ColSpec.h"
 
 // Page and section numbers below refer to
-// ECMA-376
-// version, date, and download URL given in XlsxCell.h
+// ECMA-376 (version, date, and download URL given in XlsxCell.h)
 // 18.3.1.73  row         (Row)        [p1685]
 // 18.3.1.4   c           (Cell)       [p1593]
 // 18.3.1.96  v           (Cell Value) [p1707]
 // 18.18.11   ST_CellType (Cell Type)  [p2451]
 
 class XlsxWorkSheet {
+  // the host workbook
   XlsxWorkBook wb_;
+
+  // xlsx specifics
   std::string sheet_;
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* sheetData_;
+
+  // common to xls[x]
+  std::set<int> dateFormats_;
   std::vector<XlsxCell> cells_;
   std::string sheetName_;
   int ncol_, nrow_;
@@ -52,6 +57,7 @@ public:
       Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
                  sheetName_, sheet_i + 1);
     }
+    dateFormats_ = wb.dateFormats();
 
     loadCells();
     parseGeometry(skip);
@@ -78,7 +84,7 @@ public:
       if (xcell->col() >= ncol_) {
         break;
       }
-      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
+      xcell->inferType(na, wb_.stringTable(), dateFormats_);
       out[xcell->col()] = xcell->asCharSxp(wb_.stringTable());
       xcell++;
     }
@@ -114,7 +120,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
+      xcell->inferType(na, wb_.stringTable(), dateFormats_);
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -158,7 +164,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, wb_.stringTable(), wb_.dateFormats());
+      xcell->inferType(na, wb_.stringTable(), dateFormats_);
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into
@@ -277,8 +283,7 @@ public:
           break;
         }
         case CELL_DATE: {
-          Rcpp::RObject cell_val =
-            Rf_ScalarReal(xcell->asDate(wb_.is1904()));
+          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(col, row, cell_val);
