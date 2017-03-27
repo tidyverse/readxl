@@ -223,7 +223,19 @@ public:
       // not ideal for a date but will have to do ... one day: asDateString()?
     case CELL_NUMERIC: {
       std::ostringstream strs;
-      strs << cell_->d;
+      // if cell_->d is integer-ish, need to:
+      //   * prevent use of scientific notation
+      //   * prevent gratuitous zeros after decimal mark
+      // GOOD: "36436153"
+      //  BAD: "3.64362e+07"
+      //  BAD: "36436153.000000"
+      // examples: social security or student number
+      double intpart;
+      if (std::modf(cell_->d, &intpart) == 0.0) {
+        strs << std::fixed << (int)cell_->d;
+      } else {
+        strs << cell_->d;
+      }
       std::string out_string = strs.str();
       return out_string;
     }

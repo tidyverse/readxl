@@ -230,6 +230,7 @@ test_that("contaminated, explicit text is read as text", {
   expect_is(df$text, "character")
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
+  expect_identical(df$text[df$explanation == "student number"], "36436153")
 
   ## xlsx
   df <- read_excel(test_sheet("types.xlsx"), sheet = "text_coercion",
@@ -237,5 +238,6 @@ test_that("contaminated, explicit text is read as text", {
   expect_is(df$text, "character")
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
+  expect_identical(df$text[df$explanation == "student number"], "36436153")
 
 })
