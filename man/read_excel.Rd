@@ -7,13 +7,13 @@
 \title{Read xls and xlsx files.}
 \usage{
 read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-  na = "", skip = 0, guess_max = 1000)
+  na = "", skip = 0, n_max = Inf, guess_max = min(1000, n_max))
 
 read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, guess_max = 1000)
+  skip = 0, n_max = Inf, guess_max = min(1000, n_max))
 
 read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, guess_max = 1000)
+  skip = 0, n_max = Inf, guess_max = min(1000, n_max))
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
@@ -29,19 +29,23 @@ unskipped column.}
 
 \item{col_types}{Either \code{NULL} to guess all from the spreadsheet or a
 character vector containing one entry per column from these options:
-"skip", "guess", "logical", "numeric", "date", "text" or "list". The
-content of a cell in a skipped column is never read and that column will
-not appear in the data frame output. A list cell loads a column as a list
-of length 1 vectors, which are typed using the type guessing logic from
-\code{col_types = NULL}, but on a cell-by-cell basis.}
+"skip", "guess", "logical", "numeric", "date", "text" or "list". If exactly
+on \code{col_type} is specified, it will be recycled. The content of a cell in a
+skipped column is never read and that column will not appear in the data
+frame output. A list cell loads a column as a list of length 1 vectors,
+which are typed using the type guessing logic from \code{col_types = NULL}, but
+on a cell-by-cell basis.}
 
 \item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}
 
-\item{skip}{Number of rows to skip before reading any data. Leading blank
-rows are automatically skipped.}
+\item{skip}{Number of rows to skip before reading anything (column names or
+data). Leading blank rows are automatically skipped.}
 
-\item{guess_max}{Maximum number of rows to use for guessing column types.}
+\item{n_max}{Maximum number of data rows to read.}
+
+\item{guess_max}{Maximum number of data rows to use for guessing column
+types.}
 }
 \description{
 Read xls and xlsx files.
@@ -54,21 +58,24 @@ read files without extension.
 datasets <- readxl_example("datasets.xlsx")
 read_excel(datasets)
 
-# Specific sheet either by position or by name
+# Specify sheet either by position or by name
 read_excel(datasets, 2)
 read_excel(datasets, "mtcars")
 
-# Skipping rows and using default column names
+# Skip rows and use default column names
 read_excel(datasets, skip = 148, col_names = FALSE)
 
-# if col_types is of length one, it will be recycled
+# Recycle a length-one col_types
 read_excel(datasets, col_types = "text")
 
-# you can specify some col_types and guess others
+# Specify some col_types and guess others
 read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
 
 # "list" col_type can handle information of disparate types
 df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
 df
 df$value
+
+# Limit the number of data rows read
+read_excel(datasets, n_max = 3)
 }

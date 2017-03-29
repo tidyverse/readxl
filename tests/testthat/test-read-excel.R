@@ -61,3 +61,22 @@ test_that("read_excel only accepts file exts xlsx and xls", {
   expect_error(read_excel("foo.txt"), "Unknown file extension")
 })
 
+test_that("read_excel catches invalid n_max", {
+
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), n_max = NA),
+    "`n_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), n_max = -1),
+    "`n_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), n_max = NULL),
+    "`n_max` must be a positive integer"
+  )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), n_max = 1:2),
+    "`n_max` must be a positive integer"
+  )
+})

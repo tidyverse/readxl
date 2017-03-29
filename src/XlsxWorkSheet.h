@@ -32,7 +32,7 @@ class XlsxWorkSheet {
 
 public:
 
-  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip):
+  XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i, int skip, int n_max):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
@@ -60,7 +60,7 @@ public:
     dateFormats_ = wb.dateFormats();
 
     loadCells();
-    parseGeometry(skip);
+    parseGeometry(skip, n_max);
   }
 
   int ncol() const {
@@ -342,12 +342,12 @@ private:
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(int skip) {
+  void parseGeometry(int skip, int n_max) {
     nrow_ = 0;
     ncol_ = 0;
 
-    // empty sheet case
-    if (cells_.empty()) {
+    // empty sheet or 'read no data' case
+    if (cells_.empty() || n_max == 0) {
       return;
     }
 
@@ -365,11 +365,9 @@ private:
     }
 
     firstRow_ = it;
-    while (it != cells_.end()) {
+    while (it != cells_.end() &&
+           (n_max < 0 || it->row() - firstRow_->row() < n_max)) {
 
-      if (nrow_ < it->row()) {
-        nrow_ = it->row();
-      }
       if (ncol_ < it->col()) {
         ncol_ = it->col();
       }
@@ -380,9 +378,12 @@ private:
 
       ++it;
     }
-
-    nrow_++;
     ncol_++;
+    if (secondRow_ > it) {
+      secondRow_ = it;
+    }
+    cells_.erase(it, cells_.end());
+    nrow_ = cells_.back().row() + 1;
   }
 
 };

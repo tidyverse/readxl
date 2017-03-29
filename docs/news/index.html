@@ -83,6 +83,7 @@
 <h1 class="hasAnchor">
 <a href="#readxl-0-1-1-9000" class="anchor"> </a>readxl 0.1.1.9000</h1>
 <ul>
+<li><p>Limit the rows read: new argument <code>n_max</code> puts a maximum on the number of rows read from the spreadsheet. (#PR?, #281 @jennybc)</p></li>
 <li><p>Nonstandard XML namespace prefixes in xlsx: Some 3rd party tools use different XML namespace prefixes than MS Excel. These are now stripped from element names and attributes during parsing. (#295, #268, #202, #80 @jennybc)</p></li>
 <li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is accounted for. Date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292 @jennybc)</p></li>
 <li><p>Selective column type guessing: <code>col_types</code> now accepts <code>"guess"</code> to allow user to specify some column types, while allowing others to be guessed (#286 @jennybc)</p></li>
