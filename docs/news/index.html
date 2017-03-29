@@ -82,58 +82,75 @@
     <div id="readxl-0-1-1-9000" class="section level1">
 <h1 class="hasAnchor">
 <a href="#readxl-0-1-1-9000" class="anchor"> </a>readxl 0.1.1.9000</h1>
+<div id="sheet-geometry" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sheet-geometry" class="anchor"> </a>Sheet geometry</h2>
 <ul>
-<li><p>Limit the rows read: new argument <code>n_max</code> puts a maximum on the number of rows read from the spreadsheet. (#PR?, #281 @jennybc)</p></li>
-<li><p>Nonstandard XML namespace prefixes in xlsx: Some 3rd party tools use different XML namespace prefixes than MS Excel. These are now stripped from element names and attributes during parsing. (#295, #268, #202, #80 @jennybc)</p></li>
-<li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is accounted for. Date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292 @jennybc)</p></li>
-<li><p>Selective column type guessing: <code>col_types</code> now accepts <code>"guess"</code> to allow user to specify some column types, while allowing others to be guessed (#286 @jennybc)</p></li>
-<li><p>Numeric data that appears in a <code>"date"</code> column is coerced to a date. Also throws a warning. (#277, #266 @jennybc)</p></li>
-<li><p>Dates that appear in a numeric column are converted to <code>NA</code> instead of their integer representation. Also throws warning. (#277, #263 @jennybc)</p></li>
-<li><p>“Number stored as text”: when a text cell is found in a <code>"numeric"</code> column, <code><a href="../reference/read_excel.html">read_excel()</a></code> attempts to coerce the string to numeric and falls back to <code>NA</code> if unsuccessful. Also throws warning. (#277, #217, #106 @jennybc)</p></li>
-<li><p>Cells in error are treated as blank and are imported as <code>NA</code> (instead of the string <code>"error"</code>). (#277, #62 @jennybc)</p></li>
-<li><p>Dates that arise from a formula are now treated as dates (vs. numeric) in xls. (#277 @jennybc)</p></li>
-<li><p><code>"logical"</code> is a new column type. When <code>col_types = NULL</code>, it is the guessed column type for cells Excel advertises as Boolean. It can be specified explicitly in <code>col_types</code>. (#277, #270 @jennybc)</p></li>
-<li><p>BoolErr cells are now handled in xls. Suppresses message <code>"Unknown type: 517"</code>. (#274, #259 @jennybc)</p></li>
-<li><p>xls files written by some third party software report both row and column dimensions as 0-indexed, which prevents libxls from reading the last column. Small change to libxls restores access to those cells. (#273, #180, #152, #99 @jennybc)</p></li>
-<li><p><code>col_types = "list"</code> loads data as a list of length-1 vectors, that are typed using the logic from <code>col_types = NULL</code>, but on a cell-by-cell basis (#262 @gergness).</p></li>
-<li><p>A user-specified <code>col_types</code> of length one will be replicated to have length equal to the number of columns. (#127, #114, #261 @jennybc)</p></li>
-<li><p>Column type <code>"blank"</code> has been deprecated in favor of the more descriptive <code>"skip"</code>, which also supports the goal to become more consistent with readr. (#260, #193, #261 @jennybc)</p></li>
-<li><p>User-supplied <code>col_names</code> are processed relative to user-supplied <code>col_types</code>, if given. Specifically, <code>col_names</code> is considered valid if it has the same length as <code>col_types</code>, before <em>or after</em> removing skipped columns. (#81, #261 @jennybc)</p></li>
-<li><p>Leading or embedded empty columns are no longer dropped, regardless of whether there is a column name. (#157, #261 @jennybc)</p></li>
-<li><p>New argument <code>guess_max</code> lets user adjust the number of rows used to guess column types, similar to functions in readr. (#223, #257 @tklebel, @jennybc)</p></li>
+<li><p><code>n_max</code> is a new argument that limits the number of data rows read from the spreadsheet. Control over whether column names will be read from the sheet remains with <code>col_names</code>. (#306, #281)</p></li>
 <li>
-<p>Improved handling of empty cells. (xlsx #248, xls #271 @jennybc)</p>
+<p>Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells will still exist in the returned tibble, with value <code>NA</code>, if there are other non-empty cells in the row or column.</p>
 <ul>
-<li>Cells with no content are not loaded. Sheet extent is always computed from loaded cells, instead of the nominal dimensions reported in the worksheet, which count cells with data <em>or having an explicit format</em>. Empty, formatted cells are detectable in Excel as seemingly empty cells with a format other than “General”.</li>
 <li>Eliminates a source of trailing rows (#203) and columns (#236, #162, #146) consisting entirely of <code>NA</code>.</li>
 <li>Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81).</li>
-</ul>
-</li>
-<li><p><code>tibble::repair_names()</code> is used to prevent empty, <code>NA</code>, or duplicated names. (#216, #208, #199 #182, #53, #247 @jennybc)</p></li>
-<li><p>Fix compilation warning/failure (FreeBSD 10.3 #221, gcc 4.9.3 #124) and/or problems reading xls (CentOS 6.6 #189). (#244, #245, #246 @jeroenooms)</p></li>
-<li>
-<p>Improved parsing of sheet geometry (xlsx #240, xls #271 @jennybc)</p>
-<ul>
-<li>Location is inferred for cells that do not declare their location (xlsx only! e.g. xlsx written by JMP). (#163, #102)</li>
+<li>Leading or embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)</li>
 <li>Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)</li>
-<li>Better handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)</li>
+<li>Improved handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)</li>
 </ul>
 </li>
-<li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (#85, @jirkalewandowski)</p></li>
-<li><p>Logic for sheet lookup in xlsx is more robust. Improves compatibility with xlsx written by tools other than Excel and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester, @jennybc)</p></li>
-<li><p>Support multiple NA values, e.g., <code><a href="../reference/read_excel.html">read_excel("missing-values.xls", na = c("NA", "1"))</a></code>. (#13, #56, @jmarshallnz)</p></li>
-<li><p>Parse dates from .xlsx files saved with LibreOffice. (#134, @zeehio)</p></li>
-<li><p>Default column names on .xlsx files now start with X1 instead of X0. (#98, @zeehio, @krlmlr)</p></li>
-<li><p>Unwanted printed output (e.g., <code>DEFINEDNAME: 21 00 00 ...</code>) is suppressed when reading .xls that contains a defined range. (#82, #188, @PedramNavid)</p></li>
-<li><p>Don’t access value of <code>numFmtId</code> attribute when it does not exist. Can occur in xlsx written by <a href="http://epplus.codeplex.com/" class="uri">http://epplus.codeplex.com/</a>. (#191, #229)</p></li>
-<li><p>Import the <code>tibble</code> package (#175, @krlmlr).</p></li>
+<li><p>User-supplied <code>col_names</code> are processed relative to user-supplied <code>col_types</code>, if given. Specifically, <code>col_names</code> is considered valid if it has the same length as <code>col_types</code>, before <em>or after</em> removing skipped columns. (#81, #261)</p></li>
 </ul>
+</div>
+<div id="column-types-and-coercion" class="section level2">
+<h2 class="hasAnchor">
+<a href="#column-types-and-coercion" class="anchor"> </a>Column types and coercion</h2>
+<ul>
+<li><p><code>"list"</code> is a new accepted value for <code>col_types</code>. Loads data as a list of length-1 vectors, that are typed using the logic from <code>col_types = NULL</code>, but on a cell-by-cell basis (#262 @gergness).</p></li>
+<li><p><code>"logical"</code> is a new accepted value for <code>col_types</code>. When <code>col_types = NULL</code>, it is the guessed type for cells Excel advertises as Boolean. When a column has no data, it is now filled with logical <code>NA</code>. (#277, #270)</p></li>
+<li><p><code>"guess"</code> is a new accepted value for <code>col_types</code>. Allows the user to specify some column types, while allowing others to be guessed (#286)</p></li>
+<li><p>A user-specified <code>col_types</code> of length one will be replicated to have length equal to the number of columns. (#127, #114, #261)</p></li>
+<li><p><code>"blank"</code> has been deprecated in favor of the more descriptive and readr-compatible <code>"skip"</code>, which is now the preferred way to request that a column be skipped. (#260, #193, #261)</p></li>
+<li><p><code>guess_max</code> is a new argument that lets user adjust the number of rows used to guess column types. (#223, #257 @tklebel and @jennybc)</p></li>
+<li><p><code>na</code> can now hold multiple NA values, e.g., <code><a href="../reference/read_excel.html">read_excel("missing-values.xls", na = c("NA", "1"))</a></code>. (#13, #56, @jmarshallnz)</p></li>
+<li><p>Coercions and cell data:</p></li>
+<li>Numeric data that appears in a date column is coerced to a date. Throws a warning. (#277, #266)</li>
+<li>Dates that appear in a numeric column are converted to <code>NA</code> instead of their integer representation. Throws warning. (#277, #263)</li>
+<li>“Number stored as text”: when a text cell is found in a numeric column, <code><a href="../reference/read_excel.html">read_excel()</a></code> attempts to coerce the string to numeric and falls back to <code>NA</code> if unsuccessful. Throws warning. (#277, #217, #106)</li>
+<li>Cells in error are treated as blank and are imported as <code>NA</code> (instead of the string <code>"error"</code>). (#277, #62)</li>
+<li>BoolErr cells are now handled in xls. Suppresses message <code>"Unknown type: 517"</code>. (#274, #259)</li>
+<li>Dates that arise from a formula are treated as dates (vs. numeric) in xls. (#277)</li>
+<li><p>Dates in .xlsx files saved with LibreOffice are now recognized as such. (#134, @zeehio)</p></li>
+</ul>
+</div>
+<div id="compatibility" class="section level2">
+<h2 class="hasAnchor">
+<a href="#compatibility" class="anchor"> </a>Compatibility</h2>
+<p>Many 3rd party tools write xls and xlsx that comply with the spec, but that are quite different from files produced by Excel.</p>
+<ul>
+<li><p>Namespace prefixes are now stripped from element names and attributes when parsing XML from xlsx. Workaround for the creative approach taken in some other s/w, coupled with rapidxml’s lack of namespace support. (#295, #268, #202, #80)</p></li>
+<li><p>Excel mixes 0- and 1-indexing in reported row and column dimensions for xls and libxls expects that. Other s/w may index from 0 for both, preventing libxls from reading the last column. Patched to restore access to those cells. (#273, #180, #152, #99)</p></li>
+<li><p>More robust logic for sheet lookup in xlsx. Improves compatibility with xlsx written by a variety of tools and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester and @jennybc)</p></li>
+<li><p>The <code>numFmtId</code> attribute is no longer accessed when it does not exist (xlsx written by <a href="http://epplus.codeplex.com" class="uri">http://epplus.codeplex.com</a>). (#191, #229)</p></li>
+<li><p>Location is inferred for cells that do not declare their location (xlsx written by JMP). (#240, #163, #102)</p></li>
+</ul>
+</div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor"> </a>Other</h2>
+<ul>
+<li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (#85, @jirkalewandowski)</p></li>
+<li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)</p></li>
+<li><p>The tibble package is now imported (#175, @krlmlr) and <code>tibble::repair_names()</code> is used to prevent empty, <code>NA</code>, or duplicated column names. (#216, #208, #199 #182, #53, #247).</p></li>
+<li><p>Default column names for xlsx now start with X__1 instead of X__0. (#98, @zeehio, @krlmlr)</p></li>
+<li><p>Fix compilation warnings/failures (FreeBSD 10.3 #221, gcc 4.9.3 #124) and/or problems reading xls (CentOS 6.6 #189). (#244, #245, #246 @jeroen)</p></li>
+<li><p>Unwanted printed output (e.g., <code>DEFINEDNAME: 21 00 00 ...</code>) is suppressed when reading xls that contains a defined range. (#82, #188, @PedramNavid)</p></li>
+</ul>
+</div>
 </div>
     <div id="readxl-0-1-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#readxl-0-1-1" class="anchor"> </a>readxl 0.1.1</h1>
 <ul>
-<li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (#51, thanks to @jmarshallnz)</li>
+<li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (#51, @jmarshallnz)</li>
 </ul>
 </div>
     </div>
