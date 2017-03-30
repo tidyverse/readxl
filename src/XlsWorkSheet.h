@@ -322,9 +322,10 @@ private:
             cell->id == 0x205 ||
             // cell holds either Boolean or error:
             //   0x205 -->  517 BoolErr (section 2.4.24) p216
-            cell->id == 0x0FD
+            cell->id == 0x0FD || cell->id == 0x204
             // cell holds a string:
             //   0x0FD -->  253 LabelSst (section 2.4.149) p325
+            //   0x204 -->  516 Label (section 2.4.148) p325
         ) {
           cells_.push_back(cell);
         }
