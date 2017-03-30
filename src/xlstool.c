@@ -652,7 +652,7 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
       // but we have seen them in a BIFF5 file from a 3rd party tool
       // https://github.com/tidyverse/readxl/issues/309
       //
-      // apparently these LABEL records are stored as 16-bit values,
+      // the length of these LABEL records is stored as a 16-bit value,
       // which worked fine when label was WORD*
       // but now label is DWORD*, which is necessary to correctly index the
       // shared string table (another readxl fix that has gone into libxls)
@@ -673,7 +673,7 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
           size_t newlen;
           ret = (char *)unicode_decode((BYTE *)label_16 + 1, len*2, &newlen, pWB->charset);
         }
-        // begin readxl patch
+        // end readxl patch
     }
       break;
 
