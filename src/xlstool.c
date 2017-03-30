@@ -133,7 +133,7 @@ static int asprintf(char **ret, const char *format, ...)
         return -1;
 
     while (1) {
-	    va_start(ap, format); 
+	    va_start(ap, format);
 
 	    i = _vsnprintf(p, size, format, ap);
 
@@ -171,7 +171,7 @@ static int asprintf(char **ret, const char *format, ...)
 
 	va_list ap;
 
-	va_start(ap, format); 
+	va_start(ap, format);
 	i = vsnprintf(NULL, 0, format, ap) + 1;
 	va_end(ap);
 
@@ -209,13 +209,13 @@ BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
 	int utf8_chars = 0;
 	BYTE *ret;
     DWORD i;
-	
+
 	for(i=0; i<len; ++i) {
 		if(str[i] & (BYTE)0x80) {
 			++utf8_chars;
 		}
 	}
-	
+
 	if(utf8_chars == 0 || strcmp(encoding, "UTF-8")) {
 		ret = (BYTE *)malloc(len+1);
 		memcpy(ret, str, len);
@@ -283,7 +283,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
                 return outbuf;
             }
         }
-        size_t st; 
+        size_t st;
         outbuf = (BYTE*)malloc(outlen + 1);
 
 		if(outbuf)
@@ -381,7 +381,7 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
     BYTE flag;
     BYTE* str;
     BYTE* ret;
-	
+
 	flag = 0;
     str=s;
 
@@ -429,9 +429,9 @@ BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
 		printf("ofs=%d ret[0]=%d\n", ofs, *ret);
 		{
 			unsigned char *ptr;
-			
+
 			ptr = ret;
-			
+
 			printf("%x %x %x %x %x %x %x %x\n", ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7] );
 			printf("%s\n", ret);
 		}
@@ -612,7 +612,7 @@ void xls_showFormat(struct st_format_data* frmt)
 void xls_showXF(XF8* xf)
 {
 	static int idx;
-	
+
     printf("      Index: %u\n",idx++);
     printf("       Font: %u\n",xf->font);
     printf("     Format: %u\n",xf->format);
@@ -645,23 +645,42 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
         asprintf(&ret, "%s", "");
         break;
     case XLS_RECORD_LABEL:
-		len = xlsShortVal(*label);
-        label++;
-		if(pWB->is5ver) {
-			asprintf(&ret,"%.*s", len, (char *)label);
-			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);
-		} else
-		if ((*(BYTE *)label & 0x01) == 0) {
-			ret = (char *)utf8_decode((BYTE *)label + 1, len, pWB->charset);
-		} else {
-			size_t newlen;
-		    ret = (char *)unicode_decode((BYTE *)label + 1, len*2, &newlen, pWB->charset);
-		}
-        break;
+    {
+      // begin readxl patch
+      //
+      // LABEL records are largely phased out, in favor of LABELSST
+      // but we have seen them in a BIFF5 file from a 3rd party tool
+      // https://github.com/tidyverse/readxl/issues/309
+      //
+      // the length of these LABEL records is stored as a 16-bit value,
+      // which worked fine when label was WORD*
+      // but now label is DWORD*, which is necessary to correctly index the
+      // shared string table (another readxl fix that has gone into libxls)
+      // https://github.com/tidyverse/readxl/pull/293
+      //
+      // this patch creates a new pointer from label, but cast to WORD*
+      WORD* label_16;
+      label_16 = label;
+      len = xlsShortVal(*label_16);
+      label_16++;
+      if(pWB->is5ver) {
+        asprintf(&ret,"%.*s", len, (char *)label_16);
+        //printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);
+      } else
+        if ((*(BYTE *)label_16 & 0x01) == 0) {
+          ret = (char *)utf8_decode((BYTE *)label_16 + 1, len, pWB->charset);
+        } else {
+          size_t newlen;
+          ret = (char *)unicode_decode((BYTE *)label_16 + 1, len*2, &newlen, pWB->charset);
+        }
+        // end readxl patch
+    }
+      break;
+
     case XLS_RECORD_RK:
     case XLS_RECORD_NUMBER:
-        asprintf(&ret,"%lf", cell->d);
-		break;
+      asprintf(&ret,"%lf", cell->d);
+      break;
 		//		if( RK || MULRK || NUMBER || FORMULA)
 		//		if (cell->id==0x27e || cell->id==0x0BD || cell->id==0x203 || 6 (formula))
     default:
