@@ -48,6 +48,6 @@ extern void xls_showCell(struct st_cell_data* cell);
 extern void xls_showFont(struct st_font_data* font);
 extern void xls_showXF(XF8* xf);
 extern void xls_showFormat(struct st_format_data* format);
-extern BYTE* xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label);
+extern BYTE* xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label);
 extern char* xls_getCSS(xlsWorkBook* pWB);
 extern void xls_showBOF(BOF* bof);

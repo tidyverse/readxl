@@ -112,8 +112,10 @@ void xlsConvertBiff(BIFF *b)
     b->type = xlsShortVal(b->type);
     b->id_make = xlsShortVal(b->id_make);
     b->year = xlsShortVal(b->year);
-    b->flags = xlsIntVal(b->flags);
-    b->min_ver = xlsIntVal(b->min_ver);
+    if (b->ver == 0x600) {
+      b->flags = xlsIntVal(b->flags);
+      b->min_ver = xlsIntVal(b->min_ver);
+    }
 }
 
 void xlsConvertWindow(WIND1 *w)
