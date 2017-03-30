@@ -648,6 +648,21 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
 		len = xlsShortVal(*label);
         label++;
 		if(pWB->is5ver) {
+		  // readxl patch
+		  //
+		  // LABEL records are largely phased out, in favor of LABELSST
+		  // but we have seen them in a BIFF5 file from a 3rd party tool
+		  // https://github.com/tidyverse/readxl/issues/309
+		  //
+		  // the length of these LABEL records is stored as a 16-bit value,
+		  // which worked fine when label was WORD*
+		  // but now label is DWORD*, which is necessary to correctly index the
+		  // shared string table (another readxl fix that has gone into libxls)
+		  // https://github.com/tidyverse/readxl/pull/293
+		  //
+		  // this line moves the label pointer back one byte, to the beginning
+		  // of the string
+		  label = (DWORD *)((WORD *)label - 1);
 			asprintf(&ret,"%.*s", len, (char *)label);
 			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);
 		} else

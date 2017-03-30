@@ -110,7 +110,7 @@ public:
     case 516: // 0x0204 Label 2.4.148 p325:
               // "Label record specifies a label on the category axis for
               // each series"
-              // Jenny: I think this one is a red herring = not a cell type
+              // Jenny: note that this has been used for strings in the past
       ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
       break;
 
