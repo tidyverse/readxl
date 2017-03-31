@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <libxls/xls.h>
 #include <libxls/xlstypes.h>
+#include <libxls/xlsstruct.h>
 #include "ColSpec.h"
 #include "utils.h"
 
@@ -57,6 +58,20 @@ public:
     // 2.3.1 starting p168 is ordered by name
     // 2.3.2 starting p180 is ordered by number
     //
+    // LabelSst 2.4.149 p325
+    // Label 2.4.148 p325
+    // Formula 2.4.127 p309
+    // Formula (Apple Numbers Bug) via libxls
+    // MulRk 2.4.175 p344
+    // Number 2.4.180 p348
+    // Rk 2.4.220 p376
+    // MulRk 2.4.175 p344
+    // Number 2.4.180 p348
+    // Rk 2.4.220 p376
+    // MulBlank 2.4.174 p344
+    // Blank 2.4.20 p212
+    // BoolErr 2.4.24 p216
+    //
     // For info on how libxls extracts and exposes, see xls_addCell. Also
     // consult xlsstruct.h to confirm record numbers.
     //
@@ -105,17 +120,13 @@ public:
 
     CellType ct;
     switch(cell_->id) {
-    case 253: // 0x00FD LabelSst 2.4.149 p325:
-              // a string from the shared string table
-    case 516: // 0x0204 Label 2.4.148 p325:
-              // "Label record specifies a label on the category axis for
-              // each series"
-              // Jenny: note that this has been used for strings in the past
+    case XLS_RECORD_LABELSST:
+    case XLS_RECORD_LABEL:
       ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
       break;
 
-    case 6:    // 0x0006 formula 2.4.127 p309
-    case 1030: // 0x0406 formula (Apple Numbers Bug) via libxls
+    case XLS_RECORD_FORMULA:
+    case XLS_RECORD_FORMULA_ALT:
       // l = 0     --> result is a number, possibly date
       // l = 65535 --> everything else
       if (cell_->l == 0) {
@@ -162,31 +173,25 @@ public:
       }
       break;
 
-    case 189: // 0x00BD MulRk 2.4.175 p344:
-              // numeric data originating from series of cells
-    case 515: // 0x0203 Number 2.4.180 p348:
-              // floating-point number from single cell
-    case 638: // 0x027E Rk 2.4.220 p376:
-              // numeric data from single cell
-      {
-        if (na.contains(cell_->d)) {
-          ct = CELL_BLANK;
-          break;
-        }
-        int format = cell_->xf;
-        ct = (dateFormats.count(format) > 0) ? CELL_DATE : CELL_NUMERIC;
+    case XLS_RECORD_MULRK:
+    case XLS_RECORD_NUMBER:
+    case XLS_RECORD_RK:
+    {
+      if (na.contains(cell_->d)) {
+      ct = CELL_BLANK;
+      break;
       }
+      int format = cell_->xf;
+      ct = (dateFormats.count(format) > 0) ? CELL_DATE : CELL_NUMERIC;
+    }
       break;
 
-    case 190: // 0x00BE MulBlank 2.4.174 p344:
-              // blank cell originating from series of blank cells
-    case 513: // 0x0201 Blank 2.4.20 p212:
-              // an empty cell with no formula or value
+    case XLS_RECORD_MULBLANK:
+    case XLS_RECORD_BLANK:
       ct = CELL_BLANK;
       break;
 
-    case 517: // 0x0205 BoolErr 2.4.24 p216:
-              //  a cell that contains either a Boolean value or an error value
+    case XLS_RECORD_BOOLERR:
       if (strncmp((char *) cell_->str, "bool", 4) == 0) {
         if ( (cell_->d == 0 && na.contains("FALSE")) ||
              (cell_->d == 1 && na.contains("TRUE")) ) {
