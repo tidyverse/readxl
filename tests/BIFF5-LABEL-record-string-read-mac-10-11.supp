@@ -1,0 +1,160 @@
+{
+   <r-or-os-01>
+   Memcheck:Cond
+   fun:bcmp
+   fun:_ZN16ImageLoaderMachO18validateFirstPagesEPK21linkedit_data_commandiPKhmxRKN11ImageLoader11LinkContextE
+   fun:_ZN26ImageLoaderMachOCompressed19instantiateFromFileEPKciPKhmyyRK4statjjPK21linkedit_data_commandPK23encryption_info_commandRKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO19instantiateFromFileEPKciPKhyyRK4statRKN11ImageLoader11LinkContextE
+   fun:_ZN4dyldL10loadPhase6EiRK4statPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL10loadPhase5EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase4EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase3EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase1EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase0EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyld4loadEPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL14libraryLocatorEPKcbS1_PKN11ImageLoader10RPathChainE
+}
+{
+   <r-or-os-02>
+   Memcheck:Value8
+   fun:bcmp
+   fun:_ZN16ImageLoaderMachO18validateFirstPagesEPK21linkedit_data_commandiPKhmxRKN11ImageLoader11LinkContextE
+   fun:_ZN26ImageLoaderMachOCompressed19instantiateFromFileEPKciPKhmyyRK4statjjPK21linkedit_data_commandPK23encryption_info_commandRKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO19instantiateFromFileEPKciPKhyyRK4statRKN11ImageLoader11LinkContextE
+   fun:_ZN4dyldL10loadPhase6EiRK4statPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL10loadPhase5EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase4EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase3EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase1EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase0EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyld4loadEPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL14libraryLocatorEPKcbS1_PKN11ImageLoader10RPathChainE
+}
+{
+   <r-or-os-03>
+   Memcheck:Cond
+   fun:_ZN16ImageLoaderMachO18validateFirstPagesEPK21linkedit_data_commandiPKhmxRKN11ImageLoader11LinkContextE
+   fun:_ZN26ImageLoaderMachOCompressed19instantiateFromFileEPKciPKhmyyRK4statjjPK21linkedit_data_commandPK23encryption_info_commandRKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO19instantiateFromFileEPKciPKhyyRK4statRKN11ImageLoader11LinkContextE
+   fun:_ZN4dyldL10loadPhase6EiRK4statPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL10loadPhase5EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase4EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase3EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase1EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyldL10loadPhase0EPKcS1_RKNS_11LoadContextEPNSt3__16vectorIS1_NS5_9allocatorIS1_EEEE
+   fun:_ZN4dyld4loadEPKcRKNS_11LoadContextE
+   fun:_ZN4dyldL14libraryLocatorEPKcbS1_PKN11ImageLoader10RPathChainE
+   fun:_ZN11ImageLoader22recursiveLoadLibrariesERKNS_11LinkContextEbRKNS_10RPathChainE
+}
+{
+   <readxl-01-strnlen>
+   Memcheck:Cond
+   fun:strnlen
+   fun:__vfprintf
+   fun:__v2printf
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:readxl_read_xls_
+}
+{
+   <readxl-02-vfprintf>
+   Memcheck:Cond
+   fun:__vfprintf
+   fun:__v2printf
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:readxl_read_xls_
+   fun:R_doDotCall
+}
+{
+   <readxl-03-sfvwrite>
+   Memcheck:Cond
+   fun:__sfvwrite
+   fun:__vfprintf
+   fun:__v2printf
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:readxl_read_xls_
+}
+{
+   <readxl-04-haswell-cond>
+   Memcheck:Cond
+   fun:_platform_memmove$VARIANT$Haswell
+   fun:__sfvwrite
+   fun:__vfprintf
+   fun:__v2printf
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+}
+{
+   <readxl-05-haswell-value8>
+   Memcheck:Value8
+   fun:_platform_memmove$VARIANT$Haswell
+   fun:__sfvwrite
+   fun:__vfprintf
+   fun:__v2printf
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+}
+{
+   <readxl-06-vasprintf-cond>
+   Memcheck:Cond
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:readxl_read_xls_
+   fun:R_doDotCall
+   fun:do_dotcall
+   fun:Rf_eval
+}
+{
+   <readxl-07-vasprintf-value8>
+   Memcheck:Value8
+   fun:_vasprintf
+   fun:asprintf
+   fun:xls_getfcell
+   fun:xls_addCell
+   fun:xls_parseWorkSheet
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:readxl_read_xls_
+   fun:R_doDotCall
+   fun:do_dotcall
+   fun:Rf_eval
+}
