@@ -3,7 +3,7 @@ Title: Read Excel Files
 Version: 0.1.1.9000
 Authors@R: c(
     person("Hadley", "Wickham", ,"hadley@rstudio.com", role = c("aut")),
-    person("Jennifer", "Bryan", ,"jenny.f.bryan@gmail.com", role = c("aut", "cre")),
+    person("Jennifer", "Bryan", ,"jenny@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = c("cph", "fnd"), comment = "Copyright holder of
       all R code and all C/C++ code without explicit copyright attribution"),
     person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of included RapidXML code"),
