@@ -7,6 +7,7 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
+#' @param range A cell range to read from, as described in [cell-specification]
 #' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
 #'   default names, or a character vector giving a name for each column. If user
 #'   provides `col_types` as a vector, `col_names` can have one entry per
@@ -52,7 +53,8 @@ NULL
 #'
 #' # Limit the number of data rows read
 #' read_excel(datasets, n_max = 3)
-read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+read_excel <- function(path, sheet = 1L, range = NULL,
+                       col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
   read_excel_(

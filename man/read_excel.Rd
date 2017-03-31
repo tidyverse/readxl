@@ -6,8 +6,9 @@
 \alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
-read_excel(path, sheet = 1L, col_names = TRUE, col_types = NULL,
-  na = "", skip = 0, n_max = Inf, guess_max = min(1000, n_max))
+read_excel(path, sheet = 1L, range = NULL, col_names = TRUE,
+  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  guess_max = min(1000, n_max))
 
 read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
   skip = 0, n_max = Inf, guess_max = min(1000, n_max))
@@ -20,6 +21,8 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.}
+
+\item{range}{A cell range to read from, as described in \link{cell-specification}}
 
 \item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
 default names, or a character vector giving a name for each column. If user
