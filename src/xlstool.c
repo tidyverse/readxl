@@ -626,7 +626,7 @@ void xls_showXF(XF8* xf)
     printf("GroundColor: 0x%x\n",xf->groundcolor);
 }
 
-BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
+BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label)
 {
     struct st_xf_data *xf;
 	WORD	len;
@@ -646,7 +646,7 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
         break;
     case XLS_RECORD_LABEL:
 		len = xlsShortVal(*label);
-        label++;
+        label += 2;
 		if(pWB->is5ver) {
 			asprintf(&ret,"%.*s", len, (char *)label);
 			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);

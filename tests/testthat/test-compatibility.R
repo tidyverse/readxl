@@ -29,3 +29,17 @@ test_that("we can finally read Ekaterinburg", {
   )
   expect_identical(ek[[1,2]], "27.05.2004")
 })
+
+## #309
+## A BIFF5 xls from an unspecified 3rd party tool, that uses a very antiquated
+## practice of storing text strings in LABEL records.
+## Exposed the fact that the libxls patch in #293 is beneficial for indexing
+## the shared string table, but causes difficulty when parsing LABEL records.
+## We have a small patch now in libxls for that.
+test_that("we can read the BIFF5, LABEL record sheet", {
+  df <- read_excel(test_sheet("biff5-label-records.xls"), skip = 2,
+                   na = c("", "--"))
+  expect_identical(dim(df), c(14L, 4L))
+  expect_identical(df$Date[c(1, 14)], c("21/01/2017", "21/01/2017"))
+  expect_identical(df$Time[c(1, 14)], c("01:00", "14:00"))
+})

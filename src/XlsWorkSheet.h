@@ -310,21 +310,11 @@ private:
         // and only load those cells.
         // 2.4.90 Dimensions p273 of [MS-XLS]
 
-        if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203 ||
-            // cell holds a number:
-            //   0x27e -->  638     RK (section 2.4.220) p376 of [MS-XLS]
-            //   0x0BD -->  189  MulRk (section 2.4.175) p344
-            //   0x203 -->  515 Number (section 2.4.180) p348
-            cell->id == 0x06 ||  cell->id == 0x0406 ||
-            // cell holds a formula:
-            //    0x06 -->   6 Formula (section 2.4.127) p309
-            //  0x0406 --> 1030 Formula (Apple Numbers Bug) via libxls
-            cell->id == 0x205 ||
-            // cell holds either Boolean or error:
-            //   0x205 -->  517 BoolErr (section 2.4.24) p216
-            cell->id == 0x0FD
-            // cell holds a string:
-            //   0x0FD -->  253 LabelSst (section 2.4.149) p325
+        if (cell->id == XLS_RECORD_MULRK || cell->id == XLS_RECORD_NUMBER ||
+            cell->id == XLS_RECORD_RK ||
+            cell->id == XLS_RECORD_LABELSST || cell->id == XLS_RECORD_LABEL ||
+            cell->id == XLS_RECORD_FORMULA ||  cell->id == XLS_RECORD_FORMULA_ALT ||
+            cell->id == XLS_RECORD_BOOLERR
         ) {
           cells_.push_back(cell);
         }
