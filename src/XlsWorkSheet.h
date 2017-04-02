@@ -344,6 +344,19 @@ private:
     secondRow_ = cells_.end();
     std::vector<XlsCell>::iterator it = cells_.begin();
 
+    // if we are not 'shrink-wrapping' the data, insert shim cells for
+    // upper left and/or lower right, as needed
+    if (!shrink && it->row() > limits[0]) {
+      Rcpp::Rcout << "inserting upper left shim\n";
+      XlsCell ul_shim(std::make_pair(limits[0], limits[2]));
+      it = cells_.insert(it, ul_shim);
+    }
+    if (!shrink && cells_.back().col() < limits[3]) {
+      Rcpp::Rcout << "inserting lower right shim\n";
+      XlsCell lr_shim(std::make_pair(limits[1], limits[3]));
+      cells_.push_back(lr_shim);
+    }
+
     // advance past skip rows
     while (it != cells_.end() && it->row() < limits[0]) {
       it++;
