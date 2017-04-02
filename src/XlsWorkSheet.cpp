@@ -7,17 +7,17 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 List read_xls_(std::string path, int sheet_i,
-               RObject input_limits, RObject input_shrink,
+               RObject input_limits, RObject input_shim,
                RObject col_names, RObject col_types,
                std::vector<std::string> na, int guess_max = 1000) {
 
   // fix this!
   // maybe I should use a map?
   IntegerVector limits = as<IntegerVector>(input_limits);
-  bool shrink = as<bool>(input_shrink);
+  bool shim = as<bool>(input_shim);
 
   // Construct worksheet ----------------------------------------------
-  XlsWorkSheet ws(path, sheet_i, limits, shrink);
+  XlsWorkSheet ws(path, sheet_i, limits, shim);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {

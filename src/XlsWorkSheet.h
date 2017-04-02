@@ -6,6 +6,7 @@
 #include "XlsWorkBook.h"
 #include "XlsCell.h"
 #include "ColSpec.h"
+#include "CellLimits.h"
 
 class XlsWorkSheet {
   // the host workbook
@@ -19,13 +20,14 @@ class XlsWorkSheet {
   std::set<int> dateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;
+  CellLimits empirical_, nominal_, actual_;
   int ncol_, nrow_;
   std::vector<XlsCell>::iterator firstRow_, secondRow_;
 
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               Rcpp::IntegerVector limits, bool shrink):
+               Rcpp::IntegerVector limits, bool shim):
   wb_(wb)
   {
     if (sheet_i >= wb.n_sheets()) {
@@ -45,7 +47,10 @@ public:
     dateFormats_ = wb.dateFormats();
 
     loadCells();
-    parseGeometry(limits, shrink);
+    nominal_ = CellLimits(limits);
+    setGeometry(shim);
+    nrow_ = (actual_.min_row() < 0) ? 0 : actual_.max_row() - actual_.min_row() + 1;
+    ncol_ = (actual_.min_col() < 0) ? 0 : actual_.max_col() - actual_.min_col() + 1;
   }
 
   ~XlsWorkSheet() {
@@ -69,11 +74,8 @@ public:
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
-      if (xcell->col() >= ncol_) {
-        break;
-      }
       xcell->inferType(na, dateFormats_);
-      out[xcell->col()] = xcell->asCharSxp();
+      out[xcell->col() - actual_.min_col()] = xcell->asCharSxp();
       xcell++;
     }
     return out;
@@ -103,8 +105,8 @@ public:
       if ((xcell->row() - base + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      int j = xcell->col();
-      if (type_known[j] || j >= ncol_) {
+      int j = xcell->col() - actual_.min_col();
+      if (type_known[j]) {
         xcell++;
         continue;
       }
@@ -129,7 +131,7 @@ public:
 
     // base is row the data starts on **in the spreadsheet**
     int base = firstRow_->row() + has_col_names;
-    int n = (xcell == cells_.end()) ? 0 : nrow_ - base;
+    int n = (xcell == cells_.end()) ? 0 : actual_.max_row() - base + 1;
     Rcpp::List cols(ncol_);
     cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
@@ -143,11 +145,11 @@ public:
     while (xcell != cells_.end()) {
 
       int i = xcell->row();
-      int j = xcell->col();
+      int j = xcell->col() - actual_.min_col();
       if ((i + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      if (types[j] == COL_SKIP || j >= ncol_) {
+      if (types[j] == COL_SKIP) {
         xcell++;
         continue;
       }
@@ -310,7 +312,6 @@ private:
         // formatting, therefore we test explicitly for non-blank cell types
         // and only load those cells.
         // 2.4.90 Dimensions p273 of [MS-XLS]
-
         if (cell->id == XLS_RECORD_MULRK || cell->id == XLS_RECORD_NUMBER ||
             cell->id == XLS_RECORD_RK ||
             cell->id == XLS_RECORD_LABELSST || cell->id == XLS_RECORD_LABEL ||
@@ -318,6 +319,7 @@ private:
             cell->id == XLS_RECORD_BOOLERR
         ) {
           cells_.push_back(cell);
+          empirical_.update(cells_.back());
         }
       }
     }
@@ -331,62 +333,65 @@ private:
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(Rcpp::IntegerVector limits, bool shrink) {
-    ncol_ = 0;
-    nrow_ = 0;
+  void setGeometry(bool shim) {
 
-    // empty sheet or 'read no data' case
-    if (cells_.empty() || limits[0] < 0) {
+    // empty sheet or 'read no data' case (convention is min_row = -2)
+    if (cells_.empty() || nominal_.min_row() < -1) {
       return;
     }
 
-    firstRow_ = cells_.end();
-    secondRow_ = cells_.end();
+    // remove cells that lie outside the nominal rectangle
+    // there should be some way to to this with erase-remove,
+    // but damn if I can figure that out
+    for (std::vector<XlsCell>::iterator it = cells_.begin();
+         it != cells_.end(); ) {
+      if (falls_outside(nominal_, *it)) {
+        it = cells_.erase(it);
+      } else {
+        ++it;
+      }
+    }
+
+    if (cells_.empty()) {
+      return;
+    }
+
     std::vector<XlsCell>::iterator it = cells_.begin();
 
-    // if we are not 'shrink-wrapping' the data, insert shim cells for
-    // upper left and/or lower right, as needed
-    if (!shrink && it->row() > limits[0]) {
-      Rcpp::Rcout << "inserting upper left shim\n";
-      XlsCell ul_shim(std::make_pair(limits[0], limits[2]));
-      it = cells_.insert(it, ul_shim);
-    }
-    if (!shrink && cells_.back().col() < limits[3]) {
-      Rcpp::Rcout << "inserting lower right shim\n";
-      XlsCell lr_shim(std::make_pair(limits[1], limits[3]));
-      cells_.push_back(lr_shim);
-    }
+    if (shim) {
+      bool shim_up = nominal_.min_row() >= 0 && empirical_.min_row() > nominal_.min_row();
+      bool shim_left = nominal_.min_col() >= 0 && empirical_.min_col() > nominal_.min_col();
+      if (shim_up || shim_left) {
+        int ul_row = nominal_.min_row() >= 0 ? nominal_.min_row() : empirical_.min_row();
+        int ul_col = nominal_.min_col() >= 0 ? nominal_.min_col() : empirical_.min_col();
+        XlsCell ul_shim(std::make_pair(ul_row, ul_col));
+        it = cells_.insert(it, ul_shim);
+      }
 
-    // advance past skip rows
-    while (it != cells_.end() && it->row() < limits[0]) {
-      it++;
-    }
-    // 'skipped past all the data' case
-    if (it == cells_.end()) {
-      return;
+      bool shim_down = nominal_.max_row() >= 0 && empirical_.max_row() < nominal_.max_row();
+      bool shim_right = nominal_.max_col() >= 0 && empirical_.max_col() < nominal_.max_col();
+      if (shim_down || shim_right) {
+        int lr_row = nominal_.max_row() >= 0 ? nominal_.max_row() : empirical_.max_row();
+        int lr_col = nominal_.max_col() >= 0 ? nominal_.max_col() : empirical_.max_col();
+        XlsCell lr_shim(std::make_pair(lr_row, lr_col));
+        cells_.push_back(lr_shim);
+        it = cells_.begin();
+      }
     }
 
     firstRow_ = it;
-    while (it != cells_.end() &&
-           (limits[1] < 0 || it->row() <= limits[1])) {
-
-      if (ncol_ < it->col()) {
-        ncol_ = it->col();
-      }
-
+    secondRow_ = cells_.end();
+    while (it != cells_.end()) {
+      actual_.update(*it);
       if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
         secondRow_ = it;
       }
-
       ++it;
     }
+  }
 
-    ncol_++;
-    if (secondRow_ > it) {
-      secondRow_ = it;
-    }
-    cells_.erase(it, cells_.end());
-    nrow_ = cells_.back().row() + 1;
+  bool falls_outside(const CellLimits limits, const XlsCell cell) {
+    return !limits.contains(cell);
   }
 
 };

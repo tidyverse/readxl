@@ -115,14 +115,14 @@ read_excel_ <- function(path, sheet = 1L, range = NULL,
     read_fun <- read_xlsx_
   }
   sheet <- standardise_sheet(sheet, sheets_fun(path))
-  shrink <- is.null(range)
+  shim <- !is.null(range)
   limits <- standardise_limits(range, skip, n_max, has_col_names = isTRUE(col_names))
   guess_max <- check_guess_max(guess_max)
   col_types <- check_col_types(col_types)
   tibble::repair_names(
     tibble::as_tibble(
       read_fun(path = path, sheet = sheet,
-               input_limits = limits, input_shrink = shrink,
+               input_limits = limits, input_shim = shim,
                col_names = col_names, col_types = col_types,
                na = na, guess_max = guess_max),
       validate = FALSE
@@ -174,7 +174,8 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
     skip <- check_non_negative_integer(skip, "skip")
     n_max <- check_non_negative_integer(n_max, "n_max")
     n_read <- if (has_col_names) n_max + 1 else n_max
-    limits <- c(min_row = if (n_read > 0) skip else NA,
+    ## min_row = -2 is a special flag for 'read no rows'
+    limits <- c(min_row = if (n_read > 0) skip else -2,
                 max_row = if (n_read == Inf || n_read == 0) NA else skip + n_read - 1,
                 min_col = NA, max_col = NA)
   } else {

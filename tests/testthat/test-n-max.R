@@ -42,7 +42,8 @@ test_that("n_max is upper bound on nrows, if it causes trailing blank row", {
   expect_identical(nrow(df), 2L)
 })
 
-test_that("n_max can affect ncols, if prevents read of data in a col", {
+test_that("n_max can affect ncols, if prevents read of data in a col [xlsx]", {
+  skip("reinstate when xlsx geometry is updated")
   ## xlsx
   df <- read_excel(test_sheet("skipping.xlsx"), sheet = "two_occupied_rows",
                    n_max = 0)
@@ -51,8 +52,10 @@ test_that("n_max can affect ncols, if prevents read of data in a col", {
   df <- read_excel(test_sheet("skipping.xlsx"), sheet = "two_occupied_rows",
                    skip = 1, n_max = 0)
   expect_identical(nrow(df), 0L)
-  expect_identical(ncol(df), 2L)
+  expect_identical(ncol(df), 1L)
+})
 
+test_that("n_max can affect ncols, if prevents read of data in a col [xls]", {
   ## xls
   df <- read_excel(test_sheet("skipping.xls"), sheet = "two_occupied_rows",
                    n_max = 0)
@@ -61,7 +64,7 @@ test_that("n_max can affect ncols, if prevents read of data in a col", {
   df <- read_excel(test_sheet("skipping.xls"), sheet = "two_occupied_rows",
                    skip = 1, n_max = 0)
   expect_identical(nrow(df), 0L)
-  expect_identical(ncol(df), 2L)
+  expect_identical(ncol(df), 1L)
 })
 
 test_that("n_max = nrows in dense sheet when col_names = FALSE", {

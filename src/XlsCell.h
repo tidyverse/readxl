@@ -33,9 +33,6 @@ public:
   {
     location_ = loc;
     type_ = CELL_BLANK;
-    Rcpp::Rcout << "SHIM row = " << location_.first <<
-      ", col = " << location_.second << "\n";
-
   }
 
   int row() const {

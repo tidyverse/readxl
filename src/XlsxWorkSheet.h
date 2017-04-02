@@ -33,7 +33,7 @@ class XlsxWorkSheet {
 public:
 
   XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i,
-                Rcpp::IntegerVector limits, bool shrink):
+                Rcpp::IntegerVector limits, bool shim):
   wb_(wb)
   {
     rapidxml::xml_node<>* rootNode;
@@ -61,7 +61,7 @@ public:
     dateFormats_ = wb.dateFormats();
 
     loadCells();
-    parseGeometry(limits, shrink);
+    parseGeometry(limits, shim);
   }
 
   int ncol() const {
@@ -343,7 +343,7 @@ private:
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(Rcpp::IntegerVector limits, bool shrink) {
+  void parseGeometry(Rcpp::IntegerVector limits, bool shim) {
     nrow_ = 0;
     ncol_ = 0;
 

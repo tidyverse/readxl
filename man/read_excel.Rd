@@ -10,11 +10,13 @@ read_excel(path, sheet = 1L, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 
-read_xls(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, n_max = Inf, guess_max = min(1000, n_max))
+read_xls(path, sheet = 1L, range = NULL, col_names = TRUE,
+  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  guess_max = min(1000, n_max))
 
-read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
-  skip = 0, n_max = Inf, guess_max = min(1000, n_max))
+read_xlsx(path, sheet = 1L, range = NULL, col_names = TRUE,
+  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  guess_max = min(1000, n_max))
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file}
@@ -22,7 +24,10 @@ read_xlsx(path, sheet = 1L, col_names = TRUE, col_types = NULL, na = "",
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Defaults to the first sheet.}
 
-\item{range}{A cell range to read from, as described in \link{cell-specification}}
+\item{range}{A cell range to read from, as described in \link{cell-specification}.
+Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
+even if the range includes blank rows or columns. Takes precedence over
+\code{skip} and \code{n_max}.}
 
 \item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
 default names, or a character vector giving a name for each column. If user
@@ -42,10 +47,13 @@ on a cell-by-cell basis.}
 \item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}
 
-\item{skip}{Number of rows to skip before reading anything (column names or
-data). Leading blank rows are automatically skipped.}
+\item{skip}{Minimum number of rows to skip before reading anything, be it
+column names or data. Leading blank rows are automatically skipped, so this
+is a lower bound. Ignored if \code{range} is given.}
 
-\item{n_max}{Maximum number of data rows to read.}
+\item{n_max}{Maximum number of data rows to read. Trailing blank rows are
+automatically skipped, so this is an upper bound on the number of rows in
+the returned tibble. Ignored if \code{range} is given.}
 
 \item{guess_max}{Maximum number of data rows to use for guessing column
 types.}
