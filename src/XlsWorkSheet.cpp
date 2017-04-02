@@ -6,11 +6,25 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List read_xls_(std::string path, int sheet_i, RObject col_names,
-                RObject col_types, std::vector<std::string> na,
-                int skip = 0, int n_max = -1, int guess_max = 1000) {
+List read_xls_(std::string path, int sheet_i,
+               RObject input_limits, RObject input_shrink,
+               RObject col_names, RObject col_types,
+               std::vector<std::string> na, int guess_max = 1000) {
 
-  // has_col_names = TRUE iff we will read col names from sheet -------
+  // fix this!
+  // maybe I should use a map?
+  IntegerVector limits = as<IntegerVector>(input_limits);
+  bool shrink = as<bool>(input_shrink);
+
+  // Construct worksheet ----------------------------------------------
+  XlsWorkSheet ws(path, sheet_i, limits, shrink);
+
+  // catches empty sheets and sheets where requested rectangle contains no data
+  if (ws.nrow() == 0 && ws.ncol() == 0) {
+    return Rcpp::List(0);
+  }
+
+  // Get column names -------------------------------------------------
   CharacterVector colNames;
   bool has_col_names = false;
   switch(TYPEOF(col_names)) {
@@ -19,27 +33,10 @@ List read_xls_(std::string path, int sheet_i, RObject col_names,
     break;
   case LGLSXP:
     has_col_names = as<bool>(col_names);
+    colNames = has_col_names ? ws.colNames(na) : CharacterVector(ws.ncol(), "");
     break;
   default:
     Rcpp::stop("`col_names` must be a logical or character vector");
-  }
-
-  // Adjust n_max -----------------------------------------------------
-  if (n_max >= 0 && has_col_names) {
-    n_max++;
-  }
-
-  // Construct worksheet ----------------------------------------------
-  XlsWorkSheet ws(path, sheet_i, skip, n_max);
-
-  // catches empty sheets and sheets where we skip past all data
-  if (ws.nrow() == 0 && ws.ncol() == 0) {
-   return Rcpp::List(0);
-  }
-
-  // Populate column names, if necessary ------------------------------
-  if (TYPEOF(col_names) == LGLSXP) {
-    colNames = has_col_names ? ws.colNames(na) : CharacterVector(ws.ncol(), "");
   }
 
   // Get column types --------------------------------------------------

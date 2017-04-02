@@ -24,7 +24,8 @@ class XlsWorkSheet {
 
 public:
 
-  XlsWorkSheet(const XlsWorkBook wb, int sheet_i, int skip, int n_max):
+  XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
+               Rcpp::IntegerVector limits, bool shrink):
   wb_(wb)
   {
     if (sheet_i >= wb.n_sheets()) {
@@ -44,7 +45,7 @@ public:
     dateFormats_ = wb.dateFormats();
 
     loadCells();
-    parseGeometry(skip, n_max);
+    parseGeometry(limits, shrink);
   }
 
   ~XlsWorkSheet() {
@@ -330,12 +331,12 @@ private:
   //   secondRow_ = first cell for which declared row > that of firstRow_
   //   fallback to cells_.end() if the above not possible
   // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void parseGeometry(int skip, int n_max) {
+  void parseGeometry(Rcpp::IntegerVector limits, bool shrink) {
     ncol_ = 0;
     nrow_ = 0;
 
     // empty sheet or 'read no data' case
-    if (cells_.empty() || n_max == 0) {
+    if (cells_.empty() || limits[0] < 0) {
       return;
     }
 
@@ -344,7 +345,7 @@ private:
     std::vector<XlsCell>::iterator it = cells_.begin();
 
     // advance past skip rows
-    while (it != cells_.end() && it->row() < skip) {
+    while (it != cells_.end() && it->row() < limits[0]) {
       it++;
     }
     // 'skipped past all the data' case
@@ -354,7 +355,7 @@ private:
 
     firstRow_ = it;
     while (it != cells_.end() &&
-           (n_max < 0 || it->row() - firstRow_->row() < n_max)) {
+           (limits[1] < 0 || it->row() <= limits[1])) {
 
       if (ncol_ < it->col()) {
         ncol_ = it->col();

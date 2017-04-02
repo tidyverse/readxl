@@ -57,9 +57,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
    fun:readxl_read_xls_
 }
 {
@@ -72,9 +72,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
    fun:readxl_read_xls_
    fun:R_doDotCall
 }
@@ -89,9 +89,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
    fun:readxl_read_xls_
 }
 {
@@ -106,9 +106,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
 }
 {
    <readxl-05-haswell-value8>
@@ -122,9 +122,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
 }
 {
    <readxl-06-vasprintf-cond>
@@ -134,9 +134,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
    fun:readxl_read_xls_
    fun:R_doDotCall
    fun:do_dotcall
@@ -150,9 +150,9 @@
    fun:xls_getfcell
    fun:xls_addCell
    fun:xls_parseWorkSheet
-   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiii
-   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiii
-   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_NS_6vectorIS5_NS3_IS5_EEEEiii
+   fun:_ZN12XlsWorkSheetC2E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_ZN12XlsWorkSheetC1E11XlsWorkBookiN4Rcpp6VectorILi13ENS1_15PreserveStorageEEEb
+   fun:_Z9read_xls_NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEiN4Rcpp12RObject_ImplINS6_15PreserveStorageEEES9_S9_S9_NS_6vectorIS5_NS3_IS5_EEEEi
    fun:readxl_read_xls_
    fun:R_doDotCall
    fun:do_dotcall
