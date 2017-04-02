@@ -9,14 +9,6 @@ xls_date_formats <- function(path) {
     .Call('readxl_xls_date_formats', PACKAGE = 'readxl', path)
 }
 
-xls_col_names <- function(path, na, sheet_i = 0L, skip = 0L, n_max = 1L) {
-    .Call('readxl_xls_col_names', PACKAGE = 'readxl', path, na, sheet_i, skip, n_max)
-}
-
-xls_col_types <- function(path, na, sheet_i = 0L, skip = 0L, n_max = -1L, guess_max = 1000L, has_col_names = FALSE) {
-    .Call('readxl_xls_col_types', PACKAGE = 'readxl', path, na, sheet_i, skip, n_max, guess_max, has_col_names)
-}
-
 read_xls_ <- function(path, sheet_i, col_names, col_types, na, skip = 0L, n_max = -1L, guess_max = 1000L) {
     .Call('readxl_read_xls_', PACKAGE = 'readxl', path, sheet_i, col_names, col_types, na, skip, n_max, guess_max)
 }
@@ -35,14 +27,6 @@ xlsx_date_formats <- function(path) {
 
 parse_ref <- function(ref) {
     .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
-}
-
-xlsx_col_types <- function(path, sheet_i = 0L, na = character(), skip = 0L, n_max = -1L, guess_max = 1000L, has_col_names = FALSE) {
-    .Call('readxl_xlsx_col_types', PACKAGE = 'readxl', path, sheet_i, na, skip, n_max, guess_max, has_col_names)
-}
-
-xlsx_col_names <- function(path, na = character(), sheet_i = 0L, skip = 0L, n_max = 1L) {
-    .Call('readxl_xlsx_col_names', PACKAGE = 'readxl', path, na, sheet_i, skip, n_max)
 }
 
 read_xlsx_ <- function(path, sheet_i, col_names, col_types, na, skip = 0L, n_max = -1L, guess_max = 1000L) {

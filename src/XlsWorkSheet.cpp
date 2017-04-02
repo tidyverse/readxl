@@ -6,25 +6,6 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector xls_col_names(std::string path,
-                              std::vector<std::string> na,
-                              int sheet_i = 0, int skip = 0, int n_max = 1) {
-  return XlsWorkSheet(path, sheet_i, skip, n_max).colNames(na);
-}
-
-// [[Rcpp::export]]
-CharacterVector xls_col_types(std::string path,
-                              std::vector<std::string> na,
-                              int sheet_i = 0, int skip = 0, int n_max = -1,
-                              int guess_max = 1000, bool has_col_names = false) {
-  XlsWorkSheet ws(path, sheet_i, skip, n_max);
-  std::vector<ColType> types(ws.ncol());
-  std::fill(types.begin(), types.end(), COL_UNKNOWN);
-  types = ws.colTypes(types, na, guess_max, has_col_names);
-  return colTypeDescs(types);
-}
-
-// [[Rcpp::export]]
 List read_xls_(std::string path, int sheet_i, RObject col_names,
                 RObject col_types, std::vector<std::string> na,
                 int skip = 0, int n_max = -1, int guess_max = 1000) {
