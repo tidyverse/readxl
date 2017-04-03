@@ -161,6 +161,7 @@ excel_format <- function(path) {
   )
 }
 
+## return a zero-indexed sheet number
 standardise_sheet <- function(sheet, sheet_names) {
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
@@ -181,12 +182,16 @@ standardise_sheet <- function(sheet, sheet_names) {
   }
 }
 
+## return a zero-indexed vector describing the corners of a cell rectangle:
+## min_row, max_row, min_col, max_col
+## NA becomes -1 and means "unspecified", by convention
+## if both min and max are -1, for rows or cols, means "read them all"
+## min_row = -2 is a special flag meaning "read no rows"
 standardise_limits <- function(range, skip, n_max, has_col_names) {
   if (is.null(range)) {
     skip <- check_non_negative_integer(skip, "skip")
     n_max <- check_non_negative_integer(n_max, "n_max")
     n_read <- if (has_col_names) n_max + 1 else n_max
-    ## min_row = -2 is a special flag for 'read no rows'
     limits <- c(min_row = if (n_read > 0) skip else -2,
                 max_row = if (n_read == Inf || n_read == 0) NA else skip + n_read - 1,
                 min_col = NA, max_col = NA)
