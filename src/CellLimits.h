@@ -58,8 +58,12 @@ public:
   }
 
   bool contains(const XlsCell cell) const {
-    return contains(this->min_row(), this->max_row(), cell.row()) &&
-      contains(this->min_col(), this->max_col(), cell.col());
+    return contains(cell.row(), cell.col());
+  }
+
+  bool contains(const int i, const int j) const {
+    return contains(this->min_row(), this->max_row(), i) &&
+      contains(this->min_col(), this->max_col(), j);
   }
 
   void print() {

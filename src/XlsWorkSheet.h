@@ -20,9 +20,8 @@ class XlsWorkSheet {
   std::set<int> dateFormats_;
   std::vector<XlsCell> cells_;
   std::string sheetName_;
-  CellLimits empirical_, nominal_, actual_;
+  CellLimits nominal_, actual_;
   int ncol_, nrow_;
-  std::vector<XlsCell>::iterator firstRow_, secondRow_;
 
 public:
 
@@ -46,9 +45,10 @@ public:
     xls_parseWorkSheet(pWS_);
     dateFormats_ = wb.dateFormats();
 
-    loadCells();
-    nominal_ = CellLimits(limits);
-    setGeometry(shim);
+    nominal_ = CellLimits(limits); // nominal_ reflects user's geometry request
+    loadCells();                   // actual_ reports populated cells
+                                   // inside the nominal_ rectangle
+    if (shim) insertShims();       // insert shims and update actual_
     nrow_ = (actual_.min_row() < 0) ? 0 : actual_.max_row() - actual_.min_row() + 1;
     ncol_ = (actual_.min_col() < 0) ? 0 : actual_.max_col() - actual_.min_col() + 1;
   }
@@ -70,7 +70,7 @@ public:
 
   Rcpp::CharacterVector colNames(const StringSet &na) {
     Rcpp::CharacterVector out(ncol_);
-    std::vector<XlsCell>::iterator xcell = firstRow_;
+    std::vector<XlsCell>::iterator xcell = cells_.begin();
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
@@ -86,7 +86,7 @@ public:
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
     std::vector<XlsCell>::iterator xcell;
-    xcell = has_col_names ? secondRow_ : firstRow_;
+    xcell = has_col_names ? advance_row(cells_) : cells_.begin();
 
     // no cell data to consult re: types
     if (xcell == cells_.end()) {
@@ -100,7 +100,7 @@ public:
     }
 
     // base is row the data starts on **in the spreadsheet**
-    int base = firstRow_->row() + has_col_names;
+    int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       if ((xcell->row() - base + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
@@ -127,10 +127,10 @@ public:
                       bool has_col_names = false) {
 
     std::vector<XlsCell>::iterator xcell;
-    xcell = has_col_names ? secondRow_: firstRow_;
+    xcell = has_col_names ? advance_row(cells_) : cells_.begin();
 
     // base is row the data starts on **in the spreadsheet**
-    int base = firstRow_->row() + has_col_names;
+    int base = cells_.begin()->row() + has_col_names;
     int n = (xcell == cells_.end()) ? 0 : actual_.max_row() - base + 1;
     Rcpp::List cols(ncol_);
     cols.attr("names") = names;
@@ -296,19 +296,29 @@ public:
 private:
 
   void loadCells() {
+    // by convention, min_row = -2 means 'read no data'
+    if (nominal_.min_row() < -1) {
+      return;
+    }
+
     int nominal_ncol = pWS_->rows.lastcol;
     int nominal_nrow = pWS_->rows.lastrow;
 
+    xls::xlsCell *cell;
     for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
 
-        xls::xlsCell *cell = xls_cell(pWS_, i, j);
+        if (nominal_.contains(i, j)) {
+          cell = xls_cell(pWS_, i, j);
+        } else {
+          continue;
+        }
 
         if (!cell) {
           continue;
         }
 
-        // Dimensions reported by xls itself include empty cells that have
+        // Dimensions reported by xls itself include blank cells that have
         // formatting, therefore we test explicitly for non-blank cell types
         // and only load those cells.
         // 2.4.90 Dimensions p273 of [MS-XLS]
@@ -319,79 +329,65 @@ private:
             cell->id == XLS_RECORD_BOOLERR
         ) {
           cells_.push_back(cell);
-          empirical_.update(cells_.back());
+          actual_.update(i, j);
         }
       }
     }
   }
 
-  // Compute sheet extent (= lower right corner) directly from loaded cells.
-  //   recorded in nrow_ and ncol_
-  // Return early if there is no data. Otherwise ...
-  // Position iterators at two landmarks for reading:
-  //   firstRow_ = first cell for which declared row >= skip
-  //   secondRow_ = first cell for which declared row > that of firstRow_
-  //   fallback to cells_.end() if the above not possible
-  // Assumes loaded cells are arranged s.t. row is non-decreasing
-  void setGeometry(bool shim) {
+  // shim = TRUE when user specifies geometry via `range`
+  // shim = FALSE when user specifies no geometry or uses `skip` and `n_max`
+  //
+  // nominal_ reflects user's geometry request
+  // actual_ reports populated cells inside the nominal_ rectangle
+  //
+  // When shim = FALSE, we shrink-wrap the data that falls inside
+  // the nominal_ rectangle.
+  //
+  // When shim = TRUE, we may need to insert dummy cells to fill out
+  // the nominal_rectangle.
+  //
+  // actual_ is updated to reflect the insertions
+  void insertShims() {
 
-    // empty sheet or 'read no data' case (convention is min_row = -2)
-    if (cells_.empty() || nominal_.min_row() < -1) {
-      return;
-    }
-
-    // remove cells that lie outside the nominal rectangle
-    // there should be some way to to this with erase-remove,
-    // but damn if I can figure that out
-    for (std::vector<XlsCell>::iterator it = cells_.begin();
-         it != cells_.end(); ) {
-      if (falls_outside(nominal_, *it)) {
-        it = cells_.erase(it);
-      } else {
-        ++it;
-      }
-    }
-
+    // no cells were loaded
     if (cells_.empty()) {
       return;
     }
 
-    std::vector<XlsCell>::iterator it = cells_.begin();
+    // Recall cell limits are -1 by convention if the limit is unspecified.
 
-    if (shim) {
-      bool shim_up = nominal_.min_row() >= 0 && empirical_.min_row() > nominal_.min_row();
-      bool shim_left = nominal_.min_col() >= 0 && empirical_.min_col() > nominal_.min_col();
-      if (shim_up || shim_left) {
-        int ul_row = nominal_.min_row() >= 0 ? nominal_.min_row() : empirical_.min_row();
-        int ul_col = nominal_.min_col() >= 0 ? nominal_.min_col() : empirical_.min_col();
-        XlsCell ul_shim(std::make_pair(ul_row, ul_col));
-        it = cells_.insert(it, ul_shim);
-      }
-
-      bool shim_down = nominal_.max_row() >= 0 && empirical_.max_row() < nominal_.max_row();
-      bool shim_right = nominal_.max_col() >= 0 && empirical_.max_col() < nominal_.max_col();
-      if (shim_down || shim_right) {
-        int lr_row = nominal_.max_row() >= 0 ? nominal_.max_row() : empirical_.max_row();
-        int lr_col = nominal_.max_col() >= 0 ? nominal_.max_col() : empirical_.max_col();
-        XlsCell lr_shim(std::make_pair(lr_row, lr_col));
-        cells_.push_back(lr_shim);
-        it = cells_.begin();
-      }
+    // if nominal min row or col is less than actual,
+    // add a shim cell to the front of cells_
+    bool   shim_up = nominal_.min_row() >= 0 && actual_.min_row() > nominal_.min_row();
+    bool shim_left = nominal_.min_col() >= 0 && actual_.min_col() > nominal_.min_col();
+    if (shim_up || shim_left) {
+      int ul_row = nominal_.min_row() >= 0 ? nominal_.min_row() : actual_.min_row();
+      int ul_col = nominal_.min_col() >= 0 ? nominal_.min_col() : actual_.min_col();
+      XlsCell ul_shim(std::make_pair(ul_row, ul_col));
+      cells_.insert(cells_.begin(), ul_shim);
+      actual_.update(ul_row, ul_col);
     }
 
-    firstRow_ = it;
-    secondRow_ = cells_.end();
-    while (it != cells_.end()) {
-      actual_.update(*it);
-      if (secondRow_ == cells_.end() && it->row() > firstRow_->row()) {
-        secondRow_ = it;
-      }
-      ++it;
+    // if nominal max row or col is greater than actual,
+    // add a shim cell to the back of cells_
+    bool  shim_down = nominal_.max_row() >= 0 && actual_.max_row() < nominal_.max_row();
+    bool shim_right = nominal_.max_col() >= 0 && actual_.max_col() < nominal_.max_col();
+    if (shim_down || shim_right) {
+      int lr_row = nominal_.max_row() >= 0 ? nominal_.max_row() : actual_.max_row();
+      int lr_col = nominal_.max_col() >= 0 ? nominal_.max_col() : actual_.max_col();
+      XlsCell lr_shim(std::make_pair(lr_row, lr_col));
+      cells_.push_back(lr_shim);
+      actual_.update(lr_row, lr_col);
     }
   }
 
-  bool falls_outside(const CellLimits limits, const XlsCell cell) {
-    return !limits.contains(cell);
+  std::vector<XlsCell>::iterator advance_row(std::vector<XlsCell>& x) {
+    std::vector<XlsCell>::iterator it = x.begin();
+    while (it != x.end() && it->row() == x.begin()->row()) {
+      ++it;
+    }
+    return(it);
   }
 
 };
