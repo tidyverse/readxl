@@ -30,3 +30,8 @@ reference:
       - cell_cols
       - anchored
       - cell_limits
+  - title: "Example files"
+    desc: >
+      List or get the path to xls and xlsx example files in the package.
+    contents:
+      - readxl_example

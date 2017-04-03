@@ -98,7 +98,7 @@ read_excel(datasets, n_max = 3)
 read_excel(datasets, range = "C1:E7")
 read_excel(datasets, range = "R1C2:R2C5")
 
-Read only specific rows or columns
+# Read only specific rows or columns
 read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
 read_excel(datasets, range = cell_cols("B:D"))
 }
