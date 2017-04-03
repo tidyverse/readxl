@@ -85,14 +85,18 @@ directory. This function make them easy to access.</p>
     <pre><span class='fu'>readxl_example</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>path</dt>
-      <dd><p>Name of file. If <code>NULL</code>, the example files will be listed.</p></dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>Name of file. If <code>NULL</code>, the example files will be listed.</p></td>
+    </tr>
+    </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>readxl_example</span>()</div><div class='output co'>#&gt; [1] "clippy.xls"    "clippy.xlsx"   "datasets.xls"  "datasets.xlsx"</div><div class='input'><span class='fu'>readxl_example</span>(<span class='st'>"datasets.xlsx"</span>)</div><div class='output co'>#&gt; [1] "/Users/jenny/rrr/readxl/inst/extdata/datasets.xlsx"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>readxl_example</span>()</div><div class='output co'>#&gt; [1] "clippy.xls"    "clippy.xlsx"   "datasets.xls"  "datasets.xlsx"
+#&gt; [5] "geometry.xls" </div><div class='input'><span class='fu'>readxl_example</span>(<span class='st'>"datasets.xlsx"</span>)</div><div class='output co'>#&gt; [1] "/Users/jenny/rrr/readxl/inst/extdata/datasets.xlsx"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

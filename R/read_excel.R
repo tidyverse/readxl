@@ -9,8 +9,8 @@ NULL
 #'   integer (the position of the sheet). Defaults to the first sheet.
 #' @param range A cell range to read from, as described in [cell-specification].
 #'   Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
-#'   even if the range includes blank rows or columns. Takes precedence over
-#'   `skip` and `n_max`.
+#'   even if the range includes leading or trailing empty rows or columns. Takes
+#'   precedence over `skip` and `n_max`.
 #' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
 #'   default names, or a character vector giving a name for each column. If user
 #'   provides `col_types` as a vector, `col_names` can have one entry per
@@ -19,21 +19,24 @@ NULL
 #' @param col_types Either `NULL` to guess all from the spreadsheet or a
 #'   character vector containing one entry per column from these options:
 #'   "skip", "guess", "logical", "numeric", "date", "text" or "list". If exactly
-#'   on `col_type` is specified, it will be recycled. The content of a cell in a
-#'   skipped column is never read and that column will not appear in the data
+#'   one `col_type` is specified, it will be recycled. The content of a cell in
+#'   a skipped column is never read and that column will not appear in the data
 #'   frame output. A list cell loads a column as a list of length 1 vectors,
 #'   which are typed using the type guessing logic from `col_types = NULL`, but
 #'   on a cell-by-cell basis.
 #' @param na Character vector of strings to use for missing values. By default,
 #'   readxl treats blank cells as missing data.
 #' @param skip Minimum number of rows to skip before reading anything, be it
-#'   column names or data. Leading blank rows are automatically skipped, so this
+#'   column names or data. Leading empty rows are automatically skipped, so this
 #'   is a lower bound. Ignored if `range` is given.
-#' @param n_max Maximum number of data rows to read. Trailing blank rows are
+#' @param n_max Maximum number of data rows to read. Trailing empty rows are
 #'   automatically skipped, so this is an upper bound on the number of rows in
 #'   the returned tibble. Ignored if `range` is given.
 #' @param guess_max Maximum number of data rows to use for guessing column
 #'   types.
+#' @return A [tibble][tibble::tibble-package]
+#' @seealso [cell-specification] for more details on targetting cells with the
+#'   `range` argument
 #' @export
 #' @examples
 #' datasets <- readxl_example("datasets.xlsx")
@@ -46,19 +49,28 @@ NULL
 #' # Skip rows and use default column names
 #' read_excel(datasets, skip = 148, col_names = FALSE)
 #'
-#' # Recycle a length-one col_types
+#' # Recycle a single column type
 #' read_excel(datasets, col_types = "text")
 #'
 #' # Specify some col_types and guess others
 #' read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
 #'
-#' # "list" col_type can handle information of disparate types
+#' # Accomodate a column with disparate types via col_type = "list"
 #' df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
 #' df
 #' df$value
+#' sapply(df$value, class)
 #'
 #' # Limit the number of data rows read
 #' read_excel(datasets, n_max = 3)
+#'
+#' # Read from an Excel range using A1 or R1C1 notation
+#' read_excel(datasets, range = "C1:E7")
+#' read_excel(datasets, range = "R1C2:R2C5")
+#'
+#' Read only specific rows or columns
+#' read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
+#' read_excel(datasets, range = cell_cols("B:D"))
 read_excel <- function(path, sheet = 1L, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, n_max = Inf,

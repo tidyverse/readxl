@@ -26,8 +26,8 @@ integer (the position of the sheet). Defaults to the first sheet.}
 
 \item{range}{A cell range to read from, as described in \link{cell-specification}.
 Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
-even if the range includes blank rows or columns. Takes precedence over
-\code{skip} and \code{n_max}.}
+even if the range includes leading or trailing empty rows or columns. Takes
+precedence over \code{skip} and \code{n_max}.}
 
 \item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
 default names, or a character vector giving a name for each column. If user
@@ -38,8 +38,8 @@ unskipped column.}
 \item{col_types}{Either \code{NULL} to guess all from the spreadsheet or a
 character vector containing one entry per column from these options:
 "skip", "guess", "logical", "numeric", "date", "text" or "list". If exactly
-on \code{col_type} is specified, it will be recycled. The content of a cell in a
-skipped column is never read and that column will not appear in the data
+one \code{col_type} is specified, it will be recycled. The content of a cell in
+a skipped column is never read and that column will not appear in the data
 frame output. A list cell loads a column as a list of length 1 vectors,
 which are typed using the type guessing logic from \code{col_types = NULL}, but
 on a cell-by-cell basis.}
@@ -48,15 +48,18 @@ on a cell-by-cell basis.}
 readxl treats blank cells as missing data.}
 
 \item{skip}{Minimum number of rows to skip before reading anything, be it
-column names or data. Leading blank rows are automatically skipped, so this
+column names or data. Leading empty rows are automatically skipped, so this
 is a lower bound. Ignored if \code{range} is given.}
 
-\item{n_max}{Maximum number of data rows to read. Trailing blank rows are
+\item{n_max}{Maximum number of data rows to read. Trailing empty rows are
 automatically skipped, so this is an upper bound on the number of rows in
 the returned tibble. Ignored if \code{range} is given.}
 
 \item{guess_max}{Maximum number of data rows to use for guessing column
 types.}
+}
+\value{
+A \link[tibble:tibble-package]{tibble}
 }
 \description{
 Read xls and xlsx files.
@@ -76,17 +79,30 @@ read_excel(datasets, "mtcars")
 # Skip rows and use default column names
 read_excel(datasets, skip = 148, col_names = FALSE)
 
-# Recycle a length-one col_types
+# Recycle a single column type
 read_excel(datasets, col_types = "text")
 
 # Specify some col_types and guess others
 read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
 
-# "list" col_type can handle information of disparate types
+# Accomodate a column with disparate types via col_type = "list"
 df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
 df
 df$value
+sapply(df$value, class)
 
 # Limit the number of data rows read
 read_excel(datasets, n_max = 3)
+
+# Read from an Excel range using A1 or R1C1 notation
+read_excel(datasets, range = "C1:E7")
+read_excel(datasets, range = "R1C2:R2C5")
+
+Read only specific rows or columns
+read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
+read_excel(datasets, range = cell_cols("B:D"))
+}
+\seealso{
+\link{cell-specification} for more details on targetting cells with the
+\code{range} argument
 }

@@ -68,7 +68,7 @@
 <p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <code>.xls</code> <a href="http://sourceforge.net/projects/libxls/">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net">RapidXML</a> C++ library.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"> </a>Installation</h2>
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>The easiest way to install the latest released version from CRAN is to install the whole tidyverse (NOTE: you will still need to load readxl explicitly, i.e. it is not a core tidyverse package loaded via <code>library(tidyverse)</code>.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"tidyverse"</span>)</code></pre></div>
 <p>Alternatively, install just readxl from CRAN:</p>
@@ -79,7 +79,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/rea
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"> </a>Usage</h2>
+<a href="#usage" class="anchor"></a>Usage</h2>
 <p>readxl includes example files <code>datasets.xlsx</code> and <code>datasets.xls</code>, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the helper <code><a href="reference/readxl_example.html">readxl_example()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"iris"</span> =<span class="st"> </span>iris, <span class="st">"mtcars"</span> =<span class="st"> </span>mtcars, <span class="dt">chickwts =</span> chickwts, <span class="dt">quakes =</span> quakes)
 openxlsx::<span class="kw">write.xlsx</span>(l, <span class="dt">file =</span> <span class="st">"inst/extdata/datasets.xlsx"</span>)</code></pre></div>
@@ -138,7 +138,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 </div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features" class="anchor"> </a>Features</h2>
+<a href="#features" class="anchor"></a>Features</h2>
 <ul>
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
 <li><p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) date specifications are processed correctly.</p></li>
@@ -176,7 +176,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
-<html><body>
+<div>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/tidyverse/readxl"><img src="https://travis-ci.org/tidyverse/readxl.svg?branch=master" alt="Travis-CI Build Status"></a></li>
@@ -184,7 +184,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <li><a href="https://codecov.io/github/tidyverse/readxl?branch=master"><img src="https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=readxl"><img src="https://www.r-pkg.org/badges/version/readxl" alt="CRAN_Status_Badge"></a></li>
 </ul>
-</body></html>
+</div>
 </div>
 
 </div>

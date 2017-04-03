@@ -42,7 +42,7 @@ test_that("we can request n rows for data via n_max", {
   expect_identical(l, limitize(c(my_skip, my_skip + n - 1, -1, -1)))
 })
 
-test_that("range controls geometry: limi rows only or cols only", {
+test_that("range controls geometry: limit rows only or cols only", {
   df <- read_excel(test_sheet("geometry.xls"), range = cell_rows(2:3))
   expect_identical(dim(df), c(1L, 3L))
   df <- read_excel(test_sheet("geometry.xls"), range = cell_rows(3:7))

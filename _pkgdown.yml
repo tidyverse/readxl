@@ -7,3 +7,26 @@ home:
   links:
   - text: Learn more
     href: http://r4ds.had.co.nz/data-import.html
+
+reference:
+  - title: "Read spreadsheets"
+    desc: >
+      Functions for reading tabular data out of xls and xlsx files.
+    contents:
+      - read_excel
+      - read_xls
+      - read_xlsx
+  - title: "Get spreadsheet metadata"
+    desc: >
+      Functions to learn properties of xls and xlsx files.
+    contents:
+      - excel_sheets
+  - title: "Describe a target rectangle"
+    desc: >
+      Flexible specification of cell rectangles.
+    contents:
+      - "`cell-specification`"
+      - cell_rows
+      - cell_cols
+      - anchored
+      - cell_limits
