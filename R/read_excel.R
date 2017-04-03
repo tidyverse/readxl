@@ -192,15 +192,20 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
     skip <- check_non_negative_integer(skip, "skip")
     n_max <- check_non_negative_integer(n_max, "n_max")
     n_read <- if (has_col_names) n_max + 1 else n_max
-    limits <- c(min_row = if (n_read > 0) skip else -2,
-                max_row = if (n_read == Inf || n_read == 0) NA else skip + n_read - 1,
-                min_col = NA, max_col = NA)
+    limits <- c(
+      min_row = if (n_read > 0) skip else -2,
+      max_row = if (n_read == Inf || n_read == 0) NA else skip + n_read - 1,
+      min_col = NA,
+      max_col = NA
+    )
   } else {
     limits <- cellranger::as.cell_limits(range)
-    limits <- c(min_row = limits[["ul"]][1] - 1,
-                max_row = limits[["lr"]][1] - 1,
-                min_col = limits[["ul"]][2] - 1,
-                max_col = limits[["lr"]][2] - 1)
+    limits <- c(
+      min_row = limits[["ul"]][1] - 1,
+      max_row = limits[["lr"]][1] - 1,
+      min_col = limits[["ul"]][2] - 1,
+      max_col = limits[["lr"]][2] - 1
+    )
   }
   limits[is.na(limits)] <- -1
   limits
