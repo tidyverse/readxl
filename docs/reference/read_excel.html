@@ -288,18 +288,18 @@ types.</p></td>
 #&gt; 2          4.9         3.0          1.4         0.2  setosa
 #&gt; 3          4.7         3.2          1.3         0.2  setosa</div><div class='input'>
 <span class='co'># Read from an Excel range using A1 or R1C1 notation</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C1:E7"</span>)</div><div class='output co'>#&gt; # A tibble: 6 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa
-#&gt; 2          4.9         3.0          1.4         0.2  setosa
-#&gt; 3          4.7         3.2          1.3         0.2  setosa
-#&gt; 4          4.6         3.1          1.5         0.2  setosa
-#&gt; 5          5.0         3.6          1.4         0.2  setosa
-#&gt; 6          5.4         3.9          1.7         0.4  setosa</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"R1C2:R2C5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa</div><div class='input'>
+<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C1:E7"</span>)</div><div class='output co'>#&gt; # A tibble: 6 × 3
+#&gt;   Petal.Length Petal.Width Species
+#&gt;          &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
+#&gt; 1          1.4         0.2  setosa
+#&gt; 2          1.4         0.2  setosa
+#&gt; 3          1.3         0.2  setosa
+#&gt; 4          1.5         0.2  setosa
+#&gt; 5          1.4         0.2  setosa
+#&gt; 6          1.7         0.4  setosa</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"R1C2:R2C5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 4
+#&gt;   Sepal.Width Petal.Length Petal.Width Species
+#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
+#&gt; 1         3.5          1.4         0.2  setosa</div><div class='input'>
 <span class='co'># Read only specific rows or columns</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 50 × 5
 #&gt;     X__1  X__2  X__3  X__4      X__5
@@ -314,7 +314,20 @@ types.</p></td>
 #&gt; 8    7.3   2.9   6.3   1.8 virginica
 #&gt; 9    6.7   2.5   5.8   1.8 virginica
 #&gt; 10   7.2   3.6   6.1   2.5 virginica
-#&gt; # ... with 40 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span>(<span class='st'>"B:D"</span>))</div><div class='output co'>#&gt; # A tibble: 0 × 0</div></pre>
+#&gt; # ... with 40 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span>(<span class='st'>"B:D"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
+#&gt;    Sepal.Width Petal.Length Petal.Width
+#&gt;          &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1          3.5          1.4         0.2
+#&gt; 2          3.0          1.4         0.2
+#&gt; 3          3.2          1.3         0.2
+#&gt; 4          3.1          1.5         0.2
+#&gt; 5          3.6          1.4         0.2
+#&gt; 6          3.9          1.7         0.4
+#&gt; 7          3.4          1.4         0.3
+#&gt; 8          3.4          1.5         0.2
+#&gt; 9          2.9          1.4         0.2
+#&gt; 10         3.1          1.5         0.1
+#&gt; # ... with 140 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
