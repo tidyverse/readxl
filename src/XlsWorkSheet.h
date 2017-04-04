@@ -27,7 +27,7 @@ public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
                Rcpp::IntegerVector limits, bool shim):
-  wb_(wb)
+  wb_(wb), nominal_(limits)
   {
     if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
@@ -45,12 +45,12 @@ public:
     xls_parseWorkSheet(pWS_);
     dateFormats_ = wb.dateFormats();
 
-    nominal_ = CellLimits(limits); // nominal_ reflects user's geometry request
+                                   // nominal_ holds user's geometry request
     loadCells();                   // actual_ reports populated cells
-                                   // inside the nominal_ rectangle
+                                   //   inside the nominal_ rectangle
     if (shim) insertShims();       // insert shims and update actual_
-    nrow_ = (actual_.min_row() < 0) ? 0 : actual_.max_row() - actual_.min_row() + 1;
-    ncol_ = (actual_.min_col() < 0) ? 0 : actual_.max_col() - actual_.min_col() + 1;
+    nrow_ = (actual_.minRow() < 0) ? 0 : actual_.maxRow() - actual_.minRow() + 1;
+    ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
 
   ~XlsWorkSheet() {
@@ -75,7 +75,7 @@ public:
 
     while(xcell != cells_.end() && xcell->row() == base) {
       xcell->inferType(na, dateFormats_);
-      out[xcell->col() - actual_.min_col()] = xcell->asCharSxp();
+      out[xcell->col() - actual_.minCol()] = xcell->asCharSxp();
       xcell++;
     }
     return out;
@@ -105,7 +105,7 @@ public:
       if ((xcell->row() - base + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      int j = xcell->col() - actual_.min_col();
+      int j = xcell->col() - actual_.minCol();
       if (type_known[j]) {
         xcell++;
         continue;
@@ -131,7 +131,7 @@ public:
 
     // base is row the data starts on **in the spreadsheet**
     int base = cells_.begin()->row() + has_col_names;
-    int n = (xcell == cells_.end()) ? 0 : actual_.max_row() - base + 1;
+    int n = (xcell == cells_.end()) ? 0 : actual_.maxRow() - base + 1;
     Rcpp::List cols(ncol_);
     cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
@@ -145,7 +145,7 @@ public:
     while (xcell != cells_.end()) {
 
       int i = xcell->row();
-      int j = xcell->col() - actual_.min_col();
+      int j = xcell->col() - actual_.minCol();
       if ((i + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
@@ -297,7 +297,7 @@ private:
 
   void loadCells() {
     // by convention, min_row = -2 means 'read no data'
-    if (nominal_.min_row() < -1) {
+    if (nominal_.minRow() < -1) {
       return;
     }
 
@@ -360,11 +360,11 @@ private:
 
     // if nominal min row or col is less than actual,
     // add a shim cell to the front of cells_
-    bool   shim_up = funny_lt(nominal_.min_row(), actual_.min_row());
-    bool shim_left = funny_lt(nominal_.min_col(), actual_.min_col());
+    bool   shim_up = funny_lt(nominal_.minRow(), actual_.minRow());
+    bool shim_left = funny_lt(nominal_.minCol(), actual_.minCol());
     if (shim_up || shim_left) {
-      int ul_row = funny_min(nominal_.min_row(), actual_.min_row());
-      int ul_col = funny_min(nominal_.min_col(), actual_.min_col());
+      int ul_row = funny_min(nominal_.minRow(), actual_.minRow());
+      int ul_col = funny_min(nominal_.minCol(), actual_.minCol());
       XlsCell ul_shim(std::make_pair(ul_row, ul_col));
       cells_.insert(cells_.begin(), ul_shim);
       actual_.update(ul_row, ul_col);
@@ -372,11 +372,11 @@ private:
 
     // if nominal max row or col is greater than actual,
     // add a shim cell to the back of cells_
-    bool  shim_down = funny_gt(nominal_.max_row(), actual_.max_row());
-    bool shim_right = funny_gt(nominal_.max_col(), actual_.max_col());
+    bool  shim_down = funny_gt(nominal_.maxRow(), actual_.maxRow());
+    bool shim_right = funny_gt(nominal_.maxCol(), actual_.maxCol());
     if (shim_down || shim_right) {
-      int lr_row = funny_max(nominal_.max_row(), actual_.max_row());
-      int lr_col = funny_max(nominal_.max_col(), actual_.max_col());
+      int lr_row = funny_max(nominal_.maxRow(), actual_.maxRow());
+      int lr_col = funny_max(nominal_.maxCol(), actual_.maxCol());
       XlsCell lr_shim(std::make_pair(lr_row, lr_col));
       cells_.push_back(lr_shim);
       actual_.update(lr_row, lr_col);

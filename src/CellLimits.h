@@ -5,37 +5,33 @@
 #include "XlsCell.h"
 
 class CellLimits {
-  std::map<std::string,int> limits_;
+  int minRow_, maxRow_, minCol_, maxCol_;
 
 public:
-  CellLimits(const int minRow = -1,
-             const int maxRow = -1,
-             const int minCol = -1,
-             const int maxCol = -1) {
-    limits_["min_row"] = minRow;
-    limits_["max_row"] = maxRow;
-    limits_["min_col"] = minCol;
-    limits_["max_col"] = maxCol;
+  CellLimits() {
+    minRow_ = -1;
+    maxRow_ = -1;
+    minCol_ = -1;
+    maxCol_ = -1;
   }
-
   CellLimits(Rcpp::IntegerVector limits) {
-    limits_["min_row"] = limits[0];
-    limits_["max_row"] = limits[1];
-    limits_["min_col"] = limits[2];
-    limits_["max_col"] = limits[3];
+    minRow_ = limits[0];
+    maxRow_ = limits[1];
+    minCol_ = limits[2];
+    maxCol_ = limits[3];
   }
 
-  int min_row() const {
-    return limits_.find("min_row")->second;
+  int minRow() const {
+    return minRow_;
   }
-  int max_row() const {
-    return limits_.find("max_row")->second;
+  int maxRow() const {
+    return maxRow_;
   }
-  int min_col() const {
-    return limits_.find("min_col")->second;
+  int minCol() const {
+    return minCol_;
   }
-  int max_col() const {
-    return limits_.find("max_col")->second;
+  int maxCol() const {
+    return maxCol_;
   }
 
   void update(const XlsCell cell) {
@@ -43,17 +39,17 @@ public:
   }
 
   void update(const int row, const int col) {
-    if (this->min_row() < 0 || row < this->min_row()) {
-      limits_["min_row"] = row;
+    if (minRow_ < 0 || row < minRow_) {
+      minRow_ = row;
     }
-    if (row > this->max_row()) {
-      limits_["max_row"] = row;
+    if (row > maxRow_) {
+      maxRow_ = row;
     }
-    if (this->min_col() < 0 || col < this->min_col()) {
-      limits_["min_col"] = col;
+    if (minCol_ < 0 || col < minCol_) {
+      minCol_ = col;
     }
-    if (col > this->max_col()) {
-      limits_["max_col"] = col;
+    if (col > maxCol_) {
+      maxCol_ = col;
     }
   }
 
@@ -62,15 +58,14 @@ public:
   }
 
   bool contains(const int i, const int j) const {
-    return contains(this->min_row(), this->max_row(), i) &&
-      contains(this->min_col(), this->max_col(), j);
+    return contains(minRow_, maxRow_, i) && contains(minCol_, maxCol_, j);
   }
 
   void print() {
-    Rcpp::Rcout << "row min, max: " << this->min_row() << ", "
-                << this->max_row() << "\t"
-                << "col min, max: " << this->min_col() << ", "
-                << this->max_col() << std::endl;
+    Rcpp::Rcout << "row min, max: " << minRow_ << ", "
+                << maxRow_ << "\t"
+                << "col min, max: " << minCol_<< ", "
+                << maxCol_ << std::endl;
   }
 
 private:
