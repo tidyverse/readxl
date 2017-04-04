@@ -34,6 +34,13 @@ public:
     type_ = CELL_UNKNOWN;
   }
 
+  XlsxCell(std::pair<int,int> loc)
+  {
+    cell_ = NULL;
+    location_ = loc;
+    type_ = CELL_BLANK;
+  }
+
   int row() const {
     return location_.first;
   }
@@ -175,6 +182,10 @@ public:
   }
 
   std::string asStdString(const std::vector<std::string>& stringTable) const {
+    if (cell_ == NULL) {
+      return "";
+    }
+
     rapidxml::xml_node<>* v = cell_->first_node("v");
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 

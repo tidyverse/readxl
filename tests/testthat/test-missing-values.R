@@ -72,7 +72,6 @@ test_that("empty first column gives valid data.frame [xls]", {
 })
 
 test_that("empty first column gives valid data.frame [xlsx]", {
-  skip("reinstate when xlsx geometry is updated")
   df <- read_excel(test_sheet("missing-first-column.xlsx"), col_names = FALSE)
   expect_s3_class(df, "tbl_df")
   expect_identical(dim(df), c(3L, 1L))

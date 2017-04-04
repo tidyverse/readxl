@@ -43,7 +43,6 @@ test_that("n_max is upper bound on nrows, if it causes trailing blank row", {
 })
 
 test_that("n_max can affect ncols, if prevents read of data in a col [xlsx]", {
-  skip("reinstate when xlsx geometry is updated")
   ## xlsx
   df <- read_excel(test_sheet("skipping.xlsx"), sheet = "two_occupied_rows",
                    n_max = 0)

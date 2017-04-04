@@ -20,7 +20,7 @@ List read_xlsx_(std::string path, int sheet_i,
   // Construct worksheet ----------------------------------------------
   XlsxWorkSheet ws(path, sheet_i, limits, shim);
 
-  // catches empty sheets and sheets where we skip past all data
+  // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
     return Rcpp::List(0);
   }
