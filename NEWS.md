@@ -2,13 +2,15 @@
 
 ## Sheet geometry
 
-* `n_max` is a new argument that limits the number of data rows read from the spreadsheet. Control over whether column names will be read from the sheet remains with `col_names`. (#306, #281)
+* `range` is a new argument for reading a rectangular range, possibly open. (#314, #8)
 
-* Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than "General". Such cells will still exist in the returned tibble, with value `NA`, if there are other non-empty cells in the row or column.
+* `n_max` is a new argument that limits the number of data rows read. (#306, #281)
+
+* Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than "General". Such cells may still exist in the returned tibble, with value `NA`, depending on the sheet geometry.
   
     * Eliminates a source of trailing rows (#203) and columns (#236, #162, #146) consisting entirely of `NA`.
     * Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81).
-    * Leading or embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)
+    * Embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)
     * Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)
     * Improved handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)
 

@@ -79,6 +79,15 @@ read_excel(xlsx_example, sheet = "chickwts")
 read_excel(xls_example, sheet = 4)
 ```
 
+There are various ways to control which cells are read.
+
+```{r}
+read_excel(xlsx_example, n_max = 3)
+read_excel(xls_example, range = "C1:E4")
+read_excel(xls_example, range = cell_rows(1:4))
+read_excel(xls_example, range = cell_cols("B:D"))
+```
+
 If `NA`s are represented by something other than blank cells, set the `na` argument.
 
 ```{r}
@@ -94,7 +103,7 @@ If you are new to the tidyverse conventions for data import, you may want to con
 * Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) 
   date specifications are processed correctly.
 
-* Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control of this with `skip`.
+* Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control with `range`, `skip`, and `n_max`.
 
 * Column names and types are determined from the data in the sheet, by default, but user can also supply via `col_names` and `col_types`.
 

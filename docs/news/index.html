@@ -86,13 +86,14 @@
 <h2 class="hasAnchor">
 <a href="#sheet-geometry" class="anchor"></a>Sheet geometry</h2>
 <ul>
-<li><p><code>n_max</code> is a new argument that limits the number of data rows read from the spreadsheet. Control over whether column names will be read from the sheet remains with <code>col_names</code>. (#306, #281)</p></li>
+<li><p><code>range</code> is a new argument for reading a rectangular range, possibly open. (#314, #8)</p></li>
+<li><p><code>n_max</code> is a new argument that limits the number of data rows read. (#306, #281)</p></li>
 <li>
-<p>Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells will still exist in the returned tibble, with value <code>NA</code>, if there are other non-empty cells in the row or column.</p>
+<p>Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells may still exist in the returned tibble, with value <code>NA</code>, depending on the sheet geometry.</p>
 <ul>
 <li>Eliminates a source of trailing rows (#203) and columns (#236, #162, #146) consisting entirely of <code>NA</code>.</li>
 <li>Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81).</li>
-<li>Leading or embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)</li>
+<li>Embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)</li>
 <li>Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)</li>
 <li>Improved handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)</li>
 </ul>

@@ -125,6 +125,36 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; 2 -20.62 181.03   650   4.2       15</span>
 <span class="co">#&gt; 3 -26.00 184.10    42   5.4       43</span>
 <span class="co">#&gt; # ... with 997 more rows</span></code></pre></div>
+<p>There are various ways to control which cells are read.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">n_max =</span> <span class="dv">3</span>)
+<span class="co">#&gt; # A tibble: 3 × 5</span>
+<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
+<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
+<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
+<span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example, <span class="dt">range =</span> <span class="st">"C1:E4"</span>)
+<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt;   Petal.Length Petal.Width Species</span>
+<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1          1.4         0.2  setosa</span>
+<span class="co">#&gt; 2          1.4         0.2  setosa</span>
+<span class="co">#&gt; 3          1.3         0.2  setosa</span>
+<span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example, <span class="dt">range =</span> <span class="kw"><a href="reference/cell-specification.html">cell_rows</a></span>(<span class="dv">1</span>:<span class="dv">4</span>))
+<span class="co">#&gt; # A tibble: 3 × 5</span>
+<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
+<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
+<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
+<span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example, <span class="dt">range =</span> <span class="kw"><a href="reference/cell-specification.html">cell_cols</a></span>(<span class="st">"B:D"</span>))
+<span class="co">#&gt; # A tibble: 150 × 3</span>
+<span class="co">#&gt;   Sepal.Width Petal.Length Petal.Width</span>
+<span class="co">#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1         3.5          1.4         0.2</span>
+<span class="co">#&gt; 2         3.0          1.4         0.2</span>
+<span class="co">#&gt; 3         3.2          1.3         0.2</span>
+<span class="co">#&gt; # ... with 147 more rows</span></code></pre></div>
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">na =</span> <span class="st">"setosa"</span>)
 <span class="co">#&gt; # A tibble: 150 × 5</span>
@@ -142,7 +172,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <ul>
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
 <li><p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) date specifications are processed correctly.</p></li>
-<li><p>Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control of this with <code>skip</code>.</p></li>
+<li><p>Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
 <li><p>Column names and types are determined from the data in the sheet, by default, but user can also supply via <code>col_names</code> and <code>col_types</code>.</p></li>
 <li><p>It returns a tibble, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
 </ul>
