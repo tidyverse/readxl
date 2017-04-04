@@ -31,6 +31,7 @@ public:
 
   XlsCell(std::pair<int,int> loc)
   {
+    cell_ = NULL;
     location_ = loc;
     type_ = CELL_BLANK;
   }
