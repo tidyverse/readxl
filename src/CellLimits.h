@@ -61,6 +61,10 @@ public:
     return contains(minRow_, maxRow_, i) && contains(minCol_, maxCol_, j);
   }
 
+  bool contains(const int i) const {
+    return contains(minRow_, maxRow_, i);
+  }
+
   void print() {
     Rcpp::Rcout << "row min, max: " << minRow_ << ", "
                 << maxRow_ << "\t"

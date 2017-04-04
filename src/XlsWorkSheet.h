@@ -306,6 +306,9 @@ private:
 
     xls::xlsCell *cell;
     for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
+      if (!nominal_.contains(i)) {
+        continue;
+      }
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
 
         if (nominal_.contains(i, j)) {
