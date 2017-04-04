@@ -356,14 +356,15 @@ private:
     }
 
     // Recall cell limits are -1 by convention if the limit is unspecified.
+    // funny_*() functions account for that.
 
     // if nominal min row or col is less than actual,
     // add a shim cell to the front of cells_
-    bool   shim_up = nominal_.min_row() >= 0 && actual_.min_row() > nominal_.min_row();
-    bool shim_left = nominal_.min_col() >= 0 && actual_.min_col() > nominal_.min_col();
+    bool   shim_up = funny_lt(nominal_.min_row(), actual_.min_row());
+    bool shim_left = funny_lt(nominal_.min_col(), actual_.min_col());
     if (shim_up || shim_left) {
-      int ul_row = nominal_.min_row() >= 0 ? nominal_.min_row() : actual_.min_row();
-      int ul_col = nominal_.min_col() >= 0 ? nominal_.min_col() : actual_.min_col();
+      int ul_row = funny_min(nominal_.min_row(), actual_.min_row());
+      int ul_col = funny_min(nominal_.min_col(), actual_.min_col());
       XlsCell ul_shim(std::make_pair(ul_row, ul_col));
       cells_.insert(cells_.begin(), ul_shim);
       actual_.update(ul_row, ul_col);
@@ -371,15 +372,31 @@ private:
 
     // if nominal max row or col is greater than actual,
     // add a shim cell to the back of cells_
-    bool  shim_down = nominal_.max_row() >= 0 && actual_.max_row() < nominal_.max_row();
-    bool shim_right = nominal_.max_col() >= 0 && actual_.max_col() < nominal_.max_col();
+    bool  shim_down = funny_gt(nominal_.max_row(), actual_.max_row());
+    bool shim_right = funny_gt(nominal_.max_col(), actual_.max_col());
     if (shim_down || shim_right) {
-      int lr_row = nominal_.max_row() >= 0 ? nominal_.max_row() : actual_.max_row();
-      int lr_col = nominal_.max_col() >= 0 ? nominal_.max_col() : actual_.max_col();
+      int lr_row = funny_max(nominal_.max_row(), actual_.max_row());
+      int lr_col = funny_max(nominal_.max_col(), actual_.max_col());
       XlsCell lr_shim(std::make_pair(lr_row, lr_col));
       cells_.push_back(lr_shim);
       actual_.update(lr_row, lr_col);
     }
+  }
+
+  bool funny_lt(const int funny, const int val) {
+    return (funny >= 0) && (funny < val);
+  }
+
+  bool funny_gt(const int funny, const int val) {
+    return (funny >= 0) && (funny > val);
+  }
+
+  int funny_min(const int funny, const int val) {
+    return funny_lt(funny, val) ? funny : val;
+  }
+
+  int funny_max(const int funny, const int val) {
+    return funny_gt(funny, val) ? funny : val;
   }
 
   std::vector<XlsCell>::iterator advance_row(std::vector<XlsCell>& x) {
