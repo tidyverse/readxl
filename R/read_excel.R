@@ -134,7 +134,7 @@ read_excel_ <- function(path, sheet = 1L, range = NULL,
   tibble::repair_names(
     tibble::as_tibble(
       read_fun(path = path, sheet = sheet,
-               input_limits = limits, input_shim = shim,
+               limits = limits, shim = shim,
                col_names = col_names, col_types = col_types,
                na = na, guess_max = guess_max),
       validate = FALSE

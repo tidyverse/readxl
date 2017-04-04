@@ -9,8 +9,8 @@ xls_date_formats <- function(path) {
     .Call('readxl_xls_date_formats', PACKAGE = 'readxl', path)
 }
 
-read_xls_ <- function(path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max = 1000L) {
-    .Call('readxl_read_xls_', PACKAGE = 'readxl', path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max)
+read_xls_ <- function(path, sheet_i, limits, shim, col_names, col_types, na, guess_max = 1000L) {
+    .Call('readxl_read_xls_', PACKAGE = 'readxl', path, sheet_i, limits, shim, col_names, col_types, na, guess_max)
 }
 
 xlsx_sheets <- function(path) {
@@ -29,8 +29,8 @@ parse_ref <- function(ref) {
     .Call('readxl_parse_ref', PACKAGE = 'readxl', ref)
 }
 
-read_xlsx_ <- function(path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max = 1000L) {
-    .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max)
+read_xlsx_ <- function(path, sheet_i, limits, shim, col_names, col_types, na, guess_max = 1000L) {
+    .Call('readxl_read_xlsx_', PACKAGE = 'readxl', path, sheet_i, limits, shim, col_names, col_types, na, guess_max)
 }
 
 zip_xml <- function(zip_path, file_path) {

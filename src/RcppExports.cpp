@@ -28,20 +28,20 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_xls_
-List read_xls_(std::string path, int sheet_i, RObject input_limits, RObject input_shim, RObject col_names, RObject col_types, std::vector<std::string> na, int guess_max);
-RcppExport SEXP readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP input_limitsSEXP, SEXP input_shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP guess_maxSEXP) {
+List read_xls_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, int guess_max);
+RcppExport SEXP readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP guess_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type sheet_i(sheet_iSEXP);
-    Rcpp::traits::input_parameter< RObject >::type input_limits(input_limitsSEXP);
-    Rcpp::traits::input_parameter< RObject >::type input_shim(input_shimSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type limits(limitsSEXP);
+    Rcpp::traits::input_parameter< bool >::type shim(shimSEXP);
     Rcpp::traits::input_parameter< RObject >::type col_names(col_namesSEXP);
     Rcpp::traits::input_parameter< RObject >::type col_types(col_typesSEXP);
     Rcpp::traits::input_parameter< std::vector<std::string> >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_xls_(path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max));
+    rcpp_result_gen = Rcpp::wrap(read_xls_(path, sheet_i, limits, shim, col_names, col_types, na, guess_max));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -90,20 +90,20 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_xlsx_
-List read_xlsx_(std::string path, int sheet_i, RObject input_limits, RObject input_shim, RObject col_names, RObject col_types, std::vector<std::string> na, int guess_max);
-RcppExport SEXP readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP input_limitsSEXP, SEXP input_shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP guess_maxSEXP) {
+List read_xlsx_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, int guess_max);
+RcppExport SEXP readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP guess_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< int >::type sheet_i(sheet_iSEXP);
-    Rcpp::traits::input_parameter< RObject >::type input_limits(input_limitsSEXP);
-    Rcpp::traits::input_parameter< RObject >::type input_shim(input_shimSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type limits(limitsSEXP);
+    Rcpp::traits::input_parameter< bool >::type shim(shimSEXP);
     Rcpp::traits::input_parameter< RObject >::type col_names(col_namesSEXP);
     Rcpp::traits::input_parameter< RObject >::type col_types(col_typesSEXP);
     Rcpp::traits::input_parameter< std::vector<std::string> >::type na(naSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet_i, input_limits, input_shim, col_names, col_types, na, guess_max));
+    rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet_i, limits, shim, col_names, col_types, na, guess_max));
     return rcpp_result_gen;
 END_RCPP
 }

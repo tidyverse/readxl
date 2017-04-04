@@ -13,13 +13,9 @@ IntegerVector parse_ref(std::string ref) {
 
 // [[Rcpp::export]]
 List read_xlsx_(std::string path, int sheet_i,
-                RObject input_limits, RObject input_shim,
+                IntegerVector limits, bool shim,
                 RObject col_names, RObject col_types,
                 std::vector<std::string> na, int guess_max = 1000) {
-  // fix this!
-  // maybe I should use a map?
-  IntegerVector limits = as<IntegerVector>(input_limits);
-  bool shim = as<bool>(input_shim);
 
   // Construct worksheet ----------------------------------------------
   XlsxWorkSheet ws(path, sheet_i, limits, shim);
