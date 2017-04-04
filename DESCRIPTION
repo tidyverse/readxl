@@ -20,6 +20,7 @@ License: GPL-3 + file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports:
+    cellranger,
     Rcpp (>= 0.11.6),
     tibble (>= 1.1)
 Suggests:

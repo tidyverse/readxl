@@ -11,7 +11,7 @@ test_that("illegal col_types are rejected", {
 test_that("request for 'blank' col type gets deprecation message and fix", {
   expect_message(
     read_excel(test_sheet("types.xlsx"),
-               col_types = rep_len(c("blank", "text"), length.out = 6)),
+               col_types = rep_len(c("blank", "text"), length.out = 5)),
     "`col_type = \"blank\"` deprecated. Use \"skip\" instead.",
     fixed = TRUE
   )
@@ -50,7 +50,6 @@ test_that("col_types are recycled", {
 
 test_that("types guessed correctly [xlsx]", {
   types <- read_excel(test_sheet("types.xlsx"), sheet = "guess_me")
-  expect_is(types$X__1, "logical")
   expect_is(types$blank, "logical")
   expect_is(types$boolean, "logical")
   expect_is(types$date, "POSIXct")
@@ -61,7 +60,6 @@ test_that("types guessed correctly [xlsx]", {
 
 test_that("types guessed correctly [xls]", {
   types <- read_excel(test_sheet("types.xls"), sheet = "guess_me")
-  expect_is(types$X__1, "logical")
   expect_is(types$blank, "logical")
   expect_is(types$boolean, "logical")
   expect_is(types$date, "POSIXct")
@@ -71,9 +69,8 @@ test_that("types guessed correctly [xls]", {
 })
 
 test_that("we can specify some col_types and guess others", {
-  ctypes <- c("numeric", "text", "guess", "guess", "text", "guess")
-  exp_cls <- c("numeric", "character", "logical",
-               "POSIXct", "character", "character")
+  ctypes <- c("text", "guess", "guess", "text", "guess")
+  exp_cls <- c("character", "logical", "POSIXct", "character", "character")
 
   df <- read_excel(test_sheet("types.xlsx"), col_types = ctypes)
   cls <- vapply(df, function(x) class(x)[1], character(1))

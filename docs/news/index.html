@@ -81,18 +81,19 @@
     <div class="contents">
     <div id="readxl-0-1-1-9000" class="section level1">
 <h1 class="hasAnchor">
-<a href="#readxl-0-1-1-9000" class="anchor"> </a>readxl 0.1.1.9000</h1>
+<a href="#readxl-0-1-1-9000" class="anchor"></a>readxl 0.1.1.9000</h1>
 <div id="sheet-geometry" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sheet-geometry" class="anchor"> </a>Sheet geometry</h2>
+<a href="#sheet-geometry" class="anchor"></a>Sheet geometry</h2>
 <ul>
-<li><p><code>n_max</code> is a new argument that limits the number of data rows read from the spreadsheet. Control over whether column names will be read from the sheet remains with <code>col_names</code>. (#306, #281)</p></li>
+<li><p><code>range</code> is a new argument for reading a rectangular range, possibly open. (#314, #8)</p></li>
+<li><p><code>n_max</code> is a new argument that limits the number of data rows read. (#306, #281)</p></li>
 <li>
-<p>Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells will still exist in the returned tibble, with value <code>NA</code>, if there are other non-empty cells in the row or column.</p>
+<p>Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells may still exist in the returned tibble, with value <code>NA</code>, depending on the sheet geometry.</p>
 <ul>
 <li>Eliminates a source of trailing rows (#203) and columns (#236, #162, #146) consisting entirely of <code>NA</code>.</li>
 <li>Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81).</li>
-<li>Leading or embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)</li>
+<li>Embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)</li>
 <li>Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (#222, #144, #65)</li>
 <li>Improved handling of leading and embedded blank rows and explicit row skipping. (#224, #194, #178, #156, #101)</li>
 </ul>
@@ -102,7 +103,7 @@
 </div>
 <div id="column-types-and-coercion" class="section level2">
 <h2 class="hasAnchor">
-<a href="#column-types-and-coercion" class="anchor"> </a>Column types and coercion</h2>
+<a href="#column-types-and-coercion" class="anchor"></a>Column types and coercion</h2>
 <ul>
 <li><p><code>"list"</code> is a new accepted value for <code>col_types</code>. Loads data as a list of length-1 vectors, that are typed using the logic from <code>col_types = NULL</code>, but on a cell-by-cell basis (#262 @gergness).</p></li>
 <li><p><code>"logical"</code> is a new accepted value for <code>col_types</code>. When <code>col_types = NULL</code>, it is the guessed type for cells Excel advertises as Boolean. When a column has no data, it is now filled with logical <code>NA</code>. (#277, #270)</p></li>
@@ -123,7 +124,7 @@
 </div>
 <div id="compatibility" class="section level2">
 <h2 class="hasAnchor">
-<a href="#compatibility" class="anchor"> </a>Compatibility</h2>
+<a href="#compatibility" class="anchor"></a>Compatibility</h2>
 <p>Many 3rd party tools write xls and xlsx that comply with the spec, but that are quite different from files produced by Excel.</p>
 <ul>
 <li><p>Namespace prefixes are now stripped from element names and attributes when parsing XML from xlsx. Workaround for the creative approach taken in some other s/w, coupled with rapidxml’s lack of namespace support. (#295, #268, #202, #80)</p></li>
@@ -135,7 +136,7 @@
 </div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other" class="anchor"> </a>Other</h2>
+<a href="#other" class="anchor"></a>Other</h2>
 <ul>
 <li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (#85, @jirkalewandowski)</p></li>
 <li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)</p></li>
@@ -148,7 +149,7 @@
 </div>
     <div id="readxl-0-1-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#readxl-0-1-1" class="anchor"> </a>readxl 0.1.1</h1>
+<a href="#readxl-0-1-1" class="anchor"></a>readxl 0.1.1</h1>
 <ul>
 <li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (#51, @jmarshallnz)</li>
 </ul>

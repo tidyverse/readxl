@@ -7,6 +7,10 @@ NULL
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Defaults to the first sheet.
+#' @param range A cell range to read from, as described in [cell-specification].
+#'   Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
+#'   even if the range includes leading or trailing empty rows or columns. Takes
+#'   precedence over `skip` and `n_max`.
 #' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
 #'   default names, or a character vector giving a name for each column. If user
 #'   provides `col_types` as a vector, `col_names` can have one entry per
@@ -15,18 +19,24 @@ NULL
 #' @param col_types Either `NULL` to guess all from the spreadsheet or a
 #'   character vector containing one entry per column from these options:
 #'   "skip", "guess", "logical", "numeric", "date", "text" or "list". If exactly
-#'   on `col_type` is specified, it will be recycled. The content of a cell in a
-#'   skipped column is never read and that column will not appear in the data
+#'   one `col_type` is specified, it will be recycled. The content of a cell in
+#'   a skipped column is never read and that column will not appear in the data
 #'   frame output. A list cell loads a column as a list of length 1 vectors,
 #'   which are typed using the type guessing logic from `col_types = NULL`, but
 #'   on a cell-by-cell basis.
 #' @param na Character vector of strings to use for missing values. By default,
 #'   readxl treats blank cells as missing data.
-#' @param skip Number of rows to skip before reading anything (column names or
-#'   data). Leading blank rows are automatically skipped.
-#' @param n_max Maximum number of data rows to read.
+#' @param skip Minimum number of rows to skip before reading anything, be it
+#'   column names or data. Leading empty rows are automatically skipped, so this
+#'   is a lower bound. Ignored if `range` is given.
+#' @param n_max Maximum number of data rows to read. Trailing empty rows are
+#'   automatically skipped, so this is an upper bound on the number of rows in
+#'   the returned tibble. Ignored if `range` is given.
 #' @param guess_max Maximum number of data rows to use for guessing column
 #'   types.
+#' @return A [tibble][tibble::tibble-package]
+#' @seealso [cell-specification] for more details on targetting cells with the
+#'   `range` argument
 #' @export
 #' @examples
 #' datasets <- readxl_example("datasets.xlsx")
@@ -39,24 +49,34 @@ NULL
 #' # Skip rows and use default column names
 #' read_excel(datasets, skip = 148, col_names = FALSE)
 #'
-#' # Recycle a length-one col_types
+#' # Recycle a single column type
 #' read_excel(datasets, col_types = "text")
 #'
 #' # Specify some col_types and guess others
 #' read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
 #'
-#' # "list" col_type can handle information of disparate types
+#' # Accomodate a column with disparate types via col_type = "list"
 #' df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
 #' df
 #' df$value
+#' sapply(df$value, class)
 #'
 #' # Limit the number of data rows read
 #' read_excel(datasets, n_max = 3)
-read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+#'
+#' # Read from an Excel range using A1 or R1C1 notation
+#' read_excel(datasets, range = "C1:E7")
+#' read_excel(datasets, range = "R1C2:R2C5")
+#'
+#' # Read only specific rows or columns
+#' read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
+#' read_excel(datasets, range = cell_cols("B:D"))
+read_excel <- function(path, sheet = 1L, range = NULL,
+                       col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
   read_excel_(
-    path = path, sheet = sheet,
+    path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, skip = skip, n_max = n_max, guess_max = guess_max,
     excel_format(path)
@@ -69,11 +89,12 @@ read_excel <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 #'
 #' @rdname read_excel
 #' @export
-read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+read_xls <- function(path, sheet = 1L, range = NULL,
+                     col_names = TRUE, col_types = NULL,
                      na = "", skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max)) {
   read_excel_(
-    path = path, sheet = sheet,
+    path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, skip = skip, n_max = n_max, guess_max = guess_max,
     format = "xls"
@@ -82,18 +103,20 @@ read_xls <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
 
 #' @rdname read_excel
 #' @export
-read_xlsx <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+read_xlsx <- function(path, sheet = 1L, range = NULL,
+                      col_names = TRUE, col_types = NULL,
                       na = "", skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max)) {
   read_excel_(
-    path = path, sheet = sheet,
+    path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, skip = skip, n_max = n_max, guess_max = guess_max,
     format = "xlsx"
   )
 }
 
-read_excel_ <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
+read_excel_ <- function(path, sheet = 1L, range = NULL,
+                        col_names = TRUE, col_types = NULL,
                         na = "", skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
   if (format == "xls") {
@@ -104,14 +127,16 @@ read_excel_ <- function(path, sheet = 1L, col_names = TRUE, col_types = NULL,
     read_fun <- read_xlsx_
   }
   sheet <- standardise_sheet(sheet, sheets_fun(path))
-  n_max <- check_n_max(n_max)
+  shim <- !is.null(range)
+  limits <- standardise_limits(range, skip, n_max, has_col_names = isTRUE(col_names))
   guess_max <- check_guess_max(guess_max)
   col_types <- check_col_types(col_types)
   tibble::repair_names(
     tibble::as_tibble(
       read_fun(path = path, sheet = sheet,
+               limits = limits, shim = shim,
                col_names = col_names, col_types = col_types,
-               na = na, skip = skip, n_max = n_max, guess_max = guess_max),
+               na = na, guess_max = guess_max),
       validate = FALSE
     ),
     prefix = "X", sep = "__"
@@ -136,6 +161,7 @@ excel_format <- function(path) {
   )
 }
 
+## return a zero-indexed sheet number
 standardise_sheet <- function(sheet, sheet_names) {
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
@@ -154,6 +180,35 @@ standardise_sheet <- function(sheet, sheet_names) {
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }
+}
+
+## return a zero-indexed vector describing the corners of a cell rectangle:
+## min_row, max_row, min_col, max_col
+## NA becomes -1 and means "unspecified", by convention
+## if both min and max are -1, for rows or cols, means "read them all"
+## min_row = -2 is a special flag meaning "read no rows"
+standardise_limits <- function(range, skip, n_max, has_col_names) {
+  if (is.null(range)) {
+    skip <- check_non_negative_integer(skip, "skip")
+    n_max <- check_non_negative_integer(n_max, "n_max")
+    n_read <- if (has_col_names) n_max + 1 else n_max
+    limits <- c(
+      min_row = if (n_read > 0) skip else -2,
+      max_row = if (n_read == Inf || n_read == 0) NA else skip + n_read - 1,
+      min_col = NA,
+      max_col = NA
+    )
+  } else {
+    limits <- cellranger::as.cell_limits(range)
+    limits <- c(
+      min_row = limits[["ul"]][1] - 1,
+      max_row = limits[["lr"]][1] - 1,
+      min_col = limits[["ul"]][2] - 1,
+      max_col = limits[["lr"]][2] - 1
+    )
+  }
+  limits[is.na(limits)] <- -1
+  limits
 }
 
 check_col_types <- function(col_types) {
@@ -181,27 +236,17 @@ check_col_types <- function(col_types) {
   col_types
 }
 
-check_n_max <- function(n_max) {
-
-  if (length(n_max) != 1 || !is.numeric(n_max) || !is_integerish(n_max) ||
-      is.na(n_max) || n_max < 0) {
-    stop("`n_max` must be a positive integer", call. = FALSE)
+check_non_negative_integer <- function(i, arg_name) {
+  if (length(i) != 1 || !is.numeric(i) || !is_integerish(i) ||
+      is.na(i) || i < 0) {
+    stop("`", arg_name, "` must be a positive integer", call. = FALSE)
   }
-
-  if (n_max == Inf) {
-    n_max <- -1
-  }
-  n_max
+  i
 }
 
 ## from readr
 check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100) {
-
-  if (length(guess_max) != 1 || !is.numeric(guess_max) || !is_integerish(guess_max) ||
-      is.na(guess_max) || guess_max < 0) {
-    stop("`guess_max` must be a positive integer", call. = FALSE)
-  }
-
+  guess_max <- check_non_negative_integer(guess_max, "guess_max")
   if (guess_max > max_limit) {
     warning("`guess_max` is a very large value, setting to `", max_limit,
             "` to avoid exhausting memory", call. = FALSE)

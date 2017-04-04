@@ -34,6 +34,13 @@ public:
     type_ = CELL_UNKNOWN;
   }
 
+  XlsxCell(std::pair<int,int> loc)
+  {
+    cell_ = NULL;
+    location_ = loc;
+    type_ = CELL_BLANK;
+  }
+
   int row() const {
     return location_.first;
   }
@@ -175,6 +182,10 @@ public:
   }
 
   std::string asStdString(const std::vector<std::string>& stringTable) const {
+    if (cell_ == NULL) {
+      return "";
+    }
+
     rapidxml::xml_node<>* v = cell_->first_node("v");
     rapidxml::xml_attribute<>* t = cell_->first_attribute("t");
 
@@ -211,6 +222,10 @@ public:
       //   the mythical ISO 8601 date cell
       return(v->value());
     }
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      return "";
   }
   }
 
@@ -234,6 +249,10 @@ public:
       rapidxml::xml_node<>* v = cell_->first_node("v");
       return atoi(v->value());
     }
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      return NA_LOGICAL;
     }
   }
 
@@ -252,6 +271,10 @@ public:
       rapidxml::xml_node<>* v = cell_->first_node("v");
       return atof(v->value());
     }
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      return NA_REAL;
     }
   }
 
@@ -270,6 +293,10 @@ public:
       rapidxml::xml_node<>* v = cell_->first_node("v");
       return POSIXctFromSerial(atof(v->value()), is1904);
     }
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      return NA_REAL;
     }
   }
 

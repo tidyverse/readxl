@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jennifer Bryan \email{jenny.f.bryan@gmail.com}
+\strong{Maintainer}: Jennifer Bryan \email{jenny@rstudio.com}
 
 Authors:
 \itemize{

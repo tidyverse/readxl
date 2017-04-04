@@ -29,6 +29,12 @@ public:
     type_ = CELL_UNKNOWN;
   }
 
+  XlsCell(std::pair<int,int> loc)
+  {
+    location_ = loc;
+    type_ = CELL_BLANK;
+  }
+
   int row() const {
     return location_.first;
   }
@@ -247,6 +253,11 @@ public:
 
     case CELL_TEXT:
       return std::string((char*) cell_->str);
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                    row() + 1, col() + 1, cell_->id);
+    return "";
   }
   }
 
@@ -267,6 +278,11 @@ public:
     case CELL_LOGICAL:
     case CELL_NUMERIC:
       return cell_->d != 0;
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                    row() + 1, col() + 1, cell_->id);
+    return NA_LOGICAL;
     }
   }
 
@@ -282,6 +298,11 @@ public:
     case CELL_DATE:
     case CELL_NUMERIC:
       return cell_->d;
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                    row() + 1, col() + 1, cell_->id);
+    return NA_REAL;
     }
   }
 
@@ -297,6 +318,11 @@ public:
     case CELL_DATE:
     case CELL_NUMERIC:
       return POSIXctFromSerial(cell_->d, is1904);
+
+    default:
+      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
+                    row() + 1, col() + 1, cell_->id);
+    return NA_REAL;
     }
   }
 
