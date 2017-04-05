@@ -95,7 +95,7 @@ read_excel(xls_example, sheet = 4)
 #> # ... with 997 more rows
 ```
 
-There are various ways to control which cells are read.
+There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.
 
 ``` r
 read_excel(xlsx_example, n_max = 3)
@@ -105,21 +105,21 @@ read_excel(xlsx_example, n_max = 3)
 #> 1          5.1         3.5          1.4         0.2  setosa
 #> 2          4.9         3.0          1.4         0.2  setosa
 #> 3          4.7         3.2          1.3         0.2  setosa
-read_excel(xls_example, range = "C1:E4")
+read_excel(xlsx_example, range = "C1:E4")
 #> # A tibble: 3 × 3
 #>   Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>   <chr>
 #> 1          1.4         0.2  setosa
 #> 2          1.4         0.2  setosa
 #> 3          1.3         0.2  setosa
-read_excel(xls_example, range = cell_rows(1:4))
+read_excel(xlsx_example, range = cell_rows(1:4))
 #> # A tibble: 3 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2  setosa
 #> 2          4.9         3.0          1.4         0.2  setosa
 #> 3          4.7         3.2          1.3         0.2  setosa
-read_excel(xls_example, range = cell_cols("B:D"))
+read_excel(xlsx_example, range = cell_cols("B:D"))
 #> # A tibble: 150 × 3
 #>   Sepal.Width Petal.Length Petal.Width
 #>         <dbl>        <dbl>       <dbl>
@@ -127,6 +127,14 @@ read_excel(xls_example, range = cell_cols("B:D"))
 #> 2         3.0          1.4         0.2
 #> 3         3.2          1.3         0.2
 #> # ... with 147 more rows
+read_excel(xlsx_example, range = "mtcars!B1:D5")
+#> # A tibble: 4 × 3
+#>     cyl  disp    hp
+#>   <dbl> <dbl> <dbl>
+#> 1     6   160   110
+#> 2     6   160   110
+#> 3     4   108    93
+#> # ... with 1 more rows
 ```
 
 If `NA`s are represented by something other than blank cells, set the `na` argument.
