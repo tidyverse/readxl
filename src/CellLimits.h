@@ -53,6 +53,14 @@ public:
     }
   }
 
+  void update(const int minRow, const int maxRow,
+              const int minCol, const int maxCol) {
+    minRow_ = minRow;
+    maxRow_ = maxRow;
+    minCol_ = minCol;
+    maxCol_ = maxCol;
+  }
+
   bool contains(const XlsCell cell) const {
     return contains(cell.row(), cell.col());
   }

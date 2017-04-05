@@ -61,10 +61,14 @@ public:
     }
     dateFormats_ = wb.dateFormats();
 
-                                   // nominal_ holds user's geometry request
-    loadCells();                   // actual_ reports populated cells
-                                   //   inside the nominal_ rectangle
-    if (shim) insertShims();       // insert shims and update actual_
+    // nominal_ holds user's geometry request
+    loadCells(shim);
+    // nominal_ may have been shifted (case of implicit skipping and n_max)
+    // actual_ reports populated cells inside the nominal_ rectangle
+
+    // insert shims and update actual_
+    if (shim) insertShims();
+
     nrow_ = (actual_.minRow() < 0) ? 0 : actual_.maxRow() - actual_.minRow() + 1;
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
@@ -312,7 +316,7 @@ public:
 
 private:
 
-  void loadCells() {
+  void loadCells(const bool shim) {
     // by convention, min_row = -2 means 'read no data'
     if (nominal_.minRow() < -1) {
       return;
@@ -324,6 +328,7 @@ private:
     }
 
     int i = 0;
+    bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
     for (; row; row = row->next_sibling("row")) {
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
@@ -332,15 +337,29 @@ private:
         // only consider cells that have >= 1 child nodes
         // we require cell to have content, not just, e.g., a format
         if (first_child != NULL) {
+          // We have a cell!
+
           // (i, j) is our best guess at location, but if cell declares
           // it's own location, we store that instead
           XlsxCell xcell(cell, i, j);
           i = xcell.row();
           j = xcell.col();
+
+          if (nominal_needs_checking) {
+            if (i > nominal_.minRow()) { // implicit skip happened
+              nominal_.update(
+                i, i + nominal_.maxRow() - nominal_.minRow(),
+                nominal_.minCol(), nominal_.maxCol()
+              );
+            }
+            nominal_needs_checking = false;
+          }
+
           if (nominal_.contains(i, j)) {
             cells_.push_back(xcell);
             actual_.update(i, j);
           }
+
         }
         j++;
       }
