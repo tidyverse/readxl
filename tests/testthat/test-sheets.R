@@ -5,6 +5,10 @@ test_that("informative error when requesting non-existent sheet by name", {
     read_excel(test_sheet("iris-excel.xlsx"), sheet = "tulip"),
     "Sheet 'tulip' not found"
   )
+  expect_error(
+    read_excel(test_sheet("iris-excel.xlsx"), range = "tulip!A1:A1"),
+    "Sheet 'tulip' not found"
+  )
 })
 
 test_that("informative error when requesting non-existent sheet by position", {
@@ -29,6 +33,25 @@ test_that("invalid sheet values caught", {
     read_excel(test_sheet("iris-excel.xlsx"), sheet = rep(1L, 2)),
     "`sheet` must have length 1"
   )
+})
+
+test_that("sheet can be parsed out of range", {
+  direct <-
+    read_excel(test_sheet("iris-excel.xlsx"), sheet = "iris", range = "A1:A1")
+  indirect <-
+    read_excel(test_sheet("iris-excel.xlsx"), range = "iris!A1:A1")
+  expect_identical(direct, indirect)
+})
+
+test_that("double specification of sheet generates message and range wins", {
+  expect_message(
+    double <-
+      read_excel(test_sheet("sheet-xml-lookup.xlsx"),
+                 sheet = "Asia", range = "Oceania!A1:A1"),
+    "Two values given for `sheet`. Using the `sheet` found in `range`"
+  )
+  ref <- read_excel(test_sheet("sheet-xml-lookup.xlsx"),range = "Oceania!A1:A1")
+  expect_identical(double, ref)
 })
 
 test_that("sheet data xml target is explicitly looked up (#104, #80)", {

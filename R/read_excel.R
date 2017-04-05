@@ -6,11 +6,14 @@ NULL
 #'
 #' @param path Path to the xls/xlsx file
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
-#'   integer (the position of the sheet). Defaults to the first sheet.
+#'   integer (the position of the sheet). Ignored if the sheet is specified via
+#'   `range`. If neither argument specifies the sheet, defaults to the first
+#'   sheet.
 #' @param range A cell range to read from, as described in [cell-specification].
-#'   Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
-#'   even if the range includes leading or trailing empty rows or columns. Takes
-#'   precedence over `skip` and `n_max`.
+#'   Includes typical Excel ranges like "B3:D87", possibly including the sheet
+#'   name like "Budget!B2:G14", and more. Interpreted strictly, even if the
+#'   range forces the inclusion of leading or trailing empty rows or columns.
+#'   Takes precedence over `skip`, `n_max` and `sheet`.
 #' @param col_names `TRUE` to use the first row as column names, `FALSE` to get
 #'   default names, or a character vector giving a name for each column. If user
 #'   provides `col_types` as a vector, `col_names` can have one entry per
@@ -68,10 +71,13 @@ NULL
 #' read_excel(datasets, range = "C1:E7")
 #' read_excel(datasets, range = "R1C2:R2C5")
 #'
+#' # Specify the sheet as part of the range
+#' read_excel(datasets, range = "mtcars!B1:D5")
+#'
 #' # Read only specific rows or columns
 #' read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
 #' read_excel(datasets, range = cell_cols("B:D"))
-read_excel <- function(path, sheet = 1L, range = NULL,
+read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
@@ -89,7 +95,7 @@ read_excel <- function(path, sheet = 1L, range = NULL,
 #'
 #' @rdname read_excel
 #' @export
-read_xls <- function(path, sheet = 1L, range = NULL,
+read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max)) {
@@ -103,7 +109,7 @@ read_xls <- function(path, sheet = 1L, range = NULL,
 
 #' @rdname read_excel
 #' @export
-read_xlsx <- function(path, sheet = 1L, range = NULL,
+read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max)) {
@@ -115,7 +121,7 @@ read_xlsx <- function(path, sheet = 1L, range = NULL,
   )
 }
 
-read_excel_ <- function(path, sheet = 1L, range = NULL,
+read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
@@ -126,7 +132,7 @@ read_excel_ <- function(path, sheet = 1L, range = NULL,
     sheets_fun <- xlsx_sheets
     read_fun <- read_xlsx_
   }
-  sheet <- standardise_sheet(sheet, sheets_fun(path))
+  sheet <- standardise_sheet(sheet, range, sheets_fun(path))
   shim <- !is.null(range)
   limits <- standardise_limits(range, skip, n_max, has_col_names = isTRUE(col_names))
   guess_max <- check_guess_max(guess_max)
@@ -162,7 +168,20 @@ excel_format <- function(path) {
 }
 
 ## return a zero-indexed sheet number
-standardise_sheet <- function(sheet, sheet_names) {
+standardise_sheet <- function(sheet, range, sheet_names) {
+  range_sheet <- cellranger::as.cell_limits(range)[["sheet"]]
+  if (!is.null(range_sheet) && !is.na(range_sheet)) {
+    if (!is.null(sheet)) {
+      message("Two values given for `sheet`. ",
+              "Using the `sheet` found in `range`:\n", range_sheet)
+    }
+    sheet <- range_sheet
+  }
+
+  if (is.null(sheet)) {
+    sheet <- 1L
+  }
+
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
   }

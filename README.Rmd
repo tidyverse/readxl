@@ -79,13 +79,14 @@ read_excel(xlsx_example, sheet = "chickwts")
 read_excel(xls_example, sheet = 4)
 ```
 
-There are various ways to control which cells are read.
+There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.
 
 ```{r}
 read_excel(xlsx_example, n_max = 3)
-read_excel(xls_example, range = "C1:E4")
-read_excel(xls_example, range = cell_rows(1:4))
-read_excel(xls_example, range = cell_cols("B:D"))
+read_excel(xlsx_example, range = "C1:E4")
+read_excel(xlsx_example, range = cell_rows(1:4))
+read_excel(xlsx_example, range = cell_cols("B:D"))
+read_excel(xlsx_example, range = "mtcars!B1:D5")
 ```
 
 If `NA`s are represented by something other than blank cells, set the `na` argument.

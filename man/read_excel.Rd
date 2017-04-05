@@ -6,15 +6,15 @@
 \alias{read_xlsx}
 \title{Read xls and xlsx files.}
 \usage{
-read_excel(path, sheet = 1L, range = NULL, col_names = TRUE,
+read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 
-read_xls(path, sheet = 1L, range = NULL, col_names = TRUE,
+read_xls(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 
-read_xlsx(path, sheet = 1L, range = NULL, col_names = TRUE,
+read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 }
@@ -22,12 +22,15 @@ read_xlsx(path, sheet = 1L, range = NULL, col_names = TRUE,
 \item{path}{Path to the xls/xlsx file}
 
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
-integer (the position of the sheet). Defaults to the first sheet.}
+integer (the position of the sheet). Ignored if the sheet is specified via
+\code{range}. If neither argument specifies the sheet, defaults to the first
+sheet.}
 
 \item{range}{A cell range to read from, as described in \link{cell-specification}.
-Includes typical Excel ranges like "B3:D87" and more. Interpreted strictly,
-even if the range includes leading or trailing empty rows or columns. Takes
-precedence over \code{skip} and \code{n_max}.}
+Includes typical Excel ranges like "B3:D87", possibly including the sheet
+name like "Budget!B2:G14", and more. Interpreted strictly, even if the
+range forces the inclusion of leading or trailing empty rows or columns.
+Takes precedence over \code{skip}, \code{n_max} and \code{sheet}.}
 
 \item{col_names}{\code{TRUE} to use the first row as column names, \code{FALSE} to get
 default names, or a character vector giving a name for each column. If user
@@ -97,6 +100,9 @@ read_excel(datasets, n_max = 3)
 # Read from an Excel range using A1 or R1C1 notation
 read_excel(datasets, range = "C1:E7")
 read_excel(datasets, range = "R1C2:R2C5")
+
+# Specify the sheet as part of the range
+read_excel(datasets, range = "mtcars!B1:D5")
 
 # Read only specific rows or columns
 read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
