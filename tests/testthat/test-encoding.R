@@ -2,12 +2,12 @@ context("Encoding")
 
 test_that("excel_sheets returns utf-8 encoded text", {
   ## xlsx
-  sheets <- excel_sheets(test_sheet("utf8-sheets.xlsx"))
+  sheets <- excel_sheets(test_sheet("utf8-sheet-names.xlsx"))
   expect_identical(Encoding(sheets), rep("UTF-8", 2))
   expect_identical(sheets, c("\u00b5", "\u2202"))
 
   ## xls
-  sheets <- excel_sheets(test_sheet("utf8-sheets.xls"))
+  sheets <- excel_sheets(test_sheet("utf8-sheet-names.xls"))
   expect_identical(Encoding(sheets), rep("UTF-8", 2))
   expect_identical(sheets, c("\u00b5", "\u2202"))
 })
