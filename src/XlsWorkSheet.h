@@ -45,10 +45,14 @@ public:
     xls_parseWorkSheet(pWS_);
     dateFormats_ = wb.dateFormats();
 
-                                   // nominal_ holds user's geometry request
-    loadCells();                   // actual_ reports populated cells
-                                   //   inside the nominal_ rectangle
-    if (shim) insertShims();       // insert shims and update actual_
+    // nominal_ holds user's geometry request
+    loadCells(shim);
+    // nominal_ may have been shifted (case of implicit skipping and n_max)
+    // actual_ reports populated cells inside the nominal_ rectangle
+
+    // insert shims and update actual_
+    if (shim) insertShims();
+
     nrow_ = (actual_.minRow() < 0) ? 0 : actual_.maxRow() - actual_.minRow() + 1;
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
@@ -295,7 +299,7 @@ public:
 
 private:
 
-  void loadCells() {
+  void loadCells(const bool shim) {
     // by convention, min_row = -2 means 'read no data'
     if (nominal_.minRow() < -1) {
       return;
@@ -305,34 +309,35 @@ private:
     int nominal_nrow = pWS_->rows.lastrow;
 
     xls::xlsCell *cell;
+    bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
     for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
-      if (!nominal_.contains(i)) {
+
+      if (i < nominal_.minRow() ||
+          (!nominal_needs_checking && !nominal_.contains(i))) {
         continue;
       }
+
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
+
+        if (nominal_needs_checking) {
+          cell = xls_cell(pWS_, i, j);
+          if (cell_is_readable(cell)) {
+            if (i > nominal_.minRow()) { // implicit skip
+              nominal_.update(
+                i, i + nominal_.maxRow() - nominal_.minRow(),
+                nominal_.minCol(), nominal_.maxCol()
+              );
+            }
+            nominal_needs_checking = false;
+          }
+        }
 
         if (nominal_.contains(i, j)) {
           cell = xls_cell(pWS_, i, j);
-        } else {
-          continue;
-        }
-
-        if (!cell) {
-          continue;
-        }
-
-        // Dimensions reported by xls itself include blank cells that have
-        // formatting, therefore we test explicitly for non-blank cell types
-        // and only load those cells.
-        // 2.4.90 Dimensions p273 of [MS-XLS]
-        if (cell->id == XLS_RECORD_MULRK || cell->id == XLS_RECORD_NUMBER ||
-            cell->id == XLS_RECORD_RK ||
-            cell->id == XLS_RECORD_LABELSST || cell->id == XLS_RECORD_LABEL ||
-            cell->id == XLS_RECORD_FORMULA ||  cell->id == XLS_RECORD_FORMULA_ALT ||
-            cell->id == XLS_RECORD_BOOLERR
-        ) {
-          cells_.push_back(cell);
-          actual_.update(i, j);
+          if (cell_is_readable(cell)) {
+            cells_.push_back(cell);
+            actual_.update(i, j);
+          }
         }
       }
     }
@@ -408,6 +413,23 @@ private:
       ++it;
     }
     return(it);
+  }
+
+  // Dimensions reported by xls and cells contained in xls include blank cells
+  // that have formatting, therefore we test explicitly for non-blank cell types
+  // and only load those cells.
+  // 2.4.90 Dimensions p273 of [MS-XLS]
+  bool cell_is_readable(const xls::xlsCell *cell) {
+    return cell && (
+        cell->id == XLS_RECORD_MULRK ||
+        cell->id == XLS_RECORD_NUMBER ||
+        cell->id == XLS_RECORD_RK ||
+        cell->id == XLS_RECORD_LABELSST ||
+        cell->id == XLS_RECORD_LABEL ||
+        cell->id == XLS_RECORD_FORMULA ||
+        cell->id == XLS_RECORD_FORMULA_ALT ||
+        cell->id == XLS_RECORD_BOOLERR
+    );
   }
 
 };
