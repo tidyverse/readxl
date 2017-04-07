@@ -30,7 +30,7 @@
 
 * `guess_max` is a new argument that lets user adjust the number of rows used to guess column types. (#223, #257 @tklebel and @jennybc)
 
-* `trim_ws` is a new argument to remove leading and trailing whitespace. It defaults to `TRUE`. (#325, #211)
+* `trim_ws` is a new argument to remove leading and trailing whitespace. It defaults to `TRUE`. (#326, #211)
 
 * `na` can now hold multiple NA values, e.g., `read_excel("missing-values.xls", na = c("NA", "1"))`. (#13, #56, @jmarshallnz)
 

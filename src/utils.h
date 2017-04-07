@@ -111,7 +111,7 @@ inline bool doubleFromString(std::string mystring, double& out) {
   return true;
 }
 
-inline std::string trim(std::string& s) {
+inline std::string trim(const std::string& s) {
   size_t begin = s.find_first_not_of(" \t");
   if (begin == std::string::npos) {
     return "";

@@ -51,7 +51,7 @@ List read_xlsx_(std::string path, int sheet_i,
                sheet_i + 1, ws.ncol(), colTypes.size());
   }
   if (requiresGuess(colTypes)) {
-    colTypes = ws.colTypes(colTypes, na, guess_max, has_col_names);
+    colTypes = ws.colTypes(colTypes, na, trim_ws, guess_max, has_col_names);
   }
   colTypes = finalizeTypes(colTypes);
 

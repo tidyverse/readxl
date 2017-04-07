@@ -78,7 +78,7 @@ public:
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
-      xcell->inferType(na, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_);
       out[xcell->col() - actual_.minCol()] = xcell->asCharSxp(trimWs);
       xcell++;
     }
@@ -87,6 +87,7 @@ public:
 
   std::vector<ColType> colTypes(std::vector<ColType> types,
                                 const StringSet &na,
+                                const bool trimWs,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
     std::vector<XlsCell>::iterator xcell;
@@ -114,7 +115,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_);
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -158,7 +159,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_);
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into

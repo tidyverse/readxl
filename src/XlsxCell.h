@@ -54,6 +54,7 @@ public:
   }
 
   void inferType(const StringSet& na,
+                 const bool trimWs,
                  const std::vector<std::string>& stringTable,
                  const std::set<int>& dateFormats) {
     // 1. Review of Excel's declared cell types, then
@@ -118,14 +119,14 @@ public:
       rapidxml::xml_node<>* is = cell_->first_node("is");
       std::string inline_string;
       if (parseString(is, &inline_string)) {
-        type_ = na.contains(inline_string) ? CELL_BLANK : CELL_TEXT;
+        type_ = na.contains(inline_string, trimWs) ? CELL_BLANK : CELL_TEXT;
       } else {
         type_ = CELL_BLANK;
       }
       return;
     }
 
-    if (v == NULL || na.contains(v->value())) {
+    if (v == NULL || na.contains(v->value(), trimWs)) {
       type_ = CELL_BLANK;
       return;
     }
@@ -167,13 +168,13 @@ public:
     if (strncmp(t->value(), "s", 5) == 0) {
       int id = atoi(v->value());
       const std::string& string = stringTable.at(id);
-      type_ = na.contains(string) ? CELL_BLANK : CELL_TEXT;
+      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 
     // str (String)               Cell containing a formula string.
     if (strncmp(t->value(), "str", 5) == 0) {
-      type_ = CELL_TEXT;
+      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 

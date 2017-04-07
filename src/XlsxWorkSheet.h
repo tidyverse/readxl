@@ -91,7 +91,7 @@ public:
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       out[xcell->col() - actual_.minCol()] =
         xcell->asCharSxp(wb_.stringTable(), trimWs);
       xcell++;
@@ -101,6 +101,7 @@ public:
 
   std::vector<ColType> colTypes(std::vector<ColType> types,
                                 const StringSet& na,
+                                const bool trimWs,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
     std::vector<XlsxCell>::iterator xcell;
@@ -128,7 +129,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -172,7 +173,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into

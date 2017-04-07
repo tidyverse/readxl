@@ -49,6 +49,7 @@ public:
   }
 
   void inferType(const StringSet& na,
+                 const bool trimWs,
                  const std::set<int>& dateFormats) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
@@ -129,7 +130,7 @@ public:
     switch(cell_->id) {
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
-      ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+      ct = na.contains((char*) cell_->str, trimWs) ? CELL_BLANK : CELL_TEXT;
       break;
 
     case XLS_RECORD_FORMULA:
@@ -176,7 +177,7 @@ public:
 
         // string (or #NULL! error)
         // d = 0 and str holds string formula result
-        ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+        ct = na.contains((char*) cell_->str, trimWs) ? CELL_BLANK : CELL_TEXT;
       }
       break;
 
