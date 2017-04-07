@@ -181,7 +181,8 @@ public:
                   row() + 1, col() + 1, t->value());
   }
 
-  std::string asStdString(const std::vector<std::string>& stringTable) const {
+  std::string asStdString(const std::vector<std::string>& stringTable,
+                          const bool trimWs) const {
     if (cell_ == NULL) {
       return "";
     }
@@ -210,17 +211,23 @@ public:
       // inlineStr
       rapidxml::xml_node<>* is = cell_->first_node("is");
       if (is != NULL) {
-        return parseString(is, &out_string) ? out_string : "NA";
+        if (parseString(is, &out_string)) {
+          return trimWs ? trim(out_string) : out_string;
+        } else {
+          return "NA";
+        }
       }
 
       // shared string
       if (strncmp(t->value(), "s", 5) == 0) {
-        return stringFromTable(v->value(), stringTable);
+        out_string = stringFromTable(v->value(), stringTable);
+        return trimWs ? trim(out_string) : out_string;
       }
 
       //   formula string cell or
       //   the mythical ISO 8601 date cell
-      return(v->value());
+      out_string = std::string(v->value());
+      return trimWs ? trim(out_string) : out_string;
     }
 
     default:
@@ -229,8 +236,9 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable) const {
-    std::string out_string = asStdString(stringTable);
+  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable,
+                          const bool trimWs) const {
+    std::string out_string = asStdString(stringTable, trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 

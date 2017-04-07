@@ -221,7 +221,7 @@ public:
     type_ = ct;
   }
 
-  std::string asStdString() const {
+  std::string asStdString(const bool trimWs) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -252,8 +252,10 @@ public:
       return out_string;
     }
 
-    case CELL_TEXT:
-      return std::string((char*) cell_->str);
+    case CELL_TEXT: {
+      std::string out_string = (char*) cell_->str;
+      return trimWs ? trim(out_string) : out_string;
+    }
 
     default:
       Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
@@ -262,8 +264,8 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp() const {
-    std::string out_string = asStdString();
+  Rcpp::RObject asCharSxp(const bool trimWs) const {
+    std::string out_string = asStdString(trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 

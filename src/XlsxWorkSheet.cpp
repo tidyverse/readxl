@@ -15,7 +15,7 @@ IntegerVector parse_ref(std::string ref) {
 List read_xlsx_(std::string path, int sheet_i,
                 IntegerVector limits, bool shim,
                 RObject col_names, RObject col_types,
-                std::vector<std::string> na, int guess_max = 1000) {
+                std::vector<std::string> na, bool trim_ws, int guess_max = 1000) {
 
   // Construct worksheet ----------------------------------------------
   XlsxWorkSheet ws(path, sheet_i, limits, shim);
@@ -34,7 +34,7 @@ List read_xlsx_(std::string path, int sheet_i,
     break;
   case LGLSXP:
     has_col_names = as<bool>(col_names);
-    colNames = has_col_names ? ws.colNames(na) : CharacterVector(ws.ncol(), "");
+    colNames = has_col_names ? ws.colNames(na, trim_ws) : CharacterVector(ws.ncol(), "");
     break;
   default:
     Rcpp::stop("`col_names` must be a logical or character vector");
@@ -59,5 +59,5 @@ List read_xlsx_(std::string path, int sheet_i,
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
   // Get data ----------------------------------------------------------
-  return ws.readCols(colNames, colTypes, na, has_col_names);
+  return ws.readCols(colNames, colTypes, na, trim_ws, has_col_names);
 }
