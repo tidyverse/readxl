@@ -7,15 +7,15 @@
 \title{Read xls and xlsx files.}
 \usage{
 read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 
 read_xls(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 
 read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", skip = 0, n_max = Inf,
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
   guess_max = min(1000, n_max))
 }
 \arguments{
@@ -49,6 +49,8 @@ on a cell-by-cell basis.}
 
 \item{na}{Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.}
+
+\item{trim_ws}{Should leading and trailing whitespace be trimmed?}
 
 \item{skip}{Minimum number of rows to skip before reading anything, be it
 column names or data. Leading empty rows are automatically skipped, so this

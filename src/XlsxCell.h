@@ -54,6 +54,7 @@ public:
   }
 
   void inferType(const StringSet& na,
+                 const bool trimWs,
                  const std::vector<std::string>& stringTable,
                  const std::set<int>& dateFormats) {
     // 1. Review of Excel's declared cell types, then
@@ -118,14 +119,14 @@ public:
       rapidxml::xml_node<>* is = cell_->first_node("is");
       std::string inline_string;
       if (parseString(is, &inline_string)) {
-        type_ = na.contains(inline_string) ? CELL_BLANK : CELL_TEXT;
+        type_ = na.contains(inline_string, trimWs) ? CELL_BLANK : CELL_TEXT;
       } else {
         type_ = CELL_BLANK;
       }
       return;
     }
 
-    if (v == NULL || na.contains(v->value())) {
+    if (v == NULL || na.contains(v->value(), trimWs)) {
       type_ = CELL_BLANK;
       return;
     }
@@ -167,13 +168,13 @@ public:
     if (strncmp(t->value(), "s", 5) == 0) {
       int id = atoi(v->value());
       const std::string& string = stringTable.at(id);
-      type_ = na.contains(string) ? CELL_BLANK : CELL_TEXT;
+      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 
     // str (String)               Cell containing a formula string.
     if (strncmp(t->value(), "str", 5) == 0) {
-      type_ = CELL_TEXT;
+      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 
@@ -181,7 +182,8 @@ public:
                   row() + 1, col() + 1, t->value());
   }
 
-  std::string asStdString(const std::vector<std::string>& stringTable) const {
+  std::string asStdString(const std::vector<std::string>& stringTable,
+                          const bool trimWs) const {
     if (cell_ == NULL) {
       return "";
     }
@@ -210,17 +212,23 @@ public:
       // inlineStr
       rapidxml::xml_node<>* is = cell_->first_node("is");
       if (is != NULL) {
-        return parseString(is, &out_string) ? out_string : "NA";
+        if (parseString(is, &out_string)) {
+          return trimWs ? trim(out_string) : out_string;
+        } else {
+          return "NA";
+        }
       }
 
       // shared string
       if (strncmp(t->value(), "s", 5) == 0) {
-        return stringFromTable(v->value(), stringTable);
+        out_string = stringFromTable(v->value(), stringTable);
+        return trimWs ? trim(out_string) : out_string;
       }
 
       //   formula string cell or
       //   the mythical ISO 8601 date cell
-      return(v->value());
+      out_string = std::string(v->value());
+      return trimWs ? trim(out_string) : out_string;
     }
 
     default:
@@ -229,8 +237,9 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable) const {
-    std::string out_string = asStdString(stringTable);
+  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable,
+                          const bool trimWs) const {
+    std::string out_string = asStdString(stringTable, trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 

@@ -2,6 +2,7 @@
 #define READXL_STRINGSET_
 
 #include <Rcpp.h>
+#include "utils.h"
 
 class StringSet
 {
@@ -21,6 +22,9 @@ public:
   }
   bool contains(const std::string &s) const {
     return set_.find(s) != set_.end();
+  }
+  bool contains(const std::string &s, const bool trimWs) const {
+    return trimWs ? contains(trim(s)) : contains(s);
   }
   bool contains(const double d) const {
     std::ostringstream str; str << d;

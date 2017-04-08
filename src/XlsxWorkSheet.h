@@ -85,14 +85,15 @@ public:
     return sheetName_;
   }
 
-  Rcpp::CharacterVector colNames(const StringSet &na) {
+  Rcpp::CharacterVector colNames(const StringSet &na, const bool trimWs) {
     Rcpp::CharacterVector out(ncol_);
     std::vector<XlsxCell>::iterator xcell = cells_.begin();
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
-      out[xcell->col() - actual_.minCol()] = xcell->asCharSxp(wb_.stringTable());
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
+      out[xcell->col() - actual_.minCol()] =
+        xcell->asCharSxp(wb_.stringTable(), trimWs);
       xcell++;
     }
     return out;
@@ -100,6 +101,7 @@ public:
 
   std::vector<ColType> colTypes(std::vector<ColType> types,
                                 const StringSet& na,
+                                const bool trimWs,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
     std::vector<XlsxCell>::iterator xcell;
@@ -127,7 +129,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -140,7 +142,7 @@ public:
 
   Rcpp::List readCols(Rcpp::CharacterVector names,
                       const std::vector<ColType>& types,
-                      const StringSet& na,
+                      const StringSet& na, const bool trimWs,
                       bool has_col_names = false) {
 
     std::vector<XlsxCell>::iterator xcell;
@@ -171,7 +173,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, wb_.stringTable(), dateFormats_);
+      xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       CellType type = xcell->type();
       Rcpp::RObject col = cols[j];
       // row to write into
@@ -205,7 +207,7 @@ public:
           break;
         case CELL_TEXT:
         {
-          std::string text_string = xcell->asStdString(wb_.stringTable());
+          std::string text_string = xcell->asStdString(wb_.stringTable(), trimWs);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(col)[row] = text_boolean;
@@ -230,7 +232,7 @@ public:
         }
         if (type == CELL_TEXT) {
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(wb_.stringTable()));
+                        i + 1, j + 1, xcell->asStdString(wb_.stringTable(), trimWs));
         }
         REAL(col)[row] = xcell->asDate(wb_.is1904());
         break;
@@ -255,7 +257,7 @@ public:
           break;
         case CELL_TEXT:
         {
-          std::string num_string = xcell->asStdString(wb_.stringTable());
+          std::string num_string = xcell->asStdString(wb_.stringTable(), trimWs);
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
@@ -275,7 +277,7 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        SET_STRING_ELT(col, row, xcell->asCharSxp(wb_.stringTable()));
+        SET_STRING_ELT(col, row, xcell->asCharSxp(wb_.stringTable(), trimWs));
         break;
 
       case COL_LIST:
@@ -302,7 +304,7 @@ public:
         }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
-          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable()));
+          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable(), trimWs));
           SET_VECTOR_ELT(col, row, rStringVector);
           break;
         }

@@ -85,15 +85,15 @@ read files without extension.</p>
     
 
     <pre><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
   <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))
 
 <span class='fu'>read_xls</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
   <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))
 
 <span class='fu'>read_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
   <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -141,6 +141,10 @@ on a cell-by-cell basis.</p></td>
       <th>na</th>
       <td><p>Character vector of strings to use for missing values. By default,
 readxl treats blank cells as missing data.</p></td>
+    </tr>
+    <tr>
+      <th>trim_ws</th>
+      <td><p>Should leading and trailing whitespace be trimmed?</p></td>
     </tr>
     <tr>
       <th>skip</th>

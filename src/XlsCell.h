@@ -49,6 +49,7 @@ public:
   }
 
   void inferType(const StringSet& na,
+                 const bool trimWs,
                  const std::set<int>& dateFormats) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
@@ -129,7 +130,7 @@ public:
     switch(cell_->id) {
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
-      ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+      ct = na.contains((char*) cell_->str, trimWs) ? CELL_BLANK : CELL_TEXT;
       break;
 
     case XLS_RECORD_FORMULA:
@@ -176,7 +177,7 @@ public:
 
         // string (or #NULL! error)
         // d = 0 and str holds string formula result
-        ct = na.contains((char*) cell_->str) ? CELL_BLANK : CELL_TEXT;
+        ct = na.contains((char*) cell_->str, trimWs) ? CELL_BLANK : CELL_TEXT;
       }
       break;
 
@@ -221,7 +222,7 @@ public:
     type_ = ct;
   }
 
-  std::string asStdString() const {
+  std::string asStdString(const bool trimWs) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -252,8 +253,10 @@ public:
       return out_string;
     }
 
-    case CELL_TEXT:
-      return std::string((char*) cell_->str);
+    case CELL_TEXT: {
+      std::string out_string = (char*) cell_->str;
+      return trimWs ? trim(out_string) : out_string;
+    }
 
     default:
       Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
@@ -262,8 +265,8 @@ public:
   }
   }
 
-  Rcpp::RObject asCharSxp() const {
-    std::string out_string = asStdString();
+  Rcpp::RObject asCharSxp(const bool trimWs) const {
+    std::string out_string = asStdString(trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
