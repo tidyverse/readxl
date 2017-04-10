@@ -25,9 +25,11 @@ Imports:
     tibble (>= 1.1)
 Suggests:
     covr,
+    rmarkdown,
     rprojroot (>= 1.1),
     testthat
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
 URL: https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
+VignetteBuilder: knitr
