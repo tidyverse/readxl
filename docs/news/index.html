@@ -52,6 +52,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="../articles/articles/readxl-workflows.html">Workflows</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -111,7 +114,7 @@
 <li><p>A user-specified <code>col_types</code> of length one will be replicated to have length equal to the number of columns. (#127, #114, #261)</p></li>
 <li><p><code>"blank"</code> has been deprecated in favor of the more descriptive and readr-compatible <code>"skip"</code>, which is now the preferred way to request that a column be skipped. (#260, #193, #261)</p></li>
 <li><p><code>guess_max</code> is a new argument that lets user adjust the number of rows used to guess column types. (#223, #257 @tklebel and @jennybc)</p></li>
-<li><p><code>trim_ws</code> is a new argument to remove leading and trailing whitespace. It defaults to <code>TRUE</code>. (#325, #211)</p></li>
+<li><p><code>trim_ws</code> is a new argument to remove leading and trailing whitespace. It defaults to <code>TRUE</code>. (#326, #211)</p></li>
 <li><p><code>na</code> can now hold multiple NA values, e.g., <code><a href="../reference/read_excel.html">read_excel("missing-values.xls", na = c("NA", "1"))</a></code>. (#13, #56, @jmarshallnz)</p></li>
 <li><p>Coercions and cell data:</p></li>
 <li>Numeric data that appears in a date column is coerced to a date. Throws a warning. (#277, #266)</li>

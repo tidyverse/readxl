@@ -8,6 +8,15 @@ home:
   - text: Learn more
     href: http://r4ds.had.co.nz/data-import.html
 
+navbar:
+  left:
+  - text: Workflows
+    href: articles/articles/readxl-workflows.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+
 reference:
   - title: "Read spreadsheets"
     desc: >
