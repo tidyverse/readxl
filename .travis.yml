@@ -2,6 +2,8 @@
 
 language: r
 cache: packages
+## used only in an article, so not in DESCRIPTION
+r_packages: tidyverse
 
 matrix:
   include:
