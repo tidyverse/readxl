@@ -1,6 +1,5 @@
 ---
 title: "readxl Workflows"
-date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include = FALSE}
@@ -11,8 +10,6 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 3, tibble.print_max = 3)
 delete_on_exit <- character()
 ```
-
-*under development*
 
 Ideas for using readxl to increase reproducibiliy and reduce tedium.
 
@@ -25,9 +22,9 @@ The examples below also demonstrate the use of functional programming or "apply"
 
 ## Load packages
 
-We load the tidyverse metapackage here because the workflows below show readxl working with dplyr, purrr, etc.
+We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).
 
-We load readxl explicitly because it is not part of the core tidyverse.
+We must load readxl explicitly because it is not part of the core tidyverse.
 
 ```{r}
 library(tidyverse)
@@ -50,9 +47,8 @@ Solution: cache a CSV snapshot of your raw data tables at the time of export. Ev
 Pipe the output of `read_excel()` directly into `readr::write_csv()` like so:
 
 ```{r}
-library(readr)
-
-iris_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "iris") %>% 
+iris_xl <- readxl_example("datasets.xlsx") %>% 
+  read_excel(sheet = "iris") %>% 
   write_csv("iris-raw.csv")
 ```
 
@@ -60,13 +56,13 @@ iris_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "iris") %>%
 delete_on_exit <- c(delete_on_exit, "iris-raw.csv")
 ```
 
-Why does this work? `readr::write_csv()` is a well-mannered "write" function: it does its main job *and returns its input invisibly*. The above command reads the iris sheet from readxl's `datasets.xlsx` example workbook and caches a csv version of the resulting data frame to file.
+Why does this work? `readr::write_csv()` is a well-mannered "write" function: it does its main job *and returns its input invisibly*. The above command reads the iris sheet from readxl's `datasets.xlsx` example workbook and caches a CSV version of the resulting data frame to file.
 
-Let's check. Did we still import the data? Did we write the file?
+Let's check. Did we still import the data? Did we write the CSV file?
 
 ```{r}
 iris_xl
-list.files(pattern = "iris")
+dir(pattern = "iris")
 ```
 
 Yes! Is the data written to CSV an exact copy of what we imported from Excel?
@@ -89,30 +85,45 @@ Let's accept that this happens and that it is not entirely crazy. How can you ef
 
 Here's how to load all the sheets in a workbook into a list of data frames:
 
-  * Get a vector of worksheet names.
-  * Use `lapply()` to iterate sheet reading.
+  * Get worksheet names as a self-named character vector (these names propagate nicely).
+  * Use `purrr::map()` to iterate sheet reading.
 
 ```{r}
-path <- readxl_example("datasets.xls")
-xl_list <- lapply(excel_sheets(path), read_excel, path = path)
-xl_list
+path <- readxl_example("datasets.xlsx")
+path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map(read_excel, path = path)
 ```
 
 ## CSV caching and iterating over sheets
 
-What if we want to read all the sheets in at once and simultaneously cache to CSV? We define `my_fun()` as `write_csv(read_excel(...))` and use `lapply()` again. We could even define this on-the-fly as an anonymous function inside `lapply()`, but I think this is more readable.
+What if we want to read all the sheets in at once and simultaneously cache to CSV? We define `read_then_csv()` as `read_excel(...) %>% write_csv()` and use `purrr::map()` again.
 
 ```{r}
-my_fun <- function(x, path) {
-  write_csv(read_excel(path = path, sheet = x), paste0("datasets-", x, ".csv"))
+read_then_csv <- function(sheet, path) {
+  pathbase <- path %>%
+    basename() %>%
+    tools::file_path_sans_ext()
+  path %>%
+    read_excel(sheet = sheet) %>% 
+    write_csv(paste0(pathbase, "-", sheet, ".csv"))
 }
-xl_list <- lapply(excel_sheets(path), my_fun, path = path)
-xl_list
-list.files(pattern = "\\.csv$")
+```
+
+We could even define this on-the-fly as an anonymous function inside `map()`, but I think this is more readable.
+
+```{r}
+path <- readxl_example("datasets.xlsx")
+path %>%
+  excel_sheets() %>%
+  set_names() %>% 
+  map(read_then_csv, path = path)
+dir(pattern = "^datasets.*\\.csv$")
 ```
 
 ```{r include = FALSE}
-delete_on_exit <- c(delete_on_exit, list.files(pattern = "\\.csv$"))
+delete_on_exit <- c(delete_on_exit, list.files(pattern = "^datasets.*\\.csv$"))
 ```
 
 In a real analysis, starting with workbook `"foo.xlsx"`, you might want to create the directory `foo` and place the CSVs inside that.
@@ -121,7 +132,7 @@ In a real analysis, starting with workbook `"foo.xlsx"`, you might want to creat
 
 What if the datasets found on different sheets have the same variables? Then you'll want to row-bind them, after import, to form one big, beautiful data frame.
 
-readxl ships with an example sheet `deaths.xlsx`, consisting of two worksheets named "arts" and "other". Each contains a data table of famous people who died in 2016 or 2017, but these tables have the same variables, e.g. name and date of death.
+readxl ships with an example sheet `deaths.xlsx`, containing data on famous people who died in 2016 or 2017. It has two worksheets named "arts" and "other", but the spreadsheet layout is the same in each and the data tables have the same variables, e.g., name and date of death.
 
 The `map_df()` function from purrr makes it easy to iterate over worksheets and glue together the resulting data frames, all at once.
 
@@ -129,15 +140,11 @@ The `map_df()` function from purrr makes it easy to iterate over worksheets and 
   * Use `purrr::map_df()` to import the data, create an ID variable for the source worksheet, and row bind.
 
 ```{r}
-library(purrr)
 path <- readxl_example("deaths.xlsx")
-(sheets <- path %>%
-    excel_sheets() %>% 
-    set_names())
-deaths <- map_df(
-  sheets,
-  ~ read_excel(path, sheet = .x, range = "A5:E15"),
-  .id = "sheet")
+deaths <- path %>%
+  excel_sheets() %>%
+  set_names() %>% 
+  map_df(~ read_excel(path = path, sheet = .x, range = "A5:E15"), .id = "sheet")
 print(deaths, n = Inf)
 ```
 
@@ -148,41 +155,119 @@ Note the use of `range = "A5:E15"` here. `deaths.xlsx` is a typical spreadsheet 
 All at once now:
 
   * Multiple worksheets feeding into one data frame
-  * Cache each worksheet to CSV upon import
   * Sheet-specific target rectangles
+  * Cache to CSV upon import
 
-Even though the worksheets in `deaths.xlsx` have the same layout, we'll specify the target rectangle in two different ways here, to demonstrate how this works if each worksheet has it's own peculiar geometry.
+Even though the worksheets in `deaths.xlsx` have the same layout, we'll pretend they don't and specify the target rectangle in two different ways here. This shows how this can work if each worksheet has it's own peculiar geometry. Here's the workflow:
+
+  * Store a self-named vector of worksheet names.
+  * Store a vector of cell range specifications.
+  * Use `purrr::map2_df()` to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.
+  * Cache the unified data to CSV.
 
 ```{r}
 path <- readxl_example("deaths.xlsx")
-(sheets <- path %>%
-    excel_sheets() %>% 
-    set_names())
+sheets <- path %>%
+  excel_sheets() %>% 
+  set_names()
 ranges <- list("A5:E15", cell_rows(5:15))
-my_fun <- function(x, path, range) {
-  write_csv(read_excel(path = path, sheet = x, range = range),
-            paste0("datasets-", x, ".csv"))
-}
 deaths <- map2_df(
   sheets,
   ranges,
   ~ read_excel(path, sheet = .x, range = .y),
-  .id = "sheet")
+  .id = "sheet"
+) %>%
+  write_csv("deaths.csv")
 print(deaths, n = Inf)
 ```
 
 ```{r include = FALSE}
-delete_on_exit <- c(delete_on_exit, list.files(pattern = "\\.csv$"))
+delete_on_exit <- c(delete_on_exit, "deaths.csv")
+```
+
+<!--
+
+## Session info
+
+<details>
+<summary>devtools::session_info()</summary>
+```{r}
+devtools::session_info()
+```
+</details>
+
+--> 
+
+## Base version
+
+Rework examples from above but using base R only, other than readxl.
+
+### Cache a CSV snapshot
+
+```{r eval = FALSE}
+iris_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "iris")
+write.csv(iris_xl, "iris-raw.csv", row.names = FALSE, quote = FALSE)
+iris_alt <- read.csv("iris-raw.csv", stringsAsFactors = FALSE)
+## coerce iris_xl back to a data.frame
+identical(as.data.frame(iris_xl), iris_alt)
+```
+
+### Iterate over multiple worksheets in a workbook
+
+```{r eval = FALSE}
+path <- readxl_example("datasets.xls")
+sheets <- excel_sheets(path)
+xl_list <- lapply(excel_sheets(path), read_excel, path = path) 
+names(xl_list) <- sheets
+```
+
+### CSV caching and iterating over sheets
+
+```{r eval = FALSE}
+read_then_csv <- function(sheet, path) {
+  pathbase <- tools::file_path_sans_ext(basename(path))
+  df <- read_excel(path = path, sheet = sheet)
+  write.csv(df, paste0(pathbase, "-", sheet, ".csv"),
+            quote = FALSE, row.names = FALSE)
+  df
+}
+path <- readxl_example("datasets.xlsx")
+sheets <- excel_sheets(path)
+xl_list <- lapply(excel_sheets(path), read_then_csv, path = path)
+names(xl_list) <- sheets
+```
+
+### Concatenate worksheets into one data frame
+
+```{r eval = FALSE}
+path <- readxl_example("deaths.xlsx")
+sheets <- excel_sheets(path)
+xl_list <-
+  lapply(excel_sheets(path), read_excel, path = path, range = "A5:E15")
+xl_list <- lapply(seq_along(sheets), function(i) {
+  data.frame(sheet = I(sheets[i]), xl_list[[i]])
+})
+xl_list <- do.call(rbind, xl_list)
+```
+
+### Putting it all together
+
+```{r eval = FALSE}
+path <- readxl_example("deaths.xlsx")
+sheets <- excel_sheets(path)
+ranges <- list("A5:E15", cell_rows(5:15))
+xl_list <- mapply(function(x, y) {
+  read_excel(path = path, sheet = x, range = y)
+}, sheets, ranges, SIMPLIFY = FALSE)
+xl_list <- lapply(seq_along(sheets), function(i) {
+  data.frame(sheet = I(sheets[i]), xl_list[[i]])
+})
+xl_list <- do.call(rbind, xl_list)
+write.csv(xl_list, "deaths.csv", row.names = FALSE, quote = FALSE)
 ```
 
 ```{r include = FALSE}
 delete_on_exit <- unique(delete_on_exit)
 file.remove(delete_on_exit)
-```
-
-## Session info
-
-```{r}
-devtools::session_info()
 ```
 

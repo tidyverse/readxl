@@ -10,10 +10,12 @@ home:
 
 navbar:
   left:
-  - text: Workflows
-    href: articles/articles/readxl-workflows.html
   - text: Reference
     href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Workflows
+      href: articles/articles/readxl-workflows.html
   - text: News
     href: news/index.html
 
