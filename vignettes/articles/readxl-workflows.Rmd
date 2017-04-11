@@ -1,0 +1,273 @@
+---
+title: "readxl Workflows"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(tibble.print_min = 3, tibble.print_max = 3)
+delete_on_exit <- character()
+```
+
+Ideas for using readxl to increase reproducibiliy and reduce tedium.
+
+Reproducibility is much easier in theory than in reality. Here are some special dilemmas we face with spreadsheets:
+
+  * We say: Keep raw data raw! But we also say: Store data in a tool-agnostic, future-proof format! If data comes in the form of an `.xls[x]` file, we're in a pickle. The `.xls[x]` file should obviously be preserved, and probably write-protected. But a faithful copy as CSV is a wonderful complement, as long as you can ensure the two are the same.
+  * We say: Don't do analysis "by hand" or "by mouse"! But then we break this rule by manually exporting spreadsheets to file with *File > Save As ... > (save to `.csv`)*. readxl helps you get data directly out of a spreadsheet and into R, where you can record every step of your analysis as code. Below we show how to cache a CSV snapshot as part of this process.
+  
+The examples below also demonstrate the use of functional programming or "apply" techniques to iterate over the worksheets in a workbook.
+
+## Load packages
+
+We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).
+
+We must load readxl explicitly because it is not part of the core tidyverse.
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+
+## Cache a CSV snapshot
+
+Break analyses into logical steps, via a series of scripts that relate to one theme, such as "clean the data" or "make exploratory and diagnostic plots".
+
+This forces you to transmit info from step i to step i + 1 via a set of output files. The cumulative outputs of steps 1, 2, ..., i are available as inputs for steps i + 1.
+
+These outputs constitute an API for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via `save()`, `load()`, and R-specific `.rds` files.
+
+If raw data is stored *only* as an Excel spreadsheet, this limits your ability to inspect it when solving the little puzzles that crop up in dowstream work. You'll need to fire up Excel (or similar) and get busy with your mouse. You certainly can't poke around it or view diffs on GitHub.
+
+Solution: cache a CSV snapshot of your raw data tables at the time of export. Even if you use `read_excel()` for end-to-end reproducibility, this complementary CSV leaves your analysis in a more accessible state.
+
+Pipe the output of `read_excel()` directly into `readr::write_csv()` like so:
+
+```{r}
+iris_xl <- readxl_example("datasets.xlsx") %>% 
+  read_excel(sheet = "iris") %>% 
+  write_csv("iris-raw.csv")
+```
+
+```{r include = FALSE}
+delete_on_exit <- c(delete_on_exit, "iris-raw.csv")
+```
+
+Why does this work? `readr::write_csv()` is a well-mannered "write" function: it does its main job *and returns its input invisibly*. The above command reads the iris sheet from readxl's `datasets.xlsx` example workbook and caches a CSV version of the resulting data frame to file.
+
+Let's check. Did we still import the data? Did we write the CSV file?
+
+```{r}
+iris_xl
+dir(pattern = "iris")
+```
+
+Yes! Is the data written to CSV an exact copy of what we imported from Excel?
+
+```{r}
+iris_alt <- read_csv("iris-raw.csv")
+## readr leaves a note-to-self in `spec` that records its column guessing,
+## so we remove that attribute before the check
+attr(iris_alt, "spec") <- NULL
+identical(iris_xl, iris_alt)
+```
+
+Yes! If we needed to restart or troubleshoot this fictional analysis, `iris-raw.csv` is available as a second, highly accessible alternative to `datasets.xlsx`.
+
+## Iterate over multiple worksheets in a workbook
+
+Some Excel workbooks contain only data and you are tempted to ask "Why, God, why is this data stored in Excel? Why not store this as a series of CSV files?" One possible answer is this: because the workbook structure keeps them all together.
+
+Let's accept that this happens and that it is not entirely crazy. How can you efficiently load all of that into R?
+
+Here's how to load all the sheets in a workbook into a list of data frames:
+
+  * Get worksheet names as a self-named character vector (these names propagate nicely).
+  * Use `purrr::map()` to iterate sheet reading.
+
+```{r}
+path <- readxl_example("datasets.xlsx")
+path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map(read_excel, path = path)
+```
+
+## CSV caching and iterating over sheets
+
+What if we want to read all the sheets in at once and simultaneously cache to CSV? We define `read_then_csv()` as `read_excel(...) %>% write_csv()` and use `purrr::map()` again.
+
+```{r}
+read_then_csv <- function(sheet, path) {
+  pathbase <- path %>%
+    basename() %>%
+    tools::file_path_sans_ext()
+  path %>%
+    read_excel(sheet = sheet) %>% 
+    write_csv(paste0(pathbase, "-", sheet, ".csv"))
+}
+```
+
+We could even define this on-the-fly as an anonymous function inside `map()`, but I think this is more readable.
+
+```{r}
+path <- readxl_example("datasets.xlsx")
+path %>%
+  excel_sheets() %>%
+  set_names() %>% 
+  map(read_then_csv, path = path)
+dir(pattern = "^datasets.*\\.csv$")
+```
+
+```{r include = FALSE}
+delete_on_exit <- c(delete_on_exit, list.files(pattern = "^datasets.*\\.csv$"))
+```
+
+In a real analysis, starting with workbook `"foo.xlsx"`, you might want to create the directory `foo` and place the CSVs inside that.
+
+## Concatenate worksheets into one data frame
+
+What if the datasets found on different sheets have the same variables? Then you'll want to row-bind them, after import, to form one big, beautiful data frame.
+
+readxl ships with an example sheet `deaths.xlsx`, containing data on famous people who died in 2016 or 2017. It has two worksheets named "arts" and "other", but the spreadsheet layout is the same in each and the data tables have the same variables, e.g., name and date of death.
+
+The `map_df()` function from purrr makes it easy to iterate over worksheets and glue together the resulting data frames, all at once.
+
+  * Store a self-named vector of worksheet names (critical for the ID variable below).
+  * Use `purrr::map_df()` to import the data, create an ID variable for the source worksheet, and row bind.
+
+```{r}
+path <- readxl_example("deaths.xlsx")
+deaths <- path %>%
+  excel_sheets() %>%
+  set_names() %>% 
+  map_df(~ read_excel(path = path, sheet = .x, range = "A5:E15"), .id = "sheet")
+print(deaths, n = Inf)
+```
+
+Note the use of `range = "A5:E15"` here. `deaths.xlsx` is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.
+
+## Putting it all together
+
+All at once now:
+
+  * Multiple worksheets feeding into one data frame
+  * Sheet-specific target rectangles
+  * Cache to CSV upon import
+
+Even though the worksheets in `deaths.xlsx` have the same layout, we'll pretend they don't and specify the target rectangle in two different ways here. This shows how this can work if each worksheet has it's own peculiar geometry. Here's the workflow:
+
+  * Store a self-named vector of worksheet names.
+  * Store a vector of cell range specifications.
+  * Use `purrr::map2_df()` to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.
+  * Cache the unified data to CSV.
+
+```{r}
+path <- readxl_example("deaths.xlsx")
+sheets <- path %>%
+  excel_sheets() %>% 
+  set_names()
+ranges <- list("A5:E15", cell_rows(5:15))
+deaths <- map2_df(
+  sheets,
+  ranges,
+  ~ read_excel(path, sheet = .x, range = .y),
+  .id = "sheet"
+) %>%
+  write_csv("deaths.csv")
+print(deaths, n = Inf)
+```
+
+```{r include = FALSE}
+delete_on_exit <- c(delete_on_exit, "deaths.csv")
+```
+
+<!--
+
+## Session info
+
+<details>
+<summary>devtools::session_info()</summary>
+```{r}
+devtools::session_info()
+```
+</details>
+
+--> 
+
+## Base version
+
+Rework examples from above but using base R only, other than readxl.
+
+### Cache a CSV snapshot
+
+```{r eval = FALSE}
+iris_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "iris")
+write.csv(iris_xl, "iris-raw.csv", row.names = FALSE, quote = FALSE)
+iris_alt <- read.csv("iris-raw.csv", stringsAsFactors = FALSE)
+## coerce iris_xl back to a data.frame
+identical(as.data.frame(iris_xl), iris_alt)
+```
+
+### Iterate over multiple worksheets in a workbook
+
+```{r eval = FALSE}
+path <- readxl_example("datasets.xls")
+sheets <- excel_sheets(path)
+xl_list <- lapply(excel_sheets(path), read_excel, path = path) 
+names(xl_list) <- sheets
+```
+
+### CSV caching and iterating over sheets
+
+```{r eval = FALSE}
+read_then_csv <- function(sheet, path) {
+  pathbase <- tools::file_path_sans_ext(basename(path))
+  df <- read_excel(path = path, sheet = sheet)
+  write.csv(df, paste0(pathbase, "-", sheet, ".csv"),
+            quote = FALSE, row.names = FALSE)
+  df
+}
+path <- readxl_example("datasets.xlsx")
+sheets <- excel_sheets(path)
+xl_list <- lapply(excel_sheets(path), read_then_csv, path = path)
+names(xl_list) <- sheets
+```
+
+### Concatenate worksheets into one data frame
+
+```{r eval = FALSE}
+path <- readxl_example("deaths.xlsx")
+sheets <- excel_sheets(path)
+xl_list <-
+  lapply(excel_sheets(path), read_excel, path = path, range = "A5:E15")
+xl_list <- lapply(seq_along(sheets), function(i) {
+  data.frame(sheet = I(sheets[i]), xl_list[[i]])
+})
+xl_list <- do.call(rbind, xl_list)
+```
+
+### Putting it all together
+
+```{r eval = FALSE}
+path <- readxl_example("deaths.xlsx")
+sheets <- excel_sheets(path)
+ranges <- list("A5:E15", cell_rows(5:15))
+xl_list <- mapply(function(x, y) {
+  read_excel(path = path, sheet = x, range = y)
+}, sheets, ranges, SIMPLIFY = FALSE)
+xl_list <- lapply(seq_along(sheets), function(i) {
+  data.frame(sheet = I(sheets[i]), xl_list[[i]])
+})
+xl_list <- do.call(rbind, xl_list)
+write.csv(xl_list, "deaths.csv", row.names = FALSE, quote = FALSE)
+```
+
+```{r include = FALSE}
+delete_on_exit <- unique(delete_on_exit)
+file.remove(delete_on_exit)
+```
+
