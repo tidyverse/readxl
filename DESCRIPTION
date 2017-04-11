@@ -25,7 +25,6 @@ Imports:
     tibble (>= 1.1)
 Suggests:
     covr,
-    rmarkdown,
     rprojroot (>= 1.1),
     testthat
 Roxygen: list(markdown = TRUE)
