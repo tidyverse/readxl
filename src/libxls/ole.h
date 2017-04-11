@@ -37,7 +37,7 @@
 
 #include "libxls/xlstypes.h"
 
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -129,7 +129,7 @@ typedef struct OLE2Stream
 }
 OLE2Stream;
 
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
 #pragma pack(1)
 #else
 #pragma pack(push, 1)

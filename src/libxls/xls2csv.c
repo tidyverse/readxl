@@ -63,175 +63,175 @@ static void Usage(char *progName)
 extern int getopt(int nargc, char * const *nargv, const char *ostr);
 
 int main(int argc, char *argv[]) {
-  xlsWorkBook* pWB;
-  xlsWorkSheet* pWS;
-  unsigned int i, j;
-  int justList = 0;
-  char *sheetName = "";
+	xlsWorkBook* pWB;
+	xlsWorkSheet* pWS;
+	unsigned int i, j;
+    int justList = 0;
+    char *sheetName = "";
 
-  if(argc < 2) {
-    Usage(argv[0]);
-  }
-
-  //fprintf(stderr, "DIR: %s\n\n", getcwd(NULL, 1024));
-
-  optind = 2; // skip file arg
-
-  int ch;
-  while ((ch = getopt(argc, argv, "lt:e:q:f:")) != -1) {
-    switch (ch) {
-    case 'l':
-      justList = 1;
-      break;
-    case 'e':
-      encoding = strdup(optarg);
-      break;
-    case 't':
-      sheetName = strdup(optarg);
-      break;
-    case 'q':
-      stringSeparator = optarg[0];
-      break;
-    case 'f':
-      fieldSeparator = strdup(optarg);
-      break;
-    default:
-      Usage(argv[0]);
-    break;
-    }
-  }
-
-  // open workbook, choose standard conversion
-  pWB = xls_open(argv[1], encoding);
-  if (!pWB) {
-    fprintf(stderr, "File not found");
-    fprintf(stderr, "\n");
-    return EXIT_FAILURE;
-  }
-
-  // check if the requested sheet (if any) exists
-  if (sheetName[0]) {
-    for (i = 0; i < pWB->sheets.count; i++) {
-      if (strcmp(sheetName, (char *)pWB->sheets.sheet[i].name) == 0) {
-        break;
-      }
+    if(argc < 2) {
+        Usage(argv[0]);
     }
 
-    if (i == pWB->sheets.count) {
-      fprintf(stderr, "Sheet \"%s\" not found", sheetName);
-      fprintf(stderr, "\n");
-      return EXIT_FAILURE;
-    }
-  }
+	//fprintf(stderr, "DIR: %s\n\n", getcwd(NULL, 1024));
 
-  // process all sheets
-  for (i = 0; i < pWB->sheets.count; i++) {
-    int isFirstLine = 1;
+    optind = 2; // skip file arg
 
-    // just looking for sheet names
-    if (justList) {
-      printf("%s\n", pWB->sheets.sheet[i].name);
-      continue;
-    }
+    int ch;
+    while ((ch = getopt(argc, argv, "lt:e:q:f:")) != -1) {
+        switch (ch) {
+        case 'l':
+            justList = 1;
+            break;
+        case 'e':
+            encoding = strdup(optarg);
+            break;
+        case 't':
+            sheetName = strdup(optarg);
+            break;
+        case 'q':
+            stringSeparator = optarg[0];
+            break;
+        case 'f':
+            fieldSeparator = strdup(optarg);
+            break;
+        default:
+            Usage(argv[0]);
+            break;
+        }
+     }
 
-    // check if this the sheet we want
-    if (sheetName[0]) {
-      if (strcmp(sheetName, (char *)pWB->sheets.sheet[i].name) != 0) {
-        continue;
-      }
-    }
+	// open workbook, choose standard conversion
+	pWB = xls_open(argv[1], encoding);
+	if (!pWB) {
+		fprintf(stderr, "File not found");
+		fprintf(stderr, "\n");
+		return EXIT_FAILURE;
+	}
 
-    // open and parse the sheet
-    pWS = xls_getWorkSheet(pWB, i);
-    xls_parseWorkSheet(pWS);
+	// check if the requested sheet (if any) exists
+	if (sheetName[0]) {
+		for (i = 0; i < pWB->sheets.count; i++) {
+			if (strcmp(sheetName, (char *)pWB->sheets.sheet[i].name) == 0) {
+				break;
+			}
+		}
 
-    // process all rows of the sheet
-    for (j = 0; j <= (unsigned int)pWS->rows.lastrow; ++j) {
-      int isFirstCol = 1;
-      WORD cellRow = (WORD)j;
-      struct st_row_data* row = xls_row(pWS, cellRow);
+		if (i == pWB->sheets.count) {
+			fprintf(stderr, "Sheet \"%s\" not found", sheetName);
+			fprintf(stderr, "\n");
+			return EXIT_FAILURE;
+		}
+	}
 
-      // process cells
-      if (!isFirstLine) {
-        printf("%s", lineSeparator);
-      } else {
-        isFirstLine = 0;
-      }
+	// process all sheets
+	for (i = 0; i < pWB->sheets.count; i++) {
+		int isFirstLine = 1;
 
-      WORD cellCol;
-      for (cellCol = 0; cellCol <= pWS->rows.lastcol; cellCol++) {
-        //printf("Processing row=%d col=%d\n", cellRow+1, cellCol+1);
-
-        xlsCell *cell = xls_cell(pWS, cellRow, cellCol);
-
-        if ((!cell) || (cell->isHidden)) {
-          continue;
+        // just looking for sheet names
+        if (justList) {
+            printf("%s\n", pWB->sheets.sheet[i].name);
+            continue;
         }
 
-        if (!isFirstCol) {
-          printf("%s", fieldSeparator);
-        } else {
-          isFirstCol = 0;
-        }
+		// check if this the sheet we want
+		if (sheetName[0]) {
+			if (strcmp(sheetName, (char *)pWB->sheets.sheet[i].name) != 0) {
+				continue;
+			}
+		}
 
-        // display the colspan as only one cell, but reject rowspans (they can't be converted to CSV)
-        if (cell->rowspan > 1) {
-          fprintf(stderr, "Warning: %d rows spanned at col=%d row=%d: output will not match the Excel file.\n", cell->rowspan, cellCol+1, cellRow+1);
-        }
+		// open and parse the sheet
+		pWS = xls_getWorkSheet(pWB, i);
+		xls_parseWorkSheet(pWS);
 
-        // display the value of the cell (either numeric or string)
-        if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203) {
-          OutputNumber(cell->d);
-        } else if (cell->id == 0x06) {
-          // formula
-          if (cell->l == 0) // its a number
-          {
-            OutputNumber(cell->d);
-          } else {
-            if (!strcmp((char *)cell->str, "bool")) // its boolean, and test cell->d
-            {
-              OutputString((int) cell->d ? "true" : "false");
-            } else if (!strcmp((char *)cell->str, "error")) // formula is in error
-            {
-              OutputString("*error*");
-            } else // ... cell->str is valid as the result of a string formula.
-            {
-              OutputString((char *)cell->str);
-            }
-          }
-        } else if (cell->str != NULL) {
-          OutputString((char *)cell->str);
-        } else {
-          OutputString("");
-        }
-      }
-    }
-    xls_close_WS(pWS);
-  }
+		// process all rows of the sheet
+		for (j = 0; j <= (unsigned int)pWS->rows.lastrow; ++j) {
+			int isFirstCol = 1;
+			WORD cellRow = (WORD)j;
+			struct st_row_data* row = xls_row(pWS, cellRow);
 
-  xls_close(pWB);
-  return EXIT_SUCCESS;
+			// process cells
+			if (!isFirstLine) {
+				printf("%s", lineSeparator);
+			} else {
+				isFirstLine = 0;
+			}
+
+			WORD cellCol;
+			for (cellCol = 0; cellCol <= pWS->rows.lastcol; cellCol++) {
+                //printf("Processing row=%d col=%d\n", cellRow+1, cellCol+1);
+
+				xlsCell *cell = xls_cell(pWS, cellRow, cellCol);
+
+				if ((!cell) || (cell->isHidden)) {
+					continue;
+				}
+
+				if (!isFirstCol) {
+					printf("%s", fieldSeparator);
+				} else {
+					isFirstCol = 0;
+				}
+
+				// display the colspan as only one cell, but reject rowspans (they can't be converted to CSV)
+				if (cell->rowspan > 1) {
+					fprintf(stderr, "Warning: %d rows spanned at col=%d row=%d: output will not match the Excel file.\n", cell->rowspan, cellCol+1, cellRow+1);
+				}
+
+				// display the value of the cell (either numeric or string)
+				if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203) {
+					OutputNumber(cell->d);
+				} else if (cell->id == 0x06) {
+                    // formula
+					if (cell->l == 0) // its a number
+					{
+						OutputNumber(cell->d);
+					} else {
+						if (!strcmp((char *)cell->str, "bool")) // its boolean, and test cell->d
+						{
+							OutputString((int) cell->d ? "true" : "false");
+						} else if (!strcmp((char *)cell->str, "error")) // formula is in error
+						{
+							OutputString("*error*");
+						} else // ... cell->str is valid as the result of a string formula.
+						{
+							OutputString((char *)cell->str);
+						}
+					}
+				} else if (cell->str != NULL) {
+					OutputString((char *)cell->str);
+				} else {
+					OutputString("");
+				}
+			}
+		}
+		xls_close_WS(pWS);
+	}
+
+	xls_close(pWB);
+	return EXIT_SUCCESS;
 }
 
 // Output a CSV String (between double quotes)
 // Escapes (doubles)" and \ characters
 static void OutputString(const char *string) {
-  const char *str;
+	const char *str;
 
-  printf("%c", stringSeparator);
-  for (str = string; *str; str++) {
-    if (*str == stringSeparator) {
-      printf("%c%c", stringSeparator, stringSeparator);
-    } else if (*str == '\\') {
-      printf("\\\\");
-    } else {
-      printf("%c", *str);
-    }
-  }
-  printf("%c", stringSeparator);
+	printf("%c", stringSeparator);
+	for (str = string; *str; str++) {
+		if (*str == stringSeparator) {
+			printf("%c%c", stringSeparator, stringSeparator);
+		} else if (*str == '\\') {
+			printf("\\\\");
+		} else {
+			printf("%c", *str);
+		}
+	}
+	printf("%c", stringSeparator);
 }
 
 // Output a CSV Number
 static void OutputNumber(const double number) {
-  printf("%.15g", number);
+	printf("%.15g", number);
 }

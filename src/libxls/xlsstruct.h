@@ -80,7 +80,7 @@
 
 #define BLANK_CELL  XLS_RECORD_BLANK  // compat
 
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -124,7 +124,7 @@ typedef struct BOUNDSHEET
     DWORD	filepos;
     BYTE	type;
     BYTE	visible;
-    BYTE	name[1];
+    BYTE	name[];
 }
 BOUNDSHEET;
 
@@ -195,7 +195,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD_UA value;
-	}		rk[1];
+	}		rk[];
 	//WORD	last_col;
 }
 MULRK;
@@ -204,7 +204,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[1];
+    WORD	xf[];
 	//WORD	last_col;
 }
 MULBLANK;
@@ -320,7 +320,7 @@ FONT;
 typedef struct FORMAT
 {
     WORD	index;
-    BYTE	value[1];
+    BYTE	value[0];
 }
 FORMAT;
 

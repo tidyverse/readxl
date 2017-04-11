@@ -57,6 +57,8 @@
 
 extern int xls_debug;
 
+static void xls_showBOUNDSHEET(void* bsheet);
+
 static const DWORD colors[] =
     {
         0x000000,
@@ -167,18 +169,16 @@ static int asprintf(char **ret, const char *format, ...)
 static int asprintf(char **ret, const char *format, ...)
 {
 	int i;
-	char *str;
+    char *str;
 
 	va_list ap;
 
 	va_start(ap, format); 
+
 	i = vsnprintf(NULL, 0, format, ap) + 1;
-	va_end(ap);
-
 	str = (char *)malloc(i);
-
-	va_start(ap, format);
 	i = vsnprintf(str, i, format, ap);
+
 	va_end(ap);
 
 	*ret = str;
@@ -246,7 +246,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 {
 #ifdef HAVE_ICONV
 	// Do iconv conversion
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
     const char *from_enc = "UTF-16le";
 #else
     const char *from_enc = "UTF-16LE";
@@ -291,11 +291,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
             out_ptr = (BYTE*)outbuf;
             while(inlenleft)
             {
-#ifdef _WIN32
-                st = iconv(ic, (const char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
-#else
                 st = iconv(ic, (char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
-#endif
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)
@@ -626,7 +622,7 @@ void xls_showXF(XF8* xf)
     printf("GroundColor: 0x%x\n",xf->groundcolor);
 }
 
-BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label)
+BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,DWORD *label)
 {
     struct st_xf_data *xf;
 	WORD	len;
@@ -637,16 +633,16 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label)
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-		//printf("WORD: %u short: %u str: %s\n", *label, xlsShortVal(*label), pWB->sst.string[xlsShortVal(*label)].str );
+		//printf("WORD: %u short: %u str: %s\n", *label, xlsShortVal(*label), pWB->sst.string[xlsIntVal(*label)].str );
         asprintf(&ret,"%s",pWB->sst.string[xlsIntVal(*label)].str);
         break;
     case XLS_RECORD_BLANK:
     case XLS_RECORD_MULBLANK:
-        asprintf(&ret, "%s", "");
+        asprintf(&ret, "");
         break;
     case XLS_RECORD_LABEL:
 		len = xlsShortVal(*label);
-        label += 2;
+        label++;
 		if(pWB->is5ver) {
 			asprintf(&ret,"%.*s", len, (char *)label);
 			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);

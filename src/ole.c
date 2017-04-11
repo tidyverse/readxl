@@ -43,8 +43,6 @@
 #include "libxls/ole.h"
 #include "libxls/xlstool.h"
 #include "libxls/endian.h"
-/* Mask illegal functions for CMD check */
-#include "cran.h"
 
 extern int xls_debug;
 
@@ -81,6 +79,8 @@ void ole2_bufread(OLE2Stream* olest)
 			olest->pos=0;
 			olest->cfat++;
 		} else {
+
+			assert(olest->fatpos >= 0);
 
 			//printf("fatpos: %d max=%u\n",olest->fatpos, (olest->ole->cfat*olest->ole->lsector)/4);
 			if(olest->fatpos > (olest->ole->cfat*olest->ole->lsector)/4) exit(-1);
