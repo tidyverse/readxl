@@ -14,6 +14,7 @@ Windows, Mac and Linux without external dependencies.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://readxl.tidyverse.org}
   \item \url{https://github.com/tidyverse/readxl}
   \item Report bugs at \url{https://github.com/tidyverse/readxl/issues}
 }
