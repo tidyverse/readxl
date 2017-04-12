@@ -509,7 +509,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 		if(formula_handler) formula_handler(bof->id, bof->size, buf);
         break;
     case XLS_RECORD_MULRK:
-printf("MULRK: %d\n", bof->size);
+// printf("MULRK: %d\n", bof->size);
         for (i = 0; i < (bof->size - 6)/6; i++)	// 6 == 2 row + 2 col + 2 trailing index
         {
             cell=&row->cells.cell[xlsShortVal(((MULRK*)buf)->col + i)];
