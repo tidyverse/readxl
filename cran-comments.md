@@ -1,17 +1,22 @@
 ## Test environments
-* local OS X install, R 3.2.4
-* ubuntu 12.04 (on travis-ci), R 3.2.4
-* win-builder (devel and release)
+* local OS X install, R 3.3.2
+* on travis-ci
+  - Ubuntu precise (12.04.5 LTS) + R 3.2.5
+  - Ubuntu precise (12.04.5 LTS) + R 3.3.3
+  - Ubuntu precise (12.04.5 LTS) + R (unstable) (2017-04-11 r72505)
+  - Ubuntu 14.04.5 LTS + R 3.3.3
+  - macOS Sierra 10.12.1 + R 3.3.3
+  - OS X El Capitan 10.11.6 + R 3.3.3
+* on appveyor
+  - Windows Server 2012 + R 3.3.3
+* r-hub? do we get into that here?
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-* The LICENSE file specifies precisely the license of the included libxls
-  code.
-
-The package still fails on solaris, due to endian-ness bugs in the wrapped libxls library.
+There will be a note about change of maintainer, at the very least. The rest of it is still a moving target.
 
 ## Reverse dependencies
 
-I did not run R CMD check on the reverse dependencies because this release only fixes minor R CMD check notes, and a test failure illuminated by the dev version of testthat.
+In process.
