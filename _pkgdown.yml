@@ -14,6 +14,10 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
+    - text: Column Types
+      href: articles/cell-and-column-types.html
+    - text: Sheet Geometry
+      href: articles/sheet-geometry.html
     - text: Workflows
       href: articles/articles/readxl-workflows.html
   - text: News
