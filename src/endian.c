@@ -75,11 +75,11 @@ DWORD xlsIntVal (DWORD i)
 unsigned short xlsShortVal (short s)
 {
     unsigned char c1, c2;
-    
+
     if (xls_is_bigendian()) {
         c1 = s & 255;
         c2 = (s >> 8) & 255;
-    
+
         return (c1 << 8) + c2;
     } else {
         return s;

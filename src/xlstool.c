@@ -169,7 +169,7 @@ static int asprintf(char **ret, const char *format, ...)
 static int asprintf(char **ret, const char *format, ...)
 {
 	int i;
-    char *str;
+	char *str;
 
 	va_list ap;
 
