@@ -1058,7 +1058,7 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
     BOF tmp;
     BYTE* buf;
 	long offset = pWS->filepos;
-	int continueRec = 0;
+	// int continueRec = 0;
 
 	struct st_cell_data *cell;
 	xlsWorkBook *pWB = pWS->workbook;
@@ -1344,7 +1344,7 @@ void xls_parseWorkSheet(xlsWorkSheet* pWS)
 #endif
 
         default:
-		  printBOF:
+		  // printBOF:
 			if(xls_debug)
 			{
 				//xls_showBOF(&tmp);
