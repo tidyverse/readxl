@@ -637,7 +637,7 @@ BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label)
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-		//printf("WORD: %u short: %u str: %s\n", *label, xlsShortVal(*label), pWB->sst.string[xlsIntVal(*label)].str );
+		//printf("WORD: %u short: %u str: %s\n", *label, xlsIntVal(*label), pWB->sst.string[xlsIntVal(*label)].str );
         asprintf(&ret,"%s",pWB->sst.string[xlsIntVal(*label)].str);
         break;
     case XLS_RECORD_BLANK:
