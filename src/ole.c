@@ -82,6 +82,8 @@ void ole2_bufread(OLE2Stream* olest)
 			olest->cfat++;
 		} else {
 
+			assert(olest->fatpos >= 0);
+
 			//printf("fatpos: %d max=%u\n",olest->fatpos, (olest->ole->cfat*olest->ole->lsector)/4);
 			if(olest->fatpos > (olest->ole->cfat*olest->ole->lsector)/4) exit(-1);
 

@@ -10,8 +10,8 @@
  * fprintf uses two additional arguments.
  */
 #define fprintf(err, msg, a1, a2) Rprintf(msg, a1, a2)
-#define exit assert
 #undef assert
 #define assert(X) if (X) {}
+#define exit assert
 
 #endif
