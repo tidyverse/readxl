@@ -80,7 +80,7 @@
 
 #define BLANK_CELL  XLS_RECORD_BLANK  // compat
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)

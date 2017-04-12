@@ -74,7 +74,7 @@ extern void xls_formatColumn(xlsWorkSheet* pWS);
 extern void xls_parseWorkSheet(xlsWorkSheet* pWS);
 extern void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo	*pSI);
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
