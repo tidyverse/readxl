@@ -291,7 +291,11 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
             out_ptr = (BYTE*)outbuf;
             while(inlenleft)
             {
+#ifdef _WIN32
+                st = iconv(ic, (const char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
+#else
                 st = iconv(ic, (char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
+#endif
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)

@@ -37,10 +37,12 @@ int xls_is_bigendian()
 {
 #if defined (__BIG_ENDIAN__)
     return 1;
+#elif defined (_WIN32)
+    return 0;
 #elif defined (__LITTLE_ENDIAN__)
     return 0;
 #else
-#warning NO ENDIAN
+// #warning NO ENDIAN
     static int n = 1;
 
     if (*(char *)&n == 1)
