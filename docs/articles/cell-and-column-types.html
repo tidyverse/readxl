@@ -81,210 +81,295 @@
     
     
 <div class="contents">
-<p>Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The <code>html_vignette</code> output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The <code>html_vignette</code> format:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)</code></pre></div>
+<p><code>readxl::read_excel()</code> will guess column types, by default, or you can provide them explicitly via the <code>col_types</code> argument. The <code>col_types</code> argument is more flexible than you might think; you can mix actual types in with <code>"skip"</code> and <code>"guess"</code> and a single type will be recycled to the necessary length.</p>
+<p>Here are different ways this might look:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>)
+<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="st">"numeric"</span>)
+<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"numeric"</span>))</code></pre></div>
+<div id="type-guessing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#type-guessing" class="anchor"></a>Type guessing</h2>
+<p>If you use other packages in the <a href="http://tidyverse.org">tidyverse</a>, you are probably familiar with <a href="http://readr.tidyverse.org">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
 <ul>
-<li>Never uses retina figures</li>
-<li>Has a smaller default figure size</li>
-<li>Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style</li>
+<li>readr guesses column type <em>based on the data</em>.</li>
+<li>readxl guesses column type <em>based on Excel cell types</em>.</li>
 </ul>
-<div id="vignette-info" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignette-info" class="anchor"></a>Vignette Info</h2>
-<p>Note the various macros within the <code>vignette</code> section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the <code>title</code> field and the <code>\VignetteIndexEntry</code> to match the title of your vignette.</p>
+<p>Each cell in an Excel spreadsheet has its own type. For all intents and purposes, they are:</p>
+<p>       empty &lt; boolean &lt; numeric &lt; text</p>
+<p>with the wrinkle that datetimes are a very special flavor of numeric. A cell of any particular type can always be represented as one of any higher type and, possibly, as one of lower type. When guessing, <code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it has seen in any given column. Once it has visited <code>guess_max</code> rows or run out of data, this is the guessed type for that column. There is a strong current towards “text”, the column type of last resort.</p>
+<p>Here’s an example of column guessing with <code>deaths.xlsx</code> which ships with readxl.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
+<span class="co">#&gt; # A tibble: 10 × 5</span>
+<span class="co">#&gt;            Name Profession   Age `Date of birth` `Date of death`</span>
+<span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;          &lt;dttm&gt;          &lt;dttm&gt;</span>
+<span class="co">#&gt; 1   David Bowie   musician    69      1947-01-08      2016-01-10</span>
+<span class="co">#&gt; 2 Carrie Fisher      actor    60      1956-10-21      2016-12-27</span>
+<span class="co">#&gt; 3   Chuck Berry   musician    90      1926-10-18      2017-03-18</span>
+<span class="co">#&gt; 4   Bill Paxton      actor    61      1955-05-17      2017-02-25</span>
+<span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
+<p><em>if I included … <code>lefty</code>? … here, I could show logical and complete the set</em></p>
 </div>
-<div id="styles" class="section level2">
+<div id="excel-types-r-types-col_types" class="section level2">
 <h2 class="hasAnchor">
-<a href="#styles" class="anchor"></a>Styles</h2>
-<p>The <code>html_vignette</code> template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:</p>
-<pre><code>output: 
-  rmarkdown::html_vignette:
-    css: mystyles.css</code></pre>
-</div>
-<div id="figures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>Figures</h2>
-<p>The figure sizes have been customised so that you can easily put two images side-by-side.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dv">1</span>:<span class="dv">10</span>)
-<span class="kw">plot</span>(<span class="dv">10</span>:<span class="dv">1</span>)</code></pre></div>
-<p><img src="cell-and-column-types_files/figure-html/unnamed-chunk-1-1.png" width="672"><img src="cell-and-column-types_files/figure-html/unnamed-chunk-1-2.png" width="672"></p>
-<p>You can enable figure captions by <code>fig_caption: yes</code> in YAML:</p>
-<pre><code>output:
-  rmarkdown::html_vignette:
-    fig_caption: yes</code></pre>
-<p>Then you can use the chunk option <code>fig.cap = "Your figure caption."</code> in <strong>knitr</strong>.</p>
-</div>
-<div id="more-examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-examples" class="anchor"></a>More Examples</h2>
-<p>You can write math expressions, e.g. <span class="math inline">\(Y = X\beta + \epsilon\)</span>, footnotes<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, and tables, e.g. using <code>knitr::kable()</code>.</p>
-<table class="table">
+<a href="#excel-types-r-types-col_types" class="anchor"></a>Excel types, R types, <code>col_types</code>
+</h2>
+<p>Here’s how the Excel cell/column types are translated into R types and how to force the type explicitly in <code>col_types</code>:</p>
+<table style="width:110%;" class="table">
+<colgroup>
+<col width="29%">
+<col width="36%">
+<col width="44%">
+</colgroup>
 <thead><tr class="header">
-<th></th>
-<th align="right">mpg</th>
-<th align="right">cyl</th>
-<th align="right">disp</th>
-<th align="right">hp</th>
-<th align="right">drat</th>
-<th align="right">wt</th>
-<th align="right">qsec</th>
-<th align="right">vs</th>
-<th align="right">am</th>
-<th align="right">gear</th>
-<th align="right">carb</th>
+<th align="left">How it is in Excel</th>
+<th align="left">How it will be in R</th>
+<th align="left">How to request in <code>col_types</code>
+</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Mazda RX4</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160.0</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.620</td>
-<td align="right">16.46</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
+<td align="left"><em>anything</em></td>
+<td align="left"><em>non-existent</em></td>
+<td align="left"><code>"skip"</code></td>
 </tr>
 <tr class="even">
-<td>Mazda RX4 Wag</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160.0</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.875</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
+<td align="left">empty</td>
+<td align="left">
+<code>logical</code>, but all <code>NA</code>
+</td>
+<td align="left"><em>you cannot request this</em></td>
 </tr>
 <tr class="odd">
-<td>Datsun 710</td>
-<td align="right">22.8</td>
-<td align="right">4</td>
-<td align="right">108.0</td>
-<td align="right">93</td>
-<td align="right">3.85</td>
-<td align="right">2.320</td>
-<td align="right">18.61</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">1</td>
+<td align="left">boolean</td>
+<td align="left"><code>logical</code></td>
+<td align="left"><code>"logical"</code></td>
 </tr>
 <tr class="even">
-<td>Hornet 4 Drive</td>
-<td align="right">21.4</td>
-<td align="right">6</td>
-<td align="right">258.0</td>
-<td align="right">110</td>
-<td align="right">3.08</td>
-<td align="right">3.215</td>
-<td align="right">19.44</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">1</td>
+<td align="left">numeric</td>
+<td align="left"><code>numeric</code></td>
+<td align="left"><code>"numeric"</code></td>
 </tr>
 <tr class="odd">
-<td>Hornet Sportabout</td>
-<td align="right">18.7</td>
-<td align="right">8</td>
-<td align="right">360.0</td>
-<td align="right">175</td>
-<td align="right">3.15</td>
-<td align="right">3.440</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">2</td>
+<td align="left">datetime</td>
+<td align="left"><code>POSIXct</code></td>
+<td align="left"><code>"date"</code></td>
 </tr>
 <tr class="even">
-<td>Valiant</td>
-<td align="right">18.1</td>
-<td align="right">6</td>
-<td align="right">225.0</td>
-<td align="right">105</td>
-<td align="right">2.76</td>
-<td align="right">3.460</td>
-<td align="right">20.22</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">1</td>
+<td align="left">text</td>
+<td align="left"><code>character</code></td>
+<td align="left"><code>"text"</code></td>
 </tr>
 <tr class="odd">
-<td>Duster 360</td>
-<td align="right">14.3</td>
-<td align="right">8</td>
-<td align="right">360.0</td>
-<td align="right">245</td>
-<td align="right">3.21</td>
-<td align="right">3.570</td>
-<td align="right">15.84</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td>Merc 240D</td>
-<td align="right">24.4</td>
-<td align="right">4</td>
-<td align="right">146.7</td>
-<td align="right">62</td>
-<td align="right">3.69</td>
-<td align="right">3.190</td>
-<td align="right">20.00</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td>Merc 230</td>
-<td align="right">22.8</td>
-<td align="right">4</td>
-<td align="right">140.8</td>
-<td align="right">95</td>
-<td align="right">3.92</td>
-<td align="right">3.150</td>
-<td align="right">22.90</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td>Merc 280</td>
-<td align="right">19.2</td>
-<td align="right">6</td>
-<td align="right">167.6</td>
-<td align="right">123</td>
-<td align="right">3.92</td>
-<td align="right">3.440</td>
-<td align="right">18.30</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">4</td>
+<td align="left"><em>anything</em></td>
+<td align="left"><code>list</code></td>
+<td align="left"><code>"list"</code></td>
 </tr>
 </tbody>
 </table>
-<p>Also a quote using <code>&gt;</code>:</p>
-<blockquote>
-<p>“He who gives up [code] safety for [code] speed deserves neither.” (<a href="https://twitter.com/hadleywickham/status/504368538874703872">via</a>)</p>
-</blockquote>
+<p>Some explanation about the weird cases in the first two rows:</p>
+<ul>
+<li>If a column falls in your data rectangle, but you do not want an associated variable in the output, specify the column type <code>"skip"</code>. Internally, these cells may be visited in order to learn their location, but they are not loaded and their data is never read.</li>
+<li>You cannot request that a column be included but filled with <code>NA</code>s. Such a column can arise naturally, if all the cells are empty, or you can skip a column (see previous point).</li>
+</ul>
+<p>Example of skipping and guessing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(
+  <span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>),
+  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>)
+)
+<span class="co">#&gt; # A tibble: 10 × 2</span>
+<span class="co">#&gt;            Name   Age</span>
+<span class="co">#&gt;           &lt;chr&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   David Bowie    69</span>
+<span class="co">#&gt; 2 Carrie Fisher    60</span>
+<span class="co">#&gt; 3   Chuck Berry    90</span>
+<span class="co">#&gt; 4   Bill Paxton    61</span>
+<span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
+<p>More about the <code>"list"</code> column type in the last row:</p>
+<ul>
+<li>This will create a list-column in the output, each component of which is a length one atomic vector. The type of these vectors is determined using the logic described above. This can be useful if data of truly disparate type is arranged in a column.</li>
+</ul>
+<p>We demonstrate the <code>"list"</code> column type using the <code>"clippy.xlsx"</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(clippy &lt;-<span class="st"> </span>
+<span class="st">   </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))
+<span class="co">#&gt; # A tibble: 4 × 2</span>
+<span class="co">#&gt;                   name      value</span>
+<span class="co">#&gt;                  &lt;chr&gt;     &lt;list&gt;</span>
+<span class="co">#&gt; 1                 Name  &lt;chr [1]&gt;</span>
+<span class="co">#&gt; 2              Species  &lt;chr [1]&gt;</span>
+<span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
+<span class="co">#&gt; 4      Weight in grams  &lt;dbl [1]&gt;</span>
+tibble::<span class="kw">deframe</span>(clippy)
+<span class="co">#&gt; $Name</span>
+<span class="co">#&gt; [1] "Clippy"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Species</span>
+<span class="co">#&gt; [1] "paperclip"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Approx date of death`</span>
+<span class="co">#&gt; [1] "2007-01-01 UTC"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Weight in grams`</span>
+<span class="co">#&gt; [1] 0.9</span>
+<span class="kw">sapply</span>(clippy$value, class)
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; [1] "character"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; [1] "character"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; [1] "POSIXct" "POSIXt" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[4]]</span>
+<span class="co">#&gt; [1] "numeric"</span></code></pre></div>
+<p>Final note: all datetimes are imported as having the UTC timezone, because, mercifully, Excel has no notion of timezones.</p>
 </div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>A footnote here.<a href="#fnref1">↩</a></p></li>
-</ol>
+<div id="when-column-guessing-goes-wrong" class="section level2">
+<h2 class="hasAnchor">
+<a href="#when-column-guessing-goes-wrong" class="anchor"></a>When column guessing goes wrong</h2>
+<p>It’s pretty common to expect a column to import as, say, numeric or datetime. And to then be sad when it imports as character instead. Two main causes:</p>
+<p><strong>Contamination by embedded missing or bad data of incompatible type.</strong> Example: missing data entered as <code>??</code> in a numeric column.</p>
+<ul>
+<li>Fix: use the <code>na</code> argument of <code><a href="../reference/read_excel.html">read_excel()</a></code> to describe all possible forms for missing data. This should prevent such cells from influencing type guessing and cause them to import as <code>NA</code> of the appropriate type.</li>
+</ul>
+<p><em>hmm … none of the example sheets make a great demo here</em></p>
+<p><strong>Contamination of the data rectangle by leading or trailing non-data rows.</strong> Example: the sheet contains a few lines of explanatory prose before the data table begins.</p>
+<ul>
+<li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples in <code><a href="../reference/read_excel.html">read_excel()</a></code> help or the Sheet Geometry vignette for more detail.</li>
+</ul>
+<p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))
+<span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
+<span class="co">#&gt; # A tibble: 18 × 5</span>
+<span class="co">#&gt;                `Lots of people`                     X__1           X__2</span>
+<span class="co">#&gt;                           &lt;chr&gt;                    &lt;chr&gt;          &lt;chr&gt;</span>
+<span class="co">#&gt; 1  simply cannot resist writing                     &lt;NA&gt;           &lt;NA&gt;</span>
+<span class="co">#&gt; 2                            at                      the            top</span>
+<span class="co">#&gt; 3                            or                  merging           &lt;NA&gt;</span>
+<span class="co">#&gt; 4                          Name               Profession            Age</span>
+<span class="co">#&gt; 5                   David Bowie                 musician             69</span>
+<span class="co">#&gt; 6                 Carrie Fisher                    actor             60</span>
+<span class="co">#&gt; 7                   Chuck Berry                 musician             90</span>
+<span class="co">#&gt; 8                   Bill Paxton                    actor             61</span>
+<span class="co">#&gt; 9                        Prince                 musician             57</span>
+<span class="co">#&gt; 10                 Alan Rickman                    actor             69</span>
+<span class="co">#&gt; 11           Florence Henderson                    actor             82</span>
+<span class="co">#&gt; 12                   Harper Lee                   author             89</span>
+<span class="co">#&gt; 13                Zsa Zsa Gábor                    actor             99</span>
+<span class="co">#&gt; 14               George Michael                 musician             53</span>
+<span class="co">#&gt; 15                         Some                     &lt;NA&gt;           &lt;NA&gt;</span>
+<span class="co">#&gt; 16                         &lt;NA&gt; also like to write stuff           &lt;NA&gt;</span>
+<span class="co">#&gt; 17                         &lt;NA&gt;                     &lt;NA&gt; at the bottom,</span>
+<span class="co">#&gt; 18                         &lt;NA&gt;                     &lt;NA&gt;           &lt;NA&gt;</span>
+<span class="co">#&gt; # ... with 2 more variables: X__3 &lt;chr&gt;, X__4 &lt;chr&gt;</span></code></pre></div>
+<p>Non-data rows above and below the main data rectangle are causing all the columns to import as column.</p>
+<p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
+</div>
+<div id="square-pegs-in-round-holes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#square-pegs-in-round-holes" class="anchor"></a>Square pegs in round holes</h2>
+<p>You can force a column to have a specific type via <code>col_types</code>. So what happens to cells of another type? They will either be coerced to the requested type or to an <code>NA</code> of appropriate type. Here’s how mismatches are handled:</p>
+<p><em>borrowing a testing sheet for the moment, hastily copied into the example directory</em></p>
+<p><strong>Logical</strong>: A numeric cell is coerced to <code>FALSE</code> if it is zero and <code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as <code>TRUE</code> and “F”, “FALSE”, “False”, “false” as <code>FALSE</code>. Other strings import as <code>NA</code>.</p>
+<p><em>something smaller, juxtaposed with a screenshot, would be better</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(
+  <span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"types.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"logical_coercion"</span>,
+             <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"logical"</span>, <span class="st">"text"</span>)),
+  <span class="dt">n =</span> <span class="ot">Inf</span>
+)
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting logical in [14, 1] got 'cabbage'</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting logical in [18, 1]: got a date</span>
+<span class="co">#&gt; # A tibble: 17 × 2</span>
+<span class="co">#&gt;    logical        explanation</span>
+<span class="co">#&gt;      &lt;lgl&gt;              &lt;chr&gt;</span>
+<span class="co">#&gt; 1     TRUE     static logical</span>
+<span class="co">#&gt; 2    FALSE     static logical</span>
+<span class="co">#&gt; 3     TRUE    formula logical</span>
+<span class="co">#&gt; 4    FALSE    formula logical</span>
+<span class="co">#&gt; 5     TRUE     string logical</span>
+<span class="co">#&gt; 6    FALSE     string logical</span>
+<span class="co">#&gt; 7     TRUE     string logical</span>
+<span class="co">#&gt; 8    FALSE     string logical</span>
+<span class="co">#&gt; 9     TRUE     string logical</span>
+<span class="co">#&gt; 10   FALSE     string logical</span>
+<span class="co">#&gt; 11    TRUE     string logical</span>
+<span class="co">#&gt; 12   FALSE     string logical</span>
+<span class="co">#&gt; 13      NA string not logical</span>
+<span class="co">#&gt; 14      NA              blank</span>
+<span class="co">#&gt; 15   FALSE            numeric</span>
+<span class="co">#&gt; 16    TRUE            numeric</span>
+<span class="co">#&gt; 17      NA               date</span></code></pre></div>
+<p><strong>Numeric</strong>: A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
+<p><em>this one doesn’t even have an “explanation” column, also good to juxtapose with a screenshot</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(
+  <span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"types.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"numeric_coercion"</span>,
+             <span class="dt">col_types =</span> <span class="st">"numeric"</span>),
+  <span class="dt">n =</span> <span class="ot">Inf</span>
+)
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Coercing text to numeric in [3, 1]: '72'</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Coercing boolean to numeric in [5, 1]</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting numeric in [6, 1]: got a date</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting numeric in [7, 1]: got 'cabbage'</span>
+<span class="co">#&gt; # A tibble: 7 × 1</span>
+<span class="co">#&gt;   numeric</span>
+<span class="co">#&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1       1</span>
+<span class="co">#&gt; 2      72</span>
+<span class="co">#&gt; 3      NA</span>
+<span class="co">#&gt; 4       1</span>
+<span class="co">#&gt; 5   40534</span>
+<span class="co">#&gt; 6      NA</span>
+<span class="co">#&gt; 7      10</span></code></pre></div>
+<p><strong>Date</strong>: A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
+<p><em>needs explanation column and screenshot</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(
+  <span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"types.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"date_coercion"</span>,
+             <span class="dt">col_types =</span> <span class="st">"date"</span>),
+  <span class="dt">n =</span> <span class="ot">Inf</span>
+)
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting date in [4, 1]: got boolean</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Expecting date in [5, 1]: got 'cabbage'</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Coercing numeric to date in [6, 1]</span>
+<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
+<span class="co">#&gt; shim, : Coercing numeric to date in [7, 1]</span>
+<span class="co">#&gt; # A tibble: 7 × 1</span>
+<span class="co">#&gt;                  date</span>
+<span class="co">#&gt;                &lt;dttm&gt;</span>
+<span class="co">#&gt; 1 2016-05-23 00:00:00</span>
+<span class="co">#&gt; 2                &lt;NA&gt;</span>
+<span class="co">#&gt; 3                &lt;NA&gt;</span>
+<span class="co">#&gt; 4                &lt;NA&gt;</span>
+<span class="co">#&gt; 5 1904-01-05 07:12:00</span>
+<span class="co">#&gt; 6 2012-01-02 00:00:00</span>
+<span class="co">#&gt; 7 2011-09-11 00:00:00</span></code></pre></div>
+<p><strong>Text</strong>: A boolean cell becomes either <code>"TRUE"</code> or <code>"FALSE"</code>. A numeric cell is converted to character, much like <code>as.character()</code> in R. A date cell is handled like numeric, using the underlying serial value.</p>
+<p><em>needs screenshot</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(
+  <span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"types.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"text_coercion"</span>),
+  <span class="dt">n =</span> <span class="ot">Inf</span>
+)
+<span class="co">#&gt; # A tibble: 8 × 2</span>
+<span class="co">#&gt;       text    explanation</span>
+<span class="co">#&gt;      &lt;chr&gt;          &lt;chr&gt;</span>
+<span class="co">#&gt; 1  cabbage           text</span>
+<span class="co">#&gt; 2     &lt;NA&gt;          blank</span>
+<span class="co">#&gt; 3        F      logical F</span>
+<span class="co">#&gt; 4     TRUE        boolean</span>
+<span class="co">#&gt; 5      1.3 floating point</span>
+<span class="co">#&gt; 6    41175           date</span>
+<span class="co">#&gt; 7      foo           text</span>
+<span class="co">#&gt; 8 36436153 student number</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -293,10 +378,10 @@
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#vignette-info">Vignette Info</a></li>
-      <li><a href="#styles">Styles</a></li>
-      <li><a href="#figures">Figures</a></li>
-      <li><a href="#more-examples">More Examples</a></li>
+<li><a href="#type-guessing">Type guessing</a></li>
+      <li><a href="#excel-types-r-types-col_types">Excel types, R types, <code>col_types</code></a></li>
+      <li><a href="#when-column-guessing-goes-wrong">When column guessing goes wrong</a></li>
+      <li><a href="#square-pegs-in-round-holes">Square pegs in round holes</a></li>
       </ul>
 </div>
       </div>
