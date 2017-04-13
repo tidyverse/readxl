@@ -115,55 +115,50 @@
 <a href="#excel-types-r-types-col_types" class="anchor"></a>Excel types, R types, <code>col_types</code>
 </h2>
 <p>Here’s how the Excel cell/column types are translated into R types and how to force the type explicitly in <code>col_types</code>:</p>
-<table style="width:110%;" class="table">
-<colgroup>
-<col width="29%">
-<col width="36%">
-<col width="44%">
-</colgroup>
+<table class="table">
 <thead><tr class="header">
-<th align="left">How it is in Excel</th>
-<th align="left">How it will be in R</th>
-<th align="left">How to request in <code>col_types</code>
+<th>How it is in Excel</th>
+<th>How it will be in R</th>
+<th>How to request in <code>col_types</code>
 </th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><em>anything</em></td>
-<td align="left"><em>non-existent</em></td>
-<td align="left"><code>"skip"</code></td>
+<td><em>anything</em></td>
+<td><em>non-existent</em></td>
+<td><code>"skip"</code></td>
 </tr>
 <tr class="even">
-<td align="left">empty</td>
-<td align="left">
+<td>empty</td>
+<td>
 <code>logical</code>, but all <code>NA</code>
 </td>
-<td align="left"><em>you cannot request this</em></td>
+<td><em>you cannot request this</em></td>
 </tr>
 <tr class="odd">
-<td align="left">boolean</td>
-<td align="left"><code>logical</code></td>
-<td align="left"><code>"logical"</code></td>
+<td>boolean</td>
+<td><code>logical</code></td>
+<td><code>"logical"</code></td>
 </tr>
 <tr class="even">
-<td align="left">numeric</td>
-<td align="left"><code>numeric</code></td>
-<td align="left"><code>"numeric"</code></td>
+<td>numeric</td>
+<td><code>numeric</code></td>
+<td><code>"numeric"</code></td>
 </tr>
 <tr class="odd">
-<td align="left">datetime</td>
-<td align="left"><code>POSIXct</code></td>
-<td align="left"><code>"date"</code></td>
+<td>datetime</td>
+<td><code>POSIXct</code></td>
+<td><code>"date"</code></td>
 </tr>
 <tr class="even">
-<td align="left">text</td>
-<td align="left"><code>character</code></td>
-<td align="left"><code>"text"</code></td>
+<td>text</td>
+<td><code>character</code></td>
+<td><code>"text"</code></td>
 </tr>
 <tr class="odd">
-<td align="left"><em>anything</em></td>
-<td align="left"><code>list</code></td>
-<td align="left"><code>"list"</code></td>
+<td><em>anything</em></td>
+<td><code>list</code></td>
+<td><code>"list"</code></td>
 </tr>
 </tbody>
 </table>
@@ -190,7 +185,7 @@
 <ul>
 <li>This will create a list-column in the output, each component of which is a length one atomic vector. The type of these vectors is determined using the logic described above. This can be useful if data of truly disparate type is arranged in a column.</li>
 </ul>
-<p>We demonstrate the <code>"list"</code> column type using the <code>"clippy.xlsx"</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
+<p>We demonstrate the <code>"list"</code> column type using the <code>clippy.xlsx</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(clippy &lt;-<span class="st"> </span>
 <span class="st">   </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))
 <span class="co">#&gt; # A tibble: 4 × 2</span>
@@ -237,7 +232,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <p><em>hmm … none of the example sheets make a great demo here</em></p>
 <p><strong>Contamination of the data rectangle by leading or trailing non-data rows.</strong> Example: the sheet contains a few lines of explanatory prose before the data table begins.</p>
 <ul>
-<li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples in <code><a href="../reference/read_excel.html">read_excel()</a></code> help or the Sheet Geometry vignette for more detail.</li>
+<li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples for <code><a href="../reference/read_excel.html">read_excel()</a></code> help or <code><a href="../articles/sheet-geometry.html">vignette("sheet-geometry")</a></code> for more detail.</li>
 </ul>
 <p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))
@@ -264,7 +259,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <span class="co">#&gt; 17                         &lt;NA&gt;                     &lt;NA&gt; at the bottom,</span>
 <span class="co">#&gt; 18                         &lt;NA&gt;                     &lt;NA&gt;           &lt;NA&gt;</span>
 <span class="co">#&gt; # ... with 2 more variables: X__3 &lt;chr&gt;, X__4 &lt;chr&gt;</span></code></pre></div>
-<p>Non-data rows above and below the main data rectangle are causing all the columns to import as column.</p>
+<p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 </div>
 <div id="square-pegs-in-round-holes" class="section level2">

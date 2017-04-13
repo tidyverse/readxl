@@ -83,7 +83,7 @@ More about the `"list"` column type in the last row:
 
   * This will create a list-column in the output, each component of which is a length one atomic vector. The type of these vectors is determined using the logic described above. This can be useful if data of truly disparate type is arranged in a column.
 
-We demonstrate the `"list"` column type using the `"clippy.xlsx"` sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.
+We demonstrate the `"list"` column type using the `clippy.xlsx` sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.
 
 ```{r}
 (clippy <- 
@@ -106,7 +106,7 @@ It's pretty common to expect a column to import as, say, numeric or datetime. An
   
 **Contamination of the data rectangle by leading or trailing non-data rows.** Example: the sheet contains a few lines of explanatory prose before the data table begins.
 
-  * Fix: specify the target rectangle. Use `skip` and `n_max` to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful `range` argument to describe the cell rectangle in various ways. See the examples in `read_excel()` help or the Sheet Geometry vignette for more detail.
+  * Fix: specify the target rectangle. Use `skip` and `n_max` to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful `range` argument to describe the cell rectangle in various ways. See the examples for `read_excel()` help or `vignette("sheet-geometry")` for more detail.
   
 The `deaths.xlsx` sheet demonstrates this perfectly. Here's how it imports if we don't specify `range` as we did above:
 
@@ -115,7 +115,7 @@ deaths <- read_excel(readxl_example("deaths.xlsx"))
 print(deaths, n = Inf)
 ```
 
-Non-data rows above and below the main data rectangle are causing all the columns to import as column.
+Non-data rows above and below the main data rectangle are causing all the columns to import as character.
 
 If your column typing problem can't be solved by specifying `na` or the data rectangle, request the `"list"` column type and handle missing data and coercion after import.
 
