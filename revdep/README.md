@@ -18,10 +18,8 @@
 |:----------|:--|:----------|:----------|:--------------------------------|
 |cellranger |   |1.1.0      |2016-07-27 |cran (@1.1.0)                    |
 |covr       |   |2.2.2      |2017-01-05 |cran (@2.2.2)                    |
-|knitr      |   |1.15.1     |2016-11-22 |cran (@1.15.1)                   |
 |Rcpp       |   |0.12.10    |2017-04-13 |Github (RcppCore/Rcpp@21d8388)   |
 |readxl     |   |0.1.1.9000 |2017-04-13 |local (jennybc/readxl@NA)        |
-|rmarkdown  |   |1.4        |2017-03-24 |cran (@1.4)                      |
 |rprojroot  |   |1.2        |2017-01-16 |cran (@1.2)                      |
 |testthat   |   |1.0.2.9000 |2017-04-13 |Github (hadley/testthat@b72a228) |
 |tibble     |   |1.3.0      |2017-04-01 |cran (@1.3.0)                    |
@@ -53,7 +51,7 @@
 |photobiologyInOut |0.4.13  |      0|        0|     0|
 |popprxl           |0.1.3   |      0|        0|     0|
 |QuantTools        |0.5.4   |      0|        0|     1|
-|rattle            |4.1.0   |      1|        0|     0|
+|rattle            |4.1.0   |      1|        5|     4|
 |raw               |0.1.4   |      0|        0|     0|
 |Rcmdr             |2.3-2   |      0|        0|     1|
 |RcmdrMisc         |1.0-5   |      0|        0|     0|
@@ -248,17 +246,93 @@ checking installed package size ... NOTE
 ## rattle (4.1.0)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
-1 error  | 0 warnings | 0 notes
+1 error  | 5 warnings | 4 notes
 
 ```
-checking package dependencies ... ERROR
-Package required but not available: ‘RGtk2’
+checking whether the package can be loaded ... ERROR
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
+  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
+  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
+  Reason: image not found
+Please install GTK+ from http://r.research.att.com/libs/GTK_2.24.17-X11.pkg
+If the package still does not load, please ensure that GTK+ is installed and that it is on your PATH environment variable
+IN ANY CASE, RESTART R BEFORE TRYING TO LOAD THE PACKAGE AGAIN
+Rattle: A free graphical interface for data mining with R.
+Version 4.1.0 Copyright (c) 2006-2015 Togaware Pty Ltd.
+Type 'rattle()' to shake, rattle, and roll your data.
+Warning message:
+Failed to load RGtk2 dynamic library, attempting to install it. 
 
+It looks like this package has a loading problem: see the messages for
+details.
+
+checking whether package ‘rattle’ can be installed ... WARNING
+Found the following significant warnings:
+  Warning: Failed to load RGtk2 dynamic library, attempting to install it.
+See ‘/Users/jenny/rrr/readxl/revdep/checks/rattle.Rcheck/00install.out’ for details.
+
+checking whether the package can be unloaded cleanly ... WARNING
+---- unloading
+
+checking whether the namespace can be loaded with stated dependencies ... WARNING
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
+  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
+  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
+  Reason: image not found
+
+A namespace must be able to be loaded with just the base namespace
+loaded: otherwise if the namespace gets loaded by a saved object, the
+session will be unable to start.
+
+Probably some imports need to be declared in the NAMESPACE file.
+
+checking whether the namespace can be unloaded cleanly ... WARNING
+---- unloading
+
+checking loading without being on the library search path ... WARNING
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
+  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
+  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
+  Reason: image not found
+Please install GTK+ from http://r.research.att.com/libs/GTK_2.24.17-X11.pkg
+If the package still does not load, please ensure that GTK+ is installed and that it is on your PATH environment variable
+IN ANY CASE, RESTART R BEFORE TRYING TO LOAD THE PACKAGE AGAIN
+Rattle: A free graphical interface for data mining with R.
+Version 4.1.0 Copyright (c) 2006-2015 Togaware Pty Ltd.
+Type 'rattle()' to shake, rattle, and roll your data.
+Warning message:
+Failed to load RGtk2 dynamic library, attempting to install it. 
+
+It looks like this package has a loading problem when not on .libPaths:
+see the messages for details.
+
+checking package dependencies ... NOTE
 Packages suggested but not available for checking:
   ‘graph’ ‘RBGL’ ‘rggobi’ ‘RODBC’ ‘pkgDepTools’ ‘Rgraphviz’
 
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+checking installed package size ... NOTE
+  installed size is  6.8Mb
+  sub-directories of 1Mb or more:
+    data   2.5Mb
+    etc    1.9Mb
+    po     1.2Mb
+
+checking dependencies in R code ... NOTE
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so':
+  dlopen(/Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
+  Referenced from: /Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so
+  Reason: image not found
+
+checking R code for possible problems ... NOTE
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
+  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
+  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
+  Reason: image not found
 ```
 
 ## raw (0.1.4)
