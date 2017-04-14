@@ -233,7 +233,6 @@ tibble::<span class="kw">deframe</span>(clippy)
 <ul>
 <li>Fix: use the <code>na</code> argument of <code><a href="../reference/read_excel.html">read_excel()</a></code> to describe all possible forms for missing data. This should prevent such cells from influencing type guessing and cause them to import as <code>NA</code> of the appropriate type.</li>
 </ul>
-<p><em>hmm … none of the example sheets make a great demo here</em></p>
 <p><strong>Contamination of the data rectangle by leading or trailing non-data rows.</strong> Example: the sheet contains a few lines of explanatory prose before the data table begins.</p>
 <ul>
 <li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples for <code><a href="../reference/read_excel.html">read_excel()</a></code> help or <code><a href="../articles/sheet-geometry.html">vignette("sheet-geometry")</a></code> for more detail.</li>

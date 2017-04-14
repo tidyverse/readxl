@@ -100,8 +100,6 @@ It's pretty common to expect a column to import as, say, numeric or datetime. An
 
   * Fix: use the `na` argument of `read_excel()` to describe all possible forms for missing data. This should prevent such cells from influencing type guessing and cause them to import as `NA` of the appropriate type.
   
-*hmm ... none of the example sheets make a great demo here*
-  
 **Contamination of the data rectangle by leading or trailing non-data rows.** Example: the sheet contains a few lines of explanatory prose before the data table begins.
 
   * Fix: specify the target rectangle. Use `skip` and `n_max` to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful `range` argument to describe the cell rectangle in various ways. See the examples for `read_excel()` help or `vignette("sheet-geometry")` for more detail.
