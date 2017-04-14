@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 4, tibble.print_max = 4)
 ```
 
-```{r}
+```{r setup}
 library(readxl)
 ```
 
