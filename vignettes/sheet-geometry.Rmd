@@ -128,13 +128,13 @@ You can describe cell limits in a variety of ways:
 
 **Excel-style range**: Specify a fixed rectangle with `range = "A1:D4"` or `range = "R1C1:R4C4"`. You can even prepend the worksheet name like so: `range = "foofy!A1:D4"` and it will be passed along to the `sheet` argument.
 
-Illustrated with the `deaths.xlsx` example sheet that features junk rows both before and after the data rectangle. By specifying the data rectangle precisely, we get to enjoy the benefit of `read_excel()`'s column type guessing.
+The `deaths.xlsx` example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.
 
 ```{r}
 read_excel(readxl_example("deaths.xlsx"), range = "arts!A5:F15")
 ```
 
-Illustrated with the `geometry.xlsx` and a rectangle that only partially overlaps the data. Note the use of default column names and the leading column of `NA`s.
+Going back to `geometry.xlsx`, here we specify a rectangle that only partially overlaps the data. Note the use of default column names and the leading column of `NA`s.
 
 ```{r}
 read_excel(readxl_example("geometry.xlsx"), range = "A2:C4")

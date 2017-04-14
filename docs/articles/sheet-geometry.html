@@ -190,7 +190,7 @@
 <p><img src="geometry.png" width="70%"></p>
 <p>You can describe cell limits in a variety of ways:</p>
 <p><strong>Excel-style range</strong>: Specify a fixed rectangle with <code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You can even prepend the worksheet name like so: <code>range = "foofy!A1:D4"</code> and it will be passed along to the <code>sheet</code> argument.</p>
-<p>Illustrated with the <code>deaths.xlsx</code> example sheet that features junk rows both before and after the data rectangle. By specifying the data rectangle precisely, we get to enjoy the benefit of <code><a href="../reference/read_excel.html">read_excel()</a></code>’s column type guessing.</p>
+<p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)
 <span class="co">#&gt; # A tibble: 10 × 6</span>
 <span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
@@ -200,7 +200,7 @@
 <span class="co">#&gt; 3   Chuck Berry   musician    90       TRUE      1926-10-18</span>
 <span class="co">#&gt; 4   Bill Paxton      actor    61       TRUE      1955-05-17</span>
 <span class="co">#&gt; # ... with 6 more rows, and 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
-<p>Illustrated with the <code>geometry.xlsx</code> and a rectangle that only partially overlaps the data. Note the use of default column names and the leading column of <code>NA</code>s.</p>
+<p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle that only partially overlaps the data. Note the use of default column names and the leading column of <code>NA</code>s.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="st">"A2:C4"</span>)
 <span class="co">#&gt; # A tibble: 2 × 3</span>
 <span class="co">#&gt;    X__1  X__2  X__3</span>
