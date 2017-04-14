@@ -156,7 +156,7 @@
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B5    C5    D5</span>
 <span class="co">#&gt; 2    B6    C6    D6</span></code></pre></div>
-<p>Summary: <code>skip</code> tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to skip <em>at least this many</em> spreadsheet rows before looking for any data.</p>
+<p>Summary: <code>skip</code> tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to skip <em>at least this many</em> spreadsheet rows before reading anything.</p>
 </div>
 <div id="n_max" class="section level3">
 <h3 class="hasAnchor">
@@ -170,7 +170,7 @@
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B4    C4    D4</span>
 <span class="co">#&gt; 2    B5    C5    D5</span></code></pre></div>
-<p><code>n_max</code> is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though <code>n_max</code> is much more.</p>
+<p><code>n_max</code> is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though <code>n_max</code> is much greater.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">1000</span>)
 <span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;      B3    C3    D3</span>

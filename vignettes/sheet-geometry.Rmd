@@ -94,7 +94,7 @@ You can also use `skip` to skip over populated cells. In real life, this is a mi
 read_excel(readxl_example("geometry.xlsx"), skip = 3)
 ```
 
-Summary: `skip` tells `read_excel()` to skip *at least this many* spreadsheet rows before looking for any data.
+Summary: `skip` tells `read_excel()` to skip *at least this many* spreadsheet rows before reading anything.
 
 ### `n_max`
 
@@ -106,7 +106,7 @@ The `n_max` argument tells `read_excel()` to read at most `n_max` rows, once it 
 read_excel(readxl_example("geometry.xlsx"), n_max = 2)
 ```
 
-`n_max` is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though `n_max` is much more.
+`n_max` is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though `n_max` is much greater.
 
 ```{r}
 read_excel(readxl_example("geometry.xlsx"), n_max = 1000)
