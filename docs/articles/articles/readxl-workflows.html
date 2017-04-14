@@ -272,29 +272,28 @@ deaths &lt;-<span class="st"> </span>path %&gt;%
 <span class="st">  </span><span class="kw">map_df</span>(~<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> .x, <span class="dt">range =</span> <span class="st">"A5:E15"</span>), <span class="dt">.id =</span> <span class="st">"sheet"</span>)
 <span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
 <span class="co">#&gt; # A tibble: 20 × 6</span>
-<span class="co">#&gt;    sheet               Name Profession   Age `Date of birth`</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt; 1   arts        David Bowie   musician    69      1947-01-08</span>
-<span class="co">#&gt; 2   arts      Carrie Fisher      actor    60      1956-10-21</span>
-<span class="co">#&gt; 3   arts        Chuck Berry   musician    90      1926-10-18</span>
-<span class="co">#&gt; 4   arts        Bill Paxton      actor    61      1955-05-17</span>
-<span class="co">#&gt; 5   arts             Prince   musician    57      1958-06-07</span>
-<span class="co">#&gt; 6   arts       Alan Rickman      actor    69      1946-02-21</span>
-<span class="co">#&gt; 7   arts Florence Henderson      actor    82      1934-02-14</span>
-<span class="co">#&gt; 8   arts         Harper Lee     author    89      1926-04-28</span>
-<span class="co">#&gt; 9   arts      Zsa Zsa Gábor      actor    99      1917-02-06</span>
-<span class="co">#&gt; 10  arts     George Michael   musician    53      1963-06-25</span>
-<span class="co">#&gt; 11 other         Vera Rubin  scientist    88      1928-07-23</span>
-<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74      1942-01-17</span>
-<span class="co">#&gt; 13 other       Morley Safer journalist    84      1931-11-08</span>
-<span class="co">#&gt; 14 other       Fidel Castro politician    90      1926-08-13</span>
-<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79      1936-03-11</span>
-<span class="co">#&gt; 16 other             Jo Cox politician    41      1974-06-22</span>
-<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      1938-07-21</span>
-<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      1955-09-29</span>
-<span class="co">#&gt; 19 other         John Glenn  astronaut    95      1921-07-28</span>
-<span class="co">#&gt; 20 other         Pat Summit      coach    64      1952-06-14</span>
-<span class="co">#&gt; # ... with 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
+<span class="co">#&gt;    sheet               Name Profession   Age `Has kids` `Date of birth`</span>
+<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
+<span class="co">#&gt; 1   arts        David Bowie   musician    69       TRUE      1947-01-08</span>
+<span class="co">#&gt; 2   arts      Carrie Fisher      actor    60       TRUE      1956-10-21</span>
+<span class="co">#&gt; 3   arts        Chuck Berry   musician    90       TRUE      1926-10-18</span>
+<span class="co">#&gt; 4   arts        Bill Paxton      actor    61       TRUE      1955-05-17</span>
+<span class="co">#&gt; 5   arts             Prince   musician    57       TRUE      1958-06-07</span>
+<span class="co">#&gt; 6   arts       Alan Rickman      actor    69      FALSE      1946-02-21</span>
+<span class="co">#&gt; 7   arts Florence Henderson      actor    82       TRUE      1934-02-14</span>
+<span class="co">#&gt; 8   arts         Harper Lee     author    89      FALSE      1926-04-28</span>
+<span class="co">#&gt; 9   arts      Zsa Zsa Gábor      actor    99       TRUE      1917-02-06</span>
+<span class="co">#&gt; 10  arts     George Michael   musician    53      FALSE      1963-06-25</span>
+<span class="co">#&gt; 11 other         Vera Rubin  scientist    88       TRUE      1928-07-23</span>
+<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74       TRUE      1942-01-17</span>
+<span class="co">#&gt; 13 other       Morley Safer journalist    84       TRUE      1931-11-08</span>
+<span class="co">#&gt; 14 other       Fidel Castro politician    90       TRUE      1926-08-13</span>
+<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79       TRUE      1936-03-11</span>
+<span class="co">#&gt; 16 other             Jo Cox politician    41       TRUE      1974-06-22</span>
+<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      FALSE      1938-07-21</span>
+<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      FALSE      1955-09-29</span>
+<span class="co">#&gt; 19 other         John Glenn  astronaut    95       TRUE      1921-07-28</span>
+<span class="co">#&gt; 20 other         Pat Summit      coach    64       TRUE      1952-06-14</span></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here. <code>deaths.xlsx</code> is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.</p>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -326,29 +325,29 @@ deaths &lt;-<span class="st"> </span><span class="kw">map2_df</span>(
 ) %&gt;%
 <span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"deaths.csv"</span>)
 <span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 20 × 6</span>
-<span class="co">#&gt;    sheet               Name Profession   Age `Date of birth`</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt; 1   arts        David Bowie   musician    69      1947-01-08</span>
-<span class="co">#&gt; 2   arts      Carrie Fisher      actor    60      1956-10-21</span>
-<span class="co">#&gt; 3   arts        Chuck Berry   musician    90      1926-10-18</span>
-<span class="co">#&gt; 4   arts        Bill Paxton      actor    61      1955-05-17</span>
-<span class="co">#&gt; 5   arts             Prince   musician    57      1958-06-07</span>
-<span class="co">#&gt; 6   arts       Alan Rickman      actor    69      1946-02-21</span>
-<span class="co">#&gt; 7   arts Florence Henderson      actor    82      1934-02-14</span>
-<span class="co">#&gt; 8   arts         Harper Lee     author    89      1926-04-28</span>
-<span class="co">#&gt; 9   arts      Zsa Zsa Gábor      actor    99      1917-02-06</span>
-<span class="co">#&gt; 10  arts     George Michael   musician    53      1963-06-25</span>
-<span class="co">#&gt; 11 other         Vera Rubin  scientist    88      1928-07-23</span>
-<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74      1942-01-17</span>
-<span class="co">#&gt; 13 other       Morley Safer journalist    84      1931-11-08</span>
-<span class="co">#&gt; 14 other       Fidel Castro politician    90      1926-08-13</span>
-<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79      1936-03-11</span>
-<span class="co">#&gt; 16 other             Jo Cox politician    41      1974-06-22</span>
-<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      1938-07-21</span>
-<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      1955-09-29</span>
-<span class="co">#&gt; 19 other         John Glenn  astronaut    95      1921-07-28</span>
-<span class="co">#&gt; 20 other         Pat Summit      coach    64      1952-06-14</span>
+<span class="co">#&gt; # A tibble: 20 × 7</span>
+<span class="co">#&gt;    sheet               Name Profession   Age `Has kids` `Date of birth`</span>
+<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
+<span class="co">#&gt; 1   arts        David Bowie   musician    69       TRUE      1947-01-08</span>
+<span class="co">#&gt; 2   arts      Carrie Fisher      actor    60       TRUE      1956-10-21</span>
+<span class="co">#&gt; 3   arts        Chuck Berry   musician    90       TRUE      1926-10-18</span>
+<span class="co">#&gt; 4   arts        Bill Paxton      actor    61       TRUE      1955-05-17</span>
+<span class="co">#&gt; 5   arts             Prince   musician    57       TRUE      1958-06-07</span>
+<span class="co">#&gt; 6   arts       Alan Rickman      actor    69      FALSE      1946-02-21</span>
+<span class="co">#&gt; 7   arts Florence Henderson      actor    82       TRUE      1934-02-14</span>
+<span class="co">#&gt; 8   arts         Harper Lee     author    89      FALSE      1926-04-28</span>
+<span class="co">#&gt; 9   arts      Zsa Zsa Gábor      actor    99       TRUE      1917-02-06</span>
+<span class="co">#&gt; 10  arts     George Michael   musician    53      FALSE      1963-06-25</span>
+<span class="co">#&gt; 11 other         Vera Rubin  scientist    88       TRUE      1928-07-23</span>
+<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74       TRUE      1942-01-17</span>
+<span class="co">#&gt; 13 other       Morley Safer journalist    84       TRUE      1931-11-08</span>
+<span class="co">#&gt; 14 other       Fidel Castro politician    90       TRUE      1926-08-13</span>
+<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79       TRUE      1936-03-11</span>
+<span class="co">#&gt; 16 other             Jo Cox politician    41       TRUE      1974-06-22</span>
+<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      FALSE      1938-07-21</span>
+<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      FALSE      1955-09-29</span>
+<span class="co">#&gt; 19 other         John Glenn  astronaut    95       TRUE      1921-07-28</span>
+<span class="co">#&gt; 20 other         Pat Summit      coach    64       TRUE      1952-06-14</span>
 <span class="co">#&gt; # ... with 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
 <!--
 
@@ -405,9 +404,9 @@ devtools::session_info()
 #>  psych        1.6.12      2017-01-08 cran (@1.6.12)                      
 #>  purrr      * 0.2.2.9000  2017-04-10 Github (hadley/purrr@b8e3942)       
 #>  R6           2.2.0       2016-10-05 CRAN (R 3.3.0)                      
-#>  Rcpp         0.12.10     2017-04-13 Github (RcppCore/Rcpp@43e53b0)      
+#>  Rcpp         0.12.10     2017-04-13 Github (RcppCore/Rcpp@21d8388)      
 #>  readr      * 1.1.0       2017-03-22 CRAN (R 3.3.2)                      
-#>  readxl     * 0.1.1.9000  2017-04-13 local                               
+#>  readxl     * 0.1.1.9000  2017-04-14 local                               
 #>  rematch      1.0.1       2016-04-21 CRAN (R 3.2.3)                      
 #>  reshape2     1.4.2       2016-10-22 CRAN (R 3.3.0)                      
 #>  rlang        0.0.0.9014  2017-04-13 Github (hadley/rlang@ac7498c)       
