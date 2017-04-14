@@ -1,0 +1,10 @@
+---
+title: "Sheet Geometry"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sheet Geometry}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+*This is just a stub.*
