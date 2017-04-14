@@ -144,7 +144,7 @@ path <- readxl_example("deaths.xlsx")
 deaths <- path %>%
   excel_sheets() %>%
   set_names() %>% 
-  map_df(~ read_excel(path = path, sheet = .x, range = "A5:E15"), .id = "sheet")
+  map_df(~ read_excel(path = path, sheet = .x, range = "A5:F15"), .id = "sheet")
 print(deaths, n = Inf)
 ```
 
@@ -170,7 +170,7 @@ path <- readxl_example("deaths.xlsx")
 sheets <- path %>%
   excel_sheets() %>% 
   set_names()
-ranges <- list("A5:E15", cell_rows(5:15))
+ranges <- list("A5:F15", cell_rows(5:15))
 deaths <- map2_df(
   sheets,
   ranges,
@@ -243,7 +243,7 @@ names(xl_list) <- sheets
 path <- readxl_example("deaths.xlsx")
 sheets <- excel_sheets(path)
 xl_list <-
-  lapply(excel_sheets(path), read_excel, path = path, range = "A5:E15")
+  lapply(excel_sheets(path), read_excel, path = path, range = "A5:F15")
 xl_list <- lapply(seq_along(sheets), function(i) {
   data.frame(sheet = I(sheets[i]), xl_list[[i]])
 })
@@ -255,7 +255,7 @@ xl_list <- do.call(rbind, xl_list)
 ```{r eval = FALSE}
 path <- readxl_example("deaths.xlsx")
 sheets <- excel_sheets(path)
-ranges <- list("A5:E15", cell_rows(5:15))
+ranges <- list("A5:F15", cell_rows(5:15))
 xl_list <- mapply(function(x, y) {
   read_excel(path = path, sheet = x, range = y)
 }, sheets, ranges, SIMPLIFY = FALSE)
