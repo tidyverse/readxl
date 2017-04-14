@@ -19,14 +19,14 @@
 |cellranger |   |1.1.0      |2016-07-27 |cran (@1.1.0)                    |
 |covr       |   |2.2.2      |2017-01-05 |cran (@2.2.2)                    |
 |Rcpp       |   |0.12.10    |2017-04-13 |Github (RcppCore/Rcpp@21d8388)   |
-|readxl     |   |0.1.1.9000 |2017-04-13 |local (jennybc/readxl@NA)        |
+|readxl     |   |0.1.1.9000 |2017-04-14 |local (jennybc/readxl@NA)        |
 |rprojroot  |   |1.2        |2017-01-16 |cran (@1.2)                      |
 |testthat   |   |1.0.2.9000 |2017-04-13 |Github (hadley/testthat@b72a228) |
 |tibble     |   |1.3.0      |2017-04-01 |cran (@1.3.0)                    |
 
 # Check results
 
-37 packages
+35 packages
 
 |package           |version | errors| warnings| notes|
 |:-----------------|:-------|------:|--------:|-----:|
@@ -34,7 +34,6 @@
 |chillR            |0.66    |      0|        0|     0|
 |ckanr             |0.1.0   |      0|        0|     0|
 |CONS              |0.1.1   |      0|        0|     0|
-|DataLoader        |1.3     |      1|        0|     0|
 |DCM               |0.1.1   |      0|        0|     0|
 |DLMtool           |3.2.3   |      0|        0|     0|
 |dpcR              |0.4     |      0|        0|     0|
@@ -51,7 +50,7 @@
 |photobiologyInOut |0.4.13  |      0|        0|     0|
 |popprxl           |0.1.3   |      0|        0|     0|
 |QuantTools        |0.5.4   |      0|        0|     1|
-|rattle            |4.1.0   |      1|        5|     4|
+|rattle            |4.1.0   |      0|        0|     3|
 |raw               |0.1.4   |      0|        0|     0|
 |Rcmdr             |2.3-2   |      0|        0|     1|
 |RcmdrMisc         |1.0-5   |      0|        0|     0|
@@ -59,7 +58,6 @@
 |RDML              |0.9-5   |      0|        0|     0|
 |rio               |0.4.16  |      0|        0|     0|
 |rotl              |3.0.3   |      0|        0|     0|
-|SchemaOnRead      |1.0.2   |      1|        1|     0|
 |shinyHeatmaply    |0.1.0   |      0|        0|     0|
 |textreadr         |0.3.1   |      0|        0|     0|
 |tidyverse         |1.1.1   |      0|        0|     0|
@@ -88,17 +86,6 @@ Bug reports: http://www.github.com/ropensci/ckanr/issues
 Maintainer: Nery Sofia Huerta-Pacheco <nehuerta@uv.mx>
 
 0 errors | 0 warnings | 0 notes
-
-## DataLoader (1.3)
-Maintainer: Srivenkatesh Gandhi <srivenkateshg@sase.ssn.edu.in>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘DataLoader’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/jenny/rrr/readxl/revdep/checks/DataLoader.Rcheck/00install.out’ for details.
-```
 
 ## DCM (0.1.1)
 Maintainer: Nery Sofia Huerta-Pacheco <nehuerta@uv.mx>
@@ -246,69 +233,9 @@ checking installed package size ... NOTE
 ## rattle (4.1.0)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
-1 error  | 5 warnings | 4 notes
+0 errors | 0 warnings | 3 notes
 
 ```
-checking whether the package can be loaded ... ERROR
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
-  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
-  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
-  Reason: image not found
-Please install GTK+ from http://r.research.att.com/libs/GTK_2.24.17-X11.pkg
-If the package still does not load, please ensure that GTK+ is installed and that it is on your PATH environment variable
-IN ANY CASE, RESTART R BEFORE TRYING TO LOAD THE PACKAGE AGAIN
-Rattle: A free graphical interface for data mining with R.
-Version 4.1.0 Copyright (c) 2006-2015 Togaware Pty Ltd.
-Type 'rattle()' to shake, rattle, and roll your data.
-Warning message:
-Failed to load RGtk2 dynamic library, attempting to install it. 
-
-It looks like this package has a loading problem: see the messages for
-details.
-
-checking whether package ‘rattle’ can be installed ... WARNING
-Found the following significant warnings:
-  Warning: Failed to load RGtk2 dynamic library, attempting to install it.
-See ‘/Users/jenny/rrr/readxl/revdep/checks/rattle.Rcheck/00install.out’ for details.
-
-checking whether the package can be unloaded cleanly ... WARNING
----- unloading
-
-checking whether the namespace can be loaded with stated dependencies ... WARNING
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
-  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
-  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
-  Reason: image not found
-
-A namespace must be able to be loaded with just the base namespace
-loaded: otherwise if the namespace gets loaded by a saved object, the
-session will be unable to start.
-
-Probably some imports need to be declared in the NAMESPACE file.
-
-checking whether the namespace can be unloaded cleanly ... WARNING
----- unloading
-
-checking loading without being on the library search path ... WARNING
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
-  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
-  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
-  Reason: image not found
-Please install GTK+ from http://r.research.att.com/libs/GTK_2.24.17-X11.pkg
-If the package still does not load, please ensure that GTK+ is installed and that it is on your PATH environment variable
-IN ANY CASE, RESTART R BEFORE TRYING TO LOAD THE PACKAGE AGAIN
-Rattle: A free graphical interface for data mining with R.
-Version 4.1.0 Copyright (c) 2006-2015 Togaware Pty Ltd.
-Type 'rattle()' to shake, rattle, and roll your data.
-Warning message:
-Failed to load RGtk2 dynamic library, attempting to install it. 
-
-It looks like this package has a loading problem when not on .libPaths:
-see the messages for details.
-
 checking package dependencies ... NOTE
 Packages suggested but not available for checking:
   ‘graph’ ‘RBGL’ ‘rggobi’ ‘RODBC’ ‘pkgDepTools’ ‘Rgraphviz’
@@ -321,18 +248,8 @@ checking installed package size ... NOTE
     po     1.2Mb
 
 checking dependencies in R code ... NOTE
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so':
-  dlopen(/Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
-  Referenced from: /Users/jenny/resources/R/revdep_library/cairoDevice/libs/cairoDevice.so
-  Reason: image not found
 
-checking R code for possible problems ... NOTE
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so':
-  dlopen(/Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so, 6): Library not loaded: /Library/Frameworks/GTK+.framework/Versions/2.24.X11/Resources/lib/libgtk-x11-2.0.0.dylib
-  Referenced from: /Users/jenny/resources/R/revdep_library/RGtk2/libs/RGtk2.so
-  Reason: image not found
+(R:47119): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## raw (0.1.4)
@@ -379,39 +296,6 @@ Maintainer: Francois Michonneau <francois.michonneau@gmail.com>
 Bug reports: https://github.com/ropensci/rotl/issues
 
 0 errors | 0 warnings | 0 notes
-
-## SchemaOnRead (1.0.2)
-Maintainer: Michael North <north@anl.gov>
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  6: suppressWarnings(results <- processor(path, processors, verbose))
-  7: withCallingHandlers(expr, warning = function(w) invokeRestart("muffleWarning"))
-  8: processor(path, processors, verbose)
-  9: readbitmap::read.bitmap(path)
-  10: readfun(f, ...)
-  
-  testthat results ================================================================
-  OK: 19 SKIPPED: 0 FAILED: 2
-  1. Error: (unknown) (@test.01.R#14) 
-  2. Error: (unknown) (@test.04.R#14) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 33-36 (vignettes.Rmd) 
-Error: processing vignette 'vignettes.Rmd' failed with diagnostics:
-unable to initialize libpng
-Execution halted
-
-```
 
 ## shinyHeatmaply (0.1.0)
 Maintainer: Jonathan Sidi <yonicd@gmail.com>  

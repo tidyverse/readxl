@@ -26,9 +26,9 @@ library("devtools")
 ##  * rjags
 ##  * playwith
 ##  * RODBC nope did not install :( come back to this?
-##  * rggobi nope nope did not install :( came back to this
+##  * rggobi nope nope did not install :( I came back to this and
 ##    did as it says at https://github.com/ggobi/rggobi
-##    failed
+##    failed again
 ##    installed pkgconfig, set PKG_CONFIG_PATH
 ##    progress, but still failing
 ##    came quite close, but gave up at this point:
@@ -39,7 +39,7 @@ library("devtools")
 ## example of manual installation into revdep library
 ## install.packages("rggobi", lib = "~/resources/R/revdep_library/")
 ##
-## except, for devtools and it's dependencies, I did:
+## except, for devtools and it's dependencies, I did this to get dev versions:
 # withr::with_libpaths(
 #   "~/resources/R/revdep_library/",
 #   devtools::install_github("hadley/devtools"),
@@ -47,10 +47,23 @@ library("devtools")
 #   "prefix"
 # )
 
+# for doing one-off check of some packages
+# revdeps <- revdep("readxl")
+# keep <- "DataLoader"
+# ignore <- setdiff(revdeps, keep)
+
 ignore <- c(
-  "dynBiplotGUI", ## hangs: * checking whether package ‘dynBiplotGUI’ can be installed ...
-  "ie2misc" ## java something something java something
+  "DataLoader",   ## could never check via revdep_check() due to Java problems
+                  ## downloaded source from GitHub CRAN mirror and ran
+                  ## check in RStudio, with success
+  "dynBiplotGUI", ## success w/ R CMD check dynBiplotGUI_1.1.5.tar.gz, but
+                  ## various graphical things pop up
+  "ie2misc",      ## downloaded source from GitHub CRAN mirror and ran
+                  ## check in RStudio, with success
+  "SchemaOnRead"  ## downloaded source from GitHub CRAN mirror and ran
+                  ## check in RStudio, with success
 )
+
 revdep_check(ignore = ignore)
 revdep_check_save_summary()
 revdep_check_print_problems()
@@ -61,8 +74,9 @@ revdep_check_print_problems()
 ## very helpful for getting ie2misc to install
 ## http://stackoverflow.com/questions/35179151/cannot-load-r-xlsx-package-on-mac-os-10-11
 
-## manually did
-## R CMD check dynBiplotGUI_1.1.5.tar.gz
-## and it was OK
-## various widgets/menus popup during the check, which presumably explains
-## why the check hung inside `revdep_check()` (??)
+## installed GTK+ from here to get rattle to (partially) check
+## https://r.research.att.com
+## rggobi and RODBC are in Suggests, so full check not possible
+
+## http://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite
+## sudo ln -f -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
