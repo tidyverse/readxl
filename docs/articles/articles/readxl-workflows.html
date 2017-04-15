@@ -53,8 +53,28 @@
     </li>
   </ul>
 </li>
-<li>
-  <a href="../../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="../../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
+    </li>
+    <li>
+      <a href="../../articles/releases/readxl-0.1.1.html">Version 0.1.1</a>
+    </li>
+    <li>
+      <a href="../../articles/releases/readxl-0.1.0.html">Version 0.1.0</a>
+    </li>
+    <li class="divider">
+    <li>
+      <a href="../../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
         <li>
   <a href="https://github.com/tidyverse/readxl">
@@ -359,68 +379,70 @@ deaths &lt;-<span class="st"> </span><span class="kw">map2_df</span>(
 
 ```r
 devtools::session_info()
-#> Session info --------------------------------------------------------------
+#> Session info -------------------------------------------------------------
 #>  setting  value                       
 #>  version  R version 3.3.2 (2016-10-31)
 #>  system   x86_64, darwin13.4.0        
 #>  ui       X11                         
 #>  language (EN)                        
-#>  collate  en_US.UTF-8                 
-#>  tz       America/Chicago             
-#>  date     2017-04-14
-#> Packages ------------------------------------------------------------------
-#>  package    * version    date       source                            
-#>  assertthat   0.2.0      2017-04-11 cran (@0.2.0)                     
-#>  backports    1.0.5      2017-01-18 CRAN (R 3.3.2)                    
-#>  broom        0.4.2      2017-02-13 cran (@0.4.2)                     
-#>  cellranger   1.1.0      2016-07-27 CRAN (R 3.3.0)                    
-#>  colorspace   1.3-2      2016-12-14 CRAN (R 3.3.2)                    
-#>  devtools     1.12.0     2016-06-24 CRAN (R 3.3.0)                    
-#>  digest       0.6.12     2017-01-27 cran (@0.6.12)                    
-#>  dplyr      * 0.5.0.9001 2017-04-13 local                             
-#>  evaluate     0.10       2016-10-11 cran (@0.10)                      
-#>  forcats      0.2.0      2017-01-23 CRAN (R 3.3.2)                    
-#>  foreign      0.8-67     2016-09-13 CRAN (R 3.3.2)                    
-#>  ggplot2    * 2.2.1.9000 2017-04-03 Github (tidyverse/ggplot2@f4398b6)
-#>  glue         0.0.0.9000 2017-04-12 Github (tidyverse/glue@6e77c3b)   
-#>  gtable       0.2.0      2016-02-26 CRAN (R 3.3.0)                    
-#>  haven        1.0.0.9000 2017-01-30 local                             
-#>  hms          0.3        2016-11-22 CRAN (R 3.3.2)                    
-#>  htmltools    0.3.5      2016-03-21 CRAN (R 3.3.0)                    
-#>  httr         1.2.1      2016-07-03 cran (@1.2.1)                     
-#>  jsonlite     1.3        2017-02-28 cran (@1.3)                       
-#>  knitr        1.15.1     2016-11-22 CRAN (R 3.3.2)                    
-#>  lattice      0.20-34    2016-09-06 CRAN (R 3.3.2)                    
-#>  lazyeval     0.2.0.9000 2017-03-03 Github (hadley/lazyeval@c155c3d)  
-#>  lubridate    1.6.0      2016-09-13 CRAN (R 3.3.0)                    
-#>  magrittr     1.5        2014-11-22 CRAN (R 3.3.0)                    
-#>  memoise      1.0.0.9001 2017-02-06 Github (hadley/memoise@884d565)   
-#>  mnormt       1.5-5      2016-10-15 CRAN (R 3.3.0)                    
-#>  modelr       0.1.0      2016-08-31 CRAN (R 3.3.0)                    
-#>  munsell      0.4.3      2016-02-13 CRAN (R 3.3.0)                    
-#>  nlme         3.1-128    2016-05-10 CRAN (R 3.3.2)                    
-#>  plyr         1.8.4      2016-06-08 cran (@1.8.4)                     
-#>  psych        1.7.3.21   2017-03-22 cran (@1.7.3.2)                   
-#>  purrr      * 0.2.2.9000 2017-04-11 Github (hadley/purrr@b8e3942)     
-#>  R6           2.2.0      2016-10-05 cran (@2.2.0)                     
-#>  Rcpp         0.12.10    2017-04-12 Github (RcppCore/Rcpp@43e53b0)    
-#>  readr      * 1.1.0      2017-03-22 cran (@1.1.0)                     
-#>  readxl     * 0.1.1.9000 2017-04-14 local                             
-#>  rematch      1.0.1      2016-04-21 CRAN (R 3.3.0)                    
-#>  reshape2     1.4.2      2016-10-22 cran (@1.4.2)                     
-#>  rlang        0.0.0.9014 2017-04-12 Github (hadley/rlang@2fc8271)     
-#>  rmarkdown    1.3.9004   2017-02-28 Github (rstudio/rmarkdown@e6cc75e)
-#>  rprojroot    1.2        2017-01-16 cran (@1.2)                       
-#>  rvest        0.3.2      2016-06-17 CRAN (R 3.3.0)                    
-#>  scales       0.4.1      2016-11-08 local                             
-#>  stringi      1.1.5      2017-04-07 cran (@1.1.5)                     
-#>  stringr      1.2.0      2017-02-20 local                             
-#>  tibble     * 1.3.0      2017-04-11 local                             
-#>  tidyr      * 0.6.1      2017-01-10 cran (@0.6.1)                     
-#>  tidyverse  * 1.1.1.9000 2017-04-03 Github (hadley/tidyverse@f27f74c) 
-#>  withr        1.0.2      2016-06-20 cran (@1.0.2)                     
-#>  xml2         1.1.1      2017-01-24 cran (@1.1.1)                     
-#>  yaml         2.1.14     2016-11-12 cran (@2.1.14)
+#>  collate  en_CA.UTF-8                 
+#>  tz       America/Vancouver           
+#>  date     2017-04-15
+#> Packages -----------------------------------------------------------------
+#>  package    * version     date       source                              
+#>  assertthat   0.2.0       2017-04-11 cran (@0.2.0)                       
+#>  backports    1.0.5       2017-01-18 cran (@1.0.5)                       
+#>  broom        0.4.2       2017-02-13 cran (@0.4.2)                       
+#>  cellranger   1.1.0       2016-07-27 CRAN (R 3.3.0)                      
+#>  colorspace   1.3-2       2016-12-14 CRAN (R 3.3.2)                      
+#>  devtools     1.12.0.9000 2017-04-13 Github (hadley/devtools@ab176e6)    
+#>  digest       0.6.12      2017-01-27 cran (@0.6.12)                      
+#>  dplyr      * 0.5.0.9001  2017-04-13 Github (hadley/dplyr@22504ec)       
+#>  evaluate     0.10        2016-10-11 cran (@0.10)                        
+#>  forcats      0.2.0       2017-01-23 cran (@0.2.0)                       
+#>  foreign      0.8-67      2016-09-13 CRAN (R 3.3.2)                      
+#>  ggplot2    * 2.2.1       2016-12-30 CRAN (R 3.3.2)                      
+#>  glue         0.0.0.9000  2017-04-03 Github (tidyverse/glue@6e77c3b)     
+#>  gtable       0.2.0       2016-02-26 CRAN (R 3.3.0)                      
+#>  haven        1.0.0       2016-09-23 CRAN (R 3.3.0)                      
+#>  hms          0.3         2016-11-22 CRAN (R 3.3.2)                      
+#>  htmltools    0.3.5       2016-03-21 CRAN (R 3.2.4)                      
+#>  httr         1.2.1.9000  2016-11-22 Github (gaborcsardi/httr@30001d4)   
+#>  jsonlite     1.4         2017-04-08 cran (@1.4)                         
+#>  knitr        1.15.1      2016-11-22 CRAN (R 3.3.2)                      
+#>  lattice      0.20-34     2016-09-06 CRAN (R 3.3.2)                      
+#>  lazyeval     0.2.0.9000  2016-10-24 Github (hadley/lazyeval@c155c3d)    
+#>  lubridate    1.6.0       2016-09-13 cran (@1.6.0)                       
+#>  magrittr     1.5         2014-11-22 CRAN (R 3.2.0)                      
+#>  memoise      1.0.0.9001  2016-12-18 Github (hadley/memoise@884d565)     
+#>  mnormt       1.5-5       2016-10-15 CRAN (R 3.3.0)                      
+#>  modelr       0.1.0       2016-08-31 CRAN (R 3.3.0)                      
+#>  munsell      0.4.3       2016-02-13 CRAN (R 3.3.0)                      
+#>  nlme         3.1-128     2016-05-10 CRAN (R 3.3.2)                      
+#>  pkgbuild     0.0.0.9000  2017-04-13 Github (r-pkgs/pkgbuild@8aab60b)    
+#>  pkgload      0.0.0.9000  2017-04-13 Github (r-pkgs/pkgload@9093b96)     
+#>  plyr         1.8.4       2016-06-08 CRAN (R 3.3.0)                      
+#>  psych        1.6.12      2017-01-08 cran (@1.6.12)                      
+#>  purrr      * 0.2.2.9000  2017-04-10 Github (hadley/purrr@b8e3942)       
+#>  R6           2.2.0       2016-10-05 CRAN (R 3.3.0)                      
+#>  Rcpp         0.12.10     2017-04-13 Github (RcppCore/Rcpp@21d8388)      
+#>  readr      * 1.1.0       2017-03-22 CRAN (R 3.3.2)                      
+#>  readxl     * 0.1.1.9000  2017-04-15 local                               
+#>  rematch      1.0.1       2016-04-21 CRAN (R 3.2.3)                      
+#>  reshape2     1.4.2       2016-10-22 CRAN (R 3.3.0)                      
+#>  rlang        0.0.0.9014  2017-04-13 Github (hadley/rlang@ac7498c)       
+#>  rmarkdown    1.4.0.9001  2017-04-13 Github (rstudio/rmarkdown@f2788b8)  
+#>  rprojroot    1.2         2017-01-16 CRAN (R 3.3.2)                      
+#>  rvest        0.3.2       2016-06-17 CRAN (R 3.3.0)                      
+#>  scales       0.4.1       2016-11-09 CRAN (R 3.3.2)                      
+#>  stringi      1.1.5       2017-04-07 cran (@1.1.5)                       
+#>  stringr      1.2.0       2017-02-18 cran (@1.2.0)                       
+#>  tibble     * 1.3.0       2017-04-01 cran (@1.3.0)                       
+#>  tidyr      * 0.6.1.9000  2017-03-07 Github (hadley/tidyr@0f9a5da)       
+#>  tidyverse  * 1.1.1.9000  2017-03-17 Github (tidyverse/tidyverse@2771fd7)
+#>  withr        1.0.2       2016-06-20 cran (@1.0.2)                       
+#>  xml2         1.1.1       2017-03-31 Github (hadley/xml2@268387b)        
+#>  yaml         2.1.14      2016-11-12 cran (@2.1.14)
 ```
 </details>
 

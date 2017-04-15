@@ -21,7 +21,17 @@ navbar:
     - text: Workflows
       href: articles/articles/readxl-workflows.html
   - text: News
-    href: news/index.html
+    menu:
+    - text: "Release notes"
+    - text: "Version 1.0.0"
+      href: articles/releases/readxl-1.0.0.html
+    - text: "Version 0.1.1"
+      href: articles/releases/readxl-0.1.1.html
+    - text: "Version 0.1.0"
+      href: articles/releases/readxl-0.1.0.html
+    - text: "------------------"
+    - text: "Change log"
+      href: news/index.html
 
 reference:
   - title: "Read spreadsheets"

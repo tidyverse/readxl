@@ -72,8 +72,28 @@
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
+    </li>
+    <li>
+      <a href="../articles/releases/readxl-0.1.1.html">Version 0.1.1</a>
+    </li>
+    <li>
+      <a href="../articles/releases/readxl-0.1.0.html">Version 0.1.0</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
         <li>
   <a href="https://github.com/tidyverse/readxl">
@@ -100,7 +120,7 @@
 directory. This function make them easy to access.</p>
     
 
-    <pre class="usage"><span class='fu'>readxl_example</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre><span class='fu'>readxl_example</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -115,7 +135,7 @@ directory. This function make them easy to access.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>readxl_example</span>()</div><div class='output co'>#&gt;  [1] "clippy.xls"    "clippy.xlsx"   "datasets.xls"  "datasets.xlsx"
 #&gt;  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
-#&gt;  [9] "type-me.xls"   "type-me.xlsx" </div><div class='input'><span class='fu'>readxl_example</span>(<span class='st'>"datasets.xlsx"</span>)</div><div class='output co'>#&gt; [1] "/Users/hadley/Documents/ingest/readxl/inst/extdata/datasets.xlsx"</div></pre>
+#&gt;  [9] "type-me.xls"   "type-me.xlsx" </div><div class='input'><span class='fu'>readxl_example</span>(<span class='st'>"datasets.xlsx"</span>)</div><div class='output co'>#&gt; [1] "/Users/jenny/rrr/readxl/inst/extdata/datasets.xlsx"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
