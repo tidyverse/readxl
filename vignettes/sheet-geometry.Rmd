@@ -118,12 +118,6 @@ The `range` argument is the most flexible way to control geometry and is powered
 
 One huge difference from `skip` and `n_max` is that `range` is taken literally! Even if it means the returned tibble will have entire rows or columns consisting of `NA`.
 
-We repeat the screenshot of `geometry.xlsx` as a visual reference.
-
-```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("geometry.png")
-```
-
 You can describe cell limits in a variety of ways:
 
 **Excel-style range**: Specify a fixed rectangle with `range = "A1:D4"` or `range = "R1C1:R4C4"`. You can even prepend the worksheet name like so: `range = "foofy!A1:D4"` and it will be passed along to the `sheet` argument.
@@ -134,7 +128,13 @@ The `deaths.xlsx` example sheet features junk rows both before and after the dat
 read_excel(readxl_example("deaths.xlsx"), range = "arts!A5:F15")
 ```
 
-Going back to `geometry.xlsx`, here we specify a rectangle that only partially overlaps the data. Note the use of default column names and the leading column of `NA`s.
+We repeat the screenshot of `geometry.xlsx` as a visual reference.
+
+```{r out.width = '70%', echo = FALSE}
+knitr::include_graphics("geometry.png")
+```
+
+Going back to `geometry.xlsx`, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of `NA`s.
 
 ```{r}
 read_excel(readxl_example("geometry.xlsx"), range = "A2:C4")
