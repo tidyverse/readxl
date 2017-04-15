@@ -9,17 +9,20 @@
 * macOS Sierra 10.12.1 + R 3.3.3 via travis-ci
 * OS X El Capitan 10.11.6 + R 3.3.3 via travis-ci
 * Windows Server 2012 + R 3.3.3 via appveyor
+* Windows + R 3.4.0 RC (2017-04-13 r72510) via win-builder
 * r-hub COME BACK AND POPULATE WHEN R-HUB IS BACK UP
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-There is 1 NOTE, that makes three points:
+There are 2 NOTEs, that make three points:
 
   * Change of maintainer: from Hadley Wickham to Jennifer Bryan.
   * The LICENSE file specifies precisely the license of the included libxls code.
-  * Two possibly invalid URLs are flagged, one in NEWS.md and another in a vignette. Both are valid URLs below https://support.microsoft.com that I have no trouble accessing. I'm not sure why they are flagged.
+  * "Author field differs from that derived from Authors@R". RStudio is now listed as funder, in addition to being a copyright holder.
+
+Two possibly invalid URLs are flagged, one in NEWS.md and another in a vignette. Both are valid URLs below https://support.microsoft.com that I have no trouble accessing. I'm not sure why they are flagged.
   
 Results at:
 https://cran.r-project.org/web/checks/check_results_readxl.html  
