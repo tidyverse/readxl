@@ -82,13 +82,18 @@
 <div id="readxl" class="section level1">
 
 
-<p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data stored in a single sheet.</p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data.</p>
 <p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://sourceforge.net/projects/libxls/">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net">RapidXML</a> C++ library.</p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The easiest way to install the latest released version from CRAN is to install the whole tidyverse (NOTE: you will still need to load readxl explicitly, i.e. it is not a core tidyverse package loaded via <code>library(tidyverse)</code>.)</p>
+<p>The easiest way to install the latest released version from CRAN is to install the whole tidyverse.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"tidyverse"</span>)</code></pre></div>
+<p>NOTE: you will still need to load readxl explicitly, because it is not a core tidyverse package loaded via <code>library(tidyverse)</code>.</p>
 <p>Alternatively, install just readxl from CRAN:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"readxl"</span>)</code></pre></div>
 <p>Or install the development version from GitHub:</p>
@@ -98,13 +103,16 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/rea
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>readxl includes example files <code>datasets.xlsx</code> and <code>datasets.xls</code>, containing datasets you already know and love. These files were created with the help of openxlsx and Excel. Paths to all example files are available via the helper <code><a href="reference/readxl_example.html">readxl_example()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"iris"</span> =<span class="st"> </span>iris, <span class="st">"mtcars"</span> =<span class="st"> </span>mtcars, <span class="dt">chickwts =</span> chickwts, <span class="dt">quakes =</span> quakes)
-openxlsx::<span class="kw">write.xlsx</span>(l, <span class="dt">file =</span> <span class="st">"inst/extdata/datasets.xlsx"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)</code></pre></div>
+<p>readxl includes several example files, which we use throughout the documentation. Use the helper <code><a href="reference/readxl_example.html">readxl_example()</a></code> with no arguments to list them or call it with an example filename to get the path.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>()
+<span class="co">#&gt;  [1] "clippy.xls"    "clippy.xlsx"   "datasets.xls"  "datasets.xlsx"</span>
+<span class="co">#&gt;  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"</span>
+<span class="co">#&gt;  [9] "type-me.xls"   "type-me.xlsx"</span>
+<span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xls"</span>)
+<span class="co">#&gt; [1] "/Users/jenny/resources/R/library/readxl/extdata/clippy.xls"</span></code></pre></div>
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
-
-xlsx_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlsx_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example)
 <span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
@@ -192,16 +200,36 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; # ... with 147 more rows</span></code></pre></div>
 <p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org">readr</a>.</p>
 </div>
+<div id="articles" class="section level2">
+<h2 class="hasAnchor">
+<a href="#articles" class="anchor"></a>Articles</h2>
+<p>You can find more detail in <a href="http://readxl.tidyverse.org/articles/index.html">these articles</a>:</p>
+<ul>
+<li>Cell and Column Types</li>
+<li>Sheet Geometry</li>
+<li>readxl Workflows</li>
+</ul>
+</div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <ul>
+<li><p>No external dependency on, e.g., Java or Perl.</p></li>
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
 <li><p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) date specifications are processed correctly.</p></li>
-<li><p>Blank rows that appear before the data are automatically dropped; embedded blank rows are not. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
-<li><p>Column names and types are determined from the data in the sheet, by default, but user can also supply via <code>col_names</code> and <code>col_types</code>.</p></li>
-<li><p>It returns a tibble, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
+<li><p>Discovers the minimal data rectangle and returns that, by default. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
+<li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code>.</p></li>
+<li><p>Returns a <a href="http://tibble.tidyverse.org/reference/tibble.html">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
 </ul>
+</div>
+<div id="other-relevant-packages" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-relevant-packages" class="anchor"></a>Other relevant packages</h2>
+<p>Here are some other packages with functionality that is complementary to readxl and that also avoid a Java dependency.</p>
+<p><strong>Writing Excel files</strong>: The example files <code>datasets.xlsx</code> and <code>datasets.xls</code> were created with the help of <a href="https://CRAN.R-project.org/package=openxlsx">openxlsx</a> (and Excel). openxlsx provides “a high level interface to writing, styling and editing worksheets”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">iris =</span> iris, <span class="dt">mtcars =</span> mtcars, <span class="dt">chickwts =</span> chickwts, <span class="dt">quakes =</span> quakes)
+openxlsx::<span class="kw">write.xlsx</span>(l, <span class="dt">file =</span> <span class="st">"inst/extdata/datasets.xlsx"</span>)</code></pre></div>
+<p><strong>Non-tabular data and formatting</strong>: <a href="https://cran.r-project.org/package=tidyxl">tidyxl</a> is focused on importing awkward and non-tabular data from Excel. It also “exposes cell content, position and formatting in a tidy structure for further manipulation”.</p>
 </div>
 </div>
 </div>
