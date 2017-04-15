@@ -178,8 +178,8 @@ public:
       return;
     }
 
-    Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                  row() + 1, col() + 1, t->value());
+    Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                  asCellLocationString(row() + 1, col() + 1), t->value());
   }
 
   std::string asStdString(const std::vector<std::string>& stringTable,
@@ -232,7 +232,8 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      Rcpp::warning("Unrecognized cell type at %s",
+                    asCellLocationString(row() + 1, col() + 1));
       return "";
   }
   }
@@ -260,7 +261,8 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      Rcpp::warning("Unrecognized cell type at %s",
+                    asCellLocationString(row() + 1, col() + 1));
       return NA_LOGICAL;
     }
   }
@@ -282,7 +284,8 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      Rcpp::warning("Unrecognized cell type at %s",
+                    asCellLocationString(row() + 1, col() + 1));
       return NA_REAL;
     }
   }
@@ -304,7 +307,8 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]", row() + 1, col() + 1);
+      Rcpp::warning("Unrecognized cell type at %s",
+                    asCellLocationString(row() + 1, col() + 1));
       return NA_REAL;
     }
   }
@@ -315,8 +319,8 @@ private:
                               const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
-      Rcpp::warning("Invalid string id at [%i, %i]:  %i",
-                    row() + 1, col() + 1, id);
+      Rcpp::warning("Invalid string id at %s: %i",
+                    asCellLocationString(row() + 1, col() + 1), id);
       return "";
     }
     const std::string& string = stringTable.at(id);

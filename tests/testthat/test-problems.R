@@ -1,22 +1,37 @@
 context("Problems")
 
 test_that("coercion warnings report correct address", {
-  ## these sheets have a blank first column
-  ## make sure warning indicates position is spreadsheet (column 2)
-  ## vs position in the data frame we're building (column 1)
-
   ## xlsx
   expect_warning(
-    read_excel(test_sheet("geometry.xlsx"), sheet = "warning_position",
+    read_excel(test_sheet("geometry.xlsx"), sheet = "warning_B6",
                col_types = "numeric"),
-    "Expecting numeric in [6, 2]",
+    "Expecting numeric in B6 / R6C2",
+    fixed = TRUE
+  )
+  expect_warning(
+    read_excel(test_sheet("geometry.xlsx"), sheet = "warning_AT6",
+               col_types = "numeric"),
+    "Expecting numeric in AT6 / R6C46",
+    fixed = TRUE
+  )
+  expect_warning(
+    read_excel(test_sheet("geometry.xlsx"), sheet = "warning_AKE6",
+               col_types = "numeric"),
+    "Expecting numeric in AKE6 / R6C967",
     fixed = TRUE
   )
   ## xls
   expect_warning(
-    read_excel(test_sheet("geometry.xls"), sheet = "warning_position",
+    read_excel(test_sheet("geometry.xls"), sheet = "warning_B6",
                col_types = "numeric"),
-    "Expecting numeric in [6, 2]",
+    "Expecting numeric in B6 / R6C2",
     fixed = TRUE
   )
+  expect_warning(
+    read_excel(test_sheet("geometry.xls"), sheet = "warning_AT6",
+               col_types = "numeric"),
+    "Expecting numeric in AT6 / R6C46",
+    fixed = TRUE
+  )
+  ## xls column max is 256, so we're done
 })

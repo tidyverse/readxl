@@ -7,6 +7,7 @@
 #include "XlsCell.h"
 #include "ColSpec.h"
 #include "CellLimits.h"
+#include "utils.h"
 
 class XlsWorkSheet {
   // the host workbook
@@ -181,8 +182,8 @@ public:
       case COL_LOGICAL:
         if (type == CELL_DATE) {
           // print date string here, when/if it's possible to do so
-          Rcpp::warning("Expecting logical in [%i, %i]: got a date",
-                        i + 1, j + 1);
+          Rcpp::warning("Expecting logical in %s: got a date",
+                        asCellLocationString(i + 1, j + 1));
         }
 
         switch(type) {
@@ -200,8 +201,8 @@ public:
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(column)[row] = text_boolean;
           } else {
-            Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
-                          i + 1, j + 1, text_string);
+            Rcpp::warning("Expecting logical in %s: got '%s'",
+                          asCellLocationString(i + 1, j + 1), text_string);
             LOGICAL(column)[row] = NA_LOGICAL;
           }
         }
@@ -211,29 +212,30 @@ public:
 
       case COL_DATE:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Expecting date in [%i, %i]: got boolean",
-                        i + 1, j + 1);
+          Rcpp::warning("Expecting date in %s: got boolean",
+                        asCellLocationString(i + 1, j + 1));
         }
         if (type == CELL_NUMERIC) {
-          Rcpp::warning("Coercing numeric to date in [%i, %i]",
-                        i + 1, j + 1);
+          Rcpp::warning("Coercing numeric to date in %s",
+                        asCellLocationString(i + 1, j + 1));
         }
         if (type == CELL_TEXT) {
-          Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
-                        i + 1, j + 1, xcell->asStdString(trimWs));
+          Rcpp::warning("Expecting date in %s: got '%s'",
+                        asCellLocationString(i + 1, j + 1),
+                        xcell->asStdString(trimWs));
         }
         REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Coercing boolean to numeric in [%i, %i]",
-                        i + 1, j + 1);
+          Rcpp::warning("Coercing boolean to numeric in %s",
+                        asCellLocationString(i + 1, j + 1));
         }
         if (type == CELL_DATE) {
           // print date string here, when/if possible
-          Rcpp::warning("Expecting numeric in [%i, %i]: got a date",
-                        i + 1, j + 1);
+          Rcpp::warning("Expecting numeric in %s: got a date",
+                        asCellLocationString(i + 1, j + 1));
         }
         switch(type) {
         case CELL_UNKNOWN:
@@ -249,12 +251,12 @@ public:
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
-            Rcpp::warning("Coercing text to numeric in [%i, %i]: '%s'",
-                          i + 1, j + 1, num_string);
+            Rcpp::warning("Coercing text to numeric in %s: '%s'",
+                          asCellLocationString(i + 1, j + 1), num_string);
             REAL(column)[row] = num_num;
           } else {
-            Rcpp::warning("Expecting numeric in [%i, %i]: got '%s'",
-                          i + 1, j + 1, num_string);
+            Rcpp::warning("Expecting numeric in %s: got '%s'",
+                          asCellLocationString(i + 1, j + 1), num_string);
             REAL(column)[row] = NA_REAL;
           }
         }
