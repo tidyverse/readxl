@@ -214,8 +214,8 @@ public:
       break;
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                    row() + 1, col() + 1, cell_->id);
+      Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()), cell_->id);
     ct = CELL_UNKNOWN;
     }
 
@@ -259,10 +259,10 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                    row() + 1, col() + 1, cell_->id);
-    return "";
-  }
+      Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()), cell_->id);
+      return "";
+    }
   }
 
   Rcpp::RObject asCharSxp(const bool trimWs) const {
@@ -284,8 +284,8 @@ public:
       return cell_->d != 0;
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                    row() + 1, col() + 1, cell_->id);
+      Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()), cell_->id);
     return NA_LOGICAL;
     }
   }
@@ -304,8 +304,8 @@ public:
       return cell_->d;
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                    row() + 1, col() + 1, cell_->id);
+      Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()), cell_->id);
     return NA_REAL;
     }
   }
@@ -324,8 +324,8 @@ public:
       return POSIXctFromSerial(cell_->d, is1904);
 
     default:
-      Rcpp::warning("Unrecognized cell type at [%i, %i]: '%s'",
-                    row() + 1, col() + 1, cell_->id);
+      Rcpp::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()), cell_->id);
     return NA_REAL;
     }
   }
