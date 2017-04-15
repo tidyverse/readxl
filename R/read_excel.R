@@ -1,4 +1,4 @@
-#' @useDynLib readxl
+#' @useDynLib readxl, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 NULL
 
