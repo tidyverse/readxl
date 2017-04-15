@@ -19,3 +19,4 @@
 ^logo\.png$
 ^vignettes/articles$
 ^revdep$
+^vignettes/rsconnect$
