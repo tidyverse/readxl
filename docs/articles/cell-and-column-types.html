@@ -272,9 +272,9 @@ tibble::<span class="kw">deframe</span>(clippy)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"logical_coercion"</span>,
                  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"logical"</span>, <span class="st">"text"</span>))
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting logical in [5, 1]: got a date</span>
+<span class="co">#&gt; shim, : Expecting logical in A5 / R5C1: got a date</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting logical in [8, 1] got 'cabbage'</span>
+<span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;    `maybe boolean?`                      description</span>
@@ -298,15 +298,15 @@ tibble::<span class="kw">deframe</span>(clippy)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"numeric_coercion"</span>,
                  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"numeric"</span>, <span class="st">"text"</span>))
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing boolean to numeric in [3, 1]</span>
+<span class="co">#&gt; shim, : Coercing boolean to numeric in A3 / R3C1</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing boolean to numeric in [4, 1]</span>
+<span class="co">#&gt; shim, : Coercing boolean to numeric in A4 / R4C1</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting numeric in [5, 1]: got a date</span>
+<span class="co">#&gt; shim, : Expecting numeric in A5 / R5C1: got a date</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing text to numeric in [6, 1]: '123456'</span>
+<span class="co">#&gt; shim, : Coercing text to numeric in A6 / R6C1: '123456'</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting numeric in [8, 1]: got 'cabbage'</span>
+<span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
 <span class="co">#&gt; # A tibble: 7 × 2</span>
 <span class="co">#&gt;   `maybe numeric?`         explanation</span>
@@ -327,13 +327,13 @@ tibble::<span class="kw">deframe</span>(clippy)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"date_coercion"</span>,
                  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"text"</span>))
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting date in [5, 1]: got boolean</span>
+<span class="co">#&gt; shim, : Expecting date in A5 / R5C1: got boolean</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting date in [6, 1]: got 'cabbage'</span>
+<span class="co">#&gt; shim, : Expecting date in A6 / R6C1: got 'cabbage'</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing numeric to date in [7, 1]</span>
+<span class="co">#&gt; shim, : Coercing numeric to date A7 / R7C1</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing numeric to date in [8, 1]</span>
+<span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
 <span class="co">#&gt; # A tibble: 7 × 2</span>
 <span class="co">#&gt;   `maybe a datetime?`          explanation</span>
