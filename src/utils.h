@@ -106,10 +106,10 @@ inline std::string asA1(const int row, const int col) {
   return ret.str();
 }
 
-// row = 1, col = 1 --> upper left cell aka column A1, so 1-indexed
-inline std::string asCellLocationString(const int row, const int col) {
+// expects 0-indexed row and col
+inline std::string cellPosition(const int row, const int col) {
   std::ostringstream ret;
-  ret << asA1(row, col) << " / R" << row << "C" << col;
+  ret << asA1(row + 1, col + 1) << " / R" << row + 1 << "C" << col + 1;
   return ret.str();
 }
 

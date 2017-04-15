@@ -215,7 +215,7 @@ public:
 
     default:
       Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    asCellLocationString(row() + 1, col() + 1), cell_->id);
+                    cellPosition(row(), col()), cell_->id);
     ct = CELL_UNKNOWN;
     }
 
@@ -260,7 +260,7 @@ public:
 
     default:
       Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    asCellLocationString(row() + 1, col() + 1), cell_->id);
+                    cellPosition(row(), col()), cell_->id);
       return "";
     }
   }
@@ -285,7 +285,7 @@ public:
 
     default:
       Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    asCellLocationString(row() + 1, col() + 1), cell_->id);
+                    cellPosition(row(), col()), cell_->id);
     return NA_LOGICAL;
     }
   }
@@ -305,7 +305,7 @@ public:
 
     default:
       Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    asCellLocationString(row() + 1, col() + 1), cell_->id);
+                    cellPosition(row(), col()), cell_->id);
     return NA_REAL;
     }
   }
@@ -325,7 +325,7 @@ public:
 
     default:
       Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    asCellLocationString(row() + 1, col() + 1), cell_->id);
+                    cellPosition(row(), col()), cell_->id);
     return NA_REAL;
     }
   }
