@@ -88,6 +88,31 @@ inline std::pair<int, int> parseRef(const char* ref) {
   return std::make_pair(row - 1, col - 1); // zero indexed
 }
 
+// col = 1 --> first column aka column A, so 1-indexed
+inline std::string intToABC(int col) {
+  std::string ret;
+  while (col > 0) {
+    col--;
+    ret = (char)('A' + col % 26) + ret;
+    col /= 26;
+  }
+  return ret;
+}
+
+// row = 1, col = 1 --> upper left cell aka column A1, so 1-indexed
+inline std::string asA1(const int row, const int col) {
+  std::ostringstream ret;
+  ret << intToABC(col) << row;
+  return ret.str();
+}
+
+// expects 0-indexed row and col
+inline std::string cellPosition(const int row, const int col) {
+  std::ostringstream ret;
+  ret << asA1(row + 1, col + 1) << " / R" << row + 1 << "C" << col + 1;
+  return ret.str();
+}
+
 inline bool logicalFromString(std::string maybe_tf, bool *out) {
   bool matches = false;
   if (Rf_StringTrue(maybe_tf.c_str())) {
