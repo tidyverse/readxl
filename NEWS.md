@@ -1,4 +1,4 @@
-# readxl 0.1.1.9000
+# readxl 1.0.0
 
 ## Sheet geometry
 
