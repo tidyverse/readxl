@@ -48,7 +48,7 @@ typedef uint32_t			DWORD_UA	__attribute__ ((aligned (1)));	// 4 bytes
 #endif
 
 // Windows
-#if defined(_MSC_VER) && defined(WIN32)
+#if defined(_MSC_VER) && defined(_WIN32)
 
 typedef unsigned __int64	unsigned64_t;
 
