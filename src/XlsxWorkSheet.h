@@ -207,8 +207,7 @@ public:
         case CELL_NUMERIC:
           LOGICAL(column)[row] = xcell->asInteger();
           break;
-        case CELL_TEXT:
-        {
+        case CELL_TEXT: {
           std::string text_string = xcell->asStdString(wb_.stringTable(), trimWs);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
@@ -253,8 +252,7 @@ public:
         case CELL_NUMERIC:
           REAL(column)[row] = xcell->asDouble();
           break;
-        case CELL_TEXT:
-        {
+        case CELL_TEXT: {
           std::string num_string = xcell->asStdString(wb_.stringTable(), trimWs);
           double num_num;
           bool success = doubleFromString(num_string, num_num);
@@ -281,14 +279,12 @@ public:
       case COL_LIST:
         switch(type) {
         case CELL_UNKNOWN:
-        case CELL_BLANK: {
+        case CELL_BLANK:
           SET_VECTOR_ELT(column, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
-        }
-        case CELL_LOGICAL: {
+        case CELL_LOGICAL:
           SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asInteger()));
           break;
-        }
         case CELL_DATE: {
           Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
@@ -296,10 +292,9 @@ public:
           SET_VECTOR_ELT(column, row, cell_val);
           break;
         }
-        case CELL_NUMERIC: {
+        case CELL_NUMERIC:
           SET_VECTOR_ELT(column, row, Rf_ScalarReal(xcell->asDouble()));
           break;
-        }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable(), trimWs));
