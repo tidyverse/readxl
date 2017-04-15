@@ -92,7 +92,7 @@
 <li>
 <strong>Set</strong>: The <code>range</code> argument is taken literally, even if that means you will have leading or trailing rows or columns filled with <code>NA</code>. If you ask for <code>range = "A1:D4"</code>, you are guaranteed to get a tibble with 4 columns (A through D) and either 3 rows (<code>col_names = TRUE</code>, default) or 4 rows (<code>col_names = FALSE</code>).</li>
 <li>
-<strong>Mixed</strong>: In typical use, <code><a href="../reference/read_excel.html">read_excel()</a></code>’s geometry arguments often imply that certain limits are <strong>discovered</strong>, others are <strong>bounded</strong>, and another might be <strong>set</strong>. This will be more clear in the concrete examples below.</li>
+<strong>Mixed</strong>: In typical use, <code><a href="../reference/read_excel.html">read_excel()</a></code>’s geometry arguments often imply that certain limits are <strong>discovered</strong> while others are <strong>bounded</strong> or <strong>set</strong>. This will be more clear in the concrete examples below.</li>
 </ul>
 <p>For now, here are a few ways <code><a href="../reference/read_excel.html">read_excel()</a></code> can look when you take control of the geometry:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">skip =</span> <span class="dv">5</span>)

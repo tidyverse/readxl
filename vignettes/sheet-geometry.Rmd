@@ -26,7 +26,7 @@ The extent of the data rectangle can be determined in various ways:
   * **Discovered**: By default, `read_excel()` uses the smallest rectangle that contains the non-empty cells. It "shrink wraps" the data.
   * **Bounded**: The `skip` and `n_max` arguments constrain `read_excel()`'s discovery process with respect to rows. At least `skip` spreadsheet rows will be skipped or ignored and at most `n_max` spreadsheet rows will be considered as data. Compared to the default of **discovery**, these arguments can only lead to making the output tibble smaller.
   * **Set**: The `range` argument is taken literally, even if that means you will have leading or trailing rows or columns filled with `NA`. If you ask for `range = "A1:D4"`, you are guaranteed to get a tibble with 4 columns (A through D) and either 3 rows (`col_names = TRUE`, default) or 4 rows (`col_names = FALSE`).
-  * **Mixed**: In typical use, `read_excel()`'s geometry arguments often imply that certain limits are **discovered**, others are **bounded**, and another might be **set**. This will be more clear in the concrete examples below.
+  * **Mixed**: In typical use, `read_excel()`'s geometry arguments often imply that certain limits are **discovered** while others are **bounded** or **set**. This will be more clear in the concrete examples below.
 
 For now, here are a few ways `read_excel()` can look when you take control of the geometry:
 
