@@ -164,18 +164,20 @@ public:
     while (xcell != cells_.end()) {
 
       int i = xcell->row();
-      int j = xcell->col() - actual_.minCol();
+      int j = xcell->col();
+      // col to write into
+      int col = j - actual_.minCol();
       if ((i + 1) % 1000 == 0) {
         Rcpp::checkUserInterrupt();
       }
-      if (types[j] == COL_SKIP) {
+      if (types[col] == COL_SKIP) {
         xcell++;
         continue;
       }
 
       xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       CellType type = xcell->type();
-      Rcpp::RObject col = cols[j];
+      Rcpp::RObject column = cols[col];
       // row to write into
       int row = i - base;
 
@@ -183,7 +185,7 @@ public:
       // Conventions:
       //   * process type in same order as enum, unless reason to do otherwise
       //   * access cell contents only via asWhatever() methods
-      switch(types[j]) {
+      switch(types[col]) {
 
       case COL_UNKNOWN:
       case COL_BLANK:
@@ -203,18 +205,18 @@ public:
         case CELL_LOGICAL:
         case CELL_DATE:
         case CELL_NUMERIC:
-          LOGICAL(col)[row] = xcell->asInteger();
+          LOGICAL(column)[row] = xcell->asInteger();
           break;
         case CELL_TEXT:
         {
           std::string text_string = xcell->asStdString(wb_.stringTable(), trimWs);
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
-            LOGICAL(col)[row] = text_boolean;
+            LOGICAL(column)[row] = text_boolean;
           } else {
             Rcpp::warning("Expecting logical in [%i, %i] got '%s'",
                           i + 1, j + 1, text_string);
-            LOGICAL(col)[row] = NA_LOGICAL;
+            LOGICAL(column)[row] = NA_LOGICAL;
           }
         }
           break;
@@ -234,7 +236,7 @@ public:
           Rcpp::warning("Expecting date in [%i, %i]: got '%s'",
                         i + 1, j + 1, xcell->asStdString(wb_.stringTable(), trimWs));
         }
-        REAL(col)[row] = xcell->asDate(wb_.is1904());
+        REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
@@ -253,7 +255,7 @@ public:
         case CELL_LOGICAL:
         case CELL_DATE:
         case CELL_NUMERIC:
-          REAL(col)[row] = xcell->asDouble();
+          REAL(column)[row] = xcell->asDouble();
           break;
         case CELL_TEXT:
         {
@@ -263,11 +265,11 @@ public:
           if (success) {
             Rcpp::warning("Coercing text to numeric in [%i, %i]: '%s'",
                           i + 1, j + 1, num_string);
-            REAL(col)[row] = num_num;
+            REAL(column)[row] = num_num;
           } else {
             Rcpp::warning("Expecting numeric in [%i, %i]: got '%s'",
                           i + 1, j + 1, num_string);
-            REAL(col)[row] = NA_REAL;
+            REAL(column)[row] = NA_REAL;
           }
         }
           break;
@@ -277,35 +279,35 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        SET_STRING_ELT(col, row, xcell->asCharSxp(wb_.stringTable(), trimWs));
+        SET_STRING_ELT(column, row, xcell->asCharSxp(wb_.stringTable(), trimWs));
         break;
 
       case COL_LIST:
         switch(type) {
         case CELL_UNKNOWN:
         case CELL_BLANK: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(NA_LOGICAL));
+          SET_VECTOR_ELT(column, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         }
         case CELL_LOGICAL: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarLogical(xcell->asInteger()));
+          SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asInteger()));
           break;
         }
         case CELL_DATE: {
           Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
           cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
           cell_val.attr("tzone") = "UTC";
-          SET_VECTOR_ELT(col, row, cell_val);
+          SET_VECTOR_ELT(column, row, cell_val);
           break;
         }
         case CELL_NUMERIC: {
-          SET_VECTOR_ELT(col, row, Rf_ScalarReal(xcell->asDouble()));
+          SET_VECTOR_ELT(column, row, Rf_ScalarReal(xcell->asDouble()));
           break;
         }
         case CELL_TEXT: {
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable(), trimWs));
-          SET_VECTOR_ELT(col, row, rStringVector);
+          SET_VECTOR_ELT(column, row, rStringVector);
           break;
         }
         }
