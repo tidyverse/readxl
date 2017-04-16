@@ -14,17 +14,17 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+There are no errors or warnings.
 
 There are 2 NOTEs, that make three points:
 
   * Change of maintainer: from Hadley Wickham to Jennifer Bryan.
-  * The LICENSE file specifies precisely the license of the included libxls code.
-  * "Author field differs from that derived from Authors@R". RStudio is now listed as funder, in addition to being a copyright holder.
+  * The LICENSE file specifies precisely the license of the included libxls code and is unchanged since the previous readxl release.
+  * "Author field differs from that derived from Authors@R". I don't have an Author field, only Authors@R, so I'm unsure what this means. I note that RStudio is newly listed as funder, in addition to being a copyright holder. Perhaps this change causes the NOTE?
 
 Two possibly invalid URLs are flagged, one in NEWS.md and another in a vignette. Both are valid URLs below https://support.microsoft.com that I have no trouble accessing. I'm not sure why they are flagged.
   
-Results at:
+Results from:
 https://cran.r-project.org/web/checks/check_results_readxl.html  
   
 All NOTEs are about registration of native routines, which has been addressed in this submission.
