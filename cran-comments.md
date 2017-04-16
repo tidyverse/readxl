@@ -24,14 +24,14 @@ There are 2 NOTEs, that make three points:
 
 Two possibly invalid URLs are flagged, one in NEWS.md and another in a vignette. Both are valid URLs below https://support.microsoft.com that I have no trouble accessing. I'm not sure why they are flagged.
   
-Results from:
+Results re: current version from:
 https://cran.r-project.org/web/checks/check_results_readxl.html  
   
-All NOTEs are about registration of native routines, which has been addressed in this submission.
+  * All NOTEs are about registration of native routines, which has been addressed in this submission.
 
-There is one WARN for r-devel-windows-ix86+x86_64: "ISO C++ 1998 does not support 'long long' [-Wlong-long]". This originates in a typedef in the wrapped libxls library. COME BACK HERE ONCE MY ATTEMPT TO SUPPRESS HAS PLAYED OUT.
+  * There is one WARN for r-devel-windows-ix86+x86_64: "ISO C++ 1998 does not support 'long long' [-Wlong-long]". This originates in a typedef in the wrapped libxls library. There is existing conditional handling for Windows and we have now adapted it to look for _WIN32, in addition to WIN32. This clears the warning.
 
-There is one ERROR for r-patched-solaris-sparc, which has always been the case for this package. Repeating explanation from the previous CRAN release: The package still fails on solaris, due to endian-ness bugs in the wrapped libxls library.
+  * There is one ERROR for r-patched-solaris-sparc, which has always been the case for this package. Repeating explanation from the previous CRAN release: The package still fails on solaris, due to endian-ness bugs in the wrapped libxls library.
 
 ## Reverse dependencies
 
