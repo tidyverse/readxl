@@ -1,3 +1,4 @@
+PKG_CFLAGS +=  -Wno-long-long
 PKG_CPPFLAGS=-Iwindows -I. -D__USE_MINGW_ANSI_STDIO
 PKG_LIBS=-lRiconv
 
