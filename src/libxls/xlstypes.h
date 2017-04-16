@@ -61,7 +61,7 @@ typedef uint64_t			unsigned64_t;
 
 #else
 
-typedef __extension__ unsigned long long	unsigned64_t;
+typedef unsigned long long	unsigned64_t;
 
 // _UINT64_T
 #endif
