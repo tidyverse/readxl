@@ -4,6 +4,81 @@ title: "readxl v1.0.0"
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+options(tibble.print_min = 4, tibble.print_max = 4)
 ```
 
-just a placeholder for the moment
+I'm pleased to announce that [readxl][readxl] 1.0.0 is available on CRAN. [readxl][readxl] makes it easy to bring tabular data out of Excel and into R, for modern `.xlsx` files and the legacy `.xls` format. [readxl][readxl] does not have any tricky external dependencies, such as Java or Perl, and is easy to install and use on Mac, Windows, and Linux.
+
+You can install it with:
+
+```{r eval = FALSE}
+install.packages("readxl")
+```
+
+As well as fixing many bugs, this release:
+
+  * Allows you to target specific cells for reading, in a variety of ways
+  * Adds two new column types: `"logical"` and `"list"`, for data of disparate type
+  * Is more resilient to the wondrous diversity in spreadsheets, e.g., those written by 3rd party tools
+  
+You can see a full list of changes in the [release notes](http://readxl.tidyverse.org/news/index.html). This is the first release maintained by Jenny Bryan.
+  
+## Specifying the data rectangle
+
+In an ideal world, data would live in a neat rectangle in the upper left corner of a spreadsheet. But spreadsheets often serve multiple purposes for users with different priorities. It is common to encounter several rows of notes above or below the data, for example. The new `range` argument provides a flexible interface for describing the data rectangle, including Excel-style ranges and row- or column-only ranges.
+
+```{r}
+library(readxl)
+read_excel(
+  readxl_example("deaths.xlsx"),
+  range = "arts!A5:F15"
+)
+read_excel(
+  readxl_example("deaths.xlsx"),
+  sheet = "other",
+  range = cell_rows(5:15)
+)
+```
+
+There is also a new argument `n_max` that limits the number of data rows read from the sheet. It is an example of [readxl][readxl]'s evolution towards a [readr](http://readr.tidyverse.org)-like interface. The [Sheet Geometry vignette](http://readxl.tidyverse.org/articles/sheet-geometry.html) goes over all the options.
+
+## Column typing
+
+The new ability to target cells for reading means that [readxl][readxl]'s automatic column typing will "just work"" for most sheets, most of the time. Above, the `Has kids` column is automatically detected as `logical`, which is a new column type for [readxl][readxl].
+
+You can still specify column type explicitly via `col_types`, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type `"guess"` can be mixed with explicit types to specify some types, while leaving others to be guessed.
+
+```{r}
+read_excel(
+  readxl_example("deaths.xlsx"),
+  range = "arts!A5:C15",
+  col_types = c("guess", "skip", "numeric")
+)
+```
+
+The new argument `guess_max` limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new `trim_ws` argument is `TRUE`, which is the default. Finally, thanks to [Jonathan Marshall](https://github.com/jmarshallnz), multiple `na` values are accepted.  The [Cell and Column Types vignette](http://readxl.tidyverse.org/articles/cell-and-column-types.html) has more detail.
+
+### `"list"` columns
+
+Thanks to [Greg Freedman Ellis](https://github.com/gergness) we now have a `"list"` column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.
+
+```{r}
+(df <- read_excel(
+  readxl_example("clippy.xlsx"),
+  col_types = c("text", "list")
+))
+tibble::deframe(df)
+```
+
+## Everything else
+
+To learn more, read the [vignettes and articles](http://readxl.tidyverse.org/articles/index.html) or [release notes](http://readxl.tidyverse.org/news/index.html). Highlights include:
+
+  * General rationalization of sheet geometry, including detection and treatment of empty rows and columns.
+  * Improved behavior and messaging around coercion and mismatched cell and column types.
+  * Improved handling of datetimes with respect to 3rd party software, rounding, and the [Lotus 1-2-3 leap year bug](https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year).
+  * `read_xls()` and `read_xlsx()` are now exposed, so that files without an `.xls` or `.xlsx` extension can be read. Thanks [Jirka Lewandowski](https://github.com/jirkalewandowski)!
+  * [readxl Workflows](http://readxl.tidyverse.org/articles/articles/readxl-workflows.html) showcases patterns that reduce tedium and increase reproducibility when raw data arrives in a spreadsheet.
+
+
+[readxl]: http://readxl.tidyverse.org
