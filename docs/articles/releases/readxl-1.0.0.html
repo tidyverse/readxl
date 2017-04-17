@@ -107,8 +107,7 @@
 <p>As well as fixing many bugs, this release:</p>
 <ul>
 <li>Allows you to target specific cells for reading, in a variety of ways</li>
-<li>Adds two new column types, <code>"list"</code> for data of disparate type, and <code>"logical"</code>
-</li>
+<li>Adds two new column types: <code>"logical"</code> and <code>"list"</code>, for data of disparate type</li>
 <li>Is more resilient to the wondrous diversity in spreadsheets, e.g., those written by 3rd party tools</li>
 </ul>
 <p>You can see a full list of changes in the <a href="http://readxl.tidyverse.org/news/index.html">release notes</a>. This is the first release maintained by Jenny Bryan.</p>
@@ -117,7 +116,10 @@
 <a href="#specifying-the-data-rectangle" class="anchor"></a>Specifying the data rectangle</h2>
 <p>In an ideal world, data would live in a neat rectangle in the upper left corner of a spreadsheet. But spreadsheets often serve multiple purposes for users with different priorities. It is common to encounter several rows of notes above or below the data, for example. The new <code>range</code> argument provides a flexible interface for describing the data rectangle, including Excel-style ranges and row- or column-only ranges.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
-<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)
+<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>
+)
 <span class="co">#&gt; # A tibble: 10 × 6</span>
 <span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
 <span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
@@ -126,8 +128,11 @@
 <span class="co">#&gt; 3   Chuck Berry   musician    90       TRUE      1926-10-18</span>
 <span class="co">#&gt; 4   Bill Paxton      actor    61       TRUE      1955-05-17</span>
 <span class="co">#&gt; # ... with 6 more rows, and 1 more variables: `Date of death` &lt;dttm&gt;</span>
-<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
-           <span class="dt">sheet =</span> <span class="st">"other"</span>, <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
+<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="dt">sheet =</span> <span class="st">"other"</span>,
+  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>)
+)
 <span class="co">#&gt; # A tibble: 10 × 6</span>
 <span class="co">#&gt;           Name Profession   Age `Has kids` `Date of birth` `Date of death`</span>
 <span class="co">#&gt;          &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;          &lt;dttm&gt;</span>
@@ -136,15 +141,18 @@
 <span class="co">#&gt; 3 Morley Safer journalist    84       TRUE      1931-11-08      2016-05-19</span>
 <span class="co">#&gt; 4 Fidel Castro politician    90       TRUE      1926-08-13      2016-11-25</span>
 <span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
-<p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface.</p>
+<p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>
 <div id="column-typing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#column-typing" class="anchor"></a>Column typing</h2>
 <p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org">readxl</a>.</p>
 <p>You can still specify column type explicitly via <code>col_types</code>, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type <code>"guess"</code> can be mixed with explicit types to specify some types, while leaving others to be guessed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:C15"</span>,
-           <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="dt">range =</span> <span class="st">"arts!A5:C15"</span>,
+  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span>)
+)
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;            Name   Age</span>
 <span class="co">#&gt;           &lt;chr&gt; &lt;dbl&gt;</span>
@@ -153,12 +161,15 @@
 <span class="co">#&gt; 3   Chuck Berry    90</span>
 <span class="co">#&gt; 4   Bill Paxton    61</span>
 <span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
-<p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted.</p>
+<p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types vignette</a> has more detail.</p>
 <div id="list-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-columns" class="anchor"></a><code>"list"</code> columns</h3>
 <p>Thanks to <a href="https://github.com/gergness">Greg Freedman Ellis</a> we now have a <code>"list"</code> column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),
+  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)
+))
 <span class="co">#&gt; # A tibble: 4 × 2</span>
 <span class="co">#&gt;                   name      value</span>
 <span class="co">#&gt;                  &lt;chr&gt;     &lt;list&gt;</span>
@@ -190,6 +201,8 @@ tibble::<span class="kw">deframe</span>(df)
 <li>Improved handling of datetimes with respect to 3rd party software, rounding, and the <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a>.</li>
 <li>
 <code><a href="../../reference/read_excel.html">read_xls()</a></code> and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> are now exposed, so that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. Thanks <a href="https://github.com/jirkalewandowski">Jirka Lewandowski</a>!</li>
+<li>
+<a href="http://readxl.tidyverse.org/articles/articles/readxl-workflows.html">readxl Workflows</a> showcases patterns that reduce tedium and increase reproducibility when raw data arrives in a spreadsheet.</li>
 </ul>
 </div>
 </div>
