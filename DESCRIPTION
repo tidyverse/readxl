@@ -30,7 +30,7 @@ Suggests:
     rprojroot (>= 1.1),
     testthat
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1.9000
 URL: http://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1
