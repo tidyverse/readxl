@@ -27,9 +27,7 @@ Two possibly invalid URLs are flagged, one in NEWS.md and another in a vignette.
 Results re: current version from:
 https://cran.r-project.org/web/checks/check_results_readxl.html  
   
-  * All NOTEs are about registration of native routines, which has been addressed in this submission.
-
-  * There is one WARN for r-devel-windows-ix86+x86_64: "ISO C++ 1998 does not support 'long long' [-Wlong-long]". This originates in a typedef in the wrapped libxls library. There is existing conditional handling for Windows and we have now adapted it to look for _WIN32, in addition to WIN32. This clears the warning.
+  * All NOTEs and WARNs have been cleared in this release. Native routines have been registered and we corrected the libxls issue with long long integers on Windows.
 
   * There is one ERROR for r-patched-solaris-sparc, which has always been the case for this package. Repeating explanation from the previous CRAN release: The package still fails on solaris, due to endian-ness bugs in the wrapped libxls library.
 
