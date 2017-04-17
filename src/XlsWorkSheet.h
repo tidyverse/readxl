@@ -112,7 +112,7 @@ public:
         Rcpp::checkUserInterrupt();
       }
       int j = xcell->col() - actual_.minCol();
-      if (type_known[j]) {
+      if (type_known[j] || types[j] == COL_TEXT) {
         xcell++;
         continue;
       }
