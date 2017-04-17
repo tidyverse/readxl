@@ -15,7 +15,7 @@
 
 There are no errors or warnings.
 
-There are 2 NOTEs, that make three points:
+There is one NOTE, that makes two points:
 
   * Change of maintainer: from Hadley Wickham to Jennifer Bryan.
   * The LICENSE file specifies precisely the license of the included libxls code and is unchanged since the previous readxl release.
