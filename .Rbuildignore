@@ -20,3 +20,4 @@
 ^vignettes/articles$
 ^revdep$
 ^vignettes/rsconnect$
+^vignettes/releases$
