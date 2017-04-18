@@ -13,6 +13,8 @@
 
 ## R CMD check results
 
+This is a resubmission to move the license information for the wrapped libxls library from LICENSE to LICENSE.note, as per Kurt Hornik's instructions. No other changes have been made.
+
 There are no errors or warnings.
 
 There is one NOTE, that makes two points:
