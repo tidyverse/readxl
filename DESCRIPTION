@@ -1,6 +1,6 @@
 Package: readxl
 Title: Read Excel Files
-Version: 1.0.0
+Version: 1.0.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", ,"hadley@rstudio.com", role = c("aut")),
     person("Jennifer", "Bryan", ,"jenny@rstudio.com", role = c("aut", "cre")),
