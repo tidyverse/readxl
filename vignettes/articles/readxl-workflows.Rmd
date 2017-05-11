@@ -36,9 +36,9 @@ library(readxl)
 
 Break analyses into logical steps, via a series of scripts that relate to one theme, such as "clean the data" or "make exploratory and diagnostic plots".
 
-This forces you to transmit info from step i to step i + 1 via a set of output files. The cumulative outputs of steps 1, 2, ..., i are available as inputs for steps i + 1.
+This forces you to transmit info from step i to step i + 1 via a set of output files. The cumulative outputs of steps 1, 2, ..., i are available as inputs for steps i + 1 and beyond.
 
-These outputs constitute an API for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via `save()`, `load()`, and R-specific `.rds` files.
+These outputs constitute [an API](https://www.quora.com/What-is-an-API-4) for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via `save()`, `load()`, and R-specific `.rds` files.
 
 If raw data is stored *only* as an Excel spreadsheet, this limits your ability to inspect it when solving the little puzzles that crop up in dowstream work. You'll need to fire up Excel (or similar) and get busy with your mouse. You certainly can't poke around it or view diffs on GitHub.
 
