@@ -21,3 +21,4 @@
 ^revdep$
 ^vignettes/rsconnect$
 ^vignettes/releases$
+^talks$

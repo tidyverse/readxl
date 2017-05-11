@@ -31,7 +31,7 @@ Authors:
 Other contributors:
 \itemize{
   \item RStudio (Copyright holder of
-      all R code and all C/C++ code without explicit copyright attribution) [copyright holder]
+      all R code and all C/C++ code without explicit copyright attribution) [copyright holder, funder]
   \item Marcin Kalicinski (Author of included RapidXML code) [contributor, copyright holder]
   \item Komarov Valery (Author of included libxls code) [contributor, copyright holder]
   \item Christophe Leitienne (Author of included libxls code) [contributor, copyright holder]
