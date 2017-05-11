@@ -122,7 +122,7 @@ extension, <code>read_xls()</code> and <code>read_xlsx()</code> can be used to
 read files without extension.</p>
     
 
-    <pre><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
   <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))
 
@@ -216,26 +216,47 @@ types.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>)
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa
-#&gt; 2          4.9         3.0          1.4         0.2  setosa
-#&gt; 3          4.7         3.2          1.3         0.2  setosa
-#&gt; # ... with 147 more rows</div><div class='input'>
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
+#&gt;  1          5.1         3.5          1.4         0.2  setosa
+#&gt;  2          4.9         3.0          1.4         0.2  setosa
+#&gt;  3          4.7         3.2          1.3         0.2  setosa
+#&gt;  4          4.6         3.1          1.5         0.2  setosa
+#&gt;  5          5.0         3.6          1.4         0.2  setosa
+#&gt;  6          5.4         3.9          1.7         0.4  setosa
+#&gt;  7          4.6         3.4          1.4         0.3  setosa
+#&gt;  8          5.0         3.4          1.5         0.2  setosa
+#&gt;  9          4.4         2.9          1.4         0.2  setosa
+#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Specify sheet either by position or by name</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.0     6   160   110  3.90 2.620 16.46     0     1     4     4
-#&gt; 2  21.0     6   160   110  3.90 2.875 17.02     0     1     4     4
-#&gt; 3  22.8     4   108    93  3.85 2.320 18.61     1     1     4     1
-#&gt; # ... with 29 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='st'>"mtcars"</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.0     6   160   110  3.90 2.620 16.46     0     1     4     4
-#&gt; 2  21.0     6   160   110  3.90 2.875 17.02     0     1     4     4
-#&gt; 3  22.8     4   108    93  3.85 2.320 18.61     1     1     4     1
-#&gt; # ... with 29 more rows</div><div class='input'>
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
+#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
+#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
+#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
+#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
+#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
+#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
+#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
+#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
+#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='st'>"mtcars"</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
+#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
+#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
+#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
+#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
+#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
+#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
+#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
+#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
+#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># Skip rows and use default column names</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>148</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 5
 #&gt;    X__1  X__2  X__3  X__4      X__5
@@ -245,20 +266,34 @@ types.</p></td>
 #&gt; 3   5.9   3.0   5.1   1.8 virginica</div><div class='input'>
 <span class='co'># Recycle a single column type</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='st'>"text"</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa
-#&gt; 2          4.9           3          1.4         0.2  setosa
-#&gt; 3          4.7         3.2          1.3         0.2  setosa
-#&gt; # ... with 147 more rows</div><div class='input'>
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;
+#&gt;  1          5.1         3.5          1.4         0.2  setosa
+#&gt;  2          4.9           3          1.4         0.2  setosa
+#&gt;  3          4.7         3.2          1.3         0.2  setosa
+#&gt;  4          4.6         3.1          1.5         0.2  setosa
+#&gt;  5            5         3.6          1.4         0.2  setosa
+#&gt;  6          5.4         3.9          1.7         0.4  setosa
+#&gt;  7          4.6         3.4          1.4         0.3  setosa
+#&gt;  8            5         3.4          1.5         0.2  setosa
+#&gt;  9          4.4         2.9          1.4         0.2  setosa
+#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Specify some col_types and guess others</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"text"</span>, <span class='st'>"guess"</span>, <span class='st'>"numeric"</span>, <span class='st'>"guess"</span>, <span class='st'>"guess"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;chr&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa
-#&gt; 2          4.9         3.0          1.4         0.2  setosa
-#&gt; 3          4.7         3.2          1.3         0.2  setosa
-#&gt; # ... with 147 more rows</div><div class='input'>
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;chr&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
+#&gt;  1          5.1         3.5          1.4         0.2  setosa
+#&gt;  2          4.9         3.0          1.4         0.2  setosa
+#&gt;  3          4.7         3.2          1.3         0.2  setosa
+#&gt;  4          4.6         3.1          1.5         0.2  setosa
+#&gt;  5            5         3.6          1.4         0.2  setosa
+#&gt;  6          5.4         3.9          1.7         0.4  setosa
+#&gt;  7          4.6         3.4          1.4         0.3  setosa
+#&gt;  8            5         3.4          1.5         0.2  setosa
+#&gt;  9          4.4         2.9          1.4         0.2  setosa
+#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Accomodate a column with disparate types via col_type = "list"</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>), <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"text"</span>, <span class='st'>"list"</span>))
 <span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 4 × 2
@@ -267,7 +302,7 @@ types.</p></td>
 #&gt; 1                 Name  &lt;chr [1]&gt;
 #&gt; 2              Species  &lt;chr [1]&gt;
 #&gt; 3 Approx date of death &lt;dttm [1]&gt;
-#&gt; # ... with 1 more rows</div><div class='input'><span class='no'>df</span>$<span class='no'>value</span></div><div class='output co'>#&gt; [[1]]
+#&gt; 4      Weight in grams  &lt;dbl [1]&gt;</div><div class='input'><span class='no'>df</span>$<span class='no'>value</span></div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "Clippy"
 #&gt; 
 #&gt; [[2]]
@@ -304,7 +339,9 @@ types.</p></td>
 #&gt; 1          1.4         0.2  setosa
 #&gt; 2          1.4         0.2  setosa
 #&gt; 3          1.3         0.2  setosa
-#&gt; # ... with 3 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"R1C2:R2C5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 4
+#&gt; 4          1.5         0.2  setosa
+#&gt; 5          1.4         0.2  setosa
+#&gt; 6          1.7         0.4  setosa</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"R1C2:R2C5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 4
 #&gt;   Sepal.Width Petal.Length Petal.Width Species
 #&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
 #&gt; 1         3.5          1.4         0.2  setosa</div><div class='input'>
@@ -315,21 +352,35 @@ types.</p></td>
 #&gt; 1     6   160   110
 #&gt; 2     6   160   110
 #&gt; 3     4   108    93
-#&gt; # ... with 1 more rows</div><div class='input'>
+#&gt; 4     6   258   110</div><div class='input'>
 <span class='co'># Read only specific rows or columns</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 50 × 5
-#&gt;    X__1  X__2  X__3  X__4      X__5
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;chr&gt;
-#&gt; 1   6.3   3.3   6.0   2.5 virginica
-#&gt; 2   5.8   2.7   5.1   1.9 virginica
-#&gt; 3   7.1   3.0   5.9   2.1 virginica
-#&gt; # ... with 47 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span>(<span class='st'>"B:D"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
-#&gt;   Sepal.Width Petal.Length Petal.Width
-#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1         3.5          1.4         0.2
-#&gt; 2         3.0          1.4         0.2
-#&gt; 3         3.2          1.3         0.2
-#&gt; # ... with 147 more rows</div></pre>
+#&gt;     X__1  X__2  X__3  X__4      X__5
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;chr&gt;
+#&gt;  1   6.3   3.3   6.0   2.5 virginica
+#&gt;  2   5.8   2.7   5.1   1.9 virginica
+#&gt;  3   7.1   3.0   5.9   2.1 virginica
+#&gt;  4   6.3   2.9   5.6   1.8 virginica
+#&gt;  5   6.5   3.0   5.8   2.2 virginica
+#&gt;  6   7.6   3.0   6.6   2.1 virginica
+#&gt;  7   4.9   2.5   4.5   1.7 virginica
+#&gt;  8   7.3   2.9   6.3   1.8 virginica
+#&gt;  9   6.7   2.5   5.8   1.8 virginica
+#&gt; 10   7.2   3.6   6.1   2.5 virginica
+#&gt; # ... with 40 more rows</div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span>(<span class='st'>"B:D"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
+#&gt;    Sepal.Width Petal.Length Petal.Width
+#&gt;          &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+#&gt;  1         3.5          1.4         0.2
+#&gt;  2         3.0          1.4         0.2
+#&gt;  3         3.2          1.3         0.2
+#&gt;  4         3.1          1.5         0.2
+#&gt;  5         3.6          1.4         0.2
+#&gt;  6         3.9          1.7         0.4
+#&gt;  7         3.4          1.4         0.3
+#&gt;  8         3.4          1.5         0.2
+#&gt;  9         2.9          1.4         0.2
+#&gt; 10         3.1          1.5         0.1
+#&gt; # ... with 140 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

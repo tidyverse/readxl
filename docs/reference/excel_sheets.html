@@ -119,7 +119,7 @@
     <p>List all sheets in an excel spreadsheet.</p>
     
 
-    <pre><span class='fu'>excel_sheets</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>excel_sheets</span>(<span class='no'>path</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -137,39 +137,67 @@
 <span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>)
 <span class='fu'>lapply</span>(<span class='fu'>excel_sheets</span>(<span class='no'>path</span>), <span class='no'>read_excel</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>path</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 150 × 5
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt; 1          5.1         3.5          1.4         0.2  setosa
-#&gt; 2          4.9         3.0          1.4         0.2  setosa
-#&gt; 3          4.7         3.2          1.3         0.2  setosa
-#&gt; # ... with 147 more rows
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
+#&gt;  1          5.1         3.5          1.4         0.2  setosa
+#&gt;  2          4.9         3.0          1.4         0.2  setosa
+#&gt;  3          4.7         3.2          1.3         0.2  setosa
+#&gt;  4          4.6         3.1          1.5         0.2  setosa
+#&gt;  5          5.0         3.6          1.4         0.2  setosa
+#&gt;  6          5.4         3.9          1.7         0.4  setosa
+#&gt;  7          4.6         3.4          1.4         0.3  setosa
+#&gt;  8          5.0         3.4          1.5         0.2  setosa
+#&gt;  9          4.4         2.9          1.4         0.2  setosa
+#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt; # ... with 140 more rows
 #&gt; 
 #&gt; [[2]]
 #&gt; # A tibble: 32 × 11
-#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.0     6   160   110  3.90 2.620 16.46     0     1     4     4
-#&gt; 2  21.0     6   160   110  3.90 2.875 17.02     0     1     4     4
-#&gt; 3  22.8     4   108    93  3.85 2.320 18.61     1     1     4     1
-#&gt; # ... with 29 more rows
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
+#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
+#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
+#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
+#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
+#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
+#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
+#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
+#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
+#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt; # ... with 22 more rows
 #&gt; 
 #&gt; [[3]]
 #&gt; # A tibble: 71 × 2
-#&gt;   weight      feed
-#&gt;    &lt;dbl&gt;     &lt;chr&gt;
-#&gt; 1    179 horsebean
-#&gt; 2    160 horsebean
-#&gt; 3    136 horsebean
-#&gt; # ... with 68 more rows
+#&gt;    weight      feed
+#&gt;     &lt;dbl&gt;     &lt;chr&gt;
+#&gt;  1    179 horsebean
+#&gt;  2    160 horsebean
+#&gt;  3    136 horsebean
+#&gt;  4    227 horsebean
+#&gt;  5    217 horsebean
+#&gt;  6    168 horsebean
+#&gt;  7    108 horsebean
+#&gt;  8    124 horsebean
+#&gt;  9    143 horsebean
+#&gt; 10    140 horsebean
+#&gt; # ... with 61 more rows
 #&gt; 
 #&gt; [[4]]
 #&gt; # A tibble: 1,000 × 5
-#&gt;      lat   long depth   mag stations
-#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1 -20.42 181.62   562   4.8       41
-#&gt; 2 -20.62 181.03   650   4.2       15
-#&gt; 3 -26.00 184.10    42   5.4       43
-#&gt; # ... with 997 more rows
+#&gt;       lat   long depth   mag stations
+#&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1 -20.42 181.62   562   4.8       41
+#&gt;  2 -20.62 181.03   650   4.2       15
+#&gt;  3 -26.00 184.10    42   5.4       43
+#&gt;  4 -17.97 181.66   626   4.1       19
+#&gt;  5 -20.42 181.96   649   4.0       11
+#&gt;  6 -19.68 184.31   195   4.0       12
+#&gt;  7 -11.70 166.10    82   4.8       43
+#&gt;  8 -28.11 181.93   194   4.4       15
+#&gt;  9 -28.74 181.74   211   4.7       35
+#&gt; 10 -17.47 179.59   622   4.3       19
+#&gt; # ... with 990 more rows
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
