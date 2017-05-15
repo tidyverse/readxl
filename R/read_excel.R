@@ -78,6 +78,9 @@ NULL
 #' # Read only specific rows or columns
 #' read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
 #' read_excel(datasets, range = cell_cols("B:D"))
+#'
+#' # Get a preview of column names
+#' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,

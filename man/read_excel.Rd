@@ -109,6 +109,9 @@ read_excel(datasets, range = "mtcars!B1:D5")
 # Read only specific rows or columns
 read_excel(datasets, range = cell_rows(102:151), col_names = FALSE)
 read_excel(datasets, range = cell_cols("B:D"))
+
+# Get a preview of column names
+names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 }
 \seealso{
 \link{cell-specification} for more details on targetting cells with the

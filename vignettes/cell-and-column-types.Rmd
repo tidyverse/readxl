@@ -115,6 +115,18 @@ Non-data rows above and below the main data rectangle are causing all the column
 
 If your column typing problem can't be solved by specifying `na` or the data rectangle, request the `"list"` column type and handle missing data and coercion after import.
 
+### Peek at column names
+
+Sometimes you aren't completely sure of column count or order, and yet you need to provide *some* information via `col_types`. For example, you might know that the column named "foofy" should be text, but you're not sure where it appears. Or maybe you want to ensure that lots of empty cells at the top of "foofy" don't cause it to be guessed as logical.
+
+Here's an efficient trick to get the column names, so you can programmatically build the `col_types` vector you need for your main reading of the Excel file. Let's imagine I want to force the columns whose names include "Petal" to be text, but leave everything else to be guessed.
+
+```{r}
+(nms <- names(read_excel(readxl_example("datasets.xlsx"), n_max = 0)))
+(ct <- ifelse(grepl("^Petal", nms), "text", "guess"))
+read_excel(readxl_example("datasets.xlsx"), col_types = ct)
+```
+
 ## Square pegs in round holes
 
 You can force a column to have a specific type via `col_types`. So what happens to cells of another type? They will either be coerced to the requested type or to an `NA` of appropriate type.
