@@ -59,7 +59,7 @@ readxl_example("clippy.xls")
 ``` r
 xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
-#> # A tibble: 150 × 5
+#> # A tibble: 150 x 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2  setosa
@@ -69,7 +69,7 @@ read_excel(xlsx_example)
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
-#> # A tibble: 150 × 5
+#> # A tibble: 150 x 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2  setosa
@@ -89,7 +89,7 @@ Specify a worksheet by name or number.
 
 ``` r
 read_excel(xlsx_example, sheet = "chickwts")
-#> # A tibble: 71 × 2
+#> # A tibble: 71 x 2
 #>   weight      feed
 #>    <dbl>     <chr>
 #> 1    179 horsebean
@@ -97,7 +97,7 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 3    136 horsebean
 #> # ... with 68 more rows
 read_excel(xls_example, sheet = 4)
-#> # A tibble: 1,000 × 5
+#> # A tibble: 1,000 x 5
 #>      lat   long depth   mag stations
 #>    <dbl>  <dbl> <dbl> <dbl>    <dbl>
 #> 1 -20.42 181.62   562   4.8       41
@@ -110,28 +110,28 @@ There are various ways to control which cells are read. You can even specify the
 
 ``` r
 read_excel(xlsx_example, n_max = 3)
-#> # A tibble: 3 × 5
+#> # A tibble: 3 x 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2  setosa
 #> 2          4.9         3.0          1.4         0.2  setosa
 #> 3          4.7         3.2          1.3         0.2  setosa
 read_excel(xlsx_example, range = "C1:E4")
-#> # A tibble: 3 × 3
+#> # A tibble: 3 x 3
 #>   Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>   <chr>
 #> 1          1.4         0.2  setosa
 #> 2          1.4         0.2  setosa
 #> 3          1.3         0.2  setosa
 read_excel(xlsx_example, range = cell_rows(1:4))
-#> # A tibble: 3 × 5
+#> # A tibble: 3 x 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2  setosa
 #> 2          4.9         3.0          1.4         0.2  setosa
 #> 3          4.7         3.2          1.3         0.2  setosa
 read_excel(xlsx_example, range = cell_cols("B:D"))
-#> # A tibble: 150 × 3
+#> # A tibble: 150 x 3
 #>   Sepal.Width Petal.Length Petal.Width
 #>         <dbl>        <dbl>       <dbl>
 #> 1         3.5          1.4         0.2
@@ -139,7 +139,7 @@ read_excel(xlsx_example, range = cell_cols("B:D"))
 #> 3         3.2          1.3         0.2
 #> # ... with 147 more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
-#> # A tibble: 4 × 3
+#> # A tibble: 4 x 3
 #>     cyl  disp    hp
 #>   <dbl> <dbl> <dbl>
 #> 1     6   160   110
@@ -152,7 +152,7 @@ If `NA`s are represented by something other than blank cells, set the `na` argum
 
 ``` r
 read_excel(xlsx_example, na = "setosa")
-#> # A tibble: 150 × 5
+#> # A tibble: 150 x 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
 #> 1          5.1         3.5          1.4         0.2    <NA>

@@ -120,7 +120,7 @@
 <p>with the wrinkle that datetimes are a very special flavor of numeric. A cell of any particular type can always be represented as one of any higher type and, possibly, as one of lower type. When guessing, <code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it has seen in any given column. Once it has visited <code>guess_max</code> rows or run out of data, this is the guessed type for that column. There is a strong current towards “text”, the column type of last resort.</p>
 <p>Here’s an example of column guessing with <code>deaths.xlsx</code> which ships with readxl.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
-<span class="co">#&gt; # A tibble: 10 × 6</span>
+<span class="co">#&gt; # A tibble: 10 x 6</span>
 <span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
 <span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
 <span class="co">#&gt; 1   David Bowie   musician    69       TRUE      1947-01-08</span>
@@ -192,7 +192,7 @@
   <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>),
   <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>)
 )
-<span class="co">#&gt; # A tibble: 10 × 2</span>
+<span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;            Name   Age</span>
 <span class="co">#&gt;           &lt;chr&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1   David Bowie    69</span>
@@ -207,7 +207,7 @@
 <p>We demonstrate the <code>"list"</code> column type using the <code>clippy.xlsx</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(clippy &lt;-<span class="st"> </span>
 <span class="st">   </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))
-<span class="co">#&gt; # A tibble: 4 × 2</span>
+<span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;                   name      value</span>
 <span class="co">#&gt;                  &lt;chr&gt;     &lt;list&gt;</span>
 <span class="co">#&gt; 1                 Name  &lt;chr [1]&gt;</span>
@@ -255,7 +255,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))
 <span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 18 × 6</span>
+<span class="co">#&gt; # A tibble: 18 x 6</span>
 <span class="co">#&gt;                `Lots of people`                     X__1   X__2     X__3</span>
 <span class="co">#&gt;                           &lt;chr&gt;                    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;</span>
 <span class="co">#&gt;  1 simply cannot resist writing                     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;</span>
@@ -296,7 +296,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 10 × 2</span>
+<span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;    `maybe boolean?`                      description</span>
 <span class="co">#&gt;               &lt;lgl&gt;                            &lt;chr&gt;</span>
 <span class="co">#&gt;  1               NA                            empty</span>
@@ -328,7 +328,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 7 × 2</span>
+<span class="co">#&gt; # A tibble: 7 x 2</span>
 <span class="co">#&gt;   `maybe numeric?`         explanation</span>
 <span class="co">#&gt;              &lt;dbl&gt;               &lt;chr&gt;</span>
 <span class="co">#&gt; 1               NA               empty</span>
@@ -355,7 +355,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span>
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 7 × 2</span>
+<span class="co">#&gt; # A tibble: 7 x 2</span>
 <span class="co">#&gt;   `maybe a datetime?`          explanation</span>
 <span class="co">#&gt;                &lt;dttm&gt;                &lt;chr&gt;</span>
 <span class="co">#&gt; 1                  NA                empty</span>
@@ -374,7 +374,7 @@ tibble::<span class="kw">deframe</span>(clippy)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"text_coercion"</span>,
                  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"text"</span>))
 <span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 6 × 2</span>
+<span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;       text     explanation</span>
 <span class="co">#&gt;      &lt;chr&gt;           &lt;chr&gt;</span>
 <span class="co">#&gt; 1     &lt;NA&gt;           empty</span>

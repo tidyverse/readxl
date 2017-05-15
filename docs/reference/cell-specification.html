@@ -144,75 +144,75 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 
 <span class='co'># By default, the populated data cells are "shrink-wrapped" into a</span>
 <span class='co'># minimal data frame</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;      B3    C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    B4    C4    D4
 #&gt; 2    B5    C5    D5
 #&gt; 3    B6    C6    D6</div><div class='input'>
 <span class='co'># Specific rectangle that is subset of populated cells, possibly improper</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"B3:D6"</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"B3:D6"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;      B3    C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    B4    C4    D4
 #&gt; 2    B5    C5    D5
-#&gt; 3    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 × 2
+#&gt; 3    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    C4    D4
 #&gt; 2    C5    D5</div><div class='input'>
 <span class='co'># Specific rectangle that forces inclusion of unpopulated cells</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 × 4
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 4
 #&gt;    X__1    B3    C3    D3
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    NA    B4    C4    D4
-#&gt; 2    NA    B5    C5    D5</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 5
+#&gt; 2    NA    B5    C5    D5</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
 #&gt;    X__1    B4    C4    D4  X__2
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
-#&gt; 1    NA    B5    C5    D5    NA</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; # A tibble: 2 × 3
+#&gt; 1    NA    B5    C5    D5    NA</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;      C5    D5  X__1
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
 #&gt; 1    C6    D6    NA
 #&gt; 2  &lt;NA&gt;  &lt;NA&gt;    NA</div><div class='input'>
 <span class='co'># Anchor a rectangle of specified size at a particular cell</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 2
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;    X__1  X__2
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    C4    D4
 #&gt; 2    C5    D5
 #&gt; 3    C6    D6</div><div class='input'>
 <span class='co'># Specify only the rows or only the columns</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fl'>3</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 3 × 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fl'>3</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;      B3    C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    B4    C4    D4
 #&gt; 2    B5    C5    D5
-#&gt; 3    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='st'>"C:D"</span>))</div><div class='output co'>#&gt; # A tibble: 3 × 2
+#&gt; 3    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='st'>"C:D"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;      C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    C4    D4
 #&gt; 2    C5    D5
-#&gt; 3    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 3 × 1
+#&gt; 3    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;      B3
 #&gt;   &lt;chr&gt;
 #&gt; 1    B4
 #&gt; 2    B5
 #&gt; 3    B6</div><div class='input'>
 <span class='co'># Specify exactly one row or column bound</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 × 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;      B5    C5    D5
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 3 × 3
+#&gt; 1    B6    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;    X__1  X__2  X__3
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
 #&gt; 2    B3    C3    D3
-#&gt; 3    B4    C4    D4</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'>c</span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 3 × 2
+#&gt; 3    B4    C4    D4</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'>c</span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;      C3    D3
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    C4    D4
 #&gt; 2    C5    D5
-#&gt; 3    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; # A tibble: 3 × 2
+#&gt; 3    C6    D6</div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;    X__1    B3
 #&gt;   &lt;lgl&gt; &lt;chr&gt;
 #&gt; 1    NA    B4
@@ -220,12 +220,12 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt; 3    NA    B6</div><div class='input'>
 <span class='co'># General open rectangles</span>
 <span class='co'># upper left = C4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 2 × 2
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      C4    D4
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    C5    D5
 #&gt; 2    C6    D6</div><div class='input'><span class='co'># upper right = D4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 2 × 4
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 4
 #&gt;    X__1    B4    C4    D4
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1    NA    B5    C5    D5

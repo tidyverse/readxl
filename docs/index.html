@@ -135,7 +135,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/rea
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlsx_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example)
-<span class="co">#&gt; # A tibble: 150 × 5</span>
+<span class="co">#&gt; # A tibble: 150 x 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
@@ -145,7 +145,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/rea
 
 xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example)
-<span class="co">#&gt; # A tibble: 150 × 5</span>
+<span class="co">#&gt; # A tibble: 150 x 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
@@ -157,7 +157,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"</span></code></pre></div>
 <p>Specify a worksheet by name or number.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">sheet =</span> <span class="st">"chickwts"</span>)
-<span class="co">#&gt; # A tibble: 71 × 2</span>
+<span class="co">#&gt; # A tibble: 71 x 2</span>
 <span class="co">#&gt;   weight      feed</span>
 <span class="co">#&gt;    &lt;dbl&gt;     &lt;chr&gt;</span>
 <span class="co">#&gt; 1    179 horsebean</span>
@@ -165,7 +165,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; 3    136 horsebean</span>
 <span class="co">#&gt; # ... with 68 more rows</span>
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example, <span class="dt">sheet =</span> <span class="dv">4</span>)
-<span class="co">#&gt; # A tibble: 1,000 × 5</span>
+<span class="co">#&gt; # A tibble: 1,000 x 5</span>
 <span class="co">#&gt;      lat   long depth   mag stations</span>
 <span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -20.42 181.62   562   4.8       41</span>
@@ -174,28 +174,28 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; # ... with 997 more rows</span></code></pre></div>
 <p>There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">n_max =</span> <span class="dv">3</span>)
-<span class="co">#&gt; # A tibble: 3 × 5</span>
+<span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
 <span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">range =</span> <span class="st">"C1:E4"</span>)
-<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          1.4         0.2  setosa</span>
 <span class="co">#&gt; 2          1.4         0.2  setosa</span>
 <span class="co">#&gt; 3          1.3         0.2  setosa</span>
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">range =</span> <span class="kw"><a href="reference/cell-specification.html">cell_rows</a></span>(<span class="dv">1</span>:<span class="dv">4</span>))
-<span class="co">#&gt; # A tibble: 3 × 5</span>
+<span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
 <span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">range =</span> <span class="kw"><a href="reference/cell-specification.html">cell_cols</a></span>(<span class="st">"B:D"</span>))
-<span class="co">#&gt; # A tibble: 150 × 3</span>
+<span class="co">#&gt; # A tibble: 150 x 3</span>
 <span class="co">#&gt;   Sepal.Width Petal.Length Petal.Width</span>
 <span class="co">#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         3.5          1.4         0.2</span>
@@ -203,7 +203,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; 3         3.2          1.3         0.2</span>
 <span class="co">#&gt; # ... with 147 more rows</span>
 <span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">range =</span> <span class="st">"mtcars!B1:D5"</span>)
-<span class="co">#&gt; # A tibble: 4 × 3</span>
+<span class="co">#&gt; # A tibble: 4 x 3</span>
 <span class="co">#&gt;     cyl  disp    hp</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     6   160   110</span>
@@ -212,7 +212,7 @@ xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/re
 <span class="co">#&gt; # ... with 1 more rows</span></code></pre></div>
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">na =</span> <span class="st">"setosa"</span>)
-<span class="co">#&gt; # A tibble: 150 × 5</span>
+<span class="co">#&gt; # A tibble: 150 x 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2    &lt;NA&gt;</span>

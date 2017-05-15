@@ -155,7 +155,7 @@
 <p><img src="geometry.png" width="70%"></p>
 <p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data rectangle:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>))
-<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;      B3    C3    D3</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B4    C4    D4</span>
@@ -163,7 +163,7 @@
 <span class="co">#&gt; 3    B6    C6    D6</span></code></pre></div>
 <p>If you explicitly skip one row, note that <code><a href="../reference/read_excel.html">read_excel()</a></code> still skips row 2, which is also empty, leading to the same result as before:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">skip =</span> <span class="dv">1</span>)
-<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;      B3    C3    D3</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B4    C4    D4</span>
@@ -171,7 +171,7 @@
 <span class="co">#&gt; 3    B6    C6    D6</span></code></pre></div>
 <p>You can also use <code>skip</code> to skip over populated cells. In real life, this is a mighty weapon against the explanatory text that people like to include at the top of spreadsheets.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">skip =</span> <span class="dv">3</span>)
-<span class="co">#&gt; # A tibble: 2 × 3</span>
+<span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;      B4    C4    D4</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B5    C5    D5</span>
@@ -185,14 +185,14 @@
 <p>The <code>n_max</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to read at most <code>n_max</code> rows, once it has found the data rectangle. Note that <code>n_max</code> is specifically about <em>the data</em>. You still use <code>col_names</code> to express whether the first spreadsheet row should be used to create column names (default is <code>TRUE</code>).</p>
 <p><code>n_max = 2</code> causes us to ignore the last data row – the 3rd one – in <code>geometry.xlsx</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">2</span>)
-<span class="co">#&gt; # A tibble: 2 × 3</span>
+<span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;      B3    C3    D3</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B4    C4    D4</span>
 <span class="co">#&gt; 2    B5    C5    D5</span></code></pre></div>
 <p><code>n_max</code> is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though <code>n_max</code> is much greater.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">1000</span>)
-<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;      B3    C3    D3</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B4    C4    D4</span>
@@ -210,7 +210,7 @@
 <p><strong>Excel-style range</strong>: Specify a fixed rectangle with <code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You can even prepend the worksheet name like so: <code>range = "foofy!A1:D4"</code> and it will be passed along to the <code>sheet</code> argument.</p>
 <p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)
-<span class="co">#&gt; # A tibble: 10 × 6</span>
+<span class="co">#&gt; # A tibble: 10 x 6</span>
 <span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
 <span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
 <span class="co">#&gt; 1   David Bowie   musician    69       TRUE      1947-01-08</span>
@@ -222,7 +222,7 @@
 <p><img src="geometry.png" width="70%"></p>
 <p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of <code>NA</code>s.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="st">"A2:C4"</span>)
-<span class="co">#&gt; # A tibble: 2 × 3</span>
+<span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;    X__1  X__2  X__3</span>
 <span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    NA    B3    C3</span>
@@ -242,7 +242,7 @@
 <span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"Z"</span>))</code></pre></div>
 <p>We use <code>geometry.xlsx</code> to demonstrate setting hard limits on the rows, running past the data, while allowing column limits to discovered. Note the trailing rows of <code>NA</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">4</span>:<span class="dv">8</span>))
-<span class="co">#&gt; # A tibble: 4 × 3</span>
+<span class="co">#&gt; # A tibble: 4 x 3</span>
 <span class="co">#&gt;      B4    C4    D4</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    B5    C5    D5</span>
@@ -256,7 +256,7 @@
   <span class="dt">col_names =</span> <span class="kw">paste</span>(<span class="st">"var"</span>, <span class="dv">1</span>:<span class="dv">4</span>, <span class="dt">sep =</span> <span class="st">"_"</span>),
   <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">anchored</a></span>(<span class="st">"C5"</span>, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))
 )
-<span class="co">#&gt; # A tibble: 3 × 4</span>
+<span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   var_1 var_2 var_3 var_4</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt;</span>
 <span class="co">#&gt; 1    C5    D5    NA    NA</span>
@@ -268,7 +268,7 @@
   <span class="dt">col_names =</span> <span class="ot">FALSE</span>,
   <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_limits</a></span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">3</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>))
 )
-<span class="co">#&gt; # A tibble: 2 × 2</span>
+<span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;    X__1  X__2</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1    C5    D5</span>
