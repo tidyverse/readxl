@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // xls_sheets
 CharacterVector xls_sheets(std::string path);
-RcppExport SEXP readxl_xls_sheets(SEXP pathSEXP) {
+RcppExport SEXP _readxl_xls_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // xls_date_formats
 std::set<int> xls_date_formats(std::string path);
-RcppExport SEXP readxl_xls_date_formats(SEXP pathSEXP) {
+RcppExport SEXP _readxl_xls_date_formats(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -29,7 +29,7 @@ END_RCPP
 }
 // read_xls_
 List read_xls_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max);
-RcppExport SEXP readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
+RcppExport SEXP _readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -48,7 +48,7 @@ END_RCPP
 }
 // xlsx_sheets
 CharacterVector xlsx_sheets(std::string path);
-RcppExport SEXP readxl_xlsx_sheets(SEXP pathSEXP) {
+RcppExport SEXP _readxl_xlsx_sheets(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -59,7 +59,7 @@ END_RCPP
 }
 // xlsx_strings
 std::vector<std::string> xlsx_strings(std::string path);
-RcppExport SEXP readxl_xlsx_strings(SEXP pathSEXP) {
+RcppExport SEXP _readxl_xlsx_strings(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -70,7 +70,7 @@ END_RCPP
 }
 // xlsx_date_formats
 std::set<int> xlsx_date_formats(std::string path);
-RcppExport SEXP readxl_xlsx_date_formats(SEXP pathSEXP) {
+RcppExport SEXP _readxl_xlsx_date_formats(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,7 +81,7 @@ END_RCPP
 }
 // parse_ref
 IntegerVector parse_ref(std::string ref);
-RcppExport SEXP readxl_parse_ref(SEXP refSEXP) {
+RcppExport SEXP _readxl_parse_ref(SEXP refSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -92,7 +92,7 @@ END_RCPP
 }
 // read_xlsx_
 List read_xlsx_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max);
-RcppExport SEXP readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
+RcppExport SEXP _readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -111,7 +111,7 @@ END_RCPP
 }
 // zip_xml
 void zip_xml(const std::string& zip_path, const std::string& file_path);
-RcppExport SEXP readxl_zip_xml(SEXP zip_pathSEXP, SEXP file_pathSEXP) {
+RcppExport SEXP _readxl_zip_xml(SEXP zip_pathSEXP, SEXP file_pathSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type zip_path(zip_pathSEXP);
@@ -119,4 +119,22 @@ BEGIN_RCPP
     zip_xml(zip_path, file_path);
     return R_NilValue;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_readxl_xls_sheets", (DL_FUNC) &_readxl_xls_sheets, 1},
+    {"_readxl_xls_date_formats", (DL_FUNC) &_readxl_xls_date_formats, 1},
+    {"_readxl_read_xls_", (DL_FUNC) &_readxl_read_xls_, 9},
+    {"_readxl_xlsx_sheets", (DL_FUNC) &_readxl_xlsx_sheets, 1},
+    {"_readxl_xlsx_strings", (DL_FUNC) &_readxl_xlsx_strings, 1},
+    {"_readxl_xlsx_date_formats", (DL_FUNC) &_readxl_xlsx_date_formats, 1},
+    {"_readxl_parse_ref", (DL_FUNC) &_readxl_parse_ref, 1},
+    {"_readxl_read_xlsx_", (DL_FUNC) &_readxl_read_xlsx_, 9},
+    {"_readxl_zip_xml", (DL_FUNC) &_readxl_zip_xml, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_readxl(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
