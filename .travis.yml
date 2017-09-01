@@ -2,6 +2,7 @@
 
 language: r
 cache: packages
+latex: false
 
 matrix:
   include:
@@ -13,14 +14,11 @@ matrix:
       r: devel
     - os: linux
       dist: trusty
-      sudo: required
       env: R_CODECOV=true
     - os: osx
-      osx_image: xcode8.1
-      latex: false
+      osx_image: xcode8.3
     - os: osx
-      osx_image: beta-xcode6.4
-      latex: false
+      osx_image: xcode7.3
 
 after_success:
   - if [[ "${R_CODECOV}" ]]; then Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'; fi
