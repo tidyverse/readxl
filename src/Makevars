@@ -1,1 +1,1 @@
-PKG_CPPFLAGS=-Iunix -I.
+PKG_CPPFLAGS=-Iunix -I. $(C_VISIBILITY)

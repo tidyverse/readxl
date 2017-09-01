@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Add $(C_VISIBILITY) to compiler flags to hide internal symbols from the dll
+
 # readxl 1.0.0
 
 ## Sheet geometry
