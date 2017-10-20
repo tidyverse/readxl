@@ -145,7 +145,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   trim_ws <- check_bool(trim_ws, "trim_ws")
   tibble::repair_names(
     tibble::as_tibble(
-      read_fun(path = path, sheet = sheet,
+      read_fun(path = path, sheet_i = sheet,
                limits = limits, shim = shim,
                col_names = col_names, col_types = col_types,
                na = na, trim_ws = trim_ws, guess_max = guess_max),
