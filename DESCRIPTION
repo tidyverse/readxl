@@ -34,3 +34,4 @@ URL: http://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+Encoding: UTF-8
