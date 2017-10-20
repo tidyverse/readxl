@@ -205,7 +205,7 @@ public:
         case CELL_LOGICAL:
         case CELL_DATE:
         case CELL_NUMERIC:
-          LOGICAL(column)[row] = xcell->asInteger();
+          LOGICAL(column)[row] = xcell->asLogical();
           break;
         case CELL_TEXT: {
           std::string text_string = xcell->asStdString(wb_.stringTable(), trimWs);
@@ -283,7 +283,7 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarLogical(NA_LOGICAL));
           break;
         case CELL_LOGICAL:
-          SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asInteger()));
+          SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asLogical()));
           break;
         case CELL_DATE: {
           Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));

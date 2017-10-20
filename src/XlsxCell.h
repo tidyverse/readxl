@@ -243,7 +243,7 @@ public:
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
-  int asInteger() const {
+  int asLogical() const {
     switch(type_) {
 
     case CELL_UNKNOWN:
