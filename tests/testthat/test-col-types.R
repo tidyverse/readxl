@@ -241,11 +241,21 @@ test_that("contaminated, explicit text is read as text", {
 
 })
 
-## #385: transform non-zero integers to 1 before coercing an integer column to
-## logical so that different 'kinds' of TRUE aren't returned, which cause
-## segfaults in some base R functions.
-test_that("integers other than 1 are converted to the same kind of TRUE", {
-  x <- read_xlsx(test_sheet("int-to-logical.xlsx"), guess_max = 0)
-  expect_equal(x$x, c(NA, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE))
-  expect_error(table(x$x), NA)
+## #385: logical-guessed column could end up with multiple pathological `TRUE`
+## values for subsequent cells holding numeric data
+## refines fix initiated in #398
+test_that("numeric is correctly coerced to logical [xlsx]", {
+  expect_warning(
+    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0)
+  )
+  expect_identical(df$z, c(NA, TRUE, TRUE))
+  expect_equal(sum(df$z, na.rm = TRUE), 2)
+})
+
+test_that("numeric is correctly coerced to logical [xls]", {
+  expect_warning(
+    df <- read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0)
+  )
+  expect_identical(df$z, c(NA, TRUE, TRUE))
+  expect_equal(sum(df$z, na.rm = TRUE), 2)
 })
