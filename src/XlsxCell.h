@@ -256,7 +256,7 @@ public:
     case CELL_NUMERIC:
     {
       rapidxml::xml_node<>* v = cell_->first_node("v");
-      return atoi(v->value());
+      return atoi(v->value()) != 0;
     }
 
     default:

@@ -240,3 +240,12 @@ test_that("contaminated, explicit text is read as text", {
   expect_identical(df$text[df$explanation == "student number"], "36436153")
 
 })
+
+## #385: transform non-zero integers to 1 before coercing an integer column to
+## logical so that different 'kinds' of TRUE aren't returned, which cause
+## segfaults in some base R functions.
+test_that("integers other than 1 are converted to the same kind of TRUE", {
+  x <- read_xlsx(test_sheet("int-to-logical.xlsx"), guess_max = 0)
+  expect_equal(x$x, c(NA, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE))
+  expect_error(table(x$x), NA)
+})
