@@ -1,6 +1,10 @@
 # readxl 1.0.0.9000
 
-* Add $(C_VISIBILITY) to compiler flags to hide internal symbols from the dll. (#385 @jeroen)
+* Better checks and messaging around nonexistent files. (#392)
+
+* Extensionless files and files with nonstandard extension are now handled. If the file extension is absent or nonstandard, file format (xlsx vs xls) is guessed from the file's signature (a.k.a. magic number). This is implemented in the newly exported function `excel_format()`, which is used in `read_excel()` and `excel_sheets()`. (#342)
+
+* Add `$(C_VISIBILITY)` to compiler flags to hide internal symbols from the dll. (#385 @jeroen)
 
 * Numeric data in a logical column now coerces properly to logical. (#385 @nacnudus)
 

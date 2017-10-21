@@ -1,13 +1,8 @@
 check_file <- function(path) {
   if (!file.exists(path)) {
-    stop("'", path, "' does not exist",
-      if (!is_absolute_path(path))
-        paste0(" in current working directory ('", getwd(), "')"),
-      ".",
-      call. = FALSE)
+    stop("Path does not exist: ", sQuote(path), call. = FALSE)
   }
-
-  normalizePath(path, "/", mustWork = FALSE)
+  path
 }
 
 is_absolute_path <- function(path) {

@@ -69,9 +69,9 @@ A \link[tibble:tibble-package]{tibble}
 \description{
 Read xls and xlsx files.
 
-While \code{read_excel()} auto detects the format from the file
-extension, \code{read_xls()} and \code{read_xlsx()} can be used to
-read files without extension.
+\code{read_excel()} tries to determine format from the file extension and the file
+itself, in that order. Use \code{read_xls()} and \code{read_xlsx()} directly to
+eliminate the guessing.
 }
 \examples{
 datasets <- readxl_example("datasets.xlsx")

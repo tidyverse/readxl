@@ -2,23 +2,23 @@ context("Sheets")
 
 test_that("informative error when requesting non-existent sheet by name", {
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = "tulip"),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "tulip"),
     "Sheet 'tulip' not found"
   )
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), range = "tulip!A1:A1"),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), range = "tulip!A1:A1"),
     "Sheet 'tulip' not found"
   )
 })
 
 test_that("informative error when requesting non-existent sheet by position", {
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = 2),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 2),
     "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
     fixed = TRUE
   )
   expect_error(
-    read_excel(test_sheet("iris-excel.xls"), sheet = 2),
+    read_excel(test_sheet("iris-excel-xls.xls"), sheet = 2),
     "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
     fixed = TRUE
   )
@@ -26,20 +26,20 @@ test_that("informative error when requesting non-existent sheet by position", {
 
 test_that("invalid sheet values caught", {
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = 0),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 0),
     "`sheet` must be positive"
   )
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = rep(1L, 2)),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = rep(1L, 2)),
     "`sheet` must have length 1"
   )
 })
 
 test_that("sheet can be parsed out of range", {
   direct <-
-    read_excel(test_sheet("iris-excel.xlsx"), sheet = "iris", range = "A1:A1")
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "iris", range = "A1:A1")
   indirect <-
-    read_excel(test_sheet("iris-excel.xlsx"), range = "iris!A1:A1")
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), range = "iris!A1:A1")
   expect_identical(direct, indirect)
 })
 
