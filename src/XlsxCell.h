@@ -243,7 +243,7 @@ public:
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
-  int asInteger() const {
+  int asLogical() const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -256,7 +256,7 @@ public:
     case CELL_NUMERIC:
     {
       rapidxml::xml_node<>* v = cell_->first_node("v");
-      return atoi(v->value());
+      return atoi(v->value()) != 0;
     }
 
     default:

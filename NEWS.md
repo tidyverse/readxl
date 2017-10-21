@@ -1,6 +1,8 @@
 # readxl 1.0.0.9000
 
-* Add $(C_VISIBILITY) to compiler flags to hide internal symbols from the dll
+* Add $(C_VISIBILITY) to compiler flags to hide internal symbols from the dll. (#385 @jeroen)
+
+* Fixes a rare segfault to do with coercing integer columns to logical. (#385 @nacnudus)
 
 # readxl 1.0.0
 

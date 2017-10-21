@@ -240,3 +240,22 @@ test_that("contaminated, explicit text is read as text", {
   expect_identical(df$text[df$explanation == "student number"], "36436153")
 
 })
+
+## #385: logical-guessed column could end up with multiple pathological `TRUE`
+## values for subsequent cells holding numeric data
+## refines fix initiated in #398
+test_that("numeric is correctly coerced to logical [xlsx]", {
+  expect_warning(
+    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0)
+  )
+  expect_identical(df$z, c(NA, TRUE, TRUE))
+  expect_equal(sum(df$z, na.rm = TRUE), 2)
+})
+
+test_that("numeric is correctly coerced to logical [xls]", {
+  expect_warning(
+    df <- read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0)
+  )
+  expect_identical(df$z, c(NA, TRUE, TRUE))
+  expect_equal(sum(df$z, na.rm = TRUE), 2)
+})
