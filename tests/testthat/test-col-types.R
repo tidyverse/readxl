@@ -33,18 +33,18 @@ test_that("invalid col_types are rejected", {
 })
 
 test_that("col_types can be specified", {
-  df <- read_excel(test_sheet("iris-excel.xlsx"),
+  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"),
                    col_types = c("numeric", "text", "numeric", "numeric", "text"))
   expect_is(df[[2]], "character")
-  df <- read_excel(test_sheet("iris-excel.xls"),
+  df <- read_excel(test_sheet("iris-excel-xls.xls"),
                    col_types = c("numeric", "text", "numeric", "numeric", "text"))
   expect_is(df[[2]], "character")
 })
 
 test_that("col_types are recycled", {
-  df <- read_excel(test_sheet("iris-excel.xlsx"), col_types = "text")
+  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_types = "text")
   expect_match(vapply(df, class, character(1)), "character")
-  df <- read_excel(test_sheet("iris-excel.xls"), col_types = "text")
+  df <- read_excel(test_sheet("iris-excel-xls.xls"), col_types = "text")
   expect_match(vapply(df, class, character(1)), "character")
 })
 
@@ -107,11 +107,11 @@ test_that("guess_max is honored for col_types", {
 test_that("wrong length col types generates error", {
   err_msg <- "Sheet 1 has 5 columns, but `col_types` has length 2."
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"), col_types = c("numeric", "text")),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_types = c("numeric", "text")),
     err_msg
   )
   expect_error(
-    read_excel(test_sheet("iris-excel.xls"), col_types = c("numeric", "text")),
+    read_excel(test_sheet("iris-excel-xls.xls"), col_types = c("numeric", "text")),
     err_msg
   )
 })

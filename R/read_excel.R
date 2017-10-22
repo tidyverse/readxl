@@ -85,19 +85,19 @@ read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
+  format <- check_format(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
-    excel_format(path)
+    format = format
   )
 }
 
-#' While `read_excel()` auto detects the format from the file
-#' extension, `read_xls()` and `read_xlsx()` can be used to
-#' read files without extension.
-#'
+#' `read_excel()` tries to determine format from the file extension and the file
+#' itself, in that order. Use `read_xls()` and `read_xlsx()` directly to
+#' eliminate the guessing.
 #' @rdname read_excel
 #' @export
 read_xls <- function(path, sheet = NULL, range = NULL,
@@ -130,6 +130,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "",  trim_ws = TRUE, skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
+  path <- check_file(path)
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -157,20 +158,26 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
 
 # Helper functions -------------------------------------------------------------
 
-excel_format <- function(path) {
-  ext <- tolower(tools::file_ext(path))
-
-  switch(
-    ext,
-    xls = "xls",
-    xlsx = "xlsx",
-    xlsm = "xlsx",
+check_format <- function(path) {
+  path <- check_file(path)
+  format <- excel_format(path)
+  if (is.na(format)) {
+    ext <- tolower(tools::file_ext(path))
     if (nzchar(ext)) {
-      stop("Unknown file extension: ", ext, call. = FALSE)
+      stop(
+        "Extension is neither 'xlsx' nor 'xls': ",
+        sQuote(ext),
+        call. = FALSE
+      )
     } else {
-      stop("Missing file extension.", call. = FALSE)
+      stop(
+        "File has no extension and doesn't seem to be xlsx or xls: ",
+        sQuote(path),
+        call. = FALSE
+      )
     }
-  )
+  }
+  format
 }
 
 ## return a zero-indexed sheet number

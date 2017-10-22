@@ -61,12 +61,12 @@ test_that("column names are de-duplicated", {
 test_that("wrong length column names are rejected", {
   err_msg <- "Sheet 1 has 5 columns (5 unskipped), but `col_names` has length 3."
   expect_error(
-    read_excel(test_sheet("iris-excel.xlsx"),col_names = LETTERS[1:3]),
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"),col_names = LETTERS[1:3]),
     err_msg,
     fixed = TRUE
   )
   expect_error(
-    read_excel(test_sheet("iris-excel.xls"), col_names = LETTERS[1:3]),
+    read_excel(test_sheet("iris-excel-xls.xls"), col_names = LETTERS[1:3]),
     err_msg,
     fixed = TRUE
   )
@@ -76,7 +76,7 @@ test_that("column_names can anticipate skipping", {
 
   ## xlsx
   expect_silent(
-    df <- read_excel(test_sheet("iris-excel.xlsx"),
+    df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"),
                      col_names = c("one", "two", "three"), skip = 1,
                      col_types = c("numeric", "numeric", "skip", "skip", "text"))
   )
@@ -85,7 +85,7 @@ test_that("column_names can anticipate skipping", {
 
   ## xls
   expect_silent(
-    df <- read_excel(test_sheet("iris-excel.xls"),
+    df <- read_excel(test_sheet("iris-excel-xls.xls"),
                      col_names = c("one", "two", "three"), skip = 1,
                      col_types = c("numeric", "numeric", "skip", "skip", "text"))
   )

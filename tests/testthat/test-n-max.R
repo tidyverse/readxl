@@ -2,17 +2,17 @@ context("n_max")
 
 test_that("simple use of n_max works and does not affect col name reading", {
   ## xlsx
-  df <- read_excel(test_sheet("iris-excel.xlsx"), n_max = 1)
+  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1)
   expect_identical(nrow(df), 1L)
-  df <- read_excel(test_sheet("iris-excel.xlsx"), n_max = 0)
+  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 0)
   expect_identical(nrow(df), 0L)
   expect_identical(ncol(df), 5L)
   expect_identical(names(df), names(iris))
 
   ## xls
-  df <- read_excel(test_sheet("iris-excel.xls"), n_max = 1)
+  df <- read_excel(test_sheet("iris-excel-xls.xls"), n_max = 1)
   expect_identical(nrow(df), 1L)
-  df <- read_excel(test_sheet("iris-excel.xls"), n_max = 0)
+  df <- read_excel(test_sheet("iris-excel-xls.xls"), n_max = 0)
   expect_identical(nrow(df), 0L)
   expect_identical(ncol(df), 5L)
   expect_identical(names(df), names(iris))
@@ -68,11 +68,11 @@ test_that("n_max can affect ncols, if prevents read of data in a col [xls]", {
 
 test_that("n_max = nrows in dense sheet when col_names = FALSE", {
   ## xlsx
-  df <- read_excel(test_sheet("iris-excel.xlsx"), n_max = 18, col_names = FALSE)
+  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 18, col_names = FALSE)
   expect_identical(nrow(df), 18L)
 
   ## xls
-  df <- read_excel(test_sheet("iris-excel.xls"), n_max = 18, col_names = FALSE)
+  df <- read_excel(test_sheet("iris-excel-xls.xls"), n_max = 18, col_names = FALSE)
   expect_identical(nrow(df), 18L)
 })
 
