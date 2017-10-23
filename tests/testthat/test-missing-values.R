@@ -38,31 +38,48 @@ test_that("blanks in same, first row are read as missing [xls]", {
 
 test_that("By default, NA read as text", {
   df <- read_xls(test_sheet("missing-values-xls.xls"))
-  expect_equal(df$x, c("NA", "1", "1"))
+  expect_equal(df$x, c("NA", "1", "2"))
 })
 
-test_that("na arg maps strings to NA [xls]", {
+test_that("na arg can be used to map 'NA' to NA [xls]", {
   df <- read_excel(test_sheet("missing-values-xls.xls"), na = "NA")
-  expect_equal(df$x, c(NA, 1, 1))
-  expect_equal(df$y, c(NA, 1, 1)) # formula column
+  expect_equal(df$x, c(NA, 1, 2))
+  expect_equal(df$y, c(NA, 1, 2)) # formula column
 })
 
-test_that("na arg allows multiple strings [xls]", {
-  df <- read_excel(test_sheet("missing-values-xls.xls"), na = c("NA", "1"))
-  expect_true(all(is.na(df$x)))
-  expect_true(all(is.na(df$y))) # formula column
-})
-
-test_that("na arg maps strings to to NA [xlsx]", {
+test_that("na arg can be used to map 'NA' to NA [xlsx]", {
   df <- read_excel(test_sheet("missing-values-xlsx.xlsx"), na = "NA")
-  expect_equal(df$x, c(NA, 1, 1))
-  expect_equal(df$y, c(NA, 1, 1)) # formula column
+  expect_equal(df$x, c(NA, 1, 2))
+  expect_equal(df$y, c(NA, 1, 2)) # formula column
 })
 
-test_that("na arg allows multiple strings [xlsx]", {
-  df <- read_excel(test_sheet("missing-values-xlsx.xlsx"), na = c("NA", "1"))
-  expect_true(all(is.na(df$x)))
-  expect_true(all(is.na(df$y))) # formula column
+## #401 make sure check against NA strings is done after shared string table
+## lookup for affected cells vs. on the index into the shared string table
+test_that("na arg works with multiple strings and for shared strings [xlsx]", {
+  df <- read_excel(
+    test_sheet("numbers-as-na-and-shared-strings-xlsx.xlsx"),
+    na = c("1", "d")
+  )
+  ## shared string table is:
+  ## sst[0] = "a"
+  ## sst[1] = "b" <-- make sure this does not become NA!
+  ## sst[2] = "c"
+  ## sst[3] = "d"
+  expect_identical(df, tibble::tribble(
+    ~ a, ~ c,
+    "b",  NA
+  ))
+})
+
+test_that("na arg works with multiple strings and for shared strings [xls]", {
+  df <- read_excel(
+    test_sheet("numbers-as-na-and-shared-strings-xls.xls"),
+    na = c("1", "d")
+  )
+  expect_identical(df, tibble::tribble(
+    ~ a, ~ c,
+    "b",  NA
+  ))
 })
 
 test_that("empty first column gives valid data.frame [xls]", {

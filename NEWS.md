@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Shared strings are only compared to NA strings after lookup, never on the basis of their index. (xlsx, #401)
+
 * Better checks and messaging around nonexistent files. (#392)
 
 * Extensionless files and files with nonstandard extension are now handled. If the file extension is absent or nonstandard, file format (xlsx vs xls) is guessed from the file's signature (a.k.a. magic number). This is implemented in the newly exported function `excel_format()`, which is used in `read_excel()` and `excel_sheets()`. (#342)
