@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Integer-y numbers larger than 2^31 are coerced properly to string (xls, #346)
+
 * Shared strings are only compared to NA strings after lookup, never on the basis of their index. (xlsx, #401)
 
 * Better checks and messaging around nonexistent files. (#392)
@@ -8,7 +10,7 @@
 
 * Add `$(C_VISIBILITY)` to compiler flags to hide internal symbols from the dll. (#385 @jeroen)
 
-* Numeric data in a logical column now coerces properly to logical. (#385 @nacnudus)
+* Numeric data in a logical column now coerces properly to logical. (xlsx, #385 @nacnudus)
 
 # readxl 1.0.0
 

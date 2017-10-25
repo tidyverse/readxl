@@ -245,7 +245,7 @@ public:
       // examples: social security or student number
       double intpart;
       if (std::modf(cell_->d, &intpart) == 0.0) {
-        strs << std::fixed << (int)cell_->d;
+        strs << std::fixed << (long long)cell_->d;
       } else {
         strs << cell_->d;
       }
