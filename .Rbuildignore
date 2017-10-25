@@ -22,3 +22,4 @@
 ^vignettes/rsconnect$
 ^vignettes/releases$
 ^talks$
+^scratch\.R$
