@@ -315,6 +315,7 @@ private:
 
       if (i < nominal_.minRow() ||
           (!nominal_needs_checking && !nominal_.contains(i))) {
+        if (i == nominal_nrow) break;
         continue;
       }
 
