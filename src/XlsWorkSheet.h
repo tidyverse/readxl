@@ -311,11 +311,11 @@ private:
 
     xls::xlsCell *cell;
     bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
-    for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
+    for (int row = 0; row <= nominal_nrow; ++row) {
+      xls::WORD i = xls::WORD(row);
 
       if (i < nominal_.minRow() ||
           (!nominal_needs_checking && !nominal_.contains(i))) {
-        if (i == nominal_nrow) break;
         continue;
       }
 
