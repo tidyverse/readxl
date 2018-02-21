@@ -12,6 +12,8 @@
 
 * Numeric data in a logical column now coerces properly to logical. (xlsx, #385 @nacnudus)
 
+* `read_excel` can now handle reading from URL by downloading to a temporary file (#278); thanks to @hughmarera and others for the suggestion, @MichaelChirico for the PR, and `fread` for the inspiration.
+
 # readxl 1.0.0
 
 ## Sheet geometry

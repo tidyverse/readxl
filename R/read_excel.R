@@ -4,7 +4,8 @@ NULL
 
 #' Read xls and xlsx files.
 #'
-#' @param path Path to the xls/xlsx file
+#' @param path Path to the xls/xlsx file. Can be a URL, in which case the file
+#'   will be downloaded to a temporary file using an appropriate method.
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Ignored if the sheet is specified via
 #'   `range`. If neither argument specifies the sheet, defaults to the first
@@ -45,6 +46,10 @@ NULL
 #' @examples
 #' datasets <- readxl_example("datasets.xlsx")
 #' read_excel(datasets)
+#'
+#' URL <- paste0('https://github.com/tidyverse/readxl/',
+#'               'blob/master/inst/extdata/deaths.xlsx?raw=true')
+#' read_excel(URL)
 #'
 #' # Specify sheet either by position or by name
 #' read_excel(datasets, 2)

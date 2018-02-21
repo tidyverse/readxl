@@ -6,6 +6,7 @@ Authors@R: c(
     person("Jennifer", "Bryan", ,"jenny@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = c("cph", "fnd"), comment = "Copyright holder of
       all R code and all C/C++ code without explicit copyright attribution"),
+    person("Michael", "Chirico", role = "ctb"),
     person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of included RapidXML code"),
     person("Komarov Valery", role = c("ctb", "cph"), comment = "Author of included libxls code"),
     person("Christophe Leitienne", role = c("ctb", "cph"), comment = "Author of included libxls code"),
@@ -25,6 +26,7 @@ Imports:
     tibble (>= 1.1)
 Suggests:
     covr,
+    curl,
     knitr,
     rmarkdown,
     rprojroot (>= 1.1),

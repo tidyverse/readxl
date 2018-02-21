@@ -29,7 +29,8 @@ test_that("xlsx is not read as xls and vice versa", {
 })
 
 test_that("non-existent file throws error", {
-  expect_error(read_excel("foo"), "Path does not exist")
+  expect_error(read_excel("foo"),
+               "Input path is neither a file nor a URL")
 })
 
 test_that("read_excel catches invalid guess_max", {
@@ -74,4 +75,10 @@ test_that("read_excel catches invalid n_max", {
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1:2),
     "`n_max` must be a positive integer"
   )
+})
+
+test_that('read_excel successfully reads from a URL', {
+  URL = paste0("https://github.com/tidyverse/readxl/",
+               "blob/master/inst/extdata/deaths.xlsx?raw=true")
+  expect_equal(read_excel(URL), read_excel(test_sheet("deaths.xlsx")))
 })
