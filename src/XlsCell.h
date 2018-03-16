@@ -247,7 +247,7 @@ public:
       if (std::modf(cell_->d, &intpart) == 0.0) {
         strs << std::fixed << (int64_t)cell_->d;
       } else {
-        strs << cell_->d;
+        strs << std::setprecision(12) << cell_->d;
       }
       std::string out_string = strs.str();
       return out_string;
