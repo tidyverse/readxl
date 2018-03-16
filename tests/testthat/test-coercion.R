@@ -115,8 +115,6 @@ test_that("datetimes agree up to certain precision when coerced to text", {
 
   xlsx <- sub("^.*\\.(.*)$", "\\1", xlsx$a)
   xls <- sub("^.*\\.(.*)$", "\\1", xls$a)
-  xlsx <- substr(xlsx, 1, 6)
-  xls <- substr(xls, 1, 6)
 
   expect_identical(xlsx, xls)
 })

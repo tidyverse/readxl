@@ -1,6 +1,7 @@
 #ifndef READXL_XLSCELL_
 #define READXL_XLSCELL_
 
+#include <limits.h>
 #include <Rcpp.h>
 #include <libxls/xls.h>
 #include <libxls/xlstypes.h>
@@ -247,7 +248,7 @@ public:
       if (std::modf(cell_->d, &intpart) == 0.0) {
         strs << std::fixed << (int64_t)cell_->d;
       } else {
-        strs << std::setprecision(12) << cell_->d;
+        strs << std::setprecision(std::numeric_limits<double>::digits10 + 2) << cell_->d;
       }
       std::string out_string = strs.str();
       return out_string;
