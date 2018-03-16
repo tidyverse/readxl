@@ -115,6 +115,12 @@ test_that("datetimes agree up to certain precision when coerced to text", {
 
   xlsx <- sub("^.*\\.(.*)$", "\\1", xlsx$a)
   xls <- sub("^.*\\.(.*)$", "\\1", xls$a)
+  ## it's hard to say how many digits of agreement we expect after the decimal
+  ## we coerce to string for xls, whereas its out of our hands for xlsx,
+  ## where the double comes to us as a string in the XML
+  ## therefore, my choice is somewhat arbitrary
+  xlsx <- substr(xlsx, 1, 8)
+  xls <- substr(xls, 1, 8)
 
   expect_identical(xlsx, xls)
 })
