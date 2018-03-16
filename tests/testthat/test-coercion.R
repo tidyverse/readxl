@@ -106,3 +106,17 @@ test_that("integery-y numbers > 2^31 can be coerced to string", {
     )
   )
 })
+
+## https://github.com/tidyverse/readxl/issues/430
+## re: precision of datetimes converted to text
+test_that("datetimes agree up to certain precision when coerced to text", {
+  xlsx <- read_excel(test_sheet("texty-dates-xlsx.xlsx"), col_types = "text")
+  xls <- read_excel(test_sheet("texty-dates-xls.xls"), col_types = "text")
+
+  xlsx <- sub("^.*\\.(.*)$", "\\1", xlsx$a)
+  xls <- sub("^.*\\.(.*)$", "\\1", xls$a)
+  xlsx <- substr(xlsx, 1, 6)
+  xls <- substr(xls, 1, 6)
+
+  expect_identical(xlsx, xls)
+})
