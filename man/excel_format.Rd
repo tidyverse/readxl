@@ -18,7 +18,7 @@ Character vector with values \code{"xlsx"}, \code{"xls"}, or \code{NA}.
 \description{
 Determine if files are xlsx or xls. First the file extension is consulted. If
 that is unsuccessful and \code{guess = TRUE} and the file exists, the format is
-guessed from the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{filesignature} or "magic
+guessed from the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or "magic
 number".
 }
 \examples{
