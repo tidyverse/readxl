@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Datetimes coerced to character from xls have much higher precision, comparable to the xlsx behaviour. (xls, #430, #431)
+
 * Integer-y numbers larger than 2^31 are coerced properly to string (xls, #346)
 
 * Shared strings are only compared to NA strings after lookup, never on the basis of their index. (xlsx, #401)
