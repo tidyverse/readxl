@@ -75,3 +75,9 @@ test_that("read_excel catches invalid n_max", {
     "`n_max` must be a positive integer"
   )
 })
+
+## https://github.com/tidyverse/readxl/issues/373
+test_that("xls with exactly 65536 rows does not enter infinite loop", {
+  out <- read_excel(test_sheet("65536-rows-xls.xls"))
+  expect_identical(out, tibble::tibble(HELLO = "WORLD"))
+})
