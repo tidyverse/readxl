@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Reading xls sheet with exactly 65,536 rows no longer enters an infinite loop. (xls, #373, #416, #432 @vkapartzianis)
+
 * Datetimes coerced to character from xls have much higher precision, comparable to the xlsx behaviour. (xls, #430, #431)
 
 * Integer-y numbers larger than 2^31 are coerced properly to string (xls, #346)

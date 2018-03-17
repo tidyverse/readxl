@@ -311,7 +311,7 @@ private:
 
     xls::xlsCell *cell;
     bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
-    for (xls::WORD i = 0; i <= nominal_nrow; ++i) {
+    for (int i = 0; i <= nominal_nrow; ++i) {
 
       if (i < nominal_.minRow() ||
           (!nominal_needs_checking && !nominal_.contains(i))) {
@@ -321,7 +321,7 @@ private:
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
 
         if (nominal_needs_checking) {
-          cell = xls_cell(pWS_, i, j);
+          cell = xls_cell(pWS_, (xls::WORD) i, j);
           if (cell_is_readable(cell)) {
             if (i > nominal_.minRow()) { // implicit skip
               nominal_.update(
@@ -334,7 +334,7 @@ private:
         }
 
         if (nominal_.contains(i, j)) {
-          cell = xls_cell(pWS_, i, j);
+          cell = xls_cell(pWS_, (xls::WORD) i, j);
           if (cell_is_readable(cell)) {
             cells_.push_back(cell);
             actual_.update(i, j);
