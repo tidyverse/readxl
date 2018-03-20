@@ -81,3 +81,28 @@ test_that("xls with exactly 65536 rows does not enter infinite loop", {
   out <- read_excel(test_sheet("65536-rows-xls.xls"))
   expect_identical(out, tibble::tibble(HELLO = "WORLD"))
 })
+
+test_that("invalid extensions cannot be read", {
+  expect_error(
+    read_excel(test_sheet("mtcars.txt")),
+    "Extension is neither 'xlsx' nor 'xls': "
+  )
+  expect_error(
+    read_excel(test_sheet("mtcars")),
+    "File has no extension and doesn't seem to be xlsx or xls: "
+  )
+})
+
+test_that("sheet must be integer or string", {
+  expect_error(
+    read_excel(test_sheet("mtcars.xls"), sheet = TRUE),
+    "`sheet` must be either an integer or a string."
+  )
+})
+
+test_that("trim_ws must be a logical", {
+  expect_error(
+    read_excel(test_sheet("mtcars.xls"), trim_ws = "yes"),
+    "`trim_ws` must be either TRUE or FALSE"
+  )
+})
