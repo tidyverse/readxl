@@ -10,16 +10,58 @@
 
 class XlsxWorkBook {
 
-  // holds objects related to sheet position, name, Id, and xml target file
-  class SheetRelations {
+  // holds objects related to package parts, such file paths, but also
+  // worksheet position, name, and id
+  class PackageRelations {
+    // non-worksheet package parts
+    std::map<std::string, std::string> part_;
+
+    // worksheets
     int n_;
     Rcpp::CharacterVector names_;
     Rcpp::CharacterVector id_;
     std::map<std::string, std::string> target_;
 
+    // populate workbook element of part_
+    void parse_package_rels(const std::string& path) {
+      std::string rels_xml_file = zip_buffer(path, "_rels/.rels");
+      rapidxml::xml_document<> rels_xml;
+      rels_xml.parse<rapidxml::parse_strip_xml_namespaces>(&rels_xml_file[0]);
+
+      rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
+      if (relationships == NULL) {
+        Rcpp::stop("Spreadsheet has no package-level relationships");
+      }
+
+      std::map<std::string, std::string> scratch;
+      for (rapidxml::xml_node<>* relationship = relationships->first_node();
+           relationship; relationship = relationship->next_sibling()) {
+
+        rapidxml::xml_attribute<>* type = relationship->first_attribute("Type");
+        rapidxml::xml_attribute<>* target = relationship->first_attribute("Target");
+
+        if (type != NULL && target != NULL) {
+          // keys are derived by abbreviating Type
+          // in XML: http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument
+          // key is just the last part: officeDocument
+          scratch[baseName(type->value())] = target->value();
+        }
+      }
+
+      // identify and store the workbook part = the main part
+      // ECMA-376 Part 1 section 8.5 SpreadsheetML
+      std::map<std::string, std::string>::iterator m = scratch.find("officeDocument");
+      if (m == scratch.end()) {
+        Rcpp::stop("No workbook part found");
+      }
+      // store 'xl/workbook.xml', not '/xl/workbook.xml' (rare, but have seen)
+      part_["officeDocument"] = deSlash(m->second);
+    }
+
     // populates n_, names_, id_
     void parse_workbook(const std::string& path) {
-      std::string workbookXml = zip_buffer(path, "xl/workbook.xml");
+      std::string workbookXml = zip_buffer(path, part_["officeDocument"]);
+
       rapidxml::xml_document<> workbook;
       workbook.parse<rapidxml::parse_strip_xml_namespaces>(&workbookXml[0]);
 
@@ -59,7 +101,13 @@ class XlsxWorkBook {
 
     // populates target_
     void parse_workbook_rels(const std::string& path) {
-      std::string rels_xml_file = zip_buffer(path, "xl/_rels/workbook.xml.rels");
+      const std::string workbook_path = part_["officeDocument"];
+      const std::string workbook_dir = dirName(workbook_path);
+      std::string rels_xml_path =
+        workbook_dir + "/_rels/" + baseName(workbook_path) + ".rels";
+      rels_xml_path = deSlash(rels_xml_path);
+      std::string rels_xml_file = zip_buffer(path, rels_xml_path);
+
       rapidxml::xml_document<> rels_xml;
       rels_xml.parse<rapidxml::parse_strip_xml_namespaces>(&rels_xml_file[0]);
 
@@ -70,25 +118,42 @@ class XlsxWorkBook {
 
       for (rapidxml::xml_node<>* relationship = relationships->first_node();
            relationship; relationship = relationship->next_sibling()) {
+
         rapidxml::xml_attribute<>* id = relationship->first_attribute("Id");
+        rapidxml::xml_attribute<>* type = relationship->first_attribute("Type");
         rapidxml::xml_attribute<>* target = relationship->first_attribute("Target");
-        if (id != NULL && target != NULL) {
-          static const std::string prefix = "/xl/";
-          std::string target_value = target->value();
-          if (target_value.substr(0, prefix.size()) == prefix) {
-            target_value = target_value.substr(prefix.size());
+
+        if (id != NULL && type != NULL && target != NULL) {
+          // store 'xl/blah' instead of '/xl/blah' (rare, but we've seen)
+          std::string target_value = deSlash(target->value());
+          // abbreviate Type
+          // in XML: http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings
+          // whereas we only want: sharedStrings
+          std::string type_value = baseName(type->value());
+
+          // prepend workbook_dir iff needed; yes, we've seen both forms
+          // xl/blah --> xl/blah
+          //    blah --> xl/blah
+          if (target_value.substr(0, workbook_dir.size()) != workbook_dir) {
+            target_value = workbook_dir + "/" + target_value;
           }
-          target_[id->value()] = target_value;
+
+          if (type_value.compare("worksheet") == 0) { // worksheet
+            target_[id->value()] = target_value;
+          } else { // not a worksheet, e.g. styles or sharedStrings
+            part_[type_value] = target_value;
+          }
         }
       }
     }
 
   public:
-    SheetRelations(const std::string& path) :
+    PackageRelations(const std::string& path) :
     n_(100),
     names_(n_),
     id_(n_)
     {
+      parse_package_rels(path);
       parse_workbook(path);
       parse_workbook_rels(path);
     }
@@ -109,7 +174,17 @@ class XlsxWorkBook {
       }
       return it->second;
     }
-  }; // end of class SheetRelations
+
+    std::string part(std::string type) const {
+      std::map<std::string, std::string>::const_iterator it = part_.find(type);
+      if (it == part_.end()) {
+        // e.g., sharedStrings may not be present
+        // downstream functions should handle non-existent path
+        return "";
+      }
+      return it->second;
+    }
+  }; // end of class PackageRelations
 
   // common to Xls[x]WorkBook
   std::string path_;
@@ -117,7 +192,7 @@ class XlsxWorkBook {
   std::set<int> dateFormats_;
 
   // specific to XlsxWorkBook
-  SheetRelations rel_;
+  PackageRelations rel_;
   std::vector<std::string> stringTable_;
 
 public:
@@ -152,7 +227,7 @@ public:
   }
 
   std::string sheetPath(int sheet_i) const {
-    return "xl/" + rel_.target(sheet_i);
+    return rel_.target(sheet_i);
   }
 
   const std::vector<std::string>& stringTable() const {
@@ -162,11 +237,11 @@ public:
 private:
 
   void cacheStringTable() {
-    if (!zip_has_file(path_, "xl/sharedStrings.xml")) {
+    if (!zip_has_file(path_, rel_.part("sharedStrings"))) {
       return;
     }
 
-    std::string sharedStringsXml = zip_buffer(path_, "xl/sharedStrings.xml");
+    std::string sharedStringsXml = zip_buffer(path_, rel_.part("sharedStrings"));
     rapidxml::xml_document<> sharedStrings;
     sharedStrings.parse<rapidxml::parse_strip_xml_namespaces>(&sharedStringsXml[0]);
 
@@ -191,7 +266,7 @@ private:
   }
 
   void cacheDateFormats() {
-    std::string stylesXml = zip_buffer(path_, "xl/styles.xml");
+    std::string stylesXml = zip_buffer(path_, rel_.part("styles"));
     rapidxml::xml_document<> styles;
     styles.parse<rapidxml::parse_strip_xml_namespaces>(&stylesXml[0]);
 
@@ -246,7 +321,7 @@ private:
   }
 
   bool uses1904() {
-    std::string workbookXml = zip_buffer(path_, "xl/workbook.xml");
+    std::string workbookXml = zip_buffer(path_, rel_.part("officeDocument"));
     rapidxml::xml_document<> workbook;
     workbook.parse<rapidxml::parse_strip_xml_namespaces>(&workbookXml[0]);
 

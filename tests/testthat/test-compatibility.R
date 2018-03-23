@@ -44,6 +44,7 @@ test_that("we can read the BIFF5, LABEL record sheet", {
   expect_identical(df$Time[c(1, 14)], c("01:00", "14:00"))
 })
 
+
 ## https://github.com/tidyverse/readxl/pull/429
 ## <c r="C2" s="1" t="str"><f>A2 + B2</f></c>
 test_that("formula cell with no v node does not cause crash", {
@@ -51,4 +52,17 @@ test_that("formula cell with no v node does not cause crash", {
     df <- read_excel(test_sheet("missing-v-node-xlsx.xlsx"))
   )
   expect_identical(df$`A + B`, NA)
+})
+
+## https://github.com/tidyverse/readxl/issues/435
+## https://source.opennews.org/articles/how-we-found-new-patterns-la-homeless-arrest/
+## LAPD uses a tool to produce xlsx that implements the minimal SpreadsheetML
+## package structure described on pp65-66 of ECMA 5th edition
+test_that("we can read LAPD arrest sheets", {
+  expect_silent(
+    lapd <- read_excel(test_sheet("los-angeles-arrests-xlsx.xlsx"), skip = 2)
+  )
+  expect_identical(dim(lapd), c(193L, 36L))
+  expect_match(lapd$ARR_LOC[9], "HOLLYWOOD")
+  expect_identical(lapd$CHG_DESC[27], "EX CON W/ A GUN")
 })

@@ -48,4 +48,3 @@ void zip_xml(const std::string& zip_path,
   std::string buffer = zip_buffer(zip_path, file_path);
   Rcout << xml_print(buffer);
 }
-
