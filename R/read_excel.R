@@ -27,7 +27,7 @@ NULL
 #'   frame output. A list cell loads a column as a list of length 1 vectors,
 #'   which are typed using the type guessing logic from `col_types = NULL`, but
 #'   on a cell-by-cell basis.
-#' @param na Character vector of strings to use for missing values. By default,
+#' @param na Character vector of strings to interpret as missing values. By default,
 #'   readxl treats blank cells as missing data.
 #' @param trim_ws Should leading and trailing whitespace be trimmed?
 #' @param skip Minimum number of rows to skip before reading anything, be it
