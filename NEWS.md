@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* xlsx structured as a "minimal conformant SpreadsheetML package" can be read. Most obvious feature of such sheets is the lack of an `xl/` directory in the unzipped form. (xlsx, #435, #437)
+
 * Reading xls sheet with exactly 65,536 rows no longer enters an infinite loop. (xls, #373, #416, #432 @vkapartzianis)
 
 * Datetimes coerced to character from xls have much higher precision, comparable to the xlsx behaviour. (xls, #430, #431)
