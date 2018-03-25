@@ -134,14 +134,14 @@ public:
       return;
     }
 
-    // str (String)               Cell containing a formula string.
-    if (t != NULL && strncmp(t->value(), "str", 5) == 0) {
-      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
+    if (v == NULL || na.contains(v->value(), trimWs)) {
+      type_ = CELL_BLANK;
       return;
     }
 
-    if (v == NULL || na.contains(v->value(), trimWs)) {
-      type_ = CELL_BLANK;
+    // str (String)               Cell containing a formula string.
+    if (t != NULL && strncmp(t->value(), "str", 5) == 0) {
+      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 
