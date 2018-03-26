@@ -126,12 +126,20 @@ public:
       return;
     }
 
+    // s (Shared String)          Cell containing a shared string.
+    if (t != NULL && strncmp(t->value(), "s", 5) == 0) {
+      int id = atoi(v->value());
+      const std::string& string = stringTable.at(id);
+      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
+      return;
+    }
+
     if (v == NULL || na.contains(v->value(), trimWs)) {
       type_ = CELL_BLANK;
       return;
     }
-    // from here on, the only explicit NA check needed is the case of
-    // a shared string table lookup
+
+    // from here on, no need for explicit NA check
 
     // n (Number)                 Cell containing a number.
     if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
@@ -164,17 +172,9 @@ public:
       return;
     }
 
-    // s (Shared String)          Cell containing a shared string.
-    if (strncmp(t->value(), "s", 5) == 0) {
-      int id = atoi(v->value());
-      const std::string& string = stringTable.at(id);
-      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
-      return;
-    }
-
     // str (String)               Cell containing a formula string.
     if (strncmp(t->value(), "str", 5) == 0) {
-      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
+      type_ = CELL_TEXT;
       return;
     }
 
