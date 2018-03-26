@@ -84,9 +84,9 @@ public:
     // CELL_BLANK
     //   inlineStr cell and (string is na or string can't be found)
     //   cell has no v node and is not an inlineStr cell
-    //   shared string cell and string is na
     //   v->value() is na
     //   error cell
+    //   shared string cell and string is na
     //
     // CELL_LOGICAL
     //   Boolean cell and its value (TRUE or FALSE) is not in na
@@ -126,24 +126,12 @@ public:
       return;
     }
 
-    // s (Shared String)          Cell containing a shared string.
-    if (t != NULL && strncmp(t->value(), "s", 5) == 0) {
-      int id = atoi(v->value());
-      const std::string& string = stringTable.at(id);
-      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
-      return;
-    }
-
     if (v == NULL || na.contains(v->value(), trimWs)) {
       type_ = CELL_BLANK;
       return;
     }
-
-    // str (String)               Cell containing a formula string.
-    if (t != NULL && strncmp(t->value(), "str", 5) == 0) {
-      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
-      return;
-    }
+    // from here on, the only explicit NA check needed is the case of
+    // a shared string table lookup
 
     // n (Number)                 Cell containing a number.
     if (t == NULL || strncmp(t->value(), "n", 5) == 0) {
@@ -173,6 +161,20 @@ public:
     // e (Error)                  Cell containing an error.
     if (strncmp(t->value(), "e", 5) == 0) {
       type_ = CELL_BLANK;
+      return;
+    }
+
+    // s (Shared String)          Cell containing a shared string.
+    if (strncmp(t->value(), "s", 5) == 0) {
+      int id = atoi(v->value());
+      const std::string& string = stringTable.at(id);
+      type_ = na.contains(string, trimWs) ? CELL_BLANK : CELL_TEXT;
+      return;
+    }
+
+    // str (String)               Cell containing a formula string.
+    if (strncmp(t->value(), "str", 5) == 0) {
+      type_ = na.contains(v->value(), trimWs) ? CELL_BLANK : CELL_TEXT;
       return;
     }
 
