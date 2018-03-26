@@ -145,4 +145,28 @@ inline std::string trim(const std::string& s) {
   return s.substr(begin, end - begin + 1);
 }
 
+inline std::string dirName(const std::string& path) {
+  std::size_t found = path.find_last_of("/");
+  if (found == std::string::npos) {
+    return "";
+  }
+  return path.substr(0, found);
+}
+
+inline std::string baseName(const std::string& path) {
+  std::size_t found = path.find_last_of("/");
+  if (found == std::string::npos) {
+    return path;
+  }
+  return path.substr(found + 1);
+}
+
+inline std::string removeLeadingSlashes(const std::string& s) {
+  size_t start = s.find_first_not_of("/");
+  if (start == std::string::npos) {
+    return "";
+  }
+  return s.substr(start);
+}
+
 #endif
