@@ -10,7 +10,7 @@
 
 class XlsxWorkBook {
 
-  // holds objects related to package parts, such file paths, but also
+  // holds objects related to package parts, such as file paths, but also
   // worksheet position, name, and id
   class PackageRelations {
     // non-worksheet package parts
@@ -55,7 +55,7 @@ class XlsxWorkBook {
         Rcpp::stop("No workbook part found");
       }
       // store 'xl/workbook.xml', not '/xl/workbook.xml' (rare, but have seen)
-      part_["officeDocument"] = deSlash(m->second);
+      part_["officeDocument"] = removeLeadingSlashes(m->second);
     }
 
     // populates n_, names_, id_
@@ -105,7 +105,7 @@ class XlsxWorkBook {
       const std::string workbook_dir = dirName(workbook_path);
       std::string rels_xml_path =
         workbook_dir + "/_rels/" + baseName(workbook_path) + ".rels";
-      rels_xml_path = deSlash(rels_xml_path);
+      rels_xml_path = removeLeadingSlashes(rels_xml_path);
       std::string rels_xml_file = zip_buffer(path, rels_xml_path);
 
       rapidxml::xml_document<> rels_xml;
@@ -125,7 +125,7 @@ class XlsxWorkBook {
 
         if (id != NULL && type != NULL && target != NULL) {
           // store 'xl/blah' instead of '/xl/blah' (rare, but we've seen)
-          std::string target_value = deSlash(target->value());
+          std::string target_value = removeLeadingSlashes(target->value());
           // abbreviate Type
           // in XML: http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings
           // whereas we only want: sharedStrings

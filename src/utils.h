@@ -161,8 +161,11 @@ inline std::string baseName(const std::string& path) {
   return path.substr(found + 1);
 }
 
-inline std::string deSlash(const std::string& s) {
+inline std::string removeLeadingSlashes(const std::string& s) {
   size_t start = s.find_first_not_of("/");
+  if (start == std::string::npos) {
+    return "";
+  }
   return s.substr(start);
 }
 
