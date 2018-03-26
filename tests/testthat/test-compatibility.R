@@ -43,3 +43,12 @@ test_that("we can read the BIFF5, LABEL record sheet", {
   expect_identical(df$Date[c(1, 14)], c("21/01/2017", "21/01/2017"))
   expect_identical(df$Time[c(1, 14)], c("01:00", "14:00"))
 })
+
+## https://github.com/tidyverse/readxl/pull/429
+## <c r="C2" s="1" t="str"><f>A2 + B2</f></c>
+test_that("formula cell with no v node does not cause crash", {
+  expect_silent(
+    df <- read_excel(test_sheet("missing-v-node-xlsx.xlsx"))
+  )
+  expect_identical(df$`A + B`, NA)
+})
