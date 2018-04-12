@@ -37,7 +37,7 @@
 
 #include "libxls/xlstypes.h"
 
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -86,7 +86,7 @@ typedef	struct st_olefiles
     long count;
     struct st_olefiles_data
     {
-        BYTE*	name;
+        char*	name;
         DWORD	start;
         DWORD	size;
    }
@@ -97,6 +97,10 @@ st_olefiles;
 typedef struct OLE2
 {
     FILE*		file;
+    const void *buffer;
+    size_t      buffer_len;
+    size_t      buffer_pos;
+
     WORD		lsector;
     WORD		lssector;
     DWORD		cfat;
@@ -107,9 +111,16 @@ typedef struct OLE2
     DWORD		csfat;
     DWORD		difstart;
     DWORD		cdif;
+
     DWORD*		SecID;	// regular sector data
+    DWORD       SecIDCount;
+
 	DWORD*		SSecID;	// short sector data
+    DWORD       SSecIDCount;
+
 	BYTE*		SSAT;	// directory of short sectors
+    DWORD       SSATCount;
+
     st_olefiles	files;
 }
 OLE2;
@@ -129,7 +140,7 @@ typedef struct OLE2Stream
 }
 OLE2Stream;
 
-#if defined(_AIX) || defined(__sun)
+#ifdef AIX
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -137,7 +148,7 @@ OLE2Stream;
 
 typedef struct PSS
 {
-    BYTE	name[64];
+    char	name[64];
     WORD	bsize;
     BYTE	type;		//STGTY
 #define PS_EMPTY		00
@@ -160,14 +171,15 @@ PSS;
 
 #pragma pack(pop)
 
-extern size_t ole2_read(void* buf,size_t size,size_t count,OLE2Stream* olest);
+extern ssize_t ole2_read(void* buf,size_t size,size_t count,OLE2Stream* olest);
 extern OLE2Stream* ole2_sopen(OLE2* ole,DWORD start, size_t size);
-extern void ole2_seek(OLE2Stream* olest,DWORD ofs);
-extern OLE2Stream*  ole2_fopen(OLE2* ole,BYTE* file);
+extern int ole2_seek(OLE2Stream* olest,DWORD ofs);
+extern OLE2Stream*  ole2_fopen(OLE2* ole, const char *file);
 extern void ole2_fclose(OLE2Stream* ole2st);
-extern OLE2* ole2_open(const BYTE *file);
+extern OLE2* ole2_open_file(const char *file);
+extern OLE2* ole2_open_buffer(const void *buffer, size_t len);
 extern void ole2_close(OLE2* ole2);
-extern void ole2_bufread(OLE2Stream* olest);
+extern int ole2_bufread(OLE2Stream* olest);
 
 
 #endif

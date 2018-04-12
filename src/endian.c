@@ -37,22 +37,12 @@ int xls_is_bigendian()
 {
 #if defined (__BIG_ENDIAN__)
     return 1;
-#elif defined (_WIN32)
-    return 0;
 #elif defined (__LITTLE_ENDIAN__)
     return 0;
 #else
-// #warning NO ENDIAN
     static int n = 1;
 
-    if (*(char *)&n == 1)
-    {
-        return 0;
-    }
-    else
-    {
-        return 1;
-    }
+    return (*(char *)&n == 0);
 #endif
 }
 
@@ -75,11 +65,11 @@ DWORD xlsIntVal (DWORD i)
 unsigned short xlsShortVal (short s)
 {
     unsigned char c1, c2;
-
+    
     if (xls_is_bigendian()) {
         c1 = s & 255;
         c2 = (s >> 8) & 255;
-
+    
         return (c1 << 8) + c2;
     } else {
         return s;
@@ -113,10 +103,8 @@ void xlsConvertBiff(BIFF *b)
     b->type = xlsShortVal(b->type);
     b->id_make = xlsShortVal(b->id_make);
     b->year = xlsShortVal(b->year);
-    if (b->ver == 0x600) {
-      b->flags = xlsIntVal(b->flags);
-      b->min_ver = xlsIntVal(b->min_ver);
-    }
+    b->flags = xlsIntVal(b->flags);
+    b->min_ver = xlsIntVal(b->min_ver);
 }
 
 void xlsConvertWindow(WIND1 *w)
