@@ -798,24 +798,17 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
             //verbose("EOF");
             break;
         case XLS_RECORD_BOF:	// BIFF5-8
-            if (bof1.size < sizeof(BIFF)) {
+            if (bof1.size < 2 * sizeof(WORD)) {
                 retval = LIBXLS_ERROR_PARSE;
                 goto cleanup;
             }
-            {
-				BIFF *b = (BIFF*)buf;
-                xlsConvertBiff(b);
-				if (b->ver==0x600)
-					pWB->is5ver=0;
-				else
-					pWB->is5ver=1;
-				pWB->type=b->type;
+            pWB->is5ver = (xlsShortVal(*(WORD *)&buf[0]) != 0x600);
+            pWB->type = xlsShortVal(*(WORD *)&buf[2]);
 
-				if(xls_debug) {
-					printf("version: %s\n", pWB->is5ver ? "BIFF5" : "BIFF8" );
-					printf("   type: %.2X\n", pWB->type);
-				}
-			}
+            if(xls_debug) {
+                printf("version: %s\n", pWB->is5ver ? "BIFF5" : "BIFF8" );
+                printf("   type: %.2X\n", pWB->type);
+            }
             break;
 
         case XLS_RECORD_CODEPAGE:
