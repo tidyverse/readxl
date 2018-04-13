@@ -147,7 +147,7 @@ xls_error_t xls_addSST(xlsWorkBook* pWB,SST* sst,DWORD size)
     if ((pWB->sst.string = calloc(pWB->sst.count, sizeof(struct str_sst_string))) == NULL)
         return LIBXLS_ERROR_MALLOC;
 
-    return xls_appendSST(pWB,&sst->strings,size-8);
+    return xls_appendSST(pWB, sst->strings, size - sizeof(SST));
 }
 
 xls_error_t xls_appendSST(xlsWorkBook* pWB, BYTE* buf, DWORD size)

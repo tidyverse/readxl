@@ -122,8 +122,8 @@ void xlsConvertWindow(WIND1 *w)
 
 void xlsConvertSst(SST *s)
 {
-    s->num=xlsIntVal(s->num);
-    s->num=xlsIntVal(s->numofstr);
+    s->num = xlsIntVal(s->num);
+    s->numofstr = xlsIntVal(s->numofstr);
 }
 
 void xlsConvertXf5(XF5 *x)
