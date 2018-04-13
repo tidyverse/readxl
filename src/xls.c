@@ -553,7 +553,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
     case XLS_RECORD_LABEL:
         if (bof->size < sizeof(LABEL))
             return NULL;
-		cell->str=xls_getfcell(pWS->workbook,cell,(WORD_UA *)&((LABEL*)buf)->value);
+		cell->str = xls_getfcell(pWS->workbook, cell, ((LABEL*)buf)->value);
         if (cell->str) {
             sscanf((char *)cell->str, "%d", &cell->l);
             sscanf((char *)cell->str, "%lf", &cell->d);

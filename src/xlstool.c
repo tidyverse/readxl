@@ -346,8 +346,7 @@ char *get_string(const char *s, size_t len, BYTE is2, BYTE is5ver, char *charset
         if (ofs + 2*ln > len) {
             return NULL;
         }
-		size_t new_len = 0;
-        ret = unicode_decode(str+ofs,ln*2, &new_len,charset);
+        ret = unicode_decode(str+ofs, ln*2, NULL, charset);
     } else {
         if (ofs + ln > len) {
             return NULL;
@@ -559,11 +558,11 @@ void xls_showXF(XF8* xf)
     printf("GroundColor: 0x%x\n",xf->groundcolor);
 }
 
-char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, WORD *label)
+char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
 {
     struct st_xf_data *xf = NULL;
 	WORD	len = 0;
-    WORD    offset = 0;
+    DWORD   offset = 0;
     char	*ret = NULL;
     size_t  retlen = 100;
 
@@ -573,8 +572,11 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, WORD *label)
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-		//printf("WORD: %u short: %u str: %s\n", *label, xlsShortVal(*label), pWB->sst.string[xlsIntVal(*label)].str );
-        offset = xlsIntVal(*(DWORD *)label);
+        if(pWB->is5ver) {
+            offset = xlsShortVal(*(WORD *)label);
+        } else {
+            offset = xlsIntVal(*(DWORD *)label);
+        }
         if(offset < pWB->sst.count && pWB->sst.string[offset].str) {
             ret = strdup(pWB->sst.string[offset].str);
         }
@@ -584,19 +586,20 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, WORD *label)
         ret = strdup("");
         break;
     case XLS_RECORD_LABEL:
-		len = xlsShortVal(*label);
-        label++;
+        len = xlsShortVal(*(WORD *)label);
+        label += 2;
 		if(pWB->is5ver) {
             ret = malloc(len+1);
             memcpy(ret, label, len);
             ret[len] = 0;
 			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);
-		} else if ((*(BYTE *)label & 0x01) == 0) {
-			ret = utf8_decode((char *)label + 1, len, pWB->charset);
 		} else {
-			size_t newlen;
-		    ret = unicode_decode((char *)label + 1, len*2, &newlen, pWB->charset);
-		}
+            if ((*(label++) & 0x01) == 0) {
+                ret = utf8_decode((char *)label, len, pWB->charset);
+            } else {
+                ret = unicode_decode((char *)label, len*2, NULL, pWB->charset);
+            }
+        }
         break;
     case XLS_RECORD_RK:
     case XLS_RECORD_NUMBER:
