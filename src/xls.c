@@ -43,7 +43,7 @@
 #include <wchar.h>
 
 #include "libxls/endian.h"
-#include "xls.h"
+#include "libxls/xls.h"
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
