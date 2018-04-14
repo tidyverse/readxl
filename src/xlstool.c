@@ -175,7 +175,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
 {
 #ifdef HAVE_ICONV
 	// Do iconv conversion
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
     const char *from_enc = "UTF-16le";
 #else
     const char *from_enc = "UTF-16LE";

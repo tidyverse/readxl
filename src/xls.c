@@ -73,7 +73,7 @@ extern xls_error_t xls_formatColumn(xlsWorkSheet* pWS);
 extern xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS);
 extern void xls_dumpSummary(char *buf, int isSummary, xlsSummaryInfo *pSI);
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -1370,7 +1370,7 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 #endif
 
 #ifdef DEBUG_DRAWINGS
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
@@ -1951,7 +1951,7 @@ void xls_set_formula_hander(xls_formula_handler handler)
 
 #ifdef DEBUG_DRAWINGS
 
-#ifdef AIX
+#if defined(_AIX) || defined(__sun)
 #pragma pack(1)
 #else
 #pragma pack(push, 1)
