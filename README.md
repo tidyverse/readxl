@@ -20,7 +20,7 @@ install and use on all operating systems. It is designed to work with
 *tabular* data.
 
 readxl supports both the legacy `.xls` format and the modern xml-based
-`.xlsx` format. The [libxls](https://sourceforge.net/projects/libxls/) C
+`.xlsx` format. The [libxls](https://github.com/evanmiller/libxls) C
 library is used to support `.xls`, which abstracts away many of the
 complexities of the underlying binary format. To parse `.xlsx`, we use
 the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
