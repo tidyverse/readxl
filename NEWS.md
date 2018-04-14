@@ -1,5 +1,10 @@
 # readxl 1.0.0.9000
 
+* Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
+
+  - [CVE-2017-12110](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0462), [CVE-2017-2896](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0403), and [CVE-2017-2897](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0404) were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.
+  - Although [CVE-2017-12111](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0463) and [CVE-2017-2919](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0426) mention readxl, the notices clarify that these CVEs do not actually affect readxl. Both have been fixed in libxls for quite a while: CVE-2017-12111 since 2014 and CVE-2017-2919 since 2012.
+
 * xlsx structured as a "minimal conformant SpreadsheetML package" can be read. Most obvious feature of such sheets is the lack of an `xl/` directory in the unzipped form. (xlsx, #435, #437)
 
 * Reading xls sheet with exactly 65,536 rows no longer enters an infinite loop. (xls, #373, #416, #432 @vkapartzianis)
