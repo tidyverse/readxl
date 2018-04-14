@@ -1,11 +1,6 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
-/* Ensure extensions are enabled (e.g. ASPRINTF) */
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
-
 /* Define to 1 if you have the `asprintf' function. */
 #define HAVE_ASPRINTF 1
 
