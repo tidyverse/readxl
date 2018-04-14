@@ -7,3 +7,4 @@ clippy/geometry.key
 rsconnect
 inst/doc
 scratch.R
+src/fprintf-substitution.R

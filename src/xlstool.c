@@ -57,8 +57,6 @@
 
 extern int xls_debug;
 
-// static void xls_showBOUNDSHEET(void* bsheet);
-
 static const DWORD colors[] =
     {
         0x000000,
@@ -119,77 +117,6 @@ static const DWORD colors[] =
         0x333333
     };
 
-#if HAVE_ASPRINTF != 1
-
-#include <stdarg.h>
-
-#ifdef MSDN
-static int asprintf(char **ret, const char *format, ...)
-{
-	int i, size=100;
-    char *p, *np;
-
-	va_list ap;
-
-	if ((p = (char *)malloc(size)) == NULL)
-        return -1;
-
-    while (1) {
-	    va_start(ap, format); 
-
-	    i = _vsnprintf(p, size, format, ap);
-
-	    va_end(ap);
-
-        if (i > -1 && i < size)
-        {
-            i++;
-            break;
-        }
-
-        if (i > -1)     /* glibc 2.1 */
-            size = i+1; /* precisely what is needed */
-        else            /* glibc 2.0 */
-            size *= 2;  /* twice the old size */
-
-        if ((np = realloc (p, size)) == NULL) {
-            free(p);
-            return -1;
-        } else {
-            p = np;
-        }
-    }
-
-	*ret = p;
-	return i > 255 ? 255 : i;
-}
-
-#else
-
-static int asprintf(char **ret, const char *format, ...)
-{
-	int i;
-	char *str;
-
-	va_list ap;
-
-	va_start(ap, format); 
-	i = vsnprintf(NULL, 0, format, ap) + 1;
-	va_end(ap);
-
-	str = (char *)malloc(i);
-
-	va_start(ap, format);
-	i = vsnprintf(str, i, format, ap);
-	va_end(ap);
-
-	*ret = str;
-	return i > 255 ? 255 : i;
-}
-#endif
-
-#endif
-
 
 void dumpbuf(BYTE* fname,long size,BYTE* buf)
 {
@@ -206,10 +133,10 @@ void verbose(char* str)
         printf("libxls : %s\n",str);
 }
 
-BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
+char *utf8_decode(const char *str, DWORD len, char *encoding)
 {
 	int utf8_chars = 0;
-	BYTE *ret;
+	char *ret = NULL;
     DWORD i;
 	
 	for(i=0; i<len; ++i) {
@@ -219,14 +146,14 @@ BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
 	}
 	
 	if(utf8_chars == 0 || strcmp(encoding, "UTF-8")) {
-		ret = (BYTE *)malloc(len+1);
+		ret = malloc(len+1);
 		memcpy(ret, str, len);
 		ret[len] = 0;
 	} else {
         DWORD i;
-        BYTE *out;
+        char *out;
 		// UTF-8 encoding inline
-		ret = (BYTE *)malloc(len+utf8_chars+1);
+		ret = malloc(len+utf8_chars+1);
 		out = ret;
 		for(i=0; i<len; ++i) {
 			BYTE c = str[i];
@@ -244,7 +171,7 @@ BYTE *utf8_decode(BYTE *str, DWORD len, char *encoding)
 }
 
 // Convert unicode string to to_enc encoding
-BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
+char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_enc)
 {
 #ifdef HAVE_ICONV
 	// Do iconv conversion
@@ -253,7 +180,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 #else
     const char *from_enc = "UTF-16LE";
 #endif
-    BYTE* outbuf = 0;
+    char* outbuf = 0;
 
     if(s && len && from_enc && to_enc)
     {
@@ -261,8 +188,8 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
         int outlen = len;
         size_t inlenleft = len;
         iconv_t ic = iconv_open(to_enc, from_enc);
-        BYTE* src_ptr = (BYTE*) s;
-        BYTE* out_ptr = 0;
+        const char* src_ptr = s;
+        char* out_ptr = 0;
 
         if(ic == (iconv_t)-1)
         {
@@ -286,18 +213,14 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
             }
         }
         size_t st; 
-        outbuf = (BYTE*)malloc(outlen + 1);
+        outbuf = malloc(outlen + 1);
 
 		if(outbuf)
         {
-            out_ptr = (BYTE*)outbuf;
+            out_ptr = outbuf;
             while(inlenleft)
             {
-#ifdef _WIN32
-                st = iconv(ic, (const char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
-#else
                 st = iconv(ic, (char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
-#endif
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)
@@ -305,7 +228,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
                         size_t diff = out_ptr - outbuf;
                         outlen += inlenleft;
                         outlenleft += inlenleft;
-                        outbuf = (BYTE*)realloc(outbuf, outlen + 1);
+                        outbuf = realloc(outbuf, outlen + 1);
                         if(!outbuf)
                         {
                             break;
@@ -346,18 +269,19 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 
     x=(short *)s;
 
-    w = (wchar_t*)malloc((len+1)*sizeof(wchar_t));
+    w = malloc((len/2+1)*sizeof(wchar_t));
 
-    for(i=0; i<len; i++)
+    for(i=0; i<len/2; i++)
     {
         w[i]=xlsShortVal(x[i]);
     }
-    w[len] = '\0';
+    w[len/2] = '\0';
 
     count = wcstombs(NULL, w, 0);
 
 	if (count <= 0) {
 		if (newlen) *newlen = 0;
+		free(w);
 		return NULL;
 	}
 
@@ -365,7 +289,7 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 	count2 = wcstombs(converted, w, count);
     free(w);
 	if (count2 <= 0) {
-		printf("wcstombs failed (%d)\n", len);
+		printf("wcstombs failed (%d)\n", len/2);
 		if (newlen) *newlen = 0;
 		return converted;
 	} else {
@@ -376,52 +300,58 @@ BYTE* unicode_decode(const BYTE *s, int len, size_t *newlen, const char* to_enc)
 }
 
 // Read and decode string
-BYTE* get_string(BYTE *s, BYTE is2, BYTE is5ver, char *charset)
+char *get_string(const char *s, size_t len, BYTE is2, BYTE is5ver, char *charset)
 {
     WORD ln;
-    DWORD ofs;
-    BYTE flag;
-    BYTE* str;
-    BYTE* ret;
+    DWORD ofs = 0;
+    BYTE flag = 0;
+    const char *str = s;
+    char *ret = NULL;
 	
-	flag = 0;
-    str=s;
-
-    ofs=0;
-
     if (is2) {
 		// length is two bytes
+        if (ofs + 2 > len) {
+            return NULL;
+        }
         ln=xlsShortVal(*(WORD_UA *)str);
         ofs+=2;
     } else {
 		// single byte length
+        if (ofs + 1 > len) {
+            return NULL;
+        }
         ln=*(BYTE*)str;
         ofs++;
     }
 
 	if(!is5ver) {
 		// unicode strings have a format byte before the string
+        if (ofs + 1 > len) {
+            return NULL;
+        }
 		flag=*(BYTE*)(str+ofs);
 		ofs++;
 	}
-    if (flag&0x8)
-    {
+    if (flag&0x8) {
 		// WORD rt;
         // rt=*(WORD*)(str+ofs); // unused
         ofs+=2;
     }
-    if (flag&0x4)
-    {
+    if (flag&0x4) {
 		// DWORD sz;
         // sz=*(DWORD*)(str+ofs); // unused
         ofs+=4;
     }
-    if(flag & 0x1)
-    {
-		size_t new_len = 0;
-        ret = unicode_decode(str+ofs,ln*2, &new_len,charset);
+    if(flag & 0x1) {
+        if (ofs + 2*ln > len) {
+            return NULL;
+        }
+        ret = unicode_decode(str+ofs, ln*2, NULL, charset);
     } else {
-		ret = utf8_decode((str+ofs), ln, charset);
+        if (ofs + ln > len) {
+            return NULL;
+        }
+		ret = utf8_decode(str+ofs, ln, charset);
     }
 
 #if 0	// debugging
@@ -628,78 +558,93 @@ void xls_showXF(XF8* xf)
     printf("GroundColor: 0x%x\n",xf->groundcolor);
 }
 
-BYTE *xls_getfcell(xlsWorkBook* pWB,struct st_cell_data* cell,BYTE *label)
+char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
 {
-    struct st_xf_data *xf;
-	WORD	len;
+    struct st_xf_data *xf = NULL;
+	WORD	len = 0;
+    DWORD   offset = 0;
     char	*ret = NULL;
+    size_t  retlen = 100;
 
-    xf=&pWB->xfs.xf[cell->xf];
+    if (cell->xf < pWB->xfs.count)
+        xf=&pWB->xfs.xf[cell->xf];
 
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-		//printf("WORD: %u short: %u str: %s\n", *(DWORD_UA *)label, xlsIntVal(*(DWORD_UA *)label), pWB->sst.string[xlsIntVal(*(DWORD_UA *)label)].str );
-        asprintf(&ret,"%s",pWB->sst.string[xlsIntVal(*(DWORD_UA *)label)].str);
+        if(pWB->is5ver) {
+            offset = xlsShortVal(*(WORD *)label);
+        } else {
+            offset = xlsIntVal(*(DWORD *)label);
+        }
+        if(offset < pWB->sst.count && pWB->sst.string[offset].str) {
+            ret = strdup(pWB->sst.string[offset].str);
+        }
         break;
     case XLS_RECORD_BLANK:
     case XLS_RECORD_MULBLANK:
-        asprintf(&ret, "%s", "");
+        ret = strdup("");
         break;
     case XLS_RECORD_LABEL:
-		len = xlsShortVal(*label);
+        len = xlsShortVal(*(WORD *)label);
         label += 2;
 		if(pWB->is5ver) {
-			asprintf(&ret,"%.*s", len, (char *)label);
+            ret = malloc(len+1);
+            memcpy(ret, label, len);
+            ret[len] = 0;
 			//printf("Found BIFF5 string of len=%d \"%s\"\n", len, ret);
-		} else
-		if ((*(BYTE *)label & 0x01) == 0) {
-			ret = (char *)utf8_decode((BYTE *)label + 1, len, pWB->charset);
 		} else {
-			size_t newlen;
-		    ret = (char *)unicode_decode((BYTE *)label + 1, len*2, &newlen, pWB->charset);
-		}
+            if ((*(label++) & 0x01) == 0) {
+                ret = utf8_decode((char *)label, len, pWB->charset);
+            } else {
+                ret = unicode_decode((char *)label, len*2, NULL, pWB->charset);
+            }
+        }
         break;
     case XLS_RECORD_RK:
     case XLS_RECORD_NUMBER:
-        asprintf(&ret,"%lf", cell->d);
+        ret = malloc(retlen);
+        snprintf(ret, retlen, "%lf", cell->d);
 		break;
 		//		if( RK || MULRK || NUMBER || FORMULA)
 		//		if (cell->id==0x27e || cell->id==0x0BD || cell->id==0x203 || 6 (formula))
     default:
-        switch (xf->format)
-        {
-        case 0:
-            asprintf(&ret,"%d",(int)cell->d);
-            break;
-        case 1:
-            asprintf(&ret,"%d",(int)cell->d);
-            break;
-        case 2:
-            asprintf(&ret,"%.1f",cell->d);
-            break;
-        case 9:
-            asprintf(&ret,"%d",(int)cell->d);
-            break;
-        case 10:
-            asprintf(&ret,"%.2f",cell->d);
-            break;
-        case 11:
-            asprintf(&ret,"%.1e",cell->d);
-            break;
-        case 14:
-			//ret=ctime(cell->d);
-			asprintf(&ret,"%.0f",cell->d);
-            break;
-        default:
-			// asprintf(&ret,"%.4.2f (%i)",cell->d,xf->format);break;
-            asprintf(&ret,"%.2f",cell->d);
+        if (xf) {
+            ret = malloc(retlen);
+            switch (xf->format)
+            {
+                case 0:
+                    snprintf(ret, retlen, "%d", (int)cell->d);
+                    break;
+                case 1:
+                    snprintf(ret, retlen, "%d", (int)cell->d);
+                    break;
+                case 2:
+                    snprintf(ret, retlen, "%.1f", cell->d);
+                    break;
+                case 9:
+                    snprintf(ret, retlen, "%d", (int)cell->d);
+                    break;
+                case 10:
+                    snprintf(ret, retlen, "%.2f", cell->d);
+                    break;
+                case 11:
+                    snprintf(ret, retlen, "%.1e", cell->d);
+                    break;
+                case 14:
+                    //ret=ctime(cell->d);
+                    snprintf(ret, retlen, "%.0f", cell->d);
+                    break;
+                default:
+                    // asprintf(&ret,"%.4.2f (%i)",cell->d,xf->format);break;
+                    snprintf(ret, retlen, "%.2f", cell->d);
+                    break;
+            }
             break;
         }
-        break;
     }
 
-    return (BYTE *)ret;
+    return ret;
 }
 
 char* xls_getCSS(xlsWorkBook* pWB)
