@@ -14,7 +14,8 @@ Authors@R: c(
     person("Komarov Valery", role = c("ctb", "cph"), comment = "Author of included libxls code"),
     person("Christophe Leitienne", role = c("ctb", "cph"), comment = "Author of included libxls code"),
     person("Bob Colbert", role = c("ctb", "cph"), comment = "Author of included libxls code"),
-    person("David Hoerl", role = c("ctb", "cph"), comment = "Author of included libxls code")
+    person("David Hoerl", role = c("ctb", "cph"), comment = "Author of included libxls code"),
+    person("Evan Miller", role = c("ctb", "cph"), comment = "Author of included libxls code")
     )
 Description: Import excel files into R. Supports '.xls' via the embedded
     'libxls' C library <https://sourceforge.net/projects/libxls/> and '.xlsx' via
