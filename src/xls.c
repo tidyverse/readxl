@@ -540,7 +540,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
         {
             WORD index = xlsShortVal(((MULBLANK*)buf)->col) + i;
             if(index >= row->cells.count) {
-                if (xls_debug) fprintf(stderr, "Error: MULTI-BLANK index out of bounds\n");
+                if (xls_debug) fprintf2(stderr, "Error: MULTI-BLANK index out of bounds\n");
                 return NULL;
             }
             cell=&row->cells.cell[index];
@@ -782,12 +782,12 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 
         if (bof1.size) {
             if ((buf = realloc(buf, bof1.size)) == NULL) {
-                if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)bof1.size);
+                if (xls_debug) fprintf3(stderr, "Error: failed to allocate buffer of size %d\n", (int)bof1.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
             if (ole2_read(buf, 1, bof1.size, pWB->olestr) != bof1.size) {
-                if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
+                if (xls_debug) fprintf2(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
                 goto  cleanup;
             }
@@ -1070,19 +1070,19 @@ xls_error_t xls_preparseWorkSheet(xlsWorkSheet* pWS)
     {
 		size_t read;
 		if((read = ole2_read(&tmp, 1, 4, pWS->workbook->olestr)) != 4) {
-            if (xls_debug) fprintf(stderr, "Error: failed to read OLE size\n");
+            if (xls_debug) fprintf2(stderr, "Error: failed to read OLE size\n");
             retval = LIBXLS_ERROR_READ;
             goto cleanup;
         }
         xlsConvertBof(&tmp);
         if (tmp.size) {
             if ((buf = realloc(buf, tmp.size)) == NULL) {
-                if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
+                if (xls_debug) fprintf3(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
             if((read = ole2_read(buf, 1, tmp.size, pWS->workbook->olestr)) != tmp.size) {
-                if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
+                if (xls_debug) fprintf2(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
                 goto cleanup;
             }
@@ -1236,19 +1236,19 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 			printf("LASTPOS=%ld pos=%zd filePos=%d filePos=%d\n", lastPos, pWB->olestr->pos, pWS->filepos, pWB->filepos);
 		}
 		if((read = ole2_read(&tmp, 1, 4, pWS->workbook->olestr)) != 4) {
-            if (xls_debug) fprintf(stderr, "Error: failed to read OLE size\n");
+            if (xls_debug) fprintf2(stderr, "Error: failed to read OLE size\n");
             retval = LIBXLS_ERROR_READ;
             goto cleanup;
         }
         xlsConvertBof((BOF *)&tmp);
         if (tmp.size) {
             if ((buf = realloc(buf, tmp.size)) == NULL) {
-                if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
+                if (xls_debug) fprintf3(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
             if((read = ole2_read(buf, 1, tmp.size, pWS->workbook->olestr)) != tmp.size) {
-                if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
+                if (xls_debug) fprintf2(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
                 goto cleanup;
             }
@@ -1586,7 +1586,7 @@ static xlsWorkBook *xls_open_ole(OLE2 *ole, const char *charset, xls_error_t *ou
     {
         pWB->summary = calloc(1,4096);
 		if (ole2_read(pWB->summary, 4096, 1, pWB->olestr) == -1) {
-            if (xls_debug) fprintf(stderr, "SummaryInformation not found\n");
+            if (xls_debug) fprintf2(stderr, "SummaryInformation not found\n");
             retval = LIBXLS_ERROR_READ;
             goto cleanup;
         }
@@ -1597,7 +1597,7 @@ static xlsWorkBook *xls_open_ole(OLE2 *ole, const char *charset, xls_error_t *ou
     {
         pWB->docSummary = calloc(1, 4096);
 		if (ole2_read(pWB->docSummary, 4096, 1, pWB->olestr) == -1) {
-            if (xls_debug) fprintf(stderr, "DocumentSummaryInformation not found\n");
+            if (xls_debug) fprintf2(stderr, "DocumentSummaryInformation not found\n");
             retval = LIBXLS_ERROR_READ;
             goto cleanup;
         }
@@ -1624,7 +1624,7 @@ static xlsWorkBook *xls_open_ole(OLE2 *ole, const char *charset, xls_error_t *ou
     // open Workbook
     if (!(pWB->olestr=ole2_fopen(ole,"Workbook")) && !(pWB->olestr=ole2_fopen(ole,"Book")))
     {
-        if(xls_debug) fprintf(stderr, "Workbook not found\n");
+        if(xls_debug) fprintf2(stderr, "Workbook not found\n");
         retval = LIBXLS_ERROR_PARSE;
         goto cleanup;
     }
@@ -1664,7 +1664,7 @@ xlsWorkBook* xls_open_file(const char *file, const char* charset, xls_error_t *o
 
     if (!(ole=ole2_open_file(file)))
     {
-        if (xls_debug) fprintf(stderr, "File \"%s\" not found\n",file);
+        if (xls_debug) fprintf3(stderr, "File \"%s\" not found\n",file);
         if (outError) *outError = LIBXLS_ERROR_OPEN;
         return NULL;
     }
