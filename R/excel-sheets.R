@@ -1,4 +1,4 @@
-#' List all sheets in an excel spreadsheet.
+#' List all sheets in an excel spreadsheet
 #'
 #' @inheritParams read_excel
 #' @export

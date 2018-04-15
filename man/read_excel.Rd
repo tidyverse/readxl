@@ -4,7 +4,7 @@
 \alias{read_excel}
 \alias{read_xls}
 \alias{read_xlsx}
-\title{Read xls and xlsx files.}
+\title{Read xls and xlsx files}
 \usage{
 read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
@@ -67,7 +67,7 @@ types.}
 A \link[tibble:tibble-package]{tibble}
 }
 \description{
-Read xls and xlsx files.
+Read xls and xlsx files
 
 \code{read_excel()} tries to determine format from the file extension and the file
 itself, in that order. Use \code{read_xls()} and \code{read_xlsx()} directly to
