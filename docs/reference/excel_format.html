@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List all sheets in an excel spreadsheet — excel_sheets • readxl</title>
+<title>Determine file format — excel_format • readxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -112,14 +112,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List all sheets in an excel spreadsheet</h1>
-    <small>Source: <a href='https://github.com/tidyverse/readxl/blob/master/R/excel-sheets.R'><code>R/excel-sheets.R</code></a></small>
-    <div class="hidden name"><code>excel_sheets.Rd</code></div>
+    <h1>Determine file format</h1>
+    <small>Source: <a href='https://github.com/tidyverse/readxl/blob/master/R/excel-format.R'><code>R/excel-format.R</code></a></small>
+    <div class="hidden name"><code>excel_format.Rd</code></div>
     </div>
 
-    <p>List all sheets in an excel spreadsheet</p>
+    <p>Determine if files are xlsx or xls. First the file extension is consulted. If
+that is unsuccessful and <code>guess = TRUE</code> and the file exists, the format is
+guessed from the <a href='https://en.wikipedia.org/wiki/List_of_file_signatures'>file signature</a> or "magic
+number".</p>
 
-    <pre class="usage"><span class='fu'>excel_sheets</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>excel_format</span>(<span class='no'>path</span>, <span class='kw'>guess</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,82 +131,33 @@
       <th>path</th>
       <td><p>Path to the xls/xlsx file</p></td>
     </tr>
+    <tr>
+      <th>guess</th>
+      <td><p>Logical. Whether to guess format based on the file itself, if
+the extension is neither <code>"xlsx"</code> nor <code>"xls"</code>.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Character vector with values <code>"xlsx"</code>, <code>"xls"</code>, or <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'>
-<span class='co'># To load all sheets in a workbook, use lapply</span>
-<span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>)
-<span class='fu'>lapply</span>(<span class='fu'>excel_sheets</span>(<span class='no'>path</span>), <span class='no'>read_excel</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>path</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; # A tibble: 150 x 5
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1         5.10        3.50         1.40       0.200 setosa 
-#&gt;  2         4.90        3.00         1.40       0.200 setosa 
-#&gt;  3         4.70        3.20         1.30       0.200 setosa 
-#&gt;  4         4.60        3.10         1.50       0.200 setosa 
-#&gt;  5         5.00        3.60         1.40       0.200 setosa 
-#&gt;  6         5.40        3.90         1.70       0.400 setosa 
-#&gt;  7         4.60        3.40         1.40       0.300 setosa 
-#&gt;  8         5.00        3.40         1.50       0.200 setosa 
-#&gt;  9         4.40        2.90         1.40       0.200 setosa 
-#&gt; 10         4.90        3.10         1.50       0.100 setosa 
-#&gt; # ... with 140 more rows
-#&gt; 
-#&gt; [[2]]
-#&gt; # A tibble: 32 x 11
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
-#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
-#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
-#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
-#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
-#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
-#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
-#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
-#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
-#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
-#&gt; # ... with 22 more rows
-#&gt; 
-#&gt; [[3]]
-#&gt; # A tibble: 71 x 2
-#&gt;    weight feed     
-#&gt;     &lt;dbl&gt; &lt;chr&gt;    
-#&gt;  1   179. horsebean
-#&gt;  2   160. horsebean
-#&gt;  3   136. horsebean
-#&gt;  4   227. horsebean
-#&gt;  5   217. horsebean
-#&gt;  6   168. horsebean
-#&gt;  7   108. horsebean
-#&gt;  8   124. horsebean
-#&gt;  9   143. horsebean
-#&gt; 10   140. horsebean
-#&gt; # ... with 61 more rows
-#&gt; 
-#&gt; [[4]]
-#&gt; # A tibble: 1,000 x 5
-#&gt;      lat  long depth   mag stations
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-#&gt;  1 -20.4  182.  562.  4.80      41.
-#&gt;  2 -20.6  181.  650.  4.20      15.
-#&gt;  3 -26.0  184.   42.  5.40      43.
-#&gt;  4 -18.0  182.  626.  4.10      19.
-#&gt;  5 -20.4  182.  649.  4.00      11.
-#&gt;  6 -19.7  184.  195.  4.00      12.
-#&gt;  7 -11.7  166.   82.  4.80      43.
-#&gt;  8 -28.1  182.  194.  4.40      15.
-#&gt;  9 -28.7  182.  211.  4.70      35.
-#&gt; 10 -17.5  180.  622.  4.30      19.
-#&gt; # ... with 990 more rows
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(
+  <span class='st'>"a.xlsx"</span>,
+  <span class='st'>"b.xls"</span>,
+  <span class='st'>"c.png"</span>,
+  <span class='fu'>file.path</span>(<span class='fu'>R.home</span>(<span class='st'>"doc"</span>), <span class='st'>"html"</span>, <span class='st'>"logo.jpg"</span>),
+  <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>),
+  <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"deaths.xls"</span>)
+)
+<span class='fu'>excel_format</span>(<span class='no'>files</span>)</div><div class='output co'>#&gt; [1] "xlsx" "xls"  NA     NA     "xlsx" "xls" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

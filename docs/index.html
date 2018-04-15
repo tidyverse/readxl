@@ -249,7 +249,9 @@
 <p><strong>Writing Excel files</strong>: The example files <code>datasets.xlsx</code> and <code>datasets.xls</code> were created with the help of <a href="https://CRAN.R-project.org/package=openxlsx">openxlsx</a> (and Excel). openxlsx provides “a high level interface to writing, styling and editing worksheets”.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">iris =</span> iris, <span class="dt">mtcars =</span> mtcars, <span class="dt">chickwts =</span> chickwts, <span class="dt">quakes =</span> quakes)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">openxlsx<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/openxlsx/topics/write.xlsx">write.xlsx</a></span>(l, <span class="dt">file =</span> <span class="st">"inst/extdata/datasets.xlsx"</span>)</a></code></pre></div>
+<p><a href="https://cran.r-project.org/web/packages/writexl/index.html">writexl</a> is a new option in this space, first released on CRAN in August 2017. It’s a portable and lightweight way to export a data frame to xlsx, based on <a href="https://github.com/jmcnamara/libxlsxwriter">libxlsxwriter</a>. It is much more minimalistic than openxlsx, but on simple examples, appears to be about twice as fast and to write smaller files.</p>
 <p><strong>Non-tabular data and formatting</strong>: <a href="https://cran.r-project.org/package=tidyxl">tidyxl</a> is focused on importing awkward and non-tabular data from Excel. It also “exposes cell content, position and formatting in a tidy structure for further manipulation”.</p>
+<p>Please note that this project is released with a <a href=".github/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
@@ -296,6 +298,7 @@
 <li><a href="https://ci.appveyor.com/project/tidyverse/readxl"><img src="https://ci.appveyor.com/api/projects/status/github/tidyverse/readxl?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/github/tidyverse/readxl?branch=master"><img src="https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=readxl"><img src="https://www.r-pkg.org/badges/version/readxl" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
 </ul>
 </div>
 </div>
@@ -312,14 +315,12 @@
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script></footer>
 </div>
 
