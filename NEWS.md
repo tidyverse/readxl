@@ -1,5 +1,7 @@
 # readxl 1.0.0.9000
 
+* Missing or duplicated column names are now repaired with `tibble::set_tidy_names()` in `read_excel()` and friends. `set_tidy_names()` is intended to implement a standard across the tidyverse packages for repairing missing and duplicated names. Its design is discussed in [tidyverse/tibble#217](https://github.com/tidyverse/tibble/issues/217). (PR here, #357)
+
 * Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
 
   - [CVE-2017-12110](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0462), [CVE-2017-2896](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0403), and [CVE-2017-2897](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0404) were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.
