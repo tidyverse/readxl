@@ -1,5 +1,11 @@
 # readxl 1.1.0.9000
 
+* Missing or duplicated column names are now repaired with `tibble::set_tidy_names()` in `read_excel()` and friends. `set_tidy_names()` is intended to encourage name repair that is more principled and consistent, across multiple tidyverse packages. Its design is discussed in [tidyverse/tibble#217](https://github.com/tidyverse/tibble/issues/217). (#357, #453)
+
+  - Example of change a user will see: consider a spreadsheet with three columns, one unnamed and two named `x`.
+  - Column names in readxl > 1.1.0: `..1`, `x..2`, `x..3`
+  - Column names in readxl <= 1.1.0: `X__1`, `x`, `x__1`
+
 # readxl 1.1.0
 
 * `read_excel()` and `excel_sheets()` associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (#342, #411, #457)
