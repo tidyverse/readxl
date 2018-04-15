@@ -29,7 +29,7 @@ test_that("xlsx is not read as xls and vice versa", {
 })
 
 test_that("non-existent file throws error", {
-  expect_error(read_excel("foo"), "Path does not exist")
+  expect_error(read_excel("foo"), "`path` does not exist")
 })
 
 test_that("read_excel catches invalid guess_max", {
