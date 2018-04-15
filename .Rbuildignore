@@ -24,3 +24,4 @@
 ^talks$
 ^scratch\.R$
 ^src/fprintf-substitution\.R$
+^\.github$

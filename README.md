@@ -237,3 +237,7 @@ openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 importing awkward and non-tabular data from Excel. It also “exposes cell
 content, position and formatting in a tidy structure for further
 manipulation”.
+
+Please note that this project is released with a [Contributor Code of
+Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+you agree to abide by its terms.
