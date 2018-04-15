@@ -9,7 +9,7 @@
 
 * Reading xls sheet with exactly 65,536 rows no longer enters an infinite loop. (xls, #373, #416, #432 @vkapartzianis)
 
-* Datetimes coerced to character from xls have much higher precision, comparable to the xlsx behaviour. (xls, #430, #431)
+* Doubles, including datetimes, coerced to character from xls now have much higher precision, comparable to the xlsx behaviour. (xls, #430, #431)
 
 * Integer-y numbers larger than 2^31 are coerced properly to string (xls, #346)
 
