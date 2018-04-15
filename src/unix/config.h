@@ -1,13 +1,5 @@
 /* config.h.  Generated from config.h.in by configure.  */
-/* config.h.in.  Generated from configure.in by autoheader.  */
-
-/* Ensure extensions are enabled (e.g. ASPRINTF) */
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
-
-/* Define to 1 if you have the `asprintf' function. */
-#define HAVE_ASPRINTF 1
+/* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
@@ -24,9 +16,6 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
-
-/* Define to 1 if you have the `pow' function. */
-#define HAVE_POW 1
 
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
@@ -63,23 +52,19 @@
 #define LIBXLS_MAJOR_VERSION 1
 
 /* Micro version */
-#define LIBXLS_MICRO_VERSION 1
+#define LIBXLS_MICRO_VERSION 0
 
 /* Minor version */
-#define LIBXLS_MINOR_VERSION 2
+#define LIBXLS_MINOR_VERSION 4
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
-
-/* Disables Assertions */
-#define NDEBUG 1
 
 /* Name of package */
 #define PACKAGE "libxls"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "dhoerl@users.sourceforge.net"
+#define PACKAGE_BUGREPORT "emmiller@gmail.com"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "libxls"
@@ -100,7 +85,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.2.1"
+#define VERSION "1.4.0"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
