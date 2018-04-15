@@ -181,9 +181,9 @@ printf("FILE: %s\n", argv[1]);
 				}
 
 				// display the value of the cell (either numeric or string)
-				if (cell->id == 0x27e || cell->id == 0x0BD || cell->id == 0x203) {
+				if (cell->id == XLS_RECORD_RK || cell->id == XLS_RECORD_MULRK || cell->id == XLS_RECORD_NUMBER) {
 					OutputNumber(cell->d);
-				} else if (cell->id == 0x06) {
+				} else if (cell->id == XLS_RECORD_FORMULA || cell->id == XLS_RECORD_FORMULA_ALT) {
                     // formula
 					if (cell->l == 0) // its a number
 					{
