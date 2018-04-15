@@ -25,3 +25,4 @@
 ^scratch\.R$
 ^src/fprintf-substitution\.R$
 ^\.github$
+^fprintf-matches\.txt$

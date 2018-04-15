@@ -109,22 +109,6 @@ typedef struct {
 	uint32_t		data[0];
 } property;
 
-#ifdef DEBUG_DRAWINGS
-struct drawHeader {
-	unsigned int rec : 4;
-	unsigned int instance : 12;
-	unsigned int type : 16;
-	unsigned int len : 32;
-};
-
-static char *formData;
-static char *formFunc;
-static struct drawHeader drawProc(uint8_t *buf, uint32_t maxLen, uint32_t *off, int level);
-static void dumpRec(char *comment, struct drawHeader *h, int len, uint8_t *buf);
-static int finder(uint8_t *buf, uint32_t len, uint16_t pattern);
-static uint32_t sheetOffset;
-#endif
-
 #pragma pack(pop)
 
 int xls(int debug)
@@ -143,8 +127,11 @@ xls_error_t xls_addSST(xlsWorkBook* pWB,SST* sst,DWORD size)
     pWB->sst.lastrt=0;
     pWB->sst.lastsz=0;
 
-    pWB->sst.count = sst->num;
-    if ((pWB->sst.string = calloc(pWB->sst.count, sizeof(struct str_sst_string))) == NULL)
+    if (sst->num > (1<<20))
+        return LIBXLS_ERROR_MALLOC;
+
+    if ((pWB->sst.string = calloc(pWB->sst.count = sst->num,
+                    sizeof(struct str_sst_string))) == NULL)
         return LIBXLS_ERROR_MALLOC;
 
     return xls_appendSST(pWB, sst->strings, size - sizeof(SST));
@@ -445,43 +432,82 @@ xls_error_t xls_makeTable(xlsWorkSheet* pWS)
         tmp->lcell=pWS->rows.lastcol;
 
 		tmp->cells.count = pWS->rows.lastcol+1;
-        if ((tmp->cells.cell = calloc(tmp->cells.count,sizeof(struct st_cell_data))) == NULL)
+        if ((tmp->cells.cell = calloc(tmp->cells.count, sizeof(struct st_cell_data))) == NULL)
             return LIBXLS_ERROR_MALLOC;
 
         for (i=0;i<=pWS->rows.lastcol;i++)
         {
-            tmp->cells.cell[i].col=i;
-            tmp->cells.cell[i].row=t;
-            tmp->cells.cell[i].width=pWS->defcolwidth;
-            tmp->cells.cell[i].xf=0;
-            tmp->cells.cell[i].str=NULL;
-            tmp->cells.cell[i].d=0;
-            tmp->cells.cell[i].l=0;
-            tmp->cells.cell[i].isHidden=0;
-            tmp->cells.cell[i].colspan=0;
-            tmp->cells.cell[i].rowspan=0;
-            tmp->cells.cell[i].id=XLS_RECORD_BLANK;
-            tmp->cells.cell[i].str=NULL;
+            tmp->cells.cell[i].col = i;
+            tmp->cells.cell[i].row = t;
+            tmp->cells.cell[i].width = pWS->defcolwidth;
+            tmp->cells.cell[i].id = XLS_RECORD_BLANK;
         }
     }
     return LIBXLS_OK;
+}
+
+int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
+    if (bof->size < sizeof(COL))
+        return 1;
+
+    if (bof->id == XLS_RECORD_FORMULA || bof->id == XLS_RECORD_FORMULA_ALT)
+        return (bof->size < sizeof(FORMULA));
+
+    if (bof->id == XLS_RECORD_MULRK)
+        return (bof->size < sizeof(MULRK));
+
+    if (bof->id == XLS_RECORD_MULBLANK)
+        return (bof->size < sizeof(MULBLANK));
+
+    if (bof->id == XLS_RECORD_LABELSST) {
+        return (bof->size < sizeof(LABEL) + (pWB->is5ver ? 2 : 4));
+    }
+
+    if (bof->id == XLS_RECORD_LABEL) {
+        size_t label_len = xlsShortVal(*(WORD *)((LABEL*)buf)->value);
+        if (pWB->is5ver) {
+            return (bof->size < sizeof(LABEL) + 2 + label_len);
+        }
+        if ((((LABEL*)buf)->value[2] & 0x01)) {
+            return (bof->size < sizeof(LABEL) + 3 + label_len);
+        }
+        return (bof->size < sizeof(LABEL) + 3 + 2 * label_len);
+    }
+
+    if (bof->id == XLS_RECORD_RK)
+        return (bof->size < sizeof(RK));
+
+    if (bof->id == XLS_RECORD_NUMBER)
+        return (bof->size < sizeof(BR_NUMBER));
+
+    if (bof->id == XLS_RECORD_BOOLERR)
+        return (bof->size < sizeof(BOOLERR));
+
+    return 0;
 }
 
 struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 {
     struct st_cell_data*	cell;
     struct st_row_data*		row;
+    WORD_UA                 col;
     int						i;
 
 	verbose ("xls_addCell");
 
-    if (bof->size < sizeof(COL))
+    if (xls_isCellTooSmall(pWS->workbook, bof, buf))
         return NULL;
 
 	// printf("ROW: %u COL: %u\n", xlsShortVal(((COL*)buf)->row), xlsShortVal(((COL*)buf)->col));
     row=&pWS->rows.row[xlsShortVal(((COL*)buf)->row)];
-    //cell=&row->cells.cell[((COL*)buf)->col - row->fcell]; DFH - inconsistent
-    cell=&row->cells.cell[xlsShortVal(((COL*)buf)->col)];
+
+    col = xlsShortVal(((COL*)buf)->col);
+    if (col >= row->cells.count) {
+        if (xls_debug) fprintf2(stderr, "Error: Column index out of bounds\n");
+        return NULL;
+    }
+    cell = &row->cells.cell[col];
+
     cell->id=bof->id;
     cell->xf=xlsShortVal(((COL*)buf)->xf);
 
@@ -489,9 +515,6 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
     {
     case XLS_RECORD_FORMULA:
     case XLS_RECORD_FORMULA_ALT:
-        if (bof->size < sizeof(FORMULA))
-            return NULL;
-
 		xlsConvertFormula((FORMULA *)buf);
         cell->id=XLS_RECORD_FORMULA;
         if (((FORMULA*)buf)->res!=0xffff) {
@@ -521,12 +544,14 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 		if(formula_handler) formula_handler(bof->id, bof->size, buf);
         break;
     case XLS_RECORD_MULRK:
-        if (bof->size < sizeof(MULRK))
-            return NULL;
         for (i = 0; i < (bof->size - 6)/6; i++)	// 6 == 2 row + 2 col + 2 trailing index
         {
-            cell=&row->cells.cell[xlsShortVal(((MULRK*)buf)->col + i)];
-			// printf("i=%d col=%d\n", i, xlsShortVal(((MULRK*)buf)->col + i) );
+            WORD index = col + i;
+            if(index >= row->cells.count) {
+                if (xls_debug) fprintf2(stderr, "Error: MULTI-RK index out of bounds\n");
+                return NULL;
+            }
+            cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_RK;
             cell->xf=xlsShortVal(((MULRK*)buf)->rk[i].xf);
             cell->d=NumFromRk(xlsIntVal(((MULRK*)buf)->rk[i].value));
@@ -534,11 +559,9 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
         }
         break;
     case XLS_RECORD_MULBLANK:
-        if (bof->size < sizeof(MULBLANK))
-            return NULL;
         for (i = 0; i < (bof->size - 6)/2; i++)	// 6 == 2 row + 2 col + 2 trailing index
         {
-            WORD index = xlsShortVal(((MULBLANK*)buf)->col) + i;
+            WORD index = col + i;
             if(index >= row->cells.count) {
                 if (xls_debug) fprintf2(stderr, "Error: MULTI-BLANK index out of bounds\n");
                 return NULL;
@@ -551,8 +574,6 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
         break;
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
-        if (bof->size < sizeof(LABEL))
-            return NULL;
 		cell->str = xls_getfcell(pWS->workbook, cell, ((LABEL*)buf)->value);
         if (cell->str) {
             sscanf((char *)cell->str, "%d", &cell->l);
@@ -560,23 +581,17 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
         }
 		break;
     case XLS_RECORD_RK:
-        if (bof->size < sizeof(RK))
-            return NULL;
         cell->d=NumFromRk(xlsIntVal(((RK*)buf)->value));
         cell->str=xls_getfcell(pWS->workbook,cell, NULL);
         break;
     case XLS_RECORD_BLANK:
         break;
     case XLS_RECORD_NUMBER:
-        if (bof->size < sizeof(BR_NUMBER))
-            return NULL;
         xlsConvertDouble((BYTE *)&((BR_NUMBER*)buf)->value);
 		memcpy(&cell->d, &((BR_NUMBER*)buf)->value, sizeof(double)); // Required for ARM
         cell->str=xls_getfcell(pWS->workbook,cell, NULL);
         break;
     case XLS_RECORD_BOOLERR:
-        if (bof->size < sizeof(BOOLERR))
-            return NULL;
         cell->d = ((BOOLERR *)buf)->value;
         if (((BOOLERR *)buf)->iserror) {
             sprintf((char *)(cell->str = malloc(sizeof("error"))), "error");
@@ -1013,26 +1028,6 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 			}
 			break;
 			
-#ifdef DEBUG_DRAWINGS
-		case XLS_RECORD_MSODRAWINGGROUP:
-		{
-			printf("DRAWING GROUP size=%d\n", bof1.size);
-			unsigned int total = bof1.size;
-			unsigned int off = 0;
-
-			while(off < total) {
-				struct drawHeader fooper = drawProc(buf, total, &off, 0);
-				(void)fooper;
-			}
-			printf("Total=%d off=%d\n", total, off);
-			
-			if(formData) printf("%s\n", formData);
-			if(formFunc) printf("%s\n", formFunc);
-			free(formData), formData = NULL;
-			free(formFunc), formFunc = NULL;
-
-		}	break;
-#endif
         default:
 			if(xls_debug)
 			{
@@ -1157,6 +1152,10 @@ xls_error_t xls_preparseWorkSheet(xlsWorkSheet* pWS)
                 pWS->rows.lastrow=xlsShortVal(((COL*)buf)->row);
             break;
         }
+        if (pWS->rows.lastcol > 256) {
+            retval = LIBXLS_ERROR_PARSE;
+            goto cleanup;
+        }
     }
     while ((!pWS->workbook->olestr->eof)&&(tmp.id!=XLS_RECORD_EOF));
 
@@ -1202,9 +1201,6 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 	long offset = pWS->filepos;
     size_t read;
     xls_error_t retval = 0;
-#ifdef DEBUG_DRAWINGS
-	int continueRec = 0;
-#endif
 
 	struct st_cell_data *cell = NULL;
 	xlsWorkBook *pWB = pWS->workbook;
@@ -1344,200 +1340,8 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 				if (xls_debug) xls_showCell(cell);
 			}
 			break;
-#if 0 // debugging
-		case XLS_RECORD_HYPERREF:
-			if(xls_debug) {
-				printf("HYPERREF: ");
-				unsigned char xx, *foo = (void *)buf;
-
-				for(xx=0; xx<tmp.size; ++xx, ++foo) {
-					printf("%2.2x ", *foo);
-				}
-				printf("\n");
-			}
-			break;
-		case XLS_RECORD_WINDOW2:
-			if(xls_debug) {
-				printf("WINDOW2: ");
-				unsigned short xx, *foo = (void *)buf;
-
-				for(xx=0; xx<7; ++xx, ++foo) {
-					printf("0x%4.4x ", *foo);
-				}
-				printf("\n");
-			}
-			break;
-#endif
-
-#ifdef DEBUG_DRAWINGS
-#if defined(_AIX) || defined(__sun)
-#pragma pack(1)
-#else
-#pragma pack(push, 1)
-#endif
-		case XLS_RECORD_MSODRAWING:	// MSDRAWING
-		{
-			printf("DRAWING size=%d\n", tmp.size);
-			sheetOffset = 100;
-			unsigned int total = tmp.size;
-			unsigned int off = 0;
-			
-			while(off < total) {
-				struct drawHeader fooper  = drawProc(buf, total, &off, 0);
-				(void)fooper;
-				printf("---------------Total=%d off=%d\n", total, off);
-			}
-
-			if(formData) printf("%s\n", formData);
-			if(formFunc) printf("%s\n", formFunc);
-			free(formData), formData = NULL;
-			free(formFunc), formFunc = NULL;
-			
-		}	break;
-		
-		case XLS_RECORD_TXO:
-		{
-			struct {
-				uint16_t	grbit;
-				uint16_t	rot;
-				char		reserved1[6];
-				uint16_t	cchText;
-				uint16_t	cbRuns;
-				uint16_t	ifntEmpty;
-				uint16_t	reserved2;
-			} foo;
-			memcpy(&foo, buf, 18);
-			printf("TXO: grbit=0x%4.4X rot=0x%4.4X chText=0x%4.4X cbRuns=0x%4.4X ifntEmpty=0x%X reserved2=0x%X\n",
-                    foo.grbit, foo.rot, foo.cchText, foo.cbRuns, foo.ifntEmpty, foo.reserved2);
-			
-			printf("Res1: ");
-			for(int i=0; i<6; ++i) printf("%2.2x ", foo.reserved1[i]);
-			printf("\n");
-			
-			continueRec = 1;
-			goto printBOF;
-		}	break;
-		
-		case XLS_RECORD_CONTINUE:
-		{
-			if(continueRec == 1) {
-				continueRec = 2;
-				
-				printf("TEXT: ");
-				for(int i=0; i<tmp.size; ++i) printf("%2.2x ", buf[i]);
-				printf("\n");
-				printf("\"%.*s\"\n", tmp.size-1, buf+1);
-			} else
-			if(continueRec == 2) {
-				continueRec = 0;
-				int off = 0;
-
-				struct {
-					uint16_t	ichFirst;
-					uint16_t	ifnt;
-					char		reserved[4];
-				} foo;
-				
-				for(int i=0; i<tmp.size/8; ++i) {
-					memcpy(&foo, buf+off, 8);
-					printf("TXORUN: %d 0x%x\n", foo.ichFirst, foo.ifnt);
-					off += 8;
-				}
-			}
-			goto printBOF;
-		} break;
-		
-		case XLS_RECORD_OBJ:
-			xls_showBOF(&tmp);
-		{
-			struct  {
-				uint16_t	ft;
-				uint16_t	cb;
-				uint16_t	ot;
-				uint16_t	idx;
-				uint16_t	flags;
-				uint16_t	unused[6];
-			} foo;
-			memcpy(&foo, buf, sizeof(foo));
-			
-			int len = (int)(tmp.size - sizeof(foo));
-			int off = sizeof(foo);
-			
-			printf("OBJ ft=0x%X cb=0x%X ot=0x%X idx=0x%X flags=0x%X len=%d ",
-                    foo.ft, foo.cb, foo.ot, foo.idx, foo.flags, (int)(tmp.size - sizeof(foo)) );
-			//for(int i=0; i<6; ++i) printf(" 0x%02.2x", foo.unused[i]);
-			printf("\n");
-			
-			if(foo.ot == 0x08) {
-				struct {
-					uint16_t ft;
-					uint16_t cb;
-					uint16_t flags;
-				} ftcf;
-				memcpy(&ftcf, buf+off, sizeof(ftcf));
-				printf(" ft=%x cb=%x flags=%4.4x\n", ftcf.ft, ftcf.cb, ftcf.flags);
-				off += sizeof(ftcf);
-
-				struct {
-					uint16_t ft;
-					uint16_t cb;
-					uint16_t flags;
-				} FtPioGrbit;
-				memcpy(&FtPioGrbit, buf+off, sizeof(FtPioGrbit));
-				printf(" ft=%x cb=%x flags=%4.4x\n", FtPioGrbit.ft, FtPioGrbit.cb, FtPioGrbit.flags);
-				off += sizeof(FtPioGrbit);
-			} else {
-				printf("Extra: ");
-				for(int i=0; i<len; ++i) printf("%2.2x ", buf[i+off]);
-				printf("\n");
-			}
-
-#if 0
-			struct {
-				uint16_t	ft;
-				uint16_t	cb;
-				uint8_t		guid[16];
-				uint16_t	fSharedNote;
-				uint32_t	unused;
-			} FtNts;
-			memcpy(&FtNts, buf+off, sizeof(FtNts));
-			off += sizeof(FtNts);
-			printf("  ft=%X cb=%X fSharedNote=0x%X guid: ", FtNts.ft, FtNts.cb, FtNts.fSharedNote);
-			for(int i=0; i<16; ++i) printf("%2.2x ", FtNts.guid[i]);
-			printf("\n");
-			
-			uint32_t last;
-			memcpy(&last, buf+off, 4);
-			printf("  LAST 0x%8.8X off=%d s1=%ld s2=%ld\n", last, off+4, sizeof(foo), sizeof(FtNts) );
-#endif
-			goto printBOF;
-		}	break;
-		
-		case XLS_RECORD_NOTE:
-		{
-			struct {
-				uint16_t	row;
-				uint16_t	col;
-				uint16_t	flags;
-				uint16_t	idx;
-				uint16_t	strLen;
-				uint8_t		strType;
-			} note;
-			memcpy(&note, buf, sizeof(note));
-			printf("   NOTE: row=%d col=%d flags=0x%x idx=%d strLen=%d strType=%d :  ",
-                    note.row, note.col, note.flags, note.idx, note.strLen, note.strType);
-			for(int i=0; i<note.strLen; ++i) printf("%2.2x ", buf[i+sizeof(note)]);
-			printf("\n  %.*s now at %ld len=%d\n", note.strLen, buf + sizeof(note), sizeof(note)+note.strLen, tmp.size);
-
-			goto printBOF;
-		}	break;
-#pragma pack(pop)
-#endif
 
         default:
-#ifdef DEBUG_DRAWINGS
-		  printBOF:
-#endif
 			if(xls_debug)
 			{
 				//xls_showBOF(&tmp);
@@ -1701,7 +1505,7 @@ xlsCell	*xls_cell(xlsWorkSheet* pWS, WORD cellRow, WORD cellCol)
 
     if(cellRow > pWS->rows.lastrow) return NULL;
     row = &pWS->rows.row[cellRow];
-    if(cellCol > row->cells.count) return NULL;
+    if(row == NULL || cellCol >= row->cells.count) return NULL;
 
     return &row->cells.cell[cellCol];
 }
@@ -1777,8 +1581,7 @@ void xls_close_WS(xlsWorkSheet* pWS)
 {
 	if(!pWS) return;
 
-    // ROWS
-    {
+    if (pWS->rows.row) {
         DWORD i, j;
         for(j=0; j<=pWS->rows.lastrow; ++j) {
             struct st_row_data *row = &pWS->rows.row[j];
@@ -1788,7 +1591,6 @@ void xls_close_WS(xlsWorkSheet* pWS)
             free(row->cells.cell);
         }
         free(pWS->rows.row);
-
     }
 
     // COLINFO
@@ -1948,498 +1750,3 @@ void xls_set_formula_hander(xls_formula_handler handler)
 {
 	formula_handler = handler;
 }
-
-#ifdef DEBUG_DRAWINGS
-
-#if defined(_AIX) || defined(__sun)
-#pragma pack(1)
-#else
-#pragma pack(push, 1)
-#endif
-
-static char spaces[] = "                                                                                                                ";
-
-static struct drawHeader drawProc(uint8_t *buf, uint32_t maxLen, uint32_t *off_p, int level)
-{
-	struct drawHeader head = { 0, 0, 0, 0 };
-	uint32_t off = off_p ? *off_p : 0;
-	memcpy(&head, buf+off, sizeof(head));
-#if 0	// rec is the lower 4 bits
-	{
-		uint16_t foo0, foo1;
-		uint32_t foo2;
-		memcpy(&foo0, buf+off, 2);
-		memcpy(&foo1, buf+off+2, 2);
-		memcpy(&foo2, buf+off+4, 4);
-		printf("-----------------------------[%4.4x %4.4x %x] rec=%x instance=%x type=%x len=%x\n", foo0, foo1, foo2, head.rec, head.instance,  head.type, head.len);
-	}
-#endif
-	off += sizeof(head);
-
-	printf("%.*s", level*3, spaces);
-	printf("type=%x rec=%x instance=%x len=%d    ", head.type, head.rec, head.instance, head.len);
-	
-	switch(head.type) {
-	case 0xF000:	// OfficeArtDggContainer - F000 - overall header
-	{
-		printf("OfficeArtDggContainer\n");
-		dumpRec("OfficeArtDggContainer", &head, 0, NULL);
-
-		int startOff = off;
-		while( (off - startOff) < head.len && off < maxLen) {
-			struct drawHeader fooper2 = drawProc(buf, maxLen, &off, level+1);
-			(void)fooper2;
-		}
-		
-		printf("%.*s", level*3, spaces);
-		printf("Total=%d off=%d ObjectSize=%d\n", maxLen, off, off-startOff);
-		
-	}	break;
-
-#if 0
-	DRAWING 0xf002 208
-	  rec=0 instance=1 type=f008 len=8
-	  csp=4 spidCur=1027
-	rec=f instance=0 type=f003 len=462
-	Total=208 off=486
-	OBJ id=1 ot=0x19 flags=0x4011 check=0x0 len=30
-	  ft=D cb=16 fSharedNote=0x0 guid: 8e 2e 69 ed f2 7d e3 11 99 7f 00 16 cb 93 e7 b5 
-	  LAST 0x00000000
-	type=f00d rec=0 instance=0 len=0    WTF ?!?!?!
-
-#endif
-	case 0xF002:
-	{
-		printf("OfficeArtDgContainer\n");
-		dumpRec("OfficeArtDgContainer", &head, 0, NULL);
-
-		int startOff = off;
-		while( (off - startOff) < head.len && off < maxLen) {
-			struct drawHeader fooper2 = drawProc(buf, maxLen, &off, level+1);
-			(void)fooper2;
-		}
-		
-		printf("%.*s", level*3, spaces);
-		printf("Total=%d off=%d ObjectSize=%d\n", maxLen, off, off-startOff);
-
-	}	break;
-
-	case 0xF003:
-	{
-		printf("OfficeArtSpgrContainer\n");
-		dumpRec("OfficeArtSpgrContainer", &head, 0, NULL);
-
-		int startOff = off;
-		while( (off - startOff) < head.len && off < maxLen) {
-			struct drawHeader fooper2 = drawProc(buf, maxLen, &off, level+1);
-			(void)fooper2;
-		}
-		
-		printf("%.*s", level*3, spaces);
-		printf("Total=%d off=%d ObjectSize=%d  FIXME FIXME FIXME\n", maxLen, off, off-startOff);
-	}	break;
-
-	case 0xF001:
-	{
-		printf("OfficeArtBStoreContainer\n");
-		dumpRec("OfficeArtBStoreContainer", &head, 0, NULL);
-
-		int startOff = off;
-		while( (off - startOff) < head.len && off < maxLen) {
-			struct drawHeader fooper2 = drawProc(buf, maxLen, &off, level+1);
-			(void)fooper2;
-		}
-		
-		printf("%.*s", level*3, spaces);
-		printf("Total=%d off=%d ObjectSize=%d\n", maxLen, off, off-startOff);
-		}	break;
-	case 0xF004:
-	{
-		printf("OfficeArtSpContainer\n");
-		dumpRec("OfficeArtSpContainer", &head, 0, NULL);
-
-		int startOff = off;
-		while( (off - startOff) < head.len && off < maxLen) {
-			struct drawHeader fooper2 = drawProc(buf, maxLen, &off, level+1);
-			(void)fooper2;
-		}
-		
-		printf("%.*s", level*3, spaces);
-		printf("Total=%d off=%d ObjectSize=%d\n", maxLen, off, off-startOff);
-		}	break;
-	case 0xF006:
-	{
-		// A value that MUST be 0x00000010 + ((head.cidcl - 1) * 0x00000008)
-		unsigned int count =  (head.len - 0x10) / 0x8;
-		printf("OfficeArtFDGGBlock count=%d\n", count);
-		dumpRec("OfficeArtFDGGBlock - needs to be set", &head, 0, NULL);
-
-		// OfficeArtFDGG
-		struct {
-			uint32_t spidMax;
-			uint32_t cidcl;
-			uint32_t cspSaved;
-			uint32_t cdgSaved;
-		} fog;
-		memcpy(&fog, buf+off, 16); // OfficeArtRecordHeader F001 - specified BLIP - this is the image
-		off += 16;
-		printf("%.*s", level*3, spaces);
-		printf(" spidMax=%d cidcl=%d cspSaved=%d cdgSaved=%d\n", fog.spidMax, fog.cidcl, fog.cspSaved, fog.cdgSaved);
-#if 0
-		spidMax (4 bytes): An MSOSPID structure, as defined in section 2.1.2, specifying the current maximum shape identifier that is used in any drawing. This value MUST be less than 0x03FFD7FF.
-		cidcl (4 bytes): An unsigned integer that specifies the number of OfficeArtIDCL records, as defined in section 2.2.46, + 1. This value MUST be less than 0x0FFFFFFF.
-		cspSaved (4 bytes): An unsigned integer specifying the total number of shapes that have been saved in all of the drawings.
-		cdgSaved (4 bytes): An unsigned integer specifying the total number of drawings that have been saved in the file.
-#endif
-		// OfficeArtIDCL - clusters
-		for(int i=0; i<count; ++i) {
-			struct {
-				uint32_t dgid;
-				uint32_t cspidCur;
-#if 0
-				dgid (4 bytes): An MSODGID structure, as defined in section 2.1.1, specifying the drawing identifier that owns this identifier cluster.
-				cspidCur (4 bytes): An unsigned integer that, if less than 0x00000400, specifies the largest shape identifier that is currently assigned in this cluster, or that otherwise specifies that no shapes can be added to the drawing.
-#endif
-			} foo1;
-			memcpy(&foo1, buf+off, 8); // OfficeArtIDCL
-			off += 8;
-			
-			printf("%.*s", level*3, spaces);
-			printf("  dgid=%d cspid=%d\n", foo1.dgid, foo1.cspidCur);
-		}
-		//for(int i=0; i<16; ++i) printf(" %2.2x", *(BYTE *)(buf+off+i));
-		//printf("\n");
-	}	break;
-
-	case 0xF007:
-	{
-		printf("OfficeArtFBSE\n");
-		//dumpRec("OfficeArtFBSE", &head, 0, NULL);
-		struct {
-			uint8_t		btWin32;
-			uint8_t		btMacOS;
-			uint8_t		rgbUid[16];
-			uint16_t	tag;
-			uint32_t	size;
-			uint32_t	cRef;
-			uint32_t	foDelay;
-			uint8_t		unused1;
-			uint8_t		cbName;
-			uint8_t		unused2;
-			uint8_t		unused3;
-		} fooper1;
-		memcpy(&fooper1, buf+off, sizeof(fooper1));
-		off += sizeof(fooper1);
-		printf("%.*s", level*3, spaces);
-		printf(" rgbUid: ");
-		for(int i=0; i<16; ++i) {
-			printf(" %2.2x", fooper1.rgbUid[i]);
-		}
-		printf("\n");
-		
-		printf("%.*s", level*3, spaces);
-		printf(" w=%d mac=%d tag=0x%x size=%d cRef=%d foDelay=%x cbName=%x", fooper1.btWin32, fooper1.btMacOS, fooper1.tag , fooper1.size , fooper1.cRef , fooper1.foDelay, fooper1.cbName);
-		if(fooper1.cbName) printf("name:");
-		for(int i=0; i<fooper1.cbName; ++i) {
-			printf(" %2.2x", *(BYTE *)(buf+off+i));
-		}
-		printf("\n");
-		off += fooper1.cbName;
-		
-		printf(" dataLen=%ld\n", head.len - sizeof(fooper1) - fooper1.cbName);
-		drawProc(buf, maxLen, &off, level+1);
-
-		
-	}	break;
-
-
-#if 0
-	rgbUid (16 bytes): An MD4 message digest, as specified in [RFC1320], that specifies the unique identifier of the pixel data in the BLIP.
-	tag (2 bytes): An unsigned integer that specifies an application-defined internal resource tag. This value MUST be 0xFF for external files.
-	size (4 bytes): An unsigned integer that specifies the size, in bytes, of the BLIP in the stream.
-	cRef (4 bytes): An unsigned integer that specifies the number of references to the BLIP. A value of 0x00000000 specifies an empty slot in the OfficeArtBStoreContainer record, as defined in section 2.2.20.
-	foDelay (4 bytes): An MSOFO structure, as defined in section 2.1.4, that specifies the file offset into the associated OfficeArtBStoreDelay record, as defined in section 2.2.21, (delay stream). A value of 0xFFFFFFFF specifies that the file is not in the delay stream, and in this case, cRef MUST be 0x00000000.
-	unused1 (1 byte): A value that is undefined and MUST be ignored.
-	cbName (1 byte): An unsigned integer that specifies the length, in bytes, of the nameData field, including the terminating NULL character. This value MUST be an even number and less than or equal to 0xFE. If the value is 0x00, nameData will not be written.
-	unused2 (1 byte): A value that is undefined and MUST be ignored.
-	unused3 (1 byte): A value that is undefined and MUST be ignored.
-	nameData (variable): A Unicode null-terminated string that specifies the name of the BLIP.
-	embeddedBlip (variable): An OfficeArtBlip record, as defined in section 2.2.23, specifying the BLIP file data that is embedded in this record. If this value is not 0, foDelay MUST be ignored.
-#endif
-
-	case 0xF008:
-	{
-		printf("OfficeArtFDG\n");
-		dumpRec("OfficeArtFDG - spidCur needs to be set", &head, 0, NULL);
-		struct {
-			uint32_t	csp;
-			uint32_t	spidCur;
-		} fooper1;
-		memcpy(&fooper1, buf+off, 8);
-		off += 8;
-		printf("%.*s", level*3, spaces);
-		printf(" csp=%d spidCur=%d\n", fooper1.csp, fooper1.spidCur);
-		
-#if 0
-		csp (4 bytes): An unsigned integer that specifies the number of shapes in this drawing.
-		spidCur (4 bytes): An MSOSPID structure, as defined in section 2.1.2, that specifies the shape
-		identifier of the last shape in this drawing.
-#endif
-		
-	}	break;
-
-	case 0xF009:
-	{
-		printf("OfficeArtFSPGR\n");
-		dumpRec("OfficeArtFSPGR", &head, head.len, buf+off);
-		struct {
-			int32_t	xLeft;
-			int32_t	yTop;
-			int32_t	xRight;
-			int32_t	yBottom;
-		} foo;
-		memcpy(&foo, buf+off, 16);
-		off += 16;
-		printf("%.*s", level*3, spaces);
-		printf(" l=%d t=%d r=%d b=%d\n", foo.xLeft, foo.yTop, foo.xRight, foo.yBottom);
-	}	break;
-
-	case 0xF00A:	// OfficeArtFSP
-	{
-		printf("OfficeArtFSP\n");
-		dumpRec("OfficeArtFSP", &head, 0, NULL);
-		struct {
-			uint32_t	spid;
-			uint32_t	flags;
-		} foo;
-		memcpy(&foo, buf+off, 8);
-		off += 8;
-		printf("%.*s", level*3, spaces);
-		printf(" SPID=%d flags=0x%x\n", foo.spid, foo.flags);
-	}	break;
-
-	case 0xF00B:
-	{
-		printf("OfficeArtFOPT\n");
-		dumpRec("OfficeArtFOPT", &head, head.len, buf+off);
-		struct {
-			//uint16_t blip : 1;
-			//uint16_t complex : 1;
-			uint16_t opid; // : 14
-			uint32_t op;
-		} foo;
-		
-		// OfficeArtFOPTE + complex
-		for(int i=0; i<head.instance; ++i) {
-			memcpy(&foo, buf+off, 6);
-			off += 6;
-			printf("%.*s", level*3, spaces);
-			printf(" opid=0x%4.4X(%.5d) op=%8.8X\n", foo.opid, foo.opid, foo.op); // blip=%d complex=%d , foo.blip, foo.complex
-			//printf("drawDataOPID(data, 0x%4.4X, 0x%8.8X);\n", foo.opid, foo.op);
-		}
-#if 0
-          opid=80 op=000018AC(6316) Text ID
-          opid=bf op=0000000A(10) fFitTextToShape
-          opid=158 op=00000000(0) // Type of connection sites
-          opid=181 op=00000800(2048) // fillColor
-          opid=183 op=00000800(2048) // fillBackColor
-          opid=1bf op=00000010(16) // hit test
-          opid=23f op=00000003(3) // fshadowObscured
-#endif
-		int complex = head.len - head.instance * 6;
-		if(complex) {
-			printf("%.*s", level*3, spaces);
-			printf(" complex:");
-		
-			for(int i=0; i<complex; ++i) {
-				printf(" %2.2x", *(BYTE *)(buf+off+i));
-			}
-			printf("\n");
-		}
-		off += complex;
-	}	break;
-
-	case 0xF00D:
-		printf("msofbtClientTextbox\n");
-		dumpRec("msofbtClientTextbox", &head, head.len, buf+off);
-		break;
-
-	case 0xF010:
-		printf("msofbtClientAnchor: ");
-		dumpRec("msofbtClientAnchor", &head, head.len, buf+off);
-		// https://code.google.com/p/excellibrary/source/browse/trunk/src/ExcelLibrary/Office/Excel/EscherRecords/MsofbtClientAnchor.cs?spec=svn18&r=18
-		struct {
-			uint16_t	Flag;
-			uint16_t	Col1;
-			uint16_t	DX1;
-			uint16_t	Row1;
-			uint16_t	DY1;
-			uint16_t	Col2;
-			uint16_t	DX2;
-			uint16_t	Row2;
-			uint16_t	DY2;
-		} foo;
-		memcpy(&foo, buf+off, 18);
-		printf(" Flag=0x%2.2x Col1=0x%2.2x DX1=0x%2.2x Row1=0x%2.2x DY1=0x%2.2x Col2=0x%2.2x DX2=0x%2.2x Row2=0x%2.2x DY2=0x%2.2x \n",
-			foo.Flag, foo.Col1, foo.DX1, foo.Row1, foo.DY1, foo.Col2, foo.DX2, foo.Row2, foo.DY2);
-		off += head.len;
-		break;
-	case 0xF011:
-		printf("msofbtClientData\n");
-		dumpRec("msofbtClientData", &head, head.len, buf+off);
-		off += head.len;
-		break;
-
-	case 0xF01E:
-	{	printf("OfficeArtBlipPNG\n");
-		dumpRec("OfficeArtBlipPNG", &head, head.len, buf+off);
-		struct {
-			uint8_t		rgbUid1[16];
-			uint16_t	tag;
-		} foo;
-		memcpy(&foo, buf+off, sizeof(foo));
-		
-		//off += sizeof(foo);
-		printf("%.*s", level*3, spaces);
-		printf(" rgbUid1: ");
-		for(int i=0; i<16; ++i) {
-			printf(" %2.2x", foo.rgbUid1[i]);
-		}
-		printf("\n");
-		off += head.len;
-	}	break;
-
-	case 0xF11E:
-		printf("OfficeArtSplitMenuColorContainer: Array of colors\n");
-		dumpRec("OfficeArtSplitMenuColorContainer", &head, head.len, buf+off);
-		off += head.len;
-		break;
-
-	case 0xF122:
-	{	printf("OfficeArtTertiaryFOPT\n");
-		struct {
-			//uint16_t blip : 1;
-			//uint16_t complex : 1;
-			uint16_t opid; // : 14
-			uint16_t op1;
-			uint16_t op2;
-		} foo;
-		int count = head.len/6;
-		printf("OfficeArtFOPT count=%d\n", count);
-		dumpRec("OfficeArtTertiaryFOPT", &head, head.len, buf+off);
-
-		// OfficeArtFOPTE + complex
-		for(int i=0; i<head.instance; ++i) {
-			memcpy(&foo, buf+off, 6);
-			off += 6;
-			printf("%.*s", level*3, spaces);
-			printf(" opid=0x%4.4X(%.5d) op1=%4.4X op1=%4.4X\n", foo.opid, foo.opid, foo.op1, foo.op2); // blip=%d complex=%d , foo.blip, foo.complex
-		}
-		//off += head.len;
-	}	break;
-
-	default:
-		printf("WTF ?!?!?!\n");
-		//assert(!"Not Possible");
-		off += head.len;
-		break;
-	}
-
-	*off_p = off;
-	return head;
-}
-
-static void dumpData(char *data);
-static void dumpFunc(char *func);
-
-static void dumpRec(char *comment, struct drawHeader *h, int len, uint8_t *buf)
-{
-	int width = 0;
-	static int num;
-	char *tmp;
-	
-return;
-
-	if(len) {
-		++num;
-		//asprintf(&tmp, "// %s real len = %d\n", comment, h->len);
-		asprintf(&tmp, "static unsigned char draw%03.3d[%d] = { ", num+sheetOffset, len);
-		width = strlen(tmp);
-		dumpData(tmp);
-		
-		for(int i=0; i<len; ++i) {
-			asprintf(&tmp, "0x%02.2X, ", buf[i]);
-			width += strlen(tmp);
-			dumpData(tmp);
-			
-			if(width >= 79) {
-				dumpData(strdup("\n    "));
-				width = 4;
-			}
-		}
-		dumpData(strdup("\n  };\n"));
-	}
-	
-	char name[32];
-	if(len) {
-		sprintf(name, "draw%03.3d", num+sheetOffset);
-	} else {
-		strcpy(name, "NULL");
-	}
-
-	asprintf(&tmp, "dumpDrawData(data,  0x%X, 0x%X, 0x%X, %u,  %d, %s /* len=%d */ ) ;  // %s\n", h->rec, h->instance, h->type, h->len, len, name, len, comment);
-	dumpFunc(tmp);
-}
-
-
-static void dumpData(char *data)
-{
-	if(!formData) {
-		formData = calloc(1,1);
-	}
-	
-	char *oldStr = formData;
-	asprintf(&formData, "%s%s", oldStr, data);
-	free(oldStr);
-	free(data);
-}
-static void dumpFunc(char *func)
-{
-	if(!formFunc) {
-		formFunc = calloc(1,1);
-	}
-	
-	char *oldStr = formFunc;
-	asprintf(&formFunc, "%s%s", oldStr, func);
-	free(oldStr);
-}
-
-#if 0
-static int finder(uint8_t *buf, uint32_t len, uint16_t pattern)
-{
-	int ret = 0;
-	uint8_t b1 = pattern & 0xFF;
-	uint8_t b2 = pattern >> 8;
-	
-	for(int i=0; i<(len-1); ++i) {
-		if(buf[i] == b1 && buf[i+1] == b2) {
-			printf("GOT FINDER HIT OFFSET %d\n", i);
-			ret = 1;
-		}
-	}
-	return ret;
-}
-
-// MD4 open source: http://openwall.info/wiki/people/solar/software/public-domain-source-code/md4 or
-//                  http://www.opensource.apple.com/source/freeradius/freeradius-11/freeradius/src/lib/md4.c
-// Size of TWIPS:   http://support.microsoft.com/kb/76388
-#endif
-
-#pragma pack(pop)
-
-#endif
-
-
-
-
-

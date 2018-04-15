@@ -8,3 +8,4 @@ rsconnect
 inst/doc
 scratch.R
 src/fprintf-substitution.R
+fprintf-matches.txt
