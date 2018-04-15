@@ -67,7 +67,7 @@ test_that("na arg works with multiple strings and for shared strings [xlsx]", {
   ## sst[3] = "d"
   expect_identical(df, tibble::tribble(
     ~ a, ~ c,
-    "b",  NA
+    "b", NA
   ))
 })
 
@@ -78,7 +78,7 @@ test_that("na arg works with multiple strings and for shared strings [xls]", {
   )
   expect_identical(df, tibble::tribble(
     ~ a, ~ c,
-    "b",  NA
+    "b", NA
   ))
 })
 

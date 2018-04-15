@@ -46,11 +46,13 @@ test_that("sheet can be parsed out of range", {
 test_that("double specification of sheet generates message and range wins", {
   expect_message(
     double <-
-      read_excel(test_sheet("sheet-xml-lookup.xlsx"),
-                 sheet = "Asia", range = "Oceania!A1:A1"),
+      read_excel(
+        test_sheet("sheet-xml-lookup.xlsx"),
+        sheet = "Asia", range = "Oceania!A1:A1"
+      ),
     "Two values given for `sheet`. Using the `sheet` found in `range`"
   )
-  ref <- read_excel(test_sheet("sheet-xml-lookup.xlsx"),range = "Oceania!A1:A1")
+  ref <- read_excel(test_sheet("sheet-xml-lookup.xlsx"), range = "Oceania!A1:A1")
   expect_identical(double, ref)
 })
 

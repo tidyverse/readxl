@@ -13,7 +13,7 @@ excel_sheets <- function(path) {
   format <- check_format(path)
 
   switch(format,
-    xls =  xls_sheets(path),
+    xls = xls_sheets(path),
     xlsx = xlsx_sheets(path)
   )
 }

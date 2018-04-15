@@ -27,8 +27,10 @@ test_that("date subsecond rounding works", {
 test_that("we get correct dates prior to March 1, 1900, in 1900 date system", {
   ## xlsx
   expect_warning(
-    df <- read_excel(test_sheet("dates-leap-year-1900-xlsx.xlsx"),
-                     col_types = c("date", "text", "logical")),
+    df <- read_excel(
+      test_sheet("dates-leap-year-1900-xlsx.xlsx"),
+      col_types = c("date", "text", "logical")
+    ),
     "NA inserted for impossible 1900-02-29 datetime"
   )
   dttms <- as.POSIXct(df$dttm_string, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
@@ -38,8 +40,10 @@ test_that("we get correct dates prior to March 1, 1900, in 1900 date system", {
 
   ## xls
   expect_warning(
-    df <- read_excel(test_sheet("dates-leap-year-1900-xls.xls"),
-                     col_types = c("date", "text", "logical")),
+    df <- read_excel(
+      test_sheet("dates-leap-year-1900-xls.xls"),
+      col_types = c("date", "text", "logical")
+    ),
     "NA inserted for impossible 1900-02-29 datetime"
   )
   dttms <- as.POSIXct(df$dttm_string, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")

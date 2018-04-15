@@ -3,8 +3,10 @@ context("coercion")
 test_that("contaminated, explicit logical is read as logical", {
   ## xls
   expect_warning(
-    df <- read_excel(test_sheet("types.xls"), sheet = "logical_coercion",
-                     col_types = c("logical", "text")),
+    df <- read_excel(
+      test_sheet("types.xls"), sheet = "logical_coercion",
+      col_types = c("logical", "text")
+    ),
     "Expecting logical",
     all = TRUE
   )
@@ -14,8 +16,10 @@ test_that("contaminated, explicit logical is read as logical", {
 
   ## xlsx
   expect_warning(
-    df <- read_excel(test_sheet("types.xlsx"), sheet = "logical_coercion",
-                     col_types = c("logical", "text")),
+    df <- read_excel(
+      test_sheet("types.xlsx"), sheet = "logical_coercion",
+      col_types = c("logical", "text")
+    ),
     "Expecting logical",
     all = TRUE
   )
@@ -27,8 +31,10 @@ test_that("contaminated, explicit logical is read as logical", {
 test_that("contaminated, explicit date is read as date", {
   ## xls
   expect_warning(
-    df <- read_excel(test_sheet("types.xls"), sheet = "date_coercion",
-                     col_types = "date"),
+    df <- read_excel(
+      test_sheet("types.xls"), sheet = "date_coercion",
+      col_types = "date"
+    ),
     "Expecting date|Coercing numeric",
     all = TRUE
   )
@@ -39,8 +45,10 @@ test_that("contaminated, explicit date is read as date", {
 
   ## xlsx
   expect_warning(
-    df <- read_excel(test_sheet("types.xlsx"), sheet = "date_coercion",
-                     col_types = "date"),
+    df <- read_excel(
+      test_sheet("types.xlsx"), sheet = "date_coercion",
+      col_types = "date"
+    ),
     "Expecting date|Coercing numeric",
     all = TRUE
   )
@@ -53,8 +61,10 @@ test_that("contaminated, explicit date is read as date", {
 test_that("contaminated, explicit numeric is read as numeric", {
   ## xls
   expect_warning(
-    df <- read_excel(test_sheet("types.xls"), sheet = "numeric_coercion",
-                     col_types = "numeric"),
+    df <- read_excel(
+      test_sheet("types.xls"), sheet = "numeric_coercion",
+      col_types = "numeric"
+    ),
     "Expecting numeric|Coercing boolean|Coercing text",
     all = TRUE
   )
@@ -64,8 +74,10 @@ test_that("contaminated, explicit numeric is read as numeric", {
 
   ## xlsx
   expect_warning(
-    df <- read_excel(test_sheet("types.xlsx"), sheet = "numeric_coercion",
-                     col_types = "numeric"),
+    df <- read_excel(
+      test_sheet("types.xlsx"), sheet = "numeric_coercion",
+      col_types = "numeric"
+    ),
     "Expecting numeric|Coercing boolean|Coercing text",
     all = TRUE
   )
@@ -78,21 +90,24 @@ test_that("contaminated, explicit numeric is read as numeric", {
 ## i.e. don't right pad to get 6 decimal places
 test_that("contaminated, explicit text is read as text", {
   ## xls
-  df <- read_excel(test_sheet("types.xls"), sheet = "text_coercion",
-                   col_types = c("text", "text"))
+  df <- read_excel(
+    test_sheet("types.xls"), sheet = "text_coercion",
+    col_types = c("text", "text")
+  )
   expect_is(df$text, "character")
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
 
   ## xlsx
-  df <- read_excel(test_sheet("types.xlsx"), sheet = "text_coercion",
-                   col_types = c("text", "text"))
+  df <- read_excel(
+    test_sheet("types.xlsx"), sheet = "text_coercion",
+    col_types = c("text", "text")
+  )
   expect_is(df$text, "character")
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
-
 })
 
 test_that("integery-y numbers > 2^31 can be coerced to string", {

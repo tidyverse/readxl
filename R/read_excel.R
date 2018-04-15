@@ -27,8 +27,8 @@ NULL
 #'   frame output. A list cell loads a column as a list of length 1 vectors,
 #'   which are typed using the type guessing logic from `col_types = NULL`, but
 #'   on a cell-by-cell basis.
-#' @param na Character vector of strings to interpret as missing values. By default,
-#'   readxl treats blank cells as missing data.
+#' @param na Character vector of strings to interpret as missing values. By
+#'   default, readxl treats blank cells as missing data.
 #' @param trim_ws Should leading and trailing whitespace be trimmed?
 #' @param skip Minimum number of rows to skip before reading anything, be it
 #'   column names or data. Leading empty rows are automatically skipped, so this
@@ -102,7 +102,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
 #' @export
 read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
-                     na = "",  trim_ws = TRUE, skip = 0, n_max = Inf,
+                     na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max)) {
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -116,7 +116,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
 #' @export
 read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
-                      na = "",  trim_ws = TRUE, skip = 0, n_max = Inf,
+                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max)) {
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -128,7 +128,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
 
 read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
-                        na = "",  trim_ws = TRUE, skip = 0, n_max = Inf,
+                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
   path <- check_file(path)
   if (format == "xls") {
@@ -140,16 +140,20 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   }
   sheet <- standardise_sheet(sheet, range, sheets_fun(path))
   shim <- !is.null(range)
-  limits <- standardise_limits(range, skip, n_max, has_col_names = isTRUE(col_names))
+  limits <- standardise_limits(
+    range, skip, n_max, has_col_names = isTRUE(col_names)
+  )
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
   tibble::repair_names(
     tibble::as_tibble(
-      read_fun(path = path, sheet_i = sheet,
-               limits = limits, shim = shim,
-               col_names = col_names, col_types = col_types,
-               na = na, trim_ws = trim_ws, guess_max = guess_max),
+      read_fun(
+        path = path, sheet_i = sheet,
+        limits = limits, shim = shim,
+        col_names = col_names, col_types = col_types,
+        na = na, trim_ws = trim_ws, guess_max = guess_max
+      ),
       validate = FALSE
     ),
     prefix = "X", sep = "__"
@@ -185,8 +189,10 @@ standardise_sheet <- function(sheet, range, sheet_names) {
   range_sheet <- cellranger::as.cell_limits(range)[["sheet"]]
   if (!is.null(range_sheet) && !is.na(range_sheet)) {
     if (!is.null(sheet)) {
-      message("Two values given for `sheet`. ",
-              "Using the `sheet` found in `range`:\n", range_sheet)
+      message(
+        "Two values given for `sheet`. ",
+        "Using the `sheet` found in `range`:\n", range_sheet
+      )
     }
     sheet <- range_sheet
   }
@@ -277,7 +283,7 @@ check_bool <- function(bool, arg_name) {
 
 check_non_negative_integer <- function(i, arg_name) {
   if (length(i) != 1 || !is.numeric(i) || !is_integerish(i) ||
-      is.na(i) || i < 0) {
+    is.na(i) || i < 0) {
     stop("`", arg_name, "` must be a positive integer", call. = FALSE)
   }
   i
@@ -287,8 +293,10 @@ check_non_negative_integer <- function(i, arg_name) {
 check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100) {
   guess_max <- check_non_negative_integer(guess_max, "guess_max")
   if (guess_max > max_limit) {
-    warning("`guess_max` is a very large value, setting to `", max_limit,
-            "` to avoid exhausting memory", call. = FALSE)
+    warning(
+      "`guess_max` is a very large value, setting to `", max_limit,
+      "` to avoid exhausting memory", call. = FALSE
+    )
     guess_max <- max_limit
   }
   guess_max

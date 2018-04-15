@@ -2,16 +2,20 @@ context("Column types")
 
 test_that("illegal col_types are rejected", {
   expect_error(
-    read_excel(test_sheet("types.xlsx"),
-               col_types = c("foo", "numeric", "text", "bar")),
+    read_excel(
+      test_sheet("types.xlsx"),
+      col_types = c("foo", "numeric", "text", "bar")
+    ),
     "Illegal column type"
   )
 })
 
 test_that("request for 'blank' col type gets deprecation message and fix", {
   expect_message(
-    read_excel(test_sheet("types.xlsx"),
-               col_types = rep_len(c("blank", "text"), length.out = 5)),
+    read_excel(
+      test_sheet("types.xlsx"),
+      col_types = rep_len(c("blank", "text"), length.out = 5)
+    ),
     "`col_type = \"blank\"` deprecated. Use \"skip\" instead.",
     fixed = TRUE
   )
@@ -33,11 +37,15 @@ test_that("invalid col_types are rejected", {
 })
 
 test_that("col_types can be specified", {
-  df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"),
-                   col_types = c("numeric", "text", "numeric", "numeric", "text"))
+  df <- read_excel(
+    test_sheet("iris-excel-xlsx.xlsx"),
+    col_types = c("numeric", "text", "numeric", "numeric", "text")
+  )
   expect_is(df[[2]], "character")
-  df <- read_excel(test_sheet("iris-excel-xls.xls"),
-                   col_types = c("numeric", "text", "numeric", "numeric", "text"))
+  df <- read_excel(
+    test_sheet("iris-excel-xls.xls"),
+    col_types = c("numeric", "text", "numeric", "numeric", "text")
+  )
   expect_is(df[[2]], "character")
 })
 
@@ -127,7 +135,7 @@ test_that("list column reads data correctly [xlsx]", {
 })
 
 test_that("setting `na` works in list columns [xlsx]", {
-  na_defined <-  read_excel(test_sheet("list_type.xlsx"), col_types = "list", na = "a")
+  na_defined <- read_excel(test_sheet("list_type.xlsx"), col_types = "list", na = "a")
   expect_equal(na_defined$var1[[3]], NA)
 })
 
@@ -142,7 +150,7 @@ test_that("list column reads data correctly [xls]", {
 })
 
 test_that("setting `na` works in list columns [xls]", {
-  na_defined <-  read_excel(test_sheet("list_type.xls"), col_types = "list", na = "a")
+  na_defined <- read_excel(test_sheet("list_type.xls"), col_types = "list", na = "a")
   expect_equal(na_defined$var1[[3]], NA)
 })
 

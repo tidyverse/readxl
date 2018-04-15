@@ -33,7 +33,6 @@ test_that("non-existent file throws error", {
 })
 
 test_that("read_excel catches invalid guess_max", {
-
   expect_error(
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = NA),
     "`guess_max` must be a positive integer"
@@ -57,7 +56,6 @@ test_that("read_excel catches invalid guess_max", {
 })
 
 test_that("read_excel catches invalid n_max", {
-
   expect_error(
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = NA),
     "`n_max` must be a positive integer"

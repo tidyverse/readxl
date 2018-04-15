@@ -15,8 +15,10 @@ test_that("we can say 'read nothing' via n_max and col_names", {
   ##      -2      -1      -1      -1
 
   ## it should not matter what skip is
-  l2 <- standardise_limits(range = NULL, skip = sample(1:100, 1),
-                           n_max = 0, has_col_names = FALSE)
+  l2 <- standardise_limits(
+    range = NULL, skip = sample(1:100, 1),
+    n_max = 0, has_col_names = FALSE
+  )
   expect_identical(l, l2)
 })
 
@@ -213,5 +215,4 @@ test_that("open rectangles work", {
   xlsx <- read_excel(test_sheet("geometry.xlsx"), range = lims)
   expect_identical(xls, xlsx)
   expect_identical(dim(xls), c(2L, 2L))
-
 })
