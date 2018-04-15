@@ -1,0 +1,11 @@
+pandoc: 2.1.1
+pkgdown: 0.1.0.9000
+pkgdown_sha: a7aa75eeb866e0e0c891785d8d7bc0c0d2294c36
+articles:
+  readxl-workflows: articles/readxl-workflows.html
+  cell-and-column-types: cell-and-column-types.html
+  readxl-0.1.0: releases/readxl-0.1.0.html
+  readxl-0.1.1: releases/readxl-0.1.1.html
+  readxl-1.0.0: releases/readxl-1.0.0.html
+  sheet-geometry: sheet-geometry.html
+

@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -92,15 +92,18 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>readxl Workflows</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/articles/readxl-workflows.Rmd"><code>vignettes/articles/readxl-workflows.Rmd</code></a></small>
+      <div class="hidden name"><code>readxl-workflows.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p>Ideas for using readxl to increase reproducibiliy and reduce tedium.</p>
 <p>Reproducibility is much easier in theory than in reality. Here are some special dilemmas we face with spreadsheets:</p>
 <ul>
@@ -113,19 +116,16 @@
 <a href="#load-packages" class="anchor"></a>Load packages</h2>
 <p>We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).</p>
 <p>We must load readxl explicitly because it is not part of the core tidyverse.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; + ggplot2 2.2.1             Date: 2017-05-15</span>
-<span class="co">#&gt; + tibble  1.3.0.9002           R: 3.3.2</span>
-<span class="co">#&gt; + tidyr   0.6.2.9000          OS: OS X El Capitan 10.11.6</span>
-<span class="co">#&gt; + readr   1.1.0              GUI: X11</span>
-<span class="co">#&gt; + purrr   0.2.2.2         Locale: en_CA.UTF-8</span>
-<span class="co">#&gt; + dplyr   0.5.0.9004          TZ: America/Vancouver</span>
-<span class="co">#&gt; + stringr 1.2.0           </span>
-<span class="co">#&gt; + forcats 0.2.0</span>
-<span class="co">#&gt; Conflicts -----------------------------------------------------------------</span>
-<span class="co">#&gt; * filter(),  from dplyr, masks stats::filter()</span>
-<span class="co">#&gt; * lag(),     from dplyr, masks stats::lag()</span>
-<span class="kw">library</span>(readxl)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ──</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 2.2.1          ✔ purrr   0.2.4.9000</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  1.4.2          ✔ dplyr   0.7.4.9000</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   0.8.0          ✔ stringr 1.3.0     </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.1.1.9000     ✔ forcats 0.3.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ──────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(readxl)</a></code></pre></div>
 </div>
 <div id="cache-a-csv-snapshot" class="section level2">
 <h2 class="hasAnchor">
@@ -135,37 +135,37 @@
 <p>These outputs constitute <a href="https://www.quora.com/What-is-an-API-4">an API</a> for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via <code>save()</code>, <code>load()</code>, and R-specific <code>.rds</code> files.</p>
 <p>If raw data is stored <em>only</em> as an Excel spreadsheet, this limits your ability to inspect it when solving the little puzzles that crop up in dowstream work. You’ll need to fire up Excel (or similar) and get busy with your mouse. You certainly can’t poke around it or view diffs on GitHub.</p>
 <p>Solution: cache a CSV snapshot of your raw data tables at the time of export. Even if you use <code><a href="../../reference/read_excel.html">read_excel()</a></code> for end-to-end reproducibility, this complementary CSV leaves your analysis in a more accessible state.</p>
-<p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code>readr::write_csv()</code> like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> <span class="st">"iris"</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</code></pre></div>
-<p>Why does this work? <code>readr::write_csv()</code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
+<p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code><a href="http://www.rdocumentation.org/packages/readr/topics/write_delim">readr::write_csv()</a></code> like so:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> <span class="st">"iris"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</a></code></pre></div>
+<p>Why does this work? <code><a href="http://www.rdocumentation.org/packages/readr/topics/write_delim">readr::write_csv()</a></code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
 <p>Let’s check. Did we still import the data? Did we write the CSV file?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris_xl
-<span class="co">#&gt; # A tibble: 150 x 5</span>
-<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
-<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
-<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
-<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
-<span class="co">#&gt; # ... with 147 more rows</span>
-<span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">"iris"</span>)
-<span class="co">#&gt; [1] "iris-raw.csv"</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">iris_xl</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1         5.10        3.50         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2         4.90        3.00         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3         4.70        3.20         1.30       0.200 setosa </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] "iris-raw.csv"</span></a></code></pre></div>
 <p>Yes! Is the data written to CSV an exact copy of what we imported from Excel?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris_alt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"iris-raw.csv"</span>)
-<span class="co">#&gt; Parsed with column specification:</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   Sepal.Length = col_double(),</span>
-<span class="co">#&gt;   Sepal.Width = col_double(),</span>
-<span class="co">#&gt;   Petal.Length = col_double(),</span>
-<span class="co">#&gt;   Petal.Width = col_double(),</span>
-<span class="co">#&gt;   Species = col_character()</span>
-<span class="co">#&gt; )</span>
-## readr leaves a note-to-self in `spec` that records its column guessing,
-## so we remove that attribute before the check
-<span class="kw">attr</span>(iris_alt, <span class="st">"spec"</span>) &lt;-<span class="st"> </span><span class="ot">NULL</span>
-<span class="kw">identical</span>(iris_xl, iris_alt)
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">iris_alt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"iris-raw.csv"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   Sepal.Length = col_double(),</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   Sepal.Width = col_double(),</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   Petal.Length = col_double(),</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   Petal.Width = col_double(),</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;   Species = col_character()</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">## readr leaves a note-to-self in `spec` that records its column guessing,</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">## so we remove that attribute before the check</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="kw">attr</span>(iris_alt, <span class="st">"spec"</span>) &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="kw">identical</span>(iris_xl, iris_alt)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>Yes! If we needed to restart or troubleshoot this fictional analysis, <code>iris-raw.csv</code> is available as a second, highly accessible alternative to <code>datasets.xlsx</code>.</p>
 </div>
 <div id="iterate-over-multiple-worksheets-in-a-workbook" class="section level2">
@@ -176,105 +176,105 @@
 <p>Here’s how to load all the sheets in a workbook into a list of data frames:</p>
 <ul>
 <li>Get worksheet names as a self-named character vector (these names propagate nicely).</li>
-<li>Use <code>purrr::map()</code> to iterate sheet reading.</li>
+<li>Use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> to iterate sheet reading.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
-path %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">set_names</span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">map</span>(read_excel, <span class="dt">path =</span> path)
-<span class="co">#&gt; $iris</span>
-<span class="co">#&gt; # A tibble: 150 x 5</span>
-<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
-<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
-<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
-<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
-<span class="co">#&gt; # ... with 147 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $mtcars</span>
-<span class="co">#&gt; # A tibble: 32 x 11</span>
-<span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  21.0     6   160   110  3.90 2.620 16.46     0     1     4     4</span>
-<span class="co">#&gt; 2  21.0     6   160   110  3.90 2.875 17.02     0     1     4     4</span>
-<span class="co">#&gt; 3  22.8     4   108    93  3.85 2.320 18.61     1     1     4     1</span>
-<span class="co">#&gt; # ... with 29 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $chickwts</span>
-<span class="co">#&gt; # A tibble: 71 x 2</span>
-<span class="co">#&gt;   weight      feed</span>
-<span class="co">#&gt;    &lt;dbl&gt;     &lt;chr&gt;</span>
-<span class="co">#&gt; 1    179 horsebean</span>
-<span class="co">#&gt; 2    160 horsebean</span>
-<span class="co">#&gt; 3    136 horsebean</span>
-<span class="co">#&gt; # ... with 68 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $quakes</span>
-<span class="co">#&gt; # A tibble: 1,000 x 5</span>
-<span class="co">#&gt;      lat   long depth   mag stations</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 -20.42 181.62   562   4.8       41</span>
-<span class="co">#&gt; 2 -20.62 181.03   650   4.2       15</span>
-<span class="co">#&gt; 3 -26.00 184.10    42   5.4       43</span>
-<span class="co">#&gt; # ... with 997 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">path <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">map</span>(read_excel, <span class="dt">path =</span> path)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; $iris</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 1         5.10        3.50         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 2         4.90        3.00         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 3         4.70        3.20         1.30       0.200 setosa </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; $mtcars</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; # A tibble: 32 x 11</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; # ... with 29 more rows</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; $chickwts</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; # A tibble: 71 x 2</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt;   weight feed     </span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 1   179. horsebean</span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 2   160. horsebean</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 3   136. horsebean</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; # ... with 68 more rows</span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; $quakes</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; # A tibble: 1,000 x 5</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt;     lat  long depth   mag stations</span></a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; 1 -20.4  182.  562.  4.80      41.</span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; 2 -20.6  181.  650.  4.20      15.</span></a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; 3 -26.0  184.   42.  5.40      43.</span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; # ... with 997 more rows</span></a></code></pre></div>
 </div>
 <div id="csv-caching-and-iterating-over-sheets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#csv-caching-and-iterating-over-sheets" class="anchor"></a>CSV caching and iterating over sheets</h2>
-<p>What if we want to read all the sheets in at once and simultaneously cache to CSV? We define <code>read_then_csv()</code> as <code>read_excel(...) %&gt;% write_csv()</code> and use <code>purrr::map()</code> again.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">read_then_csv &lt;-<span class="st"> </span>function(sheet, path) {
-  pathbase &lt;-<span class="st"> </span>path %&gt;%
-<span class="st">    </span><span class="kw">basename</span>() %&gt;%
-<span class="st">    </span>tools::<span class="kw">file_path_sans_ext</span>()
-  path %&gt;%
-<span class="st">    </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> sheet) %&gt;%<span class="st"> </span>
-<span class="st">    </span><span class="kw">write_csv</span>(<span class="kw">paste0</span>(pathbase, <span class="st">"-"</span>, sheet, <span class="st">".csv"</span>))
-}</code></pre></div>
+<p>What if we want to read all the sheets in at once and simultaneously cache to CSV? We define <code>read_then_csv()</code> as <code>read_excel(...) %&gt;% write_csv()</code> and use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> again.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">read_then_csv &lt;-<span class="st"> </span><span class="cf">function</span>(sheet, path) {</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  pathbase &lt;-<span class="st"> </span>path <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">    </span><span class="kw">basename</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">    </span>tools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">file_path_sans_ext</a></span>()</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  path <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> sheet) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="st">    </span><span class="kw">write_csv</span>(<span class="kw">paste0</span>(pathbase, <span class="st">"-"</span>, sheet, <span class="st">".csv"</span>))</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">}</a></code></pre></div>
 <p>We could even define this on-the-fly as an anonymous function inside <code>map()</code>, but I think this is more readable.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
-path %&gt;%
-<span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() %&gt;%
-<span class="st">  </span><span class="kw">set_names</span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">map</span>(read_then_csv, <span class="dt">path =</span> path)
-<span class="co">#&gt; $iris</span>
-<span class="co">#&gt; # A tibble: 150 x 5</span>
-<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;</span>
-<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
-<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
-<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
-<span class="co">#&gt; # ... with 147 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $mtcars</span>
-<span class="co">#&gt; # A tibble: 32 x 11</span>
-<span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  21.0     6   160   110  3.90 2.620 16.46     0     1     4     4</span>
-<span class="co">#&gt; 2  21.0     6   160   110  3.90 2.875 17.02     0     1     4     4</span>
-<span class="co">#&gt; 3  22.8     4   108    93  3.85 2.320 18.61     1     1     4     1</span>
-<span class="co">#&gt; # ... with 29 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $chickwts</span>
-<span class="co">#&gt; # A tibble: 71 x 2</span>
-<span class="co">#&gt;   weight      feed</span>
-<span class="co">#&gt;    &lt;dbl&gt;     &lt;chr&gt;</span>
-<span class="co">#&gt; 1    179 horsebean</span>
-<span class="co">#&gt; 2    160 horsebean</span>
-<span class="co">#&gt; 3    136 horsebean</span>
-<span class="co">#&gt; # ... with 68 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $quakes</span>
-<span class="co">#&gt; # A tibble: 1,000 x 5</span>
-<span class="co">#&gt;      lat   long depth   mag stations</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 -20.42 181.62   562   4.8       41</span>
-<span class="co">#&gt; 2 -20.62 181.03   650   4.2       15</span>
-<span class="co">#&gt; 3 -26.00 184.10    42   5.4       43</span>
-<span class="co">#&gt; # ... with 997 more rows</span>
-<span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">"^datasets.*</span><span class="ch">\\</span><span class="st">.csv$"</span>)
-<span class="co">#&gt; [1] "datasets-chickwts.csv" "datasets-iris.csv"     "datasets-mtcars.csv"  </span>
-<span class="co">#&gt; [4] "datasets-quakes.csv"</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">path <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw">map</span>(read_then_csv, <span class="dt">path =</span> path)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; $iris</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 1         5.10        3.50         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 2         4.90        3.00         1.40       0.200 setosa </span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 3         4.70        3.20         1.30       0.200 setosa </span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; $mtcars</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; # A tibble: 32 x 11</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; 1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; 2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; 3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; # ... with 29 more rows</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; $chickwts</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; # A tibble: 71 x 2</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt;   weight feed     </span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; 1   179. horsebean</span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; 2   160. horsebean</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; 3   136. horsebean</span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; # ... with 68 more rows</span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; $quakes</span></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; # A tibble: 1,000 x 5</span></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;     lat  long depth   mag stations</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; 1 -20.4  182.  562.  4.80      41.</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 2 -20.6  181.  650.  4.20      15.</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 3 -26.0  184.   42.  5.40      43.</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # ... with 997 more rows</span></a>
+<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">"^datasets.*</span><span class="ch">\\</span><span class="st">.csv$"</span>)</a>
+<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt; [1] "datasets-chickwts.csv" "datasets-iris.csv"     "datasets-mtcars.csv"  </span></a>
+<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt; [4] "datasets-quakes.csv"</span></a></code></pre></div>
 <p>In a real analysis, starting with workbook <code>"foo.xlsx"</code>, you might want to create the directory <code>foo</code> and place the CSVs inside that.</p>
 </div>
 <div id="concatenate-worksheets-into-one-data-frame" class="section level2">
@@ -285,38 +285,38 @@ path %&gt;%
 <p>The <code>map_df()</code> function from purrr makes it easy to iterate over worksheets and glue together the resulting data frames, all at once.</p>
 <ul>
 <li>Store a self-named vector of worksheet names (critical for the ID variable below).</li>
-<li>Use <code>purrr::map_df()</code> to import the data, create an ID variable for the source worksheet, and row bind.</li>
+<li>Use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map_df()</a></code> to import the data, create an ID variable for the source worksheet, and row bind.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)
-deaths &lt;-<span class="st"> </span>path %&gt;%
-<span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() %&gt;%
-<span class="st">  </span><span class="kw">set_names</span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">map_df</span>(~<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> .x, <span class="dt">range =</span> <span class="st">"A5:F15"</span>), <span class="dt">.id =</span> <span class="st">"sheet"</span>)
-<span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 20 x 7</span>
-<span class="co">#&gt;    sheet               Name Profession   Age `Has kids` `Date of birth`</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt;  1  arts        David Bowie   musician    69       TRUE      1947-01-08</span>
-<span class="co">#&gt;  2  arts      Carrie Fisher      actor    60       TRUE      1956-10-21</span>
-<span class="co">#&gt;  3  arts        Chuck Berry   musician    90       TRUE      1926-10-18</span>
-<span class="co">#&gt;  4  arts        Bill Paxton      actor    61       TRUE      1955-05-17</span>
-<span class="co">#&gt;  5  arts             Prince   musician    57       TRUE      1958-06-07</span>
-<span class="co">#&gt;  6  arts       Alan Rickman      actor    69      FALSE      1946-02-21</span>
-<span class="co">#&gt;  7  arts Florence Henderson      actor    82       TRUE      1934-02-14</span>
-<span class="co">#&gt;  8  arts         Harper Lee     author    89      FALSE      1926-04-28</span>
-<span class="co">#&gt;  9  arts      Zsa Zsa Gábor      actor    99       TRUE      1917-02-06</span>
-<span class="co">#&gt; 10  arts     George Michael   musician    53      FALSE      1963-06-25</span>
-<span class="co">#&gt; 11 other         Vera Rubin  scientist    88       TRUE      1928-07-23</span>
-<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74       TRUE      1942-01-17</span>
-<span class="co">#&gt; 13 other       Morley Safer journalist    84       TRUE      1931-11-08</span>
-<span class="co">#&gt; 14 other       Fidel Castro politician    90       TRUE      1926-08-13</span>
-<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79       TRUE      1936-03-11</span>
-<span class="co">#&gt; 16 other             Jo Cox politician    41       TRUE      1974-06-22</span>
-<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      FALSE      1938-07-21</span>
-<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      FALSE      1955-09-29</span>
-<span class="co">#&gt; 19 other         John Glenn  astronaut    95       TRUE      1921-07-28</span>
-<span class="co">#&gt; 20 other         Pat Summit      coach    64       TRUE      1952-06-14</span>
-<span class="co">#&gt; # ... with 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">deaths &lt;-<span class="st"> </span>path <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">map_df</span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> .x, <span class="dt">range =</span> <span class="st">"A5:F15"</span>), <span class="dt">.id =</span> <span class="st">"sheet"</span>)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; # A tibble: 20 x 7</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    sheet Name              Profession   Age `Has kids` `Date of birth`    </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  1 arts  David Bowie       musician     69. TRUE       1947-01-08 00:00:00</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  2 arts  Carrie Fisher     actor        60. TRUE       1956-10-21 00:00:00</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  3 arts  Chuck Berry       musician     90. TRUE       1926-10-18 00:00:00</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  4 arts  Bill Paxton       actor        61. TRUE       1955-05-17 00:00:00</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  5 arts  Prince            musician     57. TRUE       1958-06-07 00:00:00</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  6 arts  Alan Rickman      actor        69. FALSE      1946-02-21 00:00:00</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  7 arts  Florence Henders… actor        82. TRUE       1934-02-14 00:00:00</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  8 arts  Harper Lee        author       89. FALSE      1926-04-28 00:00:00</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  9 arts  Zsa Zsa Gábor     actor        99. TRUE       1917-02-06 00:00:00</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 10 arts  George Michael    musician     53. FALSE      1963-06-25 00:00:00</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 11 other Vera Rubin        scientist    88. TRUE       1928-07-23 00:00:00</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; 12 other Mohamed Ali       athlete      74. TRUE       1942-01-17 00:00:00</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; 13 other Morley Safer      journalist   84. TRUE       1931-11-08 00:00:00</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; 14 other Fidel Castro      politician   90. TRUE       1926-08-13 00:00:00</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; 15 other Antonin Scalia    lawyer       79. TRUE       1936-03-11 00:00:00</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 16 other Jo Cox            politician   41. TRUE       1974-06-22 00:00:00</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; 17 other Janet Reno        lawyer       78. FALSE      1938-07-21 00:00:00</span></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt; 18 other Gwen Ifill        journalist   61. FALSE      1955-09-29 00:00:00</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt; 19 other John Glenn        astronaut    95. TRUE       1921-07-28 00:00:00</span></a>
+<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; 20 other Pat Summit        coach        64. TRUE       1952-06-14 00:00:00</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; # ... with 1 more variable: `Date of death` &lt;dttm&gt;</span></a></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here. <code>deaths.xlsx</code> is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.</p>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -332,46 +332,45 @@ deaths &lt;-<span class="st"> </span>path %&gt;%
 <ul>
 <li>Store a self-named vector of worksheet names.</li>
 <li>Store a vector of cell range specifications.</li>
-<li>Use <code>purrr::map2_df()</code> to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.</li>
+<li>Use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map2">purrr::map2_df()</a></code> to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.</li>
 <li>Cache the unified data to CSV.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)
-sheets &lt;-<span class="st"> </span>path %&gt;%
-<span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">set_names</span>()
-ranges &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"A5:F15"</span>, <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
-deaths &lt;-<span class="st"> </span><span class="kw">map2_df</span>(
-  sheets,
-  ranges,
-  ~<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(path, <span class="dt">sheet =</span> .x, <span class="dt">range =</span> .y),
-  <span class="dt">.id =</span> <span class="st">"sheet"</span>
-) %&gt;%
-<span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"deaths.csv"</span>)
-<span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 20 x 7</span>
-<span class="co">#&gt;    sheet               Name Profession   Age `Has kids` `Date of birth`</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt;  1  arts        David Bowie   musician    69       TRUE      1947-01-08</span>
-<span class="co">#&gt;  2  arts      Carrie Fisher      actor    60       TRUE      1956-10-21</span>
-<span class="co">#&gt;  3  arts        Chuck Berry   musician    90       TRUE      1926-10-18</span>
-<span class="co">#&gt;  4  arts        Bill Paxton      actor    61       TRUE      1955-05-17</span>
-<span class="co">#&gt;  5  arts             Prince   musician    57       TRUE      1958-06-07</span>
-<span class="co">#&gt;  6  arts       Alan Rickman      actor    69      FALSE      1946-02-21</span>
-<span class="co">#&gt;  7  arts Florence Henderson      actor    82       TRUE      1934-02-14</span>
-<span class="co">#&gt;  8  arts         Harper Lee     author    89      FALSE      1926-04-28</span>
-<span class="co">#&gt;  9  arts      Zsa Zsa Gábor      actor    99       TRUE      1917-02-06</span>
-<span class="co">#&gt; 10  arts     George Michael   musician    53      FALSE      1963-06-25</span>
-<span class="co">#&gt; 11 other         Vera Rubin  scientist    88       TRUE      1928-07-23</span>
-<span class="co">#&gt; 12 other        Mohamed Ali    athlete    74       TRUE      1942-01-17</span>
-<span class="co">#&gt; 13 other       Morley Safer journalist    84       TRUE      1931-11-08</span>
-<span class="co">#&gt; 14 other       Fidel Castro politician    90       TRUE      1926-08-13</span>
-<span class="co">#&gt; 15 other     Antonin Scalia     lawyer    79       TRUE      1936-03-11</span>
-<span class="co">#&gt; 16 other             Jo Cox politician    41       TRUE      1974-06-22</span>
-<span class="co">#&gt; 17 other         Janet Reno     lawyer    78      FALSE      1938-07-21</span>
-<span class="co">#&gt; 18 other         Gwen Ifill journalist    61      FALSE      1955-09-29</span>
-<span class="co">#&gt; 19 other         John Glenn  astronaut    95       TRUE      1921-07-28</span>
-<span class="co">#&gt; 20 other         Pat Summit      coach    64       TRUE      1952-06-14</span>
-<span class="co">#&gt; # ... with 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">sheets &lt;-<span class="st"> </span>path <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>()</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">ranges &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"A5:F15"</span>, <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>))</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">deaths &lt;-<span class="st"> </span><span class="kw">map2_df</span>(</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">  sheets,</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">  ranges,</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">  <span class="op">~</span><span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(path, <span class="dt">sheet =</span> .x, <span class="dt">range =</span> .y),</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">  <span class="dt">.id =</span> <span class="st">"sheet"</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"deaths.csv"</span>)</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 20 x 7</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;    sheet Name  Profession   Age `Has kids` `Date of birth` `Date of death`</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;chr&gt;           &lt;chr&gt;          </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  1 arts  Davi… musician     69. TRUE       1947-01-08T00:… 2016-01-10T00:…</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  2 arts  Carr… actor        60. TRUE       1956-10-21T00:… 2016-12-27T00:…</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  3 arts  Chuc… musician     90. TRUE       1926-10-18T00:… 2017-03-18T00:…</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  4 arts  Bill… actor        61. TRUE       1955-05-17T00:… 2017-02-25T00:…</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;  5 arts  Prin… musician     57. TRUE       1958-06-07T00:… 2016-04-21T00:…</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  6 arts  Alan… actor        69. FALSE      1946-02-21T00:… 2016-01-14T00:…</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  7 arts  Flor… actor        82. TRUE       1934-02-14T00:… 2016-11-24T00:…</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  8 arts  Harp… author       89. FALSE      1926-04-28T00:… 2016-02-19T00:…</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  9 arts  Zsa … actor        99. TRUE       1917-02-06T00:… 2016-12-18T00:…</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 10 arts  Geor… musician     53. FALSE      1963-06-25T00:… 2016-12-25T00:…</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 11 other Vera… scientist    88. TRUE       1928-07-23T00:… 2016-12-25T00:…</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 12 other Moha… athlete      74. TRUE       1942-01-17T00:… 2016-06-03T00:…</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; 13 other Morl… journalist   84. TRUE       1931-11-08T00:… 2016-05-19T00:…</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; 14 other Fide… politician   90. TRUE       1926-08-13T00:… 2016-11-25T00:…</span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 15 other Anto… lawyer       79. TRUE       1936-03-11T00:… 2016-02-13T00:…</span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; 16 other Jo C… politician   41. TRUE       1974-06-22T00:… 2016-06-16T00:…</span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 17 other Jane… lawyer       78. FALSE      1938-07-21T00:… 2016-11-07T00:…</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 18 other Gwen… journalist   61. FALSE      1955-09-29T00:… 2016-11-14T00:…</span></a>
+<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 19 other John… astronaut    95. TRUE       1921-07-28T00:… 2016-12-08T00:…</span></a>
+<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 20 other Pat … coach        64. TRUE       1952-06-14T00:… 2016-06-28T00:…</span></a></code></pre></div>
 <!--
 
 ## Session info
@@ -381,71 +380,97 @@ deaths &lt;-<span class="st"> </span><span class="kw">map2_df</span>(
 
 ```r
 devtools::session_info()
-#> Session info -------------------------------------------------------------
+#> ─ Session info ──────────────────────────────────────────────────────────
 #>  setting  value                       
-#>  version  R version 3.3.2 (2016-10-31)
-#>  system   x86_64, darwin13.4.0        
+#>  version  R version 3.4.3 (2017-11-30)
+#>  os       macOS Sierra 10.12.6        
+#>  system   x86_64, darwin15.6.0        
 #>  ui       X11                         
 #>  language (EN)                        
 #>  collate  en_CA.UTF-8                 
 #>  tz       America/Vancouver           
-#>  date     2017-05-15
-#> Packages -----------------------------------------------------------------
-#>  package    * version     date       source                              
-#>  assertthat   0.2.0       2017-04-11 cran (@0.2.0)                       
-#>  backports    1.0.5       2017-01-18 cran (@1.0.5)                       
-#>  broom        0.4.2       2017-02-13 cran (@0.4.2)                       
-#>  cellranger   1.1.0.9000  2017-04-27 Github (rsheets/cellranger@024d5ba) 
-#>  colorspace   1.3-2       2016-12-14 CRAN (R 3.3.2)                      
-#>  devtools     1.12.0.9000 2017-04-13 Github (hadley/devtools@ab176e6)    
-#>  digest       0.6.12      2017-01-27 cran (@0.6.12)                      
-#>  dplyr      * 0.5.0.9004  2017-05-07 Github (tidyverse/dplyr@b2f84d2)    
-#>  evaluate     0.10        2016-10-11 cran (@0.10)                        
-#>  forcats    * 0.2.0       2017-01-23 cran (@0.2.0)                       
-#>  foreign      0.8-67      2016-09-13 CRAN (R 3.3.2)                      
-#>  ggplot2    * 2.2.1       2016-12-30 CRAN (R 3.3.2)                      
-#>  glue         1.0.0       2017-05-05 Github (tidyverse/glue@5d765fe)     
-#>  gtable       0.2.0       2016-02-26 CRAN (R 3.3.0)                      
-#>  haven        1.0.0       2016-09-23 CRAN (R 3.3.0)                      
-#>  hms          0.3         2016-11-22 CRAN (R 3.3.2)                      
-#>  htmltools    0.3.6       2017-04-28 cran (@0.3.6)                       
-#>  httr         1.2.1.9000  2017-04-28 local                               
-#>  jsonlite     1.4         2017-04-27 Github (jeroen/jsonlite@013a348)    
-#>  knitr        1.15.1      2016-11-22 CRAN (R 3.3.2)                      
-#>  lattice      0.20-34     2016-09-06 CRAN (R 3.3.2)                      
-#>  lazyeval     0.2.0.9000  2016-10-24 Github (hadley/lazyeval@c155c3d)    
-#>  lubridate    1.6.0       2016-09-13 cran (@1.6.0)                       
-#>  magrittr     1.5         2014-11-22 CRAN (R 3.2.0)                      
-#>  memoise      1.1.0       2017-04-27 Github (hadley/memoise@d4f0864)     
-#>  mnormt       1.5-5       2016-10-15 CRAN (R 3.3.0)                      
-#>  modelr       0.1.0       2016-08-31 CRAN (R 3.3.0)                      
-#>  munsell      0.4.3       2016-02-13 CRAN (R 3.3.0)                      
-#>  nlme         3.1-128     2016-05-10 CRAN (R 3.3.2)                      
-#>  pkgbuild     0.0.0.9000  2017-04-27 Github (r-pkgs/pkgbuild@8aab60b)    
-#>  pkgload      0.0.0.9000  2017-04-13 Github (r-pkgs/pkgload@9093b96)     
-#>  plyr         1.8.4       2016-06-08 CRAN (R 3.3.0)                      
-#>  psych        1.7.5       2017-05-03 cran (@1.7.5)                       
-#>  purrr      * 0.2.2.2     2017-05-11 CRAN (R 3.3.2)                      
-#>  R6           2.2.1       2017-05-10 cran (@2.2.1)                       
-#>  Rcpp         0.12.10.4   2017-05-12 Github (RcppCore/Rcpp@4e0f79c)      
-#>  readr      * 1.1.0       2017-05-07 Github (tidyverse/readr@3c69531)    
-#>  readxl     * 1.0.0.9000  2017-05-11 local                               
-#>  rematch      1.0.1       2016-04-21 CRAN (R 3.2.3)                      
-#>  reshape2     1.4.2       2016-10-22 CRAN (R 3.3.0)                      
-#>  rlang        0.0.0.9019  2017-05-07 Github (hadley/rlang@fea1712)       
-#>  rmarkdown    1.5.9000    2017-05-07 Github (rstudio/rmarkdown@ca56f55)  
-#>  rprojroot    1.2         2017-01-16 CRAN (R 3.3.2)                      
-#>  rstudioapi   0.6         2016-06-27 CRAN (R 3.3.1)                      
-#>  rvest        0.3.2       2016-06-17 CRAN (R 3.3.0)                      
-#>  scales       0.4.1       2016-11-09 CRAN (R 3.3.2)                      
-#>  stringi      1.1.5       2017-04-07 cran (@1.1.5)                       
-#>  stringr    * 1.2.0       2017-02-18 cran (@1.2.0)                       
-#>  tibble     * 1.3.0.9002  2017-05-12 Github (tidyverse/tibble@9103a30)   
-#>  tidyr      * 0.6.2.9000  2017-05-05 Github (hadley/tidyr@c2c1266)       
-#>  tidyverse  * 1.1.1.9000  2017-05-07 Github (tidyverse/tidyverse@6516a33)
-#>  withr        1.0.2       2016-06-20 cran (@1.0.2)                       
-#>  xml2         1.1.1       2017-05-05 Github (hadley/xml2@2dbb567)        
-#>  yaml         2.1.14      2016-11-12 cran (@2.1.14)
+#>  date     2018-04-14                  
+#> 
+#> ─ Packages ──────────────────────────────────────────────────────────────
+#>  package     * version     date       source                             
+#>  ansistrings   1.0.0.9000  2018-04-02 Github (r-lib/ansistrings@4e4d309) 
+#>  assertthat    0.2.0       2017-04-11 CRAN (R 3.4.0)                     
+#>  backports     1.1.2       2018-04-14 Github (r-lib/backports@cee9348)   
+#>  bindr         0.1.0.9000  2018-03-09 Github (krlmlr/bindr@4b20179)      
+#>  bindrcpp      0.2.0.9000  2018-03-09 Github (krlmlr/bindrcpp@7553d4f)   
+#>  broom         0.4.3       2017-11-20 CRAN (R 3.4.3)                     
+#>  callr         2.0.3       2018-04-11 CRAN (R 3.4.4)                     
+#>  cellranger    1.1.0.9000  2018-04-03 local                              
+#>  cli           1.0.0.9002  2018-04-02 Github (r-lib/cli@c408924)         
+#>  clisymbols    1.2.0       2017-05-21 CRAN (R 3.4.0)                     
+#>  colorspace    1.3-2       2016-12-14 CRAN (R 3.4.0)                     
+#>  commonmark    1.4         2017-09-01 CRAN (R 3.4.1)                     
+#>  crayon        1.3.4       2018-04-02 Github (gaborcsardi/crayon@95b3eae)
+#>  debugme       1.1.0.9000  2018-01-29 Github (r-lib/debugme@f4a116a)     
+#>  desc          1.1.1.9003  2018-04-14 Github (r-lib/desc@387b732)        
+#>  devtools      1.13.5.9000 2018-03-02 Github (r-lib/devtools@3068e65)    
+#>  digest        0.6.15      2018-01-28 CRAN (R 3.4.3)                     
+#>  dplyr       * 0.7.4.9000  2018-03-09 Github (tidyverse/dplyr@9f707d2)   
+#>  evaluate      0.10.1      2017-06-24 CRAN (R 3.4.1)                     
+#>  forcats     * 0.3.0       2018-02-19 CRAN (R 3.4.3)                     
+#>  foreign       0.8-69      2017-06-22 CRAN (R 3.4.3)                     
+#>  fs            1.2.2       2018-03-21 CRAN (R 3.4.4)                     
+#>  ggplot2     * 2.2.1       2016-12-30 CRAN (R 3.4.0)                     
+#>  glue          1.2.0.9000  2018-04-07 Github (tidyverse/glue@0699687)    
+#>  gtable        0.2.0       2016-02-26 CRAN (R 3.4.0)                     
+#>  haven         1.1.1       2018-01-18 CRAN (R 3.4.3)                     
+#>  hms           0.4.2       2018-03-10 CRAN (R 3.4.3)                     
+#>  htmltools     0.3.6       2017-04-28 CRAN (R 3.4.0)                     
+#>  httr          1.3.1       2017-08-20 CRAN (R 3.4.1)                     
+#>  jsonlite      1.5         2017-06-01 CRAN (R 3.4.0)                     
+#>  knitr         1.20        2018-02-20 CRAN (R 3.4.3)                     
+#>  lattice       0.20-35     2017-03-25 CRAN (R 3.4.3)                     
+#>  lazyeval      0.2.1       2017-10-29 CRAN (R 3.4.2)                     
+#>  lubridate     1.7.2       2018-02-06 CRAN (R 3.4.3)                     
+#>  magrittr      1.5         2014-11-22 CRAN (R 3.4.0)                     
+#>  MASS          7.3-48      2017-12-25 CRAN (R 3.4.3)                     
+#>  memoise       1.1.0       2018-01-15 Github (hadley/memoise@611cfad)    
+#>  mnormt        1.5-5       2016-10-15 CRAN (R 3.4.0)                     
+#>  modelr        0.1.1       2017-07-24 CRAN (R 3.4.1)                     
+#>  munsell       0.4.3       2016-02-13 CRAN (R 3.4.0)                     
+#>  nlme          3.1-131     2017-02-06 CRAN (R 3.4.3)                     
+#>  pillar        1.2.1       2018-02-27 Github (r-lib/pillar@2065df9)      
+#>  pkgbuild      1.0.0       2018-04-14 Github (r-lib/pkgbuild@4ee12af)    
+#>  pkgconfig     2.0.1       2017-03-21 CRAN (R 3.4.0)                     
+#>  pkgdown       0.1.0.9000  2018-04-14 Github (hadley/pkgdown@a7aa75e)    
+#>  pkgload       1.0.0       2018-04-14 Github (r-lib/pkgload@a9184a0)     
+#>  plyr          1.8.4       2016-06-08 CRAN (R 3.4.0)                     
+#>  prettyunits   1.0.2       2015-07-13 CRAN (R 3.4.0)                     
+#>  progress      1.1.2.9003  2018-04-02 Github (r-lib/progress@e525de4)    
+#>  psych         1.7.8       2017-09-09 CRAN (R 3.4.3)                     
+#>  purrr       * 0.2.4.9000  2018-03-29 Github (tidyverse/purrr@84ce1ad)   
+#>  R6            2.2.2       2017-06-17 CRAN (R 3.4.0)                     
+#>  Rcpp          0.12.16     2018-03-13 CRAN (R 3.4.4)                     
+#>  readr       * 1.1.1.9000  2017-12-12 Github (tidyverse/readr@ba7edb5)   
+#>  readxl      * 1.0.0.9000  2018-04-14 local                              
+#>  rematch       1.0.1       2016-04-21 CRAN (R 3.4.0)                     
+#>  reshape2      1.4.3       2017-12-11 CRAN (R 3.4.3)                     
+#>  rlang         0.2.0.9001  2018-04-02 Github (tidyverse/rlang@49d7a34)   
+#>  rmarkdown     1.9.8       2018-03-31 Github (rstudio/rmarkdown@8cfc878) 
+#>  roxygen2      6.0.1.9000  2018-03-01 local                              
+#>  rprojroot     1.3-2       2018-01-03 CRAN (R 3.4.2)                     
+#>  rstudioapi    0.7.0-9000  2018-01-12 Github (rstudio/rstudioapi@109e593)
+#>  rvest         0.3.2       2016-06-17 CRAN (R 3.4.0)                     
+#>  scales        0.5.0       2017-08-24 CRAN (R 3.4.1)                     
+#>  selectr       0.4-0       2018-03-27 CRAN (R 3.4.3)                     
+#>  sessioninfo   1.0.1.9000  2017-10-26 Github (r-lib/sessioninfo@c871d01) 
+#>  stringi       1.1.7       2018-03-12 CRAN (R 3.4.4)                     
+#>  stringr     * 1.3.0       2018-02-19 CRAN (R 3.4.3)                     
+#>  testthat      2.0.0       2017-12-13 CRAN (R 3.4.3)                     
+#>  tibble      * 1.4.2       2018-02-27 Github (tidyverse/tibble@80ac1a3)  
+#>  tidyr       * 0.8.0       2018-01-29 CRAN (R 3.4.3)                     
+#>  tidyselect    0.2.4       2018-02-26 CRAN (R 3.4.3)                     
+#>  tidyverse   * 1.2.1       2017-11-14 CRAN (R 3.4.2)                     
+#>  usethis       1.3.0.9000  2018-04-14 Github (r-lib/usethis@9ab0e79)     
+#>  utf8          1.1.3       2018-01-03 CRAN (R 3.4.2)                     
+#>  withr         2.1.2       2018-03-18 Github (r-lib/withr@79d7b0d)       
+#>  xml2          1.2.0       2018-01-24 CRAN (R 3.4.3)                     
+#>  yaml          2.1.18      2018-03-08 CRAN (R 3.4.4)
 ```
 </details>
 
@@ -458,69 +483,70 @@ devtools::session_info()
 <div id="cache-a-csv-snapshot-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cache-a-csv-snapshot-1" class="anchor"></a>Cache a CSV snapshot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"iris"</span>)
-<span class="kw">write.csv</span>(iris_xl, <span class="st">"iris-raw.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>)
-iris_alt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"iris-raw.csv"</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
-## coerce iris_xl back to a data.frame
-<span class="kw">identical</span>(<span class="kw">as.data.frame</span>(iris_xl), iris_alt)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">write.csv</span>(iris_xl, <span class="st">"iris-raw.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">iris_alt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"iris-raw.csv"</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">## coerce iris_xl back to a data.frame</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">identical</span>(<span class="kw">as.data.frame</span>(iris_xl), iris_alt)</a></code></pre></div>
 </div>
 <div id="iterate-over-multiple-worksheets-in-a-workbook-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#iterate-over-multiple-worksheets-in-a-workbook-1" class="anchor"></a>Iterate over multiple worksheets in a workbook</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)
-sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)
-xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_excel, <span class="dt">path =</span> path) 
-<span class="kw">names</span>(xl_list) &lt;-<span class="st"> </span>sheets</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_excel, <span class="dt">path =</span> path) </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">names</span>(xl_list) &lt;-<span class="st"> </span>sheets</a></code></pre></div>
 </div>
 <div id="csv-caching-and-iterating-over-sheets-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#csv-caching-and-iterating-over-sheets-1" class="anchor"></a>CSV caching and iterating over sheets</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">read_then_csv &lt;-<span class="st"> </span>function(sheet, path) {
-  pathbase &lt;-<span class="st"> </span>tools::<span class="kw">file_path_sans_ext</span>(<span class="kw">basename</span>(path))
-  df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> sheet)
-  <span class="kw">write.csv</span>(df, <span class="kw">paste0</span>(pathbase, <span class="st">"-"</span>, sheet, <span class="st">".csv"</span>),
-            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
-  df
-}
-path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)
-sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)
-xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_then_csv, <span class="dt">path =</span> path)
-<span class="kw">names</span>(xl_list) &lt;-<span class="st"> </span>sheets</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">read_then_csv &lt;-<span class="st"> </span><span class="cf">function</span>(sheet, path) {</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  pathbase &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">file_path_sans_ext</a></span>(<span class="kw">basename</span>(path))</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> sheet)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="kw">write.csv</span>(df, <span class="kw">paste0</span>(pathbase, <span class="st">"-"</span>, sheet, <span class="st">".csv"</span>),</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  df</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_then_csv, <span class="dt">path =</span> path)</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="kw">names</span>(xl_list) &lt;-<span class="st"> </span>sheets</a></code></pre></div>
 </div>
 <div id="concatenate-worksheets-into-one-data-frame-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#concatenate-worksheets-into-one-data-frame-1" class="anchor"></a>Concatenate worksheets into one data frame</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)
-sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)
-xl_list &lt;-
-<span class="st">  </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_excel, <span class="dt">path =</span> path, <span class="dt">range =</span> <span class="st">"A5:F15"</span>)
-xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(sheets), function(i) {
-  <span class="kw">data.frame</span>(<span class="dt">sheet =</span> <span class="kw">I</span>(sheets[i]), xl_list[[i]])
-})
-xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_list)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">xl_list &lt;-</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">  </span><span class="kw">lapply</span>(<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path), read_excel, <span class="dt">path =</span> path, <span class="dt">range =</span> <span class="st">"A5:F15"</span>)</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(sheets), <span class="cf">function</span>(i) {</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">  <span class="kw">data.frame</span>(<span class="dt">sheet =</span> <span class="kw">I</span>(sheets[i]), xl_list[[i]])</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">})</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_list)</a></code></pre></div>
 </div>
 <div id="putting-it-all-together-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#putting-it-all-together-1" class="anchor"></a>Putting it all together</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)
-sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)
-ranges &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"A5:F15"</span>, <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
-xl_list &lt;-<span class="st"> </span><span class="kw">mapply</span>(function(x, y) {
-  <span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> x, <span class="dt">range =</span> y)
-}, sheets, ranges, <span class="dt">SIMPLIFY =</span> <span class="ot">FALSE</span>)
-xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(sheets), function(i) {
-  <span class="kw">data.frame</span>(<span class="dt">sheet =</span> <span class="kw">I</span>(sheets[i]), xl_list[[i]])
-})
-xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_list)
-<span class="kw">write.csv</span>(xl_list, <span class="st">"deaths.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>)</code></pre></div>
-</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">path &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">sheets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(path)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">ranges &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"A5:F15"</span>, <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>))</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">xl_list &lt;-<span class="st"> </span><span class="kw">mapply</span>(<span class="cf">function</span>(x, y) {</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">path =</span> path, <span class="dt">sheet =</span> x, <span class="dt">range =</span> y)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">}, sheets, ranges, <span class="dt">SIMPLIFY =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">xl_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(sheets), <span class="cf">function</span>(i) {</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="kw">data.frame</span>(<span class="dt">sheet =</span> <span class="kw">I</span>(sheets[i]), xl_list[[i]])</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">})</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_list)</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="kw">write.csv</span>(xl_list, <span class="st">"deaths.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#load-packages">Load packages</a></li>
       <li><a href="#cache-a-csv-snapshot">Cache a CSV snapshot</a></li>
@@ -541,8 +567,8 @@ xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
-  <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script>
@@ -555,6 +581,8 @@ xl_list &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, xl_
   ga('send', 'pageview');
 </script></footer>
 </div>
+
+  
 
   </body>
 </html>

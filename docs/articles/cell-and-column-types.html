@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -26,7 +26,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">readxl</a>
+        <a class="navbar-brand" href="../index.html"></a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -92,21 +92,24 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Cell and Column Types</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/cell-and-column-types.Rmd"><code>vignettes/cell-and-column-types.Rmd</code></a></small>
+      <div class="hidden name"><code>cell-and-column-types.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)</code></pre></div>
-<p><code>readxl::read_excel()</code> will guess column types, by default, or you can provide them explicitly via the <code>col_types</code> argument. The <code>col_types</code> argument is more flexible than you might think; you can mix actual types in with <code>"skip"</code> and <code>"guess"</code> and a single type will be recycled to the necessary length.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(readxl)</a></code></pre></div>
+<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> will guess column types, by default, or you can provide them explicitly via the <code>col_types</code> argument. The <code>col_types</code> argument is more flexible than you might think; you can mix actual types in with <code>"skip"</code> and <code>"guess"</code> and a single type will be recycled to the necessary length.</p>
 <p>Here are different ways this might look:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>)
-<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="st">"numeric"</span>)
-<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"numeric"</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="st">"numeric"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"numeric"</span>))</a></code></pre></div>
 <div id="type-guessing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#type-guessing" class="anchor"></a>Type guessing</h2>
@@ -119,15 +122,15 @@
 <p>       empty &lt; boolean &lt; numeric &lt; text</p>
 <p>with the wrinkle that datetimes are a very special flavor of numeric. A cell of any particular type can always be represented as one of any higher type and, possibly, as one of lower type. When guessing, <code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it has seen in any given column. Once it has visited <code>guess_max</code> rows or run out of data, this is the guessed type for that column. There is a strong current towards “text”, the column type of last resort.</p>
 <p>Here’s an example of column guessing with <code>deaths.xlsx</code> which ships with readxl.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>))
-<span class="co">#&gt; # A tibble: 10 x 6</span>
-<span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
-<span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt; 1   David Bowie   musician    69       TRUE      1947-01-08</span>
-<span class="co">#&gt; 2 Carrie Fisher      actor    60       TRUE      1956-10-21</span>
-<span class="co">#&gt; 3   Chuck Berry   musician    90       TRUE      1926-10-18</span>
-<span class="co">#&gt; 4   Bill Paxton      actor    61       TRUE      1955-05-17</span>
-<span class="co">#&gt; # ... with 6 more rows, and 1 more variables: `Date of death` &lt;dttm&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Name          Profession   Age `Has kids` `Date of birth`    </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1 David Bowie   musician     69. TRUE       1947-01-08 00:00:00</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2 Carrie Fisher actor        60. TRUE       1956-10-21 00:00:00</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3 Chuck Berry   musician     90. TRUE       1926-10-18 00:00:00</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 4 Bill Paxton   actor        61. TRUE       1955-05-17 00:00:00</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; # ... with 6 more rows, and 1 more variable: `Date of death` &lt;dttm&gt;</span></a></code></pre></div>
 </div>
 <div id="excel-types-r-types-col_types" class="section level2">
 <h2 class="hasAnchor">
@@ -187,57 +190,57 @@
 <li>You cannot request that a column be included but filled with <code>NA</code>s. Such a column can arise naturally, if all the cells are empty, or you can skip a column (see previous point).</li>
 </ul>
 <p>Example of skipping and guessing:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(
-  <span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
-  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>),
-  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>)
-)
-<span class="co">#&gt; # A tibble: 10 x 2</span>
-<span class="co">#&gt;            Name   Age</span>
-<span class="co">#&gt;           &lt;chr&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1   David Bowie    69</span>
-<span class="co">#&gt; 2 Carrie Fisher    60</span>
-<span class="co">#&gt; 3   Chuck Berry    90</span>
-<span class="co">#&gt; 4   Bill Paxton    61</span>
-<span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   Name            Age</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1 David Bowie     69.</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fisher   60.</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Berry     90.</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxton     61.</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
 <p>More about the <code>"list"</code> column type in the last row:</p>
 <ul>
 <li>This will create a list-column in the output, each component of which is a length one atomic vector. The type of these vectors is determined using the logic described above. This can be useful if data of truly disparate type is arranged in a column.</li>
 </ul>
 <p>We demonstrate the <code>"list"</code> column type using the <code>clippy.xlsx</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(clippy &lt;-<span class="st"> </span>
-<span class="st">   </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))
-<span class="co">#&gt; # A tibble: 4 x 2</span>
-<span class="co">#&gt;                   name      value</span>
-<span class="co">#&gt;                  &lt;chr&gt;     &lt;list&gt;</span>
-<span class="co">#&gt; 1                 Name  &lt;chr [1]&gt;</span>
-<span class="co">#&gt; 2              Species  &lt;chr [1]&gt;</span>
-<span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
-<span class="co">#&gt; 4      Weight in grams  &lt;dbl [1]&gt;</span>
-tibble::<span class="kw">deframe</span>(clippy)
-<span class="co">#&gt; $Name</span>
-<span class="co">#&gt; [1] "Clippy"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Species</span>
-<span class="co">#&gt; [1] "paperclip"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`Approx date of death`</span>
-<span class="co">#&gt; [1] "2007-01-01 UTC"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`Weight in grams`</span>
-<span class="co">#&gt; [1] 0.9</span>
-<span class="kw">sapply</span>(clippy$value, class)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] "character"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] "character"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] "POSIXct" "POSIXt" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[4]]</span>
-<span class="co">#&gt; [1] "numeric"</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">(clippy &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">   </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   name                 value     </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;                &lt;list&gt;    </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 1 Name                 &lt;chr [1]&gt; </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/enframe">deframe</a></span>(clippy)</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; $Name</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [1] "Clippy"</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; $Species</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; [1] "paperclip"</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; $`Approx date of death`</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; [1] "2007-01-01 UTC"</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; $`Weight in grams`</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [1] 0.9</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="kw">sapply</span>(clippy<span class="op">$</span>value, class)</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; [1] "character"</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [1] "character"</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [1] "POSIXct" "POSIXt" </span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [1] "numeric"</span></a></code></pre></div>
 <p>Final note: all datetimes are imported as having the UTC timezone, because, mercifully, Excel has no notion of timezones.</p>
 </div>
 <div id="when-column-guessing-goes-wrong" class="section level2">
@@ -253,30 +256,29 @@ tibble::<span class="kw">deframe</span>(clippy)
 <li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples for <code><a href="../reference/read_excel.html">read_excel()</a></code> help or <code><a href="../articles/sheet-geometry.html">vignette("sheet-geometry")</a></code> for more detail.</li>
 </ul>
 <p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))
-<span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 18 x 6</span>
-<span class="co">#&gt;                `Lots of people`                     X__1   X__2     X__3</span>
-<span class="co">#&gt;                           &lt;chr&gt;                    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt;  1 simply cannot resist writing                     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt;  2                           at                      the    top     &lt;NA&gt;</span>
-<span class="co">#&gt;  3                           or                  merging   &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt;  4                         Name               Profession    Age Has kids</span>
-<span class="co">#&gt;  5                  David Bowie                 musician     69     TRUE</span>
-<span class="co">#&gt;  6                Carrie Fisher                    actor     60     TRUE</span>
-<span class="co">#&gt;  7                  Chuck Berry                 musician     90     TRUE</span>
-<span class="co">#&gt;  8                  Bill Paxton                    actor     61     TRUE</span>
-<span class="co">#&gt;  9                       Prince                 musician     57     TRUE</span>
-<span class="co">#&gt; 10                 Alan Rickman                    actor     69    FALSE</span>
-<span class="co">#&gt; 11           Florence Henderson                    actor     82     TRUE</span>
-<span class="co">#&gt; 12                   Harper Lee                   author     89    FALSE</span>
-<span class="co">#&gt; 13                Zsa Zsa Gábor                    actor     99     TRUE</span>
-<span class="co">#&gt; 14               George Michael                 musician     53    FALSE</span>
-<span class="co">#&gt; 15                         Some                     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 16                         &lt;NA&gt; also like to write stuff   &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 17                         &lt;NA&gt;                     &lt;NA&gt; at the  bottom,</span>
-<span class="co">#&gt; 18                         &lt;NA&gt;                     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; # ... with 2 more variables: X__4 &lt;chr&gt;, X__5 &lt;chr&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">print</span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; # A tibble: 18 x 6</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;    `Lots of people`             X__1        X__2   X__3   X__4    X__5    </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;                        &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   </span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  1 simply cannot resist writing &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    some no…</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  2 at                           the         top    &lt;NA&gt;   of      their s…</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  3 or                           merging     &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    cells   </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  4 Name                         Profession  Age    Has k… Date o… Date of…</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  5 David Bowie                  musician    69     TRUE   17175   42379   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  6 Carrie Fisher                actor       60     TRUE   20749   42731   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  7 Chuck Berry                  musician    90     TRUE   9788    42812   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  8 Bill Paxton                  actor       61     TRUE   20226   42791   </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  9 Prince                       musician    57     TRUE   21343   42481   </span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 10 Alan Rickman                 actor       69     FALSE  16854   42383   </span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 11 Florence Henderson           actor       82     TRUE   12464   42698   </span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 12 Harper Lee                   author      89     FALSE  9615    42419   </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 13 Zsa Zsa Gábor                actor       99     TRUE   6247    42722   </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 14 George Michael               musician    53     FALSE  23187   42729   </span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; 15 Some                         &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;    </span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 16 &lt;NA&gt;                         also like … &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;    </span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 17 &lt;NA&gt;                         &lt;NA&gt;        at the botto… &lt;NA&gt;    &lt;NA&gt;    </span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; 18 &lt;NA&gt;                         &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    too!</span></a></code></pre></div>
 <p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div id="peek-at-column-names" class="section level3">
@@ -284,20 +286,20 @@ tibble::<span class="kw">deframe</span>(clippy)
 <a href="#peek-at-column-names" class="anchor"></a>Peek at column names</h3>
 <p>Sometimes you aren’t completely sure of column count or order, and yet you need to provide <em>some</em> information via <code>col_types</code>. For example, you might know that the column named “foofy” should be text, but you’re not sure where it appears. Or maybe you want to ensure that lots of empty cells at the top of “foofy” don’t cause it to be guessed as logical.</p>
 <p>Here’s an efficient trick to get the column names, so you can programmatically build the <code>col_types</code> vector you need for your main reading of the Excel file. Let’s imagine I want to force the columns whose names include “Petal” to be text, but leave everything else to be guessed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(nms &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">0</span>)))
-<span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </span>
-<span class="co">#&gt; [5] "Species"</span>
-(ct &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">"^Petal"</span>, nms), <span class="st">"text"</span>, <span class="st">"guess"</span>))
-<span class="co">#&gt; [1] "guess" "guess" "text"  "text"  "guess"</span>
-<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">col_types =</span> ct)
-<span class="co">#&gt; # A tibble: 150 x 5</span>
-<span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;</span>
-<span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span>
-<span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span>
-<span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span>
-<span class="co">#&gt; 4          4.6         3.1          1.5         0.2  setosa</span>
-<span class="co">#&gt; # ... with 146 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">(nms &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">0</span>)))</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; [5] "Species"</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">(ct &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">"^Petal"</span>, nms), <span class="st">"text"</span>, <span class="st">"guess"</span>))</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; [1] "guess" "guess" "text"  "text"  "guess"</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">col_types =</span> ct)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 1         5.10        3.50 1.4          0.2         setosa </span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 2         4.90        3.00 1.4          0.2         setosa </span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 3         4.70        3.20 1.3          0.2         setosa </span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 4         4.60        3.10 1.5          0.2         setosa </span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; # ... with 146 more rows</span></a></code></pre></div>
 </div>
 </div>
 <div id="square-pegs-in-round-holes" class="section level2">
@@ -309,109 +311,110 @@ tibble::<span class="kw">deframe</span>(clippy)
 <h3 class="hasAnchor">
 <a href="#logical-column" class="anchor"></a>Logical column</h3>
 <p>A numeric cell is coerced to <code>FALSE</code> if it is zero and <code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as <code>TRUE</code> and “F”, “FALSE”, “False”, “false” as <code>FALSE</code>. Other strings import as <code>NA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"logical_coercion"</span>,
-                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"logical"</span>, <span class="st">"text"</span>))
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting logical in A5 / R5C1: got a date</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span>
-<span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 10 x 2</span>
-<span class="co">#&gt;    `maybe boolean?`                      description</span>
-<span class="co">#&gt;               &lt;lgl&gt;                            &lt;chr&gt;</span>
-<span class="co">#&gt;  1               NA                            empty</span>
-<span class="co">#&gt;  2            FALSE                      0 (numeric)</span>
-<span class="co">#&gt;  3             TRUE                      1 (numeric)</span>
-<span class="co">#&gt;  4               NA                         datetime</span>
-<span class="co">#&gt;  5             TRUE                     boolean true</span>
-<span class="co">#&gt;  6            FALSE                    boolean false</span>
-<span class="co">#&gt;  7               NA                        "cabbage"</span>
-<span class="co">#&gt;  8             TRUE                the string "true"</span>
-<span class="co">#&gt;  9            FALSE                   the letter "F"</span>
-<span class="co">#&gt; 10            FALSE "False" preceded by single quote</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"logical_coercion"</span>,</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"logical"</span>, <span class="st">"text"</span>))</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; shim, : Expecting logical in A5 / R5C1: got a date</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;    `maybe boolean?` description                         </span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    &lt;lgl&gt;            &lt;chr&gt;                               </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  1 NA               empty                               </span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  2 FALSE            0 (numeric)                         </span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  3 TRUE             1 (numeric)                         </span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  4 NA               datetime                            </span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  5 TRUE             boolean true                        </span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  6 FALSE            boolean false                       </span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  7 NA               "\"cabbage\""                       </span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  8 TRUE             "the string \"true\""               </span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  9 FALSE            "the letter \"F\""                  </span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 10 FALSE            "\"False\" preceded by single quote"</span></a></code></pre></div>
 <p><img src="type-me-logical.png" width="70%"></p>
 </div>
 <div id="numeric-column" class="section level3">
 <h3 class="hasAnchor">
 <a href="#numeric-column" class="anchor"></a>Numeric column</h3>
 <p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"numeric_coercion"</span>,
-                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"numeric"</span>, <span class="st">"text"</span>))
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing boolean to numeric in A3 / R3C1</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing boolean to numeric in A4 / R4C1</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting numeric in A5 / R5C1: got a date</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing text to numeric in A6 / R6C1: '123456'</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span>
-<span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 7 x 2</span>
-<span class="co">#&gt;   `maybe numeric?`         explanation</span>
-<span class="co">#&gt;              &lt;dbl&gt;               &lt;chr&gt;</span>
-<span class="co">#&gt; 1               NA               empty</span>
-<span class="co">#&gt; 2                1        boolean true</span>
-<span class="co">#&gt; 3                0       boolean false</span>
-<span class="co">#&gt; 4            40534            datetime</span>
-<span class="co">#&gt; 5           123456 the string "123456"</span>
-<span class="co">#&gt; 6           123456   the number 123456</span>
-<span class="co">#&gt; 7               NA           "cabbage"</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"numeric_coercion"</span>,</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"numeric"</span>, <span class="st">"text"</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; shim, : Coercing boolean to numeric in A3 / R3C1</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; shim, : Coercing boolean to numeric in A4 / R4C1</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; shim, : Expecting numeric in A5 / R5C1: got a date</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; shim, : Coercing text to numeric in A6 / R6C1: '123456'</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   `maybe numeric?` explanation            </span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 1              NA  empty                  </span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 2               1. boolean true           </span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; 3               0. boolean false          </span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; 4           40534. datetime               </span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; 5          123456. "the string \"123456\""</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; 6          123456. the number 123456      </span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; 7              NA  "\"cabbage\""</span></a></code></pre></div>
 <p><img src="type-me-numeric.png" width="70%"></p>
 </div>
 <div id="date-column" class="section level3">
 <h3 class="hasAnchor">
 <a href="#date-column" class="anchor"></a>Date column</h3>
 <p>A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"date_coercion"</span>,
-                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"text"</span>))
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting date in A5 / R5C1: got boolean</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Expecting date in A6 / R6C1: got 'cabbage'</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing numeric to date A7 / R7C1</span>
-<span class="co">#&gt; Warning in read_fun(path = path, sheet = sheet, limits = limits, shim =</span>
-<span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span>
-<span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 7 x 2</span>
-<span class="co">#&gt;   `maybe a datetime?`          explanation</span>
-<span class="co">#&gt;                &lt;dttm&gt;                &lt;chr&gt;</span>
-<span class="co">#&gt; 1                  NA                empty</span>
-<span class="co">#&gt; 2 2016-05-23 00:00:00     date only format</span>
-<span class="co">#&gt; 3 2016-04-28 11:30:00 date and time format</span>
-<span class="co">#&gt; 4                  NA         boolean true</span>
-<span class="co">#&gt; 5                  NA            "cabbage"</span>
-<span class="co">#&gt; 6 1904-01-05 07:12:00        4.3 (numeric)</span>
-<span class="co">#&gt; 7 2012-01-02 00:00:00      another numeric</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"date_coercion"</span>,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"date"</span>, <span class="st">"text"</span>))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; shim, : Expecting date in A5 / R5C1: got boolean</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; shim, : Expecting date in A6 / R6C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; shim, : Coercing numeric to date A7 / R7C1</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   `maybe a datetime?` explanation         </span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   &lt;dttm&gt;              &lt;chr&gt;               </span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 1 NA                  empty               </span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 2 2016-05-23 00:00:00 date only format    </span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 3 2016-04-28 11:30:00 date and time format</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 4 NA                  boolean true        </span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 5 NA                  "\"cabbage\""       </span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 6 1904-01-05 07:12:00 4.3 (numeric)       </span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 7 2012-01-02 00:00:00 another numeric</span></a></code></pre></div>
 <p><img src="type-me-date.png" width="70%"></p>
 </div>
 <div id="text-or-character-column" class="section level3">
 <h3 class="hasAnchor">
 <a href="#text-or-character-column" class="anchor"></a>Text or character column</h3>
 <p>A boolean cell becomes either <code>"TRUE"</code> or <code>"FALSE"</code>. A numeric cell is converted to character, much like <code>as.character()</code> in R. A date cell is handled like numeric, using the underlying serial value.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"text_coercion"</span>,
-                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"text"</span>))
-<span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)
-<span class="co">#&gt; # A tibble: 6 x 2</span>
-<span class="co">#&gt;       text     explanation</span>
-<span class="co">#&gt;      &lt;chr&gt;           &lt;chr&gt;</span>
-<span class="co">#&gt; 1     &lt;NA&gt;           empty</span>
-<span class="co">#&gt; 2  cabbage       "cabbage"</span>
-<span class="co">#&gt; 3     TRUE    boolean true</span>
-<span class="co">#&gt; 4      1.3         numeric</span>
-<span class="co">#&gt; 5    41175        datetime</span>
-<span class="co">#&gt; 6 36436153 another numeric</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"text_coercion"</span>,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"text"</span>))</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">print</span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   text     explanation    </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1 &lt;NA&gt;     empty          </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2 cabbage  "\"cabbage\""  </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3 TRUE     boolean true   </span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 4 1.3      numeric        </span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 5 41175    datetime       </span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 6 36436153 another numeric</span></a></code></pre></div>
 <p><img src="type-me-text.png" width="70%"></p>
-</div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#type-guessing">Type guessing</a></li>
       <li><a href="#excel-types-r-types-col_types">Excel types, R types, <code>col_types</code></a></li>
@@ -429,8 +432,8 @@ tibble::<span class="kw">deframe</span>(clippy)
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
-  <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script>
@@ -443,6 +446,8 @@ tibble::<span class="kw">deframe</span>(clippy)
   ga('send', 'pageview');
 </script></footer>
 </div>
+
+  
 
   </body>
 </html>

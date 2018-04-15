@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -92,15 +92,18 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>readxl v0.1.0</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/releases/readxl-0.1.0.Rmd"><code>vignettes/releases/readxl-0.1.0.Rmd</code></a></small>
+      <div class="hidden name"><code>readxl-0.1.0.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p><em>Retroactively obtained from <a href="https://blog.rstudio.org/2015/04/15/readxl-0-1-0/" class="uri">https://blog.rstudio.org/2015/04/15/readxl-0-1-0/</a></em></p>
 <p>I’m pleased to announced that the first version of readxl is now available on CRAN. Readxl makes it easy to get tabular data out of excel. It:</p>
 <ul>
@@ -111,39 +114,39 @@
 <li>Blank columns are automatically dropped.</li>
 <li>Returns output with class <code>c("tbl_df", "tbl", "data.frame")</code> so if you also use dplyr you’ll get an enhanced print method (i.e. you’ll see just the first ten rows, not the first 10,000!). You can install it by running:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"readxl"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"readxl"</span>)</a></code></pre></div>
 <p>There’s not really much to say about how to use it:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
-<span class="co"># Use a excel file included in the package</span>
-sample &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"datasets.xlsx"</span>, <span class="dt">package =</span> <span class="st">"readxl"</span>)
-
-<span class="co"># Read by position</span>
-<span class="kw">head</span>(<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(sample, <span class="dv">2</span>))
-<span class="co">#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="co">#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="co">#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="co">#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="co">#&gt; 5 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="co">#&gt; 6 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span>
-
-<span class="co"># Or by name:</span>
-<span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(sample)
-<span class="co">#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"</span>
-<span class="kw">head</span>(<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(sample, <span class="st">"mtcars"</span>))
-<span class="co">#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="co">#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="co">#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="co">#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="co">#&gt; 5 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="co">#&gt; 6 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(readxl)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># Use a excel file included in the package</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">sample &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"datasets.xlsx"</span>, <span class="dt">package =</span> <span class="st">"readxl"</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># Read by position</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">head</span>(<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(sample, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 5 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 6 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># Or by name:</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw"><a href="../../reference/excel_sheets.html">excel_sheets</a></span>(sample)</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw">head</span>(<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(sample, <span class="st">"mtcars"</span>))</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 5 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 6 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></a></code></pre></div>
 <p>You can see the documentation for more info on the <code>col_names</code>, <code>col_types</code> and <code>na</code> arguments.</p>
 <p>Readxl is still under active development. If you have problems loading a dataset, please try the development version, and if that doesn’t work, file an issue.</p>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
@@ -154,8 +157,8 @@ sample &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span c
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
-  <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script>
@@ -168,6 +171,8 @@ sample &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span c
   ga('send', 'pageview');
 </script></footer>
 </div>
+
+  
 
   </body>
 </html>

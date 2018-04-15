@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -92,18 +92,21 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>readxl v1.0.0</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/releases/readxl-1.0.0.Rmd"><code>vignettes/releases/readxl-1.0.0.Rmd</code></a></small>
+      <div class="hidden name"><code>readxl-1.0.0.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p>I’m pleased to announce that <a href="http://readxl.tidyverse.org">readxl</a> 1.0.0 is available on CRAN. <a href="http://readxl.tidyverse.org">readxl</a> makes it easy to bring tabular data out of Excel and into R, for modern <code>.xlsx</code> files and the legacy <code>.xls</code> format. <a href="http://readxl.tidyverse.org">readxl</a> does not have any tricky external dependencies, such as Java or Perl, and is easy to install and use on Mac, Windows, and Linux.</p>
 <p>You can install it with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"readxl"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"readxl"</span>)</a></code></pre></div>
 <p>As well as fixing many bugs, this release:</p>
 <ul>
 <li>Allows you to target specific cells for reading, in a variety of ways</li>
@@ -115,32 +118,32 @@
 <h2 class="hasAnchor">
 <a href="#specifying-the-data-rectangle" class="anchor"></a>Specifying the data rectangle</h2>
 <p>In an ideal world, data would live in a neat rectangle in the upper left corner of a spreadsheet. But spreadsheets often serve multiple purposes for users with different priorities. It is common to encounter several rows of notes above or below the data, for example. The new <code>range</code> argument provides a flexible interface for describing the data rectangle, including Excel-style ranges and row- or column-only ranges.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
-<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
-  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
-  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>
-)
-<span class="co">#&gt; # A tibble: 10 x 6</span>
-<span class="co">#&gt;            Name Profession   Age `Has kids` `Date of birth`</span>
-<span class="co">#&gt;           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt; 1   David Bowie   musician    69       TRUE      1947-01-08</span>
-<span class="co">#&gt; 2 Carrie Fisher      actor    60       TRUE      1956-10-21</span>
-<span class="co">#&gt; 3   Chuck Berry   musician    90       TRUE      1926-10-18</span>
-<span class="co">#&gt; 4   Bill Paxton      actor    61       TRUE      1955-05-17</span>
-<span class="co">#&gt; # ... with 6 more rows, and 1 more variables: `Date of death` &lt;dttm&gt;</span>
-<span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
-  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
-  <span class="dt">sheet =</span> <span class="st">"other"</span>,
-  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span>:<span class="dv">15</span>)
-)
-<span class="co">#&gt; # A tibble: 10 x 6</span>
-<span class="co">#&gt;           Name Profession   Age `Has kids` `Date of birth` `Date of death`</span>
-<span class="co">#&gt;          &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;lgl&gt;          &lt;dttm&gt;          &lt;dttm&gt;</span>
-<span class="co">#&gt; 1   Vera Rubin  scientist    88       TRUE      1928-07-23      2016-12-25</span>
-<span class="co">#&gt; 2  Mohamed Ali    athlete    74       TRUE      1942-01-17      2016-06-03</span>
-<span class="co">#&gt; 3 Morley Safer journalist    84       TRUE      1931-11-08      2016-05-19</span>
-<span class="co">#&gt; 4 Fidel Castro politician    90       TRUE      1926-08-13      2016-11-25</span>
-<span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(readxl)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   Name          Profession   Age `Has kids` `Date of birth`    </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1 David Bowie   musician     69. TRUE       1947-01-08 00:00:00</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fisher actor        60. TRUE       1956-10-21 00:00:00</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Berry   musician     90. TRUE       1926-10-18 00:00:00</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxton   actor        61. TRUE       1955-05-17 00:00:00</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; # ... with 6 more rows, and 1 more variable: `Date of death` &lt;dttm&gt;</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">sheet =</span> <span class="st">"other"</span>,</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">)</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Name         Profession   Age `Has kids` `Date of birth`    </span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1 Vera Rubin   scientist    88. TRUE       1928-07-23 00:00:00</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2 Mohamed Ali  athlete      74. TRUE       1942-01-17 00:00:00</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 Morley Safer journalist   84. TRUE       1931-11-08 00:00:00</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 4 Fidel Castro politician   90. TRUE       1926-08-13 00:00:00</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; # ... with 6 more rows, and 1 more variable: `Date of death` &lt;dttm&gt;</span></a></code></pre></div>
 <p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>
 <div id="column-typing" class="section level2">
@@ -148,47 +151,47 @@
 <a href="#column-typing" class="anchor"></a>Column typing</h2>
 <p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org">readxl</a>.</p>
 <p>You can still specify column type explicitly via <code>col_types</code>, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type <code>"guess"</code> can be mixed with explicit types to specify some types, while leaving others to be guessed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
-  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
-  <span class="dt">range =</span> <span class="st">"arts!A5:C15"</span>,
-  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span>)
-)
-<span class="co">#&gt; # A tibble: 10 x 2</span>
-<span class="co">#&gt;            Name   Age</span>
-<span class="co">#&gt;           &lt;chr&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1   David Bowie    69</span>
-<span class="co">#&gt; 2 Carrie Fisher    60</span>
-<span class="co">#&gt; 3   Chuck Berry    90</span>
-<span class="co">#&gt; 4   Bill Paxton    61</span>
-<span class="co">#&gt; # ... with 6 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">range =</span> <span class="st">"arts!A5:C15"</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   Name            Age</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 1 David Bowie     69.</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fisher   60.</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Berry     90.</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxton     61.</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
 <p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types vignette</a> has more detail.</p>
 <div id="list-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-columns" class="anchor"></a><code>"list"</code> columns</h3>
 <p>Thanks to <a href="https://github.com/gergness">Greg Freedman Ellis</a> we now have a <code>"list"</code> column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(
-  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),
-  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)
-))
-<span class="co">#&gt; # A tibble: 4 x 2</span>
-<span class="co">#&gt;                   name      value</span>
-<span class="co">#&gt;                  &lt;chr&gt;     &lt;list&gt;</span>
-<span class="co">#&gt; 1                 Name  &lt;chr [1]&gt;</span>
-<span class="co">#&gt; 2              Species  &lt;chr [1]&gt;</span>
-<span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
-<span class="co">#&gt; 4      Weight in grams  &lt;dbl [1]&gt;</span>
-tibble::<span class="kw">deframe</span>(df)
-<span class="co">#&gt; $Name</span>
-<span class="co">#&gt; [1] "Clippy"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Species</span>
-<span class="co">#&gt; [1] "paperclip"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`Approx date of death`</span>
-<span class="co">#&gt; [1] "2007-01-01 UTC"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`Weight in grams`</span>
-<span class="co">#&gt; [1] 0.9</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">(df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">col_types =</span> <span class="kw">c</span>(<span class="st">"text"</span>, <span class="st">"list"</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">))</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   name                 value     </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;                &lt;list&gt;    </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 Name                 &lt;chr [1]&gt; </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/enframe">deframe</a></span>(df)</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; $Name</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [1] "Clippy"</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; $Species</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; [1] "paperclip"</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; $`Approx date of death`</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; [1] "2007-01-01 UTC"</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; $`Weight in grams`</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
 </div>
 </div>
 <div id="everything-else" class="section level2">
@@ -205,12 +208,13 @@ tibble::<span class="kw">deframe</span>(df)
 <a href="http://readxl.tidyverse.org/articles/articles/readxl-workflows.html">readxl Workflows</a> showcases patterns that reduce tedium and increase reproducibility when raw data arrives in a spreadsheet.</li>
 </ul>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#specifying-the-data-rectangle">Specifying the data rectangle</a></li>
       <li><a href="#column-typing">Column typing</a></li>
@@ -227,8 +231,8 @@ tibble::<span class="kw">deframe</span>(df)
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
-  <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script>
@@ -241,6 +245,8 @@ tibble::<span class="kw">deframe</span>(df)
   ga('send', 'pageview');
 </script></footer>
 </div>
+
+  
 
   </body>
 </html>
