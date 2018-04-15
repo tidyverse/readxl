@@ -120,7 +120,7 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xlsx]", {
     var1 = c("val1,1", "val2,1", "val3,1"),
     var2 = NA,
     var3 = c("aa", "bb", "cc"),
-    X__1 = NA,
+     ..4 = NA,
     var5 = c(1, 2, 3)
   )
   expect_equal(out, df)
@@ -132,7 +132,7 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xls]", {
     var1 = c("val1,1", "val2,1", "val3,1"),
     var2 = NA,
     var3 = c("aa", "bb", "cc"),
-    X__1 = NA,
+     ..4 = NA,
     var5 = c(1, 2, 3)
   )
   expect_equal(out, df)
