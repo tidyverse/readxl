@@ -85,6 +85,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   format <- check_format(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -104,6 +105,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
@@ -118,6 +120,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
@@ -130,7 +133,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
-  path <- check_file(path)
+
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -163,7 +166,6 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
 # Helper functions -------------------------------------------------------------
 
 check_format <- function(path) {
-  path <- check_file(path)
   format <- excel_format(path)
   if (is.na(format)) {
     ext <- tolower(tools::file_ext(path))
