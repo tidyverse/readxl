@@ -7,7 +7,8 @@
 excel_sheets(path)
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file. Files starting with \code{http://},
+\code{https://}, \code{ftp://}, or \code{ftps://} are automatically downloaded.}
 }
 \description{
 List all sheets in an excel spreadsheet

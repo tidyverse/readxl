@@ -13,7 +13,8 @@ format_from_ext(path)
 format_from_signature(path)
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file. Files starting with \code{http://},
+\code{https://}, \code{ftp://}, or \code{ftps://} are automatically downloaded.}
 
 \item{guess}{Logical. Whether to guess format based on the file itself, if
 the extension is absent or not recognized.}

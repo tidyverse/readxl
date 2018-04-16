@@ -4,7 +4,8 @@ NULL
 
 #' Read xls and xlsx files
 #'
-#' @param path Path to the xls/xlsx file
+#' @param path Path to the xls/xlsx file. Files starting with `http://`,
+#'   `https://`, `ftp://`, or `ftps://` are automatically downloaded.
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Ignored if the sheet is specified via
 #'   `range`. If neither argument specifies the sheet, defaults to the first
@@ -81,6 +82,11 @@ NULL
 #'
 #' # Get a preview of column names
 #' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
+#'
+#' \dontrun{
+#' # Read from a URL
+#' read_excel("https://github.com/tidyverse/readxl/blob/master/inst/extdata/datasets.xlsx?raw=true", n_max = 3)
+#' }
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,

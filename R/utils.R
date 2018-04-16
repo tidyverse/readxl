@@ -3,6 +3,12 @@ check_file <- function(path) {
     stop("`path` must be a string", call. = FALSE)
   }
 
+  if (grepl("^((http|ftp)s?|sftp)://", path)) {
+    tmp_file <- tempfile()
+    utils::download.file(path, tmp_file, mode = "wb")
+    path <- tmp_file
+  }
+
   if (!file.exists(path)) {
     stop("`path` does not exist: ", sQuote(path), call. = FALSE)
   }
