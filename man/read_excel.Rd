@@ -19,7 +19,8 @@ read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
   guess_max = min(1000, n_max))
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file. Files starting with \code{http://},
+\code{https://}, \code{ftp://}, or \code{ftps://} are automatically downloaded.}
 
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Ignored if the sheet is specified via
@@ -112,6 +113,11 @@ read_excel(datasets, range = cell_cols("B:D"))
 
 # Get a preview of column names
 names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
+
+\dontrun{
+# Read from a URL
+read_excel("https://github.com/tidyverse/readxl/blob/master/inst/extdata/datasets.xlsx?raw=true", n_max = 3)
+}
 }
 \seealso{
 \link{cell-specification} for more details on targetting cells with the
