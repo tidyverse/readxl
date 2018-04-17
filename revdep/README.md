@@ -29,16 +29,12 @@
 
 # Revdeps
 
-## Couldn't check (7)
+## Couldn't check (3)
 
 |package                                  |version |error |warning |note |
 |:----------------------------------------|:-------|:-----|:-------|:----|
-|[BEACH](problems.md#beach)               |1.2.1   |1     |        |     |
-|[DataLoader](problems.md#dataloader)     |1.3     |1     |        |     |
 |[dynBiplotGUI](problems.md#dynbiplotgui) |1.1.5   |1     |        |     |
 |[GWSDAT](problems.md#gwsdat)             |3.0.0   |1     |        |     |
-|[ie2misc](problems.md#ie2misc)           |0.8.5   |1     |        |1    |
-|[joinXL](problems.md#joinxl)             |1.0.1   |1     |        |     |
 |[zooaRchGUI](problems.md#zooarchgui)     |1.0.2   |1     |        |     |
 
 ## All (67)
@@ -47,7 +43,7 @@
 |:------------------------------------------------|:-------|:-----|:-------|:----|
 |[aire.zmvm](problems.md#airezmvm)                |0.6.0   |      |        |1    |
 |BAYESDEF                                         |0.1.0   |      |        |     |
-|[BEACH](problems.md#beach)                       |1.2.1   |1     |        |     |
+|[BEACH](problems.md#beach)                       |1.2.1   |      |        |1    |
 |bikedata                                         |0.1.1   |      |        |     |
 |[breathtestcore](problems.md#breathtestcore)     |0.4.0   |      |        |1    |
 |chillR                                           |0.70.2  |      |        |     |
@@ -55,7 +51,7 @@
 |CONS                                             |0.1.1   |      |        |     |
 |[cRegulome](problems.md#cregulome)               |0.1.1   |      |        |1    |
 |[crosswalkr](problems.md#crosswalkr)             |0.1.1   |      |        |1    |
-|[DataLoader](problems.md#dataloader)             |1.3     |1     |        |     |
+|DataLoader                                       |1.3     |      |        |     |
 |DCM                                              |0.1.1   |      |        |     |
 |descriptr                                        |0.4.1   |      |        |     |
 |DLMtool                                          |5.1.3   |      |        |     |
@@ -72,9 +68,9 @@
 |[GWSDAT](problems.md#gwsdat)                     |3.0.0   |1     |        |     |
 |heemod                                           |0.9.2   |      |        |     |
 |[hiReadsProcessor](problems.md#hireadsprocessor) |1.12.0  |      |        |2    |
-|[ie2misc](problems.md#ie2misc)                   |0.8.5   |1     |        |1    |
+|[ie2misc](problems.md#ie2misc)                   |0.8.5   |      |        |2    |
 |inferr                                           |0.3.0   |      |        |     |
-|[joinXL](problems.md#joinxl)                     |1.0.1   |1     |        |     |
+|joinXL                                           |1.0.1   |      |        |     |
 |Luminescence                                     |0.8.2   |      |        |     |
 |manifestoR                                       |1.2.4   |      |        |     |
 |[memapp](problems.md#memapp)                     |2.9     |      |        |1    |
