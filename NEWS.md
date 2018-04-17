@@ -1,3 +1,5 @@
+# readxl 1.1.0
+
 # readxl 1.0.0.9000
 
 * Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
