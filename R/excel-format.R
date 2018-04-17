@@ -1,14 +1,26 @@
 #' Determine file format
 #'
-#' Determine if files are xlsx or xls. First the file extension is consulted. If
-#' that is unsuccessful and `guess = TRUE` and the file exists, the format is
-#' guessed from the [file
-#' signature](https://en.wikipedia.org/wiki/List_of_file_signatures) or "magic
-#' number".
+#' @description Determine if files are xls or xlsx (or from the xlsx family).
+#'
+#' @description `excel_format(guess = TRUE)` is used by `read_excel()` to
+#'   determine format. It draws on logic from two lower level functions:
+#'   * `format_from_ext()` attempts to determine format from the file extension.
+#'   * `format_from_signature()` consults the [file
+#'   signature](https://en.wikipedia.org/wiki/List_of_file_signatures) or "magic
+#'   number".
+#'
+#' @description File extensions associated with xlsx vs. xls:
+#'   * xlsx: `.xlsx`, `.xlsm`, `.xltx`, `.xltm`
+#'   * xls: `.xls`
+#'
+#' @description File signatures (in hexadecimal) for xlsx vs xls:
+#'   * xlsx: First 4 bytes are `50 4B 03 04`
+#'   * xls: First 8 bytes are `D0 CF 11 E0 A1 B1 1A E1`
 #'
 #' @inheritParams read_excel
-#' @param guess Logical. Whether to guess format based on the file itself, if
-#'   the extension is neither `"xlsx"` nor `"xls"`.
+#' @param guess Logical. If the file extension is absent or not recognized, this
+#'   controls whether we attempt to guess format based on the file signature or
+#'   "magic number".
 #'
 #' @return Character vector with values `"xlsx"`, `"xls"`, or `NA`.
 #' @export
@@ -24,22 +36,34 @@
 #' )
 #' excel_format(files)
 excel_format <- function(path, guess = TRUE) {
-  ext <- tolower(tools::file_ext(path))
-
-  formats <- c(xls = "xls", xlsx = "xlsx", xlsm = "xlsx")
-  format <- unname(formats[ext])
-
-  if (!guess || !anyNA(format)) {
+  format <- format_from_ext(path)
+  if (!isTRUE(guess)) {
     return(format)
   }
-
   guess_me <- is.na(format) & file.exists(path)
-  format[guess_me] <- guess_format(path[guess_me])
+  format[guess_me] <- format_from_signature(path[guess_me])
   format
 }
 
-guess_format <- function(x) {
-  signature <- lapply(x, first_8_bytes)
+#' @rdname excel_format
+#' @export
+format_from_ext <- function(path) {
+  ext <- tolower(tools::file_ext(path))
+
+  formats <- c(
+    xls = "xls",
+    xlsx = "xlsx",
+    xlsm = "xlsx",
+    xltx = "xlsx",
+    xltm = "xlsx"
+  )
+  unname(formats[ext])
+}
+
+#' @rdname excel_format
+#' @export
+format_from_signature <- function(path) {
+  signature <- lapply(path, first_8_bytes)
   vapply(signature, sig_to_fmt, "xlsx?")
 }
 
@@ -61,4 +85,12 @@ sig_to_fmt <- function(x) {
   } else {
     NA_character_
   }
+}
+
+check_format <- function(path) {
+  format <- excel_format(path)
+  if (is.na(format)) {
+    stop("Can't establish that the input is either xls or xlsx.", call. = FALSE)
+  }
+  format
 }

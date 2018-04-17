@@ -10,6 +10,7 @@
 #' path <- readxl_example("datasets.xls")
 #' lapply(excel_sheets(path), read_excel, path = path)
 excel_sheets <- function(path) {
+  path <- check_file(path)
   format <- check_format(path)
 
   switch(format,

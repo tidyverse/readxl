@@ -4,7 +4,7 @@ NULL
 
 #' Read xls and xlsx files
 #'
-#' @param path Path to the xls/xlsx file
+#' @param path Path to the xls/xlsx file.
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Ignored if the sheet is specified via
 #'   `range`. If neither argument specifies the sheet, defaults to the first
@@ -85,6 +85,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   format <- check_format(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -95,15 +96,17 @@ read_excel <- function(path, sheet = NULL, range = NULL,
   )
 }
 
-#' `read_excel()` tries to determine format from the file extension and the file
-#' itself, in that order. Use `read_xls()` and `read_xlsx()` directly to
-#' eliminate the guessing.
+#' `read_excel()` calls [excel_format()] to determine if `path` is xls or xlsx,
+#' based on the file extension and the file itself, in that order. Use
+#' `read_xls()` and `read_xlsx()` directly if you know better and want to
+#' prevent such guessing.
 #' @rdname read_excel
 #' @export
 read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
@@ -118,6 +121,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max)) {
+  path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
@@ -130,7 +134,6 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max), format) {
-  path <- check_file(path)
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -161,28 +164,6 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
 }
 
 # Helper functions -------------------------------------------------------------
-
-check_format <- function(path) {
-  path <- check_file(path)
-  format <- excel_format(path)
-  if (is.na(format)) {
-    ext <- tolower(tools::file_ext(path))
-    if (nzchar(ext)) {
-      stop(
-        "Extension is neither 'xlsx' nor 'xls': ",
-        sQuote(ext),
-        call. = FALSE
-      )
-    } else {
-      stop(
-        "File has no extension and doesn't seem to be xlsx or xls: ",
-        sQuote(path),
-        call. = FALSE
-      )
-    }
-  }
-  format
-}
 
 ## return a zero-indexed sheet number
 standardise_sheet <- function(sheet, range, sheet_names) {

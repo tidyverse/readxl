@@ -7,7 +7,7 @@
 excel_sheets(path)
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file.}
 }
 \description{
 List all sheets in an excel spreadsheet

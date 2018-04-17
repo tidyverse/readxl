@@ -19,7 +19,7 @@ read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
   guess_max = min(1000, n_max))
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file.}
 
 \item{sheet}{Sheet to read. Either a string (the name of a sheet), or an
 integer (the position of the sheet). Ignored if the sheet is specified via
@@ -69,9 +69,10 @@ A \link[tibble:tibble-package]{tibble}
 \description{
 Read xls and xlsx files
 
-\code{read_excel()} tries to determine format from the file extension and the file
-itself, in that order. Use \code{read_xls()} and \code{read_xlsx()} directly to
-eliminate the guessing.
+\code{read_excel()} calls \code{\link[=excel_format]{excel_format()}} to determine if \code{path} is xls or xlsx,
+based on the file extension and the file itself, in that order. Use
+\code{read_xls()} and \code{read_xlsx()} directly if you know better and want to
+prevent such guessing.
 }
 \examples{
 datasets <- readxl_example("datasets.xlsx")
