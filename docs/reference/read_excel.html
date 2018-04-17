@@ -118,9 +118,10 @@
     </div>
 
     <p>Read xls and xlsx files</p>
-<p><code>read_excel()</code> tries to determine format from the file extension and the file
-itself, in that order. Use <code>read_xls()</code> and <code>read_xlsx()</code> directly to
-eliminate the guessing.</p>
+<p><code>read_excel()</code> calls <code><a href='excel_format.html'>excel_format()</a></code> to determine if <code>path</code> is xls or xlsx,
+based on the file extension and the file itself, in that order. Use
+<code>read_xls()</code> and <code>read_xlsx()</code> directly if you know better and want to
+prevent such guessing.</p>
 
     <pre class="usage"><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
@@ -139,7 +140,7 @@ eliminate the guessing.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the xls/xlsx file</p></td>
+      <td><p>Path to the xls/xlsx file.</p></td>
     </tr>
     <tr>
       <th>sheet</th>
@@ -177,8 +178,8 @@ on a cell-by-cell basis.</p></td>
     </tr>
     <tr>
       <th>na</th>
-      <td><p>Character vector of strings to interpret as missing values. By default,
-readxl treats blank cells as missing data.</p></td>
+      <td><p>Character vector of strings to interpret as missing values. By
+default, readxl treats blank cells as missing data.</p></td>
     </tr>
     <tr>
       <th>trim_ws</th>

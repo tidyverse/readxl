@@ -117,24 +117,40 @@
     <div class="hidden name"><code>excel_format.Rd</code></div>
     </div>
 
-    <p>Determine if files are xlsx or xls. First the file extension is consulted. If
-that is unsuccessful and <code>guess = TRUE</code> and the file exists, the format is
-guessed from the <a href='https://en.wikipedia.org/wiki/List_of_file_signatures'>file signature</a> or "magic
-number".</p>
+    <p>Determine if files are xls or xlsx (or from the xlsx family).</p>
+<p><code>excel_format(guess = TRUE)</code> is used by <code><a href='read_excel.html'>read_excel()</a></code> to
+determine format. It draws on logic from two lower level functions:</p><ul>
+<li><p><code>format_from_ext()</code> attempts to determine format from the file extension.</p></li>
+<li><p><code>format_from_signature()</code> consults the <a href='https://en.wikipedia.org/wiki/List_of_file_signatures'>file signature</a> or "magic
+number".</p></li>
+</ul>
+    <p>File extensions associated with xlsx vs. xls:</p><ul>
+<li><p>xlsx: <code>.xlsx</code>, <code>.xlsm</code>, <code>.xltx</code>, <code>.xltm</code></p></li>
+<li><p>xls: <code>.xls</code></p></li>
+</ul>
+    <p>File signatures (in hexadecimal) for xlsx vs xls:</p><ul>
+<li><p>xlsx: First 4 bytes are <code>50 4B 03 04</code></p></li>
+<li><p>xls: First 8 bytes are <code>D0 CF 11 E0 A1 B1 1A E1</code></p></li>
+</ul>
 
-    <pre class="usage"><span class='fu'>excel_format</span>(<span class='no'>path</span>, <span class='kw'>guess</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>excel_format</span>(<span class='no'>path</span>, <span class='kw'>guess</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>format_from_ext</span>(<span class='no'>path</span>)
+
+<span class='fu'>format_from_signature</span>(<span class='no'>path</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the xls/xlsx file</p></td>
+      <td><p>Path to the xls/xlsx file.</p></td>
     </tr>
     <tr>
       <th>guess</th>
-      <td><p>Logical. Whether to guess format based on the file itself, if
-the extension is neither <code>"xlsx"</code> nor <code>"xls"</code>.</p></td>
+      <td><p>Logical. If the file extension is absent or not recognized, this
+controls whether we attempt to guess format based on the file signature or
+"magic number".</p></td>
     </tr>
     </table>
 

@@ -2,24 +2,48 @@
 % Please edit documentation in R/excel-format.R
 \name{excel_format}
 \alias{excel_format}
+\alias{format_from_ext}
+\alias{format_from_signature}
 \title{Determine file format}
 \usage{
 excel_format(path, guess = TRUE)
+
+format_from_ext(path)
+
+format_from_signature(path)
 }
 \arguments{
-\item{path}{Path to the xls/xlsx file}
+\item{path}{Path to the xls/xlsx file.}
 
-\item{guess}{Logical. Whether to guess format based on the file itself, if
-the extension is neither \code{"xlsx"} nor \code{"xls"}.}
+\item{guess}{Logical. If the file extension is absent or not recognized, this
+controls whether we attempt to guess format based on the file signature or
+"magic number".}
 }
 \value{
 Character vector with values \code{"xlsx"}, \code{"xls"}, or \code{NA}.
 }
 \description{
-Determine if files are xlsx or xls. First the file extension is consulted. If
-that is unsuccessful and \code{guess = TRUE} and the file exists, the format is
-guessed from the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or "magic
+Determine if files are xls or xlsx (or from the xlsx family).
+
+\code{excel_format(guess = TRUE)} is used by \code{read_excel()} to
+determine format. It draws on logic from two lower level functions:
+\itemize{
+\item \code{format_from_ext()} attempts to determine format from the file extension.
+\item \code{format_from_signature()} consults the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or "magic
 number".
+}
+
+File extensions associated with xlsx vs. xls:
+\itemize{
+\item xlsx: \code{.xlsx}, \code{.xlsm}, \code{.xltx}, \code{.xltm}
+\item xls: \code{.xls}
+}
+
+File signatures (in hexadecimal) for xlsx vs xls:
+\itemize{
+\item xlsx: First 4 bytes are \code{50 4B 03 04}
+\item xls: First 8 bytes are \code{D0 CF 11 E0 A1 B1 1A E1}
+}
 }
 \examples{
 files <- c(
