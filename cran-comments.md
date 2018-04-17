@@ -19,8 +19,8 @@ This package fails on big-endian platforms due to endian-ness bugs in the wrappe
 
 ## Reverse dependencies
 
-There are x reverse dependencies, y of which checked successfully (no errors or warnings; notes unrelated to readxl). Here is a report for the z checks that could be automated:
-https://github.com/tidyverse/readxl/blob/master/revdep/README.md.
+I attempted to check all 67 reverse dependencies and succeeded with 65. I compared check results between the current CRAN version of readxl and this submission.
 
-These a had error(s):
+For these 65, there are no notes, warnings or errors that appear to be related to readxl or that differ between checks run with readxl v1.0.0 and v1.1.0.
 
+I was unable to check 2 packages (rattle, Ricetl) due to onerous installation requirements.
