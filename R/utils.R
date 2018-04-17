@@ -9,12 +9,6 @@ check_file <- function(path) {
   path
 }
 
-is_absolute_path <- function(path) {
-  grepl("^(/|[A-Za-z]:|\\\\|~)", path)
-}
-
-isFALSE <- function(x) identical(x, FALSE)
-
 is_integerish <- function(x) {
   floor(x) == x
 }
