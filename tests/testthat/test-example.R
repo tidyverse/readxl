@@ -2,7 +2,8 @@ context("readxl_example")
 
 test_that("NULL path returns names of example files", {
   example_files <- readxl_example()
-  expect_length(example_files, 10L)
+  expect_true("datasets.xls" %in% example_files)
+  expect_true("datasets.xlsx" %in% example_files)
   expect_is(example_files, "character")
 })
 
