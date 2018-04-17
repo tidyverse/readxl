@@ -15,9 +15,10 @@ test_that("format_from_signature() works for xls and xlsx and not jpg", {
     file.path(R.home("doc"), "html", "logo.jpg")
   )
   no_ext_copies <- paste0(
-    tools::file_path_sans_ext(orig_files),
+    basename(tools::file_path_sans_ext(orig_files)),
     "-no-ending"
   )
+  no_ext_copies <- file.path(tempdir(), no_ext_copies)
   file.copy(orig_files, no_ext_copies)
   on.exit(file.remove(no_ext_copies))
   expect_identical(
@@ -38,9 +39,10 @@ test_that("excel_format(guess = TRUE) == format_from_signature()", {
     file.path(R.home("doc"), "html", "logo.jpg")
   )
   no_ext_copies <- paste0(
-    tools::file_path_sans_ext(orig_files),
+    basename(tools::file_path_sans_ext(orig_files)),
     "-no-ending"
   )
+  no_ext_copies <- file.path(tempdir(), no_ext_copies)
   file.copy(orig_files, no_ext_copies)
   on.exit(file.remove(no_ext_copies))
   expect_identical(
