@@ -53,3 +53,15 @@ GWSDAT depends on classInt, which just updated on CRAN. No Mac binary is availab
 GWSDAT:
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 R CMD check succeeded
+
+RCzechia shows one failing example (due to lack of classInt) and also 1 test failure. All seems OK based on this manual check.
+
+❯ checking examples ... NOTE
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+R CMD check succeeded
+
+### GTK Hell
+
+Affects: rattle, Ricetl
+
+I'm giving up on getting all this installed: RGtk2, cairoDevice, gWidgetsRGtk2, playwith, rggobi, RGtk2Extras. I've never succeeded in the past.
