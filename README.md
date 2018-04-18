@@ -232,9 +232,9 @@ l <- list(iris = iris, mtcars = mtcars, chickwts = chickwts, quakes = quakes)
 openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ```
 
-[writexl](https://cran.r-project.org/web/packages/writexl/index.html) is
-a new option in this space, first released on CRAN in August 2017. It’s
-a portable and lightweight way to export a data frame to xlsx, based on
+[writexl](https://cran.r-project.org/package=writexl) is a new option in
+this space, first released on CRAN in August 2017. It’s a portable and
+lightweight way to export a data frame to xlsx, based on
 [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter). It is much
 more minimalistic than openxlsx, but on simple examples, appears to be
 about twice as fast and to write smaller files.
