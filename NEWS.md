@@ -4,7 +4,7 @@
 
   - `excel_format()` is the newly-exported format-guessing function.
   - `format_from_ext()` is a low-level helper, also exported, that only consults file extension. In addition to the obvious interpretation of `.xls` and `.xlsx`, the extensions `.xlsm`, `.xltx`, and `.xltm` are now associated with xlsx.
-  - `format_from_signature()` is a low-level helper, also exported, that consults the file's signature (a.k.a. magic number).
+  - `format_from_signature()` is a low-level helper, also exported, that consults the file's signature (a.k.a. magic number). It's handy for files that lack an extension.
 
 * Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
 
