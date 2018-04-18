@@ -90,7 +90,7 @@ typedef struct {
 	uint32_t		os;
 	uint32_t		format[4];
 	uint32_t		count;
-	sectionList		secList[1]; // readxl
+	sectionList		secList[];
 } header;
 
 typedef struct {
@@ -101,12 +101,12 @@ typedef struct {
 typedef struct {
 	uint32_t		length;
 	uint32_t		numProperties;
-	propertyList	properties[1];  // readxl
+	propertyList	properties[];
 } sectionHeader;
 
 typedef struct {
 	uint32_t		propertyID;
-	uint32_t		data[1];  // readxl
+	uint32_t		data[];
 } property;
 
 #pragma pack(pop)
@@ -785,7 +785,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 		if(xls_debug > 10) {
 			printf("READ WORKBOOK filePos=%ld\n",  (long)pWB->filepos);
 			printf("  OLE: start=%d pos=%zd size=%zd fatPos=%zu\n",
-                    pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos); 
+                    pWB->olestr->start, pWB->olestr->pos, pWB->olestr->size, pWB->olestr->fatpos);
 		}
 
         if (ole2_read(&bof1, 1, 4, pWB->olestr) != 4) {
@@ -1018,7 +1018,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				printf("   mode: 0x%x\n", pWB->is1904);
 			}
 			break;
-		
+
 		case XLS_RECORD_DEFINEDNAME:
 			if(xls_debug) {
 				int i;
@@ -1027,7 +1027,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				printf("\n");
 			}
 			break;
-			
+
         default:
 			if(xls_debug)
 			{

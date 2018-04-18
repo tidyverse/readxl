@@ -33,6 +33,10 @@
 #ifndef XLS_STRUCT_INC
 #define XLS_STRUCT_INC
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "libxls/ole.h"
 
 #define XLS_RECORD_EOF          0x000A
@@ -194,7 +198,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD_UA value;
-	}		rk[1]; // readxl
+	}		rk[];
 	//WORD	last_col;
 }
 MULRK;
@@ -203,7 +207,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[1]; // readxl
+    WORD	xf[];
 	//WORD	last_col;
 }
 MULBLANK;
@@ -240,7 +244,7 @@ typedef struct SST
 {
     DWORD	num;
     DWORD	numofstr;
-    BYTE	strings[0];
+    BYTE	strings[];
 }
 SST;
 
@@ -312,7 +316,7 @@ typedef struct FONT
     BYTE	family;
     BYTE	charset;
     BYTE	notused;
-    char    name[1]; // readxl
+    char    name[];
 }
 FONT;
 
@@ -529,5 +533,9 @@ typedef struct xls_summaryInfo
 xlsSummaryInfo;
 
 typedef void (*xls_formula_handler)(WORD bof, WORD len, BYTE *formula);
+
+#ifdef __cplusplus
+} // extern c block
+#endif
 
 #endif

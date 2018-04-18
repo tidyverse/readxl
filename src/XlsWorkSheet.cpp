@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 
-#include "XlsWorkSheet.h"
 #include "ColSpec.h"
+#include "XlsWorkSheet.h"
 #include <libxls/xls.h>
 using namespace Rcpp;
 
