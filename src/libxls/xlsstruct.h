@@ -203,7 +203,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[1]; // readxl
+    WORD	xf[];
 	//WORD	last_col;
 }
 MULBLANK;
