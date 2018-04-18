@@ -194,7 +194,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD_UA value;
-	}		rk[1]; // readxl
+	}		rk[];
 	//WORD	last_col;
 }
 MULRK;
@@ -312,7 +312,7 @@ typedef struct FONT
     BYTE	family;
     BYTE	charset;
     BYTE	notused;
-    char    name[1]; // readxl
+    char    name[];
 }
 FONT;
 
