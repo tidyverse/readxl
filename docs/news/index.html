@@ -116,11 +116,22 @@
       <small>Source: <a href='https://github.com/tidyverse/readxl/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="readxl-1-0-0-9000" class="section level1">
+    <div id="readxl-1-1-0" class="section level1">
 <h1 class="page-header">
-<a href="#readxl-1-0-0-9000" class="anchor"></a>readxl 1.0.0.9000<small> Unreleased </small>
+<a href="#readxl-1-1-0" class="anchor"></a>readxl 1.1.0<small> Unreleased </small>
 </h1>
 <ul>
+<li>
+<p><code><a href="../reference/read_excel.html">read_excel()</a></code> and <code><a href="../reference/excel_sheets.html">excel_sheets()</a></code> associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (<a href='https://github.com/tidyverse/readxl/issues/342'>#342</a>, <a href='https://github.com/tidyverse/readxl/issues/411'>#411</a>, <a href='https://github.com/tidyverse/readxl/issues/457'>#457</a>)</p>
+<ul>
+<li>
+<code><a href="../reference/excel_format.html">excel_format()</a></code> is the newly-exported format-guessing function.</li>
+<li>
+<code><a href="../reference/excel_format.html">format_from_ext()</a></code> is a low-level helper, also exported, that only consults file extension. In addition to the obvious interpretation of <code>.xls</code> and <code>.xlsx</code>, the extensions <code>.xlsm</code>, <code>.xltx</code>, and <code>.xltm</code> are now associated with xlsx.</li>
+<li>
+<code><a href="../reference/excel_format.html">format_from_signature()</a></code> is a low-level helper, also exported, that consults the file’s signature (a.k.a. magic number).</li>
+</ul>
+</li>
 <li>
 <p>Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (<a href='https://github.com/tidyverse/readxl/issues/441'>#441</a>, <a href='https://github.com/tidyverse/readxl/issues/442'>#442</a>).</p>
 <ul>
@@ -135,7 +146,6 @@
 <li><p>Integer-y numbers larger than 2^31 are coerced properly to string (xls, <a href='https://github.com/tidyverse/readxl/issues/346'>#346</a>)</p></li>
 <li><p>Shared strings are only compared to NA strings after lookup, never on the basis of their index. (xlsx, <a href='https://github.com/tidyverse/readxl/issues/401'>#401</a>)</p></li>
 <li><p>Better checks and messaging around nonexistent files. (<a href='https://github.com/tidyverse/readxl/issues/392'>#392</a>)</p></li>
-<li><p>Extensionless files and files with nonstandard extension are now handled. If the file extension is absent or nonstandard, file format (xlsx vs xls) is guessed from the file’s signature (a.k.a. magic number). This is implemented in the newly exported function <code><a href="../reference/excel_format.html">excel_format()</a></code>, which is used in <code><a href="../reference/read_excel.html">read_excel()</a></code> and <code><a href="../reference/excel_sheets.html">excel_sheets()</a></code>. (<a href='https://github.com/tidyverse/readxl/issues/342'>#342</a>)</p></li>
 <li><p>Add <code>$(C_VISIBILITY)</code> to compiler flags to hide internal symbols from the dll. (<a href='https://github.com/tidyverse/readxl/issues/385'>#385</a> <a href='http://github.com/jeroen'>@jeroen</a>)</p></li>
 <li><p>Numeric data in a logical column now coerces properly to logical. (xlsx, <a href='https://github.com/tidyverse/readxl/issues/385'>#385</a> <a href='http://github.com/nacnudus'>@nacnudus</a>)</p></li>
 </ul>
@@ -228,7 +238,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#readxl-1-0-0-9000">1.0.0.9000</a></li>
+        <li><a href="#readxl-1-1-0">1.1.0</a></li>
         <li><a href="#readxl-1-0-0">1.0.0</a></li>
         <li><a href="#readxl-0-1-1">0.1.1</a></li>
       </ul>

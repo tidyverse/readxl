@@ -117,12 +117,12 @@
 <p>We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).</p>
 <p>We must load readxl explicitly because it is not part of the core tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ──</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 2.2.1          ✔ purrr   0.2.4.9000</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  1.4.2          ✔ dplyr   0.7.4.9000</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   0.8.0          ✔ stringr 1.3.0     </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.2.0          ✔ forcats 0.3.0</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ──────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ───────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(readxl)</a></code></pre></div>
@@ -389,88 +389,167 @@ devtools::session_info()
 #>  language (EN)                        
 #>  collate  en_CA.UTF-8                 
 #>  tz       America/Vancouver           
-#>  date     2018-04-16                  
+#>  date     2018-04-17                  
 #> 
 #> ─ Packages ──────────────────────────────────────────────────────────────
-#>  package     * version     date       source                             
-#>  ansistrings   1.0.0.9000  2018-04-02 Github (r-lib/ansistrings@4e4d309) 
-#>  assertthat    0.2.0       2017-04-11 CRAN (R 3.4.0)                     
-#>  backports     1.1.2       2018-04-14 Github (r-lib/backports@cee9348)   
-#>  bindr         0.1.0.9000  2018-03-09 Github (krlmlr/bindr@4b20179)      
-#>  bindrcpp      0.2.0.9000  2018-03-09 Github (krlmlr/bindrcpp@7553d4f)   
-#>  broom         0.4.3       2017-11-20 CRAN (R 3.4.3)                     
-#>  callr         2.0.3       2018-04-11 CRAN (R 3.4.4)                     
-#>  cellranger    1.1.0.9000  2018-04-03 local                              
-#>  cli           1.0.0.9002  2018-04-02 Github (r-lib/cli@c408924)         
-#>  clisymbols    1.2.0       2017-05-21 CRAN (R 3.4.0)                     
-#>  colorspace    1.3-2       2016-12-14 CRAN (R 3.4.0)                     
-#>  commonmark    1.4         2017-09-01 CRAN (R 3.4.1)                     
-#>  crayon        1.3.4       2018-04-02 Github (gaborcsardi/crayon@95b3eae)
-#>  debugme       1.1.0.9000  2018-01-29 Github (r-lib/debugme@f4a116a)     
-#>  desc          1.1.1.9003  2018-04-14 Github (r-lib/desc@387b732)        
-#>  devtools      1.13.5.9000 2018-03-02 Github (r-lib/devtools@3068e65)    
-#>  digest        0.6.15      2018-01-28 CRAN (R 3.4.3)                     
-#>  dplyr       * 0.7.4.9000  2018-03-09 Github (tidyverse/dplyr@9f707d2)   
-#>  evaluate      0.10.1      2017-06-24 CRAN (R 3.4.1)                     
-#>  forcats     * 0.3.0       2018-02-19 CRAN (R 3.4.3)                     
-#>  foreign       0.8-69      2017-06-22 CRAN (R 3.4.3)                     
-#>  fs            1.2.2       2018-03-21 CRAN (R 3.4.4)                     
-#>  ggplot2     * 2.2.1       2016-12-30 CRAN (R 3.4.0)                     
-#>  glue          1.2.0.9000  2018-04-07 Github (tidyverse/glue@0699687)    
-#>  gtable        0.2.0       2016-02-26 CRAN (R 3.4.0)                     
-#>  haven         1.1.1       2018-01-18 CRAN (R 3.4.3)                     
-#>  hms           0.4.2       2018-04-16 Github (tidyverse/hms@c0cfc01)     
-#>  htmltools     0.3.6       2017-04-28 CRAN (R 3.4.0)                     
-#>  httr          1.3.1       2017-08-20 CRAN (R 3.4.1)                     
-#>  jsonlite      1.5         2017-06-01 CRAN (R 3.4.0)                     
-#>  knitr         1.20        2018-02-20 CRAN (R 3.4.3)                     
-#>  lattice       0.20-35     2017-03-25 CRAN (R 3.4.3)                     
-#>  lazyeval      0.2.1       2017-10-29 CRAN (R 3.4.2)                     
-#>  lubridate     1.7.2       2018-02-06 CRAN (R 3.4.3)                     
-#>  magrittr      1.5         2014-11-22 CRAN (R 3.4.0)                     
-#>  MASS          7.3-48      2017-12-25 CRAN (R 3.4.3)                     
-#>  memoise       1.1.0       2018-01-15 Github (hadley/memoise@611cfad)    
-#>  mnormt        1.5-5       2016-10-15 CRAN (R 3.4.0)                     
-#>  modelr        0.1.1       2017-07-24 CRAN (R 3.4.1)                     
-#>  munsell       0.4.3       2016-02-13 CRAN (R 3.4.0)                     
-#>  nlme          3.1-131     2017-02-06 CRAN (R 3.4.3)                     
-#>  pillar        1.2.1       2018-02-27 Github (r-lib/pillar@2065df9)      
-#>  pkgbuild      1.0.0       2018-04-14 Github (r-lib/pkgbuild@4ee12af)    
-#>  pkgconfig     2.0.1       2017-03-21 CRAN (R 3.4.0)                     
-#>  pkgdown       0.1.0.9000  2018-04-14 Github (hadley/pkgdown@a7aa75e)    
-#>  pkgload       1.0.0       2018-04-14 Github (r-lib/pkgload@a9184a0)     
-#>  plyr          1.8.4       2016-06-08 CRAN (R 3.4.0)                     
-#>  prettyunits   1.0.2       2015-07-13 CRAN (R 3.4.0)                     
-#>  progress      1.1.2.9003  2018-04-02 Github (r-lib/progress@e525de4)    
-#>  psych         1.7.8       2017-09-09 CRAN (R 3.4.3)                     
-#>  purrr       * 0.2.4.9000  2018-03-29 Github (tidyverse/purrr@84ce1ad)   
-#>  R6            2.2.2       2017-06-17 CRAN (R 3.4.0)                     
-#>  Rcpp          0.12.16     2018-03-13 CRAN (R 3.4.4)                     
-#>  readr       * 1.2.0       2018-04-16 Github (tidyverse/readr@23eb46d)   
-#>  readxl      * 1.0.0.9000  2018-04-15 local                              
-#>  rematch       1.0.1       2016-04-21 CRAN (R 3.4.0)                     
-#>  reshape2      1.4.3       2017-12-11 CRAN (R 3.4.3)                     
-#>  rlang         0.2.0.9001  2018-04-02 Github (tidyverse/rlang@49d7a34)   
-#>  rmarkdown     1.9.8       2018-03-31 Github (rstudio/rmarkdown@8cfc878) 
-#>  roxygen2      6.0.1.9000  2018-03-01 local                              
-#>  rprojroot     1.3-2       2018-01-03 CRAN (R 3.4.2)                     
-#>  rstudioapi    0.7.0-9000  2018-01-12 Github (rstudio/rstudioapi@109e593)
-#>  rvest         0.3.2       2016-06-17 CRAN (R 3.4.0)                     
-#>  scales        0.5.0       2017-08-24 CRAN (R 3.4.1)                     
-#>  selectr       0.4-0       2018-03-27 CRAN (R 3.4.3)                     
-#>  sessioninfo   1.0.1.9000  2017-10-26 Github (r-lib/sessioninfo@c871d01) 
-#>  stringi       1.1.7       2018-03-12 CRAN (R 3.4.4)                     
-#>  stringr     * 1.3.0       2018-02-19 CRAN (R 3.4.3)                     
-#>  testthat      2.0.0       2017-12-13 CRAN (R 3.4.3)                     
-#>  tibble      * 1.4.2       2018-02-27 Github (tidyverse/tibble@80ac1a3)  
-#>  tidyr       * 0.8.0       2018-01-29 CRAN (R 3.4.3)                     
-#>  tidyselect    0.2.4       2018-02-26 CRAN (R 3.4.3)                     
-#>  tidyverse   * 1.2.1       2017-11-14 CRAN (R 3.4.2)                     
-#>  usethis       1.3.0.9000  2018-04-14 Github (r-lib/usethis@9ab0e79)     
-#>  utf8          1.1.3       2018-01-03 CRAN (R 3.4.2)                     
-#>  withr         2.1.2       2018-03-18 Github (r-lib/withr@79d7b0d)       
-#>  xml2          1.2.0       2018-01-24 CRAN (R 3.4.3)                     
-#>  yaml          2.1.18      2018-03-08 CRAN (R 3.4.4)
+#>  package     * version     date      
+#>  ansistrings   1.0.0.9000  2018-04-17
+#>  assertthat    0.2.0       2017-04-11
+#>  backports     1.1.2       2018-04-14
+#>  bindr         0.1.0.9000  2018-03-09
+#>  bindrcpp      0.2.0.9000  2018-03-09
+#>  broom         0.4.3       2017-11-20
+#>  callr         2.0.3       2018-04-17
+#>  cellranger    1.1.0.9000  2018-04-03
+#>  cli           1.0.0.9002  2018-04-17
+#>  clisymbols    1.2.0       2017-05-21
+#>  colorspace    1.3-2       2016-12-14
+#>  commonmark    1.4         2017-09-01
+#>  crayon        1.3.4       2018-04-02
+#>  debugme       1.1.0.9000  2018-01-29
+#>  desc          1.1.1.9003  2018-04-17
+#>  devtools      1.13.5.9000 2018-04-17
+#>  digest        0.6.15      2018-01-28
+#>  dplyr       * 0.7.4.9000  2018-03-09
+#>  evaluate      0.10.1      2017-06-24
+#>  forcats     * 0.3.0       2018-02-19
+#>  foreign       0.8-69      2017-06-22
+#>  fs            1.2.2       2018-03-21
+#>  ggplot2     * 2.2.1       2016-12-30
+#>  glue          1.2.0.9000  2018-04-07
+#>  gtable        0.2.0       2016-02-26
+#>  haven         1.1.1       2018-01-18
+#>  hms           0.4.2       2018-04-16
+#>  htmltools     0.3.6       2017-04-28
+#>  httr          1.3.1       2017-08-20
+#>  jsonlite      1.5         2017-06-01
+#>  knitr         1.20        2018-02-20
+#>  lattice       0.20-35     2017-03-25
+#>  lazyeval      0.2.1       2017-10-29
+#>  lubridate     1.7.2       2018-02-06
+#>  magrittr      1.5         2014-11-22
+#>  MASS          7.3-48      2017-12-25
+#>  memoise       1.1.0       2018-01-15
+#>  mnormt        1.5-5       2016-10-15
+#>  modelr        0.1.1       2017-07-24
+#>  munsell       0.4.3       2016-02-13
+#>  nlme          3.1-131     2017-02-06
+#>  pillar        1.2.1       2018-02-27
+#>  pkgbuild      1.0.0       2018-04-17
+#>  pkgconfig     2.0.1       2017-03-21
+#>  pkgdown       0.1.0.9000  2018-04-14
+#>  pkgload       1.0.0       2018-04-17
+#>  plyr          1.8.4       2016-06-08
+#>  prettyunits   1.0.2       2015-07-13
+#>  progress      1.1.2.9003  2018-04-17
+#>  psych         1.7.8       2017-09-09
+#>  purrr       * 0.2.4.9000  2018-03-29
+#>  R6            2.2.2       2017-06-17
+#>  Rcpp          0.12.16     2018-03-13
+#>  readr       * 1.2.0       2018-04-16
+#>  readxl      * 1.0.0.9000  2018-04-15
+#>  rematch       1.0.1       2016-04-21
+#>  reshape2      1.4.3       2017-12-11
+#>  rlang         0.2.0.9001  2018-04-02
+#>  rmarkdown     1.9.8       2018-03-31
+#>  roxygen2      6.0.1.9000  2018-03-01
+#>  rprojroot     1.3-2       2018-01-03
+#>  rstudioapi    0.7.0-9000  2018-01-12
+#>  rvest         0.3.2       2016-06-17
+#>  scales        0.5.0       2017-08-24
+#>  selectr       0.4-1       2018-04-06
+#>  sessioninfo   1.0.1.9000  2017-10-26
+#>  stringi       1.1.7       2018-03-12
+#>  stringr     * 1.3.0       2018-02-19
+#>  testthat      2.0.0       2017-12-13
+#>  tibble      * 1.4.2       2018-02-27
+#>  tidyr       * 0.8.0       2018-01-29
+#>  tidyselect    0.2.4       2018-02-26
+#>  tidyverse   * 1.2.1       2017-11-14
+#>  usethis       1.3.0.9000  2018-04-14
+#>  utf8          1.1.3       2018-01-03
+#>  withr         2.1.2       2018-03-18
+#>  xml2          1.2.0       2018-01-24
+#>  yaml          2.1.18      2018-03-08
+#>  source                               
+#>  Github (r-lib/ansistrings@4e4d309)   
+#>  CRAN (R 3.4.0)                       
+#>  Github (r-lib/backports@cee9348)     
+#>  Github (krlmlr/bindr@4b20179)        
+#>  Github (krlmlr/bindrcpp@7553d4f)     
+#>  CRAN (R 3.4.3)                       
+#>  Github (r-lib/callr@2a73c8f)         
+#>  local                                
+#>  Github (r-lib/cli@c408924)           
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.1)                       
+#>  Github (gaborcsardi/crayon@95b3eae)  
+#>  Github (r-lib/debugme@f4a116a)       
+#>  Github (r-lib/desc@387b732)          
+#>  Github (r-lib/devtools@13ee56b)      
+#>  CRAN (R 3.4.3)                       
+#>  Github (tidyverse/dplyr@9f707d2)     
+#>  CRAN (R 3.4.1)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.4)                       
+#>  CRAN (R 3.4.0)                       
+#>  Github (tidyverse/glue@0699687)      
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.3)                       
+#>  Github (tidyverse/hms@c0cfc01)       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.1)                       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.2)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.3)                       
+#>  Github (hadley/memoise@611cfad)      
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.1)                       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.3)                       
+#>  Github (r-lib/pillar@2065df9)        
+#>  Github (r-lib/pkgbuild@4ee12af)      
+#>  CRAN (R 3.4.0)                       
+#>  Github (hadley/pkgdown@a7aa75e)      
+#>  Github (r-lib/pkgload@a9184a0)       
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.0)                       
+#>  Github (gaborcsardi/progress@e525de4)
+#>  CRAN (R 3.4.3)                       
+#>  Github (tidyverse/purrr@84ce1ad)     
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.4)                       
+#>  Github (tidyverse/readr@23eb46d)     
+#>  local                                
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.3)                       
+#>  Github (tidyverse/rlang@49d7a34)     
+#>  Github (rstudio/rmarkdown@8cfc878)   
+#>  local                                
+#>  CRAN (R 3.4.2)                       
+#>  Github (rstudio/rstudioapi@109e593)  
+#>  CRAN (R 3.4.0)                       
+#>  CRAN (R 3.4.1)                       
+#>  CRAN (R 3.4.4)                       
+#>  Github (r-lib/sessioninfo@c871d01)   
+#>  CRAN (R 3.4.4)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.3)                       
+#>  Github (tidyverse/tibble@80ac1a3)    
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.2)                       
+#>  Github (r-lib/usethis@9ab0e79)       
+#>  CRAN (R 3.4.2)                       
+#>  Github (r-lib/withr@79d7b0d)         
+#>  CRAN (R 3.4.3)                       
+#>  CRAN (R 3.4.4)
 ```
 </details>
 

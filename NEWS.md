@@ -1,6 +1,10 @@
 # readxl 1.1.0
 
-# readxl 1.0.0.9000
+* `read_excel()` and `excel_sheets()` associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (#342, #411, #457)
+
+  - `excel_format()` is the newly-exported format-guessing function.
+  - `format_from_ext()` is a low-level helper, also exported, that only consults file extension. In addition to the obvious interpretation of `.xls` and `.xlsx`, the extensions `.xlsm`, `.xltx`, and `.xltm` are now associated with xlsx.
+  - `format_from_signature()` is a low-level helper, also exported, that consults the file's signature (a.k.a. magic number).
 
 * Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
 
@@ -18,8 +22,6 @@
 * Shared strings are only compared to NA strings after lookup, never on the basis of their index. (xlsx, #401)
 
 * Better checks and messaging around nonexistent files. (#392)
-
-* Extensionless files and files with nonstandard extension are now handled. If the file extension is absent or nonstandard, file format (xlsx vs xls) is guessed from the file's signature (a.k.a. magic number). This is implemented in the newly exported function `excel_format()`, which is used in `read_excel()` and `excel_sheets()`. (#342)
 
 * Add `$(C_VISIBILITY)` to compiler flags to hide internal symbols from the dll. (#385 @jeroen)
 
