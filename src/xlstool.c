@@ -295,7 +295,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
 	count2 = wcstombs(converted, w, count);
     free(w);
 	if (count2 <= 0) {
-		printf("wcstombs failed (%d)\n", len/2);
+		printf("wcstombs failed (%lu)\n", (unsigned long)len/2);
 		if (newlen) *newlen = 0;
 		return converted;
 	} else {

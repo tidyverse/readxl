@@ -211,12 +211,10 @@ void xlsConvertFormula(FORMULA *f)
     W_ENDIAN(f->xf);
 	if(f->res == 0xFFFF) {
 		switch(f->resid) {
-		case 0:
-		case 3:
-			break;
-		case 1:
-		case 2:
-			W_ENDIAN(*(WORD *)&f->resdata[1]);
+		case 0: // string
+		case 1: // bool
+		case 2: // error
+		case 3: // empty string
 			break;
 		default:
 			xlsConvertDouble(&f->resid);
