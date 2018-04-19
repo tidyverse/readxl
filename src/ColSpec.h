@@ -1,9 +1,6 @@
 #ifndef READXL_COLSPEC_
 #define READXL_COLSPEC_
 
-# pragma GCC diagnostic ignored "-Wpedantic"
-# pragma clang diagnostic ignored "-Wc99-extensions"
-
 #include <Rcpp.h>
 #include <libxls/xls.h>
 #include "StringSet.h"
