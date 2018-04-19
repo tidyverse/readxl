@@ -13,15 +13,13 @@
 
 ## R CMD check results
 
-There are no errors, but there is one warning (see below). On some platforms, but not all, I see this NOTE:
+There are no errors and no warnings. On some platforms, but not all, I see this NOTE:
 
   installed size is  5.2Mb
   sub-directories of 1Mb or more:
     libs   3.8Mb
     
 This NOTE is not new and can currently be seen for the CRAN version on r-devel-linux-x86_64-fedora-gcc.
-
-I see a warning originating from libxls/xslstruct.h about the use of a zero size and variable length arrays. We are actively working with the maintainer of libxls to eliminate this practice, so that libxls will compile with no warnings, with a C++ compiler and CRAN's flags. However, there is some urgency to get this version of libxls/readxl onto CRAN in the meantime:
 
 The main reason for this release is to include an updated version of the embedded libxls library, which has been patched to address these CVEs:
 
