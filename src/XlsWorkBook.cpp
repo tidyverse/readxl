@@ -1,4 +1,8 @@
 #include <Rcpp.h>
+
+# pragma GCC diagnostic ignored "-Wpedantic"
+# pragma clang diagnostic ignored "-Wc99-extensions"
+
 #include "XlsWorkBook.h"
 using namespace Rcpp;
 

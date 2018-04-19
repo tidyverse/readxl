@@ -138,13 +138,13 @@ char *utf8_decode(const char *str, DWORD len, char *encoding)
 	int utf8_chars = 0;
 	char *ret = NULL;
     DWORD i;
-	
+
 	for(i=0; i<len; ++i) {
 		if(str[i] & (BYTE)0x80) {
 			++utf8_chars;
 		}
 	}
-	
+
 	if(utf8_chars == 0 || strcmp(encoding, "UTF-8")) {
 		ret = malloc(len+1);
 		memcpy(ret, str, len);
@@ -174,11 +174,17 @@ char *utf8_decode(const char *str, DWORD len, char *encoding)
 char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_enc)
 {
 #ifdef HAVE_ICONV
-	// Do iconv conversion
+    // Do iconv conversion
 #if defined(_AIX) || defined(__sun)
     const char *from_enc = "UTF-16le";
+    #define ICONV_CONST const
 #else
     const char *from_enc = "UTF-16LE";
+    #if defined(_WIN32)
+        #define ICONV_CONST const
+    #else
+        #define ICONV_CONST
+    #endif
 #endif
     char* outbuf = 0;
 
@@ -212,7 +218,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
                 return outbuf;
             }
         }
-        size_t st; 
+        size_t st;
         outbuf = malloc(outlen + 1);
 
 		if(outbuf)
@@ -220,7 +226,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
             out_ptr = outbuf;
             while(inlenleft)
             {
-                st = iconv(ic, (char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
+                st = iconv(ic, (ICONV_CONST char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)
@@ -307,7 +313,7 @@ char *get_string(const char *s, size_t len, BYTE is2, BYTE is5ver, char *charset
     BYTE flag = 0;
     const char *str = s;
     char *ret = NULL;
-	
+
     if (is2) {
 		// length is two bytes
         if (ofs + 2 > len) {
@@ -361,9 +367,9 @@ char *get_string(const char *s, size_t len, BYTE is2, BYTE is5ver, char *charset
 		printf("ofs=%d ret[0]=%d\n", ofs, *ret);
 		{
 			unsigned char *ptr;
-			
+
 			ptr = ret;
-			
+
 			printf("%x %x %x %x %x %x %x %x\n", ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7] );
 			printf("%s\n", ret);
 		}
@@ -544,7 +550,7 @@ void xls_showFormat(struct st_format_data* frmt)
 void xls_showXF(XF8* xf)
 {
 	static int idx;
-	
+
     printf("      Index: %u\n",idx++);
     printf("       Font: %u\n",xf->font);
     printf("     Format: %u\n",xf->format);
