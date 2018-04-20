@@ -127,7 +127,7 @@ typedef struct BOUNDSHEET
     DWORD	filepos;
     BYTE	type;
     BYTE	visible;
-    char	name[];
+    char	name[1];
 }
 BOUNDSHEET;
 
@@ -198,7 +198,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD_UA value;
-	}		rk[];
+	}		rk[1];
 	//WORD	last_col;
 }
 MULRK;
@@ -207,7 +207,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[];
+    WORD	xf[1];
 	//WORD	last_col;
 }
 MULBLANK;
@@ -225,7 +225,7 @@ typedef struct LABEL
     WORD	row;
     WORD	col;
     WORD	xf;
-    BYTE	value[]; // var
+    BYTE	value[1]; // var
 }
 LABEL;
 typedef LABEL LABELSST;
@@ -244,7 +244,7 @@ typedef struct SST
 {
     DWORD	num;
     DWORD	numofstr;
-    BYTE	strings[];
+    BYTE	strings[1];
 }
 SST;
 
@@ -316,14 +316,14 @@ typedef struct FONT
     BYTE	family;
     BYTE	charset;
     BYTE	notused;
-    char    name[];
+    char    name[1];
 }
 FONT;
 
 typedef struct FORMAT
 {
     WORD	index;
-    char	value[];
+    char	value[1];
 }
 FORMAT;
 
