@@ -1,3 +1,5 @@
+# readxl 1.1.0.9000
+
 # readxl 1.1.0
 
 * `read_excel()` and `excel_sheets()` associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (#342, #411, #457)
