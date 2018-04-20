@@ -65,6 +65,22 @@ static void *ole_malloc(size_t len) {
     return malloc(len);
 }
 
+int ole2_validate_sector(DWORD sector, OLE2 *ole) {
+    if (sector >= ole->SecIDCount) {
+        if (xls_debug) fprintf4(stderr, "Error: fatpos %d out-of-bounds for SecID[%d]\n",
+                (int)sector, ole->SecIDCount);
+        return 0;
+    }
+
+    if (sector == xlsIntVal(ole->SecID[sector])) {
+        if (xls_debug) fprintf4(stderr, "Error: Sector loop detected, SecID[%d] = %d\n",
+                (int)sector, (int)sector);
+        return 0;
+    }
+
+    return 1;
+}
+
 // Read next sector of stream
 int ole2_bufread(OLE2Stream* olest)
 {
@@ -103,15 +119,7 @@ int ole2_bufread(OLE2Stream* olest)
                 return -1;
             }
 
-            if (olest->fatpos >= olest->ole->SecIDCount) {
-                if (xls_debug) fprintf4(stderr, "Error: fatpos %d out-of-bounds for SecID[%d]\n",
-                        (int)olest->fatpos, olest->ole->SecIDCount);
-                return -1;
-            }
-
-            if (olest->fatpos == xlsIntVal(olest->ole->SecID[olest->fatpos])) {
-                if (xls_debug) fprintf4(stderr, "Error: Sector loop detected, SecID[%d] = %d\n",
-                        (int)olest->fatpos, (int)olest->fatpos);
+            if (!ole2_validate_sector(olest->fatpos, olest->ole)) {
                 return -1;
             }
 
@@ -261,7 +269,7 @@ int ole2_seek(OLE2Stream* olest,DWORD ofs)
         if (div_rez.quot!=0)
         {
             for (i=0;i<div_rez.quot;i++) {
-                if (olest->fatpos >= olest->ole->SecIDCount)
+                if (!ole2_validate_sector(olest->fatpos, olest->ole))
                     return -1;
                 olest->fatpos=xlsIntVal(olest->ole->SecID[olest->fatpos]);
             }
@@ -478,6 +486,10 @@ static ssize_t ole2_read_body(OLE2 *ole) {
                         total_bytes_read = -1;
                         goto cleanup;
                     }
+                    if (!ole2_validate_sector(sector, ole)) {
+                        total_bytes_read = -1;
+                        goto cleanup;
+                    }
                     total_bytes_read += ole->lsector;
 					wptr += ole->lsector;
 					sector = xlsIntVal(ole->SecID[sector]);
@@ -555,14 +567,14 @@ void ole2_close(OLE2* ole2)
     if (ole2->file)
         fclose(ole2->file);
 
-	for(i=0; i<ole2->files.count; ++i) {
-		free(ole2->files.file[i].name);
-	}
-	free(ole2->files.file);
-	free(ole2->SecID);
-	free(ole2->SSecID);
-	free(ole2->SSAT);
-	free(ole2);
+    for(i=0; i<ole2->files.count; ++i) {
+        free(ole2->files.file[i].name);
+    }
+    free(ole2->files.file);
+    free(ole2->SecID);
+    free(ole2->SSecID);
+    free(ole2->SSAT);
+    free(ole2);
 }
 
 void ole2_fclose(OLE2Stream* ole2st)
@@ -690,6 +702,10 @@ static ssize_t read_MSAT_trailer(OLE2 *ole2) {
 		wptr=(BYTE*)ole2->SSecID;
 		for(k=0; k<ole2->csfat; ++k) {
 			if (sector == ENDOFCHAIN || sector_read(ole2, wptr, sector) == -1) {
+                total_bytes_read = -1;
+                goto cleanup;
+            }
+            if (!ole2_validate_sector(sector, ole2)) {
                 total_bytes_read = -1;
                 goto cleanup;
             }
