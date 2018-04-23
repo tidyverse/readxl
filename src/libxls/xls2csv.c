@@ -48,15 +48,15 @@ static void Usage(char *progName);
 
 static void Usage(char *progName)
 {
-    fprintf3(stderr, "usage: %s <Excel xls file> [-l] [-e encoding] [-t sheet] [-q quote char] [-f field separator]\n", progName);
-    fprintf2(stderr, "  Output Excel file cells as delimited values (default is comma separated)\n");
-    fprintf2(stderr, "  Options:\n");
-    fprintf2(stderr, "    -l            : list the sheets contained in the file but do not output their contents.\n");
-    fprintf2(stderr, "    -t sheet_name : only process the named sheet\n");
-    fprintf3(stderr, "    -e encoding   : the iconv encoding (default \"%s\")\n", encoding);
-    fprintf3(stderr, "    -q character  : used to quote strings (default '%c')\n", stringSeparator);
-    fprintf3(stderr, "    -f string     : used to separate fields (default \"%s\")\n", fieldSeparator);
-    fprintf2(stderr, "\n");
+    fprintf(stderr, "usage: %s <Excel xls file> [-l] [-e encoding] [-t sheet] [-q quote char] [-f field separator]\n", progName);
+    fprintf(stderr, "  Output Excel file cells as delimited values (default is comma separated)\n");
+    fprintf(stderr, "  Options:\n");
+    fprintf(stderr, "    -l            : list the sheets contained in the file but do not output their contents.\n");
+    fprintf(stderr, "    -t sheet_name : only process the named sheet\n");
+    fprintf(stderr, "    -e encoding   : the iconv encoding (default \"%s\")\n", encoding);
+    fprintf(stderr, "    -q character  : used to quote strings (default '%c')\n", stringSeparator);
+    fprintf(stderr, "    -f string     : used to separate fields (default \"%s\")\n", fieldSeparator);
+    fprintf(stderr, "\n");
     exit(EXIT_FAILURE);
 }
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         Usage(argv[0]);
     }
 
-	//fprintf3(stderr, "DIR: %s\n\n", getcwd(NULL, 1024));
+	//fprintf(stderr, "DIR: %s\n\n", getcwd(NULL, 1024));
 
     optind = 2; // skip file arg
 
@@ -106,7 +106,7 @@ printf("FILE: %s\n", argv[1]);
 	// open workbook, choose standard conversion
 	pWB = xls_open_file(argv[1], encoding, &error);
 	if (!pWB) {
-        fprintf3(stderr, "Error reading XLS file: %s\n", xls_getError(error));
+        fprintf(stderr, "Error reading XLS file: %s\n", xls_getError(error));
 		return EXIT_FAILURE;
 	}
 
@@ -119,8 +119,8 @@ printf("FILE: %s\n", argv[1]);
 		}
 
 		if (i == pWB->sheets.count) {
-			fprintf3(stderr, "Sheet \"%s\" not found", sheetName);
-			fprintf2(stderr, "\n");
+			fprintf(stderr, "Sheet \"%s\" not found", sheetName);
+			fprintf(stderr, "\n");
 			return EXIT_FAILURE;
 		}
 	}
@@ -177,7 +177,7 @@ printf("FILE: %s\n", argv[1]);
 
 				// display the colspan as only one cell, but reject rowspans (they can't be converted to CSV)
 				if (cell->rowspan > 1) {
-					fprintf5(stderr, "Warning: %d rows spanned at col=%d row=%d: output will not match the Excel file.\n", cell->rowspan, cellCol+1, cellRow+1);
+					fprintf(stderr, "Warning: %d rows spanned at col=%d row=%d: output will not match the Excel file.\n", cell->rowspan, cellCol+1, cellRow+1);
 				}
 
 				// display the value of the cell (either numeric or string)
