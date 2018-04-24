@@ -5,3 +5,4 @@ all: clean
 
 clean:
 	rm -Rf $(SHLIB) $(OBJECTS)
+
