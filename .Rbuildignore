@@ -27,3 +27,4 @@
 ^\.github$
 ^fprintf-matches\.txt$
 ^CRAN-RELEASE$
+^investigations$
