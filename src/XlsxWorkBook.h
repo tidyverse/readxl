@@ -260,7 +260,7 @@ private:
     for (rapidxml::xml_node<>* string = sst->first_node();
          string; string = string->next_sibling()) {
       std::string out;
-      if (parseString(string, &out)) { // missing strings are treated as empty
+      if (parseString(string, &out)) {
         stringTable_.push_back(out);
       }
     }
