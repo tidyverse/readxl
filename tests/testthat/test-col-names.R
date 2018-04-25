@@ -46,16 +46,16 @@ test_that("col_names = FALSE mimics missing column names [xls]", {
 
 test_that("missing column names are populated", {
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[c(1, 3)], c("X__1", "X__2"))
+  expect_identical(names(df)[c(1, 3)], c("..1", "..3"))
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[c(1, 3)], c("X__1", "X__2"))
+  expect_identical(names(df)[c(1, 3)], c("..1", "..3"))
 })
 
 test_that("column names are de-duplicated", {
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[4], "var2__1")
+  expect_identical(names(df)[4], "var2..4")
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[4], "var2__1")
+  expect_identical(names(df)[4], "var2..4")
 })
 
 test_that("wrong length column names are rejected", {

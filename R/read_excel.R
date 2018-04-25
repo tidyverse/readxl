@@ -149,7 +149,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
-  tibble::repair_names(
+  tibble::set_tidy_names(
     tibble::as_tibble(
       read_fun(
         path = path, sheet_i = sheet,
@@ -158,8 +158,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
         na = na, trim_ws = trim_ws, guess_max = guess_max
       ),
       validate = FALSE
-    ),
-    prefix = "X", sep = "__"
+    )
   )
 }
 

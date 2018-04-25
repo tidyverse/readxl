@@ -27,7 +27,7 @@ LinkingTo: Rcpp
 Imports:
     cellranger,
     Rcpp (>= 0.12.12),
-    tibble (>= 1.1)
+    tibble (>= 1.3.1)
 Suggests:
     covr,
     knitr,

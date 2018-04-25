@@ -61,7 +61,7 @@ test_that("formula cell with no v node does not cause crash", {
 ## LAPD uses a tool to produce xlsx that implements the minimal SpreadsheetML
 ## package structure described on pp65-66 of ECMA 5th edition
 test_that("we can read LAPD arrest sheets", {
-  expect_silent(
+  expect_error_free(
     lapd <- read_excel(test_sheet("los-angeles-arrests-xlsx.xlsx"), skip = 2)
   )
   expect_identical(dim(lapd), c(193L, 36L))
