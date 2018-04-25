@@ -20,6 +20,7 @@ void Rprintf2(FILE * stream, const char *format, ...);
 }
 #endif
 #define fprintf Rprintf2
+#undef stderr
 #define stderr NULL
 
 #undef assert
