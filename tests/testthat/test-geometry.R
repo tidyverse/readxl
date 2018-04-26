@@ -28,12 +28,6 @@ test_that("we can request exactly 1 row for col_names via n_max and col_names", 
   expect_identical(l, limitize(c(my_skip, my_skip, -1, -1)))
 })
 
-test_that("we can request exactly 1 row for data via n_max and col_names", {
-  my_skip <- sample(0:100, 1)
-  l <- standardise_limits(range = NULL, skip = my_skip, n_max = 1, has_col_names = FALSE)
-  expect_identical(l, limitize(c(my_skip, my_skip, -1, -1)))
-})
-
 test_that("we can request n rows for data via n_max and skip doesn't matter", {
   my_skip <- sample(0:100, 1)
   n <- sample(1:100, 1)
