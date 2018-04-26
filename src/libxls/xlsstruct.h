@@ -187,7 +187,7 @@ typedef struct RK
     WORD	row;
     WORD	col;
     WORD	xf;
-    DWORD_UA value;
+    DWORD   value;
 }
 RK;
 
@@ -197,7 +197,7 @@ typedef struct MULRK
     WORD	col;
 	struct {
 		WORD	xf;
-		DWORD_UA value;
+		DWORD   value;
 	}		rk[1];
 	//WORD	last_col;
 }

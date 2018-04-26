@@ -242,9 +242,9 @@ void xlsConvertFormulaArray(FARRAY *f)
 void xlsConvertHeader(OLE2Header *h)
 {
     int i;
-    for (i=0; i<2; i++)
+    for (i=0; i<sizeof(h->id)/sizeof(h->id[0]); i++)
         h->id[i] = xlsIntVal(h->id[i]);
-    for (i=0; i<4; i++)
+    for (i=0; i<sizeof(h->clid)/sizeof(h->clid[0]); i++)
         h->clid[i] = xlsIntVal(h->clid[i]);
     h->verminor  = xlsShortVal(h->verminor);
     h->verdll    = xlsShortVal(h->verdll);
@@ -265,7 +265,7 @@ void xlsConvertHeader(OLE2Header *h)
     h->csfat = xlsIntVal(h->csfat);
     h->difstart = xlsIntVal(h->difstart);
     h->cdif = xlsIntVal(h->cdif);
-    for (i=0; i<109; i++)
+    for (i=0; i<sizeof(h->MSAT)/sizeof(h->MSAT[0]); i++)
         h->MSAT[i] = xlsIntVal(h->MSAT[i]);
 }
 

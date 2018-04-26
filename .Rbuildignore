@@ -28,3 +28,4 @@
 ^fprintf-matches\.txt$
 ^CRAN-RELEASE$
 ^investigations$
+^src/patch-to-libxls-upstream\.R$

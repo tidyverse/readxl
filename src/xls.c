@@ -53,7 +53,7 @@
 //#define DEBUG_DRAWINGS
 int xls_debug = 0;
 
-static double NumFromRk(DWORD_UA drk);
+static double NumFromRk(DWORD drk);
 static xls_formula_handler formula_handler;
 
 extern xls_error_t xls_addSST(xlsWorkBook* pWB, SST* sst, DWORD size);
@@ -198,7 +198,7 @@ xls_error_t xls_appendSST(xlsWorkBook* pWB, BYTE* buf, DWORD size)
 
             // Size of asian phonetic settings block
             if (flag & 0x4) {
-                if (ofs + sizeof(DWORD_UA) > size) {
+                if (ofs + sizeof(DWORD) > size) {
                     return LIBXLS_ERROR_PARSE;
                 }
                 sz = buf[ofs+0] + (buf[ofs+1] << 8) + (buf[ofs+2] << 16) + (buf[ofs+3] << 24);
@@ -313,7 +313,7 @@ xls_error_t xls_appendSST(xlsWorkBook* pWB, BYTE* buf, DWORD size)
     return LIBXLS_OK;
 }
 
-static double NumFromRk(DWORD_UA drk)
+static double NumFromRk(DWORD drk)
 {
 	double ret;
 
@@ -493,7 +493,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 {
     struct st_cell_data*	cell;
     struct st_row_data*		row;
-    WORD_UA                 col;
+    WORD                    col;
     int						i;
 
 	verbose ("xls_addCell");
@@ -739,7 +739,7 @@ xls_error_t xls_addColinfo(xlsWorkSheet* pWS,COLINFO* colinfo)
 
 xls_error_t xls_mergedCells(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 {
-    if (bof->size < sizeof(WORD_UA))
+    if (bof->size < sizeof(WORD))
         return LIBXLS_ERROR_PARSE;
 
     int count = buf[0] + (buf[1] << 8);
@@ -1003,7 +1003,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				unsigned char *p = buf + 2;
 				int idx, len;
 
-				len = *(WORD_UA *)buf;
+				len = buf[0] + (buf[1] << 8);
 				for(idx=0; idx<len; ++idx) {
 					printf("   Index=0x%2.2x %2.2x%2.2x%2.2x\n", idx+8, p[0], p[1], p[2] );
 					p += 4;
@@ -1017,7 +1017,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				printf("   mode: 0x%x\n", pWB->is1904);
 			}
 			break;
-
+		
 		case XLS_RECORD_DEFINEDNAME:
 			if(xls_debug) {
 				int i;
@@ -1026,7 +1026,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				printf("\n");
 			}
 			break;
-
+			
         default:
 			if(xls_debug)
 			{
@@ -1085,7 +1085,7 @@ xls_error_t xls_preparseWorkSheet(xlsWorkSheet* pWS)
         switch (tmp.id)
         {
         case XLS_RECORD_DEFCOLWIDTH:
-            if (tmp.size < sizeof(WORD_UA)) {
+            if (tmp.size < sizeof(WORD)) {
                 retval = LIBXLS_ERROR_PARSE;
                 goto cleanup;
             }
@@ -1274,22 +1274,22 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
             }
             break;
 		case XLS_RECORD_DEFCOLWIDTH:
-            if (tmp.size < sizeof(WORD_UA)) {
+            if (tmp.size < sizeof(WORD)) {
                 retval = LIBXLS_ERROR_PARSE;
                 goto cleanup;
             }
-			if(xls_debug > 10) printf("DEFAULT COL WIDTH: %d\n", *(WORD_UA *)buf);
+			if(xls_debug > 10) printf("DEFAULT COL WIDTH: %d\n", ((WORD *)buf)[0]);
 			break;
 		case XLS_RECORD_DEFAULTROWHEIGHT:
-            if (tmp.size < 2 * sizeof(WORD_UA)) {
+            if (tmp.size < 2 * sizeof(WORD)) {
                 retval = LIBXLS_ERROR_PARSE;
                 goto cleanup;
             }
-			if(xls_debug > 10) printf("DEFAULT ROW Height: 0x%x %d\n", ((WORD_UA *)buf)[0], ((WORD_UA *)buf)[1]);
+			if(xls_debug > 10) printf("DEFAULT ROW Height: 0x%x %d\n", ((WORD *)buf)[0], ((WORD *)buf)[1]);
 			break;
 		case XLS_RECORD_DBCELL:
 			if(xls_debug > 10) {
-				DWORD *foo = (DWORD_UA *)buf;
+				DWORD *foo = (DWORD *)buf;
                 WORD *goo;
 				int i;
                 printf("DBCELL: size %d\n", tmp.size);
@@ -1301,7 +1301,7 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 			break;
         case XLS_RECORD_INDEX:
 			if(xls_debug > 10) {
-				DWORD *foo = (DWORD_UA *)buf;
+				DWORD *foo = (DWORD *)buf;
                 int i;
 				printf("INDEX: size %d\n", tmp.size);
 				for(i=0; i<5; ++i) printf("FOO[%d]=%4.4x %u\n", i, foo[i], foo[i]);

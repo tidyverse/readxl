@@ -39,14 +39,6 @@ typedef unsigned char		BYTE;
 typedef uint16_t			WORD;
 typedef uint32_t			DWORD;
 
-#ifdef NO_ALIGN
-typedef uint16_t			WORD_UA;
-typedef uint32_t			DWORD_UA;
-#else
-typedef uint16_t			WORD_UA		__attribute__ ((aligned (1)));	// 2 bytes
-typedef uint32_t			DWORD_UA	__attribute__ ((aligned (1)));	// 4 bytes
-#endif
-
 #ifdef _WIN32
 typedef unsigned __int64	unsigned64_t;
 #else
