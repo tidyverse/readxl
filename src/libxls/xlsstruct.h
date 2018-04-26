@@ -33,10 +33,6 @@
 #ifndef XLS_STRUCT_INC
 #define XLS_STRUCT_INC
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "libxls/ole.h"
 
 #define XLS_RECORD_EOF          0x000A
@@ -533,9 +529,5 @@ typedef struct xls_summaryInfo
 xlsSummaryInfo;
 
 typedef void (*xls_formula_handler)(WORD bof, WORD len, BYTE *formula);
-
-#ifdef __cplusplus
-} // extern c block
-#endif
 
 #endif
