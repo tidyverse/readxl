@@ -177,13 +177,13 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
     // Do iconv conversion
 #if defined(_AIX) || defined(__sun)
     const char *from_enc = "UTF-16le";
-    #define ICONV_CONST const
+    typedef const char ** libxls_iconv_inbuf_t;
 #else
     const char *from_enc = "UTF-16LE";
-    #if defined(_WIN32)
-        #define ICONV_CONST const
+    #ifdef WINICONV_CONST
+        typedef const char ** libxls_iconv_inbuf_t;
     #else
-        #define ICONV_CONST
+        typedef char ** libxls_iconv_inbuf_t;
     #endif
 #endif
     char* outbuf = 0;
@@ -226,7 +226,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
             out_ptr = outbuf;
             while(inlenleft)
             {
-                st = iconv(ic, (ICONV_CONST char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
+                st = iconv(ic, (libxls_iconv_inbuf_t)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)
