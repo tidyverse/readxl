@@ -1490,21 +1490,24 @@ xlsWorkBook *xls_open_buffer(const unsigned char *buffer, size_t len,
 
 xlsRow *xls_row(xlsWorkSheet* pWS, WORD cellRow)
 {
-    struct st_row_data *row;
+    if(cellRow > pWS->rows.lastrow)
+        return NULL;
 
-    if(cellRow > pWS->rows.lastrow) return NULL;
-    row = &pWS->rows.row[cellRow];
+    if (pWS->rows.row == NULL)
+        return NULL;
 
-    return row;
+    return &pWS->rows.row[cellRow];
 }
 
 xlsCell	*xls_cell(xlsWorkSheet* pWS, WORD cellRow, WORD cellCol)
 {
     struct st_row_data	*row;
 
-    if(cellRow > pWS->rows.lastrow) return NULL;
-    row = &pWS->rows.row[cellRow];
-    if(row == NULL || cellCol >= row->cells.count) return NULL;
+    if ((row = xls_row(pWS, cellRow)) == NULL)
+        return NULL;
+
+    if(cellCol >= row->cells.count)
+        return NULL;
 
     return &row->cells.cell[cellCol];
 }

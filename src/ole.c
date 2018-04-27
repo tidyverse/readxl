@@ -610,10 +610,10 @@ static ssize_t sector_read(OLE2* ole2, void *buffer, DWORD sid)
 }
 
 // read first 109 sectors of MSAT from header
-static ssize_t read_MSAT_header(OLE2* ole2, OLE2Header* oleh, int sectorCount) {
+static ssize_t read_MSAT_header(OLE2* ole2, OLE2Header* oleh, DWORD sectorCount) {
     BYTE *sector = (BYTE*)ole2->SecID;
     ssize_t bytes_read = 0, total_bytes_read = 0;
-    int sectorNum;
+    DWORD sectorNum;
 
     for (sectorNum = 0; sectorNum < sectorCount && sectorNum < 109; sectorNum++)
     {
@@ -628,7 +628,7 @@ static ssize_t read_MSAT_header(OLE2* ole2, OLE2Header* oleh, int sectorCount) {
 }
 
 // Add additional sectors of the MSAT
-static ssize_t read_MSAT_body(OLE2 *ole2, int sectorOffset, int sectorCount) {
+static ssize_t read_MSAT_body(OLE2 *ole2, DWORD sectorOffset, DWORD sectorCount) {
     DWORD sid = ole2->difstart;
     ssize_t bytes_read = 0, total_bytes_read = 0;
     DWORD sectorNum = sectorOffset;
@@ -732,17 +732,20 @@ cleanup:
 static ssize_t read_MSAT(OLE2* ole2, OLE2Header* oleh)
 {
     // reconstitution of the MSAT
-    int count = ole2->cfat;
-    if(count <= 0) {
-        if (xls_debug) fprintf(stderr, "Error: MSAT count out-of-bounds\n");
+    DWORD count = ole2->cfat;
+    if(count == 0 || count > (1 << 24)) {
+        if (xls_debug) fprintf(stderr, "Error: MSAT count %u out-of-bounds\n", count);
         return -1;
     }
 
     ssize_t total_bytes_read = 0;
     ssize_t bytes_read = 0;
 
-    ole2->SecID = ole_malloc(count*ole2->lsector);
     ole2->SecIDCount = count*ole2->lsector/4;
+    if ((ole2->SecID = ole_malloc(ole2->SecIDCount * sizeof(DWORD))) == NULL) {
+        total_bytes_read = -1;
+        goto cleanup;
+    }
 
     if ((bytes_read = read_MSAT_header(ole2, oleh, count)) == -1) {
         total_bytes_read = -1;

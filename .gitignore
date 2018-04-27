@@ -10,4 +10,3 @@ scratch.R
 src/fprintf-substitution.R
 fprintf-matches.txt
 investigations
-src/patch-to-libxls-upstream.R
