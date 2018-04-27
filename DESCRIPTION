@@ -40,3 +40,4 @@ BugReports: https://github.com/tidyverse/readxl/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1.9000
 Encoding: UTF-8
+Note: libxls-SHA d2726da
