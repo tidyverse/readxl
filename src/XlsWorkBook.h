@@ -9,7 +9,8 @@
 inline std::string normalizePath(std::string path) {
   Rcpp::Environment baseEnv = Rcpp::Environment::base_env();
   Rcpp::Function normalizePath = baseEnv["normalizePath"];
-  return Rcpp::as<std::string>(normalizePath(path, "/", true));
+  Rcpp::Function enc2native = baseEnv["enc2native"];
+  return Rcpp::as<std::string>(enc2native(normalizePath(path, "/", true)));
 }
 
 class XlsWorkBook {
@@ -26,8 +27,7 @@ class XlsWorkBook {
 public:
 
   XlsWorkBook(const std::string& path) {
-    //path_ = normalizePath(path);
-    path_ = path;
+    path_ = normalizePath(path);
 
     xls::xlsWorkBook* pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
     if (pWB_ == NULL) {
