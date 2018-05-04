@@ -26,7 +26,8 @@ class XlsWorkBook {
 public:
 
   XlsWorkBook(const std::string& path) {
-    path_ = normalizePath(path);
+    //path_ = normalizePath(path);
+    path_ = path;
 
     xls::xlsWorkBook* pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
     if (pWB_ == NULL) {
