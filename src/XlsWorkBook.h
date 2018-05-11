@@ -6,12 +6,6 @@
 #include "ColSpec.h"
 #include "utils.h"
 
-inline std::string normalizePath(std::string path) {
-  Rcpp::Environment baseEnv = Rcpp::Environment::base_env();
-  Rcpp::Function normalizePath = baseEnv["normalizePath"];
-  return Rcpp::as<std::string>(normalizePath(path, "/", true));
-}
-
 class XlsWorkBook {
 
   // common to Xls[x]WorkBook
@@ -26,7 +20,7 @@ class XlsWorkBook {
 public:
 
   XlsWorkBook(const std::string& path) {
-    path_ = normalizePath(path);
+    path_ = path;
 
     xls::xlsWorkBook* pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
     if (pWB_ == NULL) {

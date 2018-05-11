@@ -93,3 +93,25 @@ test_that("trim_ws must be a logical", {
     "`trim_ws` must be either TRUE or FALSE"
   )
 })
+
+## xlsx: https://github.com/tidyverse/readxl/issues/370
+## xls:  https://github.com/tidyverse/readxl/issues/476
+test_that("non-ASCII filenames can be read", {
+  skip_on_cran()
+  ## chosen to be non-ASCII but
+  ## [1] representable in Windows-1252 and
+  ## [2] not any of the few differences between Windows-1252 and ISO-8859-1
+  ## a-grave + e-diaeresis  + Eth + '.xls[x]'
+  xls_filename <- "\u00C0\u00CB\u00D0\u002E\u0078\u006C\u0073"
+  xlsx_filename <- "\u00C0\u00CB\u00D0\u002E\u0078\u006C\u0073\u0078"
+  tricky_xls_file <- file.path(tempdir(), xls_filename)
+  tricky_xlsx_file <- file.path(tempdir(), xlsx_filename)
+  file.copy(test_sheet("list_type.xls"), tricky_xls_file)
+  file.copy(test_sheet("list_type.xlsx"), tricky_xlsx_file)
+  expect_true(file.exists(tricky_xls_file))
+  expect_true(file.exists(tricky_xlsx_file))
+  on.exit(file.remove(tricky_xls_file))
+  on.exit(file.remove(tricky_xlsx_file))
+  expect_error_free(read_xls(tricky_xls_file))
+  expect_error_free(read_xlsx(tricky_xlsx_file))
+})
