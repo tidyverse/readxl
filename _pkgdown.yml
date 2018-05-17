@@ -22,7 +22,9 @@ navbar:
       href: articles/articles/readxl-workflows.html
   - text: News
     menu:
-    - text: "Release notes"
+    - text: "Blog posts"
+    - text: "Version 1.1.0"
+      href: https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/
     - text: "Version 1.0.0"
       href: articles/releases/readxl-1.0.0.html
     - text: "Version 0.1.1"
