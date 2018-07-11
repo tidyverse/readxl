@@ -29,7 +29,7 @@ Determine if files are xls or xlsx (or from the xlsx family).
 determine format. It draws on logic from two lower level functions:
 \itemize{
 \item \code{format_from_ext()} attempts to determine format from the file extension.
-\item \code{format_from_signature()} consults the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or "magic
+\item \code{format_from_signature()} consults the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{filesignature} or "magic
 number".
 }
 
