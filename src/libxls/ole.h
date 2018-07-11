@@ -33,6 +33,8 @@
 #ifndef OLE_INCLUDE
 #define OLE_INCLUDE
 
+#define _XOPEN_SOURCE 500
+
 #include <stdio.h>			// FILE *
 
 #include "libxls/xlstypes.h"
