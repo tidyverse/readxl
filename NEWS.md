@@ -1,5 +1,7 @@
 # readxl 1.1.0.9000
 
+* readxl has a new vignette on reading excel files with multiple header rows, contributed by @apreshill. (#486, #492)
+
 ## Breaking change
 
 * Missing or duplicated column names are now repaired with `tibble::set_tidy_names()` in `read_excel()` and friends. `set_tidy_names()` is intended to encourage name repair that is more principled and consistent, across multiple tidyverse packages. Its design is discussed in [tidyverse/tibble#217](https://github.com/tidyverse/tibble/issues/217). (#357, #453)
