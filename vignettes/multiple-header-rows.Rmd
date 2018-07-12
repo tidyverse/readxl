@@ -58,3 +58,5 @@ If you want a way to save that metadata without polluting your actual data, you 
   read_excel(sheet = 2, n_max = 1))
 ```
 
+
+> This vignette has been adapted from a post on [Alison Hill's blog](https://alison.rbind.io/post/read-multiple-header-rows/).
