@@ -8,6 +8,10 @@ home:
   - text: Learn more
     href: http://r4ds.had.co.nz/data-import.html
 
+authors:
+  Jennifer Bryan:
+    href: https://jennybryan.org
+
 navbar:
   left:
   - text: Reference
