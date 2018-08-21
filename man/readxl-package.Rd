@@ -7,9 +7,9 @@
 \title{readxl: Read Excel Files}
 \description{
 Import excel files into R. Supports '.xls' via the embedded
-'libxls' C library <https://github.com/evanmiller/libxls> and '.xlsx' via
-the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net>.
-Works on Windows, Mac and Linux without external dependencies.
+    'libxls' C library <https://github.com/evanmiller/libxls> and '.xlsx' via
+    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net>.
+    Works on Windows, Mac and Linux without external dependencies.
 }
 \seealso{
 Useful links:

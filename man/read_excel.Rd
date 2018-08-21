@@ -7,16 +7,16 @@
 \title{Read xls and xlsx files}
 \usage{
 read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-  guess_max = min(1000, n_max))
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
+  n_max = Inf, guess_max = min(1000, n_max))
 
 read_xls(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-  guess_max = min(1000, n_max))
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
+  n_max = Inf, guess_max = min(1000, n_max))
 
 read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
-  col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-  guess_max = min(1000, n_max))
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
+  n_max = Inf, guess_max = min(1000, n_max))
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
