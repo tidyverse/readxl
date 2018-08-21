@@ -46,6 +46,7 @@ BugReports: https://github.com/tidyverse/readxl/issues
 Imports:
     cellranger,
     Rcpp (>= 0.12.12),
+    rlang,
     tibble (>= 1.4.99.9003)
 Suggests:
     covr,
@@ -57,10 +58,10 @@ LinkingTo:
     Rcpp
 VignetteBuilder: 
     knitr
+Remotes: 
+    tidyverse/tibble
 Encoding: UTF-8
 LazyData: true
 Note: libxls-SHA d2726da
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
-Remotes:  
-    tidyverse/tibble

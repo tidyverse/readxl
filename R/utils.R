@@ -16,3 +16,7 @@ is_integerish <- function(x) {
 is_string <- function(x) {
   length(x) == 1 && is.character(x)
 }
+
+isFALSE <- function(x) {
+  is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}

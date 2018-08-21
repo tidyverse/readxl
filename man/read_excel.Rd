@@ -8,15 +8,15 @@
 \usage{
 read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max))
+  n_max = Inf, guess_max = min(1000, n_max), .tidy_names = TRUE)
 
 read_xls(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max))
+  n_max = Inf, guess_max = min(1000, n_max), .tidy_names = TRUE)
 
 read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max))
+  n_max = Inf, guess_max = min(1000, n_max), .tidy_names = TRUE)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
@@ -62,6 +62,15 @@ the returned tibble. Ignored if \code{range} is given.}
 
 \item{guess_max}{Maximum number of data rows to use for guessing column
 types.}
+
+\item{.tidy_names}{Treatment of invalid or duplicate column names:
+\itemize{
+\item \code{NULL}: default, throw an error if there are any missing or duplicated names,
+\item \code{FALSE}: deliberately request a tibble with invalid names,
+\item \code{TRUE}: apply \code{\link[=tidy_names]{tidy_names()}} to the names,
+\item a function: apply custom name repair (e.g., \code{.tidy_names = make.names}
+to get base R equivalence).
+}}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}

@@ -38,6 +38,7 @@ NULL
 #'   the returned tibble. Ignored if `range` is given.
 #' @param guess_max Maximum number of data rows to use for guessing column
 #'   types.
+#' @inheritParams tibble::tibble
 #' @return A [tibble][tibble::tibble-package]
 #' @seealso [cell-specification] for more details on targetting cells with the
 #'   `range` argument
@@ -84,7 +85,8 @@ NULL
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                       guess_max = min(1000, n_max)) {
+                       guess_max = min(1000, n_max),
+                       .tidy_names = TRUE) {
   path <- check_file(path)
   format <- check_format(path)
   read_excel_(
@@ -92,7 +94,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
-    format = format
+    format = format, .tidy_names = .tidy_names
   )
 }
 
@@ -105,13 +107,14 @@ read_excel <- function(path, sheet = NULL, range = NULL,
 read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                     guess_max = min(1000, n_max)) {
+                     guess_max = min(1000, n_max),
+                     .tidy_names = TRUE) {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, skip = skip, n_max = n_max, guess_max = guess_max,
-    format = "xls"
+    format = "xls", .tidy_names = .tidy_names
   )
 }
 
@@ -120,20 +123,22 @@ read_xls <- function(path, sheet = NULL, range = NULL,
 read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                      guess_max = min(1000, n_max)) {
+                      guess_max = min(1000, n_max),
+                      .tidy_names = TRUE) {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, skip = skip, n_max = n_max, guess_max = guess_max,
-    format = "xlsx"
+    format = "xlsx", .tidy_names = .tidy_names
   )
 }
 
 read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                        guess_max = min(1000, n_max), format) {
+                        guess_max = min(1000, n_max), format,
+                        .tidy_names = TRUE) {
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -149,17 +154,58 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
-  tibble::set_tidy_names(
-    tibble::as_tibble(
-      read_fun(
-        path = enc2native(normalizePath(path)), sheet_i = sheet,
-        limits = limits, shim = shim,
-        col_names = col_names, col_types = col_types,
-        na = na, trim_ws = trim_ws, guess_max = guess_max
-      ),
-      validate = FALSE
-    )
+
+  ret <- read_fun(
+    path = enc2native(normalizePath(path)), sheet_i = sheet,
+    limits = limits, shim = shim,
+    col_names = col_names, col_types = col_types,
+    na = na, trim_ws = trim_ws, guess_max = guess_max
   )
+
+  if (utils::packageVersion("tibble") <= "1.4.2") {
+    ## readxl v1.1.0 behaviour
+    return(
+      tibble::repair_names(
+        tibble::as_tibble(ret, validate = FALSE),
+        prefix = "X", sep = "__"
+      )
+    )
+  }
+
+  ## re-implementing tibble:::auto_tidy_names()
+  ## https://github.com/tidyverse/tibble/blob/997f5e2f41f325a7a14ca678d212ddb915c052af/R/as_tibble.R#L122-L137
+  if (is.null(.tidy_names) || isFALSE(.tidy_names)) {
+    return(
+      tibble::as_tibble(ret, .tidy_names = .tidy_names)
+    )
+  }
+
+  ret <- tibble::as_tibble(ret, .tidy_names = FALSE)
+  nms_before <- names(ret)
+
+  ## .tidy_names is either TRUE or a function
+  if (isTRUE(.tidy_names)) {
+    .tidy_names <- tibble::tidy_names
+  }
+
+  ## https://github.com/tidyverse/tibble/issues/462
+  ## poses questions about the use of rlang::names2()
+  if (rlang::is_function(.tidy_names)) {
+    nms_after <- .tidy_names(rlang::names2(ret))
+  } else {
+    stop("impossible!")
+  }
+
+  if (identical(nms_before, nms_after)) {
+    return(ret)
+  }
+
+  names(ret) <- nms_after
+  attr(ret, "names_history") <- tibble::tibble(
+    before = nms_before,
+    after = nms_after
+  )
+  ret
 }
 
 # Helper functions -------------------------------------------------------------
