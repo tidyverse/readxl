@@ -1,6 +1,6 @@
 # readxl *development version*
 
-* readxl has a new vignette on reading excel files with multiple header rows, contributed by @apreshill. (#486, #492)
+* readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
 
 ## Breaking change
 
@@ -15,6 +15,10 @@
 * Path handling:
 
   - All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
+  
+## Dependency changes
+
+readxl is now tested back to R >= 3.2.
 
 # readxl 1.1.0
 

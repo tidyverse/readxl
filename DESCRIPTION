@@ -1,29 +1,48 @@
 Package: readxl
 Title: Read Excel Files
 Version: 1.1.0.9000
-Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut"), 
-      comment = c(ORCID = "0000-0003-4757-117X")
-    ),
-    person("Jennifer", "Bryan", , "jenny@rstudio.com", role = c("aut", "cre"),
-      comment = c(ORCID = "0000-0002-6983-2759")
-    ),
-    person("RStudio", role = c("cph", "fnd"), comment = "Copyright holder of
-      all R code and all C/C++ code without explicit copyright attribution"),
-    person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of included RapidXML code"),
-    person("Komarov Valery", role = c("ctb", "cph"), comment = "Author of included libxls code"),
-    person("Christophe Leitienne", role = c("ctb", "cph"), comment = "Author of included libxls code"),
-    person("Bob Colbert", role = c("ctb", "cph"), comment = "Author of included libxls code"),
-    person("David Hoerl", role = c("ctb", "cph"), comment = "Author of included libxls code"),
-    person("Evan Miller", role = c("ctb", "cph"), comment = "Author of included libxls code")
-    )
-Description: Import excel files into R. Supports '.xls' via the embedded
-    'libxls' C library <https://github.com/evanmiller/libxls> and '.xlsx' via
-    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net>.
-    Works on Windows, Mac and Linux without external dependencies.
+Authors@R: 
+    c(person(given = "Hadley",
+             family = "Wickham",
+             role = "aut",
+             email = "hadley@rstudio.com",
+             comment = c(ORCID = "0000-0003-4757-117X")),
+      person(given = "Jennifer",
+             family = "Bryan",
+             role = c("aut", "cre"),
+             email = "jenny@rstudio.com",
+             comment = c(ORCID = "0000-0002-6983-2759")),
+      person(given = "RStudio",
+             role = c("cph", "fnd"),
+             comment = "Copyright holder of\n      all R code and all C/C++ code without explicit copyright attribution"),
+      person(given = "Marcin",
+             family = "Kalicinski",
+             role = c("ctb", "cph"),
+             comment = "Author of included RapidXML code"),
+      person(given = "Komarov Valery",
+             role = c("ctb", "cph"),
+             comment = "Author of included libxls code"),
+      person(given = "Christophe Leitienne",
+             role = c("ctb", "cph"),
+             comment = "Author of included libxls code"),
+      person(given = "Bob Colbert",
+             role = c("ctb", "cph"),
+             comment = "Author of included libxls code"),
+      person(given = "David Hoerl",
+             role = c("ctb", "cph"),
+             comment = "Author of included libxls code"),
+      person(given = "Evan Miller",
+             role = c("ctb", "cph"),
+             comment = "Author of included libxls code"))
+Description: Import excel files into R. Supports '.xls' via the
+    embedded 'libxls' C library <https://github.com/evanmiller/libxls> and
+    '.xlsx' via the embedded 'RapidXML' C++ library
+    <https://rapidxml.sourceforge.net>.  Works on Windows, Mac and Linux
+    without external dependencies.
 License: GPL-3
-LazyData: true
-LinkingTo: Rcpp
+URL: http://readxl.tidyverse.org,
+    https://github.com/tidyverse/readxl
+BugReports: https://github.com/tidyverse/readxl/issues
 Imports:
     cellranger,
     Rcpp (>= 0.12.12),
@@ -34,10 +53,12 @@ Suggests:
     rmarkdown,
     rprojroot (>= 1.1),
     testthat
-Roxygen: list(markdown = TRUE)
-URL: http://readxl.tidyverse.org, https://github.com/tidyverse/readxl
-BugReports: https://github.com/tidyverse/readxl/issues
-VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+LinkingTo: 
+    Rcpp
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
+LazyData: true
 Note: libxls-SHA d2726da
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.0
