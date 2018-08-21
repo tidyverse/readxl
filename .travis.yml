@@ -1,6 +1,7 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: r
+language: R
+sudo: false
 cache: packages
 latex: false
 
@@ -10,15 +11,18 @@ matrix:
       r: oldrel
     - os: linux
       r: release
+      env: R_CODECOV=true
     - os: linux
       r: devel
-    - os: linux
-      dist: trusty
-      env: R_CODECOV=true
     - os: osx
       osx_image: xcode8.3
     - os: osx
       osx_image: xcode7.3
+
+r:
+- 3.1
+- 3.2
+- 3.3
 
 after_success:
   - if [[ "${R_CODECOV}" ]]; then Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'; fi

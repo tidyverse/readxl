@@ -41,3 +41,5 @@ VignetteBuilder: knitr
 RoxygenNote: 6.1.0
 Encoding: UTF-8
 Note: libxls-SHA d2726da
+Depends: 
+    R (>= 3.1)
