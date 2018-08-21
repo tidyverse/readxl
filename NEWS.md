@@ -1,4 +1,4 @@
-# readxl 1.1.0.9000
+# readxl *development version*
 
 * readxl has a new vignette on reading excel files with multiple header rows, contributed by @apreshill. (#486, #492)
 
@@ -12,10 +12,9 @@
   
 ## Other changes
 
-* Path handling (#477):
+* Path handling:
 
-  - `.xls` paths are no longer normalized. (#476 xls)
-  - All paths are explicitly converted to the native encoding via `enc2native()`  (#370)
+  - All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
 
 # readxl 1.1.0
 

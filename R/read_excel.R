@@ -152,7 +152,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   tibble::set_tidy_names(
     tibble::as_tibble(
       read_fun(
-        path = enc2native(path), sheet_i = sheet,
+        path = enc2native(normalizePath(path)), sheet_i = sheet,
         limits = limits, shim = shim,
         col_names = col_names, col_types = col_types,
         na = na, trim_ws = trim_ws, guess_max = guess_max
