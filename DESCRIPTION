@@ -43,8 +43,6 @@ License: GPL-3
 URL: http://readxl.tidyverse.org,
     https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
-Depends: 
-    R (>= 3.2)
 Imports:
     cellranger,
     Rcpp (>= 0.12.12),
