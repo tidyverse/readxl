@@ -14,7 +14,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-6983-2759")),
       person(given = "RStudio",
              role = c("cph", "fnd"),
-             comment = "Copyright holder of\n      all R code and all C/C++ code without explicit copyright attribution"),
+             comment = "Copyright holder of all R code and all C/C++ code without explicit copyright attribution"),
       person(given = "Marcin",
              family = "Kalicinski",
              role = c("ctb", "cph"),

@@ -6,10 +6,11 @@
 \alias{readxl-package}
 \title{readxl: Read Excel Files}
 \description{
-Import excel files into R. Supports '.xls' via the embedded
-    'libxls' C library <https://github.com/evanmiller/libxls> and '.xlsx' via
-    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net>.
-    Works on Windows, Mac and Linux without external dependencies.
+Import excel files into R. Supports '.xls' via the
+    embedded 'libxls' C library <https://github.com/evanmiller/libxls> and
+    '.xlsx' via the embedded 'RapidXML' C++ library
+    <https://rapidxml.sourceforge.net>.  Works on Windows, Mac and Linux
+    without external dependencies.
 }
 \seealso{
 Useful links:
@@ -30,8 +31,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item RStudio (Copyright holder of
-      all R code and all C/C++ code without explicit copyright attribution) [copyright holder, funder]
+  \item RStudio (Copyright holder of all R code and all C/C++ code without explicit copyright attribution) [copyright holder, funder]
   \item Marcin Kalicinski (Author of included RapidXML code) [contributor, copyright holder]
   \item Komarov Valery (Author of included libxls code) [contributor, copyright holder]
   \item Christophe Leitienne (Author of included libxls code) [contributor, copyright holder]
