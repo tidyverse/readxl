@@ -267,6 +267,10 @@ private:
   }
 
   void cacheDateFormats() {
+    if (!zip_has_file(path_, rel_.part("styles"))) {
+      return;
+    }
+
     std::string stylesXml = zip_buffer(path_, rel_.part("styles"));
     rapidxml::xml_document<> styles;
     styles.parse<rapidxml::parse_strip_xml_namespaces>(&stylesXml[0]);
