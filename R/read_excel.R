@@ -110,7 +110,8 @@ read_xls <- function(path, sheet = NULL, range = NULL,
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
-    na = na, skip = skip, n_max = n_max, guess_max = guess_max,
+    na = na, trim_ws = trim_ws, skip = skip,
+    n_max = n_max, guess_max = guess_max,
     format = "xls"
   )
 }
@@ -125,7 +126,8 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
-    na = na, skip = skip, n_max = n_max, guess_max = guess_max,
+    na = na, trim_ws = trim_ws, skip = skip,
+    n_max = n_max, guess_max = guess_max,
     format = "xlsx"
   )
 }

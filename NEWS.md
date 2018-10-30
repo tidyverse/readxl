@@ -1,5 +1,7 @@
 # readxl *development version*
 
+* `read_xls()` and `read_xlsx()` pass the `trim_ws` argument along (#514).
+
 * readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
 
 ## Breaking change
