@@ -38,6 +38,11 @@ NULL
 #'   the returned tibble. Ignored if `range` is given.
 #' @param guess_max Maximum number of data rows to use for guessing column
 #'   types.
+#' @param .name_repair Handling of column names. By default, readxl ensures
+#'   column names are not empty and are unique. If the tibble package version is
+#'   recent enough, there is full support for `.name_repair` as documented in
+#'   [tibble::tibble()]. If an older version of tibble is present, readxl falls
+#'   back to name repair in the style of tibble v1.4.2.
 #' @return A [tibble][tibble::tibble-package]
 #' @seealso [cell-specification] for more details on targetting cells with the
 #'   `range` argument
@@ -81,10 +86,39 @@ NULL
 #'
 #' # Get a preview of column names
 #' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
+#'
+#' if (utils::packageVersion("tibble") > "1.4.99") {
+#'   ## exploit full .name_repair flexibility from tibble
+#'
+#'   ## "universal" names are unique and syntactic
+#'   read_excel(
+#'     readxl_example("deaths.xlsx"),
+#'     range = "arts!A5:F15",
+#'     .name_repair = "universal"
+#'   )
+#'
+#'   ## specify name repair as a built-in function
+#'   read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
+#'
+#'   ## specify name repair as a custom function
+#'   my_custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
+#'   read_excel(
+#'     readxl_example("datasets.xlsx"),
+#'     .name_repair = my_custom_name_repair
+#'   )
+#'
+#'   ## specify name repair as an anonymous function
+#'   read_excel(
+#'     readxl_example("datasets.xlsx"),
+#'     sheet = "chickwts",
+#'     .name_repair = ~ substr(.x, start = 1, stop = 3)
+#'   )
+#' }
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                       guess_max = min(1000, n_max)) {
+                       guess_max = min(1000, n_max),
+                       .name_repair = "unique") {
   path <- check_file(path)
   format <- check_format(path)
   read_excel_(
@@ -92,6 +126,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    .name_repair = .name_repair,
     format = format
   )
 }
@@ -105,13 +140,15 @@ read_excel <- function(path, sheet = NULL, range = NULL,
 read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                     guess_max = min(1000, n_max)) {
+                     guess_max = min(1000, n_max),
+                     .name_repair = "unique") {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    .name_repair = .name_repair,
     format = "xls"
   )
 }
@@ -121,13 +158,15 @@ read_xls <- function(path, sheet = NULL, range = NULL,
 read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                      guess_max = min(1000, n_max)) {
+                      guess_max = min(1000, n_max),
+                      .name_repair = "unique") {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    .name_repair = .name_repair,
     format = "xlsx"
   )
 }
@@ -135,7 +174,9 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
 read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                        guess_max = min(1000, n_max), format) {
+                        guess_max = min(1000, n_max),
+                        .name_repair = NULL,
+                        format) {
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -151,16 +192,14 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
-  tibble::set_tidy_names(
-    tibble::as_tibble(
-      read_fun(
-        path = enc2native(normalizePath(path)), sheet_i = sheet,
-        limits = limits, shim = shim,
-        col_names = col_names, col_types = col_types,
-        na = na, trim_ws = trim_ws, guess_max = guess_max
-      ),
-      validate = FALSE
-    )
+  set_readxl_names(
+    read_fun(
+      path = enc2native(normalizePath(path)), sheet_i = sheet,
+      limits = limits, shim = shim,
+      col_names = col_names, col_types = col_types,
+      na = na, trim_ws = trim_ws, guess_max = guess_max
+    ),
+    .name_repair = .name_repair
   )
 }
 
@@ -283,3 +322,42 @@ check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100)
   }
   guess_max
 }
+
+set_readxl_names <- function(l, .name_repair = "unique") {
+  tibble_version <- utils::packageVersion("tibble")
+
+  if (tibble_version > "1.4.2") {
+    if (is.null(.name_repair)) {
+      return(tibble::as_tibble(l))
+    } else {
+      return(tibble::as_tibble(l, .name_repair = .name_repair))
+    }
+  }
+
+  tibble_message(.name_repair)
+  tibble::set_tidy_names(tibble::as_tibble(l, validate = FALSE))
+}
+
+tibble_message <- (function(.name_repair) {
+  first_call <- TRUE
+  function(.name_repair) {
+    if (first_call) {
+      message(
+        "readxl works best with a newer version of the tibble package.\n",
+        "You currently have tibble v",
+        utils::packageVersion("tibble"), ".\n",
+        "Falling back to column name repair from tibble <= v1.4.2.\n",
+        "Message displays once per session."
+      )
+      first_call <<- FALSE
+      return()
+    }
+
+    if (!first_call && !identical(.name_repair, "unique")) {
+      message(
+        "Update the tibble package to use the `.name_repair` argument. ",
+        "Ignoring."
+      )
+    }
+  }
+})()

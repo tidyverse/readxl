@@ -75,23 +75,19 @@ test_that("wrong length column names are rejected", {
 test_that("column_names can anticipate skipping", {
 
   ## xlsx
-  expect_silent(
-    df <- read_excel(
-      test_sheet("iris-excel-xlsx.xlsx"),
-      col_names = c("one", "two", "three"), skip = 1,
-      col_types = c("numeric", "numeric", "skip", "skip", "text")
-    )
+  df <- read_excel(
+    test_sheet("iris-excel-xlsx.xlsx"),
+    col_names = c("one", "two", "three"), skip = 1,
+    col_types = c("numeric", "numeric", "skip", "skip", "text")
   )
   expect_identical(dim(df), c(150L, 3L))
   expect_identical(names(df), c("one", "two", "three"))
 
   ## xls
-  expect_silent(
-    df <- read_excel(
-      test_sheet("iris-excel-xls.xls"),
-      col_names = c("one", "two", "three"), skip = 1,
-      col_types = c("numeric", "numeric", "skip", "skip", "text")
-    )
+  df <- read_excel(
+    test_sheet("iris-excel-xls.xls"),
+    col_names = c("one", "two", "three"), skip = 1,
+    col_types = c("numeric", "numeric", "skip", "skip", "text")
   )
   expect_identical(dim(df), c(150L, 3L))
   expect_identical(names(df), c("one", "two", "three"))
