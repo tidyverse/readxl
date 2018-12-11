@@ -11,7 +11,6 @@ matrix:
       r_github_packages:
         - tidyverse/tidytemplate
         - r-lib/pkgdown
-      env: DISPLAY=""
       after_success: Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'
       deploy:
         provider: script
