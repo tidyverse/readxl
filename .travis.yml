@@ -8,10 +8,8 @@ matrix:
   include:
     - r: devel
     - r: release
-      r_github_packages:
-        - tidyverse/tidytemplate
-        - r-lib/pkgdown
       after_success: Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'
+      before_cache: Rscript -e 'remotes::install_cran("pkgdown")' -e 'remotes::install_github("tidyverse/tidytemplate")'
       deploy:
         provider: script
         script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
