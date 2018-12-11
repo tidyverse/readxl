@@ -6,6 +6,8 @@
 \alias{readxl-package}
 \title{readxl: Read Excel Files}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
 Import excel files into R. Supports '.xls' via the
     embedded 'libxls' C library <https://github.com/evanmiller/libxls> and
     '.xlsx' via the embedded 'RapidXML' C++ library

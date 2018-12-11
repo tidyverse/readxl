@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# readxl <img src="tools/logo.png" align="right" />
+# readxl <img src='man/figures/logo.png' align="right" height="139" />
 
 [![Travis-CI Build
 Status](https://travis-ci.org/tidyverse/readxl.svg?branch=master)](https://travis-ci.org/tidyverse/readxl)
@@ -82,7 +82,7 @@ read_excel(xlsx_example)
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa 
-#> # ... with 147 more rows
+#> # … with 147 more rows
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
@@ -92,7 +92,7 @@ read_excel(xls_example)
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa 
-#> # ... with 147 more rows
+#> # … with 147 more rows
 ```
 
 List the sheet names with `excel_sheets()`.
@@ -112,7 +112,7 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 1    179 horsebean
 #> 2    160 horsebean
 #> 3    136 horsebean
-#> # ... with 68 more rows
+#> # … with 68 more rows
 read_excel(xls_example, sheet = 4)
 #> # A tibble: 1,000 x 5
 #>     lat  long depth   mag stations
@@ -120,7 +120,7 @@ read_excel(xls_example, sheet = 4)
 #> 1 -20.4  182.   562   4.8       41
 #> 2 -20.6  181.   650   4.2       15
 #> 3 -26    184.    42   5.4       43
-#> # ... with 997 more rows
+#> # … with 997 more rows
 ```
 
 There are various ways to control which cells are read. You can even
@@ -155,7 +155,7 @@ read_excel(xlsx_example, range = cell_cols("B:D"))
 #> 1         3.5          1.4         0.2
 #> 2         3            1.4         0.2
 #> 3         3.2          1.3         0.2
-#> # ... with 147 more rows
+#> # … with 147 more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
 #> # A tibble: 4 x 3
 #>     cyl  disp    hp
@@ -163,7 +163,7 @@ read_excel(xlsx_example, range = "mtcars!B1:D5")
 #> 1     6   160   110
 #> 2     6   160   110
 #> 3     4   108    93
-#> # ... with 1 more row
+#> # … with 1 more row
 ```
 
 If `NA`s are represented by something other than blank cells, set the
@@ -177,7 +177,7 @@ read_excel(xlsx_example, na = "setosa")
 #> 1          5.1         3.5          1.4         0.2 <NA>   
 #> 2          4.9         3            1.4         0.2 <NA>   
 #> 3          4.7         3.2          1.3         0.2 <NA>   
-#> # ... with 147 more rows
+#> # … with 147 more rows
 ```
 
 If you are new to the tidyverse conventions for data import, you may
