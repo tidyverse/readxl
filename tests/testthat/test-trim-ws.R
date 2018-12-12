@@ -23,6 +23,9 @@ test_that("trim_ws is default and it works", {
 })
 
 test_that("trim_ws = FALSE preserves whitespace", {
+  ## because trimws()
+  skip_if(getRversion() < 3.2)
+
   ## data
   xls <- read_excel(
     test_sheet("whitespace-xls.xls"),
