@@ -1,9 +1,5 @@
 # readxl *development version*
 
-* `read_xls()` and `read_xlsx()` pass the `trim_ws` argument along (#514).
-
-* readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
-
 ## Breaking change
 
 * Missing or duplicated column names are now repaired with `tibble::set_tidy_names()` in `read_excel()` and friends. `set_tidy_names()` is intended to encourage name repair that is more principled and consistent, across multiple tidyverse packages. Its design is discussed in [tidyverse/tibble#217](https://github.com/tidyverse/tibble/issues/217). (#357, #453)
@@ -14,15 +10,17 @@
   
 ## Other changes
 
+* `read_xls()` and `read_xlsx()` pass the `trim_ws` argument along (#514).
+
+* readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
+
 * xlsx files that do not have a "Styles" part can now be read (#505, #506 @jt6)
 
-* Path handling:
-
-  - All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
+* All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
   
 ## Dependency changes
 
-readxl is now tested back to R >= 3.2.
+readxl is now tested back to R >= 3.1.
 
 # readxl 1.1.0
 
