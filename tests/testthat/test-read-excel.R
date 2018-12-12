@@ -115,3 +115,11 @@ test_that("non-ASCII filenames can be read", {
   expect_error_free(read_xls(tricky_xls_file))
   expect_error_free(read_xlsx(tricky_xlsx_file))
 })
+
+test_that("styles and sharedStrings parts can be absent", {
+  expect_error_free(
+    df <- read_xlsx(test_sheet("no-styles-or-sharedStrings-parts.xlsx"))
+  )
+  expect_identical(df$Language[1], "german")
+  expect_true(all(df$Age > 0))
+ })
