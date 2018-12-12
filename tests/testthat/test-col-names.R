@@ -92,3 +92,80 @@ test_that("column_names can anticipate skipping", {
   expect_identical(dim(df), c(150L, 3L))
   expect_identical(names(df), c("one", "two", "three"))
 })
+
+test_that(".name_repair is passed through to tibble", {
+  skip_if_not_installed("tibble", minimum_version = "1.4.99.9006")
+
+  expect_colnames <- function(df, expected) {
+    expect_identical(colnames(df), expected)
+  }
+
+  ## default is "unique"
+  nms <- c("a b..1", "a b..2","..3", "c%&$")
+  xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"))
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(test_sheet("names-need-repair-xls.xls"))
+  expect_colnames(xls, nms)
+
+  ## "universal" names are available
+  nms <- c("a.b..1", "a.b..2","...3", "c...")
+  xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal")
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(test_sheet("names-need-repair-xls.xls"), .name_repair = "universal")
+  expect_colnames(xls, nms)
+
+  ## "minimal" names are available
+  nms <- c("", "var2","", "var2")
+  xlsx <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"), .name_repair = "minimal")
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(test_sheet("unnamed-duplicated-columns.xls"), .name_repair = "minimal")
+  expect_colnames(xls, nms)
+
+  ## specify name repair as a built-in function
+  nms <- c("SEPAL.LENGTH", "SEPAL.WIDTH", "PETAL.LENGTH", "PETAL.WIDTH", "SPECIES")
+  xlsx <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), .name_repair = toupper)
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(test_sheet("iris-excel-xls.xls"), .name_repair = toupper)
+  expect_colnames(xls, nms)
+
+  ## specify name repair as a custom function
+  nms <- c("sepal_length", "sepal_width", "petal_length", "petal_width", "species")
+  custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
+  xlsx <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), .name_repair = custom_name_repair)
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(test_sheet("iris-excel-xls.xls"), .name_repair = custom_name_repair)
+  expect_colnames(xls, nms)
+
+  ## specify name repair as an anonymous function
+  nms <- c("wei", "fee")
+  xlsx <- read_excel(
+    readxl_example("datasets.xlsx"), sheet = "chickwts",
+    .name_repair = ~ substr(.x, start = 1, stop = 3)
+  )
+  expect_colnames(xlsx, nms)
+  xls <- read_excel(
+    readxl_example("datasets.xls"), sheet = "chickwts",
+    .name_repair = ~ substr(.x, start = 1, stop = 3)
+  )
+  expect_colnames(xls, nms)
+})
+
+test_that("use of .name_repair is caught and handled with old tibble", {
+  skip_if(utils::packageVersion("tibble") > "1.4.99")
+
+  expect_colnames <- function(df, expected) {
+    expect_identical(colnames(df), expected)
+  }
+
+  nms <- c("a b..1", "a b..2","..3", "c%&$")
+  expect_message(
+    xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal"),
+    "Ignoring"
+  )
+  expect_colnames(xlsx, nms)
+  expect_message(
+    xls <- read_excel(test_sheet("names-need-repair-xls.xls"), .name_repair = "universal"),
+    "Ignoring"
+  )
+  expect_colnames(xls, nms)
+})
