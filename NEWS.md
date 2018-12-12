@@ -12,6 +12,8 @@
   
 ## Other changes
 
+* xlsx files that do not have a "Styles" part can now be read (#505, #506 @jt6)
+
 * Path handling:
 
   - All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
