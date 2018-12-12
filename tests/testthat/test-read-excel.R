@@ -117,5 +117,7 @@ test_that("non-ASCII filenames can be read", {
 })
 
 test_that("styles and sharedStrings parts can be absent", {
-  expect_error_free(read_xlsx(test_sheet("styles-sharedStrings-absent.xlsx")))
+  expect_error_free(
+    read_xlsx(test_sheet("no-styles-or-sharedStrings-parts.xlsx"))
+  )
 })
