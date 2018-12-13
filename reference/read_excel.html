@@ -166,15 +166,15 @@ prevent such guessing.</p>
 
     <pre class="usage"><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
 
 <span class='fu'>read_xls</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
 
 <span class='fu'>read_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>))</pre>
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -243,6 +243,14 @@ the returned tibble. Ignored if <code>range</code> is given.</p></td>
       <td><p>Maximum number of data rows to use for guessing column
 types.</p></td>
     </tr>
+    <tr>
+      <th>.name_repair</th>
+      <td><p>Handling of column names. By default, readxl ensures
+column names are not empty and are unique. If the tibble package version is
+recent enough, there is full support for <code>.name_repair</code> as documented in
+<code><a href='https://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble::tibble()</a></code>. If an older version of tibble is present, readxl falls
+back to name repair in the style of tibble v1.4.2.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -300,13 +308,8 @@ types.</p></td>
 #&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># Skip rows and use default column names</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>148</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'> -&gt; ..1</span>
-#&gt; <span class='message'> -&gt; ..2</span>
-#&gt; <span class='message'> -&gt; ..3</span>
-#&gt; <span class='message'> -&gt; ..4</span>
-#&gt; <span class='message'> -&gt; ..5</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;     ..1   ..2   ..3   ..4 ..5      
+<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>148</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;    X__1  X__2  X__3  X__4 X__5     
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
 #&gt; 1   6.5   3     5.2   2   virginica
 #&gt; 2   6.2   3.4   5.4   2.3 virginica
@@ -401,13 +404,8 @@ types.</p></td>
 #&gt; 3     4   108    93
 #&gt; 4     6   258   110</div><div class='input'>
 <span class='co'># Read only specific rows or columns</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'> -&gt; ..1</span>
-#&gt; <span class='message'> -&gt; ..2</span>
-#&gt; <span class='message'> -&gt; ..3</span>
-#&gt; <span class='message'> -&gt; ..4</span>
-#&gt; <span class='message'> -&gt; ..5</span></div><div class='output co'>#&gt; # A tibble: 50 x 5
-#&gt;      ..1   ..2   ..3   ..4 ..5      
+<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 50 x 5
+#&gt;     X__1  X__2  X__3  X__4 X__5     
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
 #&gt;  1   6.3   3.3   6     2.5 virginica
 #&gt;  2   5.8   2.7   5.1   1.9 virginica
@@ -434,7 +432,34 @@ types.</p></td>
 #&gt; 10         3.1          1.5         0.1
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Get a preview of column names</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>), <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>), <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div><div class='input'>
+<span class='kw'>if</span> (<span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/packageDescription'>packageVersion</a></span>(<span class='st'>"tibble"</span>) <span class='kw'>&gt;</span> <span class='st'>"1.4.2"</span>) {
+  <span class='co'>## exploit full .name_repair flexibility from tibble</span>
+
+  <span class='co'>## "universal" names are unique and syntactic</span>
+  <span class='fu'>read_excel</span>(
+    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"deaths.xlsx"</span>),
+    <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"arts!A5:F15"</span>,
+    <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"universal"</span>
+  )
+
+  <span class='co'>## specify name repair as a built-in function</span>
+  <span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='no'>toupper</span>)
+
+  <span class='co'>## specify name repair as a custom function</span>
+  <span class='no'>my_custom_name_repair</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>nms</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/chartr'>tolower</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/grep'>gsub</a></span>(<span class='st'>"[.]"</span>, <span class='st'>"_"</span>, <span class='no'>nms</span>))
+  <span class='fu'>read_excel</span>(
+    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>),
+    <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='no'>my_custom_name_repair</span>
+  )
+
+  <span class='co'>## specify name repair as an anonymous function</span>
+  <span class='fu'>read_excel</span>(
+    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>),
+    <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='st'>"chickwts"</span>,
+    <span class='kw'>.name_repair</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substr</a></span>(<span class='no'>.x</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>stop</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+  )
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

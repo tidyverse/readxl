@@ -141,14 +141,18 @@
 <p>with the wrinkle that datetimes are a very special flavor of numeric. A cell of any particular type can always be represented as one of any higher type and, possibly, as one of lower type. When guessing, <code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it has seen in any given column. Once it has visited <code>guess_max</code> rows or run out of data, this is the guessed type for that column. There is a strong current towards “text”, the column type of last resort.</p>
 <p>Here’s an example of column guessing with <code>deaths.xlsx</code> which ships with readxl.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Name Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   &lt;ch&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1 Dav… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2 Car… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3 Chu… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 4 Bil… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Message displays once per session.</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   Name Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   &lt;ch&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 1 Dav… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 Car… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 Chu… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 4 Bil… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
 </div>
 <div id="excel-types-r-types-col_types" class="section level2">
 <h2 class="hasAnchor">
@@ -275,34 +279,28 @@
 </ul>
 <p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; New names:</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;  -&gt; ..2</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;  -&gt; ..3</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;  -&gt; ..4</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  -&gt; ..5</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  -&gt; ..6</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # A tibble: 18 x 6</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;    `Lots of people`       ..2            ..3    ..4    ..5      ..6       </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  1 simply cannot resist … &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     some notes</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  2 at                     the            top    &lt;NA&gt;   of       their spr…</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  3 or                     merging        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     cells     </span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  4 Name                   Profession     Age    Has k… Date of… Date of d…</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  5 David Bowie            musician       69     TRUE   17175    42379     </span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;  6 Carrie Fisher          actor          60     TRUE   20749    42731     </span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;  7 Chuck Berry            musician       90     TRUE   9788     42812     </span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;  8 Bill Paxton            actor          61     TRUE   20226    42791     </span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt;  9 Prince                 musician       57     TRUE   21343    42481     </span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 10 Alan Rickman           actor          69     FALSE  16854    42383     </span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 11 Florence Henderson     actor          82     TRUE   12464    42698     </span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; 12 Harper Lee             author         89     FALSE  9615     42419     </span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; 13 Zsa Zsa Gábor          actor          99     TRUE   6247     42722     </span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; 14 George Michael         musician       53     FALSE  23187    42729     </span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; 15 Some                   &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;      </span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; 16 &lt;NA&gt;                   also like to … &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;      </span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; 17 &lt;NA&gt;                   &lt;NA&gt;           at the botto… &lt;NA&gt;     &lt;NA&gt;      </span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; 18 &lt;NA&gt;                   &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     too!</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; # A tibble: 18 x 6</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;    `Lots of people`       X__1           X__2   X__3   X__4     X__5      </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  1 simply cannot resist … &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     some notes</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  2 at                     the            top    &lt;NA&gt;   of       their spr…</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  3 or                     merging        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     cells     </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  4 Name                   Profession     Age    Has k… Date of… Date of d…</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  5 David Bowie            musician       69     TRUE   17175    42379     </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  6 Carrie Fisher          actor          60     TRUE   20749    42731     </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  7 Chuck Berry            musician       90     TRUE   9788     42812     </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  8 Bill Paxton            actor          61     TRUE   20226    42791     </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  9 Prince                 musician       57     TRUE   21343    42481     </span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 10 Alan Rickman           actor          69     FALSE  16854    42383     </span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 11 Florence Henderson     actor          82     TRUE   12464    42698     </span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 12 Harper Lee             author         89     FALSE  9615     42419     </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 13 Zsa Zsa Gábor          actor          99     TRUE   6247     42722     </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 14 George Michael         musician       53     FALSE  23187    42729     </span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; 15 Some                   &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;      </span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 16 &lt;NA&gt;                   also like to … &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;      </span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 17 &lt;NA&gt;                   &lt;NA&gt;           at the botto… &lt;NA&gt;     &lt;NA&gt;      </span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; 18 &lt;NA&gt;                   &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     too!</span></a></code></pre></div>
 <p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div id="peek-at-column-names" class="section level3">

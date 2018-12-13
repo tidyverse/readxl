@@ -156,7 +156,11 @@
 <p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> like so:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> <span class="st">"iris"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Message displays once per session.</span></a></code></pre></div>
 <p>Why does this work? <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
 <p>Let’s check. Did we still import the data? Did we write the CSV file?</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">iris_xl</a>
@@ -408,7 +412,7 @@ devtools::session_info()
 #>  collate  en_US.UTF-8                 
 #>  ctype    en_US.UTF-8                 
 #>  tz       UTC                         
-#>  date     2018-12-12                  
+#>  date     2018-12-13                  
 #> 
 #> ─ Packages ──────────────────────────────────────────────────────────────
 #>  package     * version    date       lib source        
@@ -463,7 +467,7 @@ devtools::session_info()
 #>  R6            2.3.0      2018-10-04 [1] CRAN (R 3.5.1)
 #>  Rcpp          1.0.0      2018-11-07 [1] CRAN (R 3.5.1)
 #>  readr       * 1.3.0      2018-12-11 [1] CRAN (R 3.5.1)
-#>  readxl      * 1.1.0.9000 2018-12-12 [1] local         
+#>  readxl      * 1.1.0.9000 2018-12-13 [1] local         
 #>  rematch       1.0.1      2016-04-21 [1] CRAN (R 3.5.1)
 #>  remotes       2.0.2      2018-10-30 [1] CRAN (R 3.5.1)
 #>  rlang         0.3.0.1    2018-10-25 [1] CRAN (R 3.5.1)
