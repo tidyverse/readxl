@@ -1,0 +1,73 @@
+---
+title: "Column Names"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(readxl)
+```
+
+As of v1.2.0, readxl provides the `.name_repair` argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the [tibble package](https://tibble.tidyverse.org).
+
+The `.name_repair` argument in `read_excel()`, `read_xls()`, and `read_xlsx()` works exactly the same way as it does in [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html) and [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html). Full documentation is in the [`?name-repair` topic](https://tibble.tidyverse.org/dev/reference/name-repair.html) of tibble.
+
+readxl's default is `.name_repair = "unique"`, which ensures column names exist and are unique.
+
+The value `.name_repair = "universal"` goes further and makes names syntactic, i.e. makes sure they don't contain any forbidden characters or reserved words.
+
+Compare the column names in these two calls. This shows the difference between `"unique"` (names contain spaces) and `"universal"` (spaces replaced by `.`).
+
+```{r}
+read_excel(
+  readxl_example("deaths.xlsx"),  range = "arts!A5:F8"
+)
+
+read_excel(
+  readxl_example("deaths.xlsx"), range = "arts!A5:F8",
+  .name_repair = "universal"
+)
+```
+
+The `.name_repair` argument also accepts a function -- pre-existing or written by you -- or an anonymous formula.
+
+```{r}
+## ALL CAPS!
+read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
+
+## lower_snake_case
+my_custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
+read_excel(
+  readxl_example("datasets.xlsx"), n_max = 3,
+  .name_repair = my_custom_name_repair
+)
+
+## take first 3 characters
+read_excel(
+  readxl_example("datasets.xlsx"),
+  sheet = "chickwts", n_max = 3,
+  .name_repair = ~ substr(.x, start = 1, stop = 3)
+)
+```
+
+This means you can also perform name repair in the style of base R or another package, such as `janitor::make_clean_names()` (*requires janitor > v1.1.1*).
+
+```{r, eval = FALSE}
+read_excel(
+  SOME_SPREADSHEET,
+  .name_repair = ~ make.names(.x, unique = TRUE)
+)
+
+read_excel(
+  SOME_SPREADSHEET,
+  .name_repair = ~ janitor::make_clean_names
+)
+```
+
