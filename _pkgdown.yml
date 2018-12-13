@@ -26,6 +26,8 @@ navbar:
       href: articles/sheet-geometry.html
     - text: Workflows
       href: articles/articles/readxl-workflows.html
+    - text: Multiple Header Rows
+      href: articles/articles/multiple-header-rows.html
   - text: News
     menu:
     - text: "Blog posts"

@@ -188,12 +188,24 @@ readxl will become increasingly consistent with other packages, such as
 
 ## Articles
 
-You can find more detail in [these
+Broad topics are explained in [these
 articles](http://readxl.tidyverse.org/articles/index.html):
 
-  - Cell and Column Types
-  - Sheet Geometry
-  - readxl Workflows
+  - [Cell and Column
+    Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
+  - [Sheet
+    Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html):
+    how to specify which cells to read
+  - [readxl
+    Workflows](https://readxl.tidyverse.org/articles/articles/readxl-workflows.html):
+    Iterating over multiple tabs or worksheets, stashing a csv snapshot
+
+We also have some focused articles that address specific aggravations
+presented by the world’s spreadsheets:
+
+  - Column Names *coming soon*
+  - [Multiple Header
+    Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
 
 ## Features
 
@@ -208,7 +220,8 @@ articles](http://readxl.tidyverse.org/articles/index.html):
     User can exert more control with `range`, `skip`, and `n_max`.
 
   - Column names and types are determined from the data in the sheet, by
-    default. User can also supply via `col_names` and `col_types`.
+    default. User can also supply via `col_names` and `col_types` and
+    control name repair via `.name_repair`.
 
   - Returns a
     [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a
