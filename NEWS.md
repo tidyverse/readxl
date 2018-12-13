@@ -1,12 +1,15 @@
 # readxl *development version*
 
-## Breaking change
+## Column name repair
 
-* Missing or duplicated column names are now repaired with `tibble::set_tidy_names()` in `read_excel()` and friends. `set_tidy_names()` is intended to encourage name repair that is more principled and consistent, across multiple tidyverse packages. Its design is discussed in [tidyverse/tibble#217](https://github.com/tidyverse/tibble/issues/217). (#357, #453)
+readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of the tibble package](https://www.tidyverse.org/articles/2018/11/tibble-2.0.0-pre-announce/). The readxl default is `.name_repair = "unique"`, keeping with the readxl convention to ensure column names are neither missing nor duplicated.
 
-  - Example of change a user will see: consider a spreadsheet with three columns, one unnamed and two named `x`.
-  - Column names in readxl > 1.1.0: `..1`, `x..2`, `x..3`
-  - Column names in readxl <= 1.1.0: `X__1`, `x`, `x__1`
+* readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.
+* If tibble >= v2.0.0, the full power of `.name_repair` is available, defaulting to `.name_repair = "unique"`. Otherwise, the legacy function `tibble::repair_names(prefix = "X", sep = "__")` is used, replicating the behaviour of readxl v1.1.0.
+  - Consider a spreadsheet with three columns: one unnamed and two named `x`.
+  - New style names: `..1`, `x..2`, `x..3`
+  - Legacy names: `X__1`, `x`, `x__1`
+* Once per session, readxl emits a message stating that it works best with tibble >= v2.0.0. It is anticipated that this will become a hard minimum version requirement in a future version of readxl.
   
 ## Other changes
 
