@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/articles/readxl-workflows.html">Workflows</a>
     </li>
+    <li>
+      <a href="../../articles/articles/multiple-header-rows.html">Multiple Header Rows</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -141,31 +144,27 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; Message displays once per session.</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   Name Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   &lt;ch&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 1 Dav… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; 2 Car… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 3 Chu… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 4 Bil… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; # ... with 6 more rows</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">  <span class="dt">sheet =</span> <span class="st">"other"</span>,</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">)</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt;   Name Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt;   &lt;ch&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; 1 Ver… scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; 2 Moh… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; 3 Mor… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; 4 Fid… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1 Davi… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2 Carr… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3 Chuc… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 4 Bill… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; # … with 6 more rows</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">sheet =</span> <span class="st">"other"</span>,</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">)</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1 Vera… scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2 Moha… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 Morl… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 4 Fide… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
 <p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>
 <div id="column-typing" class="section level2">
@@ -185,7 +184,7 @@
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fisher    60</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Berry      90</span></a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxton      61</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
 <p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types vignette</a> has more detail.</p>
 <div id="list-columns" class="section level3">
 <h3 class="hasAnchor">

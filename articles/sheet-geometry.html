@@ -66,6 +66,9 @@
     <li>
       <a href="../articles/articles/readxl-workflows.html">Workflows</a>
     </li>
+    <li>
+      <a href="../articles/articles/multiple-header-rows.html">Multiple Header Rows</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -176,16 +179,12 @@
 <p><img src="geometry.png" width="70%"></p>
 <p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data rectangle:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Message displays once per session.</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   B3    C3    D3   </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 B6    C6    D6</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   B3    C3    D3   </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2 B5    C5    D5   </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3 B6    C6    D6</span></a></code></pre></div>
 <p>If you explicitly skip one row, note that <code><a href="../reference/read_excel.html">read_excel()</a></code> still skips row 2, which is also empty, leading to the same result as before:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">skip =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
@@ -236,22 +235,26 @@
 <p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   Name Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;ch&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 Dav… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Car… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Chu… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Bil… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # ... with 6 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 Davi… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Carr… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Chuc… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Bill… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
 <p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual reference.</p>
 <p><img src="geometry.png" width="70%"></p>
 <p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of <code>NA</code>s.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="st">"A2:C4"</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;   X__1  X__2  X__3 </span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 1 NA    B3    C3   </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 2 NA    B4    C4</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; New names:</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; * `` -&gt; `..1`</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; * `` -&gt; `..2`</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; * `` -&gt; `..3`</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;   ..1   ..2   ..3  </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 1 NA    B3    C3   </span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 2 NA    B4    C4</span></a></code></pre></div>
 <p><strong>Specific range of rows or columns</strong>: Set exact limits on just the rows or just the columns and allow the limits in the other direction to be discovered. Example calls:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">## rows only</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))</a>
@@ -293,11 +296,14 @@
 <a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
 <a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_limits</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">3</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">NA</span>, <span class="ot">NA</span>))</a>
 <a class="sourceLine" id="cb13-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;   X__1  X__2 </span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 1 C5    D5   </span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 2 C6    D6</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; New names:</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; * `` -&gt; `..1`</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; * `` -&gt; `..2`</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;   ..1   ..2  </span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 1 C5    D5   </span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; 2 C6    D6</span></a></code></pre></div>
 </div>
   </div>
 

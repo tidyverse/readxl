@@ -70,6 +70,9 @@
     <li>
       <a href="articles/articles/readxl-workflows.html">Workflows</a>
     </li>
+    <li>
+      <a href="articles/articles/multiple-header-rows.html">Multiple Header Rows</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -156,27 +159,23 @@
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">xlsx_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Message displays once per session.</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; # ... with 147 more rows</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)</a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example)</a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; # ... with 147 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # … with 147 more rows</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">xls_example &lt;-<span class="st"> </span><span class="kw"><a href="reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xls"</span>)</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example)</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; # … with 147 more rows</span></a></code></pre></div>
 <p>List the sheet names with <code><a href="reference/excel_sheets.html">excel_sheets()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/excel_sheets.html">excel_sheets</a></span>(xlsx_example)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"</span></a></code></pre></div>
@@ -188,7 +187,7 @@
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1    179 horsebean</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2    160 horsebean</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3    136 horsebean</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # ... with 68 more rows</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # … with 68 more rows</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xls_example, <span class="dt">sheet =</span> <span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # A tibble: 1,000 x 5</span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;     lat  long depth   mag stations</span></a>
@@ -196,7 +195,7 @@
 <a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span></a>
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 3 -26    184.    42   5.4       43</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; # ... with 997 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; # … with 997 more rows</span></a></code></pre></div>
 <p>There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">n_max =</span> <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 5</span></a>
@@ -226,7 +225,7 @@
 <a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 1         3.5          1.4         0.2</span></a>
 <a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 2         3            1.4         0.2</span></a>
 <a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 3         3.2          1.3         0.2</span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; # … with 147 more rows</span></a>
 <a class="sourceLine" id="cb9-30" data-line-number="30"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">range =</span> <span class="st">"mtcars!B1:D5"</span>)</a>
 <a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
 <a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt;     cyl  disp    hp</span></a>
@@ -234,7 +233,7 @@
 <a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 1     6   160   110</span></a>
 <a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 2     6   160   110</span></a>
 <a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 3     4   108    93</span></a>
-<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt; # ... with 1 more row</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt; # … with 1 more row</span></a></code></pre></div>
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="reference/read_excel.html">read_excel</a></span>(xlsx_example, <span class="dt">na =</span> <span class="st">"setosa"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
@@ -243,17 +242,25 @@
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 &lt;NA&gt;   </span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 2          4.9         3            1.4         0.2 &lt;NA&gt;   </span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 &lt;NA&gt;   </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; # ... with 147 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; # … with 147 more rows</span></a></code></pre></div>
 <p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org">readr</a>.</p>
 </div>
 <div id="articles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#articles" class="anchor"></a>Articles</h2>
-<p>You can find more detail in <a href="http://readxl.tidyverse.org/articles/index.html">these articles</a>:</p>
+<p>Broad topics are explained in <a href="http://readxl.tidyverse.org/articles/index.html">these articles</a>:</p>
 <ul>
-<li>Cell and Column Types</li>
-<li>Sheet Geometry</li>
-<li>readxl Workflows</li>
+<li><a href="https://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types</a></li>
+<li>
+<a href="https://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry</a>: how to specify which cells to read</li>
+<li>
+<a href="https://readxl.tidyverse.org/articles/articles/readxl-workflows.html">readxl Workflows</a>: Iterating over multiple tabs or worksheets, stashing a csv snapshot</li>
+</ul>
+<p>We also have some focused articles that address specific aggravations presented by the world’s spreadsheets:</p>
+<ul>
+<li>Column Names <em>coming soon</em>
+</li>
+<li><a href="https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html">Multiple Header Rows</a></li>
 </ul>
 </div>
 <div id="features" class="section level2">
@@ -264,7 +271,7 @@
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
 <li><p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) date specifications are processed correctly.</p></li>
 <li><p>Discovers the minimal data rectangle and returns that, by default. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
-<li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code>.</p></li>
+<li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code> and control name repair via <code>.name_repair</code>.</p></li>
 <li><p>Returns a <a href="http://tibble.tidyverse.org/reference/tibble.html">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
 </ul>
 </div>

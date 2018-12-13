@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/articles/readxl-workflows.html">Workflows</a>
     </li>
+    <li>
+      <a href="../../articles/articles/multiple-header-rows.html">Multiple Header Rows</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -136,10 +139,10 @@
 <p>We must load readxl explicitly because it is not part of the core tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 3.1.0     ✔ purrr   0.2.5</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.8</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   0.8.2     ✔ stringr 1.3.1</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.3.0     ✔ forcats 0.3.0</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 3.1.0           ✔ purrr   0.2.5      </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  1.4.99.9006     ✔ dplyr   0.7.8      </span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   0.8.2           ✔ stringr 1.3.1      </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.3.0           ✔ forcats 0.3.0</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
@@ -156,11 +159,7 @@
 <p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> like so:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">iris_xl &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="dt">sheet =</span> <span class="st">"iris"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; readxl works best with a newer version of the tibble package.</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; You currently have tibble v1.4.2.</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; Falling back to column name repair from tibble &lt;= v1.4.2.</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Message displays once per session.</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"iris-raw.csv"</span>)</a></code></pre></div>
 <p>Why does this work? <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
 <p>Let’s check. Did we still import the data? Did we write the CSV file?</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">iris_xl</a>
@@ -170,7 +169,7 @@
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; # … with 147 more rows</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="dt">pattern =</span> <span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] "iris-raw.csv"</span></a></code></pre></div>
 <p>Yes! Is the data written to CSV an exact copy of what we imported from Excel?</p>
@@ -212,7 +211,7 @@
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; # … with 147 more rows</span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; $mtcars</span></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; # A tibble: 32 x 11</span></a>
@@ -221,7 +220,7 @@
 <a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></a>
 <a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span></a>
 <a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; # ... with 29 more rows</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; # … with 29 more rows</span></a>
 <a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; $chickwts</span></a>
 <a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; # A tibble: 71 x 2</span></a>
@@ -230,7 +229,7 @@
 <a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 1    179 horsebean</span></a>
 <a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 2    160 horsebean</span></a>
 <a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 3    136 horsebean</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; # ... with 68 more rows</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; # … with 68 more rows</span></a>
 <a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; $quakes</span></a>
 <a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; # A tibble: 1,000 x 5</span></a>
@@ -239,7 +238,7 @@
 <a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span></a>
 <a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span></a>
 <a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; 3 -26    184.    42   5.4       43</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; # ... with 997 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; # … with 997 more rows</span></a></code></pre></div>
 </div>
 <div id="csv-caching-and-iterating-over-sheets" class="section level2">
 <h2 class="hasAnchor">
@@ -266,7 +265,7 @@
 <a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; # ... with 147 more rows</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; # … with 147 more rows</span></a>
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; $mtcars</span></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; # A tibble: 32 x 11</span></a>
@@ -275,7 +274,7 @@
 <a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></a>
 <a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span></a>
 <a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; # ... with 29 more rows</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; # … with 29 more rows</span></a>
 <a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; $chickwts</span></a>
 <a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; # A tibble: 71 x 2</span></a>
@@ -284,7 +283,7 @@
 <a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; 1    179 horsebean</span></a>
 <a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; 2    160 horsebean</span></a>
 <a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; 3    136 horsebean</span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; # ... with 68 more rows</span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; # … with 68 more rows</span></a>
 <a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; $quakes</span></a>
 <a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; # A tibble: 1,000 x 5</span></a>
@@ -293,7 +292,7 @@
 <a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span></a>
 <a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span></a>
 <a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 3 -26    184.    42   5.4       43</span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # ... with 997 more rows</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # … with 997 more rows</span></a>
 <a class="sourceLine" id="cb7-41" data-line-number="41"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="dt">pattern =</span> <span class="st">"^datasets.*</span><span class="ch">\\</span><span class="st">.csv$"</span>)</a>
 <a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt; [1] "datasets-chickwts.csv" "datasets-iris.csv"     "datasets-mtcars.csv"  </span></a>
 <a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt; [4] "datasets-quakes.csv"</span></a></code></pre></div>
@@ -338,7 +337,7 @@
 <a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt; 18 other Gwen… journalist    61 FALSE      1955-09-29 00:00:00</span></a>
 <a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt; 19 other John… astronaut     95 TRUE       1921-07-28 00:00:00</span></a>
 <a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; 20 other Pat … coach         64 TRUE       1952-06-14 00:00:00</span></a>
-<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; # ... with 1 more variable: `Date of death` &lt;dttm&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; # … with 1 more variable: `Date of death` &lt;dttm&gt;</span></a></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here. <code>deaths.xlsx</code> is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.</p>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -371,28 +370,28 @@
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"deaths.csv"</span>)</a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 20 x 7</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;    sheet Name  Profession   Age `Has kids` `Date of birth` `Date of death`</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;chr&gt;           &lt;chr&gt;          </span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  1 arts  Davi… musician      69 TRUE       1947-01-08T00:… 2016-01-10T00:…</span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  2 arts  Carr… actor         60 TRUE       1956-10-21T00:… 2016-12-27T00:…</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  3 arts  Chuc… musician      90 TRUE       1926-10-18T00:… 2017-03-18T00:…</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  4 arts  Bill… actor         61 TRUE       1955-05-17T00:… 2017-02-25T00:…</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;  5 arts  Prin… musician      57 TRUE       1958-06-07T00:… 2016-04-21T00:…</span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  6 arts  Alan… actor         69 FALSE      1946-02-21T00:… 2016-01-14T00:…</span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  7 arts  Flor… actor         82 TRUE       1934-02-14T00:… 2016-11-24T00:…</span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  8 arts  Harp… author        89 FALSE      1926-04-28T00:… 2016-02-19T00:…</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  9 arts  Zsa … actor         99 TRUE       1917-02-06T00:… 2016-12-18T00:…</span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 10 arts  Geor… musician      53 FALSE      1963-06-25T00:… 2016-12-25T00:…</span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 11 other Vera… scientist     88 TRUE       1928-07-23T00:… 2016-12-25T00:…</span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 12 other Moha… athlete       74 TRUE       1942-01-17T00:… 2016-06-03T00:…</span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; 13 other Morl… journalist    84 TRUE       1931-11-08T00:… 2016-05-19T00:…</span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; 14 other Fide… politician    90 TRUE       1926-08-13T00:… 2016-11-25T00:…</span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 15 other Anto… lawyer        79 TRUE       1936-03-11T00:… 2016-02-13T00:…</span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; 16 other Jo C… politician    41 TRUE       1974-06-22T00:… 2016-06-16T00:…</span></a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 17 other Jane… lawyer        78 FALSE      1938-07-21T00:… 2016-11-07T00:…</span></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 18 other Gwen… journalist    61 FALSE      1955-09-29T00:… 2016-11-14T00:…</span></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 19 other John… astronaut     95 TRUE       1921-07-28T00:… 2016-12-08T00:…</span></a>
-<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 20 other Pat … coach         64 TRUE       1952-06-14T00:… 2016-06-28T00:…</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;    sheet Name   Profession   Age `Has kids` `Date of birth` `Date of death`</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;chr&gt;           &lt;chr&gt;          </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  1 arts  David… musician      69 TRUE       1947-01-08T00:… 2016-01-10T00:…</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  2 arts  Carri… actor         60 TRUE       1956-10-21T00:… 2016-12-27T00:…</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  3 arts  Chuck… musician      90 TRUE       1926-10-18T00:… 2017-03-18T00:…</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  4 arts  Bill … actor         61 TRUE       1955-05-17T00:… 2017-02-25T00:…</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;  5 arts  Prince musician      57 TRUE       1958-06-07T00:… 2016-04-21T00:…</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  6 arts  Alan … actor         69 FALSE      1946-02-21T00:… 2016-01-14T00:…</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  7 arts  Flore… actor         82 TRUE       1934-02-14T00:… 2016-11-24T00:…</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  8 arts  Harpe… author        89 FALSE      1926-04-28T00:… 2016-02-19T00:…</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  9 arts  Zsa Z… actor         99 TRUE       1917-02-06T00:… 2016-12-18T00:…</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 10 arts  Georg… musician      53 FALSE      1963-06-25T00:… 2016-12-25T00:…</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 11 other Vera … scientist     88 TRUE       1928-07-23T00:… 2016-12-25T00:…</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 12 other Moham… athlete       74 TRUE       1942-01-17T00:… 2016-06-03T00:…</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; 13 other Morle… journalist    84 TRUE       1931-11-08T00:… 2016-05-19T00:…</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; 14 other Fidel… politician    90 TRUE       1926-08-13T00:… 2016-11-25T00:…</span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 15 other Anton… lawyer        79 TRUE       1936-03-11T00:… 2016-02-13T00:…</span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; 16 other Jo Cox politician    41 TRUE       1974-06-22T00:… 2016-06-16T00:…</span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 17 other Janet… lawyer        78 FALSE      1938-07-21T00:… 2016-11-07T00:…</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 18 other Gwen … journalist    61 FALSE      1955-09-29T00:… 2016-11-14T00:…</span></a>
+<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 19 other John … astronaut     95 TRUE       1921-07-28T00:… 2016-12-08T00:…</span></a>
+<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 20 other Pat S… coach         64 TRUE       1952-06-14T00:… 2016-06-28T00:…</span></a></code></pre></div>
 <!--
 
 ## Session info
@@ -415,82 +414,158 @@ devtools::session_info()
 #>  date     2018-12-13                  
 #> 
 #> ─ Packages ──────────────────────────────────────────────────────────────
-#>  package     * version    date       lib source        
-#>  assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.1)
-#>  backports     1.1.2      2017-12-13 [1] CRAN (R 3.5.1)
-#>  bindr         0.1.1      2018-03-13 [1] CRAN (R 3.5.1)
-#>  bindrcpp      0.2.2      2018-03-29 [1] CRAN (R 3.5.1)
-#>  broom         0.5.1      2018-12-05 [1] CRAN (R 3.5.1)
-#>  callr         3.1.0      2018-12-10 [1] CRAN (R 3.5.1)
-#>  cellranger    1.1.0      2016-07-27 [1] CRAN (R 3.5.1)
-#>  cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.1)
-#>  colorspace    1.3-2      2016-12-14 [1] CRAN (R 3.5.1)
-#>  commonmark    1.7        2018-12-01 [1] CRAN (R 3.5.1)
-#>  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.1)
-#>  desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.1)
-#>  devtools      2.0.1      2018-10-26 [1] CRAN (R 3.5.1)
-#>  digest        0.6.18     2018-10-10 [1] CRAN (R 3.5.1)
-#>  dplyr       * 0.7.8      2018-11-10 [1] CRAN (R 3.5.1)
-#>  evaluate      0.12       2018-10-09 [1] CRAN (R 3.5.1)
-#>  fansi         0.4.0      2018-10-05 [1] CRAN (R 3.5.1)
-#>  forcats     * 0.3.0      2018-02-19 [1] CRAN (R 3.5.1)
-#>  fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.1)
-#>  generics      0.0.2      2018-11-29 [1] CRAN (R 3.5.1)
-#>  ggplot2     * 3.1.0      2018-10-25 [1] CRAN (R 3.5.1)
-#>  glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.1)
-#>  gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.1)
-#>  haven         2.0.0      2018-11-22 [1] CRAN (R 3.5.1)
-#>  hms           0.4.2      2018-03-10 [1] CRAN (R 3.5.1)
-#>  htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.5.1)
-#>  httr          1.4.0      2018-12-11 [1] CRAN (R 3.5.1)
-#>  jsonlite      1.6        2018-12-07 [1] CRAN (R 3.5.1)
-#>  knitr         1.21       2018-12-10 [1] CRAN (R 3.5.1)
-#>  lattice       0.20-35    2017-03-25 [3] CRAN (R 3.5.1)
-#>  lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.1)
-#>  lubridate     1.7.4      2018-04-11 [1] CRAN (R 3.5.1)
-#>  magrittr      1.5        2014-11-22 [1] CRAN (R 3.5.1)
-#>  MASS          7.3-50     2018-04-30 [3] CRAN (R 3.5.1)
-#>  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.1)
-#>  modelr        0.1.2      2018-05-11 [1] CRAN (R 3.5.1)
-#>  munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.1)
-#>  nlme          3.1-137    2018-04-07 [3] CRAN (R 3.5.1)
-#>  pillar        1.3.0      2018-07-14 [1] CRAN (R 3.5.1)
-#>  pkgbuild      1.0.2      2018-10-16 [1] CRAN (R 3.5.1)
-#>  pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.5.1)
-#>  pkgdown       1.3.0      2018-12-07 [1] CRAN (R 3.5.1)
-#>  pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.5.1)
-#>  plyr          1.8.4      2016-06-08 [1] CRAN (R 3.5.1)
-#>  prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.5.1)
-#>  processx      3.2.1      2018-12-05 [1] CRAN (R 3.5.1)
-#>  ps            1.2.1      2018-11-06 [1] CRAN (R 3.5.1)
-#>  purrr       * 0.2.5      2018-05-29 [1] CRAN (R 3.5.1)
-#>  R6            2.3.0      2018-10-04 [1] CRAN (R 3.5.1)
-#>  Rcpp          1.0.0      2018-11-07 [1] CRAN (R 3.5.1)
-#>  readr       * 1.3.0      2018-12-11 [1] CRAN (R 3.5.1)
-#>  readxl      * 1.1.0.9000 2018-12-13 [1] local         
-#>  rematch       1.0.1      2016-04-21 [1] CRAN (R 3.5.1)
-#>  remotes       2.0.2      2018-10-30 [1] CRAN (R 3.5.1)
-#>  rlang         0.3.0.1    2018-10-25 [1] CRAN (R 3.5.1)
-#>  rmarkdown     1.11       2018-12-08 [1] CRAN (R 3.5.1)
-#>  roxygen2      6.1.1      2018-11-07 [1] CRAN (R 3.5.1)
-#>  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.5.1)
-#>  rstudioapi    0.8        2018-10-02 [1] CRAN (R 3.5.1)
-#>  rvest         0.3.2      2016-06-17 [1] CRAN (R 3.5.1)
-#>  scales        1.0.0      2018-08-09 [1] CRAN (R 3.5.1)
-#>  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.5.1)
-#>  stringi       1.2.4      2018-07-20 [1] CRAN (R 3.5.1)
-#>  stringr     * 1.3.1      2018-05-10 [1] CRAN (R 3.5.1)
-#>  testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.1)
-#>  tibble      * 1.4.2      2018-01-22 [1] CRAN (R 3.5.1)
-#>  tidyr       * 0.8.2      2018-10-28 [1] CRAN (R 3.5.1)
-#>  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.1)
-#>  tidyverse   * 1.2.1      2017-11-14 [1] CRAN (R 3.5.1)
-#>  usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.1)
-#>  utf8          1.1.4      2018-05-24 [1] CRAN (R 3.5.1)
-#>  withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.1)
-#>  xfun          0.4        2018-10-23 [1] CRAN (R 3.5.1)
-#>  xml2          1.2.0      2018-01-24 [1] CRAN (R 3.5.1)
-#>  yaml          2.2.0      2018-07-25 [1] CRAN (R 3.5.1)
+#>  package     * version     date       lib
+#>  assertthat    0.2.0       2017-04-11 [1]
+#>  backports     1.1.2       2017-12-13 [1]
+#>  bindr         0.1.1       2018-03-13 [1]
+#>  bindrcpp      0.2.2       2018-03-29 [1]
+#>  broom         0.5.1       2018-12-05 [1]
+#>  callr         3.1.0       2018-12-10 [1]
+#>  cellranger    1.1.0       2016-07-27 [1]
+#>  cli           1.0.1       2018-09-25 [1]
+#>  colorspace    1.3-2       2016-12-14 [1]
+#>  commonmark    1.7         2018-12-01 [1]
+#>  crayon        1.3.4       2017-09-16 [1]
+#>  desc          1.2.0       2018-05-01 [1]
+#>  devtools      2.0.1       2018-10-26 [1]
+#>  digest        0.6.18      2018-10-10 [1]
+#>  dplyr       * 0.7.8       2018-11-10 [1]
+#>  evaluate      0.12        2018-10-09 [1]
+#>  fansi         0.4.0       2018-12-12 [1]
+#>  forcats     * 0.3.0       2018-02-19 [1]
+#>  fs            1.2.6       2018-08-23 [1]
+#>  generics      0.0.2       2018-11-29 [1]
+#>  ggplot2     * 3.1.0       2018-10-25 [1]
+#>  glue          1.3.0       2018-07-17 [1]
+#>  gtable        0.2.0       2016-02-26 [1]
+#>  haven         2.0.0       2018-11-22 [1]
+#>  hms           0.4.2       2018-03-10 [1]
+#>  htmltools     0.3.6       2017-04-28 [1]
+#>  httr          1.4.0       2018-12-11 [1]
+#>  jsonlite      1.6         2018-12-07 [1]
+#>  knitr         1.21        2018-12-10 [1]
+#>  lattice       0.20-35     2017-03-25 [3]
+#>  lazyeval      0.2.1       2017-10-29 [1]
+#>  lubridate     1.7.4       2018-04-11 [1]
+#>  magrittr      1.5         2014-11-22 [1]
+#>  MASS          7.3-50      2018-04-30 [3]
+#>  memoise       1.1.0       2017-04-21 [1]
+#>  modelr        0.1.2       2018-05-11 [1]
+#>  munsell       0.5.0       2018-06-12 [1]
+#>  nlme          3.1-137     2018-04-07 [3]
+#>  pillar        1.3.0.9001  2018-12-12 [1]
+#>  pkgbuild      1.0.2       2018-10-16 [1]
+#>  pkgconfig     2.0.2       2018-08-16 [1]
+#>  pkgdown       1.3.0       2018-12-07 [1]
+#>  pkgload       1.0.2       2018-10-29 [1]
+#>  plyr          1.8.4       2016-06-08 [1]
+#>  prettyunits   1.0.2       2015-07-13 [1]
+#>  processx      3.2.1       2018-12-05 [1]
+#>  ps            1.2.1       2018-11-06 [1]
+#>  purrr       * 0.2.5       2018-05-29 [1]
+#>  R6            2.3.0       2018-10-04 [1]
+#>  Rcpp          1.0.0       2018-11-07 [1]
+#>  readr       * 1.3.0       2018-12-11 [1]
+#>  readxl      * 1.1.0.9000  2018-12-13 [1]
+#>  rematch       1.0.1       2016-04-21 [1]
+#>  remotes       2.0.2       2018-10-30 [1]
+#>  rlang         0.3.0.1     2018-10-25 [1]
+#>  rmarkdown     1.11        2018-12-08 [1]
+#>  roxygen2      6.1.1       2018-11-07 [1]
+#>  rprojroot     1.3-2       2018-01-03 [1]
+#>  rstudioapi    0.8         2018-10-02 [1]
+#>  rvest         0.3.2       2016-06-17 [1]
+#>  scales        1.0.0       2018-08-09 [1]
+#>  sessioninfo   1.1.1       2018-11-05 [1]
+#>  stringi       1.2.4       2018-07-20 [1]
+#>  stringr     * 1.3.1       2018-05-10 [1]
+#>  testthat      2.0.1       2018-10-13 [1]
+#>  tibble      * 1.4.99.9006 2018-12-12 [1]
+#>  tidyr       * 0.8.2       2018-10-28 [1]
+#>  tidyselect    0.2.5       2018-10-11 [1]
+#>  tidyverse   * 1.2.1       2017-11-14 [1]
+#>  usethis       1.4.0       2018-08-14 [1]
+#>  utf8          1.1.4       2018-05-24 [1]
+#>  withr         2.1.2       2018-03-15 [1]
+#>  xfun          0.4         2018-10-23 [1]
+#>  xml2          1.2.0       2018-01-24 [1]
+#>  yaml          2.2.0       2018-07-25 [1]
+#>  source                           
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  Github (brodieG/fansi@ab11e9c)   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  Github (r-lib/pillar@c5bf622)    
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  local                            
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  Github (tidyverse/tibble@ddc9110)
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
+#>  CRAN (R 3.5.1)                   
 #> 
 #> [1] /home/travis/R/Library
 #> [2] /usr/local/lib/R/site-library

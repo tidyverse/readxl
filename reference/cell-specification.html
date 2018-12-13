@@ -104,6 +104,9 @@ the functions used in the examples below." />
     <li>
       <a href="../articles/articles/readxl-workflows.html">Workflows</a>
     </li>
+    <li>
+      <a href="../articles/articles/multiple-header-rows.html">Multiple Header Rows</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -186,10 +189,7 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 
 <span class='co'># By default, the populated data cells are "shrink-wrapped" into a</span>
 <span class='co'># minimal data frame</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='message'>readxl works best with a newer version of the tibble package.</span>
-#&gt; <span class='message'>You currently have tibble v1.4.2.</span>
-#&gt; <span class='message'>Falling back to column name repair from tibble &lt;= v1.4.2.</span>
-#&gt; <span class='message'>Message displays once per session.</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;   B3    C3    D3   
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 B4    C4    D4   
@@ -207,21 +207,27 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt; 1 C4    D4   
 #&gt; 2 C5    D5   </div><div class='input'>
 <span class='co'># Specific rectangle that forces inclusion of unpopulated cells</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 4
-#&gt;   X__1  B3    C3    D3   
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A3:D5"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span></div><div class='output co'>#&gt; # A tibble: 2 x 4
+#&gt;   ..1   B3    C3    D3   
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 NA    B4    C4    D4   
-#&gt; 2 NA    B5    C5    D5   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   X__1  B4    C4    D4    X__2 
+#&gt; 2 NA    B5    C5    D5   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span>
+#&gt; <span class='message'>* `` -&gt; `..5`</span></div><div class='output co'>#&gt; # A tibble: 1 x 5
+#&gt;   ..1   B4    C4    D4    ..5  
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
-#&gt; 1 NA    B5    C5    D5    NA   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   C5    D5    X__1 
+#&gt; 1 NA    B5    C5    D5    NA   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..3`</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
+#&gt;   C5    D5    ..3  
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
 #&gt; 1 C6    D6    NA   
 #&gt; 2 &lt;NA&gt;  &lt;NA&gt;  NA   </div><div class='input'>
 <span class='co'># Anchor a rectangle of specified size at a particular cell</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt;   X__1  X__2 
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span>
+#&gt; <span class='message'>* `` -&gt; `..2`</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   ..1   ..2  
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 C4    D4   
 #&gt; 2 C5    D5   
@@ -247,8 +253,11 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 <span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   B5    C5    D5   
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   X__1  X__2  X__3 
+#&gt; 1 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span>
+#&gt; <span class='message'>* `` -&gt; `..2`</span>
+#&gt; <span class='message'>* `` -&gt; `..3`</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   ..1   ..2   ..3  
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 #&gt; 2 B3    C3    D3   
@@ -257,8 +266,9 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 C4    D4   
 #&gt; 2 C5    D5   
-#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt;   X__1  B3   
+#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   ..1   B3   
 #&gt;   &lt;lgl&gt; &lt;chr&gt;
 #&gt; 1 NA    B4   
 #&gt; 2 NA    B5   
@@ -270,8 +280,9 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 C5    D5   
 #&gt; 2 C6    D6   </div><div class='input'><span class='co'># upper right = D4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 4
-#&gt;   X__1  B4    C4    D4   
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; `..1`</span></div><div class='output co'>#&gt; # A tibble: 2 x 4
+#&gt;   ..1   B4    C4    D4   
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 NA    B5    C5    D5   
 #&gt; 2 NA    B6    C6    D6   </div><div class='input'>
