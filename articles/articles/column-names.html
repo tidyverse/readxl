@@ -129,6 +129,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readxl)</a></code></pre></div>
+<div id="column-names-via-col_names" class="section level2">
+<h2 class="hasAnchor">
+<a href="#column-names-via-col_names" class="anchor"></a>Column names via <code>col_names</code>
+</h2>
 <p>readxl has always let you specify <code>col_names</code> explicitly at the time of import:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"chickwts"</span>,</a>
@@ -149,11 +153,16 @@
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 10          140 horsebean     </span></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; # … with 61 more rows</span></a></code></pre></div>
 <p>But users have long wanted a way to specify a name repair <em>strategy</em>, as opposed to enumerating the actual column names.</p>
+</div>
+<div id="built-in-levels-of--name_repair" class="section level2">
+<h2 class="hasAnchor">
+<a href="#built-in-levels-of--name_repair" class="anchor"></a>Built-in levels of <code>.name_repair</code>
+</h2>
 <p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the <a href="https://tibble.tidyverse.org">tibble package</a>, which powers this feature under the hood. <em>December 2018 note: tibble v2.0.0 hasn’t been released yet but will be soon. Until then, <code>.name_repair</code> requires a development version of tibble.</em></p>
 <p>The <code>.name_repair</code> argument in <code><a href="../../reference/read_excel.html">read_excel()</a></code>, <code><a href="../../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html"><code><a href="https://www.rdocumentation.org/packages/tibble/topics/tibble">tibble::tibble()</a></code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html"><code><a href="https://www.rdocumentation.org/packages/tibble/topics/as_tibble">tibble::as_tibble()</a></code></a>. Full documentation is in the <a href="https://tibble.tidyverse.org/dev/reference/name-repair.html"><code>?name-repair</code> topic</a> of tibble.</p>
 <p>readxl’s default is <code>.name_repair = "unique"</code>, which ensures each column has a unique name. If that is already true of the column names, readxl won’t touch them.</p>
-<p>The value <code>.name_repair = "universal"</code> goes further and makes column names syntactic, i.e. makes sure they don’t contain any forbidden characters or reserved words. This makes life easier if you want to use packages like ggplot2 and dplyr downstream, because the column names will “just work” everywhere, without quoting.</p>
-<p>Compare the column names in these two calls. This shows the difference between <code>"unique"</code> (names contain spaces) and <code>"universal"</code> (spaces replaced by <code>.</code>).</p>
+<p>The value <code>.name_repair = "universal"</code> goes further and makes column names syntactic, i.e. makes sure they don’t contain any forbidden characters or reserved words. This makes life easier if you use packages like ggplot2 and dplyr downstream, because the column names will “just work” everywhere and won’t require protection via backtick quotes.</p>
+<p>Compare the column names in these two calls. This shows the difference between <code>"unique"</code> (names can contain spaces) and <code>"universal"</code> (spaces replaced by <code>.</code>).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),  <span class="dt">range =</span> <span class="st">"arts!A5:F8"</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">)</a>
@@ -178,6 +187,12 @@
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; 1 David … musician      69 TRUE     1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
 <a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; 2 Carrie… actor         60 TRUE     1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
 <a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; 3 Chuck … musician      90 TRUE     1926-10-18 00:00:00 2017-03-18 00:00:00</span></a></code></pre></div>
+<p>If you don’t want readxl to touch your column names at all, use <code>.name_repair = "minimal"</code>.</p>
+</div>
+<div id="pass-a-function-to--name_repair" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pass-a-function-to--name_repair" class="anchor"></a>Pass a function to <code>.name_repair</code>
+</h2>
 <p>The <code>.name_repair</code> argument also accepts a function – pre-existing or written by you – or an anonymous formula. This function must operate on a “names in, names out” basis.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## ALL CAPS! via built-in toupper()</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>), <span class="dt">.name_repair =</span> toupper)</a>
@@ -224,10 +239,24 @@
 <a class="sourceLine" id="cb5-7" data-line-number="7">  SOME_SPREADSHEET,</a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="dt">.name_repair =</span> <span class="op">~</span><span class="st"> </span>janitor<span class="op">::</span>make_clean_names</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9">)</a></code></pre></div>
-<p>If you don’t want readxl to touch your column names at all, use <code>.name_repair = "minimal"</code>.</p>
+<p>What if you have a spreadsheet with lots of missing column names? Here’s how you could fall back to letter-based column names, for easier troubleshooting.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  SOME_SPREADSHEET,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">.name_repair =</span> <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nchar">nzchar</a></span>(.x), .x, LETTERS[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(.x)])</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">) </a></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#column-names-via-col_names">Column names via <code>col_names</code></a></li>
+      <li><a href="#built-in-levels-of--name_repair">Built-in levels of <code>.name_repair</code></a></li>
+      <li><a href="#pass-a-function-to--name_repair">Pass a function to <code>.name_repair</code></a></li>
+      </ul>
+</div>
       </div>
 
 </div>
