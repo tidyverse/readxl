@@ -87,7 +87,7 @@ NULL
 #' # Get a preview of column names
 #' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 #'
-#' if (utils::packageVersion("tibble") > "1.4.99") {
+#' if (utils::packageVersion("tibble") > "1.4.2") {
 #'   ## exploit full .name_repair flexibility from tibble
 #'
 #'   ## "universal" names are unique and syntactic
@@ -335,7 +335,10 @@ set_readxl_names <- function(l, .name_repair = "unique") {
   }
 
   tibble_message(.name_repair)
-  tibble::set_tidy_names(tibble::as_tibble(l, validate = FALSE))
+  tibble::repair_names(
+    tibble::as_tibble(l, validate = FALSE),
+    prefix = "X", sep = "__"
+  )
 }
 
 tibble_message <- (function(.name_repair) {

@@ -45,17 +45,27 @@ test_that("col_names = FALSE mimics missing column names [xls]", {
 })
 
 test_that("missing column names are populated", {
+  tibble_version <- utils::packageVersion("tibble")
+  nms <- if (tibble_version > "1.4.2") {
+    c("..1", "..3")
+  } else {
+    c("X__1", "X__2")
+  }
+
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[c(1, 3)], c("..1", "..3"))
+  expect_identical(names(df)[c(1, 3)], nms)
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[c(1, 3)], c("..1", "..3"))
+  expect_identical(names(df)[c(1, 3)], nms)
 })
 
 test_that("column names are de-duplicated", {
+  tibble_version <- utils::packageVersion("tibble")
+  nm <- if (tibble_version > "1.4.2") "var2..4" else "var2__1"
+
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
-  expect_identical(names(df)[4], "var2..4")
+  expect_identical(names(df)[4], nm)
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
-  expect_identical(names(df)[4], "var2..4")
+  expect_identical(names(df)[4], nm)
 })
 
 test_that("wrong length column names are rejected", {
@@ -94,7 +104,8 @@ test_that("column_names can anticipate skipping", {
 })
 
 test_that(".name_repair is passed through to tibble", {
-  skip_if_not_installed("tibble", minimum_version = "1.4.99.9006")
+  tibble_version <- utils::packageVersion("tibble")
+  skip_if(tibble_version <= "1.4.2")
 
   expect_colnames <- function(df, expected) {
     expect_identical(colnames(df), expected)
@@ -151,13 +162,14 @@ test_that(".name_repair is passed through to tibble", {
 })
 
 test_that("use of .name_repair is caught and handled with old tibble", {
-  skip_if(utils::packageVersion("tibble") > "1.4.99")
+  tibble_version <- utils::packageVersion("tibble")
+  skip_if(tibble_version > "1.4.2")
 
   expect_colnames <- function(df, expected) {
     expect_identical(colnames(df), expected)
   }
 
-  nms <- c("a b..1", "a b..2","..3", "c%&$")
+  nms <- c("a b", "a b__1","X__1", "c%&$")
   expect_message(
     xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal"),
     "Ignoring"

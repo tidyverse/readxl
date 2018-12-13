@@ -120,7 +120,7 @@ read_excel(datasets, range = cell_cols("B:D"))
 # Get a preview of column names
 names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 
-if (utils::packageVersion("tibble") > "1.4.99") {
+if (utils::packageVersion("tibble") > "1.4.2") {
   ## exploit full .name_repair flexibility from tibble
 
   ## "universal" names are unique and syntactic
