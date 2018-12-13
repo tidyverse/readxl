@@ -73,7 +73,7 @@ The `skip` argument tells `read_excel()` to start looking for populated cells af
 Here's a screen shot of the `geometry.xlsx` example sheet that ships with readxl, accessible via `readxl_example("geometry.xlsx")`.
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("geometry.png")
+knitr::include_graphics("img/geometry.png")
 ```
 
 By default, `read_excel()` just discovers the data rectangle:
@@ -131,7 +131,7 @@ read_excel(readxl_example("deaths.xlsx"), range = "arts!A5:F15")
 We repeat the screenshot of `geometry.xlsx` as a visual reference.
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("geometry.png")
+knitr::include_graphics("img/geometry.png")
 ```
 
 Going back to `geometry.xlsx`, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of `NA`s.
