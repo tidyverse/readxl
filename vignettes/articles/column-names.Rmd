@@ -19,8 +19,8 @@ readxl has always let you specify `col_names` explicitly at the time of import:
 
 ```{r}
 read_excel(
-  readxl_example("clippy.xlsx"),
-  col_names = c("Attribute", "Value")
+  readxl_example("datasets.xlsx"), sheet = "chickwts",
+  col_names = c("chick_weight", "chick_ate_this"), skip = 1
 )
 ```
 
