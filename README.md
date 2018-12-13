@@ -203,7 +203,8 @@ articles](http://readxl.tidyverse.org/articles/index.html):
 We also have some focused articles that address specific aggravations
 presented by the world’s spreadsheets:
 
-  - Column Names *coming soon*
+  - [Column
+    Names](https://readxl.tidyverse.org/articles/articles/column-names.html)
   - [Multiple Header
     Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
 
