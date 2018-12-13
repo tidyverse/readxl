@@ -25,6 +25,8 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
 
 readxl is now tested back to R >= 3.1.
 
+Embedded libxls has been updated, using the source in <https://github.com/evanmiller/libxls>. readxl's DESCRIPTION now records the SHA associated to the embedded libxls in a `Note`.
+
 # readxl 1.1.0
 
 * `read_excel()` and `excel_sheets()` associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (#342, #411, #457)
