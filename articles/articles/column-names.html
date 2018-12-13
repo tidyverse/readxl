@@ -131,17 +131,23 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readxl)</a></code></pre></div>
 <p>readxl has always let you specify <code>col_names</code> explicitly at the time of import:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">col_names =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Attribute"</span>, <span class="st">"Value"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"datasets.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"chickwts"</span>,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">col_names =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"chick_weight"</span>, <span class="st">"chick_ate_this"</span>), <span class="dt">skip =</span> <span class="dv">1</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   Attribute            Value    </span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;                &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 1 name                 value    </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 2 Name                 Clippy   </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 3 Species              paperclip</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 4 Approx date of death 39083    </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 5 Weight in grams      0.9</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; # A tibble: 71 x 2</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;    chick_weight chick_ate_this</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;           &lt;dbl&gt; &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  1          179 horsebean     </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  2          160 horsebean     </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  3          136 horsebean     </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  4          227 horsebean     </span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  5          217 horsebean     </span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  6          168 horsebean     </span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  7          108 horsebean     </span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  8          124 horsebean     </span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;  9          143 horsebean     </span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 10          140 horsebean     </span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; # … with 61 more rows</span></a></code></pre></div>
 <p>But users have long wanted a way to specify a name repair <em>strategy</em>, as opposed to enumerating the actual column names.</p>
 <p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the <a href="https://tibble.tidyverse.org">tibble package</a>, which powers this feature under the hood. <em>December 2018 note: tibble v2.0.0 hasn’t been released yet but will be soon. Until then, <code>.name_repair</code> requires a development version of tibble.</em></p>
 <p>The <code>.name_repair</code> argument in <code><a href="../../reference/read_excel.html">read_excel()</a></code>, <code><a href="../../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html"><code><a href="https://www.rdocumentation.org/packages/tibble/topics/tibble">tibble::tibble()</a></code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html"><code><a href="https://www.rdocumentation.org/packages/tibble/topics/as_tibble">tibble::as_tibble()</a></code></a>. Full documentation is in the <a href="https://tibble.tidyverse.org/dev/reference/name-repair.html"><code>?name-repair</code> topic</a> of tibble.</p>
