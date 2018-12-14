@@ -31,7 +31,7 @@
 
 #include <libxls/xlsstruct.h>
 
-int xls_is_bigendian();
+int xls_is_bigendian(void);
 DWORD xlsIntVal (DWORD i);
 unsigned short xlsShortVal (short s);
 
