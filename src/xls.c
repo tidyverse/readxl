@@ -474,7 +474,7 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         if (pWB->is5ver) {
             return (bof->size < offsetof(LABEL, value) + 2 + label_len);
         }
-        if ((((LABEL*)buf)->value[2] & 0x01)) {
+        if ((((LABEL*)buf)->value[2] & 0x01) == 0) {
             return (bof->size < offsetof(LABEL, value) + 3 + label_len);
         }
         return (bof->size < offsetof(LABEL, value) + 3 + 2 * label_len);
