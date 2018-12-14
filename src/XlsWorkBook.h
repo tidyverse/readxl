@@ -25,7 +25,11 @@ public:
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rcpp::stop("Error reading XLS file: %s", xls::xls_getError(error));
+      Rcpp::stop(
+        "\n  filepath: %s\n  libxls error: %s",
+        path_,
+        xls::xls_getError(error)
+      );
     }
 
     n_sheets_ = pWB_->sheets.count;
