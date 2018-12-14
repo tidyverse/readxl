@@ -39,3 +39,11 @@ new_paths[header_file] <-
 file_copy(path = there(paths), new_path = here(new_paths), overwrite = TRUE)
 
 desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
+
+## at this point, you'll have a diff
+## selectively commit the bits we truly want; call this commit X
+## now commit the reversals of our usual patches; call this commit Y
+## revert commit Y; this ADDS our usual patches; call this commit Z
+## rebase and squash X and Y
+## rebase and edit the message for commit Z
+## revel in all the xls issues that are newly resolved
