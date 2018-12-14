@@ -291,7 +291,12 @@ typedef struct COLINFO
     WORD	width;
     WORD	xf;
     WORD	flags;
-    WORD	notused;
+/* There should be an unused WORD field at the end here. However, some files in
+ * the wild report it as a BYTE, which results in a boundary-check parse error.
+ * Since the value is ignored anyway, we'll just pretend it was never there.
+ *
+ * See issue https://github.com/evanmiller/libxls/issues/27
+ */
 }
 COLINFO;
 

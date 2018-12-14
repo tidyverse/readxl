@@ -47,7 +47,7 @@
 #include <wchar.h>
 
 #include "libxls/endian.h"
-#include "libxls/xls.h"
+#include "xls.h"
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -810,8 +810,8 @@ int xls_isRecordTooSmall(xlsWorkBook *pWB, BOF *bof1) {
 
 xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 {
-    BOF bof1 = { 0 };
-    BOF bof2 = { 0 };
+    BOF bof1 = { .id = 0, .size = 0 };
+    BOF bof2 = { .id = 0, .size = 0 };
     BYTE* buf = NULL;
 	BYTE once = 0;
     xls_error_t retval = LIBXLS_OK;
@@ -1370,7 +1370,7 @@ xlsWorkSheet * xls_getWorkSheet(xlsWorkBook* pWB,int num)
 {
     xlsWorkSheet * pWS = NULL;
     verbose ("xls_getWorkSheet");
-    if (num >= 0 && num < pWB->sheets.count) {
+    if (num >= 0 && num < (int)pWB->sheets.count) {
         pWS = calloc(1, sizeof(xlsWorkSheet));
         pWS->filepos=pWB->sheets.sheet[num].filepos;
         pWS->workbook=pWB;

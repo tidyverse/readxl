@@ -60,6 +60,6 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-Note: libxls-SHA b20521f
+Note: libxls-SHA b6192a3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
