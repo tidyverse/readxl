@@ -40,7 +40,11 @@ public:
     std::string path = wb_.path();
     pWB_ = xls_open_file(path.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rcpp::stop("Error reading XLS file: %s", xls::xls_getError(error));
+      Rcpp::stop(
+        "\n  filepath: %s\n  libxls error: %s",
+        path,
+        xls::xls_getError(error)
+      );
     }
 
     pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
