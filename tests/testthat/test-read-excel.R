@@ -23,7 +23,7 @@ test_that("xlsx is not read as xls and vice versa", {
       read_xls(test_sheet("iris-excel-xlsx.xlsx")),
       "Not an excel file"
     ),
-    "Failed to open"
+    "Error reading XLS file: Unable to open file",
   )
   expect_error(read_xlsx(test_sheet("iris-excel-xls.xls")), "cannot be opened")
 })
