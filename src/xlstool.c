@@ -266,19 +266,16 @@ static char *unicode_decode_wcstombs(const char *s, size_t len, size_t *newlen) 
     int count, count2;
     size_t i;
     wchar_t *w;
-    short *x;
     if (setlocale(LC_CTYPE, "") == NULL) {
         printf("setlocale failed: %d\n", errno);
-        return "*null*";
+        return NULL;
     }
-
-    x=(short *)s;
 
     w = malloc((len/2+1)*sizeof(wchar_t));
 
     for(i=0; i<len/2; i++)
     {
-        w[i]=xlsShortVal(x[i]);
+        w[i] = (BYTE)s[2*i] + ((BYTE)s[2*i+1] << 8);
     }
     w[len/2] = '\0';
 
@@ -586,10 +583,10 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-        if(pWB->is5ver) {
-            offset = xlsShortVal(*(WORD *)label);
-        } else {
-            offset = xlsIntVal(*(DWORD *)label);
+        offset = label[0] + (label[1] << 8);
+        if(!pWB->is5ver) {
+            offset += (label[2] << 16);
+            offset += (label[3] << 24);
         }
         if(offset < pWB->sst.count && pWB->sst.string[offset].str) {
             ret = strdup(pWB->sst.string[offset].str);
@@ -600,7 +597,7 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
         ret = strdup("");
         break;
     case XLS_RECORD_LABEL:
-        len = xlsShortVal(*(WORD *)label);
+        len = label[0] + (label[1] << 8);
         label += 2;
 		if(pWB->is5ver) {
             ret = malloc(len+1);

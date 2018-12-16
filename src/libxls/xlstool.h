@@ -34,8 +34,6 @@
  */
 
 #include "libxls/xlsstruct.h"
-/* Mask illegal functions for CMD check */
-#include "cran.h"
 
 extern void dumpbuf(BYTE* fname,long size,BYTE* buf);
 extern void verbose(char* str);
