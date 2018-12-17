@@ -2,6 +2,7 @@
 #define READXL_XLSXWORKSHEET_
 
 #include <Rcpp.h>
+#include <RProgress.h>
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
 #include "XlsxCell.h"
@@ -104,6 +105,10 @@ public:
                                 const bool trimWs,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
+    if (guess_max == 0) {
+      return types;
+    }
+
     std::vector<XlsxCell>::iterator xcell;
     xcell = has_col_names ? advance_row(cells_) : cells_.begin();
 
@@ -118,10 +123,20 @@ public:
       type_known[j] = types[j] != COL_UNKNOWN;
     }
 
+    RProgress::RProgress pb("Guessing column types :spin");
+    pb.set_total(1);
+    pb.set_show_after(0);
+    pb.tick(0);
+
+    // count is for progress and checking for interrupt
+    int count = 0;
     // base is row the data starts on **in the spreadsheet**
     int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
-      if ((xcell->row() - base + 1) % 1000 == 0) {
+      count++;
+      if (count % 100000 == 0) {
+        // ratio is artitrary; progress is spinner only
+        pb.update(0.5);
         Rcpp::checkUserInterrupt();
       }
       int j = xcell->col() - actual_.minCol();
@@ -136,6 +151,7 @@ public:
       }
       xcell++;
     }
+    pb.update(1);
 
     return types;
   }
@@ -161,15 +177,27 @@ public:
       return cols;
     }
 
+    RProgress::RProgress pb("Reading columns :spin");
+    pb.set_total(1);
+    pb.set_show_after(0);
+    pb.tick(0);
+
+    // count is for progress and checking for interrupt
+    int count = 0;
     while (xcell != cells_.end()) {
 
       int i = xcell->row();
       int j = xcell->col();
       // col to write into
       int col = j - actual_.minCol();
-      if ((i + 1) % 1000 == 0) {
+
+      count++;
+      if (count % 100000 == 0) {
+        // ratio is artitrary; progress is spinner only
+        pb.update(0.5);
         Rcpp::checkUserInterrupt();
       }
+
       if (types[col] == COL_SKIP) {
         xcell++;
         continue;
@@ -305,6 +333,7 @@ public:
       }
       xcell++;
     }
+    pb.update(1);
 
     return removeSkippedColumns(cols, names, types);
   }
@@ -322,12 +351,27 @@ private:
       return;
     }
 
+    RProgress::RProgress pb("Loading cells :spin");
+    pb.set_total(1);
+    pb.set_show_after(0);
+    pb.tick(0);
+
+    // count is for progress and checking for interrupt
+    int count = 0;
+
     int i = 0;
     bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
     for (; row; row = row->next_sibling("row")) {
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
+        count++;
+        if (count % 100000 == 0) {
+          // ratio is artitrary; progress is spinner only
+          pb.update(0.5);
+          Rcpp::checkUserInterrupt();
+        }
+
         rapidxml::xml_node<>* first_child = cell->first_node(0);
         // only consider cells that have >= 1 child nodes
         // we require cell to have content, not just, e.g., a format
@@ -360,6 +404,7 @@ private:
       }
       i++;
     }
+    pb.update(1);
   }
 
   // shim = TRUE when user specifies geometry via `range`
