@@ -324,7 +324,6 @@ public:
       }
       xcell++;
     }
-    spinner_.finish();
 
     return removeSkippedColumns(cols, names, types);
   }
