@@ -14,7 +14,7 @@ public:
   }
   void spin() { pb_.update(0.5); }
   void finish() { pb_.update(1); }
-  ~Spinner() {this->finish(); }
+  ~Spinner() { this->finish(); }
 };
 
 #endif

@@ -24,6 +24,7 @@ class XlsWorkSheet {
   std::string sheetName_;
   CellLimits nominal_, actual_;
   int ncol_, nrow_;
+  Spinner spinner_;
 
 public:
 
@@ -39,6 +40,7 @@ public:
 
     xls::xls_error_t error = xls::LIBXLS_OK;
     std::string path = wb_.path();
+    spinner_.spin();
     pWB_ = xls_open_file(path.c_str(), "UTF-8", &error);
     if (!pWB_) {
       Rcpp::stop(
@@ -47,6 +49,7 @@ public:
         xls::xls_getError(error)
       );
     }
+    spinner_.spin();
 
     pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
     if (pWS_ == NULL) {
@@ -54,6 +57,7 @@ public:
                  sheetName_, sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
+    spinner_.spin();
     dateFormats_ = wb.dateFormats();
 
     // nominal_ holds user's geometry request
@@ -119,8 +123,6 @@ public:
       type_known[j] = types[j] != COL_UNKNOWN;
     }
 
-    Spinner spinner("Guessing column types :spin");
-
     // count is for spinner and checking for interrupt
     int count = 0;
     // base is row the data starts on **in the spreadsheet**
@@ -128,7 +130,7 @@ public:
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       count++;
       if (count % 100000 == 0) {
-        spinner.spin();
+        spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
       int j = xcell->col() - actual_.minCol();
@@ -143,7 +145,6 @@ public:
       }
       xcell++;
     }
-    spinner.finish();
 
     return types;
   }
@@ -169,8 +170,6 @@ public:
       return cols;
     }
 
-    Spinner spinner("Reading columns :spin");
-
     // count is for spinner and checking for interrupt
     int count = 0;
     while (xcell != cells_.end()) {
@@ -182,7 +181,7 @@ public:
 
       count++;
       if (count % 100000 == 0) {
-        spinner.spin();
+        spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
 
@@ -323,7 +322,6 @@ public:
       }
       xcell++;
     }
-    spinner.finish();
 
     return removeSkippedColumns(cols, names, types);
   }
@@ -335,8 +333,6 @@ private:
     if (nominal_.minRow() < -1) {
       return;
     }
-
-    Spinner spinner("Loading cells :spin");
 
     // count is for spinner and checking for interrupt
     int count = 0;
@@ -356,7 +352,7 @@ private:
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
         count++;
         if (count % 100000 == 0) {
-          spinner.spin();
+          spinner_.spin();
           Rcpp::checkUserInterrupt();
         }
 
@@ -382,7 +378,6 @@ private:
         }
       }
     }
-    spinner.finish();
   }
 
   // shim = TRUE when user specifies geometry via `range`
