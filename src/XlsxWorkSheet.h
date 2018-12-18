@@ -2,9 +2,9 @@
 #define READXL_XLSXWORKSHEET_
 
 #include <Rcpp.h>
-#include <RProgress.h>
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
+#include "Spinner.h"
 #include "XlsxCell.h"
 #include "ColSpec.h"
 #include "CellLimits.h"
@@ -123,10 +123,7 @@ public:
       type_known[j] = types[j] != COL_UNKNOWN;
     }
 
-    RProgress::RProgress pb("Guessing column types :spin");
-    pb.set_total(1);
-    pb.set_show_after(0);
-    pb.tick(0);
+    Spinner spinner("Guessing column types :spin");
 
     // count is for progress and checking for interrupt
     int count = 0;
@@ -135,8 +132,7 @@ public:
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       count++;
       if (count % 100000 == 0) {
-        // ratio is artitrary; progress is spinner only
-        pb.update(0.5);
+        spinner.spin();
         Rcpp::checkUserInterrupt();
       }
       int j = xcell->col() - actual_.minCol();
@@ -151,7 +147,7 @@ public:
       }
       xcell++;
     }
-    pb.update(1);
+    spinner.finish();
 
     return types;
   }
@@ -177,10 +173,7 @@ public:
       return cols;
     }
 
-    RProgress::RProgress pb("Reading columns :spin");
-    pb.set_total(1);
-    pb.set_show_after(0);
-    pb.tick(0);
+    Spinner spinner("Reading columns :spin");
 
     // count is for progress and checking for interrupt
     int count = 0;
@@ -193,8 +186,7 @@ public:
 
       count++;
       if (count % 100000 == 0) {
-        // ratio is artitrary; progress is spinner only
-        pb.update(0.5);
+        spinner.spin();
         Rcpp::checkUserInterrupt();
       }
 
@@ -333,7 +325,7 @@ public:
       }
       xcell++;
     }
-    pb.update(1);
+    spinner.finish();
 
     return removeSkippedColumns(cols, names, types);
   }
@@ -351,10 +343,7 @@ private:
       return;
     }
 
-    RProgress::RProgress pb("Loading cells :spin");
-    pb.set_total(1);
-    pb.set_show_after(0);
-    pb.tick(0);
+    Spinner spinner("Loading cells :spin");
 
     // count is for progress and checking for interrupt
     int count = 0;
@@ -367,8 +356,7 @@ private:
            cell; cell = cell->next_sibling("c")) {
         count++;
         if (count % 100000 == 0) {
-          // ratio is artitrary; progress is spinner only
-          pb.update(0.5);
+          spinner.spin();
           Rcpp::checkUserInterrupt();
         }
 
@@ -404,7 +392,7 @@ private:
       }
       i++;
     }
-    pb.update(1);
+    spinner.finish();
   }
 
   // shim = TRUE when user specifies geometry via `range`
