@@ -36,8 +36,8 @@ class XlsxWorkSheet {
 public:
 
   XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i,
-                Rcpp::IntegerVector limits, bool shim):
-  wb_(wb), nominal_(limits), spinner_(":spin")
+                Rcpp::IntegerVector limits, bool shim, bool progress):
+  wb_(wb), nominal_(limits), spinner_(progress)
   {
     rapidxml::xml_node<>* rootNode;
 

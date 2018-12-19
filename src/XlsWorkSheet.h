@@ -29,8 +29,8 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               Rcpp::IntegerVector limits, bool shim):
-  wb_(wb), nominal_(limits)
+               Rcpp::IntegerVector limits, bool shim, bool progress):
+  wb_(wb), nominal_(limits), spinner_(progress)
   {
     if (sheet_i >= wb.n_sheets()) {
       Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",

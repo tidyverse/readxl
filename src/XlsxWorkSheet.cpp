@@ -15,10 +15,11 @@ IntegerVector parse_ref(std::string ref) {
 List read_xlsx_(std::string path, int sheet_i,
                 IntegerVector limits, bool shim,
                 RObject col_names, RObject col_types,
-                std::vector<std::string> na, bool trim_ws, int guess_max = 1000) {
+                std::vector<std::string> na, bool trim_ws,
+                int guess_max = 1000, bool progress = true) {
 
   // Construct worksheet ----------------------------------------------
-  XlsxWorkSheet ws(path, sheet_i, limits, shim);
+  XlsxWorkSheet ws(path, sheet_i, limits, shim, progress);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {

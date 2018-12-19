@@ -28,8 +28,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_xls_
-List read_xls_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max);
-RcppExport SEXP _readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
+List read_xls_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+RcppExport SEXP _readxl_read_xls_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,7 +42,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::vector<std::string> >::type na(naSEXP);
     Rcpp::traits::input_parameter< bool >::type trim_ws(trim_wsSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_xls_(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max));
+    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
+    rcpp_result_gen = Rcpp::wrap(read_xls_(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -91,8 +92,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_xlsx_
-List read_xlsx_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max);
-RcppExport SEXP _readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP) {
+List read_xlsx_(std::string path, int sheet_i, IntegerVector limits, bool shim, RObject col_names, RObject col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+RcppExport SEXP _readxl_read_xlsx_(SEXP pathSEXP, SEXP sheet_iSEXP, SEXP limitsSEXP, SEXP shimSEXP, SEXP col_namesSEXP, SEXP col_typesSEXP, SEXP naSEXP, SEXP trim_wsSEXP, SEXP guess_maxSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -105,7 +106,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::vector<std::string> >::type na(naSEXP);
     Rcpp::traits::input_parameter< bool >::type trim_ws(trim_wsSEXP);
     Rcpp::traits::input_parameter< int >::type guess_max(guess_maxSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max));
+    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
+    rcpp_result_gen = Rcpp::wrap(read_xlsx_(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -124,12 +126,12 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_readxl_xls_sheets", (DL_FUNC) &_readxl_xls_sheets, 1},
     {"_readxl_xls_date_formats", (DL_FUNC) &_readxl_xls_date_formats, 1},
-    {"_readxl_read_xls_", (DL_FUNC) &_readxl_read_xls_, 9},
+    {"_readxl_read_xls_", (DL_FUNC) &_readxl_read_xls_, 10},
     {"_readxl_xlsx_sheets", (DL_FUNC) &_readxl_xlsx_sheets, 1},
     {"_readxl_xlsx_strings", (DL_FUNC) &_readxl_xlsx_strings, 1},
     {"_readxl_xlsx_date_formats", (DL_FUNC) &_readxl_xlsx_date_formats, 1},
     {"_readxl_parse_ref", (DL_FUNC) &_readxl_parse_ref, 1},
-    {"_readxl_read_xlsx_", (DL_FUNC) &_readxl_read_xlsx_, 9},
+    {"_readxl_read_xlsx_", (DL_FUNC) &_readxl_read_xlsx_, 10},
     {"_readxl_zip_xml", (DL_FUNC) &_readxl_zip_xml, 2},
     {NULL, NULL, 0}
 };
