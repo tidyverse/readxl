@@ -15,6 +15,8 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
   
 ## Other changes
 
+* `read_excel()` and friends gain a `progress` argument that controls a progress spinner (#243, #538).
+
 * `read_xls()` and `read_xlsx()` pass the `trim_ws` argument along (#514).
 
 * readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
