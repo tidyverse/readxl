@@ -10,6 +10,8 @@
 #include "CellLimits.h"
 #include "utils.h"
 
+const int PROGRESS_TICK = 131072; // 2^17
+
 class XlsWorkSheet {
   // the host workbook
   XlsWorkBook wb_;
@@ -129,7 +131,7 @@ public:
     int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       count++;
-      if (count % 131072 == 0) {
+      if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -180,7 +182,7 @@ public:
       int col = j - actual_.minCol();
 
       count++;
-      if (count % 131072 == 0) {
+      if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -351,7 +353,7 @@ private:
 
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
         count++;
-        if (count % 131072 == 0) {
+        if (count % PROGRESS_TICK == 0) {
           spinner_.spin();
           Rcpp::checkUserInterrupt();
         }

@@ -9,6 +9,8 @@
 #include "ColSpec.h"
 #include "CellLimits.h"
 
+const int PROGRESS_TICK = 131072; // 2^17
+
 // Page and section numbers below refer to
 // ECMA-376 (version, date, and download URL given in XlsxCell.h)
 // 18.3.1.73  row         (Row)        [p1685]
@@ -133,7 +135,7 @@ public:
     int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       count++;
-      if (count % 131072 == 0) {
+      if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -184,7 +186,7 @@ public:
       int col = j - actual_.minCol();
 
       count++;
-      if (count % 131072 == 0) {
+      if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -351,7 +353,7 @@ private:
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
         count++;
-        if (count % 131072 == 0) {
+        if (count % PROGRESS_TICK == 0) {
           spinner_.spin();
           Rcpp::checkUserInterrupt();
         }
