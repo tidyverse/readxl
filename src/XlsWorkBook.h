@@ -22,9 +22,14 @@ public:
   XlsWorkBook(const std::string& path) {
     path_ = path;
 
-    xls::xlsWorkBook* pWB_ = xls::xls_open(path_.c_str(), "UTF-8");
-    if (pWB_ == NULL) {
-      Rcpp::stop("Failed to open %s", path);
+    xls::xls_error_t error = xls::LIBXLS_OK;
+    xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
+    if (!pWB_) {
+      Rcpp::stop(
+        "\n  filepath: %s\n  libxls error: %s",
+        path_,
+        xls::xls_getError(error)
+      );
     }
 
     n_sheets_ = pWB_->sheets.count;

@@ -120,9 +120,11 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xlsx]", {
     var1 = c("val1,1", "val2,1", "val3,1"),
     var2 = NA,
     var3 = c("aa", "bb", "cc"),
-     ..4 = NA,
+    var4 = NA,
     var5 = c(1, 2, 3)
   )
+  ## this is not a test re: column names; be robust to tibble version
+  names(out)[4] <- "var4"
   expect_equal(out, df)
 })
 
@@ -132,8 +134,10 @@ test_that("empty (styled) cells are not loaded, but can survive as NA [xls]", {
     var1 = c("val1,1", "val2,1", "val3,1"),
     var2 = NA,
     var3 = c("aa", "bb", "cc"),
-     ..4 = NA,
+    var4 = NA,
     var5 = c(1, 2, 3)
   )
+  ## this is not a test re: column names; be robust to tibble version
+  names(out)[4] <- "var4"
   expect_equal(out, df)
 })

@@ -36,9 +36,18 @@ public:
     }
     sheetName_ = wb.sheets()[sheet_i];
 
+    xls::xls_error_t error = xls::LIBXLS_OK;
     std::string path = wb_.path();
-    pWB_ = xls::xls_open(path.c_str(), "UTF-8");
-    pWS_ = xls_getWorkSheet(pWB_, sheet_i);
+    pWB_ = xls_open_file(path.c_str(), "UTF-8", &error);
+    if (!pWB_) {
+      Rcpp::stop(
+        "\n  filepath: %s\n  libxls error: %s",
+        path,
+        xls::xls_getError(error)
+      );
+    }
+
+    pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
     if (pWS_ == NULL) {
       Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
                  sheetName_, sheet_i + 1);

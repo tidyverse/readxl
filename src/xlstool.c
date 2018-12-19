@@ -1,32 +1,35 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * This file is part of libxls -- A multiplatform, C/C++ library
- * for parsing Excel(TM) files.
- *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
- *
- *    1. Redistributions of source code must retain the above copyright notice, this list of
- *       conditions and the following disclaimer.
- *
- *    2. Redistributions in binary form must reproduce the above copyright notice, this list
- *       of conditions and the following disclaimer in the documentation and/or other materials
- *       provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY David Hoerl ''AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL David Hoerl OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
  * Copyright 2004 Komarov Valery
  * Copyright 2006 Christophe Leitienne
+ * Copyright 2008-2017 David Hoerl
  * Copyright 2013 Bob Colbert
- * Copyright 2008-2013 David Hoerl
+ * Copyright 2013-2018 Evan Miller
+ *
+ * This file is part of libxls -- A multiplatform, C/C++ library for parsing
+ * Excel(TM) files.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ *    2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -170,21 +173,12 @@ char *utf8_decode(const char *str, DWORD len, char *encoding)
 	return ret;
 }
 
-// Convert unicode string to to_enc encoding
-char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_enc)
-{
 #ifdef HAVE_ICONV
-    // Do iconv conversion
+static char* unicode_decode_iconv(const char *s, size_t len, size_t *newlen, const char* to_enc) {
 #if defined(_AIX) || defined(__sun)
     const char *from_enc = "UTF-16le";
-    #define ICONV_CONST const
 #else
     const char *from_enc = "UTF-16LE";
-    #if defined(_WIN32)
-        #define ICONV_CONST const
-    #else
-        #define ICONV_CONST
-    #endif
 #endif
     char* outbuf = 0;
 
@@ -226,7 +220,7 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
             out_ptr = outbuf;
             while(inlenleft)
             {
-                st = iconv(ic, (ICONV_CONST char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
+                st = iconv(ic, (char **)&src_ptr, &inlenleft, (char **)&out_ptr,(size_t *) &outlenleft);
                 if(st == (size_t)(-1))
                 {
                     if(errno == E2BIG)
@@ -262,46 +256,57 @@ char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_e
         }
     }
     return outbuf;
-#else
-	// Do wcstombs conversion
-	char *converted = NULL;
-	int count, count2, i;
-	wchar_t *w;
-    short *x;
-	if (setlocale(LC_CTYPE, "") == NULL) {
-		printf("setlocale failed: %d\n", errno);
-		return "*null*";
-	}
+}
 
-    x=(short *)s;
+#else
+
+static char *unicode_decode_wcstombs(const char *s, size_t len, size_t *newlen) {
+	// Do wcstombs conversion
+    char *converted = NULL;
+    int count, count2;
+    size_t i;
+    wchar_t *w;
+    if (setlocale(LC_CTYPE, "") == NULL) {
+        printf("setlocale failed: %d\n", errno);
+        return NULL;
+    }
 
     w = malloc((len/2+1)*sizeof(wchar_t));
 
     for(i=0; i<len/2; i++)
     {
-        w[i]=xlsShortVal(x[i]);
+        w[i] = (BYTE)s[2*i] + ((BYTE)s[2*i+1] << 8);
     }
     w[len/2] = '\0';
 
     count = wcstombs(NULL, w, 0);
 
-	if (count <= 0) {
-		if (newlen) *newlen = 0;
-		free(w);
-		return NULL;
-	}
+    if (count <= 0) {
+        if (newlen) *newlen = 0;
+        free(w);
+        return NULL;
+    }
 
-	converted = calloc(count+1, sizeof(char));
-	count2 = wcstombs(converted, w, count);
+    converted = calloc(count+1, sizeof(char));
+    count2 = wcstombs(converted, w, count);
     free(w);
-	if (count2 <= 0) {
-		printf("wcstombs failed (%lu)\n", (unsigned long)len/2);
-		if (newlen) *newlen = 0;
-		return converted;
-	} else {
-		if (newlen) *newlen = count2;
-		return converted;
-	}
+    if (count2 <= 0) {
+        printf("wcstombs failed (%lu)\n", (unsigned long)len/2);
+        if (newlen) *newlen = 0;
+        return converted;
+    }
+    if (newlen) *newlen = count2;
+    return converted;
+}
+#endif
+
+// Convert unicode string to to_enc encoding
+char* unicode_decode(const char *s, size_t len, size_t *newlen, const char* to_enc)
+{
+#ifdef HAVE_ICONV
+    return unicode_decode_iconv(s, len, newlen, to_enc);
+#else
+    return unicode_decode_wcstombs(s, len, newlen);
 #endif
 }
 
@@ -578,10 +583,10 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
     switch (cell->id)
     {
     case XLS_RECORD_LABELSST:
-        if(pWB->is5ver) {
-            offset = xlsShortVal(*(WORD *)label);
-        } else {
-            offset = xlsIntVal(*(DWORD *)label);
+        offset = label[0] + (label[1] << 8);
+        if(!pWB->is5ver) {
+            offset += (label[2] << 16);
+            offset += (label[3] << 24);
         }
         if(offset < pWB->sst.count && pWB->sst.string[offset].str) {
             ret = strdup(pWB->sst.string[offset].str);
@@ -592,7 +597,7 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
         ret = strdup("");
         break;
     case XLS_RECORD_LABEL:
-        len = xlsShortVal(*(WORD *)label);
+        len = label[0] + (label[1] << 8);
         label += 2;
 		if(pWB->is5ver) {
             ret = malloc(len+1);

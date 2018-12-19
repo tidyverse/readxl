@@ -1,6 +1,7 @@
+url: https://readxl.tidyverse.org
+
 template:
   package: tidytemplate
-  default_assets: false
 
 home:
   strip_header: true
@@ -24,6 +25,10 @@ navbar:
       href: articles/sheet-geometry.html
     - text: Workflows
       href: articles/articles/readxl-workflows.html
+    - text: Column Names
+      href: articles/articles/column-names.html
+    - text: Multiple Header Rows
+      href: articles/articles/multiple-header-rows.html
   - text: News
     menu:
     - text: "Blog posts"

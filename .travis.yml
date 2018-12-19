@@ -1,28 +1,31 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
 cache: packages
 latex: false
 
 matrix:
   include:
-    - os: linux
-      r: release
-      env: R_CODECOV=true
+    - r: devel
+    - r: release
+      env: tibble='CRAN'
+    - r: release
+      env: tibble='dev'
+      before_script: Rscript -e "remotes::install_github('tidyverse/tibble')"
+      after_success: Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'
+      before_cache: Rscript -e 'remotes::install_cran("pkgdown")' -e 'remotes::install_github("tidyverse/tidytemplate")' -e 'remotes::install_cran("tidyverse")'
+      deploy:
+        provider: script
+        script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+        skip_cleanup: true
+    - r: 3.4
+    - r: 3.3
+    - r: 3.2
+    - r: 3.1
+      warnings_are_errors: false
     - os: osx
       r: release
       osx_image: xcode8.3
     - os: osx
       r: release
       osx_image: xcode7.3
-
-r:
-#- 3.1
-- 3.2
-- 3.3
-- devel
-- oldrel
-
-after_success:
-  - if [[ "${R_CODECOV}" ]]; then Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'; fi

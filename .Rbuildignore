@@ -1,3 +1,4 @@
+^pkgdown$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
@@ -12,11 +13,10 @@
 ^README-.*\.png$
 ^_pkgdown\.yml$
 ^docs$
-^clippy$
+^img$
 ^xldocs$
 ^src/libxls/xls2csv\.c$
 ^iss$
-^logo\.png$
 ^vignettes/articles$
 ^revdep$
 ^vignettes/rsconnect$

@@ -145,7 +145,7 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("type-me-logical.png")
+knitr::include_graphics("img/type-me-logical.png")
 ```
 
 ### Numeric column
@@ -159,7 +159,7 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("type-me-numeric.png")
+knitr::include_graphics("img/type-me-numeric.png")
 ```
 
 ### Date column
@@ -173,7 +173,7 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("type-me-date.png")
+knitr::include_graphics("img/type-me-date.png")
 ```
 
 ### Text or character column
@@ -187,5 +187,5 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("type-me-text.png")
+knitr::include_graphics("img/type-me-text.png")
 ```

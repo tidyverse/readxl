@@ -19,11 +19,8 @@ test_that("can read files with and without extension [xls]", {
 
 test_that("xlsx is not read as xls and vice versa", {
   expect_error(
-    expect_output(
-      read_xls(test_sheet("iris-excel-xlsx.xlsx")),
-      "Not an excel file"
-    ),
-    "Failed to open"
+    read_xls(test_sheet("iris-excel-xlsx.xlsx")),
+    "libxls error: Unable to open file"
   )
   expect_error(read_xlsx(test_sheet("iris-excel-xls.xls")), "cannot be opened")
 })
@@ -115,3 +112,11 @@ test_that("non-ASCII filenames can be read", {
   expect_error_free(read_xls(tricky_xls_file))
   expect_error_free(read_xlsx(tricky_xlsx_file))
 })
+
+test_that("styles and sharedStrings parts can be absent", {
+  expect_error_free(
+    df <- read_xlsx(test_sheet("no-styles-or-sharedStrings-parts.xlsx"))
+  )
+  expect_identical(df$Language[1], "german")
+  expect_true(all(df$Age > 0))
+ })
