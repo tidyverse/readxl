@@ -1,4 +1,4 @@
-# readxl *development version*
+# readxl 1.2.0
 
 ## Column name repair
 
