@@ -172,15 +172,18 @@ prevent such guessing.</p>
 
     <pre class="usage"><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
 
 <span class='fu'>read_xls</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
 
 <span class='fu'>read_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)</pre>
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -248,6 +251,13 @@ the returned tibble. Ignored if <code>range</code> is given.</p></td>
       <th>guess_max</th>
       <td><p>Maximum number of data rows to use for guessing column
 types.</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>Display a progress spinner? By default, the spinner appears
+only in an interactive session, outside the context of knitting a document,
+and when the call is likely to run for several seconds or more. See
+<code><a href='readxl_progress.html'>readxl_progress()</a></code> for more details.</p></td>
     </tr>
     <tr>
       <th>.name_repair</th>
