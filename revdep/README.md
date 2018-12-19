@@ -32,16 +32,12 @@
 
 # Revdeps
 
-## Couldn't check (9)
+## Couldn't check (5)
 
 |package                                  |version |error |warning |note |
 |:----------------------------------------|:-------|:-----|:-------|:----|
-|[BEACH](problems.md#beach)               |1.2.1   |1     |        |     |
 |[DAPAR](problems.md#dapar)               |1.14.3  |1     |        |     |
-|[DataLoader](problems.md#dataloader)     |1.3     |1     |        |     |
 |[dynBiplotGUI](problems.md#dynbiplotgui) |1.1.5   |1     |        |     |
-|[ie2misc](problems.md#ie2misc)           |0.8.5   |1     |        |1    |
-|[joinXL](problems.md#joinxl)             |1.0.1   |1     |        |     |
 |[lpirfs](problems.md#lpirfs)             |0.1.4   |1     |        |     |
 |[PCRedux](problems.md#pcredux)           |0.2.6-4 |1     |        |     |
 |[zooaRchGUI](problems.md#zooarchgui)     |1.0.2   |1     |        |     |
@@ -53,7 +49,7 @@
 |[aire.zmvm](problems.md#airezmvm)                                  |0.8.0   |      |        |1    |
 |BAYESDEF                                                           |0.1.0   |      |        |     |
 |baytrends                                                          |1.0.7   |      |        |     |
-|[BEACH](problems.md#beach)                                         |1.2.1   |1     |        |     |
+|[BEACH](problems.md#beach)                                         |1.2.1   |      |        |1    |
 |[bikedata](problems.md#bikedata)                                   |0.2.2   |1     |        |     |
 |[BloodCancerMultiOmics2017](problems.md#bloodcancermultiomics2017) |1.2.0   |      |1       |3    |
 |[blorr](problems.md#blorr)                                         |0.2.0   |      |        |1    |
@@ -65,7 +61,7 @@
 |[cRegulome](problems.md#cregulome)                                 |0.2.0   |      |1       |1    |
 |[crosswalkr](problems.md#crosswalkr)                               |0.2.2   |      |        |1    |
 |[DAPAR](problems.md#dapar)                                         |1.14.3  |1     |        |     |
-|[DataLoader](problems.md#dataloader)                               |1.3     |1     |        |     |
+|DataLoader                                                         |1.3     |      |        |     |
 |DCM                                                                |0.1.1   |      |        |     |
 |descriptr                                                          |0.4.1   |      |        |     |
 |[dextergui](problems.md#dextergui)                                 |0.1.5   |      |1       |1    |
@@ -87,10 +83,10 @@
 |[GWSDAT](problems.md#gwsdat)                                       |3.0.1   |1     |        |     |
 |heemod                                                             |0.9.2   |      |        |     |
 |[hiReadsProcessor](problems.md#hireadsprocessor)                   |1.18.0  |      |        |2    |
-|[ie2misc](problems.md#ie2misc)                                     |0.8.5   |1     |        |1    |
+|[ie2misc](problems.md#ie2misc)                                     |0.8.5   |      |        |2    |
 |inferr                                                             |0.3.0   |      |        |     |
 |[IsoCorrectoR](problems.md#isocorrector)                           |1.0.5   |      |1       |1    |
-|[joinXL](problems.md#joinxl)                                       |1.0.1   |1     |        |     |
+|joinXL                                                             |1.0.1   |      |        |     |
 |jubilee                                                            |0.2.5   |      |        |     |
 |[lpirfs](problems.md#lpirfs)                                       |0.1.4   |1     |        |     |
 |Luminescence                                                       |0.8.6   |      |        |     |

@@ -15,58 +15,12 @@ Version: 1.2.1
 
 ## In both
 
-*   checking whether package ‘BEACH’ can be installed ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/BEACH/new/BEACH.Rcheck/00install.out’ for details.
+    Namespace in Imports field not imported from: ‘readxl’
+      All declared Imports should be used.
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘BEACH’ ...
-** package ‘BEACH’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘BEACH’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/BEACH/new/BEACH.Rcheck/BEACH’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘BEACH’ ...
-** package ‘BEACH’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/BEACH/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘BEACH’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/BEACH/old/BEACH.Rcheck/BEACH’
-
-```
 # bikedata
 
 Version: 0.2.2
@@ -283,66 +237,6 @@ ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
 ```
-# DataLoader
-
-Version: 1.3
-
-## In both
-
-*   checking whether package ‘DataLoader’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘DataLoader’ ...
-** package ‘DataLoader’ successfully unpacked and MD5 sums checked
-** R
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error: package or namespace load failed for ‘xlsx’:
- .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
-  Reason: image not found
-Error : package ‘xlsx’ could not be loaded
-ERROR: lazy loading failed for package ‘DataLoader’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/DataLoader’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘DataLoader’ ...
-** package ‘DataLoader’ successfully unpacked and MD5 sums checked
-** R
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error: package or namespace load failed for ‘xlsx’:
- .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
-  Reason: image not found
-Error : package ‘xlsx’ could not be loaded
-ERROR: lazy loading failed for package ‘DataLoader’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/old/DataLoader.Rcheck/DataLoader’
-
-```
 # dextergui
 
 Version: 0.1.5
@@ -533,65 +427,16 @@ Version: 0.8.5
 
 ## In both
 
-*   checking whether package ‘ie2misc’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/00install.out’ for details.
-    ```
-
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘ie2miscdata’
     ```
 
-## Installation
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘moments’
+    ```
 
-### Devel
-
-```
-* installing *source* package ‘ie2misc’ ...
-** package ‘ie2misc’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) : couldn't connect to display ""
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘ie2misc’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/ie2misc’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘ie2misc’ ...
-** package ‘ie2misc’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) : couldn't connect to display ""
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘ie2misc’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/old/ie2misc.Rcheck/ie2misc’
-
-```
 # IsoCorrectoR
 
 Version: 1.0.5
@@ -614,64 +459,6 @@ Version: 1.0.5
         testdata   5.2Mb
     ```
 
-# joinXL
-
-Version: 1.0.1
-
-## In both
-
-*   checking whether package ‘joinXL’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘joinXL’ ...
-** package ‘joinXL’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘joinXL’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/joinXL’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘joinXL’ ...
-** package ‘joinXL’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Unable to find any JVMs matching version "(null)".
-No Java runtime present, try --request to install.
-Warning in system("/usr/libexec/java_home", intern = TRUE) :
-  running command '/usr/libexec/java_home' had status 1
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘joinXL’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/old/joinXL.Rcheck/joinXL’
-
-```
 # lpirfs
 
 Version: 0.1.4
