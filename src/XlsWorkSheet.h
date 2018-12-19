@@ -129,7 +129,7 @@ public:
     int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
       count++;
-      if (count % 100000 == 0) {
+      if (count % 131072 == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -180,7 +180,7 @@ public:
       int col = j - actual_.minCol();
 
       count++;
-      if (count % 100000 == 0) {
+      if (count % 131072 == 0) {
         spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
@@ -351,7 +351,7 @@ private:
 
       for (xls::WORD j = 0; j <= nominal_ncol; ++j) {
         count++;
-        if (count % 100000 == 0) {
+        if (count % 131072 == 0) {
           spinner_.spin();
           Rcpp::checkUserInterrupt();
         }
