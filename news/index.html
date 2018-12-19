@@ -72,7 +72,7 @@
         <a class="navbar-brand" href="../index.html">readxl</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
         </div>
       </div>
     </div>
@@ -153,6 +153,50 @@
       <small>Source: <a href='https://github.com/tidyverse/readxl/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="readxl-1-2-0" class="section level1">
+<h1 class="page-header">
+<a href="#readxl-1-2-0" class="anchor"></a>readxl 1.2.0<small> Unreleased </small>
+</h1>
+<div id="column-name-repair" class="section level2">
+<h2 class="hasAnchor">
+<a href="#column-name-repair" class="anchor"></a>Column name repair</h2>
+<p>readxl exposes the <code>.name_repair</code> argument that is <a href="https://www.tidyverse.org/articles/2018/11/tibble-2.0.0-pre-announce/">coming to version 2.0.0 of the tibble package</a>. The readxl default is <code>.name_repair = "unique"</code>, keeping with the readxl convention to ensure column names are neither missing nor duplicated.</p>
+<ul>
+<li>
+<a href="https://readxl.tidyverse.org/articles/articles/column-names.html">Column Names</a> is a new article about this feature.</li>
+<li>readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.</li>
+<li>If tibble &gt;= v2.0.0, the full power of <code>.name_repair</code> is available, defaulting to <code>.name_repair = "unique"</code>. Otherwise, the legacy function <code><a href="https://www.rdocumentation.org/packages/tibble/topics/name-repair-retired">tibble::repair_names(prefix = "X", sep = "__")</a></code> is used, replicating the behaviour of readxl v1.1.0.
+<ul>
+<li>Consider a spreadsheet with three columns: one unnamed and two named <code>x</code>.</li>
+<li>Content of cells in Excel: <code>""</code>, <code>x</code>, <code>x</code>
+</li>
+<li>New style column names: <code>..1</code>, <code>x..2</code>, <code>x..3</code>
+</li>
+<li>Legacy column names: <code>X__1</code>, <code>x</code>, <code>x__1</code>
+</li>
+</ul>
+</li>
+<li>Once per session, readxl emits a message stating that it works best with tibble &gt;= v2.0.0. It is anticipated that this will become a hard minimum version requirement in a future version of readxl.</li>
+</ul>
+</div>
+<div id="other-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-changes" class="anchor"></a>Other changes</h2>
+<ul>
+<li><p><code><a href="../reference/read_excel.html">read_excel()</a></code> and friends gain a <code>progress</code> argument that controls a progress spinner (<a href='https://github.com/tidyverse/readxl/issues/243'>#243</a>, <a href='https://github.com/tidyverse/readxl/issues/538'>#538</a>).</p></li>
+<li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> pass the <code>trim_ws</code> argument along (<a href='https://github.com/tidyverse/readxl/issues/514'>#514</a>).</p></li>
+<li><p>readxl has a <a href="https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html">new article</a> on reading Excel files with multiple header rows (<a href='https://github.com/tidyverse/readxl/issues/486'>#486</a>, <a href='https://github.com/tidyverse/readxl/issues/492'>#492</a> <a href='https://github.com/apreshill'>@apreshill</a>).</p></li>
+<li><p>xlsx files that do not have a “styles” part can now be read (<a href='https://github.com/tidyverse/readxl/issues/505'>#505</a>, <a href='https://github.com/tidyverse/readxl/issues/506'>#506</a> <a href='https://github.com/jt6'>@jt6</a>)</p></li>
+<li><p>All paths are passed through <code><a href="https://www.rdocumentation.org/packages/base/topics/normalizePath">normalizePath()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/498'>#498</a>, <a href='https://github.com/tidyverse/readxl/issues/499'>#499</a>, new behaviour for xlsx but not xls) and <code><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">enc2native()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/370'>#370</a>).</p></li>
+</ul>
+</div>
+<div id="dependency-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<p>readxl is now tested back to R &gt;= 3.1.</p>
+<p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
+</div>
+</div>
     <div id="readxl-1-1-0" class="section level1">
 <h1 class="page-header">
 <a href="#readxl-1-1-0" class="anchor"></a>readxl 1.1.0<small> 2018-04-20 </small>
@@ -275,6 +319,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#readxl-1-2-0">1.2.0</a></li>
         <li><a href="#readxl-1-1-0">1.1.0</a></li>
         <li><a href="#readxl-1-0-0">1.0.0</a></li>
         <li><a href="#readxl-0-1-1">0.1.1</a></li>
