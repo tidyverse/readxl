@@ -8,15 +8,18 @@
 \usage{
 read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max), .name_repair = "unique")
+  n_max = Inf, guess_max = min(1000, n_max),
+  progress = readxl_progress(), .name_repair = "unique")
 
 read_xls(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max), .name_repair = "unique")
+  n_max = Inf, guess_max = min(1000, n_max),
+  progress = readxl_progress(), .name_repair = "unique")
 
 read_xlsx(path, sheet = NULL, range = NULL, col_names = TRUE,
   col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
-  n_max = Inf, guess_max = min(1000, n_max), .name_repair = "unique")
+  n_max = Inf, guess_max = min(1000, n_max),
+  progress = readxl_progress(), .name_repair = "unique")
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
@@ -62,6 +65,11 @@ the returned tibble. Ignored if \code{range} is given.}
 
 \item{guess_max}{Maximum number of data rows to use for guessing column
 types.}
+
+\item{progress}{Display a progress spinner? By default, the spinner appears
+only in an interactive session, outside the context of knitting a document,
+and when the call is likely to run for several seconds or more. See
+\code{\link[=readxl_progress]{readxl_progress()}} for more details.}
 
 \item{.name_repair}{Handling of column names. By default, readxl ensures
 column names are not empty and are unique. If the tibble package version is

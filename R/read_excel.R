@@ -38,6 +38,10 @@ NULL
 #'   the returned tibble. Ignored if `range` is given.
 #' @param guess_max Maximum number of data rows to use for guessing column
 #'   types.
+#' @param progress Display a progress spinner? By default, the spinner appears
+#'   only in an interactive session, outside the context of knitting a document,
+#'   and when the call is likely to run for several seconds or more. See
+#'   [readxl_progress()] for more details.
 #' @param .name_repair Handling of column names. By default, readxl ensures
 #'   column names are not empty and are unique. If the tibble package version is
 #'   recent enough, there is full support for `.name_repair` as documented in
@@ -118,6 +122,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max),
+                       progress = readxl_progress(),
                        .name_repair = "unique") {
   path <- check_file(path)
   format <- check_format(path)
@@ -126,6 +131,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    progress = progress,
     .name_repair = .name_repair,
     format = format
   )
@@ -141,6 +147,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
                      col_names = TRUE, col_types = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max),
+                     progress = readxl_progress(),
                      .name_repair = "unique") {
   path <- check_file(path)
   read_excel_(
@@ -148,6 +155,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    progress = progress,
     .name_repair = .name_repair,
     format = "xls"
   )
@@ -159,6 +167,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
                       col_names = TRUE, col_types = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max),
+                      progress = readxl_progress(),
                       .name_repair = "unique") {
   path <- check_file(path)
   read_excel_(
@@ -166,6 +175,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
     col_names = col_names, col_types = col_types,
     na = na, trim_ws = trim_ws, skip = skip,
     n_max = n_max, guess_max = guess_max,
+    progress = progress,
     .name_repair = .name_repair,
     format = "xlsx"
   )
@@ -175,6 +185,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
                         col_names = TRUE, col_types = NULL,
                         na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                         guess_max = min(1000, n_max),
+                        progress = readxl_progress(),
                         .name_repair = NULL,
                         format) {
   if (format == "xls") {
@@ -192,12 +203,14 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
+  progress <- check_bool(progress, "progress")
   set_readxl_names(
     read_fun(
       path = enc2native(normalizePath(path)), sheet_i = sheet,
       limits = limits, shim = shim,
       col_names = col_names, col_types = col_types,
-      na = na, trim_ws = trim_ws, guess_max = guess_max
+      na = na, trim_ws = trim_ws, guess_max = guess_max,
+      progress = progress
     ),
     .name_repair = .name_repair
   )

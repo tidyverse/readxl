@@ -4,9 +4,12 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
+#include "Spinner.h"
 #include "XlsxCell.h"
 #include "ColSpec.h"
 #include "CellLimits.h"
+
+const int PROGRESS_TICK = 131072; // 2^17
 
 // Page and section numbers below refer to
 // ECMA-376 (version, date, and download URL given in XlsxCell.h)
@@ -30,12 +33,13 @@ class XlsxWorkSheet {
   std::string sheetName_;
   CellLimits nominal_, actual_;
   int ncol_, nrow_;
+  Spinner spinner_;
 
 public:
 
   XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i,
-                Rcpp::IntegerVector limits, bool shim):
-  wb_(wb), nominal_(limits)
+                Rcpp::IntegerVector limits, bool shim, bool progress):
+  wb_(wb), nominal_(limits), spinner_(progress)
   {
     rapidxml::xml_node<>* rootNode;
 
@@ -45,8 +49,11 @@ public:
     }
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
+    spinner_.spin();
     sheet_ = zip_buffer(wb.path(), sheetPath);
+    spinner_.spin();
     sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&sheet_[0]);
+    spinner_.spin();
 
     rootNode = sheetXml_.first_node("worksheet");
     if (rootNode == NULL) {
@@ -104,6 +111,10 @@ public:
                                 const bool trimWs,
                                 int guess_max = 1000,
                                 bool has_col_names = false) {
+    if (guess_max == 0) {
+      return types;
+    }
+
     std::vector<XlsxCell>::iterator xcell;
     xcell = has_col_names ? advance_row(cells_) : cells_.begin();
 
@@ -118,10 +129,14 @@ public:
       type_known[j] = types[j] != COL_UNKNOWN;
     }
 
+    // count is for spinner and checking for interrupt
+    int count = 0;
     // base is row the data starts on **in the spreadsheet**
     int base = cells_.begin()->row() + has_col_names;
     while (xcell != cells_.end() && xcell->row() - base < guess_max) {
-      if ((xcell->row() - base + 1) % 1000 == 0) {
+      count++;
+      if (count % PROGRESS_TICK == 0) {
+        spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
       int j = xcell->col() - actual_.minCol();
@@ -161,15 +176,21 @@ public:
       return cols;
     }
 
+    // count is for spinner and checking for interrupt
+    int count = 0;
     while (xcell != cells_.end()) {
 
       int i = xcell->row();
       int j = xcell->col();
       // col to write into
       int col = j - actual_.minCol();
-      if ((i + 1) % 1000 == 0) {
+
+      count++;
+      if (count % PROGRESS_TICK == 0) {
+        spinner_.spin();
         Rcpp::checkUserInterrupt();
       }
+
       if (types[col] == COL_SKIP) {
         xcell++;
         continue;
@@ -322,12 +343,21 @@ private:
       return;
     }
 
+    // count is for spinner and checking for interrupt
+    int count = 0;
+
     int i = 0;
     bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
     for (; row; row = row->next_sibling("row")) {
       int j = 0;
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
+        count++;
+        if (count % PROGRESS_TICK == 0) {
+          spinner_.spin();
+          Rcpp::checkUserInterrupt();
+        }
+
         rapidxml::xml_node<>* first_child = cell->first_node(0);
         // only consider cells that have >= 1 child nodes
         // we require cell to have content, not just, e.g., a format
