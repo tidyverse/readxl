@@ -19,9 +19,9 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
 
 * `read_xls()` and `read_xlsx()` pass the `trim_ws` argument along (#514).
 
-* readxl has a new article on reading Excel files with multiple header rows (#486, #492  @apreshill).
+* readxl has a [new article](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html) on reading Excel files with multiple header rows (#486, #492  @apreshill).
 
-* xlsx files that do not have a "Styles" part can now be read (#505, #506 @jt6)
+* xlsx files that do not have a "styles" part can now be read (#505, #506 @jt6)
 
 * All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
   
