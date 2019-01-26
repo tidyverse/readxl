@@ -8,10 +8,10 @@ matrix:
   include:
     - r: devel
     - r: release
-      env: tibble='CRAN'
+      env: tibble='v1.4.2'
+      before_script: Rscript -e "remotes::install_version('tibble', '1.4.2')"
     - r: release
-      env: tibble='dev'
-      before_script: Rscript -e "remotes::install_github('tidyverse/tibble')"
+      env: tibble='CRAN'
       after_success: Rscript -e 'covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))'
       before_cache: Rscript -e 'remotes::install_cran("pkgdown")' -e 'remotes::install_github("tidyverse/tidytemplate")' -e 'remotes::install_cran("tidyverse")'
       deploy:
