@@ -47,7 +47,7 @@
 #include <wchar.h>
 
 #include "libxls/endian.h"
-#include "libxls/xls.h"
+#include "xls.h"
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -134,6 +134,9 @@ xls_error_t xls_addSST(xlsWorkBook* pWB,SST* sst,DWORD size)
     if (sst->num > (1<<24))
         return LIBXLS_ERROR_MALLOC;
 
+    if (pWB->sst.string)
+        return LIBXLS_ERROR_PARSE;
+
     if ((pWB->sst.string = calloc(pWB->sst.count = sst->num,
                     sizeof(struct str_sst_string))) == NULL)
         return LIBXLS_ERROR_MALLOC;
@@ -204,7 +207,7 @@ xls_error_t xls_appendSST(xlsWorkBook* pWB, BYTE* buf, DWORD size)
                 if (ofs + sizeof(DWORD) > size) {
                     return LIBXLS_ERROR_PARSE;
                 }
-                sz = buf[ofs+0] + (buf[ofs+1] << 8) + (buf[ofs+2] << 16) + (buf[ofs+3] << 24);
+                sz = buf[ofs+0] + (buf[ofs+1] << 8) + (buf[ofs+2] << 16) + ((DWORD)buf[ofs+3] << 24);
                 ofs+=4;
 
 				if (xls_debug) {
@@ -282,7 +285,9 @@ xls_error_t xls_appendSST(xlsWorkBook* pWB, BYTE* buf, DWORD size)
 			if (xls_debug) {
 	            printf("String %4u: %s<end>\n", pWB->sst.lastid-1, pWB->sst.string[pWB->sst.lastid-1].str);
 			}
-        }
+        } else {
+            free(ret);
+	}
 
 		// Jump list of rich text formatting runs
         if (ofs < size && rt > 0) {
@@ -474,6 +479,10 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         if (pWB->is5ver) {
             return (bof->size < offsetof(LABEL, value) + 2 + label_len);
         }
+
+        if (bof->size < offsetof(LABEL, value) + 3)
+            return 1;
+
         if ((((LABEL*)buf)->value[2] & 0x01) == 0) {
             return (bof->size < offsetof(LABEL, value) + 3 + label_len);
         }
@@ -490,6 +499,13 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         return (bof->size < sizeof(BOOLERR));
 
     return 0;
+}
+
+void xls_cell_set_str(struct st_cell_data *cell, char *str) {
+    if (cell->str) {
+        free(cell->str);
+    }
+    cell->str = str;
 }
 
 struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
@@ -527,7 +543,9 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 			// if a double, then set double and clear l
 			cell->l=0;
 			memcpy(&cell->d, &((FORMULA*)buf)->resid, sizeof(double));	// Required for ARM
-			cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+            cell->id = XLS_RECORD_NUMBER; // hack
+            xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
+            cell->id = bof->id;
 		} else {
 			double d = ((FORMULA*)buf)->resdata[1];
 			cell->l = 0xFFFF;
@@ -536,14 +554,14 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 				break;	// cell is half complete, get the STRING next record
 			case 1:		// Boolean
 				memcpy(&cell->d, &d, sizeof(double)); // Required for ARM
-				sprintf((char *)(cell->str = malloc(sizeof("bool"))), "bool");
+                xls_cell_set_str(cell, strdup("bool"));
 				break;
 			case 2:		// error
 				memcpy(&cell->d, &d, sizeof(double)); // Required for ARM
-				sprintf((char *)(cell->str = malloc(sizeof("error"))), "error");
+                xls_cell_set_str(cell, strdup("error"));
 				break;
 			case 3:		// empty string
-				cell->str = calloc(1,1);
+                xls_cell_set_str(cell, strdup(""));
 				break;
 			}
 		}
@@ -561,7 +579,7 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             cell->id=XLS_RECORD_RK;
             cell->xf=xlsShortVal(((MULRK*)buf)->rk[i].xf);
             cell->d=NumFromRk(xlsIntVal(((MULRK*)buf)->rk[i].value));
-            cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+            xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
     case XLS_RECORD_MULBLANK:
@@ -575,12 +593,12 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_BLANK;
             cell->xf=xlsShortVal(((MULBLANK*)buf)->xf[i]);
-            cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+            xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
-		cell->str = xls_getfcell(pWS->workbook, cell, ((LABEL*)buf)->value);
+        xls_cell_set_str(cell, xls_getfcell(pWS->workbook, cell, ((LABEL*)buf)->value));
         if (cell->str) {
             sscanf((char *)cell->str, "%d", &cell->l);
             sscanf((char *)cell->str, "%lf", &cell->d);
@@ -588,25 +606,25 @@ struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
 		break;
     case XLS_RECORD_RK:
         cell->d=NumFromRk(xlsIntVal(((RK*)buf)->value));
-        cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+        xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         break;
     case XLS_RECORD_BLANK:
         break;
     case XLS_RECORD_NUMBER:
         xlsConvertDouble((BYTE *)&((BR_NUMBER*)buf)->value);
 		memcpy(&cell->d, &((BR_NUMBER*)buf)->value, sizeof(double)); // Required for ARM
-        cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+        xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         break;
     case XLS_RECORD_BOOLERR:
         cell->d = ((BOOLERR *)buf)->value;
         if (((BOOLERR *)buf)->iserror) {
-            sprintf((char *)(cell->str = malloc(sizeof("error"))), "error");
+            xls_cell_set_str(cell, strdup("error"));
         } else {
-            sprintf((char *)(cell->str = malloc(sizeof("bool"))), "bool");
+            xls_cell_set_str(cell, strdup("bool"));
         }
         break;
     default:
-        cell->str=xls_getfcell(pWS->workbook,cell, NULL);
+        xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         break;
     }
     if (xls_debug) xls_showCell(cell);
@@ -997,6 +1015,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				} else {
 					char *s = get_string((char *)&buf[2], bof1.size - 2, 1, pWB->is5ver, pWB->charset);
 					printf("  name=%s\n", s);
+                    free(s);
 				}
 			}
 			break;
@@ -1338,7 +1357,8 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
 
 		case XLS_RECORD_STRING:
 			if(cell && (cell->id == XLS_RECORD_FORMULA || cell->id == XLS_RECORD_FORMULA_ALT)) {
-				cell->str = get_string((char *)buf, tmp.size, (BYTE)!pWB->is5ver, pWB->is5ver, pWB->charset);
+                xls_cell_set_str(cell, get_string((char *)buf, tmp.size,
+                            (BYTE)!pWB->is5ver, pWB->is5ver, pWB->charset));
 				if (xls_debug) xls_showCell(cell);
 			}
 			break;
