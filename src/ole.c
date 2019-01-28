@@ -44,8 +44,6 @@
 #include "libxls/ole.h"
 #include "libxls/xlstool.h"
 #include "libxls/endian.h"
-/* Mask illegal functions for CMD check */
-#include "cran.h"
 
 extern int xls_debug;
 
@@ -77,17 +75,17 @@ static void *ole_realloc(void *ptr, size_t len) {
     return realloc(ptr, len);
 }
 
-int ole2_validate_chain(OLE2 *ole) {
+int ole2_validate_sector_chain(DWORD *chain, DWORD chain_count, DWORD chain_start) {
     DWORD count = 0;
-    DWORD sector = ole->dirstart;
+    DWORD sector = chain_start;
     while (sector != ENDOFCHAIN) {
-        if (sector >= ole->SecIDCount)
+        if (sector >= chain_count)
             return 0;
         
-        if (++count >= ole->SecIDCount)
+        if (++count >= chain_count)
             return 0;
 
-        sector = xlsIntVal(ole->SecID[sector]);
+        sector = xlsIntVal(chain[sector]);
     }
     return 1;
 }
@@ -229,27 +227,49 @@ ssize_t ole2_read(void* buf, size_t size, size_t count, OLE2Stream* olest)
 OLE2Stream* ole2_sopen(OLE2* ole,DWORD start, size_t size)
 {
     OLE2Stream* olest=NULL;
+    int success = 1;
 
 #ifdef OLE_DEBUG
     fprintf(stderr, "----------------------------------------------\n");
     fprintf(stderr, "ole2_sopen start=%Xh\n", start);
 #endif
 
-	olest = calloc(1, sizeof(OLE2Stream));
-	olest->ole=ole;
-	olest->size=size;
-	olest->fatpos=start;
-	olest->start=start;
-	olest->cfat=-1;
-	if((long)size > 0 && size < (size_t)ole->sectorcutoff) {
-		olest->bufsize=ole->lssector;
-		olest->sfat = 1;
-	} else {
-		olest->bufsize=ole->lsector;
-	}
-    olest->buf = ole_malloc(olest->bufsize);
+    olest = calloc(1, sizeof(OLE2Stream));
+    olest->ole=ole;
+    olest->size=size;
+    olest->fatpos=start;
+    olest->start=start;
+    olest->cfat=-1;
+    if((long)size > 0 && size < (size_t)ole->sectorcutoff) {
+        olest->bufsize=ole->lssector;
+        olest->sfat = 1;
+    } else {
+        olest->bufsize=ole->lsector;
+    }
+    if ((olest->buf = ole_malloc(olest->bufsize)) == NULL) {
+        success = 0;
+        goto cleanup;
+    }
+
+    if (olest->sfat) {
+        if (!ole2_validate_sector_chain(ole->SSecID, ole->SSecIDCount, start)) {
+            success = 0;
+            goto cleanup;
+        }
+    } else {
+        if (!ole2_validate_sector_chain(ole->SecID, ole->SecIDCount, start)) {
+            success = 0;
+            goto cleanup;
+        }
+    }
 
     if (ole2_bufread(olest) == -1) {
+        success = 0;
+        goto cleanup;
+    }
+
+cleanup:
+    if (!success) {
         ole2_fclose(olest);
         olest = NULL;
     }
@@ -539,19 +559,8 @@ cleanup:
     return total_bytes_read;
 }
 
-// Open in-memory buffer
-OLE2 *ole2_open_buffer(const void *buffer, size_t len) {
-    OLE2 *ole = calloc(1, sizeof(OLE2));
-
-    ole->buffer = buffer;
-    ole->buffer_len = len;
-
+OLE2 *ole2_read_header_and_body(OLE2 *ole) {
     if (ole2_read_header(ole) == -1) {
-        ole2_close(ole);
-        return NULL;
-    }
-
-    if (!ole2_validate_chain(ole)) {
         ole2_close(ole);
         return NULL;
     }
@@ -562,6 +571,16 @@ OLE2 *ole2_open_buffer(const void *buffer, size_t len) {
     }
 
     return ole;
+}
+
+// Open in-memory buffer
+OLE2 *ole2_open_buffer(const void *buffer, size_t len) {
+    OLE2 *ole = calloc(1, sizeof(OLE2));
+
+    ole->buffer = buffer;
+    ole->buffer_len = len;
+
+    return ole2_read_header_and_body(ole);
 }
 
 // Open physical file
@@ -583,17 +602,7 @@ OLE2* ole2_open_file(const char *file)
         return NULL;
     }
 
-    if (ole2_read_header(ole) == -1) {
-        ole2_close(ole);
-        return NULL;
-    }
-
-    if (ole2_read_body(ole) == -1) {
-        ole2_close(ole);
-        return NULL;
-    }
-
-    return ole;
+    return ole2_read_header_and_body(ole);
 }
 
 void ole2_close(OLE2* ole2)
