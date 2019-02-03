@@ -61,10 +61,15 @@ inline double dateRound(double dttm) {
 // Otherwise: do nothing
 inline double POSIXctFromSerial(double xlDate, bool is1904) {
   if (!is1904 && xlDate < 61) {
-    xlDate = (xlDate < 60) ? xlDate + 1 : -1;
+    if (xlDate < 60) {
+      xlDate = xlDate + 1;
+    } else {
+      Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+      return NA_REAL;
+    }
   }
   if (xlDate < 0) {
-    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    Rcpp::warning("NA inserted for date before 1900-01-01 not supported in excel");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);
