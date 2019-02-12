@@ -33,7 +33,9 @@
  *
  */
 
-#include "../libxls/xlsstruct.h"
+#include "libxls/xlsstruct.h"
+/* Mask illegal functions for CMD check */
+#include "cran.h"
 
 void verbose(char* str);
 

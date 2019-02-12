@@ -59,11 +59,11 @@ static const char *from_enc = "UTF-16LE";
 #include <string.h>
 
 //#include "xls.h"
-#include "../include/libxls/xlstypes.h"
-#include "../include/libxls/xlsstruct.h"
-#include "../include/libxls/xlstool.h"
-#include "../include/libxls/brdb.h"
-#include "../include/libxls/endian.h"
+#include "libxls/xlstypes.h"
+#include "libxls/xlsstruct.h"
+#include "libxls/xlstool.h"
+#include "libxls/brdb.h"
+#include "libxls/endian.h"
 
 extern int xls_debug;
 

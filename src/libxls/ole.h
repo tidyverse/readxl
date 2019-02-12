@@ -38,7 +38,7 @@
 
 #include <stdio.h>			// FILE *
 
-#include "../libxls/xlstypes.h"
+#include "libxls/xlstypes.h"
 
 #if defined(_AIX) || defined(__sun)
 #pragma pack(1)

@@ -41,9 +41,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/libxls/ole.h"
-#include "../include/libxls/xlstool.h"
-#include "../include/libxls/endian.h"
+#include "libxls/ole.h"
+#include "libxls/xlstool.h"
+#include "libxls/endian.h"
+/* Mask illegal functions for CMD check */
+#include "cran.h"
 
 extern int xls_debug;
 
