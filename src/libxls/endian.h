@@ -29,7 +29,7 @@
  *
  */
 
-#include <libxls/xlsstruct.h>
+#include "../libxls/xlsstruct.h"
 
 int xls_is_bigendian(void);
 DWORD xlsIntVal (DWORD i);
@@ -56,9 +56,6 @@ void xlsConvertFormula(FORMULA *f);
 void xlsConvertFormulaArray(FARRAY *f);
 void xlsConvertHeader(OLE2Header *h);
 void xlsConvertPss(PSS* pss);
-#if 0 // unused
-void xlsConvertUnicode(wchar_t *w, char *s, int len);
-#endif
 
 #define W_ENDIAN(a) a=xlsShortVal(a)
 #define D_ENDIAN(a) a=xlsIntVal(a)

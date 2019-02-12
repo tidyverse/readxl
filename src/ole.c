@@ -41,11 +41,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "libxls/ole.h"
-#include "libxls/xlstool.h"
-#include "libxls/endian.h"
-/* Mask illegal functions for CMD check */
-#include "cran.h"
+#include "../include/libxls/ole.h"
+#include "../include/libxls/xlstool.h"
+#include "../include/libxls/endian.h"
 
 extern int xls_debug;
 
@@ -77,7 +75,7 @@ static void *ole_realloc(void *ptr, size_t len) {
     return realloc(ptr, len);
 }
 
-int ole2_validate_sector_chain(DWORD *chain, DWORD chain_count, DWORD chain_start) {
+static int ole2_validate_sector_chain(DWORD *chain, DWORD chain_count, DWORD chain_start) {
     DWORD count = 0;
     DWORD sector = chain_start;
     while (sector != ENDOFCHAIN) {
@@ -92,7 +90,7 @@ int ole2_validate_sector_chain(DWORD *chain, DWORD chain_count, DWORD chain_star
     return 1;
 }
 
-int ole2_validate_sector(DWORD sector, OLE2 *ole) {
+static int ole2_validate_sector(DWORD sector, OLE2 *ole) {
     if (sector >= ole->SecIDCount) {
         if (xls_debug) fprintf(stderr, "Error: fatpos %d out-of-bounds for SecID[%d]\n",
                 (int)sector, ole->SecIDCount);
@@ -109,7 +107,7 @@ int ole2_validate_sector(DWORD sector, OLE2 *ole) {
 }
 
 // Read next sector of stream
-int ole2_bufread(OLE2Stream* olest) 
+static int ole2_bufread(OLE2Stream* olest)
 {
 	BYTE *ptr;
 

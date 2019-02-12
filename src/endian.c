@@ -31,9 +31,9 @@
 
 #include <stdlib.h>
 
-#include "libxls/xlstypes.h"
-#include "libxls/endian.h"
-#include "libxls/ole.h"
+#include "../include/libxls/xlstypes.h"
+#include "../include/libxls/endian.h"
+#include "../include/libxls/ole.h"
 
 int xls_is_bigendian()
 {
@@ -286,21 +286,3 @@ void xlsConvertPss(PSS* pss)
     pss->size  = xlsIntVal(pss->size);
     pss->proptype  = xlsIntVal(pss->proptype);
 }
-
-#if 0 // not used?
-void xlsConvertUnicode(wchar_t *w, char *s, int len)
-{
-    short *x;
-    int i;
-
-    x=(short *)s;
-    w = (wchar_t*)malloc((len+1)*sizeof(wchar_t));
-
-    for(i=0; i<len; i++)
-    {
-        w[i]=xlsShortVal(x[i]);
-    }
-    w[len] = '\0';
-}
-#endif
-

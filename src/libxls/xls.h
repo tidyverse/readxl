@@ -52,31 +52,31 @@ typedef enum {
     LIBXLS_ERROR_MALLOC
 } xls_error_t;
 
-extern const char* xls_getVersion(void);
-extern const char* xls_getError(xls_error_t code);
+const char* xls_getVersion(void);
+const char* xls_getError(xls_error_t code);
 
-extern int xls(int debug);	// Set debug. Force library to load?
-extern void xls_set_formula_hander(xls_formula_handler handler);
+int xls(int debug);	// Set debug. Force library to load?
+void xls_set_formula_hander(xls_formula_handler handler);
 
-extern xls_error_t xls_parseWorkBook(xlsWorkBook* pWB);
-extern xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS);
+xls_error_t xls_parseWorkBook(xlsWorkBook* pWB);
+xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS);
 
 // Preferred API
 // charset - convert 16bit strings within the spread sheet to this 8-bit encoding (UTF-8 default)
-extern xlsWorkBook *xls_open_file(const char *file, const char *charset, xls_error_t *outError);
-extern xlsWorkBook *xls_open_buffer(const unsigned char *data, size_t data_len,
+xlsWorkBook *xls_open_file(const char *file, const char *charset, xls_error_t *outError);
+xlsWorkBook *xls_open_buffer(const unsigned char *data, size_t data_len,
         const char *charset, xls_error_t *outError);
-extern void xls_close_WB(xlsWorkBook* pWB);
+void xls_close_WB(xlsWorkBook* pWB);
 
 // Historical API
-extern xlsWorkBook* xls_open(const char *file,const char *charset);
+xlsWorkBook* xls_open(const char *file,const char *charset);
 #define xls_close xls_close_WB
 
-extern xlsWorkSheet * xls_getWorkSheet(xlsWorkBook* pWB,int num);
-extern void xls_close_WS(xlsWorkSheet* pWS);
+xlsWorkSheet * xls_getWorkSheet(xlsWorkBook* pWB,int num);
+void xls_close_WS(xlsWorkSheet* pWS);
 
-extern xlsSummaryInfo *xls_summaryInfo(xlsWorkBook* pWB);
-extern void xls_close_summaryInfo(xlsSummaryInfo *pSI);
+xlsSummaryInfo *xls_summaryInfo(xlsWorkBook* pWB);
+void xls_close_summaryInfo(xlsSummaryInfo *pSI);
 
 // utility function
 xlsRow *xls_row(xlsWorkSheet* pWS, WORD cellRow);

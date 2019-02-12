@@ -42,6 +42,13 @@
 
 #ifdef HAVE_ICONV
 #include <iconv.h>
+
+#if defined(_AIX) || defined(__sun)
+static const char *from_enc = "UTF-16le";
+#else
+static const char *from_enc = "UTF-16LE";
+#endif
+
 #else
 #include <locale.h>
 #endif
@@ -52,11 +59,11 @@
 #include <string.h>
 
 //#include "xls.h"
-#include "libxls/xlstypes.h"
-#include "libxls/xlsstruct.h"
-#include "libxls/xlstool.h"
-#include "libxls/brdb.h"
-#include "libxls/endian.h"
+#include "../include/libxls/xlstypes.h"
+#include "../include/libxls/xlsstruct.h"
+#include "../include/libxls/xlstool.h"
+#include "../include/libxls/brdb.h"
+#include "../include/libxls/endian.h"
 
 extern int xls_debug;
 
@@ -121,14 +128,6 @@ static const DWORD colors[] =
     };
 
 
-void dumpbuf(BYTE* fname,long size,BYTE* buf)
-{
-    FILE *f = fopen((char *)fname, "wb");
-    fwrite (buf, 1, size, f);
-    fclose(f);
-
-}
-
 // Display string if in debug mode
 void verbose(char* str)
 {
@@ -175,17 +174,6 @@ char *utf8_decode(const char *str, DWORD len, char *encoding)
 
 #ifdef HAVE_ICONV
 static char* unicode_decode_iconv(const char *s, size_t len, size_t *newlen, const char* to_enc) {
-#if defined(_AIX) || defined(__sun)
-    const char *from_enc = "UTF-16le";
-    #define ICONV_CONST const
-#else
-    const char *from_enc = "UTF-16LE";
-    #if defined(_WIN32)
-        #define ICONV_CONST const
-    #else
-        #define ICONV_CONST
-    #endif
-#endif
     char* outbuf = 0;
 
     if(s && len && from_enc && to_enc)
