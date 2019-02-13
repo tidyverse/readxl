@@ -74,9 +74,6 @@ public:
     // MulRk 2.4.175 p344
     // Number 2.4.180 p348
     // Rk 2.4.220 p376
-    // MulRk 2.4.175 p344
-    // Number 2.4.180 p348
-    // Rk 2.4.220 p376
     // MulBlank 2.4.174 p344
     // Blank 2.4.20 p212
     // BoolErr 2.4.24 p216
