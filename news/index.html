@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+
 
 <meta property="og:title" content="Changelog" />
 
@@ -193,9 +195,9 @@
 <li><p>All paths are passed through <code><a href="https://www.rdocumentation.org/packages/base/topics/normalizePath">normalizePath()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/498'>#498</a>, <a href='https://github.com/tidyverse/readxl/issues/499'>#499</a>, new behaviour for xlsx but not xls) and <code><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">enc2native()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/370'>#370</a>).</p></li>
 </ul>
 </div>
-<div id="dependency-changes" class="section level2">
+<div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <p>readxl is now tested back to R &gt;= 3.1.</p>
 <p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
 </div>
