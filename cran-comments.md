@@ -16,9 +16,12 @@
 
 I see no errors, warnings, or notes for readxl.
 
-The current CRAN results for clang-UBSAN and gcc-UBSAN note a misaligned address for type 'DWORD', emanating from the embedded libxls library. I believe I have gotten this fixed upstream and, therefore, in the current submission.
+The current CRAN results for blah blah.
 
-The main reason for this release is to prepare for a coming release of the tibble package, which readxl depends on.
+The main reason for this release is to embed an updated version of libxls. It has recently had its first official release in years (v1.5.0) and this release addresses two recently reported CVEs:
+
+  * CVE-2018-20452 http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452
+  * CVE-2018-20450 http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450
 
 readxl fails on big-endian platforms due to endian-ness bugs in the wrapped libxls library. This has always been the case and nothing has changed.
 
