@@ -14,21 +14,21 @@
 
 ## R CMD check results
 
-I see no errors, warnings, or notes for readxl. On some platforms, some of the time, we get this NOTE. This has been the case for years and it's just a fact that we have to embed some fairly large libraries to parse both xls and xlsx.
-
-N  checking installed package size (662ms)
-     installed size is  8.6Mb
-     sub-directories of 1Mb or more:
-       libs   7.3Mb
-
-The current CRAN results for blah blah.
-
 The main reason for this release is to embed an updated version of libxls. It has recently had its first official release in years (v1.5.0) and this release addresses two recently reported CVEs:
 
   * CVE-2018-20452 http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452
   * CVE-2018-20450 http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450
 
-readxl fails on big-endian platforms due to endian-ness bugs in the wrapped libxls library. This has always been the case and nothing has changed.
+I see no errors, warnings, or notes for readxl. On some platforms, some of the time, we get this NOTE. This has always been the case; it's just a fact that we embed some fairly large libraries to parse both xls and xlsx.
+
+N  checking installed package size
+     installed size is XMb
+     sub-directories of 1Mb or more:
+       libs   YMb
+
+The current CRAN results show a NOTE on some platforms about "Namespace in Imports field not imported from: 'progress'". I now list 'progress' only in LinkingTo (no longer in Imports), which reflects how it's actually used.
+
+There is a memo from clang-UBSAN memtests from the UndefinedBehaviorSanitizer. There's an instance of "outside the range of representable values of type 'int'", emanating from embedded libxls code. FILL THIS IN WHEN STORY CONCLUDES.
 
 ## Reverse dependencies
 
