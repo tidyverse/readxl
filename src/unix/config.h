@@ -4,7 +4,7 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
-/* Define if you have the iconv() function. */
+/* Define if you have the iconv() function and it works. */
 #define HAVE_ICONV 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
@@ -48,6 +48,13 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #define HAVE_WCHAR_H 1
 
+/* Define as const if the declaration of iconv() needs const. */
+#if defined(_AIX) || defined(__sun)
+  #define ICONV_CONST const
+#else
+  #define ICONV_CONST
+#endif
+
 /* Major version */
 #define LIBXLS_MAJOR_VERSION 1
 
@@ -55,7 +62,7 @@
 #define LIBXLS_MICRO_VERSION 0
 
 /* Minor version */
-#define LIBXLS_MINOR_VERSION 4
+#define LIBXLS_MINOR_VERSION 5
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -70,22 +77,22 @@
 #define PACKAGE_NAME "libxls"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libxls 1.4.0"
+#define PACKAGE_STRING "libxls 1.5.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libxls"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL ""
+#define PACKAGE_URL "https://github.com/libxls/libxls"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.4.0"
+#define PACKAGE_VERSION "1.5.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.4.0"
+#define VERSION "1.5.0"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

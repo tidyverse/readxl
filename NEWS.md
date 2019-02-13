@@ -1,5 +1,12 @@
 # readxl (development version)
 
+## Dependency changes
+
+readxl embeds libxls v1.5.0. This is the first *official* release of libxls in several years, although readxl has been tracking the development version in the interim. The libxls project is now officially hosted at <https://github.com/libxls/libxls>. In particular, libxls v1.5.0 addresses these two CVEs:
+
+  * [CVE-2018-20452](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452)
+  * [CVE-2018-20450](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450)
+
 # readxl 1.2.0
 
 ## Column name repair

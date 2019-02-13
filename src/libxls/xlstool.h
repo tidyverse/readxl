@@ -37,21 +37,20 @@
 /* Mask illegal functions for CMD check */
 #include "cran.h"
 
-extern void dumpbuf(BYTE* fname,long size,BYTE* buf);
-extern void verbose(char* str);
+void verbose(char* str);
 
-extern char *utf8_decode(const char *str, DWORD len, char *encoding);
-extern char *unicode_decode(const char *s, size_t len, size_t *newlen, const char* encoding);
-extern char *get_string(const char *s, size_t len, BYTE is2, BYTE isUnicode, char *charset);
-extern DWORD xls_getColor(const WORD color,WORD def);
+char *utf8_decode(const char *str, DWORD len, char *encoding);
+char *unicode_decode(const char *s, size_t len, size_t *newlen, const char* encoding);
+char *get_string(const char *s, size_t len, BYTE is2, BYTE isUnicode, char *charset);
+DWORD xls_getColor(const WORD color,WORD def);
 
-extern void xls_showBookInfo(xlsWorkBook* pWB);
-extern void xls_showROW(struct st_row_data* row);
-extern void xls_showColinfo(struct st_colinfo_data* col);
-extern void xls_showCell(struct st_cell_data* cell);
-extern void xls_showFont(struct st_font_data* font);
-extern void xls_showXF(XF8* xf);
-extern void xls_showFormat(struct st_format_data* format);
-extern char* xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label);
-extern char* xls_getCSS(xlsWorkBook* pWB);
-extern void xls_showBOF(BOF* bof);
+void xls_showBookInfo(xlsWorkBook* pWB);
+void xls_showROW(struct st_row_data* row);
+void xls_showColinfo(struct st_colinfo_data* col);
+void xls_showCell(struct st_cell_data* cell);
+void xls_showFont(struct st_font_data* font);
+void xls_showXF(XF8* xf);
+void xls_showFormat(struct st_format_data* format);
+char* xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label);
+char* xls_getCSS(xlsWorkBook* pWB);
+void xls_showBOF(BOF* bof);

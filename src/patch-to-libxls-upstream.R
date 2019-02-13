@@ -47,3 +47,11 @@ desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
 ## rebase and squash X and Y
 ## rebase and edit the message for commit Z
 ## revel in all the xls issues that are newly resolved
+
+## as needed (less often), I rerun the configure script to regenerate
+## unix/config.h and windows/config.h
+## on windows, you may need to manually & temporarily add the directory
+## containing gcc in Rtools to the PATH
+## we have manually applied patches in config.h as well
+## basically some fixes we have long had around iconv prototypes have moved out
+## of xlstool.c and into config.h, which is probably a good thing
