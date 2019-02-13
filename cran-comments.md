@@ -1,20 +1,25 @@
 ## Test environments
 
-* local macOS Mojave 10.14.1 + R 3.5.1
-* macOS Sierra 10.12.6 + R 3.5.1 via travis-ci
-* OS X El Capitan 10.11.6 + R 3.5.1 via travis-ci
+* local macOS Mojave 10.14.2 + R 3.5.2
+* macOS Sierra 10.12.6 + R 3.5.2 via travis-ci
+* OS X El Capitan 10.11.6 + R 3.5.2 via travis-ci
 * Ubuntu trusty (14.04.5 LTS) via travis-ci
   - R 3.1.3, 3.2.5, 3.3.3
   - R-oldrel = R 3.4.4
-  - R-release = R 3.5.1
-  - R-devel = (unstable) (2018-12-19 r75866)
-* local Windows 10 VM, R 3.5.1
-* Windows Server 2012 + 3.5.1 Patched (2018-12-08 r75805) via appveyor
-* Windows + R 3.5.1 & Under development (unstable) (2018-12-17 r75857) via win-builder
+  - R-release = R 3.5.2
+  - R-devel = (unstable) (2019-02-12 r76095)
+* local Windows 10 VM, R 3.5.2
+* Windows Server 2012 + 3.5.2 Patched (2019-02-05 r76086) via appveyor
+* Windows + R 3.5.2 & Under development (unstable) (2019-02-11 r76086) via win-builder
 
 ## R CMD check results
 
-I see no errors, warnings, or notes for readxl.
+I see no errors, warnings, or notes for readxl. On some platforms, some of the time, we get this NOTE. This has been the case for years and it's just a fact that we have to embed some fairly large libraries to parse both xls and xlsx.
+
+N  checking installed package size (662ms)
+     installed size is  8.6Mb
+     sub-directories of 1Mb or more:
+       libs   7.3Mb
 
 The current CRAN results for blah blah.
 
