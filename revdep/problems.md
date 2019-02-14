@@ -1,6 +1,19 @@
+# AdhereR
+
+Version: 0.4.1
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.2Mb
+      sub-directories of 1Mb or more:
+        doc   3.2Mb
+    ```
+
 # aire.zmvm
 
-Version: 0.8.0
+Version: 0.8.1
 
 ## In both
 
@@ -9,106 +22,22 @@ Version: 0.8.0
       Note: found 52 marked UTF-8 strings
     ```
 
-# BEACH
-
-Version: 1.2.1
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘readxl’
-      All declared Imports should be used.
-    ```
-
-# bikedata
-
-Version: 0.2.2
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-         })
-      5: tryCatch(if (missE) ...elt(i) else eval(cl.i, envir = envir), error = function(e) {
-             e$call <- cl.i
-             stop(e)
-         })
-      6: tryCatchList(expr, classes, parentenv, handlers)
-      7: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-      8: value[[3L]](cond)
-      
-      ══ testthat results  ══════════════════════════════════════════════════════════════
-      OK: 104 SKIPPED: 4 FAILED: 1
-      1. Error: dl_bikedata nyc (@test-download-data.R#39) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # BloodCancerMultiOmics2017
 
 Version: 1.2.0
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
+*   R CMD check timed out
     
-    The following objects are masked from 'package:IRanges':
-    
-        intersect, setdiff, union
-    
-    The following objects are masked from 'package:S4Vectors':
-    
-        intersect, setdiff, union
-    
-    The following objects are masked from 'package:BiocGenerics':
-    
-        intersect, setdiff, union
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, union
-    
-    Quitting from lines 46-92 (BloodCancerMultiOmics2017.Rmd) 
-    Error: processing vignette 'BloodCancerMultiOmics2017.Rmd' failed with diagnostics:
-    there is no package called 'org.Hs.eg.db'
-    Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘org.Hs.eg.db’
-    ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 115.3Mb
+      installed size is 115.4Mb
       sub-directories of 1Mb or more:
         data     80.0Mb
         doc      26.5Mb
         extdata   8.5Mb
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘vsn’
-    ```
-
-# blorr
-
-Version: 0.2.0
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘lmtest’
     ```
 
 # breathtestcore
@@ -122,54 +51,14 @@ Version: 0.4.6
     Package unavailable to check Rd xrefs: ‘breathteststan’
     ```
 
-# cNORM
+# chillR
 
-Version: 1.1.2
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘rmarkdown’
-      All declared Imports should be used.
-    ```
-
-# cRegulome
-
-Version: 0.2.0
+Version: 0.70.12
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
+*   R CMD check timed out
     
-    Loading required package: IRanges
-    Loading required package: S4Vectors
-    
-    Attaching package: 'S4Vectors'
-    
-    The following object is masked from 'package:base':
-    
-        expand.grid
-    
-    
-    Attaching package: 'IRanges'
-    
-    The following object is masked from 'package:R.oo':
-    
-        trim
-    
-    Quitting from lines 32-41 (case_study.Rmd) 
-    Error: processing vignette 'case_study.Rmd' failed with diagnostics:
-    there is no package called 'org.Hs.eg.db'
-    Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘org.Hs.eg.db’
-    ```
 
 # crosswalkr
 
@@ -185,14 +74,94 @@ Version: 0.2.2
 
 # DAPAR
 
-Version: 1.14.3
+Version: 1.14.5
 
 ## In both
 
-*   checking whether package ‘DAPAR’ can be installed ... ERROR
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Title: creates a column for the protein dataset after agregation by
+    > ###   using the previous peptide dataset.
+    > ### Aliases: BuildColumnToProteinDataset
+    > 
+    > ### ** Examples
+    > 
+    > require(DAPARdata)
+    Loading required package: DAPARdata
+    
+    This is DAPARdata version 1.12.1.
+    Use 'DAPARdata()' to list available data sets.
+    > data(Exp1_R25_pept)
+    > protID <- "Protein.group.IDs"
+    > obj.pep <- Exp1_R25_pept[1:1000]
+    > M <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
+    > data <- Biobase::fData(obj.pep)
+    > protData <- DAPAR::aggregateMean(obj.pep, M)
+    Error in installed.packages(lib.loc = lib.loc$Prostar.loc)["Prostar",  : 
+      subscript out of bounds
+    Calls: <Anonymous> -> finalizeAggregation
+    Execution halted
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    violinPlotD: warning in axis(side = 1, at = 1:ncol(qData), label = if
+      (is.vector(legend)) {: partial argument match of 'label' to 'labels'
+    violinPlotD: warning in legend: partial argument match of 'label' to
+      'labels'
+    violinPlotD: warning in } else {: partial argument match of 'label' to
+      'labels'
+    violinPlotD: warning in legend[, i]: partial argument match of 'label'
+      to 'labels'
+    violinPlotD: warning in }, line = 2 * i - 1): partial argument match of
+      'label' to 'labels'
+    aggregateIterParallel: no visible binding for global variable ‘cond’
+    boxPlotD: no visible binding for global variable ‘conds’
+    densityPlotD: no visible binding for global variable ‘conds’
+    diffAnaVolcanoplot_rCharts: no visible binding for global variable ‘x’
+    diffAnaVolcanoplot_rCharts: no visible binding for global variable ‘y’
+    diffAnaVolcanoplot_rCharts: no visible binding for global variable ‘g’
+    getTextForGOAnalysis: no visible binding for global variable
+      ‘textGOParams’
+    getTextForGOAnalysis: no visible binding for global variable ‘input’
+    Undefined global functions or variables:
+      cond conds g input textGOParams x y
+    ```
+
+*   checking re-building of vignette outputs ... NOTE
+    ```
+    Error in re-building vignettes:
+      ...
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      Running 'texi2dvi' on 'Prostar_UserManual.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `soul.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.8 \usepackage
+                   {url}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
+    Execution halted
+    ```
+
+# DataLoader
+
+Version: 1.3
+
+## In both
+
+*   checking whether package ‘DataLoader’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/00install.out’ for details.
+    See ‘/Users/max/github/forks/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -200,41 +169,39 @@ Version: 1.14.3
 ### Devel
 
 ```
-* installing *source* package ‘DAPAR’ ...
+* installing *source* package ‘DataLoader’ ...
+** package ‘DataLoader’ successfully unpacked and MD5 sums checked
 ** R
-** inst
 ** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) :
-  mzR has been built against a different Rcpp version (0.12.19)
-than is installed on your system (1.0.0). This might lead to errors
-when loading mzR. If you encounter such issues, please send a report,
-including the output of sessionInfo() to the Bioc support forum at 
-https://support.bioconductor.org/. For details see also
-https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘DO.db’
-ERROR: lazy loading failed for package ‘DAPAR’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/DAPAR’
+Error: package or namespace load failed for ‘xlsx’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
+  Reason: image not found
+Error : package ‘xlsx’ could not be loaded
+ERROR: lazy loading failed for package ‘DataLoader’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/DataLoader’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘DAPAR’ ...
+* installing *source* package ‘DataLoader’ ...
+** package ‘DataLoader’ successfully unpacked and MD5 sums checked
 ** R
-** inst
 ** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) :
-  mzR has been built against a different Rcpp version (0.12.19)
-than is installed on your system (1.0.0). This might lead to errors
-when loading mzR. If you encounter such issues, please send a report,
-including the output of sessionInfo() to the Bioc support forum at 
-https://support.bioconductor.org/. For details see also
-https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘DO.db’
-ERROR: lazy loading failed for package ‘DAPAR’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
+Error: package or namespace load failed for ‘xlsx’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
+  Reason: image not found
+Error : package ‘xlsx’ could not be loaded
+ERROR: lazy loading failed for package ‘DataLoader’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/DataLoader/old/DataLoader.Rcheck/DataLoader’
 
 ```
 # dextergui
@@ -281,16 +248,15 @@ Version: 5.2.3
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  5.5Mb
       sub-directories of 1Mb or more:
-        R      2.1Mb
+        R      2.0Mb
         data   2.1Mb
-        libs   1.4Mb
     ```
 
 # Doscheda
 
-Version: 1.4.0
+Version: 1.4.1
 
 ## In both
 
@@ -354,6 +320,17 @@ Version: 1.3.6
     Execution halted
     ```
 
+# ezpickr
+
+Version: 1.0.0
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘BrailleR’
+    ```
+
 # GerminaR
 
 Version: 1.2
@@ -365,20 +342,6 @@ Version: 1.2
     Namespaces in Imports field not imported from:
       ‘DT’ ‘shinydashboard’
       All declared Imports should be used.
-    ```
-
-# GWSDAT
-
-Version: 3.0.1
-
-## In both
-
-*   checking package dependencies ... ERROR
-    ```
-    Package required but not available: ‘sm’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
     ```
 
 # hiReadsProcessor
@@ -427,14 +390,66 @@ Version: 0.8.5
 
 ## In both
 
+*   checking whether package ‘ie2misc’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/max/github/forks/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/00install.out’ for details.
+    ```
+
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘ie2miscdata’
     ```
 
-*   checking Rd cross-references ... NOTE
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘ie2misc’ ...
+** package ‘ie2misc’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘ie2misc’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/ie2misc’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘ie2misc’ ...
+** package ‘ie2misc’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘ie2misc’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/ie2misc/old/ie2misc.Rcheck/ie2misc’
+
+```
+# iotables
+
+Version: 0.4.2
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
     ```
-    Package unavailable to check Rd xrefs: ‘moments’
+      Note: found 53206 marked UTF-8 strings
     ```
 
 # IsoCorrectoR
@@ -443,15 +458,6 @@ Version: 1.0.5
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Error: processing vignette 'IsoCorrectoR.Rmd' failed with diagnostics:
-    there is no package called ‘BiocStyle’
-    Execution halted
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is  6.8Mb
@@ -459,16 +465,16 @@ Version: 1.0.5
         testdata   5.2Mb
     ```
 
-# lpirfs
+# joinXL
 
-Version: 0.1.4
+Version: 1.0.1
 
 ## In both
 
-*   checking whether package ‘lpirfs’ can be installed ... ERROR
+*   checking whether package ‘joinXL’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/00install.out’ for details.
+    See ‘/Users/max/github/forks/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -476,29 +482,66 @@ Version: 0.1.4
 ### Devel
 
 ```
-* installing *source* package ‘lpirfs’ ...
-** package ‘lpirfs’ successfully unpacked and MD5 sums checked
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
-clang: error: unsupported option '-fopenmp'
-make: *** [RcppExports.o] Error 1
-ERROR: compilation failed for package ‘lpirfs’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/lpirfs’
+* installing *source* package ‘joinXL’ ...
+** package ‘joinXL’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘joinXL’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/joinXL’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘lpirfs’ ...
-** package ‘lpirfs’ successfully unpacked and MD5 sums checked
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/jenny/rrr/readxl/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
-clang: error: unsupported option '-fopenmp'
-make: *** [RcppExports.o] Error 1
-ERROR: compilation failed for package ‘lpirfs’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/lpirfs/old/lpirfs.Rcheck/lpirfs’
+* installing *source* package ‘joinXL’ ...
+** package ‘joinXL’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘joinXL’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/joinXL/old/joinXL.Rcheck/joinXL’
 
 ```
+# jubilee
+
+Version: 0.2.5
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Error: processing vignette 'jubilee-tutorial.ltx' failed with diagnostics:
+    Running 'texi2dvi' on 'jubilee-tutorial.ltx' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `float.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.32 \usepackage
+                    {amsmath}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Execution halted
+    ```
+
 # manifestoR
 
 Version: 1.3.0
@@ -516,7 +559,7 @@ Version: 1.3.0
 
 # memapp
 
-Version: 2.11
+Version: 2.12
 
 ## In both
 
@@ -536,49 +579,29 @@ Version: 0.2.6-4
 
 ## In both
 
-*   checking whether package ‘PCRedux’ can be installed ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/new/PCRedux.Rcheck/00install.out’ for details.
+    Namespace in Imports field not imported from: ‘caret’
+      All declared Imports should be used.
     ```
 
-## Installation
+# plethem
 
-### Devel
+Version: 0.1.7
 
-```
-* installing *source* package ‘PCRedux’ ...
-** package ‘PCRedux’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘quantreg’
-ERROR: lazy loading failed for package ‘PCRedux’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/new/PCRedux.Rcheck/PCRedux’
+## In both
 
-```
-### CRAN
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘V8’ ‘devtools’ ‘formatR’ ‘gdata’ ‘rhandsontable’ ‘shinythemes’
+      ‘sqldf’
+      All declared Imports should be used.
+    ```
 
-```
-* installing *source* package ‘PCRedux’ ...
-** package ‘PCRedux’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘quantreg’
-ERROR: lazy loading failed for package ‘PCRedux’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/old/PCRedux.Rcheck/PCRedux’
-
-```
 # plotGrouper
 
-Version: 1.0.0
+Version: 1.0.1
 
 ## In both
 
@@ -592,9 +615,15 @@ Version: 1.0.0
 
 # progeny
 
-Version: 1.4.0
+Version: 1.4.1
 
 ## In both
+
+*   checking package subdirectories ... WARNING
+    ```
+    Invalid citation information in ‘inst/CITATION’:
+      Error in bibentry(bibtype = entry, textVersion = textVersion, header = header,     footer = footer, ...): argument "textVersion" is missing, with no default
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
@@ -609,18 +638,6 @@ Version: 1.4.0
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘airway’
-    ```
-
-# ProjectTemplate
-
-Version: 0.8.2
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Unable to find any JVMs matching version "(null)".
-    No Java runtime present, try --request to install.
     ```
 
 # QuantTools
@@ -654,6 +671,28 @@ Version: 5.2.0
 
 ## In both
 
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      Running 'texi2dvi' on 'rattle.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `lastpage.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.13 \usepackage
+                    {algorithm2e}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
+    Execution halted
+    ```
+
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
@@ -663,9 +702,9 @@ Version: 5.2.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.8Mb
+      installed size is  7.9Mb
       sub-directories of 1Mb or more:
-        data   3.0Mb
+        data   3.1Mb
         etc    1.9Mb
         po     1.2Mb
     ```
@@ -685,72 +724,46 @@ Version: 2.5-1
         po    2.1Mb
     ```
 
-# RCzechia
-
-Version: 1.3.1
-
-## In both
-
-*   checking tests ...
+*   checking re-building of vignette outputs ... NOTE
     ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-                 message(paste("Error:", msg), domain = NA)
-             else stop(msg, call. = FALSE, domain = NA)
-         })
-      3: tryCatchList(expr, classes, parentenv, handlers)
-      4: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-      5: value[[3L]](cond)
-      6: stop(msg, call. = FALSE, domain = NA)
-      
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════
-      OK: 0 SKIPPED: 0 FAILED: 2
-      1. Error: (unknown) (@test-1-data-structures.R#3) 
-      2. Error: (unknown) (@test-2-code.R#2) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
+    ...
     
-    Attaching package: 'dplyr'
+    The following object is masked from ‘package:car’:
     
-    The following objects are masked from 'package:stats':
+        Confint
     
-        filter, lag
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      Running 'texi2dvi' on 'Getting-Started-with-the-Rcmdr.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `ae.sty' not found.
     
-    The following objects are masked from 'package:base':
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
     
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 28-58 (vignette.Rmd) 
-    Error: processing vignette 'vignette.Rmd' failed with diagnostics:
-    package or namespace load failed for 'tmap' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-     there is no package called 'classInt'
+    ! Emergency stop.
+    <read *> 
+             
+    l.30 \ifthenelse
+                    {\boolean{Sweave@inconsolata}}{%^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
     Execution halted
     ```
+
+# RCzechia
+
+Version: 1.3.2
+
+## Newly broken
+
+*   R CMD check timed out
+    
 
 # RDML
 
 Version: 0.9-9
 
 ## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 42-47 (CreateRDML.Rmd) 
-    Error: processing vignette 'CreateRDML.Rmd' failed with diagnostics:
-    package or namespace load failed for 'chipPCR' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-     there is no package called 'quantreg'
-    Execution halted
-    ```
 
 *   checking installed package size ... NOTE
     ```
@@ -760,29 +773,11 @@ Version: 0.9-9
         doc   2.4Mb
     ```
 
-# readabs
-
-Version: 0.2.1
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘sjmisc’ ‘stringr’
-      All declared Imports should be used.
-    ```
-
 # readtext
 
 Version: 0.71
 
 ## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘XML’
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -807,20 +802,53 @@ Version: 0.2.5
 
 # RLumShiny
 
-Version: 0.2.1
+Version: 0.2.2
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
-      ‘DT’ ‘knitr’
+      ‘RCarb’ ‘rmarkdown’ ‘shinyjs’
       All declared Imports should be used.
+    ```
+
+# rotl
+
+Version: 3.0.6
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+## Newly fixed
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 98-100 (meta-analysis.Rmd) 
+    Error: processing vignette 'meta-analysis.Rmd' failed with diagnostics:
+    HTTP failure: 502
+    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+    <html><head>
+    <title>502 Proxy Error</title>
+    </head><body>
+    <h1>Proxy Error</h1>
+    <p>The proxy server received an invalid
+    response from an upstream server.<br />
+    The proxy server could not handle the request <em><a href="/v3/tnrs/match_names">POST&nbsp;/v3/tnrs/match_names</a></em>.<p>
+    Reason: <strong>Error reading from remote server</strong></p></p>
+    <hr>
+    <address>Apache/2.4.10 (Debian) Server at api.opentreeoflife.org Port 443</address>
+    </body></html>
+    Execution halted
     ```
 
 # secr
 
-Version: 3.1.8
+Version: 3.2.0
 
 ## In both
 
@@ -867,7 +895,7 @@ Version: 1.0.4
     ```
       installed size is  5.8Mb
       sub-directories of 1Mb or more:
-        R         2.0Mb
+        R         2.1Mb
         extdata   3.1Mb
     ```
 
@@ -885,17 +913,6 @@ Version: 1.2.0
         doc    1.0Mb
     ```
 
-# textreadr
-
-Version: 0.9.0
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘tm’
-    ```
-
 # tidyverse
 
 Version: 1.2.1
@@ -911,7 +928,7 @@ Version: 1.2.1
 
 # tidyxl
 
-Version: 1.0.3
+Version: 1.0.4
 
 ## In both
 
@@ -926,18 +943,6 @@ Version: 1.0.3
     nor system RNGs.
     
     See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
-    ```
-
-# TR8
-
-Version: 0.9.19
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 153 marked Latin-1 strings
-      Note: found 108 marked UTF-8 strings
     ```
 
 # unvotes
@@ -960,7 +965,7 @@ Version: 1.0.2
 *   checking whether package ‘zooaRchGUI’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/00install.out’ for details.
+    See ‘/Users/max/github/forks/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -977,12 +982,12 @@ Version: 1.0.2
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘zooaRchGUI’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/zooaRchGUI’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/zooaRchGUI’
 
 ```
 ### CRAN
@@ -997,11 +1002,11 @@ ERROR: lazy loading failed for package ‘zooaRchGUI’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
+  dlopen(/Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/max/github/forks/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘zooaRchGUI’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/old/zooaRchGUI.Rcheck/zooaRchGUI’
+* removing ‘/Users/max/github/forks/readxl/revdep/checks.noindex/zooaRchGUI/old/zooaRchGUI.Rcheck/zooaRchGUI’
 
 ```
