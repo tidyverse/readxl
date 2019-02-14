@@ -22,140 +22,55 @@ Version: 0.8.1
       Note: found 52 marked UTF-8 strings
     ```
 
-# baytrends
-
-Version: 1.0.7
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    
-    
-    |Category     |Description                      |
-    |:------------|:--------------------------------|
-    |Name         |Jon B. Harcum, Ph.D.             |
-    |Organization |Tetra Tech, Inc.                 |
-    |Address      |313 Kings Way, Clemson, SC 29631 |
-    |Voice phone  |(864)650-5815                    |
-    |email        |jon.harcum@tetratech.com         |
-    
-    
-     
-    
-    
-    ##  
-    
-    ### Session Information
-    Error in loadNamespace(name) : there is no package called ‘devtools’
-    Calls: closeOut ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
-    Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
-
-# bikedata
-
-Version: 0.2.2
-
-## In both
-
-*   checking whether package ‘bikedata’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/bikedata/new/bikedata.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘bikedata’ ...
-** package ‘bikedata’ successfully unpacked and MD5 sums checked
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -g -O2 -Wall -pedantic -mtune=native -c bikedata_init.c -o bikedata_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c read-city-files.cpp -o read-city-files.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c read-station-files.cpp -o read-station-files.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-add-data.cpp -o sqlite3db-add-data.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-setup.cpp -o sqlite3db-setup.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-utils.cpp -o sqlite3db-utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/new/Rcpp/include" -I/usr/local/include   -fPIC  -g -O2 -Wall -pedantic -mtune=native -c vendor/sqlite3/sqlite3.c -o vendor/sqlite3/sqlite3.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o bikedata.so RcppExports.o bikedata_init.o read-city-files.o read-station-files.o sqlite3db-add-data.o sqlite3db-setup.o sqlite3db-utils.o utils.o vendor/sqlite3/sqlite3.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-ld: warning: text-based stub file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation.tbd and library file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation are out of sync. Falling back to library file for linking.
-installing to /Users/jenny/rrr/readxl/revdep/checks.noindex/bikedata/new/bikedata.Rcheck/bikedata/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘igraph’
-ERROR: lazy loading failed for package ‘bikedata’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/bikedata/new/bikedata.Rcheck/bikedata’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘bikedata’ ...
-** package ‘bikedata’ successfully unpacked and MD5 sums checked
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -g -O2 -Wall -pedantic -mtune=native -c bikedata_init.c -o bikedata_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c read-city-files.cpp -o read-city-files.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c read-station-files.cpp -o read-station-files.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-add-data.cpp -o sqlite3db-add-data.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-setup.cpp -o sqlite3db-setup.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sqlite3db-utils.cpp -o sqlite3db-utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -DRSQLITE_USE_BUNDLED_SQLITE -I"/Users/jenny/rrr/readxl/revdep/library.noindex/bikedata/BH/include" -I"/Users/jenny/rrr/readxl/revdep/library.noindex/readxl/old/Rcpp/include" -I/usr/local/include   -fPIC  -g -O2 -Wall -pedantic -mtune=native -c vendor/sqlite3/sqlite3.c -o vendor/sqlite3/sqlite3.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o bikedata.so RcppExports.o bikedata_init.o read-city-files.o read-station-files.o sqlite3db-add-data.o sqlite3db-setup.o sqlite3db-utils.o utils.o vendor/sqlite3/sqlite3.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-ld: warning: text-based stub file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation.tbd and library file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation are out of sync. Falling back to library file for linking.
-installing to /Users/jenny/rrr/readxl/revdep/checks.noindex/bikedata/old/bikedata.Rcheck/bikedata/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘igraph’
-ERROR: lazy loading failed for package ‘bikedata’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/bikedata/old/bikedata.Rcheck/bikedata’
-
-```
-# BiodiversityR
-
-Version: 2.11-1
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘igraph’
-    ```
-
 # BloodCancerMultiOmics2017
 
 Version: 1.2.0
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Package required but not available: ‘devtools’
-    
+    ...
+    ✔ readr   1.3.1     ✔ stringr 1.4.0
+    ✔ tibble  2.0.1     ✔ forcats 0.3.0
+    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+    ✖ ggplot2::Position() masks BiocGenerics::Position(), base::Position()
+    ✖ dplyr::collapse()   masks IRanges::collapse()
+    ✖ dplyr::combine()    masks Biobase::combine(), BiocGenerics::combine()
+    ✖ dplyr::count()      masks matrixStats::count()
+    ✖ dplyr::desc()       masks IRanges::desc()
+    ✖ tidyr::expand()     masks S4Vectors::expand()
+    ✖ dplyr::filter()     masks stats::filter()
+    ✖ dplyr::first()      masks S4Vectors::first()
+    ✖ dplyr::lag()        masks stats::lag()
+    ✖ purrr::reduce()     masks GenomicRanges::reduce(), IRanges::reduce()
+    ✖ dplyr::rename()     masks S4Vectors::rename()
+    ✖ purrr::simplify()   masks DelayedArray::simplify()
+    ✖ dplyr::slice()      masks IRanges::slice()
+    Quitting from lines 16-25 (BloodCancerMultiOmics2017-dataOverview.Rmd) 
+    Error: processing vignette 'BloodCancerMultiOmics2017-dataOverview.Rmd' failed with diagnostics:
+    package or namespace load failed for 'BiocStyle' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called 'BiocManager'
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
     Package suggested but not available for checking: ‘org.Hs.eg.db’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 115.3Mb
+      sub-directories of 1Mb or more:
+        data     80.0Mb
+        doc      26.5Mb
+        extdata   8.5Mb
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘vsn’
     ```
 
 # blorr
@@ -195,14 +110,35 @@ Version: 0.3.0
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Package required but not available: ‘igraph’
+    ...
     
+    Loading required package: IRanges
+    Loading required package: S4Vectors
+    
+    Attaching package: 'S4Vectors'
+    
+    The following object is masked from 'package:base':
+    
+        expand.grid
+    
+    
+    Attaching package: 'IRanges'
+    
+    The following object is masked from 'package:R.oo':
+    
+        trim
+    
+    Quitting from lines 32-41 (case_study.Rmd) 
+    Error: processing vignette 'case_study.Rmd' failed with diagnostics:
+    there is no package called 'org.Hs.eg.db'
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
     Package suggested but not available for checking: ‘org.Hs.eg.db’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
     ```
 
 # crosswalkr
@@ -315,12 +251,11 @@ Version: 0.1.5
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Package required but not available: ‘igraph’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    Unexported objects imported by ':::' calls:
+      ‘dexter:::get_resp_data’ ‘dexter:::qcolors’
+      See the note in ?`:::` about the use of this operator.
     ```
 
 # DLMtool
@@ -329,12 +264,12 @@ Version: 5.2.3
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking installed package size ... NOTE
     ```
-    Package required but not available: ‘devtools’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+      installed size is  5.5Mb
+      sub-directories of 1Mb or more:
+        R      2.0Mb
+        data   2.1Mb
     ```
 
 # Doscheda
@@ -409,12 +344,27 @@ Version: 1.3.6
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking examples ... ERROR
     ```
-    Package required but not available: ‘devtools’
+    Running examples in ‘elementR-Ex.R’ failed
+    The error most likely occurred in:
     
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    > ### Name: elementR_project
+    > ### Title: Object elementR_project
+    > ### Aliases: elementR_project
+    > 
+    > ### ** Examples
+    > 
+    > ## create a new elementR_repStandard object based on the "filePath" 
+    > ## from a folder containing sample replicate
+    > 
+    > filePath <- system.file("Example_Session", package="elementR")
+    > 
+    > exampleProject <- elementR_project$new(filePath)
+    Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") : 
+      [tcl] invalid command name "toplevel".
+    Calls: <Anonymous> ... tktoplevel -> tkwidget -> tcl -> .Tcl.objv -> structure
+    Execution halted
     ```
 
 # ezpickr
@@ -556,8 +506,12 @@ Version: 0.8.5
 ** inst
 ** byte-compile and prepare package for lazy loading
 Warning in fun(libname, pkgname) : couldn't connect to display ""
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘igraph’
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
+  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
+  Reason: image not found
 ERROR: lazy loading failed for package ‘ie2misc’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/ie2misc’
 
@@ -571,8 +525,12 @@ ERROR: lazy loading failed for package ‘ie2misc’
 ** inst
 ** byte-compile and prepare package for lazy loading
 Warning in fun(libname, pkgname) : couldn't connect to display ""
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘igraph’
+Error : .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
+  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
+  Reason: image not found
 ERROR: lazy loading failed for package ‘ie2misc’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/old/ie2misc.Rcheck/ie2misc’
 
@@ -700,32 +658,11 @@ ERROR: compilation failed for package ‘lpirfs’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/lpirfs/old/lpirfs.Rcheck/lpirfs’
 
 ```
-# Luminescence
-
-Version: 0.8.6
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘devtools’
-    ```
-
 # manifestoR
 
 Version: 1.3.0
 
 ## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
 
 *   checking R code for possible problems ... NOTE
     ```
@@ -758,94 +695,10 @@ Version: 0.2.6-4
 
 ## In both
 
-*   checking whether package ‘PCRedux’ can be installed ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/new/PCRedux.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘PCRedux’ ...
-** package ‘PCRedux’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘igraph’
-ERROR: lazy loading failed for package ‘PCRedux’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/new/PCRedux.Rcheck/PCRedux’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘PCRedux’ ...
-** package ‘PCRedux’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘igraph’
-ERROR: lazy loading failed for package ‘PCRedux’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/PCRedux/old/PCRedux.Rcheck/PCRedux’
-
-```
-# photobiologyInOut
-
-Version: 0.4.19
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘photobiologyInOut-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: rspec2mspct
-    > ### Title: Convert "pavo::rspec" objects
-    > ### Aliases: rspec2mspct rspec2spct
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > library(pavo)
-    Error: package or namespace load failed for ‘pavo’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-     there is no package called ‘igraph’
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    The project homepage is http://hyperspec.r-forge.r-project.org
-    
-    
-    This is colorSpec.  Version: 0.7-5.  Author: Glenn Davis [aut, cre].  Built: R 3.5.0; ; 2018-11-20
-     18:02:20 UTC; unix
-    
-    Attaching package: 'colorSpec'
-    
-    The following object is masked from 'package:hyperSpec':
-    
-        bind
-    
-    The following object is masked from 'package:photobiology':
-    
-        normalize
-    
-    Quitting from lines 39-52 (user-guide.Rmd) 
-    Error: processing vignette 'user-guide.Rmd' failed with diagnostics:
-    package or namespace load failed for 'pavo' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-     there is no package called 'igraph'
-    Execution halted
+    Namespace in Imports field not imported from: ‘caret’
+      All declared Imports should be used.
     ```
 
 # plethem
@@ -854,12 +707,12 @@ Version: 0.1.7
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Package required but not available: ‘devtools’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    Namespaces in Imports field not imported from:
+      ‘V8’ ‘devtools’ ‘formatR’ ‘gdata’ ‘rhandsontable’ ‘shinythemes’
+      ‘sqldf’
+      All declared Imports should be used.
     ```
 
 # plotGrouper
@@ -1005,17 +858,6 @@ Version: 2.5-1
         po    2.1Mb
     ```
 
-# RCzechia
-
-Version: 1.3.2
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
-
 # RDML
 
 Version: 0.9-9
@@ -1028,17 +870,6 @@ Version: 0.9-9
       sub-directories of 1Mb or more:
         R     2.0Mb
         doc   2.4Mb
-    ```
-
-# readit
-
-Version: 1.0.0
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
     ```
 
 # readtext
@@ -1159,11 +990,6 @@ Version: 1.0.4
 
 ## In both
 
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is  5.8Mb
@@ -1255,11 +1081,6 @@ Version: 0.9.19
 Version: 0.2.0
 
 ## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘devtools’
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
