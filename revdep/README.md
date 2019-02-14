@@ -62,18 +62,15 @@
 
 # Revdeps
 
-## Couldn't check (10)
+## Couldn't check (7)
 
 |package                                  |version |error |warning |note |
 |:----------------------------------------|:-------|:-----|:-------|:----|
 |[chillR](problems.md#chillr)             |0.70.12 |1     |        |     |
 |[DAPAR](problems.md#dapar)               |1.14.3  |1     |        |     |
-|[DataLoader](problems.md#dataloader)     |1.3     |1     |        |     |
 |[Doscheda](problems.md#doscheda)         |1.4.0   |1     |        |     |
 |[dynBiplotGUI](problems.md#dynbiplotgui) |1.1.5   |1     |        |     |
 |[GerminaR](problems.md#germinar)         |1.2     |1     |        |     |
-|[ie2misc](problems.md#ie2misc)           |0.8.5   |1     |        |1    |
-|[joinXL](problems.md#joinxl)             |1.0.1   |1     |        |     |
 |[lpirfs](problems.md#lpirfs)             |0.1.4   |1     |        |     |
 |[popprxl](problems.md#popprxl)           |0.1.4   |1     |        |     |
 
@@ -89,7 +86,7 @@
 |BiodiversityR                                                      |2.11-1  |      |        |     |
 |[BloodCancerMultiOmics2017](problems.md#bloodcancermultiomics2017) |1.2.0   |      |1       |3    |
 |blorr                                                              |0.2.0   |      |        |     |
-|[breathtestcore](problems.md#breathtestcore)                       |0.4.6   |      |        |1    |
+|breathtestcore                                                     |0.4.6   |      |        |     |
 |[chillR](problems.md#chillr)                                       |0.70.12 |1     |        |     |
 |ckanr                                                              |0.1.0   |      |        |     |
 |cNORM                                                              |1.1.5   |      |        |     |
@@ -97,7 +94,7 @@
 |[cRegulome](problems.md#cregulome)                                 |0.3.0   |      |1       |1    |
 |[crosswalkr](problems.md#crosswalkr)                               |0.2.2   |      |        |1    |
 |[DAPAR](problems.md#dapar)                                         |1.14.3  |1     |        |     |
-|[DataLoader](problems.md#dataloader)                               |1.3     |1     |        |     |
+|DataLoader                                                         |1.3     |      |        |     |
 |DCM                                                                |0.1.1   |      |        |     |
 |[dextergui](problems.md#dextergui)                                 |0.1.5   |      |        |1    |
 |[DLMtool](problems.md#dlmtool)                                     |5.2.3   |      |        |1    |
@@ -119,7 +116,7 @@
 |[GWSDAT](problems.md#gwsdat)                                       |3.0.3   |1     |        |     |
 |heemod                                                             |0.9.2   |      |        |     |
 |[hiReadsProcessor](problems.md#hireadsprocessor)                   |1.18.0  |      |        |2    |
-|[ie2misc](problems.md#ie2misc)                                     |0.8.5   |1     |        |1    |
+|[ie2misc](problems.md#ie2misc)                                     |0.8.5   |      |        |2    |
 |inferr                                                             |0.3.0   |      |        |     |
 |[iotables](problems.md#iotables)                                   |0.4.2   |      |        |1    |
 |[IsoCorrectoR](problems.md#isocorrector)                           |1.0.5   |      |1       |1    |

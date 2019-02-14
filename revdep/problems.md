@@ -171,58 +171,6 @@ ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
 ```
-# DataLoader
-
-Version: 1.3
-
-## In both
-
-*   checking whether package ‘DataLoader’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘DataLoader’ ...
-** package ‘DataLoader’ successfully unpacked and MD5 sums checked
-** R
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘xlsx’:
- .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
-  Reason: image not found
-Error : package ‘xlsx’ could not be loaded
-ERROR: lazy loading failed for package ‘DataLoader’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/new/DataLoader.Rcheck/DataLoader’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘DataLoader’ ...
-** package ‘DataLoader’ successfully unpacked and MD5 sums checked
-** R
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘xlsx’:
- .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/DataLoader/rJava/libs/rJava.so
-  Reason: image not found
-Error : package ‘xlsx’ could not be loaded
-ERROR: lazy loading failed for package ‘DataLoader’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DataLoader/old/DataLoader.Rcheck/DataLoader’
-
-```
 # dextergui
 
 Version: 0.1.5
@@ -462,57 +410,16 @@ Version: 0.8.5
 
 ## In both
 
-*   checking whether package ‘ie2misc’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/00install.out’ for details.
-    ```
-
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘ie2miscdata’
     ```
 
-## Installation
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘moments’
+    ```
 
-### Devel
-
-```
-* installing *source* package ‘ie2misc’ ...
-** package ‘ie2misc’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) : couldn't connect to display ""
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘ie2misc’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/new/ie2misc.Rcheck/ie2misc’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘ie2misc’ ...
-** package ‘ie2misc’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning in fun(libname, pkgname) : couldn't connect to display ""
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/ie2misc/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘ie2misc’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/ie2misc/old/ie2misc.Rcheck/ie2misc’
-
-```
 # iotables
 
 Version: 0.4.2
@@ -552,50 +459,14 @@ Version: 1.0.1
 
 ## In both
 
-*   checking whether package ‘joinXL’ can be installed ... ERROR
+*   checking package dependencies ... ERROR
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/00install.out’ for details.
+    Package required but not available: ‘R.utils’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘joinXL’ ...
-** package ‘joinXL’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘joinXL’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/new/joinXL.Rcheck/joinXL’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘joinXL’ ...
-** package ‘joinXL’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so':
-  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/joinXL/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘joinXL’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/joinXL/old/joinXL.Rcheck/joinXL’
-
-```
 # lpirfs
 
 Version: 0.1.4
