@@ -31,26 +31,26 @@ Version: 1.2.0
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    ✔ readr   1.3.1     ✔ stringr 1.4.0
-    ✔ tibble  2.0.1     ✔ forcats 0.3.0
-    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-    ✖ ggplot2::Position() masks BiocGenerics::Position(), base::Position()
-    ✖ dplyr::collapse()   masks IRanges::collapse()
-    ✖ dplyr::combine()    masks Biobase::combine(), BiocGenerics::combine()
-    ✖ dplyr::count()      masks matrixStats::count()
-    ✖ dplyr::desc()       masks IRanges::desc()
-    ✖ tidyr::expand()     masks S4Vectors::expand()
-    ✖ dplyr::filter()     masks stats::filter()
-    ✖ dplyr::first()      masks S4Vectors::first()
-    ✖ dplyr::lag()        masks stats::lag()
-    ✖ purrr::reduce()     masks GenomicRanges::reduce(), IRanges::reduce()
-    ✖ dplyr::rename()     masks S4Vectors::rename()
-    ✖ purrr::simplify()   masks DelayedArray::simplify()
-    ✖ dplyr::slice()      masks IRanges::slice()
-    Quitting from lines 16-25 (BloodCancerMultiOmics2017-dataOverview.Rmd) 
-    Error: processing vignette 'BloodCancerMultiOmics2017-dataOverview.Rmd' failed with diagnostics:
-    package or namespace load failed for 'BiocStyle' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-     there is no package called 'BiocManager'
+    
+    The following objects are masked from 'package:IRanges':
+    
+        intersect, setdiff, union
+    
+    The following objects are masked from 'package:S4Vectors':
+    
+        intersect, setdiff, union
+    
+    The following objects are masked from 'package:BiocGenerics':
+    
+        intersect, setdiff, union
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, union
+    
+    Quitting from lines 46-92 (BloodCancerMultiOmics2017.Rmd) 
+    Error: processing vignette 'BloodCancerMultiOmics2017.Rmd' failed with diagnostics:
+    there is no package called 'org.Hs.eg.db'
     Execution halted
     ```
 
@@ -71,28 +71,6 @@ Version: 1.2.0
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘vsn’
-    ```
-
-# blorr
-
-Version: 0.2.0
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘lmtest’
-    ```
-
-# breathtestcore
-
-Version: 0.4.6
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘breathteststan’
     ```
 
 # chillR

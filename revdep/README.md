@@ -14,26 +14,51 @@
 
 # Dependencies
 
-|package     |old   |new        |Δ  |
-|:-----------|:-----|:----------|:--|
-|readxl      |1.2.0 |1.2.0.9000 |*  |
-|assertthat  |0.2.0 |0.2.0      |   |
-|cellranger  |1.1.0 |1.1.0      |   |
-|cli         |1.0.1 |1.0.1      |   |
-|crayon      |1.3.4 |1.3.4      |   |
-|fansi       |0.4.0 |0.4.0      |   |
-|hms         |0.4.2 |0.4.2      |   |
-|magrittr    |1.5   |1.5        |   |
-|pillar      |1.3.1 |1.3.1      |   |
-|pkgconfig   |2.0.2 |2.0.2      |   |
-|prettyunits |1.0.2 |1.0.2      |   |
-|progress    |1.2.0 |1.2.0      |   |
-|R6          |2.3.0 |2.3.0      |   |
-|Rcpp        |1.0.0 |1.0.0      |   |
-|rematch     |1.0.1 |1.0.1      |   |
-|rlang       |0.3.1 |0.3.1      |   |
-|tibble      |2.0.1 |2.0.1      |   |
-|utf8        |1.1.4 |1.1.4      |   |
+|package        |old     |new        |Δ  |
+|:--------------|:-------|:----------|:--|
+|readxl         |1.2.0   |1.2.0.9000 |*  |
+|ade4           |1.7-13  |1.7-13     |   |
+|adegenet       |2.1.1   |2.1.1      |   |
+|ape            |5.2     |5.2        |   |
+|assertthat     |0.2.0   |0.2.0      |   |
+|BiocManager    |1.30.4  |1.30.4     |   |
+|BrailleR       |0.29.1  |0.29.1     |   |
+|breathteststan |0.4.7   |0.4.7      |   |
+|cellranger     |1.1.0   |1.1.0      |   |
+|classInt       |0.3-1   |0.3-1      |   |
+|cli            |1.0.1   |1.0.1      |   |
+|crayon         |1.3.4   |1.3.4      |   |
+|deldir         |0.1-16  |0.1-16     |   |
+|devtools       |2.0.1   |2.0.1      |   |
+|expm           |0.999-3 |0.999-3    |   |
+|fansi          |0.4.0   |0.4.0      |   |
+|gmodels        |2.18.1  |2.18.1     |   |
+|gridGraphics   |0.3-0   |0.3-0      |   |
+|gridSVG        |1.6-0   |1.6-0      |   |
+|hms            |0.4.2   |0.4.2      |   |
+|igraph         |1.2.3   |1.2.3      |   |
+|LearnBayes     |2.15.1  |2.15.1     |   |
+|lmtest         |0.9-36  |0.9-36     |   |
+|magrittr       |1.5     |1.5        |   |
+|ncdf4          |1.16    |1.16       |   |
+|nortest        |1.0-4   |1.0-4      |   |
+|pillar         |1.3.1   |1.3.1      |   |
+|pkgconfig      |2.0.2   |2.0.2      |   |
+|prettyunits    |1.0.2   |1.0.2      |   |
+|progress       |1.2.0   |1.2.0      |   |
+|R6             |2.3.0   |2.3.0      |   |
+|Rcpp           |1.0.0   |1.0.0      |   |
+|rematch        |1.0.1   |1.0.1      |   |
+|rlang          |0.3.1   |0.3.1      |   |
+|roloc          |0.1-1   |0.1-1      |   |
+|rolocISCCNBS   |0.1     |0.1        |   |
+|segmented      |0.5-3.0 |0.5-3.0    |   |
+|seqinr         |3.4-5   |3.4-5      |   |
+|sf             |0.7-2   |0.7-2      |   |
+|spData         |0.3.0   |0.3.0      |   |
+|spdep          |0.8-1   |0.8-1      |   |
+|tibble         |2.0.1   |2.0.1      |   |
+|utf8           |1.1.4   |1.1.4      |   |
 
 # Revdeps
 
@@ -63,7 +88,7 @@
 |bikedata                                                           |0.2.2   |      |        |     |
 |BiodiversityR                                                      |2.11-1  |      |        |     |
 |[BloodCancerMultiOmics2017](problems.md#bloodcancermultiomics2017) |1.2.0   |      |1       |3    |
-|[blorr](problems.md#blorr)                                         |0.2.0   |      |        |1    |
+|blorr                                                              |0.2.0   |      |        |     |
 |[breathtestcore](problems.md#breathtestcore)                       |0.4.6   |      |        |1    |
 |[chillR](problems.md#chillr)                                       |0.70.12 |1     |        |     |
 |ckanr                                                              |0.1.0   |      |        |     |
