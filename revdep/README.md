@@ -5,7 +5,7 @@
 |version  |R version 3.5.2 (2018-12-20) |
 |os       |macOS Mojave 10.14.2         |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_CA.UTF-8                  |
 |ctype    |en_CA.UTF-8                  |
@@ -62,17 +62,13 @@
 
 # Revdeps
 
-## Couldn't check (7)
+## Couldn't check (3)
 
 |package                                  |version |error |warning |note |
 |:----------------------------------------|:-------|:-----|:-------|:----|
-|[chillR](problems.md#chillr)             |0.70.12 |1     |        |     |
-|[DAPAR](problems.md#dapar)               |1.14.3  |1     |        |     |
-|[Doscheda](problems.md#doscheda)         |1.4.0   |1     |        |     |
+|[DAPAR](problems.md#dapar)               |1.14.5  |1     |        |     |
 |[dynBiplotGUI](problems.md#dynbiplotgui) |1.1.5   |1     |        |     |
-|[GerminaR](problems.md#germinar)         |1.2     |1     |        |     |
 |[lpirfs](problems.md#lpirfs)             |0.1.4   |1     |        |     |
-|[popprxl](problems.md#popprxl)           |0.1.4   |1     |        |     |
 
 ## All (91)
 
@@ -93,12 +89,12 @@
 |CONS                                                               |0.1.1   |      |        |     |
 |[cRegulome](problems.md#cregulome)                                 |0.3.0   |      |1       |1    |
 |[crosswalkr](problems.md#crosswalkr)                               |0.2.2   |      |        |1    |
-|[DAPAR](problems.md#dapar)                                         |1.14.3  |1     |        |     |
+|[DAPAR](problems.md#dapar)                                         |1.14.5  |1     |        |     |
 |DataLoader                                                         |1.3     |      |        |     |
 |DCM                                                                |0.1.1   |      |        |     |
 |[dextergui](problems.md#dextergui)                                 |0.1.5   |      |        |1    |
 |[DLMtool](problems.md#dlmtool)                                     |5.2.3   |      |        |1    |
-|[Doscheda](problems.md#doscheda)                                   |1.4.0   |1     |        |     |
+|[Doscheda](problems.md#doscheda)                                   |1.4.1   |      |        |1    |
 |dpcR                                                               |0.5     |      |        |     |
 |driftR                                                             |1.1.0   |      |        |     |
 |[duawranglr](problems.md#duawranglr)                               |0.6.3   |      |        |1    |
@@ -109,7 +105,7 @@
 |evaluator                                                          |0.3.2   |      |        |     |
 |ezec                                                               |1.0.1   |      |        |     |
 |[ezpickr](problems.md#ezpickr)                                     |1.0.0   |      |        |1    |
-|[GerminaR](problems.md#germinar)                                   |1.2     |1     |        |     |
+|[GerminaR](problems.md#germinar)                                   |1.2     |      |        |1    |
 |GetTDData                                                          |1.3.1   |      |        |     |
 |ggplotgui                                                          |1.0.0   |      |        |     |
 |googlePublicData                                                   |0.16.1  |      |        |     |
@@ -134,7 +130,7 @@
 |[plethem](problems.md#plethem)                                     |0.1.7   |      |        |1    |
 |[plotGrouper](problems.md#plotgrouper)                             |1.0.0   |      |        |1    |
 |PNADcIBGE                                                          |0.4.3   |      |        |     |
-|[popprxl](problems.md#popprxl)                                     |0.1.4   |1     |        |     |
+|popprxl                                                            |0.1.4   |      |        |     |
 |[progeny](problems.md#progeny)                                     |1.4.0   |      |1       |1    |
 |ProjectTemplate                                                    |0.8.2   |      |        |     |
 |[QuantTools](problems.md#quanttools)                               |0.5.7   |      |        |1    |

@@ -79,8 +79,13 @@ Version: 0.70.12
 
 ## In both
 
-*   R CMD check timed out
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘R.utils’
     
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
 
 # cRegulome
 
@@ -133,7 +138,7 @@ Version: 0.2.2
 
 # DAPAR
 
-Version: 1.14.3
+Version: 1.14.5
 
 ## In both
 
@@ -152,8 +157,9 @@ Version: 1.14.3
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘ncdf4’
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘DO.db’
 ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/DAPAR’
 
@@ -165,8 +171,9 @@ ERROR: lazy loading failed for package ‘DAPAR’
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘ncdf4’
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘DO.db’
 ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
@@ -200,48 +207,19 @@ Version: 5.2.3
 
 # Doscheda
 
-Version: 1.4.0
+Version: 1.4.1
 
 ## In both
 
-*   checking whether package ‘Doscheda’ can be installed ... ERROR
+*   checking installed package size ... NOTE
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/Doscheda/new/Doscheda.Rcheck/00install.out’ for details.
+      installed size is  6.0Mb
+      sub-directories of 1Mb or more:
+        data             2.1Mb
+        doc              1.6Mb
+        shiny-examples   2.0Mb
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘Doscheda’ ...
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘BiocManager’
-ERROR: lazy loading failed for package ‘Doscheda’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/Doscheda/new/Doscheda.Rcheck/Doscheda’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘Doscheda’ ...
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘BiocManager’
-ERROR: lazy loading failed for package ‘Doscheda’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/Doscheda/old/Doscheda.Rcheck/Doscheda’
-
-```
 # duawranglr
 
 Version: 0.6.3
@@ -310,46 +288,13 @@ Version: 1.2
 
 ## In both
 
-*   checking whether package ‘GerminaR’ can be installed ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/GerminaR/new/GerminaR.Rcheck/00install.out’ for details.
+    Namespaces in Imports field not imported from:
+      ‘DT’ ‘shinydashboard’
+      All declared Imports should be used.
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘GerminaR’ ...
-** package ‘GerminaR’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘spdep’
-ERROR: lazy loading failed for package ‘GerminaR’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/GerminaR/new/GerminaR.Rcheck/GerminaR’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘GerminaR’ ...
-** package ‘GerminaR’ successfully unpacked and MD5 sums checked
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘spdep’
-ERROR: lazy loading failed for package ‘GerminaR’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/GerminaR/old/GerminaR.Rcheck/GerminaR’
-
-```
 # GWSDAT
 
 Version: 3.0.3
@@ -578,50 +523,6 @@ Version: 1.0.0
       max_error max_value
     ```
 
-# popprxl
-
-Version: 0.1.4
-
-## In both
-
-*   checking whether package ‘popprxl’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/popprxl/new/popprxl.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘popprxl’ ...
-** package ‘popprxl’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘adegenet’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
- there is no package called ‘igraph’
-Error : package ‘adegenet’ could not be loaded
-ERROR: lazy loading failed for package ‘popprxl’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/popprxl/new/popprxl.Rcheck/popprxl’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘popprxl’ ...
-** package ‘popprxl’ successfully unpacked and MD5 sums checked
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘adegenet’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
- there is no package called ‘igraph’
-Error : package ‘adegenet’ could not be loaded
-ERROR: lazy loading failed for package ‘popprxl’
-* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/popprxl/old/popprxl.Rcheck/popprxl’
-
-```
 # progeny
 
 Version: 1.4.0
