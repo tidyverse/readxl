@@ -35,7 +35,7 @@ Authors@R:
              role = c("ctb", "cph"),
              comment = "Author of included libxls code"))
 Description: Import excel files into R. Supports '.xls' via the
-    embedded 'libxls' C library <https://github.com/evanmiller/libxls> and
+    embedded 'libxls' C library <https://github.com/libxls/libxls> and
     '.xlsx' via the embedded 'RapidXML' C++ library
     <http://rapidxml.sourceforge.net>.  Works on Windows, Mac and Linux
     without external dependencies.
