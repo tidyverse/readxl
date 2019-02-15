@@ -73,20 +73,6 @@ Version: 1.2.0
     Package unavailable to check Rd xrefs: ‘vsn’
     ```
 
-# chillR
-
-Version: 0.70.12
-
-## In both
-
-*   checking package dependencies ... ERROR
-    ```
-    Package required but not available: ‘R.utils’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
-    ```
-
 # cRegulome
 
 Version: 0.3.0
@@ -396,20 +382,6 @@ Version: 1.0.5
       installed size is  6.8Mb
       sub-directories of 1Mb or more:
         testdata   5.2Mb
-    ```
-
-# joinXL
-
-Version: 1.0.1
-
-## In both
-
-*   checking package dependencies ... ERROR
-    ```
-    Package required but not available: ‘R.utils’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
     ```
 
 # lpirfs
@@ -758,8 +730,11 @@ Version: 1.2.0
     ```
     Error in re-building vignettes:
       ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 80-82 (vignettes.Rmd) 
     Error: processing vignette 'vignettes.Rmd' failed with diagnostics:
-    there is no package called ‘BiocManager’
+    there is no package called 'webshot'
     Execution halted
     ```
 
@@ -843,11 +818,51 @@ Version: 1.0.2
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking whether package ‘zooaRchGUI’ can be installed ... ERROR
     ```
-    Package required but not available: ‘spdep’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    Installation failed.
+    See ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘zooaRchGUI’ ...
+** package ‘zooaRchGUI’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
+  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘zooaRchGUI’
+* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/new/zooaRchGUI.Rcheck/zooaRchGUI’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘zooaRchGUI’ ...
+** package ‘zooaRchGUI’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so':
+  dlopen(/Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/jenny/rrr/readxl/revdep/library.noindex/zooaRchGUI/rjags/libs/rjags.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘zooaRchGUI’
+* removing ‘/Users/jenny/rrr/readxl/revdep/checks.noindex/zooaRchGUI/old/zooaRchGUI.Rcheck/zooaRchGUI’
+
+```

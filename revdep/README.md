@@ -46,6 +46,9 @@
 |pkgconfig      |2.0.2   |2.0.2      |   |
 |prettyunits    |1.0.2   |1.0.2      |   |
 |progress       |1.2.0   |1.2.0      |   |
+|R.methodsS3    |1.7.1   |1.7.1      |   |
+|R.oo           |1.22.0  |1.22.0     |   |
+|R.utils        |2.8.0   |2.8.0      |   |
 |R6             |2.3.0   |2.3.0      |   |
 |Rcpp           |1.0.0   |1.0.0      |   |
 |rematch        |1.0.1   |1.0.1      |   |
@@ -62,13 +65,14 @@
 
 # Revdeps
 
-## Couldn't check (3)
+## Couldn't check (4)
 
 |package                                  |version |error |warning |note |
 |:----------------------------------------|:-------|:-----|:-------|:----|
 |[DAPAR](problems.md#dapar)               |1.14.5  |1     |        |     |
 |[dynBiplotGUI](problems.md#dynbiplotgui) |1.1.5   |1     |        |     |
 |[lpirfs](problems.md#lpirfs)             |0.1.4   |1     |        |     |
+|[zooaRchGUI](problems.md#zooarchgui)     |1.0.2   |1     |        |     |
 
 ## All (91)
 
@@ -83,7 +87,7 @@
 |[BloodCancerMultiOmics2017](problems.md#bloodcancermultiomics2017) |1.2.0   |      |1       |3    |
 |blorr                                                              |0.2.0   |      |        |     |
 |breathtestcore                                                     |0.4.6   |      |        |     |
-|[chillR](problems.md#chillr)                                       |0.70.12 |1     |        |     |
+|chillR                                                             |0.70.12 |      |        |     |
 |ckanr                                                              |0.1.0   |      |        |     |
 |cNORM                                                              |1.1.5   |      |        |     |
 |CONS                                                               |0.1.1   |      |        |     |
@@ -116,7 +120,7 @@
 |inferr                                                             |0.3.0   |      |        |     |
 |[iotables](problems.md#iotables)                                   |0.4.2   |      |        |1    |
 |[IsoCorrectoR](problems.md#isocorrector)                           |1.0.5   |      |1       |1    |
-|[joinXL](problems.md#joinxl)                                       |1.0.1   |1     |        |     |
+|joinXL                                                             |1.0.1   |      |        |     |
 |jubilee                                                            |0.2.5   |      |        |     |
 |[lpirfs](problems.md#lpirfs)                                       |0.1.4   |1     |        |     |
 |Luminescence                                                       |0.8.6   |      |        |     |
