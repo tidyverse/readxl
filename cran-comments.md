@@ -28,12 +28,21 @@ N  checking installed package size
 
 The current CRAN results show a NOTE on some platforms about "Namespace in Imports field not imported from: 'progress'". I now list 'progress' only in LinkingTo (no longer in Imports), which reflects how it's actually used.
 
-There is a memo from clang-UBSAN memtests from the UndefinedBehaviorSanitizer. There's an instance of "outside the range of representable values of type 'int'", emanating from embedded libxls code. FILL THIS IN WHEN STORY CONCLUDES.
+There is a memo from clang-UBSAN memtests from the UndefinedBehaviorSanitizer. There's an instance of "outside the range of representable values of type 'int'", emanating from embedded libxls code. I've reported this upstream and we've all taken a look at it. This code has been present in this exact form for at least one readxl release and in equivalent form since readxl first appeared on CRAN. This bit of libxls code may eventually be reworked but I believe there is nothing urgent about it.
 
 ## Reverse dependencies
 
-I attempted to check all 88 reverse dependencies (CRAN and BioC) and succeeded with 83. I compared check results between the current CRAN version of readxl and this submission.
+## revdepcheck results
 
-For these 83, there are no notes, warnings or errors that appear to be related to readxl, nor any that differ between checks run with readxl v1.1.0 and v1.2.0.
+We checked 91 reverse dependencies (83 from CRAN + 8 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
-I was unable to check 5 packages (DAPAR, dynBiplotGUI, lpirfs, PCRedux, zooaRchGUI) for various combinations of these reasons: installation/compilation failure, R CMD check timed out, missing external dependencies.
+ * We saw 0 new problems
+ * We failed to check 3 packages
+
+Issues with CRAN packages are summarised below.
+
+### Failed to check
+
+* dynBiplotGUI (check timed out)
+* lpirfs       (failed to install)
+* zooaRchGUI   (failed to install)
