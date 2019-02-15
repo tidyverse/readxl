@@ -9,7 +9,7 @@
 \if{html}{\figure{logo.png}{options: align='right'}}
 
 Import excel files into R. Supports '.xls' via the
-    embedded 'libxls' C library <https://github.com/evanmiller/libxls> and
+    embedded 'libxls' C library <https://github.com/libxls/libxls> and
     '.xlsx' via the embedded 'RapidXML' C++ library
     <http://rapidxml.sourceforge.net>.  Works on Windows, Mac and Linux
     without external dependencies.
@@ -17,7 +17,7 @@ Import excel files into R. Supports '.xls' via the
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://readxl.tidyverse.org}
+  \item \url{https://readxl.tidyverse.org}
   \item \url{https://github.com/tidyverse/readxl}
   \item Report bugs at \url{https://github.com/tidyverse/readxl/issues}
 }

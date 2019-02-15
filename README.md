@@ -189,7 +189,7 @@ readxl will become increasingly consistent with other packages, such as
 ## Articles
 
 Broad topics are explained in [these
-articles](http://readxl.tidyverse.org/articles/index.html):
+articles](https://readxl.tidyverse.org/articles/index.html):
 
   - [Cell and Column
     Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)

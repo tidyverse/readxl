@@ -106,7 +106,7 @@ If you are new to the tidyverse conventions for data import, you may want to con
 
 ## Articles
 
-Broad topics are explained in [these articles](http://readxl.tidyverse.org/articles/index.html):
+Broad topics are explained in [these articles](https://readxl.tidyverse.org/articles/index.html):
 
   * [Cell and Column Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
   * [Sheet Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html): how to specify which cells to read
