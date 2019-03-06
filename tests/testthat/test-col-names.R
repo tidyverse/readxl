@@ -46,7 +46,9 @@ test_that("col_names = FALSE mimics missing column names [xls]", {
 
 test_that("missing column names are populated", {
   tibble_version <- utils::packageVersion("tibble")
-  nms <- if (tibble_version > "1.4.2") {
+  nms <- if (tibble_version > "2.0.1") {
+    c("...1", "...3")
+  } else if (tibble_version > "1.4.2") {
     c("..1", "..3")
   } else {
     c("X__1", "X__2")
@@ -60,7 +62,13 @@ test_that("missing column names are populated", {
 
 test_that("column names are de-duplicated", {
   tibble_version <- utils::packageVersion("tibble")
-  nm <- if (tibble_version > "1.4.2") "var2..4" else "var2__1"
+  nm <- if (tibble_version > "2.0.1") {
+    "var2...4"
+  } else if (tibble_version > "1.4.2") {
+    "var2..4"
+  } else {
+    "var2__1"
+  }
 
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
   expect_identical(names(df)[4], nm)
@@ -112,14 +120,22 @@ test_that(".name_repair is passed through to tibble", {
   }
 
   ## default is "unique"
-  nms <- c("a b..1", "a b..2","..3", "c%&$")
+  nms <- if (tibble_version > "2.0.1") {
+    c("a b...1", "a b...2","...3", "c%&$")
+  } else {
+    c("a b..1", "a b..2","..3", "c%&$")
+  }
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"))
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("names-need-repair-xls.xls"))
   expect_colnames(xls, nms)
 
   ## "universal" names are available
-  nms <- c("a.b..1", "a.b..2","...3", "c...")
+  nms <- if (tibble_version > "2.0.1") {
+    c("a.b...1", "a.b...2","...3", "c...")
+  } else {
+    c("a.b..1", "a.b..2","...3", "c...")
+  }
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal")
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("names-need-repair-xls.xls"), .name_repair = "universal")
