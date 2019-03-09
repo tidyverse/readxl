@@ -51,3 +51,31 @@ test_that("we get correct dates prior to March 1, 1900, in 1900 date system", {
   expect_identical(df$dttm[!leap_day], dttms[!leap_day])
   expect_true(is.na(df$dttm[leap_day]))
 })
+
+test_that("colors in number formats aren't misinterpreted as dates", {
+  expect_warning(
+    read_xlsx(
+      test_sheet("color-date.xlsx"),
+      col_names = "X1",
+      col_types = "numeric"
+    ),
+    NA # rather than "Expecting numeric in A1 / R1C1: got a date" etc.
+  )
+  expect_warning(
+    read_xlsx(
+      test_sheet("color-date-lowercase.xlsx"),
+      col_names = "X1",
+      col_types = "numeric"
+    ),
+    NA # rather than "Expecting numeric in A1 / R1C1: got a date"
+  )
+  expect_warning(
+    read_xls(
+      test_sheet("color-date.xls"),
+      col_names = "X1",
+      col_types = "numeric"
+    ),
+    NA # rather than "Expecting numeric in A1 / R1C1: got a date"
+  )
+})
+

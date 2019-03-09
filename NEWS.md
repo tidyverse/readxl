@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* Colors in number formats are no longer misinterpreted as dates (#388)
+
 # readxl 1.3.0
 
 ## Dependency changes
