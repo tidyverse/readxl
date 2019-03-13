@@ -1,6 +1,6 @@
 # readxl 1.3.1
 
-Pragmatic patch release to update some tests in advance of a patch release of the tibble package, that tweaks name repair (standard suffix becomes `...j`, instead of `..j`).
+Pragmatic patch release to update some tests in advance of v2.1.0 of the tibble package. That release updates name repair: standard suffix becomes `...j`, instead of `..j`, partially motivated by user experience in readxl.
 
 # readxl 1.3.0
 
