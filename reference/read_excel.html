@@ -330,12 +330,12 @@ back to name repair in the style of tibble v1.4.2.</p></td>
 #&gt; # … with 22 more rows</div><div class='input'>
 <span class='co'># Skip rows and use default column names</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>148</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; `..1`</span>
-#&gt; <span class='message'>* `` -&gt; `..2`</span>
-#&gt; <span class='message'>* `` -&gt; `..3`</span>
-#&gt; <span class='message'>* `` -&gt; `..4`</span>
-#&gt; <span class='message'>* `` -&gt; `..5`</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;     ..1   ..2   ..3   ..4 ..5      
+#&gt; <span class='message'>* `` -&gt; ...1</span>
+#&gt; <span class='message'>* `` -&gt; ...2</span>
+#&gt; <span class='message'>* `` -&gt; ...3</span>
+#&gt; <span class='message'>* `` -&gt; ...4</span>
+#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;    ...1  ...2  ...3  ...4 ...5     
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
 #&gt; 1   6.5   3     5.2   2   virginica
 #&gt; 2   6.2   3.4   5.4   2.3 virginica
@@ -431,12 +431,12 @@ back to name repair in the style of tibble v1.4.2.</p></td>
 #&gt; 4     6   258   110</div><div class='input'>
 <span class='co'># Read only specific rows or columns</span>
 <span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; `..1`</span>
-#&gt; <span class='message'>* `` -&gt; `..2`</span>
-#&gt; <span class='message'>* `` -&gt; `..3`</span>
-#&gt; <span class='message'>* `` -&gt; `..4`</span>
-#&gt; <span class='message'>* `` -&gt; `..5`</span></div><div class='output co'>#&gt; # A tibble: 50 x 5
-#&gt;      ..1   ..2   ..3   ..4 ..5      
+#&gt; <span class='message'>* `` -&gt; ...1</span>
+#&gt; <span class='message'>* `` -&gt; ...2</span>
+#&gt; <span class='message'>* `` -&gt; ...3</span>
+#&gt; <span class='message'>* `` -&gt; ...4</span>
+#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; # A tibble: 50 x 5
+#&gt;     ...1  ...2  ...3  ...4 ...5     
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
 #&gt;  1   6.3   3.3   6     2.5 virginica
 #&gt;  2   5.8   2.7   5.1   1.9 virginica

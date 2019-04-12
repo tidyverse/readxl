@@ -285,14 +285,14 @@
 <p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">deaths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>))</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; New names:</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; * `` -&gt; `..2`</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; * `` -&gt; `..3`</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; * `` -&gt; `..4`</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; * `` -&gt; `..5`</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; * `` -&gt; `..6`</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; * `` -&gt; ...2</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; * `` -&gt; ...3</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; * `` -&gt; ...4</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; * `` -&gt; ...5</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; * `` -&gt; ...6</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # A tibble: 18 x 6</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;    `Lots of people`       ..2            ..3    ..4    ..5      ..6        </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;    `Lots of people`       ...2           ...3   ...4   ...5     ...6       </span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;      </span></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  1 simply cannot resist … &lt;NA&gt;           &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     some notes </span></a>
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  2 at                     the            top    &lt;NA&gt;   of       their spre…</span></a>
