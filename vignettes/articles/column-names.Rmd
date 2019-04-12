@@ -30,9 +30,9 @@ But users have long wanted a way to specify a name repair *strategy*, as opposed
 
 ## Built-in levels of `.name_repair`
 
-As of v1.2.0, readxl provides the `.name_repair` argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the [tibble package](https://tibble.tidyverse.org), which powers this feature under the hood. *December 2018 note: tibble v2.0.0 hasn't been released yet but will be soon. Until then, `.name_repair` requires a development version of tibble.*
+As of v1.2.0, readxl provides the `.name_repair` argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the [tibble package](https://tibble.tidyverse.org), which powers this feature under the hood.
 
-The `.name_repair` argument in `read_excel()`, `read_xls()`, and `read_xlsx()` works exactly the same way as it does in [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html) and [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html). Full documentation is in the [`?name-repair` topic](https://tibble.tidyverse.org/dev/reference/name-repair.html) of tibble.
+The `.name_repair` argument in `read_excel()`, `read_xls()`, and `read_xlsx()` works exactly the same way as it does in [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html) and [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html). Full documentation is in the [`?name-repair` topic](https://tibble.tidyverse.org/dev/reference/name-repair.html) of tibble. The reasoning behind the name repair strategy is laid out in [principles.tidyverse.org](https://principles.tidyverse.org/names-attribute.html).
 
 readxl's default is `.name_repair = "unique"`, which ensures each column has a unique name. If that is already true of the column names, readxl won't touch them.
 
@@ -98,4 +98,3 @@ read_excel(
   .name_repair = ~ ifelse(nzchar(.x), .x, LETTERS[seq_along(.x)])
 ) 
 ```
-
