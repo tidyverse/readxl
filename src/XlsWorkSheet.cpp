@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <sys/time.h>
 #include <Rcpp.h>
 #include "ColSpec.h"
 #include "XlsWorkSheet.h"
