@@ -2,19 +2,27 @@
 % Please edit documentation in R/excel-sheets.R
 \name{excel_sheets}
 \alias{excel_sheets}
-\title{List all sheets in an excel spreadsheet}
+\title{List sheets in an excel spreadsheet}
 \usage{
-excel_sheets(path)
+excel_sheets(path, glob = NULL, regexp = NULL)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
+
+\item{glob}{A wildcard to filter sheets.}
+
+\item{regexp}{A regular expression to filter sheets.}
 }
 \description{
-List all sheets in an excel spreadsheet
+List sheets in an excel spreadsheet
 }
 \examples{
 excel_sheets(readxl_example("datasets.xlsx"))
 excel_sheets(readxl_example("datasets.xls"))
+
+# Filter sheets using certain criteria
+excel_sheets(readxl_example("datasets.xls"), glob = "??i*")
+excel_sheets(readxl_example("datasets.xls"), regexp = "(r|e)s$")
 
 # To load all sheets in a workbook, use lapply
 path <- readxl_example("datasets.xls")
