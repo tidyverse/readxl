@@ -8,21 +8,31 @@
 
 <title>Specify cells for reading — cell-specification • readxl</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,36 +42,29 @@
 
 
 <meta property="og:title" content="Specify cells for reading — cell-specification" />
-
 <meta property="og:description" content="The range argument of read_excel() provides many ways to limit the read
 to a specific rectangle of cells. The simplest usage is to provide an
 Excel-like cell range, such as range = &quot;D12:F15&quot; or range = &quot;R1C12:R6C15&quot;. The cell rectangle can be specified in various other ways,
 using helper functions. In all cases, cell range processing is handled by the
 cellranger package, where you can find full documentation for
 the functions used in the examples below." />
-
 <meta property="og:image" content="https://readxl.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -145,7 +148,7 @@ the functions used in the examples below." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/readxl">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -156,6 +159,7 @@ the functions used in the examples below." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -167,28 +171,27 @@ the functions used in the examples below." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>range</code> argument of <code><a href='read_excel.html'>read_excel()</a></code> provides many ways to limit the read
 to a specific rectangle of cells. The simplest usage is to provide an
 Excel-like cell range, such as <code>range = "D12:F15"</code> or <code>range = "R1C12:R6C15"</code>. The cell rectangle can be specified in various other ways,
 using helper functions. In all cases, cell range processing is handled by the
 cellranger package, where you can find full documentation for
 the functions used in the examples below.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>The cellranger package has full documentation on cell
 specification and offers additional functions for manipulating "A1:D10"
 style spreadsheet ranges. Here are the most relevant:</p><ul>
-<li><p><code><a href='https://www.rdocumentation.org/packages/cellranger/topics/cell_limits'>cellranger::cell_limits()</a></code></p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/cellranger/topics/cell_rows'>cellranger::cell_rows()</a></code></p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/cellranger/topics/cell_cols'>cellranger::cell_cols()</a></code></p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/cellranger/topics/anchored'>cellranger::anchored()</a></code></p></li>
-</ul></div>
-    
+<li><p><code><a href='https://rdrr.io/pkg/cellranger/man/cell_limits.html'>cellranger::cell_limits()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/cellranger/man/cell_rows.html'>cellranger::cell_rows()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/cellranger/man/cell_cols.html'>cellranger::cell_cols()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/cellranger/man/anchored.html'>cellranger::anchored()</a></code></p></li>
+</ul>
+</div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"geometry.xls"</span>)
@@ -232,7 +235,7 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt; 1 C6    D6    NA   
 #&gt; 2 &lt;NA&gt;  &lt;NA&gt;  NA   </div><div class='input'>
 <span class='co'># Anchor a rectangle of specified size at a particular cell</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span>
 #&gt; <span class='message'>* `` -&gt; ...2</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;   ...1  ...2 
@@ -258,10 +261,10 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt; 2 B5   
 #&gt; 3 B6   </div><div class='input'>
 <span class='co'># Specify exactly one row or column bound</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   B5    C5    D5   
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; 1 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span>
 #&gt; <span class='message'>* `` -&gt; ...2</span>
 #&gt; <span class='message'>* `` -&gt; ...3</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
@@ -269,12 +272,12 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 #&gt; 2 B3    C3    D3   
-#&gt; 3 B4    C4    D4   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt; 3 B4    C4    D4   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;   C3    D3   
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 C4    D4   
 #&gt; 2 C5    D5   
-#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;   ...1  B3   
 #&gt;   &lt;lgl&gt; &lt;chr&gt;
@@ -283,12 +286,12 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 #&gt; 3 NA    B6   </div><div class='input'>
 <span class='co'># General open rectangles</span>
 <span class='co'># upper left = C4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 2
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;   C4    D4   
 #&gt;   &lt;chr&gt; &lt;chr&gt;
 #&gt; 1 C5    D5   
 #&gt; 2 C6    D6   </div><div class='input'><span class='co'># upper right = D4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; # A tibble: 2 x 4
 #&gt;   ...1  B4    C4    D4   
 #&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
@@ -299,14 +302,13 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -319,11 +321,14 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
