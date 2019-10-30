@@ -63,4 +63,4 @@ Encoding: UTF-8
 LazyData: true
 Note: libxls-SHA cef1393
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 6.1.99.9001

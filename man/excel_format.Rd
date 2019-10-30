@@ -41,8 +41,8 @@ File extensions associated with xlsx vs. xls:
 
 File signatures (in hexadecimal) for xlsx vs xls:
 \itemize{
-\item xlsx: First 4 bytes are \code{50 4B 03 04}
-\item xls: First 8 bytes are \code{D0 CF 11 E0 A1 B1 1A E1}
+\item xlsx: First 4 bytes are \verb{50 4B 03 04}
+\item xls: First 8 bytes are \verb{D0 CF 11 E0 A1 B1 1A E1}
 }
 }
 \examples{
