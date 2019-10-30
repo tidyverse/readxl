@@ -195,6 +195,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
     sheets_fun <- xlsx_sheets
     read_fun <- read_xlsx_
   }
+  path <- normalize_path(path)
   sheet <- standardise_sheet(sheet, range, sheets_fun(path))
   shim <- !is.null(range)
   limits <- standardise_limits(
@@ -206,7 +207,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   progress <- check_bool(progress, "progress")
   set_readxl_names(
     read_fun(
-      path = enc2native(normalizePath(path)), sheet_i = sheet,
+      path = path, sheet_i = sheet,
       limits = limits, shim = shim,
       col_names = col_names, col_types = col_types,
       na = na, trim_ws = trim_ws, guess_max = guess_max,
