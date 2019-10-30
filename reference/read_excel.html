@@ -177,20 +177,50 @@ based on the file extension and the file itself, in that order. Use
 prevent such guessing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_excel</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
+    <pre class="usage"><span class='fu'>read_excel</span>(
+  <span class='no'>path</span>,
+  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
+)
 
-<span class='fu'>read_xls</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)
+<span class='fu'>read_xls</span>(
+  <span class='no'>path</span>,
+  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
+)
 
-<span class='fu'>read_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>)</pre>
+<span class='fu'>read_xlsx</span>(
+  <span class='no'>path</span>,
+  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

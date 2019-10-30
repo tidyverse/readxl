@@ -348,10 +348,10 @@
 <p>A numeric cell is coerced to <code>FALSE</code> if it is zero and <code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as <code>TRUE</code> and “F”, “FALSE”, “False”, “false” as <code>FALSE</code>. Other strings import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"logical_coercion"</span>,</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"logical"</span>, <span class="st">"text"</span>))</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; sheet, : Expecting logical in A5 / R5C1: got a date</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; sheet, : Expecting logical in A8 / R8C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; shim, : Expecting logical in A5 / R5C1: got a date</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;    `maybe boolean?` description                         </span></a>
@@ -374,16 +374,16 @@
 <p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"numeric_coercion"</span>,</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"numeric"</span>, <span class="st">"text"</span>))</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; sheet, : Coercing boolean to numeric in A3 / R3C1</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; sheet, : Coercing boolean to numeric in A4 / R4C1</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; sheet, : Expecting numeric in A5 / R5C1: got a date</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; sheet, : Coercing text to numeric in A6 / R6C1: '123456'</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; sheet, : Expecting numeric in A8 / R8C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; shim, : Coercing boolean to numeric in A3 / R3C1</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; shim, : Coercing boolean to numeric in A4 / R4C1</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; shim, : Expecting numeric in A5 / R5C1: got a date</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; shim, : Coercing text to numeric in A6 / R6C1: '123456'</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span></a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
 <a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   `maybe numeric?` explanation            </span></a>
@@ -403,14 +403,14 @@
 <p>A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"type-me.xlsx"</span>), <span class="dt">sheet =</span> <span class="st">"date_coercion"</span>,</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"date"</span>, <span class="st">"text"</span>))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; sheet, : Expecting date in A5 / R5C1: got boolean</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; sheet, : Expecting date in A6 / R6C1: got 'cabbage'</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; sheet, : Coercing numeric to date A7 / R7C1</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; sheet, : Coercing numeric to date A8 / R8C1</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; shim, : Expecting date in A5 / R5C1: got boolean</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; shim, : Expecting date in A6 / R6C1: got 'cabbage'</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; shim, : Coercing numeric to date A7 / R7C1</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   `maybe a datetime?` explanation         </span></a>
