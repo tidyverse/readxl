@@ -42,7 +42,11 @@
 
 
 <meta property="og:title" content="List all sheets in an excel spreadsheet — excel_sheets" />
-<meta property="og:description" content="List all sheets in an excel spreadsheet" />
+<meta property="og:description" content="The list of sheet names is especially useful when you want to iterate over
+all of the sheets in a workbook. The vignette(&quot;readxl-workflows&quot;) article
+provides several worked examples of this, showing how to combine readxl with
+other packages in the tidyverse, such as purrr, or with base R functions like
+lapply()." />
 <meta property="og:image" content="https://readxl.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -166,7 +170,11 @@
     </div>
 
     <div class="ref-description">
-    <p>List all sheets in an excel spreadsheet</p>
+    <p>The list of sheet names is especially useful when you want to iterate over
+all of the sheets in a workbook. The <code><a href='../articles/articles/readxl-workflows.html'>vignette("readxl-workflows")</a></code> article
+provides several worked examples of this, showing how to combine readxl with
+other packages in the tidyverse, such as purrr, or with base R functions like
+<code><a href='https://rdrr.io/r/base/lapply.html'>lapply()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>excel_sheets</span>(<span class='no'>path</span>)</pre>
@@ -183,7 +191,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'><span class='fu'>excel_sheets</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>))</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'>
-<span class='co'># To load all sheets in a workbook, use lapply</span>
+<span class='co'># To load all sheets in a workbook, use lapply()</span>
 <span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xls"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'>excel_sheets</span>(<span class='no'>path</span>), <span class='no'>read_excel</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>path</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 150 x 5
