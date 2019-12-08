@@ -159,12 +159,12 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">)</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1 Davi… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2 Carr… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3 Chuc… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 4 Bill… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; # … with 6 more rows</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
 <a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
@@ -172,12 +172,12 @@
 <a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a>
 <a class="sourceLine" id="cb2-18" data-line-number="18">)</a>
 <a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1 Vera… scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2 Moha… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 Morl… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 4 Fide… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1 Vera Rubin scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2 Mohamed A… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 Morley Sa… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 4 Fidel Cas… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span></a>
 <a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
 <p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>

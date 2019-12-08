@@ -152,12 +152,12 @@
 <p>We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).</p>
 <p>We must load readxl explicitly because it is not part of the core tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 3.2.1     ✔ purrr   0.3.3</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   1.0.0     ✔ stringr 1.4.0</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readxl)</a></code></pre></div>
@@ -384,28 +384,28 @@
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">write_csv</span>(<span class="st">"deaths.csv"</span>)</a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(deaths, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 20 x 7</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;    sheet Name   Profession   Age `Has kids` `Date of birth` `Date of death`</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;chr&gt;           &lt;chr&gt;          </span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  1 arts  David… musician      69 TRUE       1947-01-08T00:… 2016-01-10T00:…</span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  2 arts  Carri… actor         60 TRUE       1956-10-21T00:… 2016-12-27T00:…</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  3 arts  Chuck… musician      90 TRUE       1926-10-18T00:… 2017-03-18T00:…</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  4 arts  Bill … actor         61 TRUE       1955-05-17T00:… 2017-02-25T00:…</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;  5 arts  Prince musician      57 TRUE       1958-06-07T00:… 2016-04-21T00:…</span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  6 arts  Alan … actor         69 FALSE      1946-02-21T00:… 2016-01-14T00:…</span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  7 arts  Flore… actor         82 TRUE       1934-02-14T00:… 2016-11-24T00:…</span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  8 arts  Harpe… author        89 FALSE      1926-04-28T00:… 2016-02-19T00:…</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  9 arts  Zsa Z… actor         99 TRUE       1917-02-06T00:… 2016-12-18T00:…</span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 10 arts  Georg… musician      53 FALSE      1963-06-25T00:… 2016-12-25T00:…</span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 11 other Vera … scientist     88 TRUE       1928-07-23T00:… 2016-12-25T00:…</span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 12 other Moham… athlete       74 TRUE       1942-01-17T00:… 2016-06-03T00:…</span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; 13 other Morle… journalist    84 TRUE       1931-11-08T00:… 2016-05-19T00:…</span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; 14 other Fidel… politician    90 TRUE       1926-08-13T00:… 2016-11-25T00:…</span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 15 other Anton… lawyer        79 TRUE       1936-03-11T00:… 2016-02-13T00:…</span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; 16 other Jo Cox politician    41 TRUE       1974-06-22T00:… 2016-06-16T00:…</span></a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 17 other Janet… lawyer        78 FALSE      1938-07-21T00:… 2016-11-07T00:…</span></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 18 other Gwen … journalist    61 FALSE      1955-09-29T00:… 2016-11-14T00:…</span></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 19 other John … astronaut     95 TRUE       1921-07-28T00:… 2016-12-08T00:…</span></a>
-<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 20 other Pat S… coach         64 TRUE       1952-06-14T00:… 2016-06-28T00:…</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;    sheet Name      Profession   Age `Has kids` `Date of birth`  `Date of death` </span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;chr&gt;            &lt;chr&gt;           </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  1 arts  David Bo… musician      69 TRUE       1947-01-08T00:0… 2016-01-10T00:0…</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  2 arts  Carrie F… actor         60 TRUE       1956-10-21T00:0… 2016-12-27T00:0…</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt;  3 arts  Chuck Be… musician      90 TRUE       1926-10-18T00:0… 2017-03-18T00:0…</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;  4 arts  Bill Pax… actor         61 TRUE       1955-05-17T00:0… 2017-02-25T00:0…</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;  5 arts  Prince    musician      57 TRUE       1958-06-07T00:0… 2016-04-21T00:0…</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  6 arts  Alan Ric… actor         69 FALSE      1946-02-21T00:0… 2016-01-14T00:0…</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  7 arts  Florence… actor         82 TRUE       1934-02-14T00:0… 2016-11-24T00:0…</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  8 arts  Harper L… author        89 FALSE      1926-04-28T00:0… 2016-02-19T00:0…</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  9 arts  Zsa Zsa … actor         99 TRUE       1917-02-06T00:0… 2016-12-18T00:0…</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; 10 arts  George M… musician      53 FALSE      1963-06-25T00:0… 2016-12-25T00:0…</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; 11 other Vera Rub… scientist     88 TRUE       1928-07-23T00:0… 2016-12-25T00:0…</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; 12 other Mohamed … athlete       74 TRUE       1942-01-17T00:0… 2016-06-03T00:0…</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; 13 other Morley S… journalist    84 TRUE       1931-11-08T00:0… 2016-05-19T00:0…</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; 14 other Fidel Ca… politician    90 TRUE       1926-08-13T00:0… 2016-11-25T00:0…</span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 15 other Antonin … lawyer        79 TRUE       1936-03-11T00:0… 2016-02-13T00:0…</span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; 16 other Jo Cox    politician    41 TRUE       1974-06-22T00:0… 2016-06-16T00:0…</span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; 17 other Janet Re… lawyer        78 FALSE      1938-07-21T00:0… 2016-11-07T00:0…</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; 18 other Gwen Ifi… journalist    61 FALSE      1955-09-29T00:0… 2016-11-14T00:0…</span></a>
+<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; 19 other John Gle… astronaut     95 TRUE       1921-07-28T00:0… 2016-12-08T00:0…</span></a>
+<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; 20 other Pat Summ… coach         64 TRUE       1952-06-14T00:0… 2016-06-28T00:0…</span></a></code></pre></div>
 <!--
 
 ## Session info
@@ -415,7 +415,7 @@
 
 ```r
 devtools::session_info()
-#> ─ Session info ──────────────────────────────────────────────────────────
+#> ─ Session info ───────────────────────────────────────────────────────────────
 #>  setting  value                       
 #>  version  R version 3.6.1 (2017-01-27)
 #>  os       Ubuntu 16.04.6 LTS          
@@ -425,9 +425,9 @@ devtools::session_info()
 #>  collate  en_US.UTF-8                 
 #>  ctype    en_US.UTF-8                 
 #>  tz       UTC                         
-#>  date     2019-11-07                  
+#>  date     2019-12-08                  
 #> 
-#> ─ Packages ──────────────────────────────────────────────────────────────
+#> ─ Packages ───────────────────────────────────────────────────────────────────
 #>  package     * version    date       lib source        
 #>  assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.1)
 #>  backports     1.1.5      2019-10-02 [1] CRAN (R 3.6.1)
@@ -437,9 +437,11 @@ devtools::session_info()
 #>  cli           1.1.0      2019-03-19 [1] CRAN (R 3.6.1)
 #>  colorspace    1.4-1      2019-03-18 [1] CRAN (R 3.6.1)
 #>  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.6.1)
+#>  DBI           1.0.0      2018-05-02 [1] CRAN (R 3.6.1)
+#>  dbplyr        1.4.2      2019-06-17 [1] CRAN (R 3.6.1)
 #>  desc          1.2.0      2018-05-01 [1] CRAN (R 3.6.1)
 #>  devtools      2.2.1      2019-09-24 [1] CRAN (R 3.6.1)
-#>  digest        0.6.22     2019-10-21 [1] CRAN (R 3.6.1)
+#>  digest        0.6.23     2019-11-23 [1] CRAN (R 3.6.1)
 #>  dplyr       * 0.8.3      2019-07-04 [1] CRAN (R 3.6.1)
 #>  ellipsis      0.3.0      2019-09-20 [1] CRAN (R 3.6.1)
 #>  evaluate      0.14       2019-05-28 [1] CRAN (R 3.6.1)
@@ -450,12 +452,12 @@ devtools::session_info()
 #>  ggplot2     * 3.2.1      2019-08-10 [1] CRAN (R 3.6.1)
 #>  glue          1.3.1      2019-03-12 [1] CRAN (R 3.6.1)
 #>  gtable        0.3.0      2019-03-25 [1] CRAN (R 3.6.1)
-#>  haven         2.1.1      2019-07-04 [1] CRAN (R 3.6.1)
+#>  haven         2.2.0      2019-11-08 [1] CRAN (R 3.6.1)
 #>  hms           0.5.2      2019-10-30 [1] CRAN (R 3.6.1)
 #>  htmltools     0.4.0      2019-10-04 [1] CRAN (R 3.6.1)
 #>  httr          1.4.1      2019-08-05 [1] CRAN (R 3.6.1)
 #>  jsonlite      1.6        2018-12-07 [1] CRAN (R 3.6.1)
-#>  knitr         1.25       2019-09-18 [1] CRAN (R 3.6.1)
+#>  knitr         1.26       2019-11-12 [1] CRAN (R 3.6.1)
 #>  lattice       0.20-38    2018-11-04 [3] CRAN (R 3.6.1)
 #>  lazyeval      0.2.2      2019-03-15 [1] CRAN (R 3.6.1)
 #>  lifecycle     0.1.0      2019-08-01 [1] CRAN (R 3.6.1)
@@ -475,31 +477,32 @@ devtools::session_info()
 #>  processx      3.4.1      2019-07-18 [1] CRAN (R 3.6.1)
 #>  ps            1.3.0      2018-12-21 [1] CRAN (R 3.6.1)
 #>  purrr       * 0.3.3      2019-10-18 [1] CRAN (R 3.6.1)
-#>  R6            2.4.0      2019-02-14 [1] CRAN (R 3.6.1)
-#>  Rcpp          1.0.2      2019-07-25 [1] CRAN (R 3.6.1)
+#>  R6            2.4.1      2019-11-12 [1] CRAN (R 3.6.1)
+#>  Rcpp          1.0.3      2019-11-08 [1] CRAN (R 3.6.1)
 #>  readr       * 1.3.1      2018-12-21 [1] CRAN (R 3.6.1)
-#>  readxl      * 1.3.1.9000 2019-11-07 [1] local         
+#>  readxl      * 1.3.1.9000 2019-12-08 [1] local         
 #>  rematch       1.0.1      2016-04-21 [1] CRAN (R 3.6.1)
 #>  remotes       2.1.0      2019-06-24 [1] CRAN (R 3.6.1)
-#>  rlang         0.4.1      2019-10-24 [1] CRAN (R 3.6.1)
-#>  rmarkdown     1.16       2019-10-01 [1] CRAN (R 3.6.1)
+#>  reprex        0.3.0      2019-05-16 [1] CRAN (R 3.6.1)
+#>  rlang         0.4.2      2019-11-23 [1] CRAN (R 3.6.1)
+#>  rmarkdown     1.18       2019-11-27 [1] CRAN (R 3.6.1)
 #>  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.6.1)
 #>  rstudioapi    0.10       2019-03-19 [1] CRAN (R 3.6.1)
-#>  rvest         0.3.4      2019-05-15 [1] CRAN (R 3.6.1)
-#>  scales        1.0.0      2018-08-09 [1] CRAN (R 3.6.1)
+#>  rvest         0.3.5      2019-11-08 [1] CRAN (R 3.6.1)
+#>  scales        1.1.0      2019-11-18 [1] CRAN (R 3.6.1)
 #>  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.6.1)
 #>  stringi       1.4.3      2019-03-12 [1] CRAN (R 3.6.1)
 #>  stringr     * 1.4.0      2019-02-10 [1] CRAN (R 3.6.1)
-#>  testthat      2.3.0      2019-11-05 [1] CRAN (R 3.6.1)
+#>  testthat      2.3.1      2019-12-01 [1] CRAN (R 3.6.1)
 #>  tibble      * 2.1.3      2019-06-06 [1] CRAN (R 3.6.1)
 #>  tidyr       * 1.0.0      2019-09-11 [1] CRAN (R 3.6.1)
 #>  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.6.1)
-#>  tidyverse   * 1.2.1      2017-11-14 [1] CRAN (R 3.6.1)
+#>  tidyverse   * 1.3.0      2019-11-21 [1] CRAN (R 3.6.1)
 #>  usethis       1.5.1      2019-07-04 [1] CRAN (R 3.6.1)
 #>  utf8          1.1.4      2018-05-24 [1] CRAN (R 3.6.1)
 #>  vctrs         0.2.0      2019-07-05 [1] CRAN (R 3.6.1)
 #>  withr         2.1.2      2018-03-15 [1] CRAN (R 3.6.1)
-#>  xfun          0.10       2019-10-01 [1] CRAN (R 3.6.1)
+#>  xfun          0.11       2019-11-12 [1] CRAN (R 3.6.1)
 #>  xml2          1.2.2      2019-08-09 [1] CRAN (R 3.6.1)
 #>  yaml          2.2.0      2018-07-25 [1] CRAN (R 3.6.1)
 #>  zeallot       0.1.0      2018-01-28 [1] CRAN (R 3.6.1)

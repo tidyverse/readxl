@@ -249,12 +249,12 @@
 <p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   Name  Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 Davi… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Carr… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Chuc… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Bill… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
 <p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual reference.</p>
 <p><img src="img/geometry.png" width="70%"></p>
