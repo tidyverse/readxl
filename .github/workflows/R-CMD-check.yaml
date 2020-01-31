@@ -65,7 +65,7 @@ jobs:
         run: Rscript -e "library(remotes)" -e "update(readRDS('depends.Rds'))" -e "remotes::install_cran('rcmdcheck')"
 
       - name: Install tibble 1.4.2
-        if: 'runner.tibble-1.4.2'
+        if: runner.'tibble-1.4.2'
         run: Rscript -e "library(remotes)" -e "remotes::install_version('tibble', '1.4.2')"
 
       - name: Check
