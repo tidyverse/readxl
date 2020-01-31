@@ -10,8 +10,11 @@
 \description{
 The \code{range} argument of \code{\link[=read_excel]{read_excel()}} provides many ways to limit the read
 to a specific rectangle of cells. The simplest usage is to provide an
-Excel-like cell range, such as \code{range = "D12:F15"} or \code{range = "R1C12:R6C15"}. The cell rectangle can be specified in various other ways,
-using helper functions. In all cases, cell range processing is handled by the
+Excel-like cell range, such as \code{range = "D12:F15"} or
+\code{range ="R1C12:R6C15"}. The cell rectangle can be specified in various other ways,
+using helper functions. You can find more examples at the
+\href{https://readxl.tidyverse.org/articles/sheet-geometry.html#range}{sheet-gemotry}
+vignette. In all cases, cell range processing is handled by the
 \link{cellranger} package, where you can find full documentation for
 the functions used in the examples below.
 }
@@ -36,8 +39,12 @@ read_excel(path, range = "C5:E7")
 # Anchor a rectangle of specified size at a particular cell
 read_excel(path, range = anchored("C4", dim = c(3, 2)), col_names = FALSE)
 
-# Specify only the rows or only the columns
-read_excel(path, range = cell_rows(3:6))
+# Specify only the rows
+read_excel(path, range = cell_rows(3:5))
+## is equivalent to
+read_excel(path, range = cell_rows(c(3, 5)))
+
+# Specify only the columns by column number or letter
 read_excel(path, range = cell_cols("C:D"))
 read_excel(path, range = cell_cols(2))
 
@@ -52,6 +59,7 @@ read_excel(path, range = cell_cols(c(NA, 2)))
 read_excel(path, range = cell_limits(c(4, 3), c(NA, NA)))
 # upper right = D4, everything else unspecified
 read_excel(path, range = cell_limits(c(4, NA), c(NA, 4)))
+
 
 }
 \seealso{
