@@ -60,7 +60,6 @@ read_excel(path, range = cell_limits(c(4, 3), c(NA, NA)))
 # upper right = D4, everything else unspecified
 read_excel(path, range = cell_limits(c(4, NA), c(NA, 4)))
 
-
 }
 \seealso{
 The \link{cellranger} package has full documentation on cell
