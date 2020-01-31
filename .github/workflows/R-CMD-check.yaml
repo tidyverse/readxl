@@ -66,6 +66,13 @@ jobs:
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'warning', check_dir = 'check')"
 
+      - name: Install tibble 1.4.2
+        if: runner.os == "macOS-latest"
+        run: Rscript -e "library(remotes)" -e "remotes::install_version('tibble', '1.4.2')"
+
+      - name: Check with tibble 1.4.2
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'warning', check_dir = 'check')"
+
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master
