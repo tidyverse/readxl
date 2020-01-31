@@ -30,3 +30,5 @@
 ^investigations$
 ^src/patch-to-libxls-upstream\.R$
 ^LICENSE\.md$
+^\.github/workflows/R-CMD-check\.yaml$
+^\.github/workflows/pkgdown\.yaml$
