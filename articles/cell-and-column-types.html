@@ -361,12 +361,12 @@
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;    `maybe boolean?` description                         </span></a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    &lt;lgl&gt;            &lt;chr&gt;                               </span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  1 NA               empty                               </span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  2 FALSE            0 (numeric)                         </span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  3 TRUE             1 (numeric)                         </span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  4 NA               datetime                            </span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  5 TRUE             boolean true                        </span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  6 FALSE            boolean false                       </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  1 NA               "empty"                             </span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  2 FALSE            "0 (numeric)"                       </span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  3 TRUE             "1 (numeric)"                       </span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  4 NA               "datetime"                          </span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  5 TRUE             "boolean true"                      </span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  6 FALSE            "boolean false"                     </span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  7 NA               "\"cabbage\""                       </span></a>
 <a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  8 TRUE             "the string \"true\""               </span></a>
 <a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  9 FALSE            "the letter \"F\""                  </span></a>
@@ -393,12 +393,12 @@
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
 <a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   `maybe numeric?` explanation            </span></a>
 <a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 1               NA empty                  </span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 2                1 boolean true           </span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; 3                0 boolean false          </span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; 4            40534 datetime               </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 1               NA "empty"                </span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 2                1 "boolean true"         </span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; 3                0 "boolean false"        </span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; 4            40534 "datetime"             </span></a>
 <a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; 5           123456 "the string \"123456\""</span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; 6           123456 the number 123456      </span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; 6           123456 "the number 123456"    </span></a>
 <a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; 7               NA "\"cabbage\""</span></a></code></pre></div>
 <p><img src="img/type-me-numeric.png" width="70%"></p>
 </div>
@@ -418,15 +418,15 @@
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   `maybe a datetime?` explanation         </span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   &lt;dttm&gt;              &lt;chr&gt;               </span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 1 NA                  empty               </span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 2 2016-05-23 00:00:00 date only format    </span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 3 2016-04-28 11:30:00 date and time format</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 4 NA                  boolean true        </span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 5 NA                  "\"cabbage\""       </span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 6 1904-01-05 07:12:00 4.3 (numeric)       </span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 7 2012-01-02 00:00:00 another numeric</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   `maybe a datetime?` explanation           </span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   &lt;dttm&gt;              &lt;chr&gt;                 </span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 1 NA                  "empty"               </span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 2 2016-05-23 00:00:00 "date only format"    </span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 3 2016-04-28 11:30:00 "date and time format"</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 4 NA                  "boolean true"        </span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 5 NA                  "\"cabbage\""         </span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 6 1904-01-05 07:12:00 "4.3 (numeric)"       </span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 7 2012-01-02 00:00:00 "another numeric"</span></a></code></pre></div>
 <p><img src="img/type-me-date.png" width="70%"></p>
 </div>
 <div id="text-or-character-column" class="section level3">
@@ -437,14 +437,14 @@
 <a class="sourceLine" id="cb11-2" data-line-number="2">                 <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"text"</span>, <span class="st">"text"</span>))</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(df, <span class="dt">n =</span> <span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   text     explanation    </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1 &lt;NA&gt;     empty          </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2 cabbage  "\"cabbage\""  </span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3 TRUE     boolean true   </span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 4 1.3      numeric        </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 5 41175    datetime       </span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 6 36436153 another numeric</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   text     explanation      </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;            </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1 &lt;NA&gt;     "empty"          </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2 cabbage  "\"cabbage\""    </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3 TRUE     "boolean true"   </span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 4 1.3      "numeric"        </span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 5 41175    "datetime"       </span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 6 36436153 "another numeric"</span></a></code></pre></div>
 <p><img src="img/type-me-text.png" width="70%"></p>
 </div>
 </div>
