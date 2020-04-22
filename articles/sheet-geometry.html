@@ -12,13 +12,14 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Sheet Geometry">
-<meta property="og:description" content="">
+<meta property="og:description" content="readxl">
 <meta property="og:image" content="https://readxl.tidyverse.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -32,7 +33,7 @@
   gtag('config', 'UA-115082821-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,7 +47,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">readxl</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
@@ -111,7 +112,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -129,7 +130,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Sheet Geometry</h1>
+      <h1 data-toc-skip>Sheet Geometry</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/sheet-geometry.Rmd"><code>vignettes/sheet-geometry.Rmd</code></a></small>
@@ -139,7 +140,7 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readxl)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readxl</span>)</pre></body></html></div>
 <p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> brings data from a rectangle of cells into R as a data frame or, more specifically, a <a href="http://tibble.tidyverse.org/reference/tibble.html">tibble</a>.</p>
 <p>The extent of the data rectangle can be determined in various ways:</p>
 <ul>
@@ -153,13 +154,13 @@
 <strong>Mixed</strong>: In typical use, <code><a href="../reference/read_excel.html">read_excel()</a></code>’s geometry arguments often imply that certain limits are <strong>discovered</strong> while others are <strong>bounded</strong> or <strong>set</strong>. This will be more clear in the concrete examples below.</li>
 </ul>
 <p>For now, here are a few ways <code><a href="../reference/read_excel.html">read_excel()</a></code> can look when you take control of the geometry:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">skip =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">n_max =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">skip =</span> <span class="dv">5</span>, <span class="dt">n_max =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">range =</span> <span class="st">"C1:E7"</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">6</span><span class="op">:</span><span class="dv">23</span>))</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="st">"B:D"</span>))</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">anchored</a></span>(<span class="st">"C4"</span>, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">skip</span> <span class="kw">=</span> <span class="fl">5</span>)
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">n_max</span> <span class="kw">=</span> <span class="fl">100</span>)
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">skip</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">n_max</span> <span class="kw">=</span> <span class="fl">100</span>)
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">range</span> <span class="kw">=</span> <span class="st">"C1:E7"</span>)
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="fl">6</span>:<span class="fl">23</span>))
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="st">"B:D"</span>))
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="st">"yo.xlsx"</span>, <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span>(<span class="st">"C4"</span>, <span class="kw">dim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">2</span>)))</pre></body></html></div>
 <div id="little-known-excel-facts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#little-known-excel-facts" class="anchor"></a>Little known Excel facts</h2>
@@ -192,28 +193,28 @@
 <p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet that ships with readxl, accessible via <code><a href="../reference/readxl_example.html">readxl_example("geometry.xlsx")</a></code>.</p>
 <p><img src="img/geometry.png" width="70%"></p>
 <p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data rectangle:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   B3    C3    D3   </span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3 B6    C6    D6</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>))
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   B3    C3    D3   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B4    C4    D4   </span>
+<span class="co">#&gt; 2 B5    C5    D5   </span>
+<span class="co">#&gt; 3 B6    C6    D6</span></pre></body></html></div>
 <p>If you explicitly skip one row, note that <code><a href="../reference/read_excel.html">read_excel()</a></code> still skips row 2, which is also empty, leading to the same result as before:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">skip =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;   B3    C3    D3   </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3 B6    C6    D6</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">skip</span> <span class="kw">=</span> <span class="fl">1</span>)
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   B3    C3    D3   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B4    C4    D4   </span>
+<span class="co">#&gt; 2 B5    C5    D5   </span>
+<span class="co">#&gt; 3 B6    C6    D6</span></pre></body></html></div>
 <p>You can also use <code>skip</code> to skip over populated cells. In real life, this is a mighty weapon against the explanatory text that people like to include at the top of spreadsheets.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">skip =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;   B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 1 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 2 B6    C6    D6</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">skip</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   B4    C4    D4   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B5    C5    D5   </span>
+<span class="co">#&gt; 2 B6    C6    D6</span></pre></body></html></div>
 <p>Summary: <code>skip</code> tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to skip <em>at least this many</em> spreadsheet rows before reading anything.</p>
 </div>
 <div id="n_max" class="section level3">
@@ -222,20 +223,20 @@
 </h3>
 <p>The <code>n_max</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to read at most <code>n_max</code> rows, once it has found the data rectangle. Note that <code>n_max</code> is specifically about <em>the data</em>. You still use <code>col_names</code> to express whether the first spreadsheet row should be used to create column names (default is <code>TRUE</code>).</p>
 <p><code>n_max = 2</code> causes us to ignore the last data row – the 3rd one – in <code>geometry.xlsx</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;   B3    C3    D3   </span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 2 B5    C5    D5</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">n_max</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   B3    C3    D3   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B4    C4    D4   </span>
+<span class="co">#&gt; 2 B5    C5    D5</span></pre></body></html></div>
 <p><code>n_max</code> is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though <code>n_max</code> is much greater.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">n_max =</span> <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   B3    C3    D3   </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 1 B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 2 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3 B6    C6    D6</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">n_max</span> <span class="kw">=</span> <span class="fl">1000</span>)
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   B3    C3    D3   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B4    C4    D4   </span>
+<span class="co">#&gt; 2 B5    C5    D5   </span>
+<span class="co">#&gt; 3 B6    C6    D6</span></pre></body></html></div>
 </div>
 </div>
 <div id="range" class="section level2">
@@ -247,92 +248,85 @@
 <p>You can describe cell limits in a variety of ways:</p>
 <p><strong>Excel-style range</strong>: Specify a fixed rectangle with <code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You can even prepend the worksheet name like so: <code>range = "foofy!A1:D4"</code> and it will be passed along to the <code>sheet</code> argument.</p>
 <p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>), <span class="kw">range</span> <span class="kw">=</span> <span class="st">"arts!A5:F15"</span>)
+<span class="co">#&gt; # A tibble: 10 x 6</span>
+<span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
+<span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
+<span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
+<span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span>
+<span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual reference.</p>
 <p><img src="img/geometry.png" width="70%"></p>
 <p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of <code>NA</code>s.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="st">"A2:C4"</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; New names:</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; * `` -&gt; ...1</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; * `` -&gt; ...2</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; * `` -&gt; ...3</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;   ...1  ...2  ...3 </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 1 NA    B3    C3   </span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 2 NA    B4    C4</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">range</span> <span class="kw">=</span> <span class="st">"A2:C4"</span>)
+<span class="co">#&gt; New names:</span>
+<span class="co">#&gt; * `` -&gt; ...1</span>
+<span class="co">#&gt; * `` -&gt; ...2</span>
+<span class="co">#&gt; * `` -&gt; ...3</span>
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   ...1  ...2  ...3 </span>
+<span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 NA    B3    C3   </span>
+<span class="co">#&gt; 2 NA    B4    C4</span></pre></body></html></div>
 <p><strong>Specific range of rows or columns</strong>: Set exact limits on just the rows or just the columns and allow the limits in the other direction to be discovered. Example calls:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">## rows only</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">## is equivalent to</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">10</span>)))</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">## columns only</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">26</span>))</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">## is equivalent to all of these</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">26</span>)))</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="st">"A:Z"</span>))</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(LETTERS))</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(..., <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_cols</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"A"</span>, <span class="st">"Z"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r">## rows only
+read_excel(..., range = cell_rows(1:10))
+## is equivalent to
+read_excel(..., range = cell_rows(c(1, 10)))
+
+## columns only
+read_excel(..., range = cell_cols(1:26))
+## is equivalent to all of these
+read_excel(..., range = cell_cols(c(1, 26)))
+read_excel(..., range = cell_cols("A:Z"))
+read_excel(..., range = cell_cols(LETTERS))
+read_excel(..., range = cell_cols(c("A", "Z"))</pre></body></html></div>
 <p>We use <code>geometry.xlsx</code> to demonstrate setting hard limits on the rows, running past the data, while allowing column limits to discovered. Note the trailing rows of <code>NA</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">4</span><span class="op">:</span><span class="dv">8</span>))</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   B4    C4    D4   </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 1 B5    C5    D5   </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; 2 B6    C6    D6   </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 4 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>), <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span>(<span class="fl">4</span>:<span class="fl">8</span>))
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   B4    C4    D4   </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 B5    C5    D5   </span>
+<span class="co">#&gt; 2 B6    C6    D6   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 4 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></pre></body></html></div>
 <p><strong>Anchored rectangle</strong>: Helper functions <code><a href="../reference/cell-specification.html">anchored()</a></code> and <code><a href="../reference/cell-specification.html">cell_limits()</a></code> let you specify limits via the corner(s) of the rectangle.</p>
 <p>Here we get a 3 by 4 rectangle with cell C5 as the upper left corner:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>),</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">col_names =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"var"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">sep =</span> <span class="st">"_"</span>),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">anchored</a></span>(<span class="st">"C5"</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;   var_1 var_2 var_3 var_4</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt;</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 1 C5    D5    NA    NA   </span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 2 C6    D6    NA    NA   </span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  NA    NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>),
+  <span class="kw">col_names</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"var"</span>, <span class="fl">1</span>:<span class="fl">4</span>, <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"_"</span>),
+  <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span>(<span class="st">"C5"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">4</span>))
+)
+<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt;   var_1 var_2 var_3 var_4</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt;</span>
+<span class="co">#&gt; 1 C5    D5    NA    NA   </span>
+<span class="co">#&gt; 2 C6    D6    NA    NA   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  NA    NA</span></pre></body></html></div>
 <p>Here we set C5 as the upper left corner and allow the other limits to be discovered:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>),</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="dt">range =</span> <span class="kw"><a href="../reference/cell-specification.html">cell_limits</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">5</span>, <span class="dv">3</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">NA</span>, <span class="ot">NA</span>))</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; New names:</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; * `` -&gt; ...1</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; * `` -&gt; ...2</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;   ...1  ...2 </span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 1 C5    D5   </span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; 2 C6    D6</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"geometry.xlsx"</span>),
+  <span class="kw">col_names</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+  <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_limits</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">3</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">NA</span>))
+)
+<span class="co">#&gt; New names:</span>
+<span class="co">#&gt; * `` -&gt; ...1</span>
+<span class="co">#&gt; * `` -&gt; ...2</span>
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   ...1  ...2 </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 C5    D5   </span>
+<span class="co">#&gt; 2 C6    D6</span></pre></body></html></div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#little-known-excel-facts">Little known Excel facts</a></li>
-      <li><a href="#skip-and-n_max"><code>skip</code> and <code>n_max</code></a></li>
-      <li><a href="#range"><code>range</code></a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

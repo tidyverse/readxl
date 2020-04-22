@@ -12,13 +12,14 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
+<script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="readxl v1.0.0">
-<meta property="og:description" content="">
+<meta property="og:description" content="readxl">
 <meta property="og:image" content="https://readxl.tidyverse.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -32,7 +33,7 @@
   gtag('config', 'UA-115082821-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,7 +47,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">readxl</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
@@ -111,7 +112,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -129,7 +130,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>readxl v1.0.0</h1>
+      <h1 data-toc-skip>readxl v1.0.0</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/releases/readxl-1.0.0.Rmd"><code>vignettes/releases/readxl-1.0.0.Rmd</code></a></small>
@@ -141,7 +142,7 @@
     
 <p>I’m pleased to announce that <a href="http://readxl.tidyverse.org">readxl</a> 1.0.0 is available on CRAN. <a href="http://readxl.tidyverse.org">readxl</a> makes it easy to bring tabular data out of Excel and into R, for modern <code>.xlsx</code> files and the legacy <code>.xls</code> format. <a href="http://readxl.tidyverse.org">readxl</a> does not have any tricky external dependencies, such as Java or Perl, and is easy to install and use on Mac, Windows, and Linux.</p>
 <p>You can install it with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"readxl"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"readxl"</span>)</pre></body></html></div>
 <p>As well as fixing many bugs, this release:</p>
 <ul>
 <li>Allows you to target specific cells for reading, in a variety of ways</li>
@@ -153,32 +154,32 @@
 <h2 class="hasAnchor">
 <a href="#specifying-the-data-rectangle" class="anchor"></a>Specifying the data rectangle</h2>
 <p>In an ideal world, data would live in a neat rectangle in the upper left corner of a spreadsheet. But spreadsheets often serve multiple purposes for users with different priorities. It is common to encounter several rows of notes above or below the data, for example. The new <code>range</code> argument provides a flexible interface for describing the data rectangle, including Excel-style ranges and row- or column-only ranges.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readxl)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">range =</span> <span class="st">"arts!A5:F15"</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; # … with 6 more rows</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">sheet =</span> <span class="st">"other"</span>,</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">range =</span> <span class="kw"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">)</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1 Vera Rubin scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2 Mohamed A… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 Morley Sa… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 4 Fidel Cas… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readxl</span>)
+<span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="kw">range</span> <span class="kw">=</span> <span class="st">"arts!A5:F15"</span>
+)
+<span class="co">#&gt; # A tibble: 10 x 6</span>
+<span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
+<span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
+<span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
+<span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span>
+<span class="co">#&gt; # … with 6 more rows</span>
+<span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="kw">sheet</span> <span class="kw">=</span> <span class="st">"other"</span>,
+  <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/cell-specification.html">cell_rows</a></span>(<span class="fl">5</span>:<span class="fl">15</span>)
+)
+<span class="co">#&gt; # A tibble: 10 x 6</span>
+<span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 Vera Rubin scientist     88 TRUE       1928-07-23 00:00:00 2016-12-25 00:00:00</span>
+<span class="co">#&gt; 2 Mohamed A… athlete       74 TRUE       1942-01-17 00:00:00 2016-06-03 00:00:00</span>
+<span class="co">#&gt; 3 Morley Sa… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span>
+<span class="co">#&gt; 4 Fidel Cas… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span>
+<span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>
 <div id="column-typing" class="section level2">
@@ -186,47 +187,47 @@
 <a href="#column-typing" class="anchor"></a>Column typing</h2>
 <p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org">readxl</a>.</p>
 <p>You can still specify column type explicitly via <code>col_types</code>, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type <code>"guess"</code> can be mixed with explicit types to specify some types, while leaving others to be guessed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">range =</span> <span class="st">"arts!A5:C15"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   Name            Age</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 1 David Bowie      69</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 Carrie Fisher    60</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 Chuck Berry      90</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 4 Bill Paxton      61</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # … with 6 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"deaths.xlsx"</span>),
+  <span class="kw">range</span> <span class="kw">=</span> <span class="st">"arts!A5:C15"</span>,
+  <span class="kw">col_types</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span>)
+)
+<span class="co">#&gt; # A tibble: 10 x 2</span>
+<span class="co">#&gt;   Name            Age</span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 David Bowie      69</span>
+<span class="co">#&gt; 2 Carrie Fisher    60</span>
+<span class="co">#&gt; 3 Chuck Berry      90</span>
+<span class="co">#&gt; 4 Bill Paxton      61</span>
+<span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types vignette</a> has more detail.</p>
 <div id="list-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-columns" class="anchor"></a><code>"list"</code> columns</h3>
 <p>Thanks to <a href="https://github.com/gergness">Greg Freedman Ellis</a> we now have a <code>"list"</code> column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">(df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/read_excel.html">read_excel</a></span>(</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">col_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"text"</span>, <span class="st">"list"</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">))</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   name                 value     </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;                &lt;list&gt;    </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 Name                 &lt;chr [1]&gt; </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe</a></span>(df)</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; $Name</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [1] "Clippy"</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; $Species</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; [1] "paperclip"</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; $`Approx date of death`</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; [1] "2007-01-01 UTC"</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; $`Weight in grams`</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r">(<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span>(
+  <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span>(<span class="st">"clippy.xlsx"</span>),
+  <span class="kw">col_types</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"text"</span>, <span class="st">"list"</span>)
+))
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;   name                 value     </span>
+<span class="co">#&gt;   &lt;chr&gt;                &lt;list&gt;    </span>
+<span class="co">#&gt; 1 Name                 &lt;chr [1]&gt; </span>
+<span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span>
+<span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
+<span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span>
+<span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe</a></span>(<span class="no">df</span>)
+<span class="co">#&gt; $Name</span>
+<span class="co">#&gt; [1] "Clippy"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Species</span>
+<span class="co">#&gt; [1] "paperclip"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Approx date of death`</span>
+<span class="co">#&gt; [1] "2007-01-01 UTC"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Weight in grams`</span>
+<span class="co">#&gt; [1] 0.9</span></pre></body></html></div>
 </div>
 </div>
 <div id="everything-else" class="section level2">
@@ -245,18 +246,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#specifying-the-data-rectangle">Specifying the data rectangle</a></li>
-      <li><a href="#column-typing">Column typing</a></li>
-      <li><a href="#everything-else">Everything else</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

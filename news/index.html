@@ -17,22 +17,26 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -69,7 +73,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -84,7 +88,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">readxl</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
@@ -149,7 +153,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -167,24 +171,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/tidyverse/readxl/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="readxl-development-version" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="development version">
 <a href="#readxl-development-version" class="anchor"></a>readxl (development version)<small> Unreleased </small>
 </h1>
 </div>
-    <div id="readxl-1-3-1" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-1-3-1" class="anchor"></a>readxl 1.3.1<small> 2019-03-13 </small>
+    <div id="readxl-131" class="section level1">
+<h1 class="page-header" data-toc-text="1.3.1">
+<a href="#readxl-131" class="anchor"></a>readxl 1.3.1<small> 2019-03-13 </small>
 </h1>
 <p>Pragmatic patch release to update some tests in advance of v2.1.0 of the tibble package. That release updates name repair: standard suffix becomes <code>...j</code>, instead of <code>..j</code>, partially motivated by user experience in readxl.</p>
 </div>
-    <div id="readxl-1-3-0" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-1-3-0" class="anchor"></a>readxl 1.3.0<small> 2019-02-15 </small>
+    <div id="readxl-130" class="section level1">
+<h1 class="page-header" data-toc-text="1.3.0">
+<a href="#readxl-130" class="anchor"></a>readxl 1.3.0<small> 2019-02-15 </small>
 </h1>
 <div id="dependency-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -196,9 +200,9 @@
 </ul>
 </div>
 </div>
-    <div id="readxl-1-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-1-2-0" class="anchor"></a>readxl 1.2.0<small> 2018-12-19 </small>
+    <div id="readxl-120" class="section level1">
+<h1 class="page-header" data-toc-text="1.2.0">
+<a href="#readxl-120" class="anchor"></a>readxl 1.2.0<small> 2018-12-19 </small>
 </h1>
 <div id="column-name-repair" class="section level2">
 <h2 class="hasAnchor">
@@ -208,7 +212,7 @@
 <li>
 <a href="https://readxl.tidyverse.org/articles/articles/column-names.html">Column Names</a> is a new article about this feature.</li>
 <li>readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.</li>
-<li>If tibble &gt;= v2.0.0, the full power of <code>.name_repair</code> is available, defaulting to <code>.name_repair = "unique"</code>. Otherwise, the legacy function <code><a href="https://tibble.tidyverse.org/reference/name-repair-retired.html">tibble::repair_names(prefix = "X", sep = "__")</a></code> is used, replicating the behaviour of readxl v1.1.0.
+<li>If tibble &gt;= v2.0.0, the full power of <code>.name_repair</code> is available, defaulting to <code>.name_repair = "unique"</code>. Otherwise, the legacy function <code><a href="https://tibble.tidyverse.org/reference/name-repair-superseded.html">tibble::repair_names(prefix = "X", sep = "__")</a></code> is used, replicating the behaviour of readxl v1.1.0.
 <ul>
 <li>Consider a spreadsheet with three columns: one unnamed and two named <code>x</code>.</li>
 <li>Content of cells in Excel: <code>""</code>, <code>x</code>, <code>x</code>
@@ -240,9 +244,9 @@
 <p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
 </div>
 </div>
-    <div id="readxl-1-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-1-1-0" class="anchor"></a>readxl 1.1.0<small> 2018-04-20 </small>
+    <div id="readxl-110" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.0">
+<a href="#readxl-110" class="anchor"></a>readxl 1.1.0<small> 2018-04-20 </small>
 </h1>
 <ul>
 <li>
@@ -274,9 +278,9 @@
 <li><p>Numeric data in a logical column now coerces properly to logical. (xlsx, <a href='https://github.com/tidyverse/readxl/issues/385'>#385</a> <a href='https://github.com/nacnudus'>@nacnudus</a>)</p></li>
 </ul>
 </div>
-    <div id="readxl-1-0-0" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-1-0-0" class="anchor"></a>readxl 1.0.0<small> 2017-04-18 </small>
+    <div id="readxl-100" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.0">
+<a href="#readxl-100" class="anchor"></a>readxl 1.0.0<small> 2017-04-18 </small>
 </h1>
 <div id="sheet-geometry" class="section level2">
 <h2 class="hasAnchor">
@@ -341,36 +345,27 @@
 <ul>
 <li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (<a href='https://github.com/tidyverse/readxl/issues/85'>#85</a>, <a href='https://github.com/jirkalewandowski'>@jirkalewandowski</a>)</p></li>
 <li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (<a href='https://github.com/tidyverse/readxl/issues/264'>#264</a>, <a href='https://github.com/tidyverse/readxl/issues/148'>#148</a>, <a href='https://github.com/tidyverse/readxl/issues/292'>#292</a>)</p></li>
-<li><p>The tibble package is now imported (<a href='https://github.com/tidyverse/readxl/issues/175'>#175</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>) and <code><a href="https://tibble.tidyverse.org/reference/name-repair-retired.html">tibble::repair_names()</a></code> is used to prevent empty, <code>NA</code>, or duplicated column names. (<a href='https://github.com/tidyverse/readxl/issues/216'>#216</a>, <a href='https://github.com/tidyverse/readxl/issues/208'>#208</a>, <a href='https://github.com/tidyverse/readxl/issues/199'>#199</a> <a href='https://github.com/tidyverse/readxl/issues/182'>#182</a>, <a href='https://github.com/tidyverse/readxl/issues/53'>#53</a>, <a href='https://github.com/tidyverse/readxl/issues/247'>#247</a>).</p></li>
+<li><p>The tibble package is now imported (<a href='https://github.com/tidyverse/readxl/issues/175'>#175</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>) and <code><a href="https://tibble.tidyverse.org/reference/name-repair-superseded.html">tibble::repair_names()</a></code> is used to prevent empty, <code>NA</code>, or duplicated column names. (<a href='https://github.com/tidyverse/readxl/issues/216'>#216</a>, <a href='https://github.com/tidyverse/readxl/issues/208'>#208</a>, <a href='https://github.com/tidyverse/readxl/issues/199'>#199</a> <a href='https://github.com/tidyverse/readxl/issues/182'>#182</a>, <a href='https://github.com/tidyverse/readxl/issues/53'>#53</a>, <a href='https://github.com/tidyverse/readxl/issues/247'>#247</a>).</p></li>
 <li><p>Default column names for xlsx now start with X__1 instead of X__0. (<a href='https://github.com/tidyverse/readxl/issues/98'>#98</a>, <a href='https://github.com/zeehio'>@zeehio</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>)</p></li>
 <li><p>Fix compilation warnings/failures (FreeBSD 10.3 <a href='https://github.com/tidyverse/readxl/issues/221'>#221</a>, gcc 4.9.3 <a href='https://github.com/tidyverse/readxl/issues/124'>#124</a>) and/or problems reading xls (CentOS 6.6 <a href='https://github.com/tidyverse/readxl/issues/189'>#189</a>). (<a href='https://github.com/tidyverse/readxl/issues/244'>#244</a>, <a href='https://github.com/tidyverse/readxl/issues/245'>#245</a>, <a href='https://github.com/tidyverse/readxl/issues/246'>#246</a> <a href='https://github.com/jeroen'>@jeroen</a>)</p></li>
 <li><p>Unwanted printed output (e.g., <code>DEFINEDNAME: 21 00 00 ...</code>) is suppressed when reading xls that contains a defined range. (<a href='https://github.com/tidyverse/readxl/issues/82'>#82</a>, <a href='https://github.com/tidyverse/readxl/issues/188'>#188</a>, <a href='https://github.com/PedramNavid'>@PedramNavid</a>)</p></li>
 </ul>
 </div>
 </div>
-    <div id="readxl-0-1-1" class="section level1">
-<h1 class="page-header">
-<a href="#readxl-0-1-1" class="anchor"></a>readxl 0.1.1<small> 2016-03-28 </small>
+    <div id="readxl-011" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.1">
+<a href="#readxl-011" class="anchor"></a>readxl 0.1.1<small> 2016-03-28 </small>
 </h1>
 <ul>
-<li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (<a href='https://github.com/tidyverse/readxl/issues/51'>#51</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</li>
+<li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (<a href='https://github.com/tidyverse/readxl/issues/51'>#51</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</li>
 </ul>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#readxl-development-version">development version</a></li>
-        <li><a href="#readxl-1-3-1">1.3.1</a></li>
-        <li><a href="#readxl-1-3-0">1.3.0</a></li>
-        <li><a href="#readxl-1-2-0">1.2.0</a></li>
-        <li><a href="#readxl-1-1-0">1.1.0</a></li>
-        <li><a href="#readxl-1-0-0">1.0.0</a></li>
-        <li><a href="#readxl-0-1-1">0.1.1</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
