@@ -14,7 +14,12 @@ knitr::opts_chunk$set(
 
 # readxl <img src='man/figures/logo.png' align="right" height="139" />
 
- [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl) [![R build status](https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/readxl) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg)](https://codecov.io/github/tidyverse/readxl?branch=master) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: start -->
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
+[![R build status](https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/readxl/actions)
+[![Codecov test coverage](https://codecov.io/gh/tidyverse/readxl/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 ## Overview
 
