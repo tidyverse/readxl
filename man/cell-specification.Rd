@@ -13,7 +13,7 @@ to a specific rectangle of cells. The simplest usage is to provide an
 Excel-like cell range, such as \code{range = "D12:F15"} or
 \code{range ="R1C12:R6C15"}. The cell rectangle can be specified in various other ways,
 using helper functions. You can find more examples at the
-\href{https://readxl.tidyverse.org/articles/sheet-geometry.html#range}{sheet-geometry}
+\href{https://readxl.tidyverse.org/articles/sheet-geometry.html#range}{sheet geometry}
 vignette. In all cases, cell range processing is handled by the
 \link{cellranger} package, where you can find full documentation for
 the functions used in the examples below.
