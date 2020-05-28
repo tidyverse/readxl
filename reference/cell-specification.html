@@ -218,110 +218,110 @@ style spreadsheet ranges. Here are the most relevant:</p><ul>
 
 <span class='co'># By default, the populated data cells are "shrink-wrapped" into a</span>
 <span class='co'># minimal data frame</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   B3    C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B4    C4    D4   
-#&gt; 2 B5    C5    D5   
-#&gt; 3 B6    C6    D6   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B4    C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> B5    C5    D5   
+#&gt; </span><span style='color: #555555;'>3</span><span> B6    C6    D6   </div><div class='input'>
 <span class='co'># Specific rectangle that is subset of populated cells, possibly improper</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"B3:D6"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"B3:D6"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   B3    C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B4    C4    D4   
-#&gt; 2 B5    C5    D5   
-#&gt; 3 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C3:D5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B4    C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> B5    C5    D5   
+#&gt; </span><span style='color: #555555;'>3</span><span> B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C3:D5"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 C4    D4   
-#&gt; 2 C5    D5   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> C5    D5   </div><div class='input'>
 <span class='co'># Specific rectangle that forces inclusion of unpopulated cells</span>
 <span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A3:D5"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; # A tibble: 2 x 4
+#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 4</span><span>
 #&gt;   ...1  B3    C3    D3   
-#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 NA    B4    C4    D4   
-#&gt; 2 NA    B5    C5    D5   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B4    C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B5    C5    D5   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"A4:E5"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span>
-#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; # A tibble: 1 x 5
+#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
 #&gt;   ...1  B4    C4    D4    ...5 
-#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
-#&gt; 1 NA    B5    C5    D5    NA   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...3</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B5    C5    D5    </span><span style='color: #BB0000;'>NA</span><span>   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C5:E7"</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; ...3</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   C5    D5    ...3 
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;
-#&gt; 1 C6    D6    NA   
-#&gt; 2 &lt;NA&gt;  &lt;NA&gt;  NA   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C6    D6    </span><span style='color: #BB0000;'>NA</span><span>   
+#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>   </div><div class='input'>
 <span class='co'># Anchor a rectangle of specified size at a particular cell</span>
 <span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>anchored</span>(<span class='st'>"C4"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>)), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span>
-#&gt; <span class='message'>* `` -&gt; ...2</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt; <span class='message'>* `` -&gt; ...2</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   ...1  ...2 
-#&gt;   &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 C4    D4   
-#&gt; 2 C5    D5   
-#&gt; 3 C6    D6   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> C5    D5   
+#&gt; </span><span style='color: #555555;'>3</span><span> C6    D6   </div><div class='input'>
 <span class='co'># Specify only the rows</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fl'>3</span>:<span class='fl'>5</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fl'>3</span>:<span class='fl'>5</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   B3    C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B4    C4    D4   
-#&gt; 2 B5    C5    D5   </div><div class='input'><span class='co'>## is equivalent to</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>5</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B4    C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> B5    C5    D5   </div><div class='input'><span class='co'>## is equivalent to</span>
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>5</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   B3    C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B4    C4    D4   
-#&gt; 2 B5    C5    D5   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B4    C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> B5    C5    D5   </div><div class='input'>
 <span class='co'># Specify only the columns by column number or letter</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='st'>"C:D"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 2
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='st'>"C:D"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 C4    D4   
-#&gt; 2 C5    D5   
-#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> C5    D5   
+#&gt; </span><span style='color: #555555;'>3</span><span> C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 1</span><span>
 #&gt;   B3   
-#&gt;   &lt;chr&gt;
-#&gt; 1 B4   
-#&gt; 2 B5   
-#&gt; 3 B6   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B4   
+#&gt; </span><span style='color: #555555;'>2</span><span> B5   
+#&gt; </span><span style='color: #555555;'>3</span><span> B6   </div><div class='input'>
 <span class='co'># Specify exactly one row or column bound</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   B5    C5    D5   
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> B6    C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* `` -&gt; ...1</span>
 #&gt; <span class='message'>* `` -&gt; ...2</span>
-#&gt; <span class='message'>* `` -&gt; ...3</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt; <span class='message'>* `` -&gt; ...3</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   ...1  ...2  ...3 
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-#&gt; 2 B3    C3    D3   
-#&gt; 3 B4    C4    D4   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>   
+#&gt; </span><span style='color: #555555;'>2</span><span> B3    C3    D3   
+#&gt; </span><span style='color: #555555;'>3</span><span> B4    C4    D4   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   C3    D3   
-#&gt;   &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 C4    D4   
-#&gt; 2 C5    D5   
-#&gt; 3 C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C4    D4   
+#&gt; </span><span style='color: #555555;'>2</span><span> C5    D5   
+#&gt; </span><span style='color: #555555;'>3</span><span> C6    D6   </div><div class='input'><span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   ...1  B3   
-#&gt;   &lt;lgl&gt; &lt;chr&gt;
-#&gt; 1 NA    B4   
-#&gt; 2 NA    B5   
-#&gt; 3 NA    B6   </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B4   
+#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B5   
+#&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B6   </div><div class='input'>
 <span class='co'># General open rectangles</span>
 <span class='co'># upper left = C4, everything else unspecified</span>
-<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; # A tibble: 2 x 2
+<span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   C4    D4   
-#&gt;   &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 C5    D5   
-#&gt; 2 C6    D6   </div><div class='input'><span class='co'># upper right = D4, everything else unspecified</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> C5    D5   
+#&gt; </span><span style='color: #555555;'>2</span><span> C6    D6   </div><div class='input'><span class='co'># upper right = D4, everything else unspecified</span>
 <span class='fu'><a href='read_excel.html'>read_excel</a></span>(<span class='no'>path</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'>cell_limits</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>NA</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; # A tibble: 2 x 4
+#&gt; <span class='message'>* `` -&gt; ...1</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 4</span><span>
 #&gt;   ...1  B4    C4    D4   
-#&gt;   &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 NA    B5    C5    D5   
-#&gt; 2 NA    B6    C6    D6   </div><div class='input'>
-</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B5    C5    D5   
+#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #BB0000;'>NA</span><span>    B6    C6    D6   </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
