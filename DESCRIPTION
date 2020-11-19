@@ -39,7 +39,7 @@ Description: Import excel files into R. Supports '.xls' via the
     '.xlsx' via the embedded 'RapidXML' C++ library
     <http://rapidxml.sourceforge.net>.  Works on Windows, Mac and Linux
     without external dependencies.
-License: GPL-3
+License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org,
     https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues

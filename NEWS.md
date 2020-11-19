@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* readxl is now licensed as MIT (#632).
+
 # readxl 1.3.1
 
 Pragmatic patch release to update some tests in advance of v2.1.0 of the tibble package. That release updates name repair: standard suffix becomes `...j`, instead of `..j`, partially motivated by user experience in readxl.
