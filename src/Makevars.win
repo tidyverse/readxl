@@ -3,8 +3,10 @@ PKG_CXXFLAGS = $(CXX_VISIBILITY)
 PKG_CPPFLAGS=-Iwindows -I. -D__USE_MINGW_ANSI_STDIO -DRCPP_DEFAULT_INCLUDE_CALL=false
 PKG_LIBS=-lRiconv
 
+SOURCES = $(wildcard *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o
+
 all: clean
 
 clean:
 	rm -Rf $(SHLIB) $(OBJECTS)
-
