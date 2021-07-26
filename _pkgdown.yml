@@ -74,3 +74,9 @@ reference:
       List or get the path to xls and xlsx example files in the package.
     contents:
       - readxl_example
+  - title: "Options"
+    desc: >
+      Options consulted by readxl.
+    contents:
+      - readxl_progress
+
