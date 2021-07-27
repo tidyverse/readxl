@@ -1,17 +1,21 @@
 test_that("contaminated, explicit logical is read as logical", {
   ## xls
-    df <- suppressWarnings(read_excel(
+  expect_snapshot(
+    df <- read_excel(
       test_sheet("types.xls"), sheet = "logical_coercion",
-      col_types = c("logical", "text")))
+      col_types = c("logical", "text"))
+  )
 
   expect_type(df$logical, "logical")
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
   expect_false(anyNA(df$logical[!should_be_NA]))
 
   ## xlsx
-    df <- suppressWarnings(read_excel(test_sheet("types.xlsx"), sheet = "logical_coercion",
-      col_types = c("logical", "text")))
-
+  expect_snapshot(
+    df <- read_excel(
+      test_sheet("types.xlsx"), sheet = "logical_coercion",
+      col_types = c("logical", "text"))
+  )
   expect_type(df$logical, "logical")
 
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
