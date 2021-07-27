@@ -1,6 +1,6 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1.9000
-pkgdown_sha: af8262bd26e7029886e0f260470061353ad08d94
+pkgdown: 1.6.1.9001
+pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
 articles:
   column-names: articles/column-names.html
   multiple-header-rows: articles/multiple-header-rows.html
@@ -10,7 +10,7 @@ articles:
   readxl-0.1.1: releases/readxl-0.1.1.html
   readxl-1.0.0: releases/readxl-1.0.0.html
   sheet-geometry: sheet-geometry.html
-last_built: 2020-05-28T15:40Z
+last_built: 2021-07-27T15:49Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles

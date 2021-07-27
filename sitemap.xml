@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://readxl.tidyverse.org/index.html</loc>
+    <loc>https://readxl.tidyverse.org/404.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/cell-specification.html</loc>
+    <loc>https://readxl.tidyverse.org/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/excel_format.html</loc>
+    <loc>https://readxl.tidyverse.org/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/excel_sheets.html</loc>
+    <loc>https://readxl.tidyverse.org/ISSUE_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/read_excel.html</loc>
+    <loc>https://readxl.tidyverse.org/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/readxl-package.html</loc>
+    <loc>https://readxl.tidyverse.org/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://readxl.tidyverse.org/reference/readxl_example.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/reference/readxl_progress.html</loc>
+    <loc>https://readxl.tidyverse.org/SUPPORT.html</loc>
   </url>
   <url>
     <loc>https://readxl.tidyverse.org/articles/articles/column-names.html</loc>
@@ -37,6 +34,9 @@
     <loc>https://readxl.tidyverse.org/articles/cell-and-column-types.html</loc>
   </url>
   <url>
+    <loc>https://readxl.tidyverse.org/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://readxl.tidyverse.org/articles/releases/readxl-0.1.0.html</loc>
   </url>
   <url>
@@ -47,5 +47,38 @@
   </url>
   <url>
     <loc>https://readxl.tidyverse.org/articles/sheet-geometry.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/cell-specification.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/excel_format.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/excel_sheets.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/read_excel.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/readxl-package.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/readxl_example.html</loc>
+  </url>
+  <url>
+    <loc>https://readxl.tidyverse.org/reference/readxl_progress.html</loc>
   </url>
 </urlset>

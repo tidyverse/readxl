@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Determine whether to show progress spinner — readxl_progress" />
@@ -82,9 +86,15 @@ therefore is also sensitive to any options that it consults.
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -165,7 +175,7 @@ therefore is also sensitive to any options that it consults.
 </li>
         <li>
   <a href="https://github.com/tidyverse/readxl/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -191,7 +201,7 @@ therefore is also sensitive to any options that it consults.
     <p>By default, readxl displays a progress spinner <strong>unless</strong>
 one of the following is <code>TRUE</code>:</p><ul>
 <li><p>The spinner is explicitly disabled by setting
-<code><a href='https://rdrr.io/r/base/options.html'>options(readxl.show_progress = FALSE)</a></code>.</p></li>
+<code>options(readxl.show_progress = FALSE)</code>.</p></li>
 <li><p>The code is run in a non-interactive session (<code><a href='https://rdrr.io/r/base/interactive.html'>interactive()</a></code> is <code>FALSE</code>).</p></li>
 <li><p>The code is run by knitr / rmarkdown.</p></li>
 <li><p>The code is run in an RStudio notebook chunk.
@@ -201,7 +211,7 @@ therefore is also sensitive to any options that it consults.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>readxl_progress</span>()</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>readxl_progress</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
 
 
@@ -221,7 +231,7 @@ therefore is also sensitive to any options that it consults.</p></li>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -231,6 +241,8 @@ therefore is also sensitive to any options that it consults.</p></li>
 
   
 
+
+  
 
   </body>
 </html>

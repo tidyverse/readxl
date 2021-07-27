@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Read xls and xlsx files — read_excel" />
@@ -76,9 +80,15 @@ prevent such guessing." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -159,7 +169,7 @@ prevent such guessing." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/readxl/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -189,50 +199,50 @@ based on the file extension and the file itself, in that order. Use
 prevent such guessing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_excel</span>(
-  <span class='no'>path</span>,
-  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
-)
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>read_excel</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  sheet <span class='op'>=</span> <span class='cn'>NULL</span>,
+  range <span class='op'>=</span> <span class='cn'>NULL</span>,
+  col_names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  col_types <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na <span class='op'>=</span> <span class='st'>""</span>,
+  trim_ws <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  skip <span class='op'>=</span> <span class='fl'>0</span>,
+  n_max <span class='op'>=</span> <span class='cn'>Inf</span>,
+  guess_max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>n_max</span><span class='op'>)</span>,
+  progress <span class='op'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .name_repair <span class='op'>=</span> <span class='st'>"unique"</span>
+<span class='op'>)</span>
 
-<span class='fu'>read_xls</span>(
-  <span class='no'>path</span>,
-  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
-)
+<span class='fu'>read_xls</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  sheet <span class='op'>=</span> <span class='cn'>NULL</span>,
+  range <span class='op'>=</span> <span class='cn'>NULL</span>,
+  col_names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  col_types <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na <span class='op'>=</span> <span class='st'>""</span>,
+  trim_ws <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  skip <span class='op'>=</span> <span class='fl'>0</span>,
+  n_max <span class='op'>=</span> <span class='cn'>Inf</span>,
+  guess_max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>n_max</span><span class='op'>)</span>,
+  progress <span class='op'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .name_repair <span class='op'>=</span> <span class='st'>"unique"</span>
+<span class='op'>)</span>
 
-<span class='fu'>read_xlsx</span>(
-  <span class='no'>path</span>,
-  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>trim_ws</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>guess_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fl'>1000</span>, <span class='no'>n_max</span>),
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span>(),
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
-)</pre>
+<span class='fu'>read_xlsx</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  sheet <span class='op'>=</span> <span class='cn'>NULL</span>,
+  range <span class='op'>=</span> <span class='cn'>NULL</span>,
+  col_names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  col_types <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na <span class='op'>=</span> <span class='st'>""</span>,
+  trim_ws <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  skip <span class='op'>=</span> <span class='fl'>0</span>,
+  n_max <span class='op'>=</span> <span class='cn'>Inf</span>,
+  guess_max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>n_max</span><span class='op'>)</span>,
+  progress <span class='op'>=</span> <span class='fu'><a href='readxl_progress.html'>readxl_progress</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .name_repair <span class='op'>=</span> <span class='st'>"unique"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -327,228 +337,265 @@ back to name repair in the style of tibble v1.4.2.</p></td>
 <code>range</code> argument</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>datasets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>)
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa 
-#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa 
-#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='co'># Specify sheet either by position or by name</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='st'>"mtcars"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
-<span class='co'># Skip rows and use default column names</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>148</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...1</span>
-#&gt; <span class='message'>* `` -&gt; ...2</span>
-#&gt; <span class='message'>* `` -&gt; ...3</span>
-#&gt; <span class='message'>* `` -&gt; ...4</span>
-#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
-#&gt;    ...1  ...2  ...3  ...4 ...5     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span>   6.5   3     5.2   2   virginica
-#&gt; </span><span style='color: #555555;'>2</span><span>   6.2   3.4   5.4   2.3 virginica
-#&gt; </span><span style='color: #555555;'>3</span><span>   5.9   3     5.1   1.8 virginica</div><div class='input'>
-<span class='co'># Recycle a single column type</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='st'>"text"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'> 1</span><span> 5.1          3.5         1.4          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 4.9          3           1.4          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 4.7          3.2         1.3          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 4.6          3.1         1.5          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 5            3.6         1.4          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 5.4          3.9         1.7          0.4         setosa 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 4.6          3.4         1.4          0.3         setosa 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 5            3.4         1.5          0.2         setosa 
-#&gt; </span><span style='color: #555555;'> 9</span><span> 4.4          2.9         1.4          0.2         setosa 
-#&gt; </span><span style='color: #555555;'>10</span><span> 4.9          3.1         1.5          0.1         setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='co'># Specify some col_types and guess others</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"text"</span>, <span class='st'>"guess"</span>, <span class='st'>"numeric"</span>, <span class='st'>"guess"</span>, <span class='st'>"guess"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'> 1</span><span> 5.1                  3.5          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 4.9                  3            1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 4.7                  3.2          1.3         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 4.6                  3.1          1.5         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 5                    3.6          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 5.4                  3.9          1.7         0.4 setosa 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 4.6                  3.4          1.4         0.3 setosa 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 5                    3.4          1.5         0.2 setosa 
-#&gt; </span><span style='color: #555555;'> 9</span><span> 4.4                  2.9          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>10</span><span> 4.9                  3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='co'># Accomodate a column with disparate types via col_type = "list"</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>), <span class='kw'>col_types</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"text"</span>, <span class='st'>"list"</span>))
-<span class='no'>df</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
-#&gt;   name                 value     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> Name                 </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>2</span><span> Species              </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>3</span><span> Approx date of death </span><span style='color: #555555;'>&lt;dttm [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> Weight in grams      </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span> </div><div class='input'><span class='no'>df</span>$<span class='no'>value</span></div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "Clippy"
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] "paperclip"
-#&gt; 
-#&gt; [[3]]
-#&gt; [1] "2007-01-01 UTC"
-#&gt; 
-#&gt; [[4]]
-#&gt; [1] 0.9
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>df</span>$<span class='no'>value</span>, <span class='no'>class</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "character"
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] "character"
-#&gt; 
-#&gt; [[3]]
-#&gt; [1] "POSIXct" "POSIXt" 
-#&gt; 
-#&gt; [[4]]
-#&gt; [1] "numeric"
-#&gt; </div><div class='input'>
-<span class='co'># Limit the number of data rows read</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
-#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span>          5.1         3.5          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>2</span><span>          4.9         3            1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>3</span><span>          4.7         3.2          1.3         0.2 setosa </div><div class='input'>
-<span class='co'># Read from an Excel range using A1 or R1C1 notation</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"C1:E7"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
-#&gt;   Petal.Length Petal.Width Species
-#&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span>          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>2</span><span>          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>3</span><span>          1.3         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>4</span><span>          1.5         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>5</span><span>          1.4         0.2 setosa 
-#&gt; </span><span style='color: #555555;'>6</span><span>          1.7         0.4 setosa </div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"R1C2:R2C5"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
-#&gt;   Sepal.Width Petal.Length Petal.Width Species
-#&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span>         3.5          1.4         0.2 setosa </div><div class='input'>
-<span class='co'># Specify the sheet as part of the range</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"mtcars!B1:D5"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
-#&gt;     cyl  disp    hp
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     6   160   110
-#&gt; </span><span style='color: #555555;'>2</span><span>     6   160   110
-#&gt; </span><span style='color: #555555;'>3</span><span>     4   108    93
-#&gt; </span><span style='color: #555555;'>4</span><span>     6   258   110</div><div class='input'>
-<span class='co'># Read only specific rows or columns</span>
-<span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span>(<span class='fl'>102</span>:<span class='fl'>151</span>), <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `` -&gt; ...1</span>
-#&gt; <span class='message'>* `` -&gt; ...2</span>
-#&gt; <span class='message'>* `` -&gt; ...3</span>
-#&gt; <span class='message'>* `` -&gt; ...4</span>
-#&gt; <span class='message'>* `` -&gt; ...5</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 50 x 5</span><span>
-#&gt;     ...1  ...2  ...3  ...4 ...5     
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span>   6.3   3.3   6     2.5 virginica
-#&gt; </span><span style='color: #555555;'> 2</span><span>   5.8   2.7   5.1   1.9 virginica
-#&gt; </span><span style='color: #555555;'> 3</span><span>   7.1   3     5.9   2.1 virginica
-#&gt; </span><span style='color: #555555;'> 4</span><span>   6.3   2.9   5.6   1.8 virginica
-#&gt; </span><span style='color: #555555;'> 5</span><span>   6.5   3     5.8   2.2 virginica
-#&gt; </span><span style='color: #555555;'> 6</span><span>   7.6   3     6.6   2.1 virginica
-#&gt; </span><span style='color: #555555;'> 7</span><span>   4.9   2.5   4.5   1.7 virginica
-#&gt; </span><span style='color: #555555;'> 8</span><span>   7.3   2.9   6.3   1.8 virginica
-#&gt; </span><span style='color: #555555;'> 9</span><span>   6.7   2.5   5.8   1.8 virginica
-#&gt; </span><span style='color: #555555;'>10</span><span>   7.2   3.6   6.1   2.5 virginica
-#&gt; </span><span style='color: #555555;'># … with 40 more rows</span><span></div><div class='input'><span class='fu'>read_excel</span>(<span class='no'>datasets</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span>(<span class='st'>"B:D"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 3</span><span>
-#&gt;    Sepal.Width Petal.Length Petal.Width
-#&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>         3.5          1.4         0.2
-#&gt; </span><span style='color: #555555;'> 2</span><span>         3            1.4         0.2
-#&gt; </span><span style='color: #555555;'> 3</span><span>         3.2          1.3         0.2
-#&gt; </span><span style='color: #555555;'> 4</span><span>         3.1          1.5         0.2
-#&gt; </span><span style='color: #555555;'> 5</span><span>         3.6          1.4         0.2
-#&gt; </span><span style='color: #555555;'> 6</span><span>         3.9          1.7         0.4
-#&gt; </span><span style='color: #555555;'> 7</span><span>         3.4          1.4         0.3
-#&gt; </span><span style='color: #555555;'> 8</span><span>         3.4          1.5         0.2
-#&gt; </span><span style='color: #555555;'> 9</span><span>         2.9          1.4         0.2
-#&gt; </span><span style='color: #555555;'>10</span><span>         3.1          1.5         0.1
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='co'># Get a preview of column names</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>), <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div><div class='input'>
-<span class='kw'>if</span> (<span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span>(<span class='st'>"tibble"</span>) <span class='kw'>&gt;</span> <span class='st'>"1.4.2"</span>) {
-  <span class='co'>## exploit full .name_repair flexibility from tibble</span>
-
-  <span class='co'>## "universal" names are unique and syntactic</span>
-  <span class='fu'>read_excel</span>(
-    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"deaths.xlsx"</span>),
-    <span class='kw'>range</span> <span class='kw'>=</span> <span class='st'>"arts!A5:F15"</span>,
-    <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"universal"</span>
-  )
-
-  <span class='co'>## specify name repair as a built-in function</span>
-  <span class='fu'>read_excel</span>(<span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"clippy.xlsx"</span>), <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='no'>toupper</span>)
-
-  <span class='co'>## specify name repair as a custom function</span>
-  <span class='no'>my_custom_name_repair</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>nms</span>) <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>"[.]"</span>, <span class='st'>"_"</span>, <span class='no'>nms</span>))
-  <span class='fu'>read_excel</span>(
-    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>),
-    <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='no'>my_custom_name_repair</span>
-  )
-
-  <span class='co'>## specify name repair as an anonymous function</span>
-  <span class='fu'>read_excel</span>(
-    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span>(<span class='st'>"datasets.xlsx"</span>),
-    <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='st'>"chickwts"</span>,
-    <span class='kw'>.name_repair</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='no'>.x</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>stop</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-  )
-}</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* `Has kids` -&gt; Has.kids</span>
-#&gt; <span class='message'>* `Date of birth` -&gt; Date.of.birth</span>
-#&gt; <span class='message'>* `Date of death` -&gt; Date.of.death</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 71 x 2</span><span>
-#&gt;      wei fee      
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span>   179 horsebean
-#&gt; </span><span style='color: #555555;'> 2</span><span>   160 horsebean
-#&gt; </span><span style='color: #555555;'> 3</span><span>   136 horsebean
-#&gt; </span><span style='color: #555555;'> 4</span><span>   227 horsebean
-#&gt; </span><span style='color: #555555;'> 5</span><span>   217 horsebean
-#&gt; </span><span style='color: #555555;'> 6</span><span>   168 horsebean
-#&gt; </span><span style='color: #555555;'> 7</span><span>   108 horsebean
-#&gt; </span><span style='color: #555555;'> 8</span><span>   124 horsebean
-#&gt; </span><span style='color: #555555;'> 9</span><span>   143 horsebean
-#&gt; </span><span style='color: #555555;'>10</span><span>   140 horsebean
-#&gt; </span><span style='color: #555555;'># … with 61 more rows</span><span></div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>datasets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>          5.1         3.5          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>          4.9         3            1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>          4.7         3.2          1.3         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>          4.6         3.1          1.5         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>          5           3.6          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>          5.4         3.9          1.7         0.4 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>          4.6         3.4          1.4         0.3 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>          5           3.4          1.5         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>          4.4         2.9          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>          4.9         3.1          1.5         0.1 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Specify sheet either by position or by name</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 × 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, <span class='st'>"mtcars"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 × 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Skip rows and use default column names</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, skip <span class='op'>=</span> <span class='fl'>148</span>, col_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> New names:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...1</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...4</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    ...1  ...2  ...3  ...4 ...5     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>   6.5   3     5.2   2   virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>   6.2   3.4   5.4   2.3 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>   5.9   3     5.1   1.8 virginica</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Recycle a single column type</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, col_types <span class='op'>=</span> <span class='st'>"text"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 5.1          3.5         1.4          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 4.9          3           1.4          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 4.7          3.2         1.3          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 4.6          3.1         1.5          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 5            3.6         1.4          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 5.4          3.9         1.7          0.4         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 4.6          3.4         1.4          0.3         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 5            3.4         1.5          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 4.4          2.9         1.4          0.2         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 4.9          3.1         1.5          0.1         setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Specify some col_types and guess others</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, col_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"text"</span>, <span class='st'>"guess"</span>, <span class='st'>"numeric"</span>, <span class='st'>"guess"</span>, <span class='st'>"guess"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 5.1                  3.5          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 4.9                  3            1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 4.7                  3.2          1.3         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 4.6                  3.1          1.5         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 5                    3.6          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 5.4                  3.9          1.7         0.4 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 4.6                  3.4          1.4         0.3 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 5                    3.4          1.5         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 4.4                  2.9          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 4.9                  3.1          1.5         0.1 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Accomodate a column with disparate types via col_type = "list"</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>read_excel</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"clippy.xlsx"</span><span class='op'>)</span>, col_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"text"</span>, <span class='st'>"list"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name                 value     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> Name                 <span style='color: #949494;'>&lt;chr [1]&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> Species              <span style='color: #949494;'>&lt;chr [1]&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> Approx date of death <span style='color: #949494;'>&lt;dttm [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> Weight in grams      <span style='color: #949494;'>&lt;dbl [1]&gt;</span> </span>
+<span class='r-in'><span class='va'>df</span><span class='op'>$</span><span class='va'>value</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Clippy"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "paperclip"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2007-01-01 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>value</span>, <span class='va'>class</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "character"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "character"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "POSIXct" "POSIXt" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Limit the number of data rows read</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, n_max <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>          5.1         3.5          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>          4.9         3            1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>          4.7         3.2          1.3         0.2 setosa </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Read from an Excel range using A1 or R1C1 notation</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, range <span class='op'>=</span> <span class='st'>"C1:E7"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>          1.3         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>          1.5         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span>          1.4         0.2 setosa </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span>          1.7         0.4 setosa </span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, range <span class='op'>=</span> <span class='st'>"R1C2:R2C5"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Sepal.Width Petal.Length Petal.Width Species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>         3.5          1.4         0.2 setosa </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Specify the sheet as part of the range</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, range <span class='op'>=</span> <span class='st'>"mtcars!B1:D5"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     cyl  disp    hp</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     6   160   110</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>     6   160   110</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>     4   108    93</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>     6   258   110</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Read only specific rows or columns</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, range <span class='op'>=</span> <span class='fu'><a href='cell-specification.html'>cell_rows</a></span><span class='op'>(</span><span class='fl'>102</span><span class='op'>:</span><span class='fl'>151</span><span class='op'>)</span>, col_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> New names:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...1</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...4</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `` -&gt; ...5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 50 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     ...1  ...2  ...3  ...4 ...5     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   6.3   3.3   6     2.5 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   5.8   2.7   5.1   1.9 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   7.1   3     5.9   2.1 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   6.3   2.9   5.6   1.8 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   6.5   3     5.8   2.2 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   7.6   3     6.6   2.1 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   4.9   2.5   4.5   1.7 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   7.3   2.9   6.3   1.8 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   6.7   2.5   5.8   1.8 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   7.2   3.6   6.1   2.5 virginica</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 40 more rows</span></span>
+<span class='r-in'><span class='fu'>read_excel</span><span class='op'>(</span><span class='va'>datasets</span>, range <span class='op'>=</span> <span class='fu'><a href='cell-specification.html'>cell_cols</a></span><span class='op'>(</span><span class='st'>"B:D"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Width Petal.Length Petal.Width</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>         3.5          1.4         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>         3            1.4         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>         3.2          1.3         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>         3.1          1.5         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>         3.6          1.4         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>         3.9          1.7         0.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>         3.4          1.4         0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>         3.4          1.5         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>         2.9          1.4         0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>         3.1          1.5         0.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get a preview of column names</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>read_excel</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span>, n_max <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>utils</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span><span class='op'>(</span><span class='st'>"tibble"</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='st'>"1.4.2"</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='co'>## exploit full .name_repair flexibility from tibble</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## "universal" names are unique and syntactic</span></span>
+<span class='r-in'>  <span class='fu'>read_excel</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"deaths.xlsx"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    range <span class='op'>=</span> <span class='st'>"arts!A5:F15"</span>,</span>
+<span class='r-in'>    .name_repair <span class='op'>=</span> <span class='st'>"universal"</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## specify name repair as a built-in function</span></span>
+<span class='r-in'>  <span class='fu'>read_excel</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"clippy.xlsx"</span><span class='op'>)</span>, .name_repair <span class='op'>=</span> <span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## specify name repair as a custom function</span></span>
+<span class='r-in'>  <span class='va'>my_custom_name_repair</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"[.]"</span>, <span class='st'>"_"</span>, <span class='va'>nms</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'>read_excel</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    .name_repair <span class='op'>=</span> <span class='va'>my_custom_name_repair</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## specify name repair as an anonymous function</span></span>
+<span class='r-in'>  <span class='fu'>read_excel</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    sheet <span class='op'>=</span> <span class='st'>"chickwts"</span>,</span>
+<span class='r-in'>    .name_repair <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>.x</span>, start <span class='op'>=</span> <span class='fl'>1</span>, stop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> New names:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `Has kids` -&gt; Has.kids</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `Date of birth` -&gt; Date.of.birth</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * `Date of death` -&gt; Date.of.death</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 71 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      wei fee      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   179 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   160 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   136 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>   227 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>   217 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>   168 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>   108 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>   124 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>   143 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>   140 horsebean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 61 more rows</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -565,7 +612,7 @@ back to name repair in the style of tibble v1.4.2.</p></td>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -575,6 +622,8 @@ back to name repair in the style of tibble v1.4.2.</p></td>
 
   
 
+
+  
 
   </body>
 </html>
