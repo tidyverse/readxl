@@ -6,7 +6,8 @@ PKG_LIBS=-lRiconv
 SOURCES = RcppExports.cpp XlsWorkBook.cpp XlsWorkSheet.cpp XlsxWorkBook.cpp XlsxWorkSheet.cpp zip.cpp
 OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o
 
-all: clean
+all: $(SHLIB)
 
+.PHONY: clean
 clean:
 	rm -f $(SHLIB) $(OBJECTS)
