@@ -155,18 +155,13 @@ test_that("setting `na` works in list columns [xls]", {
 ## values for subsequent cells holding numeric data
 ## refines fix initiated in #398
 test_that("numeric is correctly coerced to logical [xlsx]", {
-  expect_warning(
-    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0),
-    "Expecting logical"
-  )
+  df <- suppressWarnings(read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0))
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)
 })
 
 test_that("numeric is correctly coerced to logical [xls]", {
-  expect_warning(
-    df <- read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0)
-  )
+  df <- suppressWarnings(read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0))
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)
 })
