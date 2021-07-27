@@ -6,8 +6,7 @@
 <!-- badges: start -->
 
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
-[![R build
-status](https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/readxl/actions)
+[![R-CMD-check](https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/readxl/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/readxl/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -68,7 +67,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/Users/jenny/Library/R/3.6/library/readxl/extdata/clippy.xls"
+#> [1] "/private/var/folders/qy/_87n3lkx6dd_3rkvbw6yqjg00000gn/T/RtmpHrzR24/temp_libpath243a2ea1b55/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
