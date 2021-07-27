@@ -31,9 +31,9 @@
 
 #include <stdlib.h>
 
-#include "libxls/xlstypes.h"
-#include "libxls/endian.h"
-#include "libxls/ole.h"
+#include "../include/libxls/xlstypes.h"
+#include "../include/libxls/endian.h"
+#include "../include/libxls/ole.h"
 
 int xls_is_bigendian()
 {
@@ -87,7 +87,7 @@ void xlsConvertDouble(unsigned char *d)
         for (i=0; i<4; i++)
         {
             t = d[7-i];
-            d[8-i] = d[i];
+            d[7-i] = d[i];
             d[i] = t;
         }
     }

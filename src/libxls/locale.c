@@ -1,10 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
- * Copyright 2008-2017 David Hoerl
- * Copyright 2013 Bob Colbert
- * Copyright 2013-2018 Evan Miller
+ * Copyright 2020 Evan Miller
  *
  * This file is part of libxls -- A multiplatform, C/C++ library for parsing
  * Excel(TM) files.
@@ -32,25 +28,37 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#include "config.h"
+#include <stdlib.h>
+#include "../include/libxls/locale.h"
 
-#ifndef XLS_TYPES_INC
-#define XLS_TYPES_INC
-
-#ifdef __cplusplus
-#include <cstdint>
+xls_locale_t xls_createlocale() {
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    return _create_locale(LC_CTYPE, ".65001");
 #else
-#include <stdint.h>
+    return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
 #endif
-#include <sys/types.h>
+}
 
-typedef unsigned char		BYTE;
-typedef uint16_t			WORD;
-typedef uint32_t			DWORD;
-
-#ifdef _WIN32
-typedef unsigned __int64	unsigned64_t;
+void xls_freelocale(xls_locale_t locale) {
+    if (!locale)
+        return;
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    _free_locale(locale);
 #else
-typedef uint64_t			unsigned64_t;
+    freelocale(locale);
 #endif
+}
 
+size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc) {
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    return _wcstombs_l(s, pwcs, n, loc);
+#elif defined(HAVE_WCSTOMBS_L)
+    return wcstombs_l(s, pwcs, n, loc);
+#else
+    locale_t oldlocale = uselocale(loc);
+    size_t result = wcstombs(s, pwcs, n);
+    uselocale(oldlocale);
+    return result;
 #endif
+}

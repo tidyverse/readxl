@@ -1,10 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
- * Copyright 2008-2017 David Hoerl
- * Copyright 2013 Bob Colbert
- * Copyright 2013-2018 Evan Miller
+ * Copyright 2020 Evan Miller
  *
  * This file is part of libxls -- A multiplatform, C/C++ library for parsing
  * Excel(TM) files.
@@ -32,25 +28,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#ifdef HAVE_XLOCALE_H
+#include <xlocale.h>
+#endif
+#include <locale.h>
 
-#ifndef XLS_TYPES_INC
-#define XLS_TYPES_INC
-
-#ifdef __cplusplus
-#include <cstdint>
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+typedef _locale_t xls_locale_t;
 #else
-#include <stdint.h>
-#endif
-#include <sys/types.h>
-
-typedef unsigned char		BYTE;
-typedef uint16_t			WORD;
-typedef uint32_t			DWORD;
-
-#ifdef _WIN32
-typedef unsigned __int64	unsigned64_t;
-#else
-typedef uint64_t			unsigned64_t;
+typedef locale_t xls_locale_t;
 #endif
 
-#endif
+xls_locale_t xls_createlocale(void);
+void xls_freelocale(xls_locale_t locale);
+size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc);

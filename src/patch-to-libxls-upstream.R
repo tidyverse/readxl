@@ -1,14 +1,14 @@
 library(fs)
 library(tidyverse)
 library(here)
-library(git2r)
+library(gert)
 library(desc)
 
-libxls_path <- "~/rrr/libxls-evanmiller-github"
-libxls_SHA <- sha(last_commit(libxls_path))
+libxls_path <- "~/rrr/libxls"
+libxls_SHA <- git_commit_id(repo = libxls_path)
 there <- function(x) path(libxls_path, x)
 
-if (repository_head(libxls_path)[["name"]] != "master") {
+if (git_branch(repo = libxls_path) != "master") {
   message("YO! You are not on master in libxls! Are you sure about this?")
 }
 
@@ -28,15 +28,11 @@ paths <- c(
   "include/libxls/xlstypes.h"
 )
 
-new_paths <- paths
-
-## btw xls.h doesn't live with the other headers in libxls
-## but it needs to do so in readxl
-header_file <- grepl(".h$", new_paths)
-new_paths[header_file] <-
-  path("src", "libxls", path_file(new_paths))[header_file]
-
-file_copy(path = there(paths), new_path = here(new_paths), overwrite = TRUE)
+file_copy(
+  path     = there(paths),
+  new_path = here(path("src", "libxls", path_file(paths))),
+  overwrite = TRUE
+)
 
 desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
 
