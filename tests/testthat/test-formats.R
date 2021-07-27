@@ -1,5 +1,3 @@
-context("test-formats.R")
-
 test_that("excel_format() recognizes extensions (or lack thereof)", {
   files <- c("a.xlsx", "b.xls", "c.png", "d")
   expect_identical(

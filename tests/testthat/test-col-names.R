@@ -1,5 +1,3 @@
-context("Column names")
-
 test_that("col_names = FALSE mimics missing column names [xlsx]", {
   df1 <- read_excel(
     test_sheet("no-yes-col-names.xlsx"),

@@ -1,5 +1,3 @@
-context("Column types")
-
 test_that("illegal col_types are rejected", {
   expect_error(
     read_excel(
@@ -41,12 +39,12 @@ test_that("col_types can be specified", {
     test_sheet("iris-excel-xlsx.xlsx"),
     col_types = c("numeric", "text", "numeric", "numeric", "text")
   )
-  expect_is(df[[2]], "character")
+  expect_type(df[[2]], "character")
   df <- read_excel(
     test_sheet("iris-excel-xls.xls"),
     col_types = c("numeric", "text", "numeric", "numeric", "text")
   )
-  expect_is(df[[2]], "character")
+  expect_type(df[[2]], "character")
 })
 
 test_that("col_types are recycled", {
@@ -58,21 +56,21 @@ test_that("col_types are recycled", {
 
 test_that("types guessed correctly [xlsx]", {
   types <- read_excel(test_sheet("types.xlsx"), sheet = "guess_me")
-  expect_is(types$blank, "logical")
-  expect_is(types$boolean, "logical")
-  expect_is(types$date, "POSIXct")
-  expect_is(types$numeric, "numeric")
-  expect_is(types$text, "character")
+  expect_type(types$blank, "logical")
+  expect_type(types$boolean, "logical")
+  expect_s3_class(types$date, "POSIXct")
+  expect_true(is.numeric(types$numeric))
+  expect_type(types$text, "character")
   expect_true(all(vapply(types, function(x) is.na(x[3]), logical(1))))
 })
 
 test_that("types guessed correctly [xls]", {
   types <- read_excel(test_sheet("types.xls"), sheet = "guess_me")
-  expect_is(types$blank, "logical")
-  expect_is(types$boolean, "logical")
-  expect_is(types$date, "POSIXct")
-  expect_is(types$numeric, "numeric")
-  expect_is(types$text, "character")
+  expect_type(types$blank, "logical")
+  expect_type(types$boolean, "logical")
+  expect_s3_class(types$date, "POSIXct")
+  expect_true(is.numeric(types$numeric))
+  expect_type(types$text, "character")
   expect_true(all(vapply(types, function(x) is.na(x[3]), logical(1))))
 })
 
@@ -82,11 +80,11 @@ test_that("we can specify some col_types and guess others", {
 
   df <- read_excel(test_sheet("types.xlsx"), col_types = ctypes)
   cls <- vapply(df, function(x) class(x)[1], character(1))
-  expect_equivalent(cls, exp_cls)
+  expect_equal(cls, exp_cls, ignore_attr = TRUE)
 
   df <- read_excel(test_sheet("types.xls"), col_types = ctypes)
   cls <- vapply(df, function(x) class(x)[1], character(1))
-  expect_equivalent(cls, exp_cls)
+  expect_equal(cls, exp_cls, ignore_attr = TRUE)
 })
 
 test_that("guess_max is honored for col_types", {
@@ -96,19 +94,18 @@ test_that("guess_max is honored for col_types", {
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric",
-    all = TRUE
-  )
+    "Expecting numeric")
+
   expect_identical(types$string_in_row_3, c(1, 2, NA))
+
   expect_warning(
     types <- read_excel(
       test_sheet("types.xls"),
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric",
-    all = TRUE
-  )
+    "Expecting numeric")
+
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
@@ -159,7 +156,8 @@ test_that("setting `na` works in list columns [xls]", {
 ## refines fix initiated in #398
 test_that("numeric is correctly coerced to logical [xlsx]", {
   expect_warning(
-    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0)
+    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0),
+    "Expecting logical"
   )
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)

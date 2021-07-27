@@ -1,5 +1,3 @@
-context("Dates")
-
 test_that("dates respect worksheet date setting", {
   nms <- paste0("X", 1:5)
   d1900 <- read_xls(test_sheet("dates-1900.xls"), col_names = nms)

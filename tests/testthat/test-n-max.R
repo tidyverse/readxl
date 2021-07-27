@@ -1,5 +1,3 @@
-context("n_max")
-
 test_that("simple use of n_max works and does not affect col name reading", {
   ## xlsx
   df <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1)
