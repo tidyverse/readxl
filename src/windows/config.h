@@ -58,7 +58,7 @@
 /* #undef HAVE_XLOCALE_H */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#define ICONV_CONST const
 
 /* Major version */
 #define LIBXLS_MAJOR_VERSION 1
