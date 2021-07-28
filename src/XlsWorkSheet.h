@@ -2,7 +2,7 @@
 #define READXL_XLSWORKSHEET_
 
 #include <Rcpp.h>
-#include <libxls/xls.h>
+#include "libxls/xls.h"
 #include "XlsWorkBook.h"
 #include "Spinner.h"
 #include "XlsCell.h"

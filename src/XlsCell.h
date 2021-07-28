@@ -3,9 +3,9 @@
 
 #include <limits.h>
 #include <Rcpp.h>
-#include <libxls/xls.h>
-#include <libxls/xlstypes.h>
-#include <libxls/xlsstruct.h>
+#include "libxls/xls.h"
+#include "libxls/xlstypes.h"
+#include "libxls/xlsstruct.h"
 #include "ColSpec.h"
 #include "utils.h"
 
