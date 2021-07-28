@@ -41,7 +41,7 @@ std::string xml_print(std::string xml) {
   return s;
 }
 
-// [[Rcpp::export]]
+[[cpp11::register]]
 void zip_xml(const std::string& zip_path,
              const std::string& file_path) {
 

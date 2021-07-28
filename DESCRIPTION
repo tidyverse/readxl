@@ -55,6 +55,7 @@ Suggests:
     rprojroot (>= 1.1),
     testthat (>= 2.0.0)
 LinkingTo: 
+    cpp11,
     progress,
     Rcpp
 VignetteBuilder: 
@@ -65,3 +66,4 @@ LazyData: true
 Note: libxls-SHA cef1393
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
+SystemRequirements: C++11

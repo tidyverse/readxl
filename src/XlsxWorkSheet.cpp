@@ -6,14 +6,14 @@
 #include "utils.h"
 using namespace Rcpp;
 
-// [[Rcpp::export]]
+[[cpp11::register]]
 IntegerVector parse_ref(std::string ref) {
   std::pair<int,int> parsed = parseRef(ref.c_str());
 
   return IntegerVector::create(parsed.first, parsed.second);
 }
 
-// [[Rcpp::export]]
+[[cpp11::register]]
 List read_xlsx_(std::string path, int sheet_i,
                 IntegerVector limits, bool shim,
                 RObject col_names, RObject col_types,

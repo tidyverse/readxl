@@ -6,7 +6,7 @@
 #include <libxls/xls.h>
 using namespace Rcpp;
 
-// [[Rcpp::export]]
+[[cpp11::register]]
 List read_xls_(std::string path, int sheet_i,
                IntegerVector limits, bool shim,
                RObject col_names, RObject col_types,
