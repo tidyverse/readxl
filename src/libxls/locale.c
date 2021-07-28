@@ -34,7 +34,7 @@
 
 xls_locale_t xls_createlocale() {
 #if defined(__MINGW32__)
-    xls_locale_t loc;
+    xls_locale_t loc = {0};
     return loc;
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _create_locale(LC_CTYPE, ".65001");
