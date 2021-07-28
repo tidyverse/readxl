@@ -55,7 +55,9 @@
 #define HAVE_WCSTOMBS_L 1
 
 /* Define to 1 if you have the <xlocale.h> header file. */
-#define HAVE_XLOCALE_H 1
+#if defined(__APPLE__)
+  #define HAVE_XLOCALE_H 1
+#endif
 
 /* Define as const if the declaration of iconv() needs const. */
 #define ICONV_CONST 
