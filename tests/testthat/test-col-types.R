@@ -39,12 +39,12 @@ test_that("col_types can be specified", {
     test_sheet("iris-excel-xlsx.xlsx"),
     col_types = c("numeric", "text", "numeric", "numeric", "text")
   )
-  expect_type(df[[2]], "character")
+  expect_true(is.character(df[[2]]))
   df <- read_excel(
     test_sheet("iris-excel-xls.xls"),
     col_types = c("numeric", "text", "numeric", "numeric", "text")
   )
-  expect_type(df[[2]], "character")
+  expect_true(is.character(df[[2]]))
 })
 
 test_that("col_types are recycled", {
@@ -56,21 +56,21 @@ test_that("col_types are recycled", {
 
 test_that("types guessed correctly [xlsx]", {
   types <- read_excel(test_sheet("types.xlsx"), sheet = "guess_me")
-  expect_type(types$blank, "logical")
-  expect_type(types$boolean, "logical")
+  expect_true(is.logical(types$blank))
+  expect_true(is.logical(types$boolean))
   expect_s3_class(types$date, "POSIXct")
   expect_true(is.numeric(types$numeric))
-  expect_type(types$text, "character")
+  expect_true(is.character(types$text))
   expect_true(all(vapply(types, function(x) is.na(x[3]), logical(1))))
 })
 
 test_that("types guessed correctly [xls]", {
   types <- read_excel(test_sheet("types.xls"), sheet = "guess_me")
-  expect_type(types$blank, "logical")
-  expect_type(types$boolean, "logical")
+  expect_true(is.logical(types$blank))
+  expect_true(is.logical(types$boolean))
   expect_s3_class(types$date, "POSIXct")
   expect_true(is.numeric(types$numeric))
-  expect_type(types$text, "character")
+  expect_true(is.character(types$text))
   expect_true(all(vapply(types, function(x) is.na(x[3]), logical(1))))
 })
 
@@ -155,13 +155,19 @@ test_that("setting `na` works in list columns [xls]", {
 ## values for subsequent cells holding numeric data
 ## refines fix initiated in #398
 test_that("numeric is correctly coerced to logical [xlsx]", {
-  df <- suppressWarnings(read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0))
+  expect_snapshot(
+    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"),
+                                     guess_max = 0))
+
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)
 })
 
 test_that("numeric is correctly coerced to logical [xls]", {
-  df <- suppressWarnings(read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0))
+  expect_snapshot(
+    df <- read_xls(test_sheet("missing-values-xls.xls"),
+                                      guess_max = 0))
+
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)
 })

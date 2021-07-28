@@ -6,7 +6,7 @@ test_that("contaminated, explicit logical is read as logical", {
       col_types = c("logical", "text"))
   )
 
-  expect_type(df$logical, "logical")
+  expect_true(is.logical(df$logical))
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
   expect_false(anyNA(df$logical[!should_be_NA]))
 
@@ -16,7 +16,7 @@ test_that("contaminated, explicit logical is read as logical", {
       test_sheet("types.xlsx"), sheet = "logical_coercion",
       col_types = c("logical", "text"))
   )
-  expect_type(df$logical, "logical")
+  expect_true(is.logical(df$logical))
 
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
   expect_false(anyNA(df$logical[!should_be_NA]))
@@ -24,10 +24,10 @@ test_that("contaminated, explicit logical is read as logical", {
 
 test_that("contaminated, explicit date is read as date", {
   ## xls
-    df <- suppressWarnings(read_excel(
+  expect_snapshot(
+    df <- read_excel(
       test_sheet("types.xls"), sheet = "date_coercion",
-      col_types = "date"
-    ))
+      col_types = "date"))
 
   expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -35,10 +35,10 @@ test_that("contaminated, explicit date is read as date", {
   expect_identical(df$date[6], as.POSIXct("2012-01-02 UTC", tz = "UTC"))
 
   ## xlsx
-    df <- suppressWarnings(read_excel(
-      test_sheet("types.xlsx"), sheet = "date_coercion",
-      col_types = "date"
-    ))
+  expect_snapshot(
+    df <- read_excel(
+        test_sheet("types.xlsx"), sheet = "date_coercion",
+        col_types = "date"))
 
   expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -48,20 +48,20 @@ test_that("contaminated, explicit date is read as date", {
 
 test_that("contaminated, explicit numeric is read as numeric", {
   ## xls
-    df <- suppressWarnings(read_excel(
+  expect_snapshot(
+    df <- read_excel(
       test_sheet("types.xls"), sheet = "numeric_coercion",
-      col_types = "numeric"
-    ))
+      col_types = "numeric"))
 
   expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
   expect_equal(df$numeric[2], 72) # "Number stored as text"
 
   ## xlsx
-    df <- suppressWarnings(read_excel(
+  expect_snapshot(
+    df <- read_excel(
       test_sheet("types.xlsx"), sheet = "numeric_coercion",
-      col_types = "numeric"
-    ))
+      col_types = "numeric"))
 
   expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
@@ -76,7 +76,7 @@ test_that("contaminated, explicit text is read as text", {
     test_sheet("types.xls"), sheet = "text_coercion",
     col_types = c("text", "text")
   )
-  expect_type(df$text, "character")
+  expect_true(is.character(df$text))
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
@@ -86,7 +86,7 @@ test_that("contaminated, explicit text is read as text", {
     test_sheet("types.xlsx"), sheet = "text_coercion",
     col_types = c("text", "text")
   )
-  expect_type(df$text, "character")
+  expect_true(is.character(df$text))
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
