@@ -35,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -51,7 +49,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
       </div>
@@ -94,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
     </li>
     <li>
       <a href="../../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -115,7 +113,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/" class="external-link">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -136,30 +134,30 @@
       <h1 data-toc-skip>readxl v1.0.0</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/releases/readxl-1.0.0.Rmd" class="external-link"><code>vignettes/releases/readxl-1.0.0.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/releases/readxl-1.0.0.Rmd"><code>vignettes/releases/readxl-1.0.0.Rmd</code></a></small>
       <div class="hidden name"><code>readxl-1.0.0.Rmd</code></div>
 
     </div>
 
     
     
-<p>I’m pleased to announce that <a href="http://readxl.tidyverse.org" class="external-link">readxl</a> 1.0.0 is available on CRAN. <a href="http://readxl.tidyverse.org" class="external-link">readxl</a> makes it easy to bring tabular data out of Excel and into R, for modern <code>.xlsx</code> files and the legacy <code>.xls</code> format. <a href="http://readxl.tidyverse.org" class="external-link">readxl</a> does not have any tricky external dependencies, such as Java or Perl, and is easy to install and use on Mac, Windows, and Linux.</p>
+<p>I’m pleased to announce that <a href="http://readxl.tidyverse.org">readxl</a> 1.0.0 is available on CRAN. <a href="http://readxl.tidyverse.org">readxl</a> makes it easy to bring tabular data out of Excel and into R, for modern <code>.xlsx</code> files and the legacy <code>.xls</code> format. <a href="http://readxl.tidyverse.org">readxl</a> does not have any tricky external dependencies, such as Java or Perl, and is easy to install and use on Mac, Windows, and Linux.</p>
 <p>You can install it with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span></code></pre></div>
 <p>As well as fixing many bugs, this release:</p>
 <ul>
 <li>Allows you to target specific cells for reading, in a variety of ways</li>
 <li>Adds two new column types: <code>"logical"</code> and <code>"list"</code>, for data of disparate type</li>
 <li>Is more resilient to the wondrous diversity in spreadsheets, e.g., those written by 3rd party tools</li>
 </ul>
-<p>You can see a full list of changes in the <a href="http://readxl.tidyverse.org/news/index.html" class="external-link">release notes</a>. This is the first release maintained by Jenny Bryan.</p>
+<p>You can see a full list of changes in the <a href="http://readxl.tidyverse.org/news/index.html">release notes</a>. This is the first release maintained by Jenny Bryan.</p>
 <div id="specifying-the-data-rectangle" class="section level2">
 <h2 class="hasAnchor">
-<a href="#specifying-the-data-rectangle" class="anchor" aria-hidden="true"></a>Specifying the data rectangle</h2>
+<a href="#specifying-the-data-rectangle" class="anchor"></a>Specifying the data rectangle</h2>
 <p>In an ideal world, data would live in a neat rectangle in the upper left corner of a spreadsheet. But spreadsheets often serve multiple purposes for users with different priorities. It is common to encounter several rows of notes above or below the data, for example. The new <code>range</code> argument provides a flexible interface for describing the data rectangle, including Excel-style ranges and row- or column-only ranges.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span>
 <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,
   range <span class="op">=</span> <span class="st">"arts!A5:F15"</span>
@@ -185,18 +183,18 @@
 <span class="co">#&gt; 3 Morley Sa… journalist    84 TRUE       1931-11-08 00:00:00 2016-05-19 00:00:00</span>
 <span class="co">#&gt; 4 Fidel Cas… politician    90 TRUE       1926-08-13 00:00:00 2016-11-25 00:00:00</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
-<p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org" class="external-link">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html" class="external-link">Sheet Geometry vignette</a> goes over all the options.</p>
+<p>There is also a new argument <code>n_max</code> that limits the number of data rows read from the sheet. It is an example of <a href="http://readxl.tidyverse.org">readxl</a>’s evolution towards a <a href="http://readr.tidyverse.org">readr</a>-like interface. The <a href="http://readxl.tidyverse.org/articles/sheet-geometry.html">Sheet Geometry vignette</a> goes over all the options.</p>
 </div>
 <div id="column-typing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#column-typing" class="anchor" aria-hidden="true"></a>Column typing</h2>
-<p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>.</p>
+<a href="#column-typing" class="anchor"></a>Column typing</h2>
+<p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org">readxl</a>.</p>
 <p>You can still specify column type explicitly via <code>col_types</code>, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type <code>"guess"</code> can be mixed with explicit types to specify some types, while leaving others to be guessed.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,
   range <span class="op">=</span> <span class="st">"arts!A5:C15"</span>,
-  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span><span class="op">)</span>
+  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"numeric"</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;   Name            Age</span>
@@ -206,15 +204,15 @@
 <span class="co">#&gt; 3 Chuck Berry      90</span>
 <span class="co">#&gt; 4 Bill Paxton      61</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
-<p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz" class="external-link">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html" class="external-link">Cell and Column Types vignette</a> has more detail.</p>
+<p>The new argument <code>guess_max</code> limits the rows used for type guessing. Leading and trailing whitespace is trimmed when the new <code>trim_ws</code> argument is <code>TRUE</code>, which is the default. Finally, thanks to <a href="https://github.com/jmarshallnz">Jonathan Marshall</a>, multiple <code>na</code> values are accepted. The <a href="http://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types vignette</a> has more detail.</p>
 <div id="list-columns" class="section level3">
 <h3 class="hasAnchor">
-<a href="#list-columns" class="anchor" aria-hidden="true"></a><code>"list"</code> columns</h3>
-<p>Thanks to <a href="https://github.com/gergness" class="external-link">Greg Freedman Ellis</a> we now have a <code>"list"</code> column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.</p>
+<a href="#list-columns" class="anchor"></a><code>"list"</code> columns</h3>
+<p>Thanks to <a href="https://github.com/gergness">Greg Freedman Ellis</a> we now have a <code>"list"</code> column type. This is useful if you want to bring truly disparate data into R without the coercion required by atomic vector types.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>,
-  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"list"</span><span class="op">)</span>
+  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"list"</span><span class="op">)</span>
 <span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 × 2</span>
 <span class="co">#&gt;   name                 value     </span>
@@ -223,7 +221,7 @@
 <span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span>
 <span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
 <span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span>
-<span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html" class="external-link">deframe</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
+<span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
 <span class="co">#&gt; $Name</span>
 <span class="co">#&gt; [1] "Clippy"</span>
 <span class="co">#&gt; </span>
@@ -239,16 +237,16 @@
 </div>
 <div id="everything-else" class="section level2">
 <h2 class="hasAnchor">
-<a href="#everything-else" class="anchor" aria-hidden="true"></a>Everything else</h2>
-<p>To learn more, read the <a href="http://readxl.tidyverse.org/articles/index.html" class="external-link">vignettes and articles</a> or <a href="http://readxl.tidyverse.org/news/index.html" class="external-link">release notes</a>. Highlights include:</p>
+<a href="#everything-else" class="anchor"></a>Everything else</h2>
+<p>To learn more, read the <a href="http://readxl.tidyverse.org/articles/index.html">vignettes and articles</a> or <a href="http://readxl.tidyverse.org/news/index.html">release notes</a>. Highlights include:</p>
 <ul>
 <li>General rationalization of sheet geometry, including detection and treatment of empty rows and columns.</li>
 <li>Improved behavior and messaging around coercion and mismatched cell and column types.</li>
-<li>Improved handling of datetimes with respect to 3rd party software, rounding, and the <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year" class="external-link">Lotus 1-2-3 leap year bug</a>.</li>
+<li>Improved handling of datetimes with respect to 3rd party software, rounding, and the <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a>.</li>
 <li>
-<code><a href="../../reference/read_excel.html">read_xls()</a></code> and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> are now exposed, so that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. Thanks <a href="https://github.com/jirkalewandowski" class="external-link">Jirka Lewandowski</a>!</li>
+<code><a href="../../reference/read_excel.html">read_xls()</a></code> and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> are now exposed, so that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. Thanks <a href="https://github.com/jirkalewandowski">Jirka Lewandowski</a>!</li>
 <li>
-<a href="http://readxl.tidyverse.org/articles/articles/readxl-workflows.html" class="external-link">readxl Workflows</a> showcases patterns that reduce tedium and increase reproducibility when raw data arrives in a spreadsheet.</li>
+<a href="http://readxl.tidyverse.org/articles/articles/readxl-workflows.html">readxl Workflows</a> showcases patterns that reduce tedium and increase reproducibility when raw data arrives in a spreadsheet.</li>
 </ul>
 </div>
   </div>
@@ -264,13 +262,13 @@
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
 
@@ -279,8 +277,6 @@
 
   
 
-
-  
 
   </body>
 </html>

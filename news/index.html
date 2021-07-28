@@ -75,15 +75,9 @@
   gtag('config', 'UA-115082821-1');
 </script>
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -187,80 +181,100 @@
 
     <div id="readxl-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
-<a href="#readxl-development-version" class="anchor" aria-hidden="true"></a>readxl (development version)<small> Unreleased </small></h1>
-<ul><li>readxl is now licensed as MIT (<a href='https://github.com/tidyverse/readxl/issues/632'>#632</a>).</li>
-</ul></div>
+<a href="#readxl-development-version" class="anchor"></a>readxl (development version)<small> Unreleased </small>
+</h1>
+<ul>
+<li>readxl is now licensed as MIT (<a href='https://github.com/tidyverse/readxl/issues/632'>#632</a>).</li>
+</ul>
+</div>
     <div id="readxl-131" class="section level1">
 <h1 class="page-header" data-toc-text="1.3.1">
-<a href="#readxl-131" class="anchor" aria-hidden="true"></a>readxl 1.3.1<small> 2019-03-13 </small></h1>
+<a href="#readxl-131" class="anchor"></a>readxl 1.3.1<small> 2019-03-13 </small>
+</h1>
 <p>Pragmatic patch release to update some tests in advance of v2.1.0 of the tibble package. That release updates name repair: standard suffix becomes <code>...j</code>, instead of <code>..j</code>, partially motivated by user experience in readxl.</p>
 </div>
     <div id="readxl-130" class="section level1">
 <h1 class="page-header" data-toc-text="1.3.0">
-<a href="#readxl-130" class="anchor" aria-hidden="true"></a>readxl 1.3.0<small> 2019-02-15 </small></h1>
+<a href="#readxl-130" class="anchor"></a>readxl 1.3.0<small> 2019-02-15 </small>
+</h1>
 <div id="dependency-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor" aria-hidden="true"></a>Dependency changes</h2>
-<p>readxl embeds libxls v1.5.0. This is the first <em>official</em> release of libxls in several years, although readxl has been tracking the development version in the interim. The libxls project is now officially hosted at <a href="https://github.com/libxls/libxls" class="external-link uri">https://github.com/libxls/libxls</a>. In particular, libxls v1.5.0 addresses these two CVEs:</p>
-<ul><li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452" class="external-link">CVE-2018-20452</a></li>
-<li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450" class="external-link">CVE-2018-20450</a></li>
-</ul></div>
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<p>readxl embeds libxls v1.5.0. This is the first <em>official</em> release of libxls in several years, although readxl has been tracking the development version in the interim. The libxls project is now officially hosted at <a href="https://github.com/libxls/libxls" class="uri">https://github.com/libxls/libxls</a>. In particular, libxls v1.5.0 addresses these two CVEs:</p>
+<ul>
+<li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452">CVE-2018-20452</a></li>
+<li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450">CVE-2018-20450</a></li>
+</ul>
+</div>
 </div>
     <div id="readxl-120" class="section level1">
 <h1 class="page-header" data-toc-text="1.2.0">
-<a href="#readxl-120" class="anchor" aria-hidden="true"></a>readxl 1.2.0<small> 2018-12-19 </small></h1>
+<a href="#readxl-120" class="anchor"></a>readxl 1.2.0<small> 2018-12-19 </small>
+</h1>
 <div id="column-name-repair" class="section level2">
 <h2 class="hasAnchor">
-<a href="#column-name-repair" class="anchor" aria-hidden="true"></a>Column name repair</h2>
-<p>readxl exposes the <code>.name_repair</code> argument that is <a href="https://www.tidyverse.org/articles/2018/11/tibble-2.0.0-pre-announce/" class="external-link">coming to version 2.0.0 of the tibble package</a>. The readxl default is <code>.name_repair = "unique"</code>, keeping with the readxl convention to ensure column names are neither missing nor duplicated.</p>
-<ul><li>
+<a href="#column-name-repair" class="anchor"></a>Column name repair</h2>
+<p>readxl exposes the <code>.name_repair</code> argument that is <a href="https://www.tidyverse.org/articles/2018/11/tibble-2.0.0-pre-announce/">coming to version 2.0.0 of the tibble package</a>. The readxl default is <code>.name_repair = "unique"</code>, keeping with the readxl convention to ensure column names are neither missing nor duplicated.</p>
+<ul>
+<li>
 <a href="https://readxl.tidyverse.org/articles/articles/column-names.html">Column Names</a> is a new article about this feature.</li>
 <li>readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.</li>
-<li>If tibble &gt;= v2.0.0, the full power of <code>.name_repair</code> is available, defaulting to <code>.name_repair = "unique"</code>. Otherwise, the legacy function <code>tibble::repair_names(prefix = "X", sep = "__")</code> is used, replicating the behaviour of readxl v1.1.0.
-<ul><li>Consider a spreadsheet with three columns: one unnamed and two named <code>x</code>.</li>
+<li>If tibble &gt;= v2.0.0, the full power of <code>.name_repair</code> is available, defaulting to <code>.name_repair = "unique"</code>. Otherwise, the legacy function <code><a href="https://tibble.tidyverse.org/reference/name-repair-superseded.html">tibble::repair_names(prefix = "X", sep = "__")</a></code> is used, replicating the behaviour of readxl v1.1.0.
+<ul>
+<li>Consider a spreadsheet with three columns: one unnamed and two named <code>x</code>.</li>
 <li>Content of cells in Excel: <code>""</code>, <code>x</code>, <code>x</code>
 </li>
 <li>New style column names: <code>..1</code>, <code>x..2</code>, <code>x..3</code>
 </li>
 <li>Legacy column names: <code>X__1</code>, <code>x</code>, <code>x__1</code>
 </li>
-</ul></li>
+</ul>
+</li>
 <li>Once per session, readxl emits a message stating that it works best with tibble &gt;= v2.0.0. It is anticipated that this will become a hard minimum version requirement in a future version of readxl.</li>
-</ul></div>
+</ul>
+</div>
 <div id="other-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-changes" class="anchor" aria-hidden="true"></a>Other changes</h2>
-<ul><li><p><code><a href="../reference/read_excel.html">read_excel()</a></code> and friends gain a <code>progress</code> argument that controls a progress spinner (<a href='https://github.com/tidyverse/readxl/issues/243'>#243</a>, <a href='https://github.com/tidyverse/readxl/issues/538'>#538</a>).</p></li>
+<a href="#other-changes" class="anchor"></a>Other changes</h2>
+<ul>
+<li><p><code><a href="../reference/read_excel.html">read_excel()</a></code> and friends gain a <code>progress</code> argument that controls a progress spinner (<a href='https://github.com/tidyverse/readxl/issues/243'>#243</a>, <a href='https://github.com/tidyverse/readxl/issues/538'>#538</a>).</p></li>
 <li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> pass the <code>trim_ws</code> argument along (<a href='https://github.com/tidyverse/readxl/issues/514'>#514</a>).</p></li>
 <li><p>readxl has a <a href="https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html">new article</a> on reading Excel files with multiple header rows (<a href='https://github.com/tidyverse/readxl/issues/486'>#486</a>, <a href='https://github.com/tidyverse/readxl/issues/492'>#492</a> <a href='https://github.com/apreshill'>@apreshill</a>).</p></li>
 <li><p>xlsx files that do not have a “styles” part can now be read (<a href='https://github.com/tidyverse/readxl/issues/505'>#505</a>, <a href='https://github.com/tidyverse/readxl/issues/506'>#506</a> <a href='https://github.com/jt6'>@jt6</a>)</p></li>
-<li><p>All paths are passed through <code><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/498'>#498</a>, <a href='https://github.com/tidyverse/readxl/issues/499'>#499</a>, new behaviour for xlsx but not xls) and <code><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">enc2native()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/370'>#370</a>).</p></li>
-</ul></div>
+<li><p>All paths are passed through <code><a href="https://rdrr.io/r/base/normalizePath.html">normalizePath()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/498'>#498</a>, <a href='https://github.com/tidyverse/readxl/issues/499'>#499</a>, new behaviour for xlsx but not xls) and <code><a href="https://rdrr.io/r/base/Encoding.html">enc2native()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/370'>#370</a>).</p></li>
+</ul>
+</div>
 <div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-1" class="anchor" aria-hidden="true"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <p>readxl is now tested back to R &gt;= 3.1.</p>
-<p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="external-link uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
+<p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
 </div>
 </div>
     <div id="readxl-110" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.0">
-<a href="#readxl-110" class="anchor" aria-hidden="true"></a>readxl 1.1.0<small> 2018-04-20 </small></h1>
-<ul><li>
+<a href="#readxl-110" class="anchor"></a>readxl 1.1.0<small> 2018-04-20 </small>
+</h1>
+<ul>
+<li>
 <p><code><a href="../reference/read_excel.html">read_excel()</a></code> and <code><a href="../reference/excel_sheets.html">excel_sheets()</a></code> associate a larger set of file extensions with xlsx and are better able to guess the format of a file with a nonstandard or missing extension. This is about deciding whether to treat a file as xls or xlsx. (<a href='https://github.com/tidyverse/readxl/issues/342'>#342</a>, <a href='https://github.com/tidyverse/readxl/issues/411'>#411</a>, <a href='https://github.com/tidyverse/readxl/issues/457'>#457</a>)</p>
-<ul><li>
+<ul>
+<li>
 <code><a href="../reference/excel_format.html">excel_format()</a></code> is the newly-exported format-guessing function.</li>
 <li>
 <code><a href="../reference/excel_format.html">format_from_ext()</a></code> is a low-level helper, also exported, that only consults file extension. In addition to the obvious interpretation of <code>.xls</code> and <code>.xlsx</code>, the extensions <code>.xlsm</code>, <code>.xltx</code>, and <code>.xltm</code> are now associated with xlsx.</li>
 <li>
 <code><a href="../reference/excel_format.html">format_from_signature()</a></code> is a low-level helper, also exported, that consults the file’s signature (a.k.a. magic number). It’s handy for files that lack an extension.</li>
-</ul></li>
+</ul>
+</li>
 <li>
 <p>Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (<a href='https://github.com/tidyverse/readxl/issues/441'>#441</a>, <a href='https://github.com/tidyverse/readxl/issues/442'>#442</a>).</p>
-<ul><li>
-<a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0462" class="external-link">CVE-2017-12110</a>, <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0403" class="external-link">CVE-2017-2896</a>, and <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0404" class="external-link">CVE-2017-2897</a> were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.</li>
-<li>Although <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0463" class="external-link">CVE-2017-12111</a> and <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0426" class="external-link">CVE-2017-2919</a> mention readxl, the notices clarify that these CVEs do not actually affect readxl. Both have been fixed in libxls for quite a while: CVE-2017-12111 since 2014 and CVE-2017-2919 since 2012.</li>
-</ul></li>
+<ul>
+<li>
+<a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0462">CVE-2017-12110</a>, <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0403">CVE-2017-2896</a>, and <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0404">CVE-2017-2897</a> were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.</li>
+<li>Although <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0463">CVE-2017-12111</a> and <a href="https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0426">CVE-2017-2919</a> mention readxl, the notices clarify that these CVEs do not actually affect readxl. Both have been fixed in libxls for quite a while: CVE-2017-12111 since 2014 and CVE-2017-2919 since 2012.</li>
+</ul>
+</li>
 <li><p>xlsx structured as a “minimal conformant SpreadsheetML package” can be read. Most obvious feature of such sheets is the lack of an <code>xl/</code> directory in the unzipped form. (xlsx, <a href='https://github.com/tidyverse/readxl/issues/435'>#435</a>, <a href='https://github.com/tidyverse/readxl/issues/437'>#437</a>)</p></li>
 <li><p>Reading xls sheet with exactly 65,536 rows no longer enters an infinite loop. (xls, <a href='https://github.com/tidyverse/readxl/issues/373'>#373</a>, <a href='https://github.com/tidyverse/readxl/issues/416'>#416</a>, <a href='https://github.com/tidyverse/readxl/issues/432'>#432</a> <a href='https://github.com/vkapartzianis'>@vkapartzianis</a>)</p></li>
 <li><p>Doubles, including datetimes, coerced to character from xls now have much higher precision, comparable to the xlsx behaviour. (xls, <a href='https://github.com/tidyverse/readxl/issues/430'>#430</a>, <a href='https://github.com/tidyverse/readxl/issues/431'>#431</a>)</p></li>
@@ -269,73 +283,90 @@
 <li><p>Better checks and messaging around nonexistent files. (<a href='https://github.com/tidyverse/readxl/issues/392'>#392</a>)</p></li>
 <li><p>Add <code>$(C_VISIBILITY)</code> to compiler flags to hide internal symbols from the dll. (<a href='https://github.com/tidyverse/readxl/issues/385'>#385</a> <a href='https://github.com/jeroen'>@jeroen</a>)</p></li>
 <li><p>Numeric data in a logical column now coerces properly to logical. (xlsx, <a href='https://github.com/tidyverse/readxl/issues/385'>#385</a> <a href='https://github.com/nacnudus'>@nacnudus</a>)</p></li>
-</ul></div>
+</ul>
+</div>
     <div id="readxl-100" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.0">
-<a href="#readxl-100" class="anchor" aria-hidden="true"></a>readxl 1.0.0<small> 2017-04-18 </small></h1>
+<a href="#readxl-100" class="anchor"></a>readxl 1.0.0<small> 2017-04-18 </small>
+</h1>
 <div id="sheet-geometry" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sheet-geometry" class="anchor" aria-hidden="true"></a>Sheet geometry</h2>
-<ul><li><p><code>range</code> is a new argument for reading a rectangular range, possibly open. (<a href='https://github.com/tidyverse/readxl/issues/314'>#314</a>, <a href='https://github.com/tidyverse/readxl/issues/8'>#8</a>)</p></li>
+<a href="#sheet-geometry" class="anchor"></a>Sheet geometry</h2>
+<ul>
+<li><p><code>range</code> is a new argument for reading a rectangular range, possibly open. (<a href='https://github.com/tidyverse/readxl/issues/314'>#314</a>, <a href='https://github.com/tidyverse/readxl/issues/8'>#8</a>)</p></li>
 <li><p><code>n_max</code> is a new argument that limits the number of data rows read. (<a href='https://github.com/tidyverse/readxl/issues/306'>#306</a>, <a href='https://github.com/tidyverse/readxl/issues/281'>#281</a>)</p></li>
 <li>
 <p>Empty cells, rows, columns (xlsx <a href='https://github.com/tidyverse/readxl/issues/248'>#248</a> and <a href='https://github.com/tidyverse/readxl/issues/240'>#240</a>, xls <a href='https://github.com/tidyverse/readxl/issues/271'>#271</a>): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than “General”. Such cells may still exist in the returned tibble, with value <code>NA</code>, depending on the sheet geometry.</p>
-<ul><li>Eliminates a source of trailing rows (<a href='https://github.com/tidyverse/readxl/issues/203'>#203</a>) and columns (<a href='https://github.com/tidyverse/readxl/issues/236'>#236</a>, <a href='https://github.com/tidyverse/readxl/issues/162'>#162</a>, <a href='https://github.com/tidyverse/readxl/issues/146'>#146</a>) consisting entirely of <code>NA</code>.</li>
+<ul>
+<li>Eliminates a source of trailing rows (<a href='https://github.com/tidyverse/readxl/issues/203'>#203</a>) and columns (<a href='https://github.com/tidyverse/readxl/issues/236'>#236</a>, <a href='https://github.com/tidyverse/readxl/issues/162'>#162</a>, <a href='https://github.com/tidyverse/readxl/issues/146'>#146</a>) consisting entirely of <code>NA</code>.</li>
 <li>Eliminates a subtle source of disagreement between user-provided column names and guessed column types (<a href='https://github.com/tidyverse/readxl/issues/169'>#169</a>, <a href='https://github.com/tidyverse/readxl/issues/81'>#81</a>).</li>
 <li>Embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (<a href='https://github.com/tidyverse/readxl/issues/157'>#157</a>, <a href='https://github.com/tidyverse/readxl/issues/261'>#261</a>)</li>
 <li>Worksheets that are completely empty or that contain only column names no longer error, but return a tibble with zero rows. (<a href='https://github.com/tidyverse/readxl/issues/222'>#222</a>, <a href='https://github.com/tidyverse/readxl/issues/144'>#144</a>, <a href='https://github.com/tidyverse/readxl/issues/65'>#65</a>)</li>
 <li>Improved handling of leading and embedded blank rows and explicit row skipping. (<a href='https://github.com/tidyverse/readxl/issues/224'>#224</a>, <a href='https://github.com/tidyverse/readxl/issues/194'>#194</a>, <a href='https://github.com/tidyverse/readxl/issues/178'>#178</a>, <a href='https://github.com/tidyverse/readxl/issues/156'>#156</a>, <a href='https://github.com/tidyverse/readxl/issues/101'>#101</a>)</li>
-</ul></li>
+</ul>
+</li>
 <li><p>User-supplied <code>col_names</code> are processed relative to user-supplied <code>col_types</code>, if given. Specifically, <code>col_names</code> is considered valid if it has the same length as <code>col_types</code>, before <em>or after</em> removing skipped columns. (<a href='https://github.com/tidyverse/readxl/issues/81'>#81</a>, <a href='https://github.com/tidyverse/readxl/issues/261'>#261</a>)</p></li>
-</ul></div>
+</ul>
+</div>
 <div id="column-types-and-coercion" class="section level2">
 <h2 class="hasAnchor">
-<a href="#column-types-and-coercion" class="anchor" aria-hidden="true"></a>Column types and coercion</h2>
-<ul><li><p><code>"list"</code> is a new accepted value for <code>col_types</code>. Loads data as a list of length-1 vectors, that are typed using the logic from <code>col_types = NULL</code>, but on a cell-by-cell basis (<a href='https://github.com/tidyverse/readxl/issues/262'>#262</a> <a href='https://github.com/gergness'>@gergness</a>).</p></li>
+<a href="#column-types-and-coercion" class="anchor"></a>Column types and coercion</h2>
+<ul>
+<li><p><code>"list"</code> is a new accepted value for <code>col_types</code>. Loads data as a list of length-1 vectors, that are typed using the logic from <code>col_types = NULL</code>, but on a cell-by-cell basis (<a href='https://github.com/tidyverse/readxl/issues/262'>#262</a> <a href='https://github.com/gergness'>@gergness</a>).</p></li>
 <li><p><code>"logical"</code> is a new accepted value for <code>col_types</code>. When <code>col_types = NULL</code>, it is the guessed type for cells Excel advertises as Boolean. When a column has no data, it is now filled with logical <code>NA</code>. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/270'>#270</a>)</p></li>
 <li><p><code>"guess"</code> is a new accepted value for <code>col_types</code>. Allows the user to specify some column types, while allowing others to be guessed (<a href='https://github.com/tidyverse/readxl/issues/286'>#286</a>)</p></li>
 <li><p>A user-specified <code>col_types</code> of length one will be replicated to have length equal to the number of columns. (<a href='https://github.com/tidyverse/readxl/issues/127'>#127</a>, <a href='https://github.com/tidyverse/readxl/issues/114'>#114</a>, <a href='https://github.com/tidyverse/readxl/issues/261'>#261</a>)</p></li>
 <li><p><code>"blank"</code> has been deprecated in favor of the more descriptive and readr-compatible <code>"skip"</code>, which is now the preferred way to request that a column be skipped. (<a href='https://github.com/tidyverse/readxl/issues/260'>#260</a>, <a href='https://github.com/tidyverse/readxl/issues/193'>#193</a>, <a href='https://github.com/tidyverse/readxl/issues/261'>#261</a>)</p></li>
 <li><p><code>guess_max</code> is a new argument that lets user adjust the number of rows used to guess column types. (<a href='https://github.com/tidyverse/readxl/issues/223'>#223</a>, <a href='https://github.com/tidyverse/readxl/issues/257'>#257</a> <a href='https://github.com/tklebel'>@tklebel</a> and <a href='https://github.com/jennybc'>@jennybc</a>)</p></li>
 <li><p><code>trim_ws</code> is a new argument to remove leading and trailing whitespace. It defaults to <code>TRUE</code>. (<a href='https://github.com/tidyverse/readxl/issues/326'>#326</a>, <a href='https://github.com/tidyverse/readxl/issues/211'>#211</a>)</p></li>
-<li><p><code>na</code> can now hold multiple NA values, e.g., <code>read_excel("missing-values.xls", na = c("NA", "1"))</code>. (<a href='https://github.com/tidyverse/readxl/issues/13'>#13</a>, <a href='https://github.com/tidyverse/readxl/issues/56'>#56</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</p></li>
+<li><p><code>na</code> can now hold multiple NA values, e.g., <code><a href="../reference/read_excel.html">read_excel("missing-values.xls", na = c("NA", "1"))</a></code>. (<a href='https://github.com/tidyverse/readxl/issues/13'>#13</a>, <a href='https://github.com/tidyverse/readxl/issues/56'>#56</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</p></li>
 <li>
 <p>Coercions and cell data:</p>
-<ul><li>Numeric data that appears in a date column is coerced to a date. Throws a warning. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/266'>#266</a>)</li>
+<ul>
+<li>Numeric data that appears in a date column is coerced to a date. Throws a warning. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/266'>#266</a>)</li>
 <li>Dates that appear in a numeric column are converted to <code>NA</code> instead of their integer representation. Throws warning. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/263'>#263</a>)</li>
 <li>“Number stored as text”: when a text cell is found in a numeric column, <code><a href="../reference/read_excel.html">read_excel()</a></code> attempts to coerce the string to numeric and falls back to <code>NA</code> if unsuccessful. Throws warning. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/217'>#217</a>, <a href='https://github.com/tidyverse/readxl/issues/106'>#106</a>)</li>
 <li>Cells in error are treated as blank and are imported as <code>NA</code> (instead of the string <code>"error"</code>). (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>, <a href='https://github.com/tidyverse/readxl/issues/62'>#62</a>)</li>
 <li>BoolErr cells are now handled in xls. Suppresses message <code>"Unknown type: 517"</code>. (<a href='https://github.com/tidyverse/readxl/issues/274'>#274</a>, <a href='https://github.com/tidyverse/readxl/issues/259'>#259</a>)</li>
 <li>Dates that arise from a formula are treated as dates (vs. numeric) in xls. (<a href='https://github.com/tidyverse/readxl/issues/277'>#277</a>)</li>
 <li>Dates in .xlsx files saved with LibreOffice are now recognized as such. (<a href='https://github.com/tidyverse/readxl/issues/134'>#134</a>, <a href='https://github.com/zeehio'>@zeehio</a>)</li>
-</ul></li>
-</ul></div>
+</ul>
+</li>
+</ul>
+</div>
 <div id="compatibility" class="section level2">
 <h2 class="hasAnchor">
-<a href="#compatibility" class="anchor" aria-hidden="true"></a>Compatibility</h2>
+<a href="#compatibility" class="anchor"></a>Compatibility</h2>
 <p>Many 3rd party tools write xls and xlsx that comply with the spec, but that are quite different from files produced by Excel.</p>
-<ul><li><p>Namespace prefixes are now stripped from element names and attributes when parsing XML from xlsx. Workaround for the creative approach taken in some other s/w, coupled with rapidxml’s lack of namespace support. (<a href='https://github.com/tidyverse/readxl/issues/295'>#295</a>, <a href='https://github.com/tidyverse/readxl/issues/268'>#268</a>, <a href='https://github.com/tidyverse/readxl/issues/202'>#202</a>, <a href='https://github.com/tidyverse/readxl/issues/80'>#80</a>)</p></li>
+<ul>
+<li><p>Namespace prefixes are now stripped from element names and attributes when parsing XML from xlsx. Workaround for the creative approach taken in some other s/w, coupled with rapidxml’s lack of namespace support. (<a href='https://github.com/tidyverse/readxl/issues/295'>#295</a>, <a href='https://github.com/tidyverse/readxl/issues/268'>#268</a>, <a href='https://github.com/tidyverse/readxl/issues/202'>#202</a>, <a href='https://github.com/tidyverse/readxl/issues/80'>#80</a>)</p></li>
 <li><p>Excel mixes 0- and 1-indexing in reported row and column dimensions for xls and libxls expects that. Other s/w may index from 0 for both, preventing libxls from reading the last column. Patched to restore access to those cells. (<a href='https://github.com/tidyverse/readxl/issues/273'>#273</a>, <a href='https://github.com/tidyverse/readxl/issues/180'>#180</a>, <a href='https://github.com/tidyverse/readxl/issues/152'>#152</a>, <a href='https://github.com/tidyverse/readxl/issues/99'>#99</a>)</p></li>
 <li><p>More robust logic for sheet lookup in xlsx. Improves compatibility with xlsx written by a variety of tools and/or xlsx containing chartsheets. (<a href='https://github.com/tidyverse/readxl/issues/233'>#233</a>, <a href='https://github.com/tidyverse/readxl/issues/104'>#104</a>, <a href='https://github.com/tidyverse/readxl/issues/200'>#200</a>, <a href='https://github.com/tidyverse/readxl/issues/168'>#168</a>, <a href='https://github.com/tidyverse/readxl/issues/116'>#116</a>, <a href='https://github.com/jimhester'>@jimhester</a> and <a href='https://github.com/jennybc'>@jennybc</a>)</p></li>
-<li><p>The <code>numFmtId</code> attribute is no longer accessed when it does not exist (xlsx written by <a href="http://epplus.codeplex.com" class="external-link uri">http://epplus.codeplex.com</a>). (<a href='https://github.com/tidyverse/readxl/issues/191'>#191</a>, <a href='https://github.com/tidyverse/readxl/issues/229'>#229</a>)</p></li>
+<li><p>The <code>numFmtId</code> attribute is no longer accessed when it does not exist (xlsx written by <a href="http://epplus.codeplex.com" class="uri">http://epplus.codeplex.com</a>). (<a href='https://github.com/tidyverse/readxl/issues/191'>#191</a>, <a href='https://github.com/tidyverse/readxl/issues/229'>#229</a>)</p></li>
 <li><p>Location is inferred for cells that do not declare their location (xlsx written by JMP). (<a href='https://github.com/tidyverse/readxl/issues/240'>#240</a>, <a href='https://github.com/tidyverse/readxl/issues/163'>#163</a>, <a href='https://github.com/tidyverse/readxl/issues/102'>#102</a>)</p></li>
-</ul></div>
+</ul>
+</div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other" class="anchor" aria-hidden="true"></a>Other</h2>
-<ul><li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (<a href='https://github.com/tidyverse/readxl/issues/85'>#85</a>, <a href='https://github.com/jirkalewandowski'>@jirkalewandowski</a>)</p></li>
-<li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year" class="external-link">Lotus 1-2-3 leap year bug</a> is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (<a href='https://github.com/tidyverse/readxl/issues/264'>#264</a>, <a href='https://github.com/tidyverse/readxl/issues/148'>#148</a>, <a href='https://github.com/tidyverse/readxl/issues/292'>#292</a>)</p></li>
-<li><p>The tibble package is now imported (<a href='https://github.com/tidyverse/readxl/issues/175'>#175</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>) and <code><a href="https://tibble.tidyverse.org/reference/name-repair-superseded.html" class="external-link">tibble::repair_names()</a></code> is used to prevent empty, <code>NA</code>, or duplicated column names. (<a href='https://github.com/tidyverse/readxl/issues/216'>#216</a>, <a href='https://github.com/tidyverse/readxl/issues/208'>#208</a>, <a href='https://github.com/tidyverse/readxl/issues/199'>#199</a> <a href='https://github.com/tidyverse/readxl/issues/182'>#182</a>, <a href='https://github.com/tidyverse/readxl/issues/53'>#53</a>, <a href='https://github.com/tidyverse/readxl/issues/247'>#247</a>).</p></li>
+<a href="#other" class="anchor"></a>Other</h2>
+<ul>
+<li><p><code><a href="../reference/read_excel.html">read_xls()</a></code> and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> are now exposed, such that files without an <code>.xls</code> or <code>.xlsx</code> extension can be read. (<a href='https://github.com/tidyverse/readxl/issues/85'>#85</a>, <a href='https://github.com/jirkalewandowski'>@jirkalewandowski</a>)</p></li>
+<li><p>The <a href="https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year">Lotus 1-2-3 leap year bug</a> is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (<a href='https://github.com/tidyverse/readxl/issues/264'>#264</a>, <a href='https://github.com/tidyverse/readxl/issues/148'>#148</a>, <a href='https://github.com/tidyverse/readxl/issues/292'>#292</a>)</p></li>
+<li><p>The tibble package is now imported (<a href='https://github.com/tidyverse/readxl/issues/175'>#175</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>) and <code><a href="https://tibble.tidyverse.org/reference/name-repair-superseded.html">tibble::repair_names()</a></code> is used to prevent empty, <code>NA</code>, or duplicated column names. (<a href='https://github.com/tidyverse/readxl/issues/216'>#216</a>, <a href='https://github.com/tidyverse/readxl/issues/208'>#208</a>, <a href='https://github.com/tidyverse/readxl/issues/199'>#199</a> <a href='https://github.com/tidyverse/readxl/issues/182'>#182</a>, <a href='https://github.com/tidyverse/readxl/issues/53'>#53</a>, <a href='https://github.com/tidyverse/readxl/issues/247'>#247</a>).</p></li>
 <li><p>Default column names for xlsx now start with X__1 instead of X__0. (<a href='https://github.com/tidyverse/readxl/issues/98'>#98</a>, <a href='https://github.com/zeehio'>@zeehio</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>)</p></li>
 <li><p>Fix compilation warnings/failures (FreeBSD 10.3 <a href='https://github.com/tidyverse/readxl/issues/221'>#221</a>, gcc 4.9.3 <a href='https://github.com/tidyverse/readxl/issues/124'>#124</a>) and/or problems reading xls (CentOS 6.6 <a href='https://github.com/tidyverse/readxl/issues/189'>#189</a>). (<a href='https://github.com/tidyverse/readxl/issues/244'>#244</a>, <a href='https://github.com/tidyverse/readxl/issues/245'>#245</a>, <a href='https://github.com/tidyverse/readxl/issues/246'>#246</a> <a href='https://github.com/jeroen'>@jeroen</a>)</p></li>
 <li><p>Unwanted printed output (e.g., <code>DEFINEDNAME: 21 00 00 ...</code>) is suppressed when reading xls that contains a defined range. (<a href='https://github.com/tidyverse/readxl/issues/82'>#82</a>, <a href='https://github.com/tidyverse/readxl/issues/188'>#188</a>, <a href='https://github.com/PedramNavid'>@PedramNavid</a>)</p></li>
-</ul></div>
+</ul>
+</div>
 </div>
     <div id="readxl-011" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.1">
-<a href="#readxl-011" class="anchor" aria-hidden="true"></a>readxl 0.1.1<small> 2016-03-28 </small></h1>
-<ul><li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (<a href='https://github.com/tidyverse/readxl/issues/51'>#51</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</li>
-</ul></div>
+<a href="#readxl-011" class="anchor"></a>readxl 0.1.1<small> 2016-03-28 </small>
+</h1>
+<ul>
+<li>Add support for correctly reading strings in .xlsx files containing escaped unicode characters (e.g. <code>_x005F_</code>). (<a href='https://github.com/tidyverse/readxl/issues/51'>#51</a>, <a href='https://github.com/jmarshallnz'>@jmarshallnz</a>)</li>
+</ul>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -354,7 +385,7 @@
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -364,8 +395,6 @@
 
   
 
-
-  
 
   </body>
 </html>

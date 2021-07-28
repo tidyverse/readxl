@@ -35,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -51,7 +49,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
       </div>
@@ -94,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
     </li>
     <li>
       <a href="../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -115,7 +113,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/" class="external-link">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -136,7 +134,7 @@
       <h1 data-toc-skip>Sheet Geometry</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/sheet-geometry.Rmd" class="external-link"><code>vignettes/sheet-geometry.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/sheet-geometry.Rmd"><code>vignettes/sheet-geometry.Rmd</code></a></small>
       <div class="hidden name"><code>sheet-geometry.Rmd</code></div>
 
     </div>
@@ -144,8 +142,8 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
-<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> brings data from a rectangle of cells into R as a data frame or, more specifically, a <a href="http://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
+<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> brings data from a rectangle of cells into R as a data frame or, more specifically, a <a href="http://tibble.tidyverse.org/reference/tibble.html">tibble</a>.</p>
 <p>The extent of the data rectangle can be determined in various ways:</p>
 <ul>
 <li>
@@ -165,10 +163,10 @@
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, range <span class="op">=</span> <span class="st">"C1:E7"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">23</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_cols</a></span><span class="op">(</span><span class="st">"B:D"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span><span class="op">(</span><span class="st">"C4"</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span><span class="op">(</span><span class="st">"C4"</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div id="little-known-excel-facts" class="section level2">
 <h2 class="hasAnchor">
-<a href="#little-known-excel-facts" class="anchor" aria-hidden="true"></a>Little known Excel facts</h2>
+<a href="#little-known-excel-facts" class="anchor"></a>Little known Excel facts</h2>
 <p>readxl’s behavior and interface may be easier to understand if you understand this about Excel:</p>
 <blockquote>
 <p>Cells you can see don’t necessarily exist. Cells that look blank aren’t necessarily so.</p>
@@ -179,23 +177,23 @@
 <p>Ah, but what is a blank cell? Some cells appear blank to the naked eye but are not considered so by Excel and, indeed, are represented by a cell item. This happens when a cell has no content but does have an associated format. This format could have been applied directly to a single cell or, more often, indirectly via formatting applied to an entire row or column. Once a human has spent some quality time with a spreadsheet, many seemingly empty cells will bear a format and will thus have an associated cell item.</p>
 <div id="implications-for-readxl" class="section level3">
 <h3 class="hasAnchor">
-<a href="#implications-for-readxl" class="anchor" aria-hidden="true"></a>Implications for readxl</h3>
+<a href="#implications-for-readxl" class="anchor"></a>Implications for readxl</h3>
 <p>readxl only reads cell items that have content. It ignores cell items that exist strictly to convey formatting.</p>
 <p>The tibble returned by readxl will often cover cells that are empty in the spreadsheet, filled with <code>NA</code>. But only because there was some other reason for the associated row or column to exist: actual data or user-specified geometry.</p>
 </div>
 </div>
 <div id="skip-and-n_max" class="section level2">
 <h2 class="hasAnchor">
-<a href="#skip-and-n_max" class="anchor" aria-hidden="true"></a><code>skip</code> and <code>n_max</code>
+<a href="#skip-and-n_max" class="anchor"></a><code>skip</code> and <code>n_max</code>
 </h2>
 <p><code>skip</code> and <code>n_max</code> are the “entry-level” solution for controlling the data rectangle. They work only in the row direction. Column-wise, you’re letting readxl discover which columns are populated.</p>
 <p>If you specify <code>range</code> (covered below), <code>skip</code> and <code>n_max</code> are ignored.</p>
 <div id="skip" class="section level3">
 <h3 class="hasAnchor">
-<a href="#skip" class="anchor" aria-hidden="true"></a><code>skip</code>
+<a href="#skip" class="anchor"></a><code>skip</code>
 </h3>
 <p>The <code>skip</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to start looking for populated cells after skipping at least <code>skip</code> rows. If the new start point begins with 1 or more empty rows, <code><a href="../reference/read_excel.html">read_excel()</a></code> will skip even more before it starts reading from the sheet.</p>
-<p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet that ships with readxl, accessible via <code>readxl_example("geometry.xlsx")</code>.</p>
+<p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet that ships with readxl, accessible via <code><a href="../reference/readxl_example.html">readxl_example("geometry.xlsx")</a></code>.</p>
 <p><img src="img/geometry.png" width="70%"></p>
 <p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data rectangle:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -227,7 +225,7 @@
 </div>
 <div id="n_max" class="section level3">
 <h3 class="hasAnchor">
-<a href="#n_max" class="anchor" aria-hidden="true"></a><code>n_max</code>
+<a href="#n_max" class="anchor"></a><code>n_max</code>
 </h3>
 <p>The <code>n_max</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to read at most <code>n_max</code> rows, once it has found the data rectangle. Note that <code>n_max</code> is specifically about <em>the data</em>. You still use <code>col_names</code> to express whether the first spreadsheet row should be used to create column names (default is <code>TRUE</code>).</p>
 <p><code>n_max = 2</code> causes us to ignore the last data row – the 3rd one – in <code>geometry.xlsx</code>.</p>
@@ -251,9 +249,9 @@
 </div>
 <div id="range" class="section level2">
 <h2 class="hasAnchor">
-<a href="#range" class="anchor" aria-hidden="true"></a><code>range</code>
+<a href="#range" class="anchor"></a><code>range</code>
 </h2>
-<p>The <code>range</code> argument is the most flexible way to control geometry and is powered by the <a href="https://github.com/rsheets/cellranger#readme" class="external-link">cellranger</a> package.</p>
+<p>The <code>range</code> argument is the most flexible way to control geometry and is powered by the <a href="https://github.com/rsheets/cellranger#readme">cellranger</a> package.</p>
 <p>One huge difference from <code>skip</code> and <code>n_max</code> is that <code>range</code> is taken literally! Even if it means the returned tibble will have entire rows or columns consisting of <code>NA</code>.</p>
 <p>You can describe cell limits in a variety of ways:</p>
 <p><strong>Excel-style range</strong>: Specify a fixed rectangle with <code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You can even prepend the worksheet name like so: <code>range = "foofy!A1:D4"</code> and it will be passed along to the <code>sheet</code> argument.</p>
@@ -310,8 +308,8 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>,
-  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>,
-  range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span><span class="op">(</span><span class="st">"C5"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>,
+  range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">anchored</a></span><span class="op">(</span><span class="st">"C5"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 × 4</span>
 <span class="co">#&gt;   var_1 var_2 var_3 var_4</span>
@@ -324,7 +322,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>,
   col_names <span class="op">=</span> <span class="cn">FALSE</span>,
-  range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_limits</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span>
+  range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_limits</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; New names:</span>
 <span class="co">#&gt; * `` -&gt; ...1</span>
@@ -348,13 +346,13 @@
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
 
@@ -363,8 +361,6 @@
 
   
 
-
-  
 
   </body>
 </html>

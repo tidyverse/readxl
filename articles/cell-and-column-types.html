@@ -35,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -51,7 +49,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
       </div>
@@ -94,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
     </li>
     <li>
       <a href="../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -115,7 +113,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/" class="external-link">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -136,7 +134,7 @@
       <h1 data-toc-skip>Cell and Column Types</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/cell-and-column-types.Rmd" class="external-link"><code>vignettes/cell-and-column-types.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/cell-and-column-types.Rmd"><code>vignettes/cell-and-column-types.Rmd</code></a></small>
       <div class="hidden name"><code>cell-and-column-types.Rmd</code></div>
 
     </div>
@@ -144,17 +142,17 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
 <p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> will guess column types, by default, or you can provide them explicitly via the <code>col_types</code> argument. The <code>col_types</code> argument is more flexible than you might think; you can mix actual types in with <code>"skip"</code> and <code>"guess"</code> and a single type will be recycled to the necessary length.</p>
 <p>Here are different ways this might look:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, col_types <span class="op">=</span> <span class="st">"numeric"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div id="type-guessing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#type-guessing" class="anchor" aria-hidden="true"></a>Type guessing</h2>
-<p>If you use other packages in the <a href="http://tidyverse.org" class="external-link">tidyverse</a>, you are probably familiar with <a href="http://readr.tidyverse.org" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
+<a href="#type-guessing" class="anchor"></a>Type guessing</h2>
+<p>If you use other packages in the <a href="http://tidyverse.org">tidyverse</a>, you are probably familiar with <a href="http://readr.tidyverse.org">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
 <ul>
 <li>readr guesses column type <em>based on the data</em>.</li>
 <li>readxl guesses column type <em>based on Excel cell types</em>.</li>
@@ -176,7 +174,7 @@
 </div>
 <div id="excel-types-r-types-col_types" class="section level2">
 <h2 class="hasAnchor">
-<a href="#excel-types-r-types-col_types" class="anchor" aria-hidden="true"></a>Excel types, R types, <code>col_types</code>
+<a href="#excel-types-r-types-col_types" class="anchor"></a>Excel types, R types, <code>col_types</code>
 </h2>
 <p>Here’s how the Excel cell/column types are translated into R types and how to force the type explicitly in <code>col_types</code>:</p>
 <table class="table">
@@ -236,7 +234,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,
   range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span>,
-  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span><span class="op">)</span>
+  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"guess"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span>, <span class="st">"skip"</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;   Name            Age</span>
@@ -253,7 +251,7 @@
 <p>We demonstrate the <code>"list"</code> column type using the <code>clippy.xlsx</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">clippy</span> <span class="op">&lt;-</span> 
-   <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"list"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+   <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"list"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 × 2</span>
 <span class="co">#&gt;   name                 value     </span>
 <span class="co">#&gt;   &lt;chr&gt;                &lt;list&gt;    </span>
@@ -261,7 +259,7 @@
 <span class="co">#&gt; 2 Species              &lt;chr [1]&gt; </span>
 <span class="co">#&gt; 3 Approx date of death &lt;dttm [1]&gt;</span>
 <span class="co">#&gt; 4 Weight in grams      &lt;dbl [1]&gt;</span>
-<span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html" class="external-link">deframe</a></span><span class="op">(</span><span class="va">clippy</span><span class="op">)</span>
+<span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe</a></span><span class="op">(</span><span class="va">clippy</span><span class="op">)</span>
 <span class="co">#&gt; $Name</span>
 <span class="co">#&gt; [1] "Clippy"</span>
 <span class="co">#&gt; </span>
@@ -273,7 +271,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $`Weight in grams`</span>
 <span class="co">#&gt; [1] 0.9</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">clippy</span><span class="op">$</span><span class="va">value</span>, <span class="va">class</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">clippy</span><span class="op">$</span><span class="va">value</span>, <span class="va">class</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [1] "character"</span>
 <span class="co">#&gt; </span>
@@ -289,7 +287,7 @@
 </div>
 <div id="when-column-guessing-goes-wrong" class="section level2">
 <h2 class="hasAnchor">
-<a href="#when-column-guessing-goes-wrong" class="anchor" aria-hidden="true"></a>When column guessing goes wrong</h2>
+<a href="#when-column-guessing-goes-wrong" class="anchor"></a>When column guessing goes wrong</h2>
 <p>It’s pretty common to expect a column to import as, say, numeric or datetime. And to then be sad when it imports as character instead. Two main causes:</p>
 <p><strong>Contamination by embedded missing or bad data of incompatible type.</strong> Example: missing data entered as <code>??</code> in a numeric column.</p>
 <ul>
@@ -308,7 +306,7 @@
 <span class="co">#&gt; * `` -&gt; ...4</span>
 <span class="co">#&gt; * `` -&gt; ...5</span>
 <span class="co">#&gt; * `` -&gt; ...6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 18 × 6</span>
 <span class="co">#&gt;    `Lots of people`        ...2             ...3   ...4   ...5      ...6        </span>
 <span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;       </span>
@@ -334,13 +332,13 @@
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div id="peek-at-column-names" class="section level3">
 <h3 class="hasAnchor">
-<a href="#peek-at-column-names" class="anchor" aria-hidden="true"></a>Peek at column names</h3>
+<a href="#peek-at-column-names" class="anchor"></a>Peek at column names</h3>
 <p>Sometimes you aren’t completely sure of column count or order, and yet you need to provide <em>some</em> information via <code>col_types</code>. For example, you might know that the column named “foofy” should be text, but you’re not sure where it appears. Or maybe you want to ensure that lots of empty cells at the top of “foofy” don’t cause it to be guessed as logical.</p>
 <p>Here’s an efficient trick to get the column names, so you can programmatically build the <code>col_types</code> vector you need for your main reading of the Excel file. Let’s imagine I want to force the columns whose names include “Petal” to be text, but leave everything else to be guessed.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">nms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="op">(</span><span class="va">nms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"</span>
-<span class="op">(</span><span class="va">ct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^Petal"</span>, <span class="va">nms</span><span class="op">)</span>, <span class="st">"text"</span>, <span class="st">"guess"</span><span class="op">)</span><span class="op">)</span>
+<span class="op">(</span><span class="va">ct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"^Petal"</span>, <span class="va">nms</span><span class="op">)</span>, <span class="st">"text"</span>, <span class="st">"guess"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "guess" "guess" "text"  "text"  "guess"</span>
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, col_types <span class="op">=</span> <span class="va">ct</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 × 5</span>
@@ -355,21 +353,21 @@
 </div>
 <div id="square-pegs-in-round-holes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#square-pegs-in-round-holes" class="anchor" aria-hidden="true"></a>Square pegs in round holes</h2>
+<a href="#square-pegs-in-round-holes" class="anchor"></a>Square pegs in round holes</h2>
 <p>You can force a column to have a specific type via <code>col_types</code>. So what happens to cells of another type? They will either be coerced to the requested type or to an <code>NA</code> of appropriate type.</p>
 <p>For each column type, below we present a screen shot of a sheet from the built-in example <code>type-me.xlsx</code>. We force the first column to have a specific type and the second column explains what is in the first. You’ll see how mismatches between cell type and column type are resolved.</p>
 <div id="logical-column" class="section level3">
 <h3 class="hasAnchor">
-<a href="#logical-column" class="anchor" aria-hidden="true"></a>Logical column</h3>
+<a href="#logical-column" class="anchor"></a>Logical column</h3>
 <p>A numeric cell is coerced to <code>FALSE</code> if it is zero and <code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as <code>TRUE</code> and “F”, “FALSE”, “False”, “false” as <code>FALSE</code>. Other strings import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"logical_coercion"</span>,
-                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"logical"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
+                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"logical"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting logical in A5 / R5C1: got a date</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting logical in A8 / R8C1: got 'cabbage'</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;    `maybe boolean?` description                         </span>
 <span class="co">#&gt;    &lt;lgl&gt;            &lt;chr&gt;                               </span>
@@ -387,11 +385,11 @@
 </div>
 <div id="numeric-column" class="section level3">
 <h3 class="hasAnchor">
-<a href="#numeric-column" class="anchor" aria-hidden="true"></a>Numeric column</h3>
-<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
+<a href="#numeric-column" class="anchor"></a>Numeric column</h3>
+<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"numeric_coercion"</span>,
-                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
+                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Coercing boolean to numeric in A3 / R3C1</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
@@ -402,7 +400,7 @@
 <span class="co">#&gt; shim, : Coercing text to numeric in A6 / R6C1: '123456'</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting numeric in A8 / R8C1: got 'cabbage'</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 7 × 2</span>
 <span class="co">#&gt;   `maybe numeric?` explanation            </span>
 <span class="co">#&gt;              &lt;dbl&gt; &lt;chr&gt;                  </span>
@@ -417,11 +415,11 @@
 </div>
 <div id="date-column" class="section level3">
 <h3 class="hasAnchor">
-<a href="#date-column" class="anchor" aria-hidden="true"></a>Date column</h3>
-<p>A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="external-link uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
+<a href="#date-column" class="anchor"></a>Date column</h3>
+<p>A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"date_coercion"</span>,
-                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
+                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Expecting date in A5 / R5C1: got boolean</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
@@ -430,7 +428,7 @@
 <span class="co">#&gt; shim, : Coercing numeric to date A7 / R7C1</span>
 <span class="co">#&gt; Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim =</span>
 <span class="co">#&gt; shim, : Coercing numeric to date A8 / R8C1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 7 × 2</span>
 <span class="co">#&gt;   `maybe a datetime?` explanation           </span>
 <span class="co">#&gt;   &lt;dttm&gt;              &lt;chr&gt;                 </span>
@@ -445,12 +443,12 @@
 </div>
 <div id="text-or-character-column" class="section level3">
 <h3 class="hasAnchor">
-<a href="#text-or-character-column" class="anchor" aria-hidden="true"></a>Text or character column</h3>
-<p>A boolean cell becomes either <code>"TRUE"</code> or <code>"FALSE"</code>. A numeric cell is converted to character, much like <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> in R. A date cell is handled like numeric, using the underlying serial value.</p>
+<a href="#text-or-character-column" class="anchor"></a>Text or character column</h3>
+<p>A boolean cell becomes either <code>"TRUE"</code> or <code>"FALSE"</code>. A numeric cell is converted to character, much like <code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code> in R. A date cell is handled like numeric, using the underlying serial value.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"text_coercion"</span>,
-                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 × 2</span>
 <span class="co">#&gt;   text     explanation      </span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;            </span>
@@ -476,13 +474,13 @@
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
 
@@ -491,8 +489,6 @@
 
   
 
-
-  
 
   </body>
 </html>

@@ -80,15 +80,9 @@ lapply()." />
   gtag('config', 'UA-115082821-1');
 </script>
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -193,13 +187,13 @@ lapply()." />
 
     <div class="ref-description">
     <p>The list of sheet names is especially useful when you want to iterate over
-all of the sheets in a workbook. The <code><a href='../articles/articles/readxl-workflows.html'>vignette("readxl-workflows")</a></code> article
+all of the sheets in a workbook. The <code>vignette("readxl-workflows")</code> article
 provides several worked examples of this, showing how to combine readxl with
 other packages in the tidyverse, such as purrr, or with base R functions like
 <code><a href='https://rdrr.io/r/base/lapply.html'>lapply()</a></code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -212,79 +206,76 @@ other packages in the tidyverse, such as purrr, or with base R functions like
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "iris"     "mtcars"   "chickwts" "quakes"  </span>
-<span class='r-in'><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xls"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "iris"     "mtcars"   "chickwts" "quakes"  </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># To load all sheets in a workbook, use lapply()</span></span>
-<span class='r-in'><span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xls"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>, <span class='va'>read_excel</span>, path <span class='op'>=</span> <span class='va'>path</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 × 5</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>          5.1         3.5          1.4         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>          4.9         3            1.4         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>          4.7         3.2          1.3         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>          4.6         3.1          1.5         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>          5           3.6          1.4         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>          5.4         3.9          1.7         0.4 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>          4.6         3.4          1.4         0.3 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>          5           3.4          1.5         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>          4.4         2.9          1.4         0.2 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>          4.9         3.1          1.5         0.1 setosa </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 × 11</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 71 × 2</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    weight feed     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    179 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    160 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    136 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    227 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>    217 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>    168 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>    108 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>    124 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>    143 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>    140 horsebean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 61 more rows</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1,000 × 5</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      lat  long depth   mag stations</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> -<span style='color: #BB0000;'>20.4</span>  182.   562   4.8       41</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> -<span style='color: #BB0000;'>20.6</span>  181.   650   4.2       15</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> -<span style='color: #BB0000;'>26</span>    184.    42   5.4       43</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> -<span style='color: #BB0000;'>18.0</span>  182.   626   4.1       19</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> -<span style='color: #BB0000;'>20.4</span>  182.   649   4         11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> -<span style='color: #BB0000;'>19.7</span>  184.   195   4         12</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> -<span style='color: #BB0000;'>11.7</span>  166.    82   4.8       43</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> -<span style='color: #BB0000;'>28.1</span>  182.   194   4.4       15</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>28.7</span>  182.   211   4.7       35</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> -<span style='color: #BB0000;'>17.5</span>  180.   622   4.3       19</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 990 more rows</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xlsx"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xls"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "iris"     "mtcars"   "chickwts" "quakes"  </div><div class='input'>
+<span class='co'># To load all sheets in a workbook, use lapply()</span>
+<span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readxl_example.html'>readxl_example</a></span><span class='op'>(</span><span class='st'>"datasets.xls"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'>excel_sheets</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>, <span class='va'>read_excel</span>, path <span class='op'>=</span> <span class='va'>path</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; <span style='color: #949494;'># A tibble: 150 × 5</span>
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span>          5.1         3.5          1.4         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 2</span>          4.9         3            1.4         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 3</span>          4.7         3.2          1.3         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 4</span>          4.6         3.1          1.5         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 5</span>          5           3.6          1.4         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 6</span>          5.4         3.9          1.7         0.4 setosa 
+#&gt; <span style='color: #BCBCBC;'> 7</span>          4.6         3.4          1.4         0.3 setosa 
+#&gt; <span style='color: #BCBCBC;'> 8</span>          5           3.4          1.5         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'> 9</span>          4.4         2.9          1.4         0.2 setosa 
+#&gt; <span style='color: #BCBCBC;'>10</span>          4.9         3.1          1.5         0.1 setosa 
+#&gt; <span style='color: #949494;'># … with 140 more rows</span>
+#&gt; 
+#&gt; [[2]]
+#&gt; <span style='color: #949494;'># A tibble: 32 × 11</span>
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; <span style='color: #BCBCBC;'> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; <span style='color: #BCBCBC;'> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; <span style='color: #BCBCBC;'> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; <span style='color: #BCBCBC;'> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; <span style='color: #BCBCBC;'> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; <span style='color: #BCBCBC;'> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; <span style='color: #BCBCBC;'> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; <span style='color: #BCBCBC;'> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; <span style='color: #BCBCBC;'>10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; <span style='color: #949494;'># … with 22 more rows</span>
+#&gt; 
+#&gt; [[3]]
+#&gt; <span style='color: #949494;'># A tibble: 71 × 2</span>
+#&gt;    weight feed     
+#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'> 1</span>    179 horsebean
+#&gt; <span style='color: #BCBCBC;'> 2</span>    160 horsebean
+#&gt; <span style='color: #BCBCBC;'> 3</span>    136 horsebean
+#&gt; <span style='color: #BCBCBC;'> 4</span>    227 horsebean
+#&gt; <span style='color: #BCBCBC;'> 5</span>    217 horsebean
+#&gt; <span style='color: #BCBCBC;'> 6</span>    168 horsebean
+#&gt; <span style='color: #BCBCBC;'> 7</span>    108 horsebean
+#&gt; <span style='color: #BCBCBC;'> 8</span>    124 horsebean
+#&gt; <span style='color: #BCBCBC;'> 9</span>    143 horsebean
+#&gt; <span style='color: #BCBCBC;'>10</span>    140 horsebean
+#&gt; <span style='color: #949494;'># … with 61 more rows</span>
+#&gt; 
+#&gt; [[4]]
+#&gt; <span style='color: #949494;'># A tibble: 1,000 × 5</span>
+#&gt;      lat  long depth   mag stations
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> -<span style='color: #BB0000;'>20.4</span>  182.   562   4.8       41
+#&gt; <span style='color: #BCBCBC;'> 2</span> -<span style='color: #BB0000;'>20.6</span>  181.   650   4.2       15
+#&gt; <span style='color: #BCBCBC;'> 3</span> -<span style='color: #BB0000;'>26</span>    184.    42   5.4       43
+#&gt; <span style='color: #BCBCBC;'> 4</span> -<span style='color: #BB0000;'>18.0</span>  182.   626   4.1       19
+#&gt; <span style='color: #BCBCBC;'> 5</span> -<span style='color: #BB0000;'>20.4</span>  182.   649   4         11
+#&gt; <span style='color: #BCBCBC;'> 6</span> -<span style='color: #BB0000;'>19.7</span>  184.   195   4         12
+#&gt; <span style='color: #BCBCBC;'> 7</span> -<span style='color: #BB0000;'>11.7</span>  166.    82   4.8       43
+#&gt; <span style='color: #BCBCBC;'> 8</span> -<span style='color: #BB0000;'>28.1</span>  182.   194   4.4       15
+#&gt; <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>28.7</span>  182.   211   4.7       35
+#&gt; <span style='color: #BCBCBC;'>10</span> -<span style='color: #BB0000;'>17.5</span>  180.   622   4.3       19
+#&gt; <span style='color: #949494;'># … with 990 more rows</span>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -301,7 +292,7 @@ other packages in the tidyverse, such as purrr, or with base R functions like
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -311,8 +302,6 @@ other packages in the tidyverse, such as purrr, or with base R functions like
 
   
 
-
-  
 
   </body>
 </html>

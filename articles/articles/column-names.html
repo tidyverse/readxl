@@ -35,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -51,7 +49,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
       </div>
@@ -94,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
     </li>
     <li>
       <a href="../../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -115,7 +113,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/" class="external-link">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -136,7 +134,7 @@
       <h1 data-toc-skip>Column Names</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/articles/column-names.Rmd" class="external-link"><code>vignettes/articles/column-names.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/articles/column-names.Rmd"><code>vignettes/articles/column-names.Rmd</code></a></small>
       <div class="hidden name"><code>column-names.Rmd</code></div>
 
     </div>
@@ -144,16 +142,16 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
 <div id="column-names-via-col_names" class="section level2">
 <h2 class="hasAnchor">
-<a href="#column-names-via-col_names" class="anchor" aria-hidden="true"></a>Column names via <code>col_names</code>
+<a href="#column-names-via-col_names" class="anchor"></a>Column names via <code>col_names</code>
 </h2>
 <p>readxl has always let you specify <code>col_names</code> explicitly at the time of import:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"chickwts"</span>,
-  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chick_weight"</span>, <span class="st">"chick_ate_this"</span><span class="op">)</span>, skip <span class="op">=</span> <span class="fl">1</span>
+  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chick_weight"</span>, <span class="st">"chick_ate_this"</span><span class="op">)</span>, skip <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 71 × 2</span>
 <span class="co">#&gt;    chick_weight chick_ate_this</span>
@@ -173,10 +171,10 @@
 </div>
 <div id="built-in-levels-of--name_repair" class="section level2">
 <h2 class="hasAnchor">
-<a href="#built-in-levels-of--name_repair" class="anchor" aria-hidden="true"></a>Built-in levels of <code>.name_repair</code>
+<a href="#built-in-levels-of--name_repair" class="anchor"></a>Built-in levels of <code>.name_repair</code>
 </h2>
-<p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the <a href="https://tibble.tidyverse.org" class="external-link">tibble package</a>, which powers this feature under the hood.</p>
-<p>The <code>.name_repair</code> argument in <code><a href="../../reference/read_excel.html">read_excel()</a></code>, <code><a href="../../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link"><code>tibble::tibble()</code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link"><code>tibble::as_tibble()</code></a>. Full documentation is in the <a href="https://tibble.tidyverse.org/dev/reference/name-repair.html" class="external-link"><code>?name-repair</code> topic</a> of tibble. The reasoning behind the name repair strategy is laid out in <a href="https://principles.tidyverse.org/names-attribute.html" class="external-link">principles.tidyverse.org</a>.</p>
+<p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the <a href="https://tibble.tidyverse.org">tibble package</a>, which powers this feature under the hood.</p>
+<p>The <code>.name_repair</code> argument in <code><a href="../../reference/read_excel.html">read_excel()</a></code>, <code><a href="../../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html"><code>tibble::tibble()</code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html"><code>tibble::as_tibble()</code></a>. Full documentation is in the <a href="https://tibble.tidyverse.org/dev/reference/name-repair.html"><code>?name-repair</code> topic</a> of tibble. The reasoning behind the name repair strategy is laid out in <a href="https://principles.tidyverse.org/names-attribute.html">principles.tidyverse.org</a>.</p>
 <p>readxl’s default is <code>.name_repair = "unique"</code>, which ensures each column has a unique name. If that is already true of the column names, readxl won’t touch them.</p>
 <p>The value <code>.name_repair = "universal"</code> goes further and makes column names syntactic, i.e. makes sure they don’t contain any forbidden characters or reserved words. This makes life easier if you use packages like ggplot2 and dplyr downstream, because the column names will “just work” everywhere and won’t require protection via backtick quotes.</p>
 <p>Compare the column names in these two calls. This shows the difference between <code>"unique"</code> (names can contain spaces) and <code>"universal"</code> (spaces replaced by <code>.</code>).</p>
@@ -209,7 +207,7 @@
 </div>
 <div id="pass-a-function-to--name_repair" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pass-a-function-to--name_repair" class="anchor" aria-hidden="true"></a>Pass a function to <code>.name_repair</code>
+<a href="#pass-a-function-to--name_repair" class="anchor"></a>Pass a function to <code>.name_repair</code>
 </h2>
 <p>The <code>.name_repair</code> argument also accepts a function – pre-existing or written by you – or an anonymous formula. This function must operate on a “names in, names out” basis.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -224,7 +222,7 @@
 <span class="co">#&gt; 4 Weight in grams      0.9</span>
 
 <span class="co">## lower_snake_case via a custom function</span>
-<span class="va">my_custom_name_repair</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nms</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[.]"</span>, <span class="st">"_"</span>, <span class="va">nms</span><span class="op">)</span><span class="op">)</span>
+<span class="va">my_custom_name_repair</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nms</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"[.]"</span>, <span class="st">"_"</span>, <span class="va">nms</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">3</span>,
   .name_repair <span class="op">=</span> <span class="va">my_custom_name_repair</span>
@@ -240,7 +238,7 @@
 <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>,
   sheet <span class="op">=</span> <span class="st">"chickwts"</span>, n_max <span class="op">=</span> <span class="fl">3</span>,
-  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">.x</span>, start <span class="op">=</span> <span class="fl">1</span>, stop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">.x</span>, start <span class="op">=</span> <span class="fl">1</span>, stop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;     wei fee      </span>
@@ -252,7 +250,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="va">SOME_SPREADSHEET</span>,
-  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></span><span class="op">(</span><span class="va">.x</span>, unique <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="va">.x</span>, unique <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
@@ -263,7 +261,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="va">SOME_SPREADSHEET</span>,
-  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>, <span class="va">.x</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nzchar</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>, <span class="va">.x</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="op">)</span> </code></pre></div>
 </div>
   </div>
@@ -279,13 +277,13 @@
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
 
@@ -294,8 +292,6 @@
 
   
 
-
-  
 
   </body>
 </html>

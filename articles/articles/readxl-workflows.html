@@ -35,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -51,7 +49,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
         </div>
       </div>
@@ -94,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
     </li>
     <li>
       <a href="../../articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -115,7 +113,7 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/" class="external-link">
+  <a href="https://github.com/tidyverse/readxl/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -136,7 +134,7 @@
       <h1 data-toc-skip>readxl Workflows</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/articles/readxl-workflows.Rmd" class="external-link"><code>vignettes/articles/readxl-workflows.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/master/vignettes/articles/readxl-workflows.Rmd"><code>vignettes/articles/readxl-workflows.Rmd</code></a></small>
       <div class="hidden name"><code>readxl-workflows.Rmd</code></div>
 
     </div>
@@ -152,11 +150,11 @@
 <p>The examples below also demonstrate the use of functional programming or “apply” techniques to iterate over the worksheets in a workbook.</p>
 <div id="load-packages" class="section level2">
 <h2 class="hasAnchor">
-<a href="#load-packages" class="anchor" aria-hidden="true"></a>Load packages</h2>
+<a href="#load-packages" class="anchor"></a>Load packages</h2>
 <p>We load the tidyverse metapackage here because the workflows below show readxl working with readr, purrr, etc. See the last section for solutions using base R only (other than readxl).</p>
 <p>We must load readxl explicitly because it is not part of the core tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</span>
 <span class="co">#&gt; ✔ ggplot2 3.3.5     ✔ purrr   0.3.4</span>
 <span class="co">#&gt; ✔ tibble  3.1.3     ✔ dplyr   1.0.7</span>
@@ -165,22 +163,22 @@
 <span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="cache-a-csv-snapshot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cache-a-csv-snapshot" class="anchor" aria-hidden="true"></a>Cache a CSV snapshot</h2>
+<a href="#cache-a-csv-snapshot" class="anchor"></a>Cache a CSV snapshot</h2>
 <p>Break analyses into logical steps, via a series of scripts that relate to one theme, such as “clean the data” or “make exploratory and diagnostic plots”.</p>
 <p>This forces you to transmit info from step i to step i + 1 via a set of output files. The cumulative outputs of steps 1, 2, …, i are available as inputs for steps i + 1 and beyond.</p>
-<p>These outputs constitute <a href="https://www.quora.com/What-is-an-API-4" class="external-link">an API</a> for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>, <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code>, and R-specific <code>.rds</code> files.</p>
+<p>These outputs constitute <a href="https://www.quora.com/What-is-an-API-4">an API</a> for your analysis, i.e. they provide clean entry points that can be used (and understood) in isolation, possibly using an entirely different toolkit. Contrast this with the alternative of writing one monolithic script or transmitting entire workspaces via <code><a href="https://rdrr.io/r/base/save.html">save()</a></code>, <code><a href="https://rdrr.io/r/base/load.html">load()</a></code>, and R-specific <code>.rds</code> files.</p>
 <p>If raw data is stored <em>only</em> as an Excel spreadsheet, this limits your ability to inspect it when solving the little puzzles that crop up in dowstream work. You’ll need to fire up Excel (or similar) and get busy with your mouse. You certainly can’t poke around it or view diffs on GitHub.</p>
 <p>Solution: cache a CSV snapshot of your raw data tables at the time of export. Even if you use <code><a href="../../reference/read_excel.html">read_excel()</a></code> for end-to-end reproducibility, this complementary CSV leaves your analysis in a more accessible state.</p>
-<p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">readr::write_csv()</a></code> like so:</p>
+<p>Pipe the output of <code><a href="../../reference/read_excel.html">read_excel()</a></code> directly into <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris_xl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="st">"iris-raw.csv"</span><span class="op">)</span></code></pre></div>
-<p>Why does this work? <code><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">readr::write_csv()</a></code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
+<code class="sourceCode R"><span class="va">iris_xl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">write_csv</span><span class="op">(</span><span class="st">"iris-raw.csv"</span><span class="op">)</span></code></pre></div>
+<p>Why does this work? <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> is a well-mannered “write” function: it does its main job <em>and returns its input invisibly</em>. The above command reads the iris sheet from readxl’s <code>datasets.xlsx</code> example workbook and caches a CSV version of the resulting data frame to file.</p>
 <p>Let’s check. Did we still import the data? Did we write the CSV file?</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_xl</span>
@@ -191,11 +189,11 @@
 <span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span>
 <span class="co">#&gt; # … with 147 more rows</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "iris-raw.csv"</span></code></pre></div>
 <p>Yes! Is the data written to CSV an exact copy of what we imported from Excel?</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris_alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"iris-raw.csv"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">iris_alt</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"iris-raw.csv"</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 150 Columns: 5</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
@@ -206,27 +204,27 @@
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="co">## readr leaves a note-to-self in `spec` that records its column guessing,</span>
 <span class="co">## so we remove that attribute before the check</span>
-<span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">iris_alt</span>, <span class="st">"spec"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">iris_xl</span>, <span class="va">iris_alt</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">iris_alt</span>, <span class="st">"spec"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">iris_xl</span>, <span class="va">iris_alt</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE</span></code></pre></div>
 <p>Yes! If we needed to restart or troubleshoot this fictional analysis, <code>iris-raw.csv</code> is available as a second, highly accessible alternative to <code>datasets.xlsx</code>.</p>
 </div>
 <div id="iterate-over-multiple-worksheets-in-a-workbook" class="section level2">
 <h2 class="hasAnchor">
-<a href="#iterate-over-multiple-worksheets-in-a-workbook" class="anchor" aria-hidden="true"></a>Iterate over multiple worksheets in a workbook</h2>
+<a href="#iterate-over-multiple-worksheets-in-a-workbook" class="anchor"></a>Iterate over multiple worksheets in a workbook</h2>
 <p>Some Excel workbooks contain only data and you are tempted to ask “Why, God, why is this data stored in Excel? Why not store this as a series of CSV files?” One possible answer is this: because the workbook structure keeps them all together.</p>
 <p>Let’s accept that this happens and that it is not entirely crazy. How can you efficiently load all of that into R?</p>
 <p>Here’s how to load all the sheets in a workbook into a list of data frames:</p>
 <ul>
 <li>Get worksheet names as a self-named character vector (these names propagate nicely).</li>
-<li>Use <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> to iterate sheet reading.</li>
+<li>Use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> to iterate sheet reading.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>
-<span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
+<span class="va">path</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">map</span><span class="op">(</span><span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
 <span class="co">#&gt; $iris</span>
 <span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
@@ -265,24 +263,24 @@
 </div>
 <div id="csv-caching-and-iterating-over-sheets" class="section level2">
 <h2 class="hasAnchor">
-<a href="#csv-caching-and-iterating-over-sheets" class="anchor" aria-hidden="true"></a>CSV caching and iterating over sheets</h2>
-<p>What if we want to read all the sheets in at once and simultaneously cache to CSV? We define <code>read_then_csv()</code> as <code>read_excel(...) %&gt;% write_csv()</code> and use <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> again.</p>
+<a href="#csv-caching-and-iterating-over-sheets" class="anchor"></a>CSV caching and iterating over sheets</h2>
+<p>What if we want to read all the sheets in at once and simultaneously cache to CSV? We define <code>read_then_csv()</code> as <code>read_excel(...) %&gt;% write_csv()</code> and use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> again.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">read_then_csv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sheet</span>, <span class="va">path</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">pathbase</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_path_sans_ext</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="va">sheet</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">pathbase</span>, <span class="st">"-"</span>, <span class="va">sheet</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">pathbase</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html">file_path_sans_ext</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="va">path</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="va">sheet</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu">write_csv</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">pathbase</span>, <span class="st">"-"</span>, <span class="va">sheet</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<p>We could even define this on-the-fly as an anonymous function inside <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code>, but I think this is more readable.</p>
+<p>We could even define this on-the-fly as an anonymous function inside <code>map()</code>, but I think this is more readable.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>
-<span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">read_then_csv</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
+<span class="va">path</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">map</span><span class="op">(</span><span class="va">read_then_csv</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
 <span class="co">#&gt; $iris</span>
 <span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
@@ -318,28 +316,28 @@
 <span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span>
 <span class="co">#&gt; 3 -26    184.    42   5.4       43</span>
 <span class="co">#&gt; # … with 997 more rows</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"^datasets.*\\.csv$"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"^datasets.*\\.csv$"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "datasets-chickwts.csv" "datasets-iris.csv"     "datasets-mtcars.csv"  </span>
 <span class="co">#&gt; [4] "datasets-quakes.csv"</span></code></pre></div>
 <p>In a real analysis, starting with workbook <code>"foo.xlsx"</code>, you might want to create the directory <code>foo</code> and place the CSVs inside that.</p>
 </div>
 <div id="concatenate-worksheets-into-one-data-frame" class="section level2">
 <h2 class="hasAnchor">
-<a href="#concatenate-worksheets-into-one-data-frame" class="anchor" aria-hidden="true"></a>Concatenate worksheets into one data frame</h2>
+<a href="#concatenate-worksheets-into-one-data-frame" class="anchor"></a>Concatenate worksheets into one data frame</h2>
 <p>What if the datasets found on different sheets have the same variables? Then you’ll want to row-bind them, after import, to form one big, beautiful data frame.</p>
 <p>readxl ships with an example sheet <code>deaths.xlsx</code>, containing data on famous people who died in 2016 or 2017. It has two worksheets named “arts” and “other”, but the spreadsheet layout is the same in each and the data tables have the same variables, e.g., name and date of death.</p>
-<p>The <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_df()</a></code> function from purrr makes it easy to iterate over worksheets and glue together the resulting data frames, all at once.</p>
+<p>The <code>map_df()</code> function from purrr makes it easy to iterate over worksheets and glue together the resulting data frames, all at once.</p>
 <ul>
 <li>Store a self-named vector of worksheet names (critical for the ID variable below).</li>
-<li>Use <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map_df()</a></code> to import the data, create an ID variable for the source worksheet, and row bind.</li>
+<li>Use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_df()</a></code> to import the data, create an ID variable for the source worksheet, and row bind.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>
-<span class="va">deaths</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_df</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span>, .id <span class="op">=</span> <span class="st">"sheet"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="va">deaths</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">map_df</span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span>, .id <span class="op">=</span> <span class="st">"sheet"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 20 × 7</span>
 <span class="co">#&gt;    sheet Name               Profession   Age `Has kids` `Date of birth`    </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span>
@@ -368,7 +366,7 @@
 </div>
 <div id="putting-it-all-together" class="section level2">
 <h2 class="hasAnchor">
-<a href="#putting-it-all-together" class="anchor" aria-hidden="true"></a>Putting it all together</h2>
+<a href="#putting-it-all-together" class="anchor"></a>Putting it all together</h2>
 <p>All at once now:</p>
 <ul>
 <li>Multiple worksheets feeding into one data frame</li>
@@ -379,23 +377,23 @@
 <ul>
 <li>Store a self-named vector of worksheet names.</li>
 <li>Store a vector of cell range specifications.</li>
-<li>Use <code><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">purrr::map2_df()</a></code> to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.</li>
+<li>Use <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::map2_df()</a></code> to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.</li>
 <li>Cache the unified data to CSV.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>
-<span class="va">sheets</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"A5:F15"</span>, <span class="fu"><a href="../../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
-<span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2_df</a></span><span class="op">(</span>
+<span class="va">sheets</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"A5:F15"</span>, <span class="fu"><a href="../../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
+<span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu">map2_df</span><span class="op">(</span>
   <span class="va">sheets</span>,
   <span class="va">ranges</span>,
   <span class="op">~</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="va">.y</span><span class="op">)</span>,
   .id <span class="op">=</span> <span class="st">"sheet"</span>
-<span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="st">"deaths.csv"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">write_csv</span><span class="op">(</span><span class="st">"deaths.csv"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 20 × 7</span>
 <span class="co">#&gt;    sheet Name               Profession   Age `Has kids` `Date of birth`    </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;             </span>
@@ -432,104 +430,101 @@ devtools::session_info()
 #> ─ Session info ───────────────────────────────────────────────────────────────
 #>  setting  value                       
 #>  version  R version 4.1.0 (2021-05-18)
-#>  os       macOS Catalina 10.15.7      
-#>  system   x86_64, darwin17.0          
+#>  os       Ubuntu 18.04.5 LTS          
+#>  system   x86_64, linux-gnu           
 #>  ui       X11                         
 #>  language (EN)                        
-#>  collate  en_US.UTF-8                 
-#>  ctype    en_US.UTF-8                 
+#>  collate  C.UTF-8                     
+#>  ctype    C.UTF-8                     
 #>  tz       UTC                         
-#>  date     2021-07-27                  
+#>  date     2021-07-28                  
 #> 
 #> ─ Packages ───────────────────────────────────────────────────────────────────
-#>  package     * version    date       lib source                        
-#>  assertthat    0.2.1      2019-03-21 [1] CRAN (R 4.1.0)                
-#>  backports     1.2.1      2020-12-09 [1] CRAN (R 4.1.0)                
-#>  bit           4.0.4      2020-08-04 [1] CRAN (R 4.1.0)                
-#>  bit64         4.0.5      2020-08-30 [1] CRAN (R 4.1.0)                
-#>  broom         0.7.9      2021-07-27 [1] CRAN (R 4.1.0)                
-#>  bslib         0.2.5.1    2021-05-18 [1] CRAN (R 4.1.0)                
-#>  cachem        1.0.5      2021-05-15 [1] CRAN (R 4.1.0)                
-#>  callr         3.7.0      2021-04-20 [1] CRAN (R 4.1.0)                
-#>  cellranger    1.1.0      2016-07-27 [1] CRAN (R 4.1.0)                
-#>  cli           3.0.1      2021-07-17 [1] CRAN (R 4.1.0)                
-#>  colorspace    2.0-2      2021-06-24 [1] CRAN (R 4.1.0)                
-#>  crayon        1.4.1      2021-02-08 [1] CRAN (R 4.1.0)                
-#>  DBI           1.1.1      2021-01-15 [1] CRAN (R 4.1.0)                
-#>  dbplyr        2.1.1      2021-04-06 [1] CRAN (R 4.1.0)                
-#>  desc          1.3.0      2021-03-05 [1] CRAN (R 4.1.0)                
-#>  devtools      2.4.2      2021-06-07 [1] CRAN (R 4.1.0)                
-#>  digest        0.6.27     2020-10-24 [1] CRAN (R 4.1.0)                
-#>  dplyr       * 1.0.7      2021-06-18 [1] CRAN (R 4.1.0)                
-#>  ellipsis      0.3.2      2021-04-29 [1] CRAN (R 4.1.0)                
-#>  evaluate      0.14       2019-05-28 [1] CRAN (R 4.1.0)                
-#>  fansi         0.5.0      2021-05-25 [1] CRAN (R 4.1.0)                
-#>  fastmap       1.1.0      2021-01-25 [1] CRAN (R 4.1.0)                
-#>  forcats     * 0.5.1      2021-01-27 [1] CRAN (R 4.1.0)                
-#>  fs            1.5.0      2020-07-31 [1] CRAN (R 4.1.0)                
-#>  generics      0.1.0      2020-10-31 [1] CRAN (R 4.1.0)                
-#>  ggplot2     * 3.3.5      2021-06-25 [1] CRAN (R 4.1.0)                
-#>  glue          1.4.2      2020-08-27 [1] CRAN (R 4.1.0)                
-#>  gtable        0.3.0      2019-03-25 [1] CRAN (R 4.1.0)                
-#>  haven         2.4.1      2021-04-23 [1] CRAN (R 4.1.0)                
-#>  hms           1.1.0      2021-05-17 [1] CRAN (R 4.1.0)                
-#>  htmltools     0.5.1.1    2021-01-22 [1] CRAN (R 4.1.0)                
-#>  httr          1.4.2      2020-07-20 [1] CRAN (R 4.1.0)                
-#>  jquerylib     0.1.4      2021-04-26 [1] CRAN (R 4.1.0)                
-#>  jsonlite      1.7.2      2020-12-09 [1] CRAN (R 4.1.0)                
-#>  knitr         1.33       2021-04-24 [1] CRAN (R 4.1.0)                
-#>  lifecycle     1.0.0      2021-02-15 [1] CRAN (R 4.1.0)                
-#>  lubridate     1.7.10     2021-02-26 [1] CRAN (R 4.1.0)                
-#>  magrittr      2.0.1      2020-11-17 [1] CRAN (R 4.1.0)                
-#>  memoise       2.0.0      2021-01-26 [1] CRAN (R 4.1.0)                
-#>  modelr        0.1.8      2020-05-19 [1] CRAN (R 4.1.0)                
-#>  munsell       0.5.0      2018-06-12 [1] CRAN (R 4.1.0)                
-#>  pillar        1.6.1      2021-05-16 [1] CRAN (R 4.1.0)                
-#>  pkgbuild      1.2.0      2020-12-15 [1] CRAN (R 4.1.0)                
-#>  pkgconfig     2.0.3      2019-09-22 [1] CRAN (R 4.1.0)                
-#>  pkgdown       1.6.1.9001 2021-07-27 [1] Github (r-lib/pkgdown@ce9781a)
-#>  pkgload       1.2.1      2021-04-06 [1] CRAN (R 4.1.0)                
-#>  prettyunits   1.1.1      2020-01-24 [1] CRAN (R 4.1.0)                
-#>  processx      3.5.2      2021-04-30 [1] CRAN (R 4.1.0)                
-#>  ps            1.6.0      2021-02-28 [1] CRAN (R 4.1.0)                
-#>  purrr       * 0.3.4      2020-04-17 [1] CRAN (R 4.1.0)                
-#>  R6            2.5.0      2020-10-28 [1] CRAN (R 4.1.0)                
-#>  ragg          1.1.3      2021-06-09 [1] CRAN (R 4.1.0)                
-#>  Rcpp          1.0.7      2021-07-07 [1] CRAN (R 4.1.0)                
-#>  readr       * 2.0.0      2021-07-20 [1] CRAN (R 4.1.0)                
-#>  readxl      * 1.3.1.9000 2021-07-27 [1] local                         
-#>  rematch       1.0.1      2016-04-21 [1] CRAN (R 4.1.0)                
-#>  remotes       2.4.0      2021-06-02 [1] CRAN (R 4.1.0)                
-#>  reprex        2.0.0      2021-04-02 [1] CRAN (R 4.1.0)                
-#>  rlang         0.4.11     2021-04-30 [1] CRAN (R 4.1.0)                
-#>  rmarkdown     2.9        2021-06-15 [1] CRAN (R 4.1.0)                
-#>  rprojroot     2.0.2      2020-11-15 [1] CRAN (R 4.1.0)                
-#>  rstudioapi    0.13       2020-11-12 [1] CRAN (R 4.1.0)                
-#>  rvest         1.0.1      2021-07-26 [1] CRAN (R 4.1.0)                
-#>  sass          0.4.0      2021-05-12 [1] CRAN (R 4.1.0)                
-#>  scales        1.1.1      2020-05-11 [1] CRAN (R 4.1.0)                
-#>  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 4.1.0)                
-#>  stringi       1.7.3      2021-07-16 [1] CRAN (R 4.1.0)                
-#>  stringr     * 1.4.0      2019-02-10 [1] CRAN (R 4.1.0)                
-#>  systemfonts   1.0.2      2021-05-11 [1] CRAN (R 4.1.0)                
-#>  testthat      3.0.4      2021-07-01 [1] CRAN (R 4.1.0)                
-#>  textshaping   0.3.5      2021-06-09 [1] CRAN (R 4.1.0)                
-#>  tibble      * 3.1.3      2021-07-23 [1] CRAN (R 4.1.0)                
-#>  tidyr       * 1.1.3      2021-03-03 [1] CRAN (R 4.1.0)                
-#>  tidyselect    1.1.1      2021-04-30 [1] CRAN (R 4.1.0)                
-#>  tidyverse   * 1.3.1      2021-04-15 [1] CRAN (R 4.1.0)                
-#>  tzdb          0.1.2      2021-07-20 [1] CRAN (R 4.1.0)                
-#>  usethis       2.0.1      2021-02-10 [1] CRAN (R 4.1.0)                
-#>  utf8          1.2.2      2021-07-24 [1] CRAN (R 4.1.0)                
-#>  vctrs         0.3.8      2021-04-29 [1] CRAN (R 4.1.0)                
-#>  vroom         1.5.3      2021-07-14 [1] CRAN (R 4.1.0)                
-#>  withr         2.4.2      2021-04-18 [1] CRAN (R 4.1.0)                
-#>  xfun          0.24       2021-06-15 [1] CRAN (R 4.1.0)                
-#>  xml2          1.3.2      2020-04-23 [1] CRAN (R 4.1.0)                
-#>  yaml          2.2.1      2020-02-01 [1] CRAN (R 4.1.0)                
+#>  package     * version    date       lib source             
+#>  assertthat    0.2.1      2019-03-21 [1] standard (@0.2.1)  
+#>  backports     1.2.1      2020-12-09 [1] standard (@1.2.1)  
+#>  bit           4.0.4      2020-08-04 [1] standard (@4.0.4)  
+#>  bit64         4.0.5      2020-08-30 [1] standard (@4.0.5)  
+#>  broom         0.7.9      2021-07-27 [1] standard (@0.7.9)  
+#>  cachem        1.0.5      2021-05-15 [1] standard (@1.0.5)  
+#>  callr         3.7.0      2021-04-20 [1] standard (@3.7.0)  
+#>  cellranger    1.1.0      2016-07-27 [1] standard (@1.1.0)  
+#>  cli           3.0.1      2021-07-17 [1] standard (@3.0.1)  
+#>  colorspace    2.0-2      2021-06-24 [1] standard (@2.0-2)  
+#>  crayon        1.4.1      2021-02-08 [1] standard (@1.4.1)  
+#>  DBI           1.1.1      2021-01-15 [1] standard (@1.1.1)  
+#>  dbplyr        2.1.1      2021-04-06 [1] standard (@2.1.1)  
+#>  desc          1.3.0      2021-03-05 [1] standard (@1.3.0)  
+#>  devtools      2.4.2      2021-06-07 [1] standard (@2.4.2)  
+#>  digest        0.6.27     2020-10-24 [1] standard (@0.6.27) 
+#>  dplyr       * 1.0.7      2021-06-18 [1] standard (@1.0.7)  
+#>  ellipsis      0.3.2      2021-04-29 [1] standard (@0.3.2)  
+#>  evaluate      0.14       2019-05-28 [1] standard (@0.14)   
+#>  fansi         0.5.0      2021-05-25 [1] standard (@0.5.0)  
+#>  fastmap       1.1.0      2021-01-25 [1] standard (@1.1.0)  
+#>  forcats     * 0.5.1      2021-01-27 [1] standard (@0.5.1)  
+#>  fs            1.5.0      2020-07-31 [1] standard (@1.5.0)  
+#>  generics      0.1.0      2020-10-31 [1] standard (@0.1.0)  
+#>  ggplot2     * 3.3.5      2021-06-25 [1] standard (@3.3.5)  
+#>  glue          1.4.2      2020-08-27 [1] standard (@1.4.2)  
+#>  gtable        0.3.0      2019-03-25 [1] standard (@0.3.0)  
+#>  haven         2.4.1      2021-04-23 [1] standard (@2.4.1)  
+#>  hms           1.1.0      2021-05-17 [1] standard (@1.1.0)  
+#>  htmltools     0.5.1.1    2021-01-22 [1] standard (@0.5.1.1)
+#>  httr          1.4.2      2020-07-20 [1] standard (@1.4.2)  
+#>  jsonlite      1.7.2      2020-12-09 [1] standard (@1.7.2)  
+#>  knitr         1.33       2021-04-24 [1] standard (@1.33)   
+#>  lifecycle     1.0.0      2021-02-15 [1] standard (@1.0.0)  
+#>  lubridate     1.7.10     2021-02-26 [1] standard (@1.7.10) 
+#>  magrittr      2.0.1      2020-11-17 [1] standard (@2.0.1)  
+#>  memoise       2.0.0      2021-01-26 [1] standard (@2.0.0)  
+#>  modelr        0.1.8      2020-05-19 [1] standard (@0.1.8)  
+#>  munsell       0.5.0      2018-06-12 [1] standard (@0.5.0)  
+#>  pillar        1.6.1      2021-05-16 [1] standard (@1.6.1)  
+#>  pkgbuild      1.2.0      2020-12-15 [1] standard (@1.2.0)  
+#>  pkgconfig     2.0.3      2019-09-22 [1] standard (@2.0.3)  
+#>  pkgdown       1.6.1      2020-09-12 [1] standard (@1.6.1)  
+#>  pkgload       1.2.1      2021-04-06 [1] standard (@1.2.1)  
+#>  prettyunits   1.1.1      2020-01-24 [1] standard (@1.1.1)  
+#>  processx      3.5.2      2021-04-30 [1] standard (@3.5.2)  
+#>  ps            1.6.0      2021-02-28 [1] standard (@1.6.0)  
+#>  purrr       * 0.3.4      2020-04-17 [1] standard (@0.3.4)  
+#>  R6            2.5.0      2020-10-28 [1] standard (@2.5.0)  
+#>  ragg          1.1.3      2021-06-09 [1] standard (@1.1.3)  
+#>  Rcpp          1.0.7      2021-07-07 [1] standard (@1.0.7)  
+#>  readr       * 2.0.0      2021-07-20 [1] standard (@2.0.0)  
+#>  readxl      * 1.3.1.9000 2021-07-28 [1] local              
+#>  rematch       1.0.1      2016-04-21 [1] standard (@1.0.1)  
+#>  remotes       2.4.0      2021-06-02 [1] standard (@2.4.0)  
+#>  reprex        2.0.0      2021-04-02 [1] standard (@2.0.0)  
+#>  rlang         0.4.11     2021-04-30 [1] standard (@0.4.11) 
+#>  rmarkdown     2.9        2021-06-15 [1] standard (@2.9)    
+#>  rprojroot     2.0.2      2020-11-15 [1] standard (@2.0.2)  
+#>  rstudioapi    0.13       2020-11-12 [1] standard (@0.13)   
+#>  rvest         1.0.1      2021-07-26 [1] standard (@1.0.1)  
+#>  scales        1.1.1      2020-05-11 [1] standard (@1.1.1)  
+#>  sessioninfo   1.1.1      2018-11-05 [1] standard (@1.1.1)  
+#>  stringi       1.7.3      2021-07-16 [1] standard (@1.7.3)  
+#>  stringr     * 1.4.0      2019-02-10 [1] standard (@1.4.0)  
+#>  systemfonts   1.0.2      2021-05-11 [1] standard (@1.0.2)  
+#>  testthat      3.0.4      2021-07-01 [1] standard (@3.0.4)  
+#>  textshaping   0.3.5      2021-06-09 [1] standard (@0.3.5)  
+#>  tibble      * 3.1.3      2021-07-23 [1] standard (@3.1.3)  
+#>  tidyr       * 1.1.3      2021-03-03 [1] standard (@1.1.3)  
+#>  tidyselect    1.1.1      2021-04-30 [1] standard (@1.1.1)  
+#>  tidyverse   * 1.3.1      2021-04-15 [1] standard (@1.3.1)  
+#>  tzdb          0.1.2      2021-07-20 [1] standard (@0.1.2)  
+#>  usethis       2.0.1      2021-02-10 [1] standard (@2.0.1)  
+#>  utf8          1.2.2      2021-07-24 [1] standard (@1.2.2)  
+#>  vctrs         0.3.8      2021-04-29 [1] standard (@0.3.8)  
+#>  vroom         1.5.3      2021-07-14 [1] standard (@1.5.3)  
+#>  withr         2.4.2      2021-04-18 [1] standard (@2.4.2)  
+#>  xfun          0.24       2021-06-15 [1] standard (@0.24)   
+#>  xml2          1.3.2      2020-04-23 [1] standard (@1.3.2)  
+#>  yaml          2.2.1      2020-02-01 [1] standard (@2.2.1)  
 #> 
-#> [1] /Users/runner/work/_temp/Library
-#> [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+#> [1] /home/runner/work/_temp/Library
+#> [2] /opt/R/4.1.0/lib/R/library
 ```
 </details>
 
@@ -537,71 +532,71 @@ devtools::session_info()
 </div>
 <div id="base-version" class="section level2">
 <h2 class="hasAnchor">
-<a href="#base-version" class="anchor" aria-hidden="true"></a>Base version</h2>
+<a href="#base-version" class="anchor"></a>Base version</h2>
 <p>Rework examples from above but using base R only, other than readxl.</p>
 <div id="cache-a-csv-snapshot-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#cache-a-csv-snapshot-1" class="anchor" aria-hidden="true"></a>Cache a CSV snapshot</h3>
+<a href="#cache-a-csv-snapshot-1" class="anchor"></a>Cache a CSV snapshot</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_xl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">iris_xl</span>, <span class="st">"iris-raw.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, quote <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">iris_alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"iris-raw.csv"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">iris_xl</span>, <span class="st">"iris-raw.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, quote <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">iris_alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"iris-raw.csv"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">## coerce iris_xl back to a data.frame</span>
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">iris_xl</span><span class="op">)</span>, <span class="va">iris_alt</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">iris_xl</span><span class="op">)</span>, <span class="va">iris_alt</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="iterate-over-multiple-worksheets-in-a-workbook-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#iterate-over-multiple-worksheets-in-a-workbook-1" class="anchor" aria-hidden="true"></a>Iterate over multiple worksheets in a workbook</h3>
+<a href="#iterate-over-multiple-worksheets-in-a-workbook-1" class="anchor"></a>Iterate over multiple worksheets in a workbook</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xls"</span><span class="op">)</span>
 <span class="va">sheets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span> 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xl_list</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sheets</span></code></pre></div>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xl_list</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sheets</span></code></pre></div>
 </div>
 <div id="csv-caching-and-iterating-over-sheets-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#csv-caching-and-iterating-over-sheets-1" class="anchor" aria-hidden="true"></a>CSV caching and iterating over sheets</h3>
+<a href="#csv-caching-and-iterating-over-sheets-1" class="anchor"></a>CSV caching and iterating over sheets</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">read_then_csv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sheet</span>, <span class="va">path</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">pathbase</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_path_sans_ext</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">pathbase</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html">file_path_sans_ext</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">)</span>
   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">sheet</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">pathbase</span>, <span class="st">"-"</span>, <span class="va">sheet</span>, <span class="st">".csv"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">pathbase</span>, <span class="st">"-"</span>, <span class="va">sheet</span>, <span class="st">".csv"</span><span class="op">)</span>,
             quote <span class="op">=</span> <span class="cn">FALSE</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
   <span class="va">df</span>
 <span class="op">}</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>
 <span class="va">sheets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_then_csv</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xl_list</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sheets</span></code></pre></div>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_then_csv</span>, path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xl_list</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sheets</span></code></pre></div>
 </div>
 <div id="concatenate-worksheets-into-one-data-frame-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#concatenate-worksheets-into-one-data-frame-1" class="anchor" aria-hidden="true"></a>Concatenate worksheets into one data frame</h3>
+<a href="#concatenate-worksheets-into-one-data-frame-1" class="anchor"></a>Concatenate worksheets into one data frame</h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>
 <span class="va">sheets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
 <span class="va">xl_list</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, <span class="va">xl_list</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="va">read_excel</span>, path <span class="op">=</span> <span class="va">path</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, <span class="va">xl_list</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">xl_list</span><span class="op">)</span></code></pre></div>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">xl_list</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="putting-it-all-together-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#putting-it-all-together-1" class="anchor" aria-hidden="true"></a>Putting it all together</h3>
+<a href="#putting-it-all-together-1" class="anchor"></a>Putting it all together</h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>
 <span class="va">sheets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"A5:F15"</span>, <span class="fu"><a href="../../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span>
+<span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"A5:F15"</span>, <span class="fu"><a href="../../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">x</span>, range <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
 <span class="op">}</span>, <span class="va">sheets</span>, <span class="va">ranges</span>, SIMPLIFY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, <span class="va">xl_list</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">sheets</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, <span class="va">xl_list</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
-<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">xl_list</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">xl_list</span>, <span class="st">"deaths.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, quote <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="va">xl_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">xl_list</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">xl_list</span>, <span class="st">"deaths.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, quote <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -617,13 +612,13 @@ devtools::session_info()
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
 
@@ -632,8 +627,6 @@ devtools::session_info()
 
   
 
-
-  
 
   </body>
 </html>
