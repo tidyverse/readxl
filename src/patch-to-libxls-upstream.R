@@ -5,11 +5,19 @@ library(gert)
 library(desc)
 
 libxls_path <- "~/rrr/libxls"
-libxls_SHA <- git_commit_id(repo = libxls_path)
 there <- function(x) path(libxls_path, x)
 
 if (git_branch(repo = libxls_path) != "master") {
   message("YO! You are not on master in libxls! Are you sure about this?")
+}
+
+target_version <- "v1.6.2"
+(tag <- git_tag_list(target_version, repo = libxls_path))
+
+libxls_SHA <- git_commit_id(repo = libxls_path)
+
+if (tag$commit != libxls_SHA) {
+   message("YO! SHA associated with HEAD isn't associated with target version!")
 }
 
 # the subset of libxls files that we embed
@@ -36,16 +44,18 @@ file_copy(
   overwrite = TRUE
 )
 
-desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
+desc::desc_set(Note = paste("libxls", target_version, substr(libxls_SHA, 1, 7)))
 
-# as needed (less often), I rerun the configure script to regenerate
+# as needed, I rerun the configure script to regenerate
 # unix/config.h and windows/config.h
+
+# as of libxls v1.6.2, we've had to adopt different static config files for
+# macOS and other unix (basically motivated by what we see on GHA Ubuntu jobs)
+
 # on windows, you may need to manually & temporarily add the directory
 # containing gcc in Rtools to the PATH
-# we have manually applied patches in config.h as well
-# basically some fixes we have long had around iconv prototypes have moved out
-# of xlstool.c and into config.h, which is probably a good thing
 
+# things I needed to do on a fresh Big Sur system to run ./bootstrap
 # brew install autoconf
 # brew install autoconf-archive
 # brew install automake
@@ -54,13 +64,5 @@ desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
 # ./bootstrap
 # ./configure
 
-
-## at this point, you'll have a diff
-## selectively commit the bits we truly want; call this commit X
-## now commit the reversals of our usual patches; call this commit Y
-## revert commit Y; this ADDS our usual patches; call this commit Z
-## rebase and squash X and Y
-## rebase and edit the message for commit Z
-## revel in all the xls issues that are newly resolved
-
-
+# I later learned from Jim that I could also download and unpack the libxls
+# release and probably just run ./configure w/o installing so much stuff
