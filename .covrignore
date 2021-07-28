@@ -1,10 +1,2 @@
-src/xls.c
-src/xlstool.c
-src/rapidxml.h
-src/rapidxml_print.h
-src/xls\.c
-src/xlstool\.c
-src/rapidxml.*
-src/endian\.c
-src/ole\.c
-src/libxls/brdb\.h
+src/libxls
+src/rapidxml
