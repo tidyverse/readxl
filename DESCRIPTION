@@ -60,6 +60,7 @@ LinkingTo:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/Needs/website: tidyverse/tidytemplate, tidyverse, devtools
 Encoding: UTF-8
 LazyData: true
 Note: libxls-SHA cef1393
