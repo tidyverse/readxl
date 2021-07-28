@@ -1,5 +1,3 @@
-context("Problems")
-
 test_that("coercion warnings report correct address", {
   ## xlsx
   expect_warning(

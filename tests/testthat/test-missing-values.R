@@ -1,5 +1,3 @@
-context("Missing values")
-
 test_that("blanks in different rows read as missing [xlsx]", {
   blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "different_rows")
   expect_equal(blanks$x, c(NA, 1))

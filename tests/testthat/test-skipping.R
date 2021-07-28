@@ -1,5 +1,3 @@
-context("Skipping")
-
 skipping_xlsx <- test_sheet("skipping.xlsx")
 skipping_xls <- test_sheet("skipping.xls")
 ref <- tibble::tribble(
