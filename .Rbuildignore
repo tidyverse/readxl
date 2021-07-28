@@ -1,4 +1,5 @@
 ^pkgdown$
+^.covrignore$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
