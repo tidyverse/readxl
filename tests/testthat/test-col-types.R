@@ -22,15 +22,18 @@ test_that("request for 'blank' col type gets deprecation message and fix", {
 test_that("invalid col_types are rejected", {
   expect_error(
     read_excel(test_sheet("types.xlsx"), col_types = character()),
-    "length(col_types) > 0 is not TRUE", fixed = TRUE
+    "length(col_types) > 0 is not TRUE",
+    fixed = TRUE
   )
   expect_error(
     read_excel(test_sheet("types.xlsx"), col_types = 1:3),
-    "is.character(col_types) is not TRUE", fixed = TRUE
+    "is.character(col_types) is not TRUE",
+    fixed = TRUE
   )
   expect_error(
     read_excel(test_sheet("types.xlsx"), col_types = c(NA, "text", "numeric")),
-    "!anyNA(col_types) is not TRUE", fixed = TRUE
+    "!anyNA(col_types) is not TRUE",
+    fixed = TRUE
   )
 })
 
@@ -94,7 +97,8 @@ test_that("guess_max is honored for col_types", {
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric")
+    "Expecting numeric"
+  )
 
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 
@@ -104,7 +108,8 @@ test_that("guess_max is honored for col_types", {
       sheet = "guess_max",
       guess_max = 2
     ),
-    "Expecting numeric")
+    "Expecting numeric"
+  )
 
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
@@ -157,7 +162,9 @@ test_that("setting `na` works in list columns [xls]", {
 test_that("numeric is correctly coerced to logical [xlsx]", {
   expect_snapshot(
     df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"),
-                                     guess_max = 0))
+      guess_max = 0
+    )
+  )
 
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)
@@ -166,7 +173,9 @@ test_that("numeric is correctly coerced to logical [xlsx]", {
 test_that("numeric is correctly coerced to logical [xls]", {
   expect_snapshot(
     df <- read_xls(test_sheet("missing-values-xls.xls"),
-                                      guess_max = 0))
+      guess_max = 0
+    )
+  )
 
   expect_identical(df$z, c(NA, TRUE, TRUE))
   expect_equal(sum(df$z, na.rm = TRUE), 2)

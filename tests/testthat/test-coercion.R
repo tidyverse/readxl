@@ -2,8 +2,10 @@ test_that("contaminated, explicit logical is read as logical", {
   ## xls
   expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "logical_coercion",
-      col_types = c("logical", "text"))
+      test_sheet("types.xls"),
+      sheet = "logical_coercion",
+      col_types = c("logical", "text")
+    )
   )
 
   expect_true(is.logical(df$logical))
@@ -13,8 +15,10 @@ test_that("contaminated, explicit logical is read as logical", {
   ## xlsx
   expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xlsx"), sheet = "logical_coercion",
-      col_types = c("logical", "text"))
+      test_sheet("types.xlsx"),
+      sheet = "logical_coercion",
+      col_types = c("logical", "text")
+    )
   )
   expect_true(is.logical(df$logical))
 
@@ -26,8 +30,11 @@ test_that("contaminated, explicit date is read as date", {
   ## xls
   expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "date_coercion",
-      col_types = "date"))
+      test_sheet("types.xls"),
+      sheet = "date_coercion",
+      col_types = "date"
+    )
+  )
 
   expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -37,8 +44,11 @@ test_that("contaminated, explicit date is read as date", {
   ## xlsx
   expect_snapshot(
     df <- read_excel(
-        test_sheet("types.xlsx"), sheet = "date_coercion",
-        col_types = "date"))
+      test_sheet("types.xlsx"),
+      sheet = "date_coercion",
+      col_types = "date"
+    )
+  )
 
   expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
@@ -50,8 +60,11 @@ test_that("contaminated, explicit numeric is read as numeric", {
   ## xls
   expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "numeric_coercion",
-      col_types = "numeric"))
+      test_sheet("types.xls"),
+      sheet = "numeric_coercion",
+      col_types = "numeric"
+    )
+  )
 
   expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
@@ -60,8 +73,11 @@ test_that("contaminated, explicit numeric is read as numeric", {
   ## xlsx
   expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xlsx"), sheet = "numeric_coercion",
-      col_types = "numeric"))
+      test_sheet("types.xlsx"),
+      sheet = "numeric_coercion",
+      col_types = "numeric"
+    )
+  )
 
   expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
@@ -73,7 +89,8 @@ test_that("contaminated, explicit numeric is read as numeric", {
 test_that("contaminated, explicit text is read as text", {
   ## xls
   df <- read_excel(
-    test_sheet("types.xls"), sheet = "text_coercion",
+    test_sheet("types.xls"),
+    sheet = "text_coercion",
     col_types = c("text", "text")
   )
   expect_true(is.character(df$text))
@@ -83,7 +100,8 @@ test_that("contaminated, explicit text is read as text", {
 
   ## xlsx
   df <- read_excel(
-    test_sheet("types.xlsx"), sheet = "text_coercion",
+    test_sheet("types.xlsx"),
+    sheet = "text_coercion",
     col_types = c("text", "text")
   )
   expect_true(is.character(df$text))
@@ -99,7 +117,7 @@ test_that("integery-y numbers > 2^31 can be coerced to string", {
   expect_identical(
     xls[["number"]][-1],
     as.character(
-      c(2 ^ 31 - 1, 2 ^ 31, 2 ^ 31 + 1, -1 * (2 ^ 31), -1 * (2 ^ 31 + 1))
+      c(2^31 - 1, 2^31, 2^31 + 1, -1 * (2^31), -1 * (2^31 + 1))
     )
   )
 })
