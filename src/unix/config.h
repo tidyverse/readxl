@@ -1,6 +1,9 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* define if the compiler supports basic C++11 syntax */
+#define HAVE_CXX11 1
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
@@ -14,15 +17,15 @@
    to 0 otherwise. */
 #define HAVE_MALLOC 1
 
-/* Define to 1 if you have the <memory.h> header file. */
-#define HAVE_MEMORY_H 1
-
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
 #define HAVE_REALLOC 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -48,21 +51,23 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #define HAVE_WCHAR_H 1
 
+/* Define to 1 if you have the `wcstombs_l' function. */
+#define HAVE_WCSTOMBS_L 1
+
+/* Define to 1 if you have the <xlocale.h> header file. */
+#define HAVE_XLOCALE_H 1
+
 /* Define as const if the declaration of iconv() needs const. */
-#if defined(_AIX) || defined(__sun)
-  #define ICONV_CONST const
-#else
-  #define ICONV_CONST
-#endif
+#define ICONV_CONST 
 
 /* Major version */
 #define LIBXLS_MAJOR_VERSION 1
 
 /* Micro version */
-#define LIBXLS_MICRO_VERSION 0
+#define LIBXLS_MICRO_VERSION 2
 
 /* Minor version */
-#define LIBXLS_MINOR_VERSION 5
+#define LIBXLS_MINOR_VERSION 6
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -71,13 +76,13 @@
 #define PACKAGE "libxls"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "emmiller@gmail.com"
+#define PACKAGE_BUGREPORT "https://github.com/libxls/libxls/issues"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "libxls"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libxls 1.5.0"
+#define PACKAGE_STRING "libxls 1.6.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libxls"
@@ -86,16 +91,15 @@
 #define PACKAGE_URL "https://github.com/libxls/libxls"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.5.0"
+#define PACKAGE_VERSION "1.6.2"
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.5.0"
-
-/* Define to empty if `const' does not conform to ANSI C. */
-/* #undef const */
+#define VERSION "1.6.2"
 
 /* Define to rpl_malloc if the replacement function should be used. */
 /* #undef malloc */

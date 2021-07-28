@@ -12,9 +12,10 @@ if (git_branch(repo = libxls_path) != "master") {
   message("YO! You are not on master in libxls! Are you sure about this?")
 }
 
-## the subset of libxls files that we embed
+# the subset of libxls files that we embed
 paths <- c(
   "src/endian.c",
+  "src/locale.c",
   "src/ole.c",
   "src/xls.c",
   "src/xlstool.c",
@@ -22,6 +23,7 @@ paths <- c(
   "include/libxls/brdb.c.h",
   "include/libxls/brdb.h",
   "include/libxls/endian.h",
+  "include/libxls/locale.h",
   "include/libxls/ole.h",
   "include/libxls/xlsstruct.h",
   "include/libxls/xlstool.h",
@@ -36,6 +38,23 @@ file_copy(
 
 desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
 
+# as needed (less often), I rerun the configure script to regenerate
+# unix/config.h and windows/config.h
+# on windows, you may need to manually & temporarily add the directory
+# containing gcc in Rtools to the PATH
+# we have manually applied patches in config.h as well
+# basically some fixes we have long had around iconv prototypes have moved out
+# of xlstool.c and into config.h, which is probably a good thing
+
+# brew install autoconf
+# brew install autoconf-archive
+# brew install automake
+# brew install gettext
+# brew install libtool
+# ./bootstrap
+# ./configure
+
+
 ## at this point, you'll have a diff
 ## selectively commit the bits we truly want; call this commit X
 ## now commit the reversals of our usual patches; call this commit Y
@@ -44,10 +63,4 @@ desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
 ## rebase and edit the message for commit Z
 ## revel in all the xls issues that are newly resolved
 
-## as needed (less often), I rerun the configure script to regenerate
-## unix/config.h and windows/config.h
-## on windows, you may need to manually & temporarily add the directory
-## containing gcc in Rtools to the PATH
-## we have manually applied patches in config.h as well
-## basically some fixes we have long had around iconv prototypes have moved out
-## of xlstool.c and into config.h, which is probably a good thing
+
