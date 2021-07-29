@@ -1,5 +1,3 @@
-context("Sheets")
-
 test_that("informative error when requesting non-existent sheet by name", {
   expect_error(
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "tulip"),

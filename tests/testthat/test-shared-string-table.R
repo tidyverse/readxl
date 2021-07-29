@@ -1,5 +1,3 @@
-context("Shared string table")
-
 ## #293, #333
 ## affects xls only
 test_that("shared strings are retrieved when there's >256 unique strings", {

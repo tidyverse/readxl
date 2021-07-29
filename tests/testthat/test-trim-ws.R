@@ -1,5 +1,3 @@
-context("Trim whitespace")
-
 test_that("trim_ws is default and it works", {
   ## because trimws()
   skip_if(getRversion() < 3.2)
@@ -59,8 +57,8 @@ test_that("whitespace-flanked na strings match when trim_ws = TRUE", {
     test_sheet("whitespace-xlsx.xlsx"),
     sheet = "logical_and_NA", na = ":-)"
   )
-  expect_is(xls$numeric, "numeric")
-  expect_is(xlsx$numeric, "numeric")
+  expect_true(is.numeric(xls$numeric))
+  expect_true(is.numeric(xlsx$numeric))
   expect_true(is.na(xls[[2, 1]]))
   expect_true(is.na(xlsx[[2, 1]]))
 })
@@ -74,8 +72,8 @@ test_that("whitespace-flanked na strings do not match when trim_ws = FALSE", {
     test_sheet("whitespace-xlsx.xlsx"),
     sheet = "logical_and_NA", na = ":-)", trim_ws = FALSE
   )
-  expect_is(xls$numeric, "character")
-  expect_is(xlsx$numeric, "character")
+  expect_true(is.character(xls$numeric))
+  expect_true(is.character(xlsx$numeric))
   expect_identical(xls[[2, 1]], "  :-)  ")
   expect_identical(xlsx[[2, 1]], "  :-)  ")
 })

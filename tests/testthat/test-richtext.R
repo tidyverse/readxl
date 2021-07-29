@@ -1,5 +1,3 @@
-context("Richtext")
-
 test_that("rich text strings are handled in stringtable", {
   rt <- read_excel(test_sheet("richtext-coloured.xlsx"), col_names = FALSE)
 
