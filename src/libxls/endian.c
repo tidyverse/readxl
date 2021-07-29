@@ -87,7 +87,7 @@ void xlsConvertDouble(unsigned char *d)
         for (i=0; i<4; i++)
         {
             t = d[7-i];
-            d[7-i] = d[i];
+            d[8-i] = d[i];
             d[i] = t;
         }
     }

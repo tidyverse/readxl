@@ -3,7 +3,7 @@
 #include <Rcpp.h>
 #include "ColSpec.h"
 #include "XlsWorkSheet.h"
-#include "libxls/xls.h"
+#include <libxls/xls.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]

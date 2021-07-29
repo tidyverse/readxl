@@ -63,6 +63,6 @@ Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate, tidyverse, devtools
 Encoding: UTF-8
 LazyData: true
-Note: libxls v1.6.2 4482400
+Note: libxls-SHA cef1393
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
