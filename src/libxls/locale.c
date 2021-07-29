@@ -1,10 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
- * Copyright 2008-2017 David Hoerl
- * Copyright 2013 Bob Colbert
- * Copyright 2013-2018 Evan Miller
+ * Copyright 2020 Evan Miller
  *
  * This file is part of libxls -- A multiplatform, C/C++ library for parsing
  * Excel(TM) files.
@@ -32,31 +28,46 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#include "config.h"
+#include <stdlib.h>
+#include "libxls/locale.h"
 
-struct str_brdb
-{
-    WORD opcode;
-    char * name;			/* printable name */
-    char * desc;			/* printable description */
-};
-typedef struct str_brdb record_brdb;
+#define GCC_VERSION (__GNUC__ * 10000 \
+                     + __GNUC_MINOR__ * 100 \
+                     + __GNUC_PATCHLEVEL__)
 
-record_brdb brdb[] =
-    {
-#include "libxls/brdb.c.h"
-    };
+xls_locale_t xls_createlocale() {
+#if defined(__MINGW32__) && GCC_VERSION <= 40903
+    xls_locale_t loc = {0};
+    return loc;
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    return _create_locale(LC_CTYPE, ".65001");
+#else
+    return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
+#endif
+}
 
-static int get_brbdnum(int id)
-{
+void xls_freelocale(xls_locale_t locale) {
+    if (!locale)
+        return;
+#if defined(__MINGW32__)
+    return;
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    _free_locale(locale);
+#else
+    freelocale(locale);
+#endif
+}
 
-    int i;
-    i=0;
-    do
-    {
-        if (brdb[i].opcode==id)
-            return i;
-        i++;
-    }
-    while (brdb[i].opcode!=0xFFF);
-    return 0;
+size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc) {
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+    return _wcstombs_l(s, pwcs, n, loc);
+#elif defined(HAVE_WCSTOMBS_L)
+    return wcstombs_l(s, pwcs, n, loc);
+#else
+    locale_t oldlocale = uselocale(loc);
+    size_t result = wcstombs(s, pwcs, n);
+    uselocale(oldlocale);
+    return result;
+#endif
 }
