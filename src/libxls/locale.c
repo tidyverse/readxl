@@ -32,8 +32,15 @@
 #include <stdlib.h>
 #include "libxls/locale.h"
 
+#define GCC_VERSION (__GNUC__ * 10000 \
+                     + __GNUC_MINOR__ * 100 \
+                     + __GNUC_PATCHLEVEL__)
+
 xls_locale_t xls_createlocale() {
-#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+#if defined(__MINGW32__) && GCC_VERSION <= 40903
+    xls_locale_t loc = {0};
+    return loc;
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _create_locale(LC_CTYPE, ".65001");
 #else
     return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
@@ -43,7 +50,9 @@ xls_locale_t xls_createlocale() {
 void xls_freelocale(xls_locale_t locale) {
     if (!locale)
         return;
-#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+#if defined(__MINGW32__)
+    return;
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     _free_locale(locale);
 #else
     freelocale(locale);
