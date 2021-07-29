@@ -50,12 +50,12 @@
 #include <string.h>
 
 //#include "xls.h"
-#include "../include/libxls/xlstypes.h"
-#include "../include/libxls/xlsstruct.h"
-#include "../include/libxls/xlstool.h"
-#include "../include/libxls/brdb.h"
-#include "../include/libxls/endian.h"
-#include "../include/libxls/locale.h"
+#include "libxls/xlstypes.h"
+#include "libxls/xlsstruct.h"
+#include "libxls/xlstool.h"
+#include "libxls/brdb.h"
+#include "libxls/endian.h"
+#include "libxls/locale.h"
 
 extern int xls_debug;
 
