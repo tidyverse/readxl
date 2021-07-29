@@ -1,20 +1,21 @@
+#include <cpp11/function.hpp>
+#include <cpp11/raws.hpp>
+#include <cpp11/logicals.hpp>
+#include <cpp11/as.hpp>
 #include <Rcpp.h>
-
 #include "zip.h"
 #include "rapidxml_print.h"
 
-using namespace Rcpp;
-
-Function readxl(const std::string& fun){
-  Environment env = Environment::namespace_env("readxl");
-  return env[fun];
+cpp11::function readxl(const std::string& fun){
+  auto env = cpp11::package("readxl")[fun];
+  return env;
 }
 
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
-  Rcpp::Function zip_buffer = readxl("zip_buffer");
+  cpp11::function zip_buffer = readxl("zip_buffer");
 
-  Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
+  cpp11::writable::raws xml = cpp11::as_cpp<cpp11::writable::raws>(zip_buffer(zip_path, file_path));
   std::string buffer(RAW(xml), RAW(xml) + xml.size());
   buffer.push_back('\0');
 
@@ -23,10 +24,10 @@ std::string zip_buffer(const std::string& zip_path,
 
 bool zip_has_file(const std::string& zip_path,
                   const std::string& file_path) {
-  Rcpp::Function zip_has_file = readxl("zip_has_file");
+  cpp11::function zip_has_file = readxl("zip_has_file");
 
-  LogicalVector res = wrap<LogicalVector>(zip_has_file(zip_path, file_path));
-  return res[0];
+  cpp11::writable::logicals res = cpp11::as_cpp<cpp11::writable::logicals>(zip_has_file(zip_path, file_path));
+  return cpp11::r_bool(res[0]);
 }
 
 std::string xml_print(std::string xml) {
@@ -46,5 +47,5 @@ void zip_xml(const std::string& zip_path,
              const std::string& file_path) {
 
   std::string buffer = zip_buffer(zip_path, file_path);
-  Rcout << xml_print(buffer);
+  Rcpp::Rcout << xml_print(buffer);
 }
