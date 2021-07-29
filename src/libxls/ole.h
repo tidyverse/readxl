@@ -36,9 +36,13 @@
 #ifndef OLE_INCLUDE
 #define OLE_INCLUDE
 
+#ifdef __cplusplus
+#include <cstdio>			// FILE *
+#else
 #include <stdio.h>			// FILE *
+#endif
 
-#include "libxls/xlstypes.h"
+#include "../libxls/xlstypes.h"
 
 #if defined(_AIX) || defined(__sun)
 #pragma pack(1)
