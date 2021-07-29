@@ -4,7 +4,7 @@ PKG_CPPFLAGS=-Iwindows -I. -Irapidxml -D__USE_MINGW_ANSI_STDIO -DRCPP_DEFAULT_IN
 PKG_LIBS=-lRiconv
 
 SOURCES = RcppExports.cpp XlsWorkBook.cpp XlsWorkSheet.cpp XlsxWorkBook.cpp XlsxWorkSheet.cpp zip.cpp
-OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o
+OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o libxls/locale.o
 
 all: $(SHLIB)
 
