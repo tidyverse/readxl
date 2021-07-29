@@ -186,6 +186,19 @@
 <ul>
 <li>readxl is now licensed as MIT (<a href='https://github.com/tidyverse/readxl/issues/632'>#632</a>).</li>
 </ul>
+<div id="dependency-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<p>readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0). The libxls project is hosted at <a href="https://github.com/libxls/libxls" class="uri">https://github.com/libxls/libxls</a> and you can learn more about the cumulative changes in its release notes:</p>
+<ul>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.2">v1.6.2</a></li>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.1">v1.6.1</a></li>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.0">v1.6.0</a></li>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.3">v1.5.3</a></li>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.2">v1.5.2</a></li>
+<li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.1">v1.5.1</a></li>
+</ul>
+</div>
 </div>
     <div id="readxl-131" class="section level1">
 <h1 class="page-header" data-toc-text="1.3.1">
@@ -197,9 +210,9 @@
 <h1 class="page-header" data-toc-text="1.3.0">
 <a href="#readxl-130" class="anchor"></a>readxl 1.3.0<small> 2019-02-15 </small>
 </h1>
-<div id="dependency-changes" class="section level2">
+<div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <p>readxl embeds libxls v1.5.0. This is the first <em>official</em> release of libxls in several years, although readxl has been tracking the development version in the interim. The libxls project is now officially hosted at <a href="https://github.com/libxls/libxls" class="uri">https://github.com/libxls/libxls</a>. In particular, libxls v1.5.0 addresses these two CVEs:</p>
 <ul>
 <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452">CVE-2018-20452</a></li>
@@ -244,9 +257,9 @@
 <li><p>All paths are passed through <code><a href="https://rdrr.io/r/base/normalizePath.html">normalizePath()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/498'>#498</a>, <a href='https://github.com/tidyverse/readxl/issues/499'>#499</a>, new behaviour for xlsx but not xls) and <code><a href="https://rdrr.io/r/base/Encoding.html">enc2native()</a></code> (<a href='https://github.com/tidyverse/readxl/issues/370'>#370</a>).</p></li>
 </ul>
 </div>
-<div id="dependency-changes-1" class="section level2">
+<div id="dependency-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-2" class="anchor"></a>Dependency changes</h2>
 <p>readxl is now tested back to R &gt;= 3.1.</p>
 <p>Embedded libxls has been updated, using the source in <a href="https://github.com/evanmiller/libxls" class="uri">https://github.com/evanmiller/libxls</a>. readxl’s DESCRIPTION now records the SHA associated to the embedded libxls in a <code>Note</code>.</p>
 </div>

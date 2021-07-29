@@ -164,12 +164,12 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 × 6</span>
-<span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
-<span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
-<span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
-<span class="co">#&gt; 4 Bill Paxt… actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span>
+<span class="co">#&gt;   Name          Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 David Bowie   musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
+<span class="co">#&gt; 2 Carrie Fisher actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
+<span class="co">#&gt; 3 Chuck Berry   musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
+<span class="co">#&gt; 4 Bill Paxton   actor         61 TRUE       1955-05-17 00:00:00 2017-02-25 00:00:00</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="excel-types-r-types-col_types" class="section level2">
@@ -308,26 +308,26 @@
 <span class="co">#&gt; * `` -&gt; ...6</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 18 × 6</span>
-<span class="co">#&gt;    `Lots of people`        ...2             ...3   ...4   ...5      ...6        </span>
-<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;       </span>
-<span class="co">#&gt;  1 simply cannot resist w… &lt;NA&gt;             &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;      some notes  </span>
-<span class="co">#&gt;  2 at                      the              top    &lt;NA&gt;   of        their sprea…</span>
-<span class="co">#&gt;  3 or                      merging          &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;      cells       </span>
-<span class="co">#&gt;  4 Name                    Profession       Age    Has k… Date of … Date of dea…</span>
-<span class="co">#&gt;  5 David Bowie             musician         69     TRUE   17175     42379       </span>
-<span class="co">#&gt;  6 Carrie Fisher           actor            60     TRUE   20749     42731       </span>
-<span class="co">#&gt;  7 Chuck Berry             musician         90     TRUE   9788      42812       </span>
-<span class="co">#&gt;  8 Bill Paxton             actor            61     TRUE   20226     42791       </span>
-<span class="co">#&gt;  9 Prince                  musician         57     TRUE   21343     42481       </span>
-<span class="co">#&gt; 10 Alan Rickman            actor            69     FALSE  16854     42383       </span>
-<span class="co">#&gt; 11 Florence Henderson      actor            82     TRUE   12464     42698       </span>
-<span class="co">#&gt; 12 Harper Lee              author           89     FALSE  9615      42419       </span>
-<span class="co">#&gt; 13 Zsa Zsa Gábor           actor            99     TRUE   6247      42722       </span>
-<span class="co">#&gt; 14 George Michael          musician         53     FALSE  23187     42729       </span>
-<span class="co">#&gt; 15 Some                    &lt;NA&gt;             &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;        </span>
-<span class="co">#&gt; 16 &lt;NA&gt;                    also like to wr… &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;        </span>
-<span class="co">#&gt; 17 &lt;NA&gt;                    &lt;NA&gt;             at the botto… &lt;NA&gt;      &lt;NA&gt;        </span>
-<span class="co">#&gt; 18 &lt;NA&gt;                    &lt;NA&gt;             &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;      too!</span></code></pre></div>
+<span class="co">#&gt;    `Lots of people`             ...2                     ...3  ...4  ...5  ...6 </span>
+<span class="co">#&gt;    &lt;chr&gt;                        &lt;chr&gt;                    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 simply cannot resist writing &lt;NA&gt;                     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  some…</span>
+<span class="co">#&gt;  2 at                           the                      top   &lt;NA&gt;  of    thei…</span>
+<span class="co">#&gt;  3 or                           merging                  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  cells</span>
+<span class="co">#&gt;  4 Name                         Profession               Age   Has … Date… Date…</span>
+<span class="co">#&gt;  5 David Bowie                  musician                 69    TRUE  17175 42379</span>
+<span class="co">#&gt;  6 Carrie Fisher                actor                    60    TRUE  20749 42731</span>
+<span class="co">#&gt;  7 Chuck Berry                  musician                 90    TRUE  9788  42812</span>
+<span class="co">#&gt;  8 Bill Paxton                  actor                    61    TRUE  20226 42791</span>
+<span class="co">#&gt;  9 Prince                       musician                 57    TRUE  21343 42481</span>
+<span class="co">#&gt; 10 Alan Rickman                 actor                    69    FALSE 16854 42383</span>
+<span class="co">#&gt; 11 Florence Henderson           actor                    82    TRUE  12464 42698</span>
+<span class="co">#&gt; 12 Harper Lee                   author                   89    FALSE 9615  42419</span>
+<span class="co">#&gt; 13 Zsa Zsa Gábor                actor                    99    TRUE  6247  42722</span>
+<span class="co">#&gt; 14 George Michael               musician                 53    FALSE 23187 42729</span>
+<span class="co">#&gt; 15 Some                         &lt;NA&gt;                     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 16 &lt;NA&gt;                         also like to write stuff &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 17 &lt;NA&gt;                         &lt;NA&gt;                     at t… bott… &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 18 &lt;NA&gt;                         &lt;NA&gt;                     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  too!</span></code></pre></div>
 <p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div id="peek-at-column-names" class="section level3">
