@@ -1,10 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * Copyright 2004 Komarov Valery
- * Copyright 2006 Christophe Leitienne
- * Copyright 2008-2017 David Hoerl
- * Copyright 2013 Bob Colbert
- * Copyright 2013-2018 Evan Miller
+ * Copyright 2020 Evan Miller
  *
  * This file is part of libxls -- A multiplatform, C/C++ library for parsing
  * Excel(TM) files.
@@ -32,31 +28,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#ifdef HAVE_XLOCALE_H
+#include <xlocale.h>
+#endif
+#include <locale.h>
 
-struct str_brdb
-{
-    WORD opcode;
-    char * name;			/* printable name */
-    char * desc;			/* printable description */
-};
-typedef struct str_brdb record_brdb;
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+typedef _locale_t xls_locale_t;
+#else
+typedef locale_t xls_locale_t;
+#endif
 
-record_brdb brdb[] =
-    {
-#include "libxls/brdb.c.h"
-    };
-
-static int get_brbdnum(int id)
-{
-
-    int i;
-    i=0;
-    do
-    {
-        if (brdb[i].opcode==id)
-            return i;
-        i++;
-    }
-    while (brdb[i].opcode!=0xFFF);
-    return 0;
-}
+xls_locale_t xls_createlocale(void);
+void xls_freelocale(xls_locale_t locale);
+size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc);

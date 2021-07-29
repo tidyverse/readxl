@@ -1,5 +1,3 @@
-context("Sheet geometry")
-
 ## testing of the unexported standardise_limits() ---------------------
 
 limitize <- function(x) {

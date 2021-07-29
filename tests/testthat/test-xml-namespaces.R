@@ -1,5 +1,3 @@
-context("XML namespaces")
-
 ## #268, #202, #80
 ## what is special about nonstandard-xml-ns-prefix.xlsx?
 ## note `ns:id="rId3"` vs `r:id="rId3"`

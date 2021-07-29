@@ -1,5 +1,3 @@
-context("Encoding")
-
 test_that("excel_sheets returns utf-8 encoded text", {
   ## xlsx
   sheets <- excel_sheets(test_sheet("utf8-sheet-names.xlsx"))
