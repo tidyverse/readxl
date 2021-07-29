@@ -32,8 +32,12 @@
 #include <stdlib.h>
 #include "libxls/locale.h"
 
+#define GCC_VERSION (__GNUC__ * 10000 \
+                     + __GNUC_MINOR__ * 100 \
+                     + __GNUC_PATCHLEVEL__)
+
 xls_locale_t xls_createlocale() {
-#if defined(__MINGW32__)
+#if defined(__MINGW32__) && GCC_VERSION <= 40903
     xls_locale_t loc = {0};
     return loc;
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
