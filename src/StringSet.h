@@ -1,8 +1,13 @@
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
+
+#include <cpp11/strings.hpp>
+#include "utils.h"
+#include <set>
+#include <vector>
+
 #ifndef READXL_STRINGSET_
 #define READXL_STRINGSET_
-
-#include <Rcpp.h>
-#include "utils.h"
 
 class StringSet
 {
@@ -13,12 +18,12 @@ public:
       set_.insert(s);
   }
   StringSet(const std::vector<std::string> &s) {
-    for (std::vector<std::string>::const_iterator i = s.begin(); i != s.end(); ++i)
+    for (auto i = s.begin(); i != s.end(); ++i)
       set_.insert(*i);
   }
-  StringSet(const Rcpp::CharacterVector &s) {
-    for (Rcpp::CharacterVector::const_iterator i = s.begin(); i != s.end(); ++i)
-      set_.insert(Rcpp::as<std::string>(*i));
+  StringSet(const cpp11::strings &s) {
+    for (auto i = s.begin(); i != s.end(); ++i)
+      set_.insert(cpp11::as_cpp<std::string>(*i));
   }
   bool contains(const std::string &s) const {
     return set_.find(s) != set_.end();

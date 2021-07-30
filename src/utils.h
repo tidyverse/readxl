@@ -1,8 +1,11 @@
 #ifndef UTILS_
 #define UTILS_
 
+#include <Rcpp.h>
 #include <cerrno>
-#include "StringSet.h"
+
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
 // depends on the "date system".

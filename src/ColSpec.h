@@ -1,9 +1,12 @@
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
+
 #ifndef READXL_COLSPEC_
 #define READXL_COLSPEC_
 
+#include "StringSet.h"
 #include <Rcpp.h>
 #include "libxls/xls.h"
-#include "StringSet.h"
 
 enum CellType {
   CELL_UNKNOWN,

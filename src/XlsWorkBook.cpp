@@ -1,6 +1,8 @@
-#include <Rcpp.h>
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
 
 #include "XlsWorkBook.h"
+#include <Rcpp.h>
 using namespace Rcpp;
 
 [[cpp11::register]]

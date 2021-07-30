@@ -1,3 +1,6 @@
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
+
 #ifndef READXL_CELLLIMITS_
 #define READXL_CELLLIMITS_
 

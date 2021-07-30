@@ -1,12 +1,16 @@
-#ifndef READXL_XLSXWORKBOOK_
-#define READXL_XLSXWORKBOOK_
 
-#include <Rcpp.h>
 #include "rapidxml.h"
 #include "ColSpec.h"
 #include "XlsxString.h"
 #include "utils.h"
 #include "zip.h"
+#include <Rcpp.h>
+
+#ifndef READXL_XLSXWORKBOOK_
+#define READXL_XLSXWORKBOOK_
+
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
 
 class XlsxWorkBook {
 

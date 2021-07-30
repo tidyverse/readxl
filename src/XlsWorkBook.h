@@ -1,9 +1,12 @@
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
+
 #ifndef READXL_XLSWORKBOOK_
 #define READXL_XLSWORKBOOK_
 
+#include "ColSpec.h"
 #include <Rcpp.h>
 #include "libxls/xls.h"
-#include "ColSpec.h"
 #include "utils.h"
 
 class XlsWorkBook {
