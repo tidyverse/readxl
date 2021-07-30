@@ -53,7 +53,6 @@
 #define XLS_RECORD_PALETTE      0x0092
 #define XLS_RECORD_MULRK        0x00BD
 #define XLS_RECORD_MULBLANK     0x00BE
-#define XLS_RECORD_RSTRING      0x00D6
 #define XLS_RECORD_DBCELL       0x00D7
 #define XLS_RECORD_XF           0x00E0
 #define XLS_RECORD_MSODRAWINGGROUP   0x00EB
@@ -134,8 +133,8 @@ BOUNDSHEET;
 typedef struct ROW
 {
     WORD	index;
-    WORD	fcell; // first cell, 0-indexed
-    WORD	lcell; // last cell, 1-indexed
+    WORD	fcell;
+    WORD	lcell;
     WORD	height;
     WORD	notused;
     WORD	notused2; //used only for BIFF3-4
@@ -228,6 +227,7 @@ typedef struct LABEL
     BYTE	value[1]; // var
 }
 LABEL;
+typedef LABEL LABELSST;
 
 typedef struct BOOLERR
 {
@@ -500,10 +500,6 @@ typedef struct xlsWorkBook
 
 	char		*summary;		// ole file
 	char		*docSummary;	// ole file
-
-    void        *converter;
-    void        *utf16_converter;
-    void        *utf8_locale;
 }
 xlsWorkBook;
 

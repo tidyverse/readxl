@@ -36,6 +36,7 @@
 #include "config.h" 
 
 #include <memory.h>
+#include <math.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +44,8 @@
 #include "libxls/ole.h"
 #include "libxls/xlstool.h"
 #include "libxls/endian.h"
+/* Mask illegal functions for CMD check */
+#include "cran.h"
 
 extern int xls_debug;
 
@@ -110,11 +113,6 @@ static int ole2_bufread(OLE2Stream* olest)
 {
 	BYTE *ptr;
 
-#ifdef OLE_DEBUG
-    fprintf(stderr, "----------------------------------------------\n");
-    fprintf(stderr, "ole2_bufread (start)\n");
-#endif
-
     if (olest == NULL || olest->ole == NULL)
         return -1;
 
@@ -157,10 +155,6 @@ static int ole2_bufread(OLE2Stream* olest)
 			olest->cfat++;
 		}
     }
-#ifdef OLE_DEBUG
-    fprintf(stderr, "----------------------------------------------\n");
-    fprintf(stderr, "ole2_bufread (end)\n");
-#endif
 	// else printf("ENDOFCHAIN!!!\n");
     return 0;
 }
@@ -376,22 +370,15 @@ static int ole2_fseek(OLE2 *ole2, size_t pos) {
     return 0;
 }
 
-// Will read up to `size' bytes from the input, and pad the rest of `size' with
-// zeros if the input file or buffer is short.
 static size_t ole2_fread(OLE2 *ole2, void *buffer, size_t buffer_len, size_t size) {
     if (size > buffer_len)
         return 0;
 
-    memset(buffer, 0, size);
-
     if (ole2->file)
-        return fread(buffer, 1, size, ole2->file) > 0;
-
-    if (ole2->buffer_pos >= ole2->buffer_len)
-        return 0;
+        return fread(buffer, size, 1, ole2->file);
 
     if (ole2->buffer_pos + size > ole2->buffer_len)
-        size = ole2->buffer_len - ole2->buffer_pos;
+        return 0;
 
     memcpy(buffer, (const char *)ole2->buffer + ole2->buffer_pos, size);
     ole2->buffer_pos += size;
@@ -492,7 +479,7 @@ static ssize_t ole2_read_body(OLE2 *ole) {
             total_bytes_read = -1;
             goto cleanup;
         }
-        name=transcode_utf16_to_utf8(pss->name, pss->bsize);
+        name=unicode_decode(pss->name, pss->bsize, 0, "UTF-8");
 #ifdef OLE_DEBUG	
 		fprintf(stderr, "OLE NAME: %s count=%d\n", name, (int)ole->files.count);
 #endif
@@ -500,9 +487,7 @@ static ssize_t ole2_read_body(OLE2 *ole) {
         {
 
 #ifdef OLE_DEBUG		
-			fprintf(stderr, "OLE TYPE: %s file=%d size=%d\n",
-                    pss->type == PS_USER_ROOT ? "root" : "user",
-                    (int)ole->files.count, (int)pss->size);
+			fprintf(stderr, "OLE TYPE: %s file=%d \n", pss->type == PS_USER_ROOT ? "root" : "user", (int)ole->files.count);
 #endif		
             ole->files.file = realloc(ole->files.file,(ole->files.count+1)*sizeof(struct st_olefiles_data));
             ole->files.file[ole->files.count].name=name;
@@ -510,35 +495,31 @@ static ssize_t ole2_read_body(OLE2 *ole) {
             ole->files.file[ole->files.count].size=pss->size;
             ole->files.count++;
 			
-#ifdef OLE_DEBUG
-            fprintf(stderr, "----------------------------------------------\n");
-            fprintf(stderr, "name: %s (size=%d [c=%c])\n", name, pss->bsize, name ? name[0]:' ');
-            fprintf(stderr, "bsize %i\n",pss->bsize);
-            fprintf(stderr, "type %i\n",pss->type);
-            fprintf(stderr, "flag %i\n",pss->flag);
-            fprintf(stderr, "left %X\n",pss->left);
-            fprintf(stderr, "right %X\n",pss->right);
-            fprintf(stderr, "child %X\n",pss->child);
-            fprintf(stderr, "guid %.4X-%.4X-%.4X-%.4X %.4X-%.4X-%.4X-%.4X\n",
-                    pss->guid[0],pss->guid[1],pss->guid[2],pss->guid[3],
-                    pss->guid[4],pss->guid[5],pss->guid[6],pss->guid[7]);
-            fprintf(stderr, "user flag %.4X\n",pss->userflags);
-            fprintf(stderr, "sstart %.4d\n",pss->sstart);
-            fprintf(stderr, "size %.4d\n",pss->size);
-#endif
 			if(pss->sstart == ENDOFCHAIN) {
 				if (xls_debug) verbose("END OF CHAIN\n");
 			} else if(pss->type == PS_USER_STREAM) {
+#ifdef OLE_DEBUG
+					fprintf(stderr, "----------------------------------------------\n");
+					fprintf(stderr, "name: %s (size=%d [c=%c])\n", name, pss->bsize, name ? name[0]:' ');
+					fprintf(stderr, "bsize %i\n",pss->bsize);
+					fprintf(stderr, "type %i\n",pss->type);
+					fprintf(stderr, "flag %i\n",pss->flag);
+					fprintf(stderr, "left %X\n",pss->left);
+					fprintf(stderr, "right %X\n",pss->right);
+					fprintf(stderr, "child %X\n",pss->child);
+					fprintf(stderr, "guid %.4X-%.4X-%.4X-%.4X %.4X-%.4X-%.4X-%.4X\n",
+                            pss->guid[0],pss->guid[1],pss->guid[2],pss->guid[3],
+						pss->guid[4],pss->guid[5],pss->guid[6],pss->guid[7]);
+					fprintf(stderr, "user flag %.4X\n",pss->userflags);
+					fprintf(stderr, "sstart %.4d\n",pss->sstart);
+					fprintf(stderr, "size %.4d\n",pss->size);
+#endif
 			} else if(pss->type == PS_USER_ROOT) {
 				DWORD sector, k, blocks;
 				BYTE *wptr;
                 size_t bytes_left;
 				
 				blocks = (pss->size + (ole->lsector - 1)) / ole->lsector;	// count partial
-#ifdef OLE_DEBUG
-                fprintf(stderr, "OLE BLOCKS: %d = (%d + (%d - 1))/%d\n",
-                        (int)blocks, (int)pss->size, (int)ole->lsector, (int)ole->lsector);
-#endif
 				if ((ole->SSAT = ole_realloc(ole->SSAT, blocks*ole->lsector)) == NULL) {
                     total_bytes_read = -1;
                     goto cleanup;
@@ -576,11 +557,6 @@ cleanup:
         ole2_fclose(olest);
     if (pss)
         free(pss);
-
-#ifdef OLE_DEBUG
-    fprintf(stderr, "----------------------------------------------\n");
-    fprintf(stderr, "ole2_read_body: %d bytes\n", (int)total_bytes_read);
-#endif
 
     return total_bytes_read;
 }

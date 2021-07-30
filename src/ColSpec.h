@@ -2,7 +2,7 @@
 #define READXL_COLSPEC_
 
 #include <Rcpp.h>
-#include "libxls/xls.h"
+#include <libxls/xls.h>
 #include "StringSet.h"
 
 enum CellType {

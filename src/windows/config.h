@@ -1,9 +1,6 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* define if the compiler supports basic C++11 syntax */
-#define HAVE_CXX11 1
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef HAVE_DLFCN_H */
 
@@ -51,12 +48,6 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #define HAVE_WCHAR_H 1
 
-/* Define to 1 if you have the `wcstombs_l' function. */
-/* #undef HAVE_WCSTOMBS_L */
-
-/* Define to 1 if you have the <xlocale.h> header file. */
-/* #undef HAVE_XLOCALE_H */
-
 /* Define as const if the declaration of iconv() needs const. */
 #define ICONV_CONST const
 
@@ -64,10 +55,10 @@
 #define LIBXLS_MAJOR_VERSION 1
 
 /* Micro version */
-#define LIBXLS_MICRO_VERSION 2
+#define LIBXLS_MICRO_VERSION 0
 
 /* Minor version */
-#define LIBXLS_MINOR_VERSION 6
+#define LIBXLS_MINOR_VERSION 5
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -76,13 +67,13 @@
 #define PACKAGE "libxls"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "https://github.com/libxls/libxls/issues"
+#define PACKAGE_BUGREPORT "emmiller@gmail.com"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "libxls"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libxls 1.6.2"
+#define PACKAGE_STRING "libxls 1.5.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libxls"
@@ -91,13 +82,16 @@
 #define PACKAGE_URL "https://github.com/libxls/libxls"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.6.2"
+#define PACKAGE_VERSION "1.5.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.6.2"
+#define VERSION "1.5.0"
+
+/* Define to empty if `const' does not conform to ANSI C. */
+/* #undef const */
 
 /* Define to rpl_malloc if the replacement function should be used. */
 /* #undef malloc */

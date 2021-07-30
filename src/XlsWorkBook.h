@@ -2,7 +2,7 @@
 #define READXL_XLSWORKBOOK_
 
 #include <Rcpp.h>
-#include "libxls/xls.h"
+#include <libxls/xls.h>
 #include "ColSpec.h"
 #include "utils.h"
 

@@ -36,11 +36,7 @@
 #ifndef OLE_INCLUDE
 #define OLE_INCLUDE
 
-#ifdef __cplusplus
-#include <cstdio>			// FILE *
-#else
 #include <stdio.h>			// FILE *
-#endif
 
 #include "libxls/xlstypes.h"
 
