@@ -204,7 +204,7 @@ public:
 
       xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       CellType type = xcell->type();
-      cpp11::sexp column = cpp11::as_sexp(cols[col]);
+      cpp11::sexp column(cols[col]);
       // row to write into
       int row = i - base;
 

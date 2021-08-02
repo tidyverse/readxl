@@ -281,7 +281,7 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
     )
   }
   limits[is.na(limits)] <- -1
-  limits
+  as.integer(limits)
 }
 
 check_col_types <- function(col_types) {
