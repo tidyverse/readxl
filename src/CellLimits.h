@@ -4,7 +4,8 @@
 #ifndef READXL_CELLLIMITS_
 #define READXL_CELLLIMITS_
 
-#include <Rcpp.h>
+#include <cpp11/integers.hpp>
+#include <cpp11/doubles.hpp>
 #include "XlsCell.h"
 
 class CellLimits {
@@ -17,7 +18,7 @@ public:
     minCol_ = -1;
     maxCol_ = -1;
   }
-  CellLimits(Rcpp::IntegerVector limits) {
+  CellLimits(cpp11::integers limits) {
     minRow_ = limits[0];
     maxRow_ = limits[1];
     minCol_ = limits[2];
@@ -77,12 +78,9 @@ public:
   }
 
   void print() {
-    Rcpp::Rcout << "row min, max: " << minRow_ << ", "
-                << maxRow_ << "\t"
-                << "col min, max: " << minCol_<< ", "
-                << maxCol_ << std::endl;
+    Rprintf("row min, max: %d, %d \t col min, max: %d, %d",
+            minRow_, maxRow_, minCol_, maxCol_);
   }
-
 private:
 
   bool contains(int min, int max, int val) const {

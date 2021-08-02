@@ -4,33 +4,33 @@
 #include "ColSpec.h"
 #include "XlsWorkSheet.h"
 #include "libxls/xls.h"
-using namespace Rcpp;
 
 [[cpp11::register]]
-List read_xls_(std::string path, int sheet_i,
-               IntegerVector limits, bool shim,
-               RObject col_names, RObject col_types,
+cpp11::list read_xls_(std::string path, int sheet_i,
+               cpp11::writable::doubles limits, bool shim,
+               cpp11::sexp col_names, cpp11::sexp col_types,
                std::vector<std::string> na, bool trim_ws,
                int guess_max = 1000, bool progress = true) {
 
   // Construct worksheet ----------------------------------------------
-  XlsWorkSheet ws(path, sheet_i, limits, shim, progress);
+  XlsWorkSheet ws(path, sheet_i, cpp11::as_integers(limits), shim, progress);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
-    return Rcpp::List(0);
+    cpp11::list x;
+    return x;
   }
 
   // Get column names -------------------------------------------------
-  CharacterVector colNames;
+  cpp11::writable::strings colNames;
   bool has_col_names = false;
   switch(TYPEOF(col_names)) {
   case STRSXP:
-    colNames = as<CharacterVector>(col_names);
+    colNames = cpp11::as_cpp<cpp11::strings>(col_names);
     break;
   case LGLSXP:
-    has_col_names = as<bool>(col_names);
-    colNames = has_col_names ? ws.colNames(na, trim_ws) : CharacterVector(ws.ncol(), "");
+    has_col_names = cpp11::as_cpp<bool>(col_names);
+    colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
     break;
   default:
     Rcpp::stop("`col_names` must be a logical or character vector");
@@ -40,7 +40,7 @@ List read_xls_(std::string path, int sheet_i,
   if (TYPEOF(col_types) != STRSXP) {
     Rcpp::stop("`col_types` must be a character vector");
   }
-  std::vector<ColType> colTypes = colTypeStrings(as<CharacterVector>(col_types));
+  std::vector<ColType> colTypes = colTypeStrings(cpp11::as_cpp<cpp11::strings>(col_types));
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
     Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",

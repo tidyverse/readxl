@@ -1,6 +1,12 @@
 #ifndef READXL_XLSWORKSHEET_
 #define READXL_XLSWORKSHEET_
 
+#include <cpp11/integers.hpp>
+#include <cpp11/doubles.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/list.hpp>
+#include <cpp11/sexp.hpp>
+#include <cpp11/as.hpp>
 #include <Rcpp.h>
 #include "libxls/xls.h"
 #include "XlsWorkBook.h"
@@ -31,7 +37,7 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               Rcpp::IntegerVector limits, bool shim, bool progress):
+               cpp11::integers limits, bool shim, bool progress):
   wb_(wb), nominal_(limits), spinner_(progress)
   {
     if (sheet_i >= wb.n_sheets()) {
@@ -151,7 +157,7 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(Rcpp::CharacterVector names,
+  cpp11::list readCols(cpp11::strings names,
                       const std::vector<ColType>& types,
                       const StringSet &na, const bool trimWs,
                       bool has_col_names = false) {
@@ -162,7 +168,7 @@ public:
     // base is row the data starts on **in the spreadsheet**
     int base = cells_.begin()->row() + has_col_names;
     int n = (xcell == cells_.end()) ? 0 : actual_.maxRow() - base + 1;
-    Rcpp::List cols(ncol_);
+    cpp11::writable::list cols(ncol_);
     cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
@@ -194,7 +200,7 @@ public:
 
       xcell->inferType(na, trimWs, dateFormats_);
       CellType type = xcell->type();
-      Rcpp::RObject column = cols[col];
+      cpp11::sexp column = cpp11::as_sexp(cols[col]);
       // row to write into
       int row = i - base;
 

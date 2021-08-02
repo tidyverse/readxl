@@ -4,6 +4,9 @@
 #ifndef READXL_COLSPEC_
 #define READXL_COLSPEC_
 
+#include <cpp11/protect.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/list.hpp>
 #include "StringSet.h"
 #include <Rcpp.h>
 #include "libxls/xls.h"
@@ -68,7 +71,7 @@ inline Rcpp::CharacterVector colTypeDescs(std::vector<ColType> types) {
   return out;
 }
 
-inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
+inline std::vector<ColType> colTypeStrings(cpp11::strings x) {
   std::vector<ColType> types;
   types.reserve(x.size());
 
@@ -91,7 +94,7 @@ inline std::vector<ColType> colTypeStrings(Rcpp::CharacterVector x) {
     } else if (type == "skip") {
       types.push_back(COL_SKIP);
     } else {
-      Rcpp::stop("Unknown column type '%s' at position %i", type, i + 1);
+      cpp11::stop("Unknown column type '%s' at position %i", type.c_str(), (i + 1));
     }
   }
 
@@ -197,7 +200,7 @@ inline std::vector<ColType> finalizeTypes(std::vector<ColType> types) {
   return types;
 }
 
-inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
+inline cpp11::strings reconcileNames(cpp11::strings names,
                                             const std::vector<ColType>& types,
                                             int sheet_i) {
   size_t ncol_names = names.size();
@@ -214,11 +217,11 @@ inline Rcpp::CharacterVector reconcileNames(Rcpp::CharacterVector names,
     }
   }
   if (ncol_names != ncol_noskip) {
-    Rcpp::stop("Sheet %d has %d columns (%d unskipped), but `col_names` has length %d.",
-               sheet_i + 1, ncol_types, ncol_noskip, ncol_names);
+    cpp11::stop("Sheet %d has %d columns (%d unskipped), but `col_names` has length %d.",
+               (sheet_i + 1), ncol_types, ncol_noskip, ncol_names);
   }
 
-  Rcpp::CharacterVector newNames(ncol_types, "");
+  cpp11::writable::strings newNames(ncol_types);
   size_t j_short = 0;
   for (size_t j_long = 0; j_long < ncol_types; ++j_long) {
     if (types[j_long] == COL_SKIP) {
@@ -255,8 +258,8 @@ inline Rcpp::RObject makeCol(ColType type, int n) {
   return R_NilValue;
 }
 
-inline Rcpp::List removeSkippedColumns(Rcpp::List cols,
-                                       Rcpp::CharacterVector names,
+inline cpp11::list removeSkippedColumns(cpp11::list cols,
+                                       cpp11::strings names,
                                        std::vector<ColType> types) {
   int p = cols.size();
 
@@ -266,8 +269,8 @@ inline Rcpp::List removeSkippedColumns(Rcpp::List cols,
       p_out++;
   }
 
-  Rcpp::List out(p_out);
-  Rcpp::CharacterVector names_out(p_out);
+  cpp11::writable::list out(p_out);
+  cpp11::writable::strings names_out(p_out);
   int j_out = 0;
   for (int j = 0; j < p; ++j) {
     if (types[j] == COL_SKIP) {

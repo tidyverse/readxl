@@ -14,7 +14,7 @@ class StringSet
   std::set<std::string> set_;
 public:
   StringSet(const char *s = "") {
-    if (strlen(s) > 0)
+    if (std::strlen(s) > 0)
       set_.insert(s);
   }
   StringSet(const std::vector<std::string> &s) {
