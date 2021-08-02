@@ -35,6 +35,8 @@
 
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
 typedef _locale_t xls_locale_t;
+#elif defined(__sun)
+typedef char* xls_locale_t;
 #else
 typedef locale_t xls_locale_t;
 #endif

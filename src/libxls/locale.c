@@ -32,6 +32,10 @@
 #include <stdlib.h>
 #include "libxls/locale.h"
 
+#ifdef __sun
+#include <string.h>
+#endif
+
 #if defined(__MINGW32__)
   static char* old_locale;
 #endif
@@ -59,6 +63,8 @@ void xls_freelocale(xls_locale_t locale) {
         return;
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     _free_locale(locale);
+#elif defined(__sun)
+   return;
 #else
     freelocale(locale);
 #endif
@@ -71,6 +77,8 @@ size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, 
     return _wcstombs_l(s, pwcs, n, loc);
 #elif defined(HAVE_WCSTOMBS_L)
     return wcstombs_l(s, pwcs, n, loc);
+#elif defined(__sun)
+    return wcstombs(s, pwcs, n);
 #else
     locale_t oldlocale = uselocale(loc);
     size_t result = wcstombs(s, pwcs, n);
