@@ -25,7 +25,8 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
-    return cpp11::writable::list {(R_xlen_t)0};
+    using namespace cpp11::literals;
+    return cpp11::writable::list (0_xl);
   }
 
   // Get column names -------------------------------------------------
