@@ -37,7 +37,7 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               cpp11::integers limits, bool shim, bool progress):
+               cpp11::doubles limits, bool shim, bool progress):
   wb_(wb), nominal_(limits), spinner_(progress)
   {
     if (sheet_i >= wb.n_sheets()) {

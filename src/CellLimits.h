@@ -9,7 +9,7 @@
 #include "XlsCell.h"
 
 class CellLimits {
-  int minRow_, maxRow_, minCol_, maxCol_;
+  double minRow_, maxRow_, minCol_, maxCol_;
 
 public:
   CellLimits() {
@@ -18,23 +18,23 @@ public:
     minCol_ = -1;
     maxCol_ = -1;
   }
-  CellLimits(cpp11::integers limits) {
+  CellLimits(cpp11::doubles limits) {
     minRow_ = limits[0];
     maxRow_ = limits[1];
     minCol_ = limits[2];
     maxCol_ = limits[3];
   }
 
-  int minRow() const {
+  double minRow() const {
     return minRow_;
   }
-  int maxRow() const {
+  double maxRow() const {
     return maxRow_;
   }
-  int minCol() const {
+  double minCol() const {
     return minCol_;
   }
-  int maxCol() const {
+  double maxCol() const {
     return maxCol_;
   }
 
@@ -42,7 +42,7 @@ public:
     update(cell.row(), cell.col());
   }
 
-  void update(const int row, const int col) {
+  void update(const double row, const double col) {
     if (minRow_ < 0 || row < minRow_) {
       minRow_ = row;
     }
@@ -57,8 +57,8 @@ public:
     }
   }
 
-  void update(const int minRow, const int maxRow,
-              const int minCol, const int maxCol) {
+  void update(const double minRow, const double maxRow,
+              const double minCol, const double maxCol) {
     minRow_ = minRow;
     maxRow_ = maxRow;
     minCol_ = minCol;
@@ -69,11 +69,11 @@ public:
     return contains(cell.row(), cell.col());
   }
 
-  bool contains(const int i, const int j) const {
+  bool contains(const double i, const double j) const {
     return contains(minRow_, maxRow_, i) && contains(minCol_, maxCol_, j);
   }
 
-  bool contains(const int i) const {
+  bool contains(const double i) const {
     return contains(minRow_, maxRow_, i);
   }
 
@@ -83,7 +83,7 @@ public:
   }
 private:
 
-  bool contains(int min, int max, int val) const {
+  bool contains(double min, double max, double val) const {
     if (min < 0) {
       if (max < 0) {
         // min = max = -1 is our convention for 'no limits specified'

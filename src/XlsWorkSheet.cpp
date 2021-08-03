@@ -7,7 +7,7 @@
 
 [[cpp11::register]]
 cpp11::list read_xls_(std::string path, int sheet_i,
-               cpp11::integers limits, bool shim,
+               cpp11::doubles limits, bool shim,
                cpp11::sexp col_names, cpp11::sexp col_types,
                std::vector<std::string> na, bool trim_ws,
                int guess_max = 1000, bool progress = true) {
@@ -17,7 +17,7 @@ cpp11::list read_xls_(std::string path, int sheet_i,
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
-    return cpp11::writable::list();
+    return cpp11::writable::list {(R_xlen_t)0};
   }
 
   // Get column names -------------------------------------------------
@@ -25,7 +25,7 @@ cpp11::list read_xls_(std::string path, int sheet_i,
   bool has_col_names = false;
   switch(TYPEOF(col_names)) {
   case STRSXP:
-    colNames = cpp11::as_cpp<cpp11::strings>(col_names);
+    colNames = cpp11::writable::strings(static_cast<SEXP>(col_names));
     break;
   case LGLSXP:
     has_col_names = cpp11::as_cpp<bool>(col_names);
