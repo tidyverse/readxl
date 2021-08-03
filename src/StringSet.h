@@ -2,6 +2,7 @@
 #define STRICT_R_HEADERS
 
 #include <cpp11/strings.hpp>
+#include <cstring>
 #include "utils.h"
 #include <set>
 #include <vector>
