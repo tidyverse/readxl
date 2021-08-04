@@ -1,7 +1,6 @@
 #ifndef READXL_XLSXCELL_
 #define READXL_XLSXCELL_
 
-#include <Rcpp.h>
 #include "rapidxml.h"
 #include "ColSpec.h"
 #include "XlsxString.h"
@@ -178,8 +177,8 @@ public:
       return;
     }
 
-    Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                  cellPosition(row(), col()), t->value());
+    cpp11::warning("Unrecognized cell type at %s: '%s'",
+                  cellPosition(row(), col()).c_str(), t->value());
   }
 
   std::string asStdString(const std::vector<std::string>& stringTable,
@@ -232,12 +231,12 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s", cellPosition(row(), col()));
+      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
       return "";
   }
   }
 
-  Rcpp::RObject asCharSxp(const std::vector<std::string>& stringTable,
+  cpp11::sexp asCharSxp(const std::vector<std::string>& stringTable,
                           const bool trimWs) const {
     std::string out_string = asStdString(stringTable, trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
@@ -260,7 +259,7 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s", cellPosition(row(), col()));
+      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
       return NA_LOGICAL;
     }
   }
@@ -282,7 +281,7 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s", cellPosition(row(), col()));
+      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
       return NA_REAL;
     }
   }
@@ -304,7 +303,7 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s", cellPosition(row(), col()));
+      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
       return NA_REAL;
     }
   }
@@ -315,7 +314,7 @@ private:
                               const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
-      Rcpp::warning("Invalid string id at %s: %i", cellPosition(row(), col()), id);
+      cpp11::warning("Invalid string id at %s: %i", cellPosition(row(), col()).c_str(), id);
       return "";
     }
     const std::string& string = stringTable.at(id);

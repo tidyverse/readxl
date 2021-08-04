@@ -49,7 +49,7 @@ extern "C" SEXP _readxl_xlsx_date_formats(SEXP path) {
   END_CPP11
 }
 // XlsxWorkSheet.cpp
-IntegerVector parse_ref(std::string ref);
+Rcpp::IntegerVector parse_ref(std::string ref);
 extern "C" SEXP _readxl_parse_ref(SEXP ref) {
   BEGIN_CPP11
     return cpp11::as_sexp(parse_ref(cpp11::as_cpp<cpp11::decay_t<std::string>>(ref)));

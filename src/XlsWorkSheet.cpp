@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <sys/time.h>
-#include <Rcpp.h>
 #include "ColSpec.h"
 #include "XlsWorkSheet.h"
 #include "libxls/xls.h"
@@ -33,17 +32,17 @@ cpp11::list read_xls_(std::string path, int sheet_i,
     colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
     break;
   default:
-    Rcpp::stop("`col_names` must be a logical or character vector");
+    cpp11::stop("`col_names` must be a logical or character vector");
   }
 
   // Get column types --------------------------------------------------
   if (TYPEOF(col_types) != STRSXP) {
-    Rcpp::stop("`col_types` must be a character vector");
+    cpp11::stop("`col_types` must be a character vector");
   }
   std::vector<ColType> colTypes = colTypeStrings(static_cast<SEXP>(col_types));
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
-    Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+    cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                sheet_i + 1, ws.ncol(), colTypes.size());
   }
   if (requiresGuess(colTypes)) {

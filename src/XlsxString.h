@@ -1,7 +1,6 @@
 #ifndef READXL_XLSXSTRING_
 #define READXL_XLSXSTRING_
 
-#include <Rcpp.h>
 #include "rapidxml.h"
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 

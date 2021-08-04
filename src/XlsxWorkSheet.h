@@ -50,7 +50,7 @@ public:
     rapidxml::xml_node<>* rootNode;
 
     if (sheet_i >= wb.n_sheets()) {
-      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+      cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1,  wb.n_sheets());
     }
     sheetName_ = wb.sheets()[sheet_i];
@@ -63,14 +63,14 @@ public:
 
     rootNode = sheetXml_.first_node("worksheet");
     if (rootNode == NULL) {
-      Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
-                 sheetName_, sheet_i + 1);
+      cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
+                 sheetName_.c_str(), sheet_i + 1);
     }
 
     sheetData_ = rootNode->first_node("sheetData");
     if (sheetData_ == NULL) {
-      Rcpp::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
-                 sheetName_, sheet_i + 1);
+      cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
+                 sheetName_.c_str(), sheet_i + 1);
     }
     dateFormats_ = wb.dateFormats();
 
@@ -143,7 +143,7 @@ public:
       count++;
       if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
-        Rcpp::checkUserInterrupt();
+        cpp11::check_user_interrupt();
       }
       int j = xcell->col() - actual_.minCol();
       if (type_known[j] || types[j] == COL_TEXT) {
@@ -194,7 +194,7 @@ public:
       count++;
       if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
-        Rcpp::checkUserInterrupt();
+        cpp11::check_user_interrupt();
       }
 
       if (types[col] == COL_SKIP) {
@@ -222,8 +222,8 @@ public:
       case COL_LOGICAL:
         if (type == CELL_DATE) {
           // print date string here, when/if it's possible to do so
-          Rcpp::warning("Expecting logical in %s: got a date",
-                        cellPosition(i, j));
+          cpp11::warning("Expecting logical in %s: got a date",
+                        cellPosition(i, j).c_str());
         }
 
         switch(type) {
@@ -240,8 +240,8 @@ public:
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(column)[row] = text_boolean;
           } else {
-            Rcpp::warning("Expecting logical in %s: got '%s'",
-                          cellPosition(i, j), text_string);
+            cpp11::warning("Expecting logical in %s: got '%s'",
+                          cellPosition(i, j).c_str(), text_string.c_str());
             LOGICAL(column)[row] = NA_LOGICAL;
           }
         }
@@ -251,25 +251,25 @@ public:
 
       case COL_DATE:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Expecting date in %s: got boolean", cellPosition(i, j));
+          cpp11::warning("Expecting date in %s: got boolean", cellPosition(i, j).c_str());
         }
         if (type == CELL_NUMERIC) {
-          Rcpp::warning("Coercing numeric to date %s", cellPosition(i, j));
+          cpp11::warning("Coercing numeric to date %s", cellPosition(i, j).c_str());
         }
         if (type == CELL_TEXT) {
-          Rcpp::warning("Expecting date in %s: got '%s'", cellPosition(i, j),
-                        xcell->asStdString(wb_.stringTable(), trimWs));
+          cpp11::warning("Expecting date in %s: got '%s'", cellPosition(i, j).c_str(),
+                        (xcell->asStdString(wb_.stringTable(), trimWs)).c_str());
         }
         REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Coercing boolean to numeric in %s", cellPosition(i, j));
+          cpp11::warning("Coercing boolean to numeric in %s", cellPosition(i, j).c_str());
         }
         if (type == CELL_DATE) {
           // print date string here, when/if possible
-          Rcpp::warning("Expecting numeric in %s: got a date", cellPosition(i, j));
+          cpp11::warning("Expecting numeric in %s: got a date", cellPosition(i, j).c_str());
         }
         switch(type) {
         case CELL_UNKNOWN:
@@ -284,12 +284,12 @@ public:
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
-            Rcpp::warning("Coercing text to numeric in %s: '%s'",
-                          cellPosition(i, j), num_string);
+            cpp11::warning("Coercing text to numeric in %s: '%s'",
+                          cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = num_num;
           } else {
-            Rcpp::warning("Expecting numeric in %s: got '%s'",
-                          cellPosition(i, j), num_string);
+            cpp11::warning("Expecting numeric in %s: got '%s'",
+                          cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = NA_REAL;
           }
         }
@@ -361,7 +361,7 @@ private:
         count++;
         if (count % PROGRESS_TICK == 0) {
           spinner_.spin();
-          Rcpp::checkUserInterrupt();
+          cpp11::check_user_interrupt();
         }
 
         rapidxml::xml_node<>* first_child = cell->first_node(0);
