@@ -28,7 +28,6 @@ public:
 
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
-    //1234
     if (!pWB_) {
       Rcpp::stop(
         "\n  filepath: %s\n  libxls error: %s",

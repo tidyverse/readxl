@@ -2,6 +2,7 @@
 #define STRICT_R_HEADERS
 
 #include "XlsWorkBook.h"
+#include <cassert>
 
 [[cpp11::register]]
 cpp11::writable::strings xls_sheets(std::string path) {

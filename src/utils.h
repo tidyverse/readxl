@@ -7,6 +7,7 @@
 #include <cpp11/protect.hpp>
 #include <sstream>
 #include <cerrno>
+#include <cmath>
 
 //May appear in cpp11
 template <typename T, typename N>

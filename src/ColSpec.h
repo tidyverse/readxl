@@ -4,6 +4,7 @@
 #ifndef READXL_COLSPEC_
 #define READXL_COLSPEC_
 
+#include "utils.h"
 #include <cpp11/protect.hpp>
 #include <cpp11/strings.hpp>
 #include <cpp11/doubles.hpp>
@@ -69,7 +70,7 @@ inline std::string colTypeDesc(ColType type) {
 }
 
 inline cpp11::strings colTypeDescs(std::vector<ColType> types) {
-  cpp11::strings out(types.size());
+  cpp11::writable::strings out(types.size());
   for (size_t i = 0; i < types.size(); ++i) {
     out[i] = colTypeDesc(types[i]);
   }
@@ -238,27 +239,26 @@ inline cpp11::strings reconcileNames(cpp11::strings names,
   return newNames;
 }
 
-inline Rcpp::RObject makeCol(ColType type, int n) {
-  //1234
+inline cpp11::sexp makeCol(ColType type, int n) {
   switch(type) {
   case COL_UNKNOWN:
   case COL_BLANK:
   case COL_SKIP:
     return R_NilValue;
   case COL_LOGICAL:
-    return Rcpp::LogicalVector(n, NA_LOGICAL);
+    return new_vector<cpp11::writable::logicals>(n, NA_LOGICAL);
   case COL_DATE: {
-    Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
-    col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+    cpp11::sexp col = new_vector<cpp11::writable::doubles>(n, NA_REAL);
+    col.attr("class") = {"POSIXct", "POSIXt"};
     col.attr("tzone") = "UTC";
     return col;
   }
   case COL_NUMERIC:
-    return Rcpp::NumericVector(n, NA_REAL);
+    return new_vector<cpp11::writable::doubles>(n, NA_REAL);
   case COL_TEXT:
-    return Rcpp::CharacterVector(n, NA_STRING);
+    return new_vector<cpp11::writable::strings>(n, NA_STRING);
   case COL_LIST:
-    return Rcpp::List(n, Rcpp::LogicalVector(1, NA_LOGICAL));
+    return new_vector<cpp11::writable::list>(n, new_vector<cpp11::writable::logicals>(1, NA_LOGICAL));
   }
 
   return R_NilValue;
