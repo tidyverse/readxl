@@ -2,11 +2,9 @@
 #define STRICT_R_HEADERS
 
 #include "XlsWorkBook.h"
-#include <Rcpp.h>
-using namespace Rcpp;
 
 [[cpp11::register]]
-CharacterVector xls_sheets(std::string path) {
+cpp11::writable::strings xls_sheets(std::string path) {
   XlsWorkBook wb(path);
   return wb.sheets();
 }

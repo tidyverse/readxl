@@ -53,7 +53,7 @@ public:
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1,  wb.n_sheets());
     }
-    sheetName_ = wb.sheets()[sheet_i];
+    sheetName_ = cpp11::r_string(wb.sheets()[sheet_i]);
     std::string sheetPath = wb.sheetPath(sheet_i);
     spinner_.spin();
     sheet_ = zip_buffer(wb.path(), sheetPath);
@@ -102,7 +102,7 @@ public:
     Rcpp::CharacterVector out(ncol_);
     std::vector<XlsxCell>::iterator xcell = cells_.begin();
     int base = xcell->row();
-
+    //1234
     while(xcell != cells_.end() && xcell->row() == base) {
       xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
       out[xcell->col() - actual_.minCol()] =
@@ -313,8 +313,8 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asLogical()));
           break;
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
-          cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+          cpp11::sexp cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
+          cell_val.attr("class") = {"POSIXct", "POSIXt"};
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(column, row, cell_val);
           break;
@@ -323,6 +323,7 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarReal(xcell->asDouble()));
           break;
         case CELL_TEXT: {
+          //1234
           Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(wb_.stringTable(), trimWs));
           SET_VECTOR_ELT(column, row, rStringVector);

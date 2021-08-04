@@ -1,15 +1,16 @@
 #include <unistd.h>
 #include <sys/time.h>
-#include <Rcpp.h>
 #include "ColSpec.h"
 #include "XlsxWorkSheet.h"
 #include "utils.h"
+#include <cpp11/integers.hpp>
 
 [[cpp11::register]]
-Rcpp::IntegerVector parse_ref(std::string ref) {
+cpp11::writable::integers parse_ref(std::string ref) {
   std::pair<int,int> parsed = parseRef(ref.c_str());
 
-  return Rcpp::IntegerVector::create(parsed.first, parsed.second);
+  cpp11::writable::integers x = {parsed.first, parsed.second};
+  return x;
 }
 
 [[cpp11::register]]
@@ -36,7 +37,7 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
     colNames = cpp11::writable::strings(static_cast<SEXP>(col_names));
     break;
   case LGLSXP:
-    has_col_names = Rcpp::as<bool>(col_names);
+    has_col_names = cpp11::as_cpp<bool>(col_names);
     colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
     break;
   default:

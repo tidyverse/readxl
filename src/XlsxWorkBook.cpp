@@ -1,9 +1,7 @@
-#include <Rcpp.h>
 #include "XlsxWorkBook.h"
-using namespace Rcpp;
 
 [[cpp11::register]]
-CharacterVector xlsx_sheets(std::string path) {
+cpp11::writable::strings xlsx_sheets(std::string path) {
   return XlsxWorkBook(path).sheets();
 }
 

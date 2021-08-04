@@ -238,29 +238,27 @@ inline cpp11::strings reconcileNames(cpp11::strings names,
   return newNames;
 }
 
-inline cpp11::sexp makeCol(ColType type, int n) {
+inline Rcpp::RObject makeCol(ColType type, int n) {
+  //1234
   switch(type) {
   case COL_UNKNOWN:
   case COL_BLANK:
   case COL_SKIP:
     return R_NilValue;
   case COL_LOGICAL:
-
-    return cpp11::writable::logicals(static_cast<R_xlen_t>(n));
+    return Rcpp::LogicalVector(n, NA_LOGICAL);
   case COL_DATE: {
-    cpp11::sexp col = cpp11::doubles(static_cast<R_xlen_t>(n));
-    col.attr("class") = {"POSIXct", "POSIXt"};
+    Rcpp::RObject col = Rcpp::NumericVector(n, NA_REAL);
+    col.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
     col.attr("tzone") = "UTC";
     return col;
   }
   case COL_NUMERIC:
-    return cpp11::writable::doubles(static_cast<R_xlen_t>(n));
+    return Rcpp::NumericVector(n, NA_REAL);
   case COL_TEXT:
-    //might have to loop
-    return cpp11::writable::strings(static_cast<R_xlen_t>(n));
+    return Rcpp::CharacterVector(n, NA_STRING);
   case COL_LIST:
-    return (static_cast<SEXP>(Rcpp::List(n, Rcpp::LogicalVector(1, NA_LOGICAL))));
-
+    return Rcpp::List(n, Rcpp::LogicalVector(1, NA_LOGICAL));
   }
 
   return R_NilValue;
