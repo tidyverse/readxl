@@ -98,15 +98,16 @@ public:
     return sheetName_;
   }
 
-  Rcpp::CharacterVector colNames(const StringSet &na, const bool trimWs) {
-    Rcpp::CharacterVector out(ncol_);
+  cpp11::strings colNames(const StringSet &na, const bool trimWs) {
+    cpp11::writable::strings out(ncol_);
     std::vector<XlsxCell>::iterator xcell = cells_.begin();
     int base = xcell->row();
-    //1234
+
     while(xcell != cells_.end() && xcell->row() == base) {
       xcell->inferType(na, trimWs, wb_.stringTable(), dateFormats_);
-      out[xcell->col() - actual_.minCol()] =
-        xcell->asCharSxp(wb_.stringTable(), trimWs);
+      int position = (xcell->col() - actual_.minCol());
+      out[position] =
+        cpp11::r_string(xcell->asCharSxp(wb_.stringTable(), trimWs));
       xcell++;
     }
     return out;
