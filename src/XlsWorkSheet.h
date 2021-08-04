@@ -321,8 +321,7 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarReal(xcell->asDouble()));
           break;
         case CELL_TEXT: {
-          //1234
-          Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+          cpp11::writable::strings rStringVector({NA_STRING});
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(trimWs));
           SET_VECTOR_ELT(column, row, rStringVector);
           break;

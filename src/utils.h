@@ -8,7 +8,13 @@
 #include <sstream>
 #include <cerrno>
 
-
+//May appear in cpp11
+template <typename T, typename N>
+T new_vector(R_xlen_t size, N val) {
+  T out(size);
+  std::fill(out.begin(), out.end(), val);
+  return out;
+}
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
 // depends on the "date system".
