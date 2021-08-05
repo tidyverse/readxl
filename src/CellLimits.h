@@ -1,15 +1,11 @@
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
-
 #ifndef READXL_CELLLIMITS_
 #define READXL_CELLLIMITS_
 
-#include <cpp11/integers.hpp>
-#include <cpp11/doubles.hpp>
 #include "XlsCell.h"
+#include <cpp11/integers.hpp>
 
 class CellLimits {
-  double minRow_, maxRow_, minCol_, maxCol_;
+  int minRow_, maxRow_, minCol_, maxCol_;
 
 public:
   CellLimits() {
@@ -18,23 +14,23 @@ public:
     minCol_ = -1;
     maxCol_ = -1;
   }
-  CellLimits(cpp11::doubles limits) {
+  CellLimits(cpp11::integers limits) {
     minRow_ = limits[0];
     maxRow_ = limits[1];
     minCol_ = limits[2];
     maxCol_ = limits[3];
   }
 
-  double minRow() const {
+  int minRow() const {
     return minRow_;
   }
-  double maxRow() const {
+  int maxRow() const {
     return maxRow_;
   }
-  double minCol() const {
+  int minCol() const {
     return minCol_;
   }
-  double maxCol() const {
+  int maxCol() const {
     return maxCol_;
   }
 
@@ -42,7 +38,7 @@ public:
     update(cell.row(), cell.col());
   }
 
-  void update(const double row, const double col) {
+  void update(const int row, const int col) {
     if (minRow_ < 0 || row < minRow_) {
       minRow_ = row;
     }
@@ -57,8 +53,8 @@ public:
     }
   }
 
-  void update(const double minRow, const double maxRow,
-              const double minCol, const double maxCol) {
+  void update(const int minRow, const int maxRow,
+              const int minCol, const int maxCol) {
     minRow_ = minRow;
     maxRow_ = maxRow;
     minCol_ = minCol;
@@ -69,11 +65,11 @@ public:
     return contains(cell.row(), cell.col());
   }
 
-  bool contains(const double i, const double j) const {
+  bool contains(const int i, const int j) const {
     return contains(minRow_, maxRow_, i) && contains(minCol_, maxCol_, j);
   }
 
-  bool contains(const double i) const {
+  bool contains(const int i) const {
     return contains(minRow_, maxRow_, i);
   }
 
@@ -83,7 +79,7 @@ public:
   }
 private:
 
-  bool contains(double min, double max, double val) const {
+  bool contains(int min, int max, int val) const {
     if (min < 0) {
       if (max < 0) {
         // min = max = -1 is our convention for 'no limits specified'

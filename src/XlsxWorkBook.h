@@ -1,3 +1,5 @@
+#ifndef READXL_XLSXWORKBOOK_
+#define READXL_XLSXWORKBOOK_
 
 #include "rapidxml.h"
 #include "ColSpec.h"
@@ -5,11 +7,7 @@
 #include "utils.h"
 #include "zip.h"
 
-#ifndef READXL_XLSXWORKBOOK_
-#define READXL_XLSXWORKBOOK_
-
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
+#include <map>
 
 class XlsxWorkBook {
 

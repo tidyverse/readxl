@@ -1,8 +1,9 @@
-#include <unistd.h>
-#include <sys/time.h>
 #include "ColSpec.h"
 #include "XlsxWorkSheet.h"
 #include "utils.h"
+
+#include <unistd.h>
+#include <sys/time.h>
 #include <cpp11/integers.hpp>
 
 [[cpp11::register]]
@@ -15,7 +16,7 @@ cpp11::writable::integers parse_ref(std::string ref) {
 
 [[cpp11::register]]
 cpp11::list read_xlsx_(std::string path, int sheet_i,
-                cpp11::doubles limits, bool shim,
+                cpp11::integers limits, bool shim,
                 cpp11::sexp col_names, cpp11::sexp col_types,
                 std::vector<std::string> na, bool trim_ws,
                 int guess_max = 1000, bool progress = true) {

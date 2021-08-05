@@ -1,8 +1,5 @@
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
-
 #include "XlsWorkBook.h"
-#include <cassert>
+#include <cassert> //for assert
 
 [[cpp11::register]]
 cpp11::writable::strings xls_sheets(std::string path) {

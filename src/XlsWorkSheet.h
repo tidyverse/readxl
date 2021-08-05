@@ -1,13 +1,6 @@
 #ifndef READXL_XLSWORKSHEET_
 #define READXL_XLSWORKSHEET_
 
-#include <cpp11/integers.hpp>
-#include <cpp11/doubles.hpp>
-#include <cpp11/strings.hpp>
-#include <cpp11/protect.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/sexp.hpp>
-#include <cpp11/as.hpp>
 #include "libxls/xls.h"
 #include "XlsWorkBook.h"
 #include "Spinner.h"
@@ -15,6 +8,13 @@
 #include "ColSpec.h"
 #include "CellLimits.h"
 #include "utils.h"
+
+#include <cpp11/integers.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/protect.hpp>
+#include <cpp11/list.hpp>
+#include <cpp11/sexp.hpp>
+#include <cpp11/as.hpp>
 
 const int PROGRESS_TICK = 131072; // 2^17
 
@@ -37,7 +37,7 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               cpp11::doubles limits, bool shim, bool progress):
+               cpp11::integers limits, bool shim, bool progress):
   wb_(wb), nominal_(limits), spinner_(progress)
   {
     if (sheet_i >= wb.n_sheets()) {

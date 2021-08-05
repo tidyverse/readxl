@@ -2,6 +2,7 @@
 #define READXL_XLSXSTRING_
 
 #include "rapidxml.h"
+#include <R_ext/GraphicsEngine.h>
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]

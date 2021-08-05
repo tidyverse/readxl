@@ -1,14 +1,12 @@
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
+#ifndef READXL_STRINGSET_
+#define READXL_STRINGSET_
+
+#include "utils.h"
 
 #include <cpp11/strings.hpp>
 #include <cstring>
-#include "utils.h"
 #include <set>
 #include <vector>
-
-#ifndef READXL_STRINGSET_
-#define READXL_STRINGSET_
 
 class StringSet
 {

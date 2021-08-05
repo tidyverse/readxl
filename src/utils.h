@@ -1,6 +1,3 @@
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
-
 #ifndef UTILS_
 #define UTILS_
 

@@ -274,14 +274,18 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
   } else {
     limits <- cellranger::as.cell_limits(range)
     limits <- c(
-      min_row = limits[["ul"]][1] - 1,
-      max_row = limits[["lr"]][1] - 1,
-      min_col = limits[["ul"]][2] - 1,
-      max_col = limits[["lr"]][2] - 1
-    )
+      min_row = as.integer(limits[["ul"]][1] - 1),
+      max_row = as.integer(limits[["lr"]][1] - 1),
+      min_col = as.integer(limits[["ul"]][2] - 1),
+      max_col = as.integer(limits[["lr"]][2] - 1)
+      )
   }
   limits[is.na(limits)] <- -1
+  names <- names(limits)
+  limits <- as.integer(limits)
+  names(limits) <- names
   limits
+
 }
 
 check_col_types <- function(col_types) {

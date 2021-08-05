@@ -21,10 +21,10 @@ extern "C" SEXP _readxl_xls_date_formats(SEXP path) {
   END_CPP11
 }
 // XlsWorkSheet.cpp
-cpp11::list read_xls_(std::string path, int sheet_i, cpp11::doubles limits, bool shim, cpp11::sexp col_names, cpp11::sexp col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+cpp11::list read_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::sexp col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
 extern "C" SEXP _readxl_read_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
+    return cpp11::as_sexp(read_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
   END_CPP11
 }
 // XlsxWorkBook.cpp
@@ -56,10 +56,10 @@ extern "C" SEXP _readxl_parse_ref(SEXP ref) {
   END_CPP11
 }
 // XlsxWorkSheet.cpp
-cpp11::list read_xlsx_(std::string path, int sheet_i, cpp11::doubles limits, bool shim, cpp11::sexp col_names, cpp11::sexp col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+cpp11::list read_xlsx_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::sexp col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
 extern "C" SEXP _readxl_read_xlsx_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
+    return cpp11::as_sexp(read_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
   END_CPP11
 }
 // zip.cpp

@@ -1,19 +1,17 @@
 #ifndef READXL_XLSXWORKSHEET_
 #define READXL_XLSXWORKSHEET_
 
-#include <cpp11/integers.hpp>
-#include <cpp11/doubles.hpp>
-#include <cpp11/strings.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/sexp.hpp>
-#include <cpp11/as.hpp>
-#include <Rcpp.h>
 #include "rapidxml.h"
 #include "XlsxWorkBook.h"
 #include "Spinner.h"
 #include "XlsxCell.h"
 #include "ColSpec.h"
 #include "CellLimits.h"
+
+#include <cpp11/integers.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/list.hpp>
+#include <cpp11/sexp.hpp>
 
 const int PROGRESS_TICK = 131072; // 2^17
 
@@ -44,7 +42,7 @@ class XlsxWorkSheet {
 public:
 
   XlsxWorkSheet(const XlsxWorkBook wb, int sheet_i,
-                cpp11::doubles limits, bool shim, bool progress):
+                cpp11::integers limits, bool shim, bool progress):
   wb_(wb), nominal_(limits), spinner_(progress)
   {
     rapidxml::xml_node<>* rootNode;
