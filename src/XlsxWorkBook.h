@@ -159,7 +159,7 @@ class XlsxWorkBook {
       parse_workbook_rels(path);
     }
 
-    cpp11::writable::strings names() const {
+    cpp11::strings names() const {
       return names_;
     }
 
@@ -215,7 +215,7 @@ public:
     return rel_.n_sheets();
   }
 
-  cpp11::writable::strings sheets() const {
+  cpp11::strings sheets() const {
     return rel_.names();
   }
 

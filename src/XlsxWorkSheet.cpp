@@ -7,7 +7,7 @@
 #include <cpp11/integers.hpp>
 
 [[cpp11::register]]
-cpp11::writable::integers parse_ref(std::string ref) {
+cpp11::integers parse_ref(std::string ref) {
   std::pair<int,int> parsed = parseRef(ref.c_str());
 
   cpp11::writable::integers x = {parsed.first, parsed.second};

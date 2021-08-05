@@ -51,7 +51,7 @@ public:
     return n_sheets_;
   }
 
-  cpp11::writable::strings sheets() const {
+  cpp11::strings sheets() const {
     return sheets_;
   }
 

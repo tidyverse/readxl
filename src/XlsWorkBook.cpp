@@ -1,7 +1,7 @@
 #include "XlsWorkBook.h"
 
 [[cpp11::register]]
-cpp11::writable::strings xls_sheets(std::string path) {
+cpp11::strings xls_sheets(std::string path) {
   XlsWorkBook wb(path);
   return wb.sheets();
 }

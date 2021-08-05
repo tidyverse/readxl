@@ -5,7 +5,7 @@
 #include "cpp11/declarations.hpp"
 
 // XlsWorkBook.cpp
-cpp11::writable::strings xls_sheets(std::string path);
+cpp11::strings xls_sheets(std::string path);
 extern "C" SEXP _readxl_xls_sheets(SEXP path) {
   BEGIN_CPP11
     return cpp11::as_sexp(xls_sheets(cpp11::as_cpp<cpp11::decay_t<std::string>>(path)));
@@ -26,7 +26,7 @@ extern "C" SEXP _readxl_read_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shi
   END_CPP11
 }
 // XlsxWorkBook.cpp
-cpp11::writable::strings xlsx_sheets(std::string path);
+cpp11::strings xlsx_sheets(std::string path);
 extern "C" SEXP _readxl_xlsx_sheets(SEXP path) {
   BEGIN_CPP11
     return cpp11::as_sexp(xlsx_sheets(cpp11::as_cpp<cpp11::decay_t<std::string>>(path)));
@@ -47,7 +47,7 @@ extern "C" SEXP _readxl_xlsx_date_formats(SEXP path) {
   END_CPP11
 }
 // XlsxWorkSheet.cpp
-cpp11::writable::integers parse_ref(std::string ref);
+cpp11::integers parse_ref(std::string ref);
 extern "C" SEXP _readxl_parse_ref(SEXP ref) {
   BEGIN_CPP11
     return cpp11::as_sexp(parse_ref(cpp11::as_cpp<cpp11::decay_t<std::string>>(ref)));
