@@ -6,6 +6,7 @@
 #include "utils.h"
 
 #include <cpp11/R.hpp>
+#include <sstream>
 #include <Rcpp.h>
 
 class XlsWorkBook {
@@ -27,11 +28,10 @@ public:
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rcpp::stop(
-        "\n  filepath: %s\n  libxls error: %s",
-        path_,
-        xls::xls_getError(error)
-      );
+      auto err = xls::xls_getError(error);
+      std::stringstream ss;
+      ss << "\n filepath: " << path_ << "\n libxls error: " << err;
+      throw std::runtime_error(ss.str());
     }
 
     n_sheets_ = pWB_->sheets.count;
