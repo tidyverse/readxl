@@ -1,6 +1,7 @@
 #ifndef UTILS_
 #define UTILS_
 
+#include <cassert>
 #include <cpp11/protect.hpp>
 #include <sstream>
 #include <cerrno>

@@ -1,13 +1,11 @@
 #ifndef READXL_XLSWORKSHEET_
 #define READXL_XLSWORKSHEET_
 
-#include "libxls/xls.h"
 #include "XlsWorkBook.h"
 #include "Spinner.h"
 #include "XlsCell.h"
-#include "ColSpec.h"
 #include "CellLimits.h"
-#include "utils.h"
+#include "libxls/xls.h"
 
 #include <cpp11/integers.hpp>
 #include <cpp11/strings.hpp>

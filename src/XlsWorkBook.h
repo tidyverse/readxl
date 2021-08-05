@@ -3,11 +3,8 @@
 
 #include "ColSpec.h"
 #include "libxls/xls.h"
-#include "utils.h"
 
-#include <cpp11/R.hpp>
 #include <sstream>
-#include <Rcpp.h>
 
 class XlsWorkBook {
 

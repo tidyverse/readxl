@@ -1,5 +1,4 @@
 #include "XlsWorkBook.h"
-#include <cassert> //for assert
 
 [[cpp11::register]]
 cpp11::writable::strings xls_sheets(std::string path) {
