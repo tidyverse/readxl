@@ -10,7 +10,7 @@ articles:
   releases/readxl-0.1.1: readxl-0.1.1.html
   releases/readxl-1.0.0: readxl-1.0.0.html
   sheet-geometry: sheet-geometry.html
-last_built: 2021-08-04T18:47Z
+last_built: 2021-08-06T20:11Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles
