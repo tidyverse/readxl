@@ -1,9 +1,8 @@
+#include <unistd.h>
+#include <sys/time.h>
 #include "ColSpec.h"
 #include "XlsWorkSheet.h"
 #include "libxls/xls.h"
-
-#include <unistd.h>
-#include <sys/time.h>
 
 [[cpp11::register]]
 cpp11::list read_xls_(std::string path, int sheet_i,

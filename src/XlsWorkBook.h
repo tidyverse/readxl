@@ -1,10 +1,9 @@
 #ifndef READXL_XLSWORKBOOK_
 #define READXL_XLSWORKBOOK_
 
+#include <sstream>
 #include "ColSpec.h"
 #include "libxls/xls.h"
-
-#include <sstream>
 
 class XlsWorkBook {
 

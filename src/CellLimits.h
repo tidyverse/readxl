@@ -1,8 +1,8 @@
 #ifndef READXL_CELLLIMITS_
 #define READXL_CELLLIMITS_
 
-#include "XlsCell.h"
 #include <cpp11/integers.hpp>
+#include "XlsCell.h"
 
 class CellLimits {
   int minRow_, maxRow_, minCol_, maxCol_;

@@ -1,17 +1,16 @@
 #ifndef READXL_XLSXWORKSHEET_
 #define READXL_XLSXWORKSHEET_
 
-#include "rapidxml.h"
+#include <cpp11/integers.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/list.hpp>
+#include <cpp11/sexp.hpp>
 #include "XlsxWorkBook.h"
 #include "Spinner.h"
 #include "XlsxCell.h"
 #include "ColSpec.h"
 #include "CellLimits.h"
-
-#include <cpp11/integers.hpp>
-#include <cpp11/strings.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/sexp.hpp>
+#include "rapidxml.h"
 
 const int PROGRESS_TICK = 131072; // 2^17
 

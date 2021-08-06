@@ -95,9 +95,7 @@ test_that("trim_ws must be a logical", {
 
 ## xlsx: https://github.com/tidyverse/readxl/issues/370
 ## xls:  https://github.com/tidyverse/readxl/issues/476
-## TODO: revisit on windows os when conversion to using cpp11 is completed
 test_that("non-ASCII filenames can be read", {
-  skip_on_os("windows")
   skip_on_cran()
   ## chosen to be non-ASCII but
   ## [1] representable in Windows-1252 and
