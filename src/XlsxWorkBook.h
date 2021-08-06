@@ -1,12 +1,12 @@
 #ifndef READXL_XLSXWORKBOOK_
 #define READXL_XLSXWORKBOOK_
 
-#include <Rcpp.h>
-#include "rapidxml.h"
+#include <map>
 #include "ColSpec.h"
 #include "XlsxString.h"
 #include "utils.h"
 #include "zip.h"
+#include "rapidxml.h"
 
 class XlsxWorkBook {
 
@@ -18,8 +18,8 @@ class XlsxWorkBook {
 
     // worksheets
     int n_;
-    Rcpp::CharacterVector names_;
-    Rcpp::CharacterVector id_;
+    cpp11::writable::strings names_;
+    cpp11::writable::strings id_;
     std::map<std::string, std::string> target_;
 
     // populate workbook element of part_
@@ -30,7 +30,7 @@ class XlsxWorkBook {
 
       rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
       if (relationships == NULL) {
-        Rcpp::stop("Spreadsheet has no package-level relationships");
+        cpp11::stop("Spreadsheet has no package-level relationships");
       }
 
       std::map<std::string, std::string> scratch;
@@ -52,7 +52,7 @@ class XlsxWorkBook {
       // ECMA-376 Part 1 section 8.5 SpreadsheetML
       std::map<std::string, std::string>::iterator m = scratch.find("officeDocument");
       if (m == scratch.end()) {
-        Rcpp::stop("No workbook part found");
+        cpp11::stop("No workbook part found");
       }
       // store 'xl/workbook.xml', not '/xl/workbook.xml' (rare, but have seen)
       part_["officeDocument"] = removeLeadingSlashes(m->second);
@@ -158,7 +158,7 @@ class XlsxWorkBook {
       parse_workbook_rels(path);
     }
 
-    Rcpp::CharacterVector names() const {
+    cpp11::strings names() const {
       return names_;
     }
 
@@ -167,10 +167,10 @@ class XlsxWorkBook {
     }
 
     std::string target(int sheet_i) const {
-      std::string id = Rcpp::as<std::string>(id_[sheet_i]);
+      std::string id = cpp11::r_string(id_[sheet_i]);
       std::map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
-        Rcpp::stop("`%s` not found", id);
+        cpp11::stop("`%s` not found", id.c_str());
       }
       return it->second;
     }
@@ -214,7 +214,7 @@ public:
     return rel_.n_sheets();
   }
 
-  Rcpp::CharacterVector sheets() const {
+  cpp11::strings sheets() const {
     return rel_.names();
   }
 

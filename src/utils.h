@@ -1,8 +1,18 @@
 #ifndef UTILS_
 #define UTILS_
 
+#include <cpp11/protect.hpp>
+#include <sstream>
 #include <cerrno>
-#include "StringSet.h"
+#include <cmath>
+
+//May appear in cpp11
+template <typename T, typename N>
+T new_vector(R_xlen_t size, N val) {
+  T out(size);
+  std::fill(out.begin(), out.end(), val);
+  return out;
+}
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
 // depends on the "date system".
@@ -64,7 +74,7 @@ inline double POSIXctFromSerial(double xlDate, bool is1904) {
     xlDate = (xlDate < 60) ? xlDate + 1 : -1;
   }
   if (xlDate < 0) {
-    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    Rf_warning("NA inserted for impossible 1900-02-29 datetime");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);
@@ -81,7 +91,7 @@ inline std::pair<int, int> parseRef(const char* ref) {
     } else if (*cur >= 'A' && *cur <= 'Z') {
       col = 26 * col + (*cur - 'A' + 1);
     } else {
-      Rcpp::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
+      cpp11::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
     }
   }
 

@@ -1,22 +1,22 @@
 #include <unistd.h>
 #include <sys/time.h>
-#include <Rcpp.h>
+#include <cpp11/integers.hpp>
 #include "ColSpec.h"
 #include "XlsxWorkSheet.h"
 #include "utils.h"
-using namespace Rcpp;
 
-// [[Rcpp::export]]
-IntegerVector parse_ref(std::string ref) {
+[[cpp11::register]]
+cpp11::integers parse_ref(std::string ref) {
   std::pair<int,int> parsed = parseRef(ref.c_str());
 
-  return IntegerVector::create(parsed.first, parsed.second);
+  cpp11::writable::integers x = {parsed.first, parsed.second};
+  return x;
 }
 
-// [[Rcpp::export]]
-List read_xlsx_(std::string path, int sheet_i,
-                IntegerVector limits, bool shim,
-                RObject col_names, RObject col_types,
+[[cpp11::register]]
+cpp11::list read_xlsx_(std::string path, int sheet_i,
+                cpp11::integers limits, bool shim,
+                cpp11::sexp col_names, cpp11::sexp col_types,
                 std::vector<std::string> na, bool trim_ws,
                 int guess_max = 1000, bool progress = true) {
 
@@ -25,32 +25,33 @@ List read_xlsx_(std::string path, int sheet_i,
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
-    return Rcpp::List(0);
+    using namespace cpp11::literals;
+    return cpp11::writable::list (0_xl);
   }
 
   // Get column names -------------------------------------------------
-  CharacterVector colNames;
+  cpp11::writable::strings colNames;
   bool has_col_names = false;
   switch(TYPEOF(col_names)) {
   case STRSXP:
-    colNames = as<CharacterVector>(col_names);
+    colNames = cpp11::writable::strings(static_cast<SEXP>(col_names));
     break;
   case LGLSXP:
-    has_col_names = as<bool>(col_names);
-    colNames = has_col_names ? ws.colNames(na, trim_ws) : CharacterVector(ws.ncol(), "");
+    has_col_names = cpp11::as_cpp<bool>(col_names);
+    colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
     break;
   default:
-    Rcpp::stop("`col_names` must be a logical or character vector");
+    cpp11::stop("`col_names` must be a logical or character vector");
   }
 
   // Get column types --------------------------------------------------
   if (TYPEOF(col_types) != STRSXP) {
-    Rcpp::stop("`col_types` must be a character vector");
+    cpp11::stop("`col_types` must be a character vector");
   }
-  std::vector<ColType> colTypes = colTypeStrings(as<CharacterVector>(col_types));
+  std::vector<ColType> colTypes = colTypeStrings(cpp11::as_cpp<cpp11::strings>(col_types));
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
-    Rcpp::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+    cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                sheet_i + 1, ws.ncol(), colTypes.size());
   }
   if (requiresGuess(colTypes)) {

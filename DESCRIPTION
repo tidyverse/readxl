@@ -45,7 +45,6 @@ URL: https://readxl.tidyverse.org,
 BugReports: https://github.com/tidyverse/readxl/issues
 Imports:
     cellranger,
-    Rcpp (>= 0.12.18),
     tibble (>= 1.3.1),
     utils
 Suggests:
@@ -55,8 +54,8 @@ Suggests:
     rprojroot (>= 1.1),
     testthat (>= 2.0.0)
 LinkingTo: 
-    progress,
-    Rcpp
+    cpp11,
+    progress
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
@@ -65,3 +64,7 @@ Encoding: UTF-8
 Note: libxls v1.6.2 4482400
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9001
+SystemRequirements: C++11
+Remotes:  
+    r-lib/cpp11#218
+    

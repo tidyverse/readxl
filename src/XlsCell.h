@@ -2,12 +2,11 @@
 #define READXL_XLSCELL_
 
 #include <limits.h>
-#include <Rcpp.h>
+#include "ColSpec.h"
+#include "utils.h"
 #include "libxls/xls.h"
 #include "libxls/xlstypes.h"
 #include "libxls/xlsstruct.h"
-#include "ColSpec.h"
-#include "utils.h"
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure
@@ -215,8 +214,8 @@ public:
       break;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     ct = CELL_UNKNOWN;
     }
 
@@ -260,13 +259,13 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
       return "";
     }
   }
 
-  Rcpp::RObject asCharSxp(const bool trimWs) const {
+  cpp11::sexp asCharSxp(const bool trimWs) const {
     std::string out_string = asStdString(trimWs);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
@@ -285,8 +284,8 @@ public:
       return cell_->d != 0;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_LOGICAL;
     }
   }
@@ -305,8 +304,8 @@ public:
       return cell_->d;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }
@@ -325,8 +324,8 @@ public:
       return POSIXctFromSerial(cell_->d, is1904);
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }

@@ -1,10 +1,9 @@
 #ifndef READXL_XLSWORKBOOK_
 #define READXL_XLSWORKBOOK_
 
-#include <Rcpp.h>
-#include "libxls/xls.h"
+#include <sstream>
 #include "ColSpec.h"
-#include "utils.h"
+#include "libxls/xls.h"
 
 class XlsWorkBook {
 
@@ -15,7 +14,7 @@ class XlsWorkBook {
 
   // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
   int n_sheets_;
-  Rcpp::CharacterVector sheets_;
+  cpp11::writable::strings sheets_;
 
 public:
 
@@ -25,15 +24,14 @@ public:
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rcpp::stop(
-        "\n  filepath: %s\n  libxls error: %s",
-        path_,
-        xls::xls_getError(error)
-      );
+      auto err = xls::xls_getError(error);
+      std::stringstream ss;
+      ss << "\n filepath: " << path_ << "\n libxls error: " << err;
+      throw std::runtime_error(ss.str());
     }
 
     n_sheets_ = pWB_->sheets.count;
-    sheets_ = Rcpp::CharacterVector(n_sheets());
+    sheets_ = cpp11::writable::strings(n_sheets());
     for (int i = 0; i < n_sheets_; ++i) {
       sheets_[i] = Rf_mkCharCE((char*) pWB_->sheets.sheet[i].name, CE_UTF8);
     }
@@ -52,7 +50,7 @@ public:
     return n_sheets_;
   }
 
-  Rcpp::CharacterVector sheets() const {
+  cpp11::strings sheets() const {
     return sheets_;
   }
 

@@ -1,20 +1,13 @@
-#include <Rcpp.h>
-
+#include <cpp11/function.hpp>
+#include <cpp11/raws.hpp>
 #include "zip.h"
 #include "rapidxml_print.h"
 
-using namespace Rcpp;
-
-Function readxl(const std::string& fun){
-  Environment env = Environment::namespace_env("readxl");
-  return env[fun];
-}
-
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
-  Rcpp::Function zip_buffer = readxl("zip_buffer");
+  cpp11::function zip_buffer = cpp11::package("readxl")["zip_buffer"];
 
-  Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
+  cpp11::raws xml(zip_buffer(zip_path, file_path));
   std::string buffer(RAW(xml), RAW(xml) + xml.size());
   buffer.push_back('\0');
 
@@ -23,10 +16,8 @@ std::string zip_buffer(const std::string& zip_path,
 
 bool zip_has_file(const std::string& zip_path,
                   const std::string& file_path) {
-  Rcpp::Function zip_has_file = readxl("zip_has_file");
-
-  LogicalVector res = wrap<LogicalVector>(zip_has_file(zip_path, file_path));
-  return res[0];
+  cpp11::function zip_has_file = cpp11::package("readxl")["zip_has_file"];
+  return zip_has_file(zip_path, file_path);
 }
 
 std::string xml_print(std::string xml) {
@@ -41,10 +32,10 @@ std::string xml_print(std::string xml) {
   return s;
 }
 
-// [[Rcpp::export]]
+[[cpp11::register]]
 void zip_xml(const std::string& zip_path,
              const std::string& file_path) {
 
   std::string buffer = zip_buffer(zip_path, file_path);
-  Rcout << xml_print(buffer);
+  Rprintf("%s", xml_print(buffer).c_str());
 }

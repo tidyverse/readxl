@@ -1,5 +1,4 @@
 #' @useDynLib readxl, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 NULL
 
 #' Read xls and xlsx files
@@ -278,10 +277,14 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
       max_row = limits[["lr"]][1] - 1,
       min_col = limits[["ul"]][2] - 1,
       max_col = limits[["lr"]][2] - 1
-    )
+      )
   }
   limits[is.na(limits)] <- -1
+  names <- names(limits)
+  limits <- as.integer(limits)
+  names(limits) <- names
   limits
+
 }
 
 check_col_types <- function(col_types) {

@@ -7,6 +7,7 @@
 
 #ifdef __cplusplus
 extern "C" {
+#include <cassert>
 #endif
 
 void Rprintf2(FILE * stream, const char *format, ...);

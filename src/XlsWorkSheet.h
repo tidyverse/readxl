@@ -1,14 +1,17 @@
 #ifndef READXL_XLSWORKSHEET_
 #define READXL_XLSWORKSHEET_
 
-#include <Rcpp.h>
-#include "libxls/xls.h"
+#include <cpp11/integers.hpp>
+#include <cpp11/strings.hpp>
+#include <cpp11/protect.hpp>
+#include <cpp11/list.hpp>
+#include <cpp11/sexp.hpp>
+#include <cpp11/as.hpp>
 #include "XlsWorkBook.h"
 #include "Spinner.h"
 #include "XlsCell.h"
-#include "ColSpec.h"
 #include "CellLimits.h"
-#include "utils.h"
+#include "libxls/xls.h"
 
 const int PROGRESS_TICK = 131072; // 2^17
 
@@ -31,23 +34,23 @@ class XlsWorkSheet {
 public:
 
   XlsWorkSheet(const XlsWorkBook wb, int sheet_i,
-               Rcpp::IntegerVector limits, bool shim, bool progress):
+               cpp11::integers limits, bool shim, bool progress):
   wb_(wb), nominal_(limits), spinner_(progress)
   {
     if (sheet_i >= wb.n_sheets()) {
-      Rcpp::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+      cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                  sheet_i + 1, wb.n_sheets());
     }
-    sheetName_ = wb.sheets()[sheet_i];
+    sheetName_ = cpp11::r_string(wb.sheets()[sheet_i]);
 
     xls::xls_error_t error = xls::LIBXLS_OK;
     std::string path = wb_.path();
     spinner_.spin();
     pWB_ = xls_open_file(path.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rcpp::stop(
+      cpp11::stop(
         "\n  filepath: %s\n  libxls error: %s",
-        path,
+        path.c_str(),
         xls::xls_getError(error)
       );
     }
@@ -55,8 +58,8 @@ public:
 
     pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
     if (pWS_ == NULL) {
-      Rcpp::stop("Sheet '%s' (position %d): cannot be opened",
-                 sheetName_, sheet_i + 1);
+      cpp11::stop("Sheet '%s' (position %d): cannot be opened",
+                 sheetName_.c_str(), sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
     spinner_.spin();
@@ -88,15 +91,15 @@ public:
   int nrow() const {
     return nrow_;
   }
-
-  Rcpp::CharacterVector colNames(const StringSet &na, const bool trimWs) {
-    Rcpp::CharacterVector out(ncol_);
+  cpp11::strings colNames(const StringSet &na, const bool trimWs) {
+    cpp11::writable::strings out(ncol_);
     std::vector<XlsCell>::iterator xcell = cells_.begin();
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
       xcell->inferType(na, trimWs, dateFormats_);
-      out[xcell->col() - actual_.minCol()] = xcell->asCharSxp(trimWs);
+      int position = xcell->col() - actual_.minCol();
+      out[position] = cpp11::r_string(xcell->asCharSxp(trimWs));
       xcell++;
     }
     return out;
@@ -133,7 +136,7 @@ public:
       count++;
       if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
-        Rcpp::checkUserInterrupt();
+        cpp11::check_user_interrupt();
       }
       int j = xcell->col() - actual_.minCol();
       if (type_known[j] || types[j] == COL_TEXT) {
@@ -151,7 +154,7 @@ public:
     return types;
   }
 
-  Rcpp::List readCols(Rcpp::CharacterVector names,
+  cpp11::list readCols(cpp11::strings names,
                       const std::vector<ColType>& types,
                       const StringSet &na, const bool trimWs,
                       bool has_col_names = false) {
@@ -162,7 +165,7 @@ public:
     // base is row the data starts on **in the spreadsheet**
     int base = cells_.begin()->row() + has_col_names;
     int n = (xcell == cells_.end()) ? 0 : actual_.maxRow() - base + 1;
-    Rcpp::List cols(ncol_);
+    cpp11::writable::list cols(ncol_);
     cols.attr("names") = names;
     for (int j = 0; j < ncol_; ++j) {
       cols[j] = makeCol(types[j], n);
@@ -184,7 +187,7 @@ public:
       count++;
       if (count % PROGRESS_TICK == 0) {
         spinner_.spin();
-        Rcpp::checkUserInterrupt();
+        cpp11::check_user_interrupt();
       }
 
       if (types[col] == COL_SKIP) {
@@ -194,7 +197,7 @@ public:
 
       xcell->inferType(na, trimWs, dateFormats_);
       CellType type = xcell->type();
-      Rcpp::RObject column = cols[col];
+      cpp11::sexp column = cpp11::as_sexp(cols[col]);
       // row to write into
       int row = i - base;
 
@@ -212,8 +215,8 @@ public:
       case COL_LOGICAL:
         if (type == CELL_DATE) {
           // print date string here, when/if it's possible to do so
-          Rcpp::warning("Expecting logical in %s: got a date",
-                        cellPosition(i, j));
+          cpp11::warning("Expecting logical in %s: got a date",
+                        cellPosition(i, j).c_str());
         }
 
         switch(type) {
@@ -230,8 +233,8 @@ public:
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(column)[row] = text_boolean;
           } else {
-            Rcpp::warning("Expecting logical in %s: got '%s'",
-                          cellPosition(i, j), text_string);
+            cpp11::warning("Expecting logical in %s: got '%s'",
+                          cellPosition(i, j).c_str(), text_string.c_str());
             LOGICAL(column)[row] = NA_LOGICAL;
           }
         }
@@ -241,27 +244,27 @@ public:
 
       case COL_DATE:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Expecting date in %s: got boolean", cellPosition(i, j));
+          cpp11::warning("Expecting date in %s: got boolean", cellPosition(i, j).c_str());
         }
         if (type == CELL_NUMERIC) {
-          Rcpp::warning("Coercing numeric to date in %s",
-                        cellPosition(i, j));
+          cpp11::warning("Coercing numeric to date in %s",
+                        cellPosition(i, j).c_str());
         }
         if (type == CELL_TEXT) {
-          Rcpp::warning("Expecting date in %s: got '%s'",
-                        cellPosition(i, j),
-                        xcell->asStdString(trimWs));
+          cpp11::warning("Expecting date in %s: got '%s'",
+                        cellPosition(i, j).c_str(),
+                        (xcell->asStdString(trimWs)).c_str());
         }
         REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
         if (type == CELL_LOGICAL) {
-          Rcpp::warning("Coercing boolean to numeric in %s", cellPosition(i, j));
+          cpp11::warning("Coercing boolean to numeric in %s", cellPosition(i, j).c_str());
         }
         if (type == CELL_DATE) {
           // print date string here, when/if possible
-          Rcpp::warning("Expecting numeric in %s: got a date", cellPosition(i, j));
+          cpp11::warning("Expecting numeric in %s: got a date", cellPosition(i, j).c_str());
         }
         switch(type) {
         case CELL_UNKNOWN:
@@ -276,12 +279,12 @@ public:
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
-            Rcpp::warning("Coercing text to numeric in %s: '%s'",
-                          cellPosition(i, j), num_string);
+            cpp11::warning("Coercing text to numeric in %s: '%s'",
+                          cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = num_num;
           } else {
-            Rcpp::warning("Expecting numeric in %s: got '%s'",
-                          cellPosition(i, j), num_string);
+            cpp11::warning("Expecting numeric in %s: got '%s'",
+                          cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = NA_REAL;
           }
         }
@@ -305,8 +308,8 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarLogical(xcell->asLogical()));
           break;
         case CELL_DATE: {
-          Rcpp::RObject cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
-          cell_val.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+          cpp11::sexp cell_val = Rf_ScalarReal(xcell->asDate(wb_.is1904()));
+          cell_val.attr("class") = {"POSIXct", "POSIXt"};
           cell_val.attr("tzone") = "UTC";
           SET_VECTOR_ELT(column, row, cell_val);
           break;
@@ -315,7 +318,7 @@ public:
           SET_VECTOR_ELT(column, row, Rf_ScalarReal(xcell->asDouble()));
           break;
         case CELL_TEXT: {
-          Rcpp::CharacterVector rStringVector = Rcpp::CharacterVector(1, NA_STRING);
+          cpp11::writable::strings rStringVector({NA_STRING});
           SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(trimWs));
           SET_VECTOR_ELT(column, row, rStringVector);
           break;
@@ -355,7 +358,7 @@ private:
         count++;
         if (count % PROGRESS_TICK == 0) {
           spinner_.spin();
-          Rcpp::checkUserInterrupt();
+          cpp11::check_user_interrupt();
         }
 
         if (nominal_needs_checking) {
