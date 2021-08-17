@@ -3,7 +3,6 @@
 
 #include "readxl_types.h"
 #include "cpp11/declarations.hpp"
-#include <R_ext/Visibility.h>
 
 // XlsWorkBook.cpp
 cpp11::strings xls_sheets(std::string path);
