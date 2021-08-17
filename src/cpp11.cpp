@@ -3,6 +3,7 @@
 
 #include "readxl_types.h"
 #include "cpp11/declarations.hpp"
+#include <R_ext/Visibility.h>
 
 // XlsWorkBook.cpp
 cpp11::strings xls_sheets(std::string path);
@@ -70,17 +71,6 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 }
 
 extern "C" {
-/* .Call calls */
-extern SEXP _readxl_parse_ref(SEXP);
-extern SEXP _readxl_read_xls_(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _readxl_read_xlsx_(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _readxl_xls_date_formats(SEXP);
-extern SEXP _readxl_xls_sheets(SEXP);
-extern SEXP _readxl_xlsx_date_formats(SEXP);
-extern SEXP _readxl_xlsx_sheets(SEXP);
-extern SEXP _readxl_xlsx_strings(SEXP);
-extern SEXP _readxl_zip_xml(SEXP, SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_readxl_parse_ref",         (DL_FUNC) &_readxl_parse_ref,          1},
     {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
@@ -95,7 +85,7 @@ static const R_CallMethodDef CallEntries[] = {
 };
 }
 
-extern "C" void R_init_readxl(DllInfo* dll){
+extern "C" attribute_visible void R_init_readxl(DllInfo* dll){
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
   R_forceSymbols(dll, TRUE);
