@@ -51,6 +51,14 @@ Or install the development version from GitHub:
 devtools::install_github("tidyverse/readxl")
 ```
 
+## Cheatsheet
+
+You can see how to read data with readxl in the **data import
+cheatsheet**, which also covers similar functionality in the related
+packages readr and googlesheets4.
+
+<a href="https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
+
 ## Usage
 
 ``` r
@@ -67,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/var/folders/qy/_87n3lkx6dd_3rkvbw6yqjg00000gn/T/RtmpHrzR24/temp_libpath243a2ea1b55/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/Rtmp24f1hO/temp_libpatha348194a3007/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -76,7 +84,7 @@ the extension.
 ``` r
 xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
@@ -86,7 +94,7 @@ read_excel(xlsx_example)
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
@@ -106,7 +114,7 @@ Specify a worksheet by name or number.
 
 ``` r
 read_excel(xlsx_example, sheet = "chickwts")
-#> # A tibble: 71 x 2
+#> # A tibble: 71 × 2
 #>   weight feed     
 #>    <dbl> <chr>    
 #> 1    179 horsebean
@@ -114,7 +122,7 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 3    136 horsebean
 #> # … with 68 more rows
 read_excel(xls_example, sheet = 4)
-#> # A tibble: 1,000 x 5
+#> # A tibble: 1,000 × 5
 #>     lat  long depth   mag stations
 #>   <dbl> <dbl> <dbl> <dbl>    <dbl>
 #> 1 -20.4  182.   562   4.8       41
@@ -128,28 +136,28 @@ specify the sheet here, if providing an Excel-style cell range.
 
 ``` r
 read_excel(xlsx_example, n_max = 3)
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa
 read_excel(xlsx_example, range = "C1:E4")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   Petal.Length Petal.Width Species
 #>          <dbl>       <dbl> <chr>  
 #> 1          1.4         0.2 setosa 
 #> 2          1.4         0.2 setosa 
 #> 3          1.3         0.2 setosa
 read_excel(xlsx_example, range = cell_rows(1:4))
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa
 read_excel(xlsx_example, range = cell_cols("B:D"))
-#> # A tibble: 150 x 3
+#> # A tibble: 150 × 3
 #>   Sepal.Width Petal.Length Petal.Width
 #>         <dbl>        <dbl>       <dbl>
 #> 1         3.5          1.4         0.2
@@ -157,7 +165,7 @@ read_excel(xlsx_example, range = cell_cols("B:D"))
 #> 3         3.2          1.3         0.2
 #> # … with 147 more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
-#> # A tibble: 4 x 3
+#> # A tibble: 4 × 3
 #>     cyl  disp    hp
 #>   <dbl> <dbl> <dbl>
 #> 1     6   160   110
@@ -171,7 +179,7 @@ If `NA`s are represented by something other than blank cells, set the
 
 ``` r
 read_excel(xlsx_example, na = "setosa")
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 <NA>   
@@ -191,40 +199,40 @@ readxl will become increasingly consistent with other packages, such as
 Broad topics are explained in [these
 articles](https://readxl.tidyverse.org/articles/index.html):
 
-  - [Cell and Column
+-   [Cell and Column
     Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
-  - [Sheet
+-   [Sheet
     Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html):
     how to specify which cells to read
-  - [readxl
+-   [readxl
     Workflows](https://readxl.tidyverse.org/articles/articles/readxl-workflows.html):
     Iterating over multiple tabs or worksheets, stashing a csv snapshot
 
 We also have some focused articles that address specific aggravations
 presented by the world’s spreadsheets:
 
-  - [Column
+-   [Column
     Names](https://readxl.tidyverse.org/articles/articles/column-names.html)
-  - [Multiple Header
+-   [Multiple Header
     Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
 
 ## Features
 
-  - No external dependency on, e.g., Java or Perl.
+-   No external dependency on, e.g., Java or Perl.
 
-  - Re-encodes non-ASCII characters to UTF-8.
+-   Re-encodes non-ASCII characters to UTF-8.
 
-  - Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
+-   Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
     (1904) date specifications are processed correctly.
 
-  - Discovers the minimal data rectangle and returns that, by default.
+-   Discovers the minimal data rectangle and returns that, by default.
     User can exert more control with `range`, `skip`, and `n_max`.
 
-  - Column names and types are determined from the data in the sheet, by
+-   Column names and types are determined from the data in the sheet, by
     default. User can also supply via `col_names` and `col_types` and
     control name repair via `.name_repair`.
 
-  - Returns a
+-   Returns a
     [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a
     data frame with an additional `tbl_df` class. Among other things,
     this provide nicer printing.
