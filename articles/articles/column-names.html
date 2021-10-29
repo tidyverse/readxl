@@ -183,11 +183,11 @@
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,  range <span class="op">=</span> <span class="st">"arts!A5:F8"</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 × 6</span>
-<span class="co">#&gt;   Name          Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 David Bowie   musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
-<span class="co">#&gt; 2 Carrie Fisher actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
-<span class="co">#&gt; 3 Chuck Berry   musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
+<span class="co">#&gt;   Name       Profession   Age `Has kids` `Date of birth`     `Date of death`    </span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;      &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 David Bow… musician      69 TRUE       1947-01-08 00:00:00 2016-01-10 00:00:00</span>
+<span class="co">#&gt; 2 Carrie Fi… actor         60 TRUE       1956-10-21 00:00:00 2016-12-27 00:00:00</span>
+<span class="co">#&gt; 3 Chuck Ber… musician      90 TRUE       1926-10-18 00:00:00 2017-03-18 00:00:00</span>
 
 <span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="fu"><a href="../../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="st">"arts!A5:F8"</span>,
@@ -198,11 +198,11 @@
 <span class="co">#&gt; * `Date of birth` -&gt; Date.of.birth</span>
 <span class="co">#&gt; * `Date of death` -&gt; Date.of.death</span>
 <span class="co">#&gt; # A tibble: 3 × 6</span>
-<span class="co">#&gt;   Name          Profession   Age Has.kids Date.of.birth       Date.of.death      </span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;    &lt;dttm&gt;              &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 David Bowie   musician      69 TRUE     1947-01-08 00:00:00 2016-01-10 00:00:00</span>
-<span class="co">#&gt; 2 Carrie Fisher actor         60 TRUE     1956-10-21 00:00:00 2016-12-27 00:00:00</span>
-<span class="co">#&gt; 3 Chuck Berry   musician      90 TRUE     1926-10-18 00:00:00 2017-03-18 00:00:00</span></code></pre></div>
+<span class="co">#&gt;   Name         Profession   Age Has.kids Date.of.birth       Date.of.death      </span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;    &lt;dttm&gt;              &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 David Bowie  musician      69 TRUE     1947-01-08 00:00:00 2016-01-10 00:00:00</span>
+<span class="co">#&gt; 2 Carrie Fish… actor         60 TRUE     1956-10-21 00:00:00 2016-12-27 00:00:00</span>
+<span class="co">#&gt; 3 Chuck Berry  musician      90 TRUE     1926-10-18 00:00:00 2017-03-18 00:00:00</span></code></pre></div>
 <p>If you don’t want readxl to touch your column names at all, use <code>.name_repair = "minimal"</code>.</p>
 </div>
 <div id="pass-a-function-to--name_repair" class="section level2">
