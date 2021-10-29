@@ -5,10 +5,10 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
 [![R-CMD-check](https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/readxl/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/readxl/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=master)
+coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=main)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
@@ -57,7 +57,7 @@ You can see how to read data with readxl in the **data import
 cheatsheet**, which also covers similar functionality in the related
 packages readr and googlesheets4.
 
-<a href="https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 ## Usage
 
@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/Rtmp24f1hO/temp_libpatha348194a3007/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmpQ7Z0zv/temp_libpath3e147aec1464/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
