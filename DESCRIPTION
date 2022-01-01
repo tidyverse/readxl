@@ -64,7 +64,7 @@ Config/Needs/website: tidyverse/tidytemplate, tidyverse, devtools
 Encoding: UTF-8
 Note: libxls v1.6.2 4482400
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1.9001
+RoxygenNote: 7.1.2
 SystemRequirements: C++11
-Remotes:  
+Remotes: 
     r-lib/cpp11
