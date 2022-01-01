@@ -1,11 +1,13 @@
 #ifndef READXL_STRINGSET_
 #define READXL_STRINGSET_
 
-#include <cpp11/strings.hpp>
+#include "utils.h"
+
+#include "cpp11/strings.hpp"
+
 #include <cstring>
 #include <set>
 #include <vector>
-#include "utils.h"
 
 class StringSet
 {

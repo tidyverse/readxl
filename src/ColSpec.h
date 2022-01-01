@@ -1,15 +1,17 @@
 #ifndef READXL_COLSPEC_
 #define READXL_COLSPEC_
 
-#include <cpp11/protect.hpp>
-#include <cpp11/strings.hpp>
-#include <cpp11/doubles.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/logicals.hpp>
-#include <cpp11/sexp.hpp>
 #include "utils.h"
 #include "StringSet.h"
+
 #include "libxls/xls.h"
+
+#include "cpp11/doubles.hpp"
+#include "cpp11/list.hpp"
+#include "cpp11/logicals.hpp"
+#include "cpp11/protect.hpp"
+#include "cpp11/sexp.hpp"
+#include "cpp11/strings.hpp"
 
 enum CellType {
   CELL_UNKNOWN,

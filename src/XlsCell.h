@@ -1,12 +1,15 @@
 #ifndef READXL_XLSCELL_
 #define READXL_XLSCELL_
 
-#include <limits.h>
 #include "ColSpec.h"
 #include "utils.h"
+
 #include "libxls/xls.h"
-#include "libxls/xlstypes.h"
 #include "libxls/xlsstruct.h"
+#include "libxls/xlstypes.h"
+
+#include <iomanip>
+#include <limits.h>
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure

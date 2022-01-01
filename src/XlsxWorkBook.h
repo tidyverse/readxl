@@ -1,12 +1,14 @@
 #ifndef READXL_XLSXWORKBOOK_
 #define READXL_XLSXWORKBOOK_
 
-#include <map>
 #include "ColSpec.h"
-#include "XlsxString.h"
 #include "utils.h"
+#include "XlsxString.h"
 #include "zip.h"
-#include "rapidxml.h"
+
+#include "rapidxml/rapidxml.h"
+
+#include <map>
 
 class XlsxWorkBook {
 
