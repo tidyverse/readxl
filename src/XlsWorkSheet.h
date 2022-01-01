@@ -1,17 +1,20 @@
 #ifndef READXL_XLSWORKSHEET_
 #define READXL_XLSWORKSHEET_
 
-#include <cpp11/integers.hpp>
-#include <cpp11/strings.hpp>
-#include <cpp11/protect.hpp>
-#include <cpp11/list.hpp>
-#include <cpp11/sexp.hpp>
-#include <cpp11/as.hpp>
-#include "XlsWorkBook.h"
+#include "CellLimits.h"
 #include "Spinner.h"
 #include "XlsCell.h"
-#include "CellLimits.h"
+#include "XlsWorkBook.h"
+
 #include "libxls/xls.h"
+#include "libxls/xlsstruct.h"
+
+#include "cpp11/as.hpp"
+#include "cpp11/integers.hpp"
+#include "cpp11/list.hpp"
+#include "cpp11/protect.hpp"
+#include "cpp11/sexp.hpp"
+#include "cpp11/strings.hpp"
 
 const int PROGRESS_TICK = 131072; // 2^17
 
@@ -39,7 +42,7 @@ public:
   {
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
-                 sheet_i + 1, wb.n_sheets());
+                  sheet_i + 1, wb.n_sheets());
     }
     sheetName_ = cpp11::r_string(wb.sheets()[sheet_i]);
 

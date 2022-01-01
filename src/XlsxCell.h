@@ -4,7 +4,8 @@
 #include "ColSpec.h"
 #include "XlsxString.h"
 #include "utils.h"
-#include "rapidxml.h"
+
+#include "rapidxml/rapidxml.h"
 
 // Key reference for understanding the structure of the XML is
 // ECMA-376 (http://www.ecma-international.org/publications/standards/Ecma-376.htm)

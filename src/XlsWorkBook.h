@@ -1,10 +1,15 @@
 #ifndef READXL_XLSWORKBOOK_
 #define READXL_XLSWORKBOOK_
 
-#include <sstream>
 #include "ColSpec.h"
+
 #include "libxls/xls.h"
+#include "libxls/xlsstruct.h"
+
 #include "cpp11/r_string.hpp"
+#include "cpp11/strings.hpp"
+
+#include <sstream>
 
 class XlsWorkBook {
 
