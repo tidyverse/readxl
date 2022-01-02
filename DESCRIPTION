@@ -45,7 +45,7 @@ URL: https://readxl.tidyverse.org,
 BugReports: https://github.com/tidyverse/readxl/issues
 Imports:
     cellranger,
-    cpp11 (>= 0.3.1.9000),
+    cpp11 (>= 0.4.0),
     tibble (>= 1.3.1),
     utils
 Suggests:
@@ -66,5 +66,3 @@ Note: libxls v1.6.2 4482400
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 SystemRequirements: C++11
-Remotes: 
-    r-lib/cpp11
