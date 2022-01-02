@@ -39,6 +39,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,8 +55,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="index.html">readxl</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.9000</span>
+          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
         </div>
       </div>
     </div>
@@ -96,10 +98,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/">Version 1.2.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/" class="external-link">Version 1.2.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/">Version 1.1.0</a>
+      <a href="https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/" class="external-link">Version 1.1.0</a>
     </li>
     <li>
       <a href="articles/releases/readxl-1.0.0.html">Version 1.0.0</a>
@@ -111,13 +113,14 @@
       <a href="articles/releases/readxl-0.1.0.html">Version 0.1.0</a>
     </li>
     <li class="divider">
-    <li>
+    </li>
+<li>
       <a href="news/index.html">Change log</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/readxl/">
+  <a href="https://github.com/tidyverse/readxl/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -134,42 +137,42 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="readxl-" class="section level1">
+<div class="section level1">
 
 <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data.</p>
-<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/evanmiller/libxls">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net">RapidXML</a> C++ library.</p>
+<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/evanmiller/libxls" class="external-link">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net" class="external-link">RapidXML</a> C++ library.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The easiest way to install the latest released version from CRAN is to install the whole tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></code></pre></div>
-<p>NOTE: you will still need to load readxl explicitly, because it is not a core tidyverse package loaded via <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code>.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></code></pre></div>
+<p>NOTE: you will still need to load readxl explicitly, because it is not a core tidyverse package loaded via <code><a href="https://tidyverse.tidyverse.org" class="external-link">library(tidyverse)</a></code>.</p>
 <p>Alternatively, install just readxl from CRAN:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span></code></pre></div>
 <p>Or install the development version from GitHub:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"tidyverse/readxl"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tidyverse/readxl"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="cheatsheet" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cheatsheet" class="anchor"></a>Cheatsheet</h2>
+<div class="section level2">
+<h2 id="cheatsheet">Cheatsheet<a class="anchor" aria-label="anchor" href="#cheatsheet"></a>
+</h2>
 <p>You can see how to read data with readxl in the <strong>data import cheatsheet</strong>, which also covers similar functionality in the related packages readr and googlesheets4.</p>
-<p><a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"></a></p>
+<p><a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf" class="external-link"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"></a></p>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></code></pre></div>
 <p>readxl includes several example files, which we use throughout the documentation. Use the helper <code><a href="reference/readxl_example.html">readxl_example()</a></code> with no arguments to list them or call it with an example filename to get the path.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="op">)</span>
@@ -270,11 +273,11 @@
 <span class="co">#&gt; 2          4.9         3            1.4         0.2 &lt;NA&gt;   </span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2 &lt;NA&gt;   </span>
 <span class="co">#&gt; # … with 147 more rows</span></code></pre></div>
-<p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org">readr</a>.</p>
+<p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html" class="external-link">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org" class="external-link">readr</a>.</p>
 </div>
-<div id="articles" class="section level2">
-<h2 class="hasAnchor">
-<a href="#articles" class="anchor"></a>Articles</h2>
+<div class="section level2">
+<h2 id="articles">Articles<a class="anchor" aria-label="anchor" href="#articles"></a>
+</h2>
 <p>Broad topics are explained in <a href="https://readxl.tidyverse.org/articles/index.html">these articles</a>:</p>
 <ul>
 <li><a href="https://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types</a></li>
@@ -289,31 +292,33 @@
 <li><a href="https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html">Multiple Header Rows</a></li>
 </ul>
 </div>
-<div id="features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#features" class="anchor"></a>Features</h2>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
 <ul>
 <li><p>No external dependency on, e.g., Java or Perl.</p></li>
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
 <li>
 <p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac</p>
-<p>(1904) date specifications are processed correctly.</p>
+<ol start="1904" style="list-style-type: decimal">
+<li>date specifications are processed correctly.</li>
+</ol>
 </li>
 <li><p>Discovers the minimal data rectangle and returns that, by default. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
 <li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code> and control name repair via <code>.name_repair</code>.</p></li>
-<li><p>Returns a <a href="http://tibble.tidyverse.org/reference/tibble.html">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
+<li><p>Returns a <a href="http://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
 </ul>
 </div>
-<div id="other-relevant-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-relevant-packages" class="anchor"></a>Other relevant packages</h2>
+<div class="section level2">
+<h2 id="other-relevant-packages">Other relevant packages<a class="anchor" aria-label="anchor" href="#other-relevant-packages"></a>
+</h2>
 <p>Here are some other packages with functionality that is complementary to readxl and that also avoid a Java dependency.</p>
-<p><strong>Writing Excel files</strong>: The example files <code>datasets.xlsx</code> and <code>datasets.xls</code> were created with the help of <a href="https://CRAN.R-project.org/package=openxlsx">openxlsx</a> (and Excel). openxlsx provides “a high level interface to writing, styling and editing worksheets”.</p>
+<p><strong>Writing Excel files</strong>: The example files <code>datasets.xlsx</code> and <code>datasets.xls</code> were created with the help of <a href="https://CRAN.R-project.org/package=openxlsx" class="external-link">openxlsx</a> (and Excel). openxlsx provides “a high level interface to writing, styling and editing worksheets”.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>iris <span class="op">=</span> <span class="va">iris</span>, mtcars <span class="op">=</span> <span class="va">mtcars</span>, chickwts <span class="op">=</span> <span class="va">chickwts</span>, quakes <span class="op">=</span> <span class="va">quakes</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>iris <span class="op">=</span> <span class="va">iris</span>, mtcars <span class="op">=</span> <span class="va">mtcars</span>, chickwts <span class="op">=</span> <span class="va">chickwts</span>, quakes <span class="op">=</span> <span class="va">quakes</span><span class="op">)</span>
 <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu">write.xlsx</span><span class="op">(</span><span class="va">l</span>, file <span class="op">=</span> <span class="st">"inst/extdata/datasets.xlsx"</span><span class="op">)</span></code></pre></div>
-<p><a href="https://cran.r-project.org/package=writexl">writexl</a> is a new option in this space, first released on CRAN in August 2017. It’s a portable and lightweight way to export a data frame to xlsx, based on <a href="https://github.com/jmcnamara/libxlsxwriter">libxlsxwriter</a>. It is much more minimalistic than openxlsx, but on simple examples, appears to be about twice as fast and to write smaller files.</p>
-<p><strong>Non-tabular data and formatting</strong>: <a href="https://cran.r-project.org/package=tidyxl">tidyxl</a> is focused on importing awkward and non-tabular data from Excel. It also “exposes cell content, position and formatting in a tidy structure for further manipulation”.</p>
+<p><a href="https://cran.r-project.org/package=writexl" class="external-link">writexl</a> is a new option in this space, first released on CRAN in August 2017. It’s a portable and lightweight way to export a data frame to xlsx, based on <a href="https://github.com/jmcnamara/libxlsxwriter" class="external-link">libxlsxwriter</a>. It is much more minimalistic than openxlsx, but on simple examples, appears to be about twice as fast and to write smaller files.</p>
+<p><strong>Non-tabular data and formatting</strong>: <a href="https://cran.r-project.org/package=tidyxl" class="external-link">tidyxl</a> is focused on importing awkward and non-tabular data from Excel. It also “exposes cell content, position and formatting in a tidy structure for further manipulation”.</p>
 <p>Please note that the readxl project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
@@ -321,67 +326,73 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=readxl">https://​cloud.r-project.org/​package=readxl</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/tidyverse/readxl/">https://​github.com/​tidyverse/​readxl/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/tidyverse/readxl/issues">https://​github.com/​tidyverse/​readxl/​issues</a>
-</li>
-<li>Learn more at <br><a href="http://r4ds.had.co.nz/data-import.html">http://​r4ds.had.co.nz/​data-import.html</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=readxl" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/tidyverse/readxl/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tidyverse/readxl/issues" class="external-link">Report a bug</a></li>
+<li><a href="http://r4ds.had.co.nz/data-import.html" class="external-link">Learn more</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>
-<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://jennybryan.org">Jennifer Bryan</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  <br><small>(Copyright holder of all R code and all C/C++ code without explicit copyright attribution)</small>
-</li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing readxl</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=readxl"><img src="https://www.r-pkg.org/badges/version/readxl" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://github.com/tidyverse/readxl/actions"><img src="https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/tidyverse/readxl?branch=main"><img src="https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
+<li>
+<a href="http://hadley.nz" class="external-link">Hadley Wickham</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=readxl" class="external-link"><img src="https://www.r-pkg.org/badges/version/readxl" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://github.com/tidyverse/readxl/actions" class="external-link"><img src="https://github.com/tidyverse/readxl/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/tidyverse/readxl?branch=main" class="external-link"><img src="https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="tidyverse">
-  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p>readxl is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Developed by .
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 
@@ -390,6 +401,8 @@
 
   
 
+
+  
 
   </body>
 </html>
