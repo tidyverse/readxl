@@ -48,7 +48,7 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
   if (TYPEOF(col_types) != STRSXP) {
     cpp11::stop("`col_types` must be a character vector");
   }
-  std::vector<ColType> colTypes = colTypeStrings(cpp11::as_cpp<cpp11::strings>(col_types));
+  std::vector<ColType> colTypes = colTypeStrings(static_cast<SEXP>(col_types));
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
     cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
