@@ -15,10 +15,10 @@ cpp11::integers parse_ref(std::string ref) {
 
 [[cpp11::register]]
 cpp11::list read_xlsx_(std::string path, int sheet_i,
-                cpp11::integers limits, bool shim,
-                cpp11::sexp col_names, cpp11::sexp col_types,
-                std::vector<std::string> na, bool trim_ws,
-                int guess_max = 1000, bool progress = true) {
+                       cpp11::integers limits, bool shim,
+                       cpp11::sexp col_names, cpp11::strings col_types,
+                       std::vector<std::string> na, bool trim_ws,
+                       int guess_max = 1000, bool progress = true) {
 
   // Construct worksheet ----------------------------------------------
   XlsxWorkSheet ws(path, sheet_i, limits, shim, progress);
@@ -48,7 +48,7 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
   if (TYPEOF(col_types) != STRSXP) {
     cpp11::stop("`col_types` must be a character vector");
   }
-  std::vector<ColType> colTypes = colTypeStrings(static_cast<SEXP>(col_types));
+  std::vector<ColType> colTypes = colTypeStrings(col_types);
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
     cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
