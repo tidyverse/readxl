@@ -5,15 +5,14 @@
 #include "libxls/xls.h"
 
 [[cpp11::register]]
-cpp11::list read_xls_(cpp11::strings path, int sheet_i,
+cpp11::list read_xls_(std::string path, int sheet_i,
                       cpp11::integers limits, bool shim,
                       cpp11::sexp col_names, cpp11::strings col_types,
                       std::vector<std::string> na, bool trim_ws,
                       int guess_max = 1000, bool progress = true) {
 
-  std::string filename(Rf_translateChar(STRING_ELT(path, 0)));
   // Construct worksheet ----------------------------------------------
-  XlsWorkSheet ws(filename, sheet_i, limits, shim, progress);
+  XlsWorkSheet ws(path, sheet_i, limits, shim, progress);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {

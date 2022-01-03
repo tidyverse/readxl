@@ -194,7 +194,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
     sheets_fun <- xlsx_sheets
     read_fun <- read_xlsx_
   }
-  path <- normalize_path(path)
+  path <- normalizePath(path)
   sheet <- standardise_sheet(sheet, range, sheets_fun(path))
   shim <- !is.null(range)
   limits <- standardise_limits(

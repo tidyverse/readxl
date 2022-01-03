@@ -4,6 +4,7 @@
 #include <sstream>
 #include "ColSpec.h"
 #include "libxls/xls.h"
+#include "cpp11/r_string.hpp"
 
 class XlsWorkBook {
 
@@ -19,7 +20,12 @@ class XlsWorkBook {
 public:
 
   XlsWorkBook(const std::string& path) {
-    path_ = path;
+    // the user's path has probably been translated to UTF-8 by
+    // normalizePath() on the R side
+    // even if that were not true, cpp11 does this automatically when
+    // constructing a std::string
+    // but we need to pass the path to libxls in the native encoding
+    path_ = std::string(Rf_translateChar(cpp11::r_string(path)));
 
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);

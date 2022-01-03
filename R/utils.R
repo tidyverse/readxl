@@ -9,10 +9,6 @@ check_file <- function(path) {
   path
 }
 
-normalize_path <- function(path) {
-  enc2native(normalizePath(path))
-}
-
 is_integerish <- function(x) {
   floor(x) == x
 }
