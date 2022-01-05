@@ -131,7 +131,7 @@
 
       
 
-      </header><script src="sheet-geometry_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Sheet Geometry</h1>
@@ -284,18 +284,18 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>    B3    C3   </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #BB0000;">NA</span>    B4    C4</span></code></pre></div>
 <p><strong>Specific range of rows or columns</strong>: Set exact limits on just the rows or just the columns and allow the limits in the other direction to be discovered. Example calls:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## rows only</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))</span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">## is equivalent to</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)))</span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">## columns only</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">26</span>))</span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">## is equivalent to all of these</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">26</span>)))</span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="st">"A:Z"</span>))</span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_cols</span>(LETTERS))</span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="kw">read_excel</span>(..., <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"Z"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rows only</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_rows</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## is equivalent to</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_rows</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## columns only</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## is equivalent to all of these</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">26</span>)))</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="st">"A:Z"</span>))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(LETTERS))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"Z"</span>))</span></code></pre></div>
 <p>We use <code>geometry.xlsx</code> to demonstrate setting hard limits on the rows, running past the data, while allowing column limits to discovered. Note the trailing rows of <code>NA</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span><span class="op">)</span>

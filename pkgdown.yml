@@ -1,4 +1,4 @@
-pandoc: 2.7.3
+pandoc: 2.14.2
 pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
@@ -10,7 +10,7 @@ articles:
   readxl-0.1.1: releases/readxl-0.1.1.html
   readxl-1.0.0: releases/readxl-1.0.0.html
   sheet-geometry: sheet-geometry.html
-last_built: 2022-01-05T19:09Z
+last_built: 2022-01-05T20:41Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles

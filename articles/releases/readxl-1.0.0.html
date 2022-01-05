@@ -131,7 +131,7 @@
 
       
 
-      </header><script src="readxl-1.0.0_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>readxl v1.0.0</h1>
@@ -191,7 +191,7 @@
 <div class="section level2">
 <h2 id="column-typing">Column typing<a class="anchor" aria-label="anchor" href="#column-typing"></a>
 </h2>
-<p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>’s automatic column typing will “just work”" for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>.</p>
+<p>The new ability to target cells for reading means that <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>’s automatic column typing will “just work”” for most sheets, most of the time. Above, the <code>Has kids</code> column is automatically detected as <code>logical</code>, which is a new column type for <a href="http://readxl.tidyverse.org" class="external-link">readxl</a>.</p>
 <p>You can still specify column type explicitly via <code>col_types</code>, which gets a couple new features. If you provide exactly one type, it is recycled to the necessary length. The new type <code>"guess"</code> can be mixed with explicit types to specify some types, while leaving others to be guessed.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
