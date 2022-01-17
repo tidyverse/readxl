@@ -11,6 +11,7 @@
 
 #include "cpp11/integers.hpp"
 #include "cpp11/list.hpp"
+#include "cpp11/protect.hpp"
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
@@ -63,13 +64,13 @@ public:
     rootNode = sheetXml_.first_node("worksheet");
     if (rootNode == NULL) {
       cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
-                 sheetName_.c_str(), sheet_i + 1);
+                  sheetName_.c_str(), sheet_i + 1);
     }
 
     sheetData_ = rootNode->first_node("sheetData");
     if (sheetData_ == NULL) {
       cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
-                 sheetName_.c_str(), sheet_i + 1);
+                  sheetName_.c_str(), sheet_i + 1);
     }
     dateFormats_ = wb.dateFormats();
 

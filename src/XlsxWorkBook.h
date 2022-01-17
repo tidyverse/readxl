@@ -8,6 +8,9 @@
 
 #include "rapidxml/rapidxml.h"
 
+#include "cpp11/protect.hpp"
+#include "cpp11/strings.hpp"
+
 #include <map>
 
 class XlsxWorkBook {

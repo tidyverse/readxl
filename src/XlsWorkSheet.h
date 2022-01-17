@@ -62,7 +62,7 @@ public:
     pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
     if (pWS_ == NULL) {
       cpp11::stop("Sheet '%s' (position %d): cannot be opened",
-                 sheetName_.c_str(), sheet_i + 1);
+                  sheetName_.c_str(), sheet_i + 1);
     }
     xls_parseWorkSheet(pWS_);
     spinner_.spin();
@@ -94,6 +94,7 @@ public:
   int nrow() const {
     return nrow_;
   }
+
   cpp11::strings colNames(const StringSet &na, const bool trimWs) {
     cpp11::writable::strings out(ncol_);
     std::vector<XlsCell>::iterator xcell = cells_.begin();
