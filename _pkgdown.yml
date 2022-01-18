@@ -1,50 +1,32 @@
 url: https://readxl.tidyverse.org
 
+development:
+  mode: auto
+
 template:
   package: tidytemplate
+  bootstrap: 5
+  includes:
+    in_header: |
+      <script defer data-domain="readxl.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 home:
-  strip_header: true
   links:
   - text: Learn more
     href: http://r4ds.had.co.nz/data-import.html
 
-authors:
-  Jennifer Bryan:
-    href: https://jennybryan.org
-
-navbar:
-  left:
-  - text: Reference
-    href: reference/index.html
-  - text: Articles
-    menu:
-    - text: Column Types
-      href: articles/cell-and-column-types.html
-    - text: Sheet Geometry
-      href: articles/sheet-geometry.html
-    - text: Workflows
-      href: articles/articles/readxl-workflows.html
-    - text: Column Names
-      href: articles/articles/column-names.html
-    - text: Multiple Header Rows
-      href: articles/articles/multiple-header-rows.html
-  - text: News
-    menu:
-    - text: "Blog posts"
-    - text: "Version 1.2.0"
-      href: https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/
-    - text: "Version 1.1.0"
-      href: https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/
-    - text: "Version 1.0.0"
-      href: articles/releases/readxl-1.0.0.html
-    - text: "Version 0.1.1"
-      href: articles/releases/readxl-0.1.1.html
-    - text: "Version 0.1.0"
-      href: articles/releases/readxl-0.1.0.html
-    - text: "------------------"
-    - text: "Change log"
-      href: news/index.html
+news:
+  releases:
+  - text: "Version 1.2.0"
+    href: https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/
+  - text: "Version 1.1.0"
+    href: https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/
+  - text: "Version 1.0.0"
+    href: articles/releases/readxl-1.0.0.html
+  - text: "Version 0.1.1"
+    href: articles/releases/readxl-0.1.1.html
+  - text: "Version 0.1.0"
+    href: articles/releases/readxl-0.1.0.html
 
 reference:
   - title: "Read spreadsheets"
@@ -74,3 +56,8 @@ reference:
       List or get the path to xls and xlsx example files in the package.
     contents:
       - readxl_example
+  - title: "Options"
+    desc: >
+      Options consulted by readxl.
+    contents:
+      - readxl_progress
