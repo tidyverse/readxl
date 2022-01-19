@@ -41,11 +41,11 @@ NULL
 #'   only in an interactive session, outside the context of knitting a document,
 #'   and when the call is likely to run for several seconds or more. See
 #'   [readxl_progress()] for more details.
-#' @param .name_repair Handling of column names. By default, readxl ensures
-#'   column names are not empty and are unique. If the tibble package version is
-#'   recent enough, there is full support for `.name_repair` as documented in
-#'   [tibble::tibble()]. If an older version of tibble is present, readxl falls
-#'   back to name repair in the style of tibble v1.4.2.
+#' @param .name_repair Handling of column names. Passed along to
+#'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
+#'   ensures column names are not empty and are unique. If `.name_repair =
+#'   NULL`, we don't pass `.name_repair` along at all, which means you will get
+#'   the default `.name_repair` behaviour from tibble.
 #' @return A [tibble][tibble::tibble-package]
 #' @seealso [cell-specification] for more details on targetting cells with the
 #'   `range` argument
@@ -90,33 +90,31 @@ NULL
 #' # Get a preview of column names
 #' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 #'
-#' if (utils::packageVersion("tibble") > "1.4.2") {
-#'   ## exploit full .name_repair flexibility from tibble
+#' # exploit full .name_repair flexibility from tibble
 #'
-#'   ## "universal" names are unique and syntactic
-#'   read_excel(
-#'     readxl_example("deaths.xlsx"),
-#'     range = "arts!A5:F15",
-#'     .name_repair = "universal"
-#'   )
+#' # "universal" names are unique and syntactic
+#' read_excel(
+#'   readxl_example("deaths.xlsx"),
+#'   range = "arts!A5:F15",
+#'   .name_repair = "universal"
+#' )
 #'
-#'   ## specify name repair as a built-in function
-#'   read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
+#' # specify name repair as a built-in function
+#' read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
 #'
-#'   ## specify name repair as a custom function
-#'   my_custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
-#'   read_excel(
-#'     readxl_example("datasets.xlsx"),
-#'     .name_repair = my_custom_name_repair
-#'   )
+#' # specify name repair as a custom function
+#' my_custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
+#' read_excel(
+#'   readxl_example("datasets.xlsx"),
+#'   .name_repair = my_custom_name_repair
+#' )
 #'
-#'   ## specify name repair as an anonymous function
-#'   read_excel(
-#'     readxl_example("datasets.xlsx"),
-#'     sheet = "chickwts",
-#'     .name_repair = ~ substr(.x, start = 1, stop = 3)
-#'   )
-#' }
+#' # specify name repair as an anonymous function
+#' read_excel(
+#'   readxl_example("datasets.xlsx"),
+#'   sheet = "chickwts",
+#'   .name_repair = ~ substr(.x, start = 1, stop = 3)
+#' )
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
@@ -340,43 +338,9 @@ check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100)
 }
 
 set_readxl_names <- function(l, .name_repair = "unique") {
-  tibble_version <- utils::packageVersion("tibble")
-
-  if (tibble_version > "1.4.2") {
-    if (is.null(.name_repair)) {
-      return(tibble::as_tibble(l))
-    } else {
-      return(tibble::as_tibble(l, .name_repair = .name_repair))
-    }
+  if (is.null(.name_repair)) {
+    tibble::as_tibble(l)
+  } else {
+    tibble::as_tibble(l, .name_repair = .name_repair)
   }
-
-  tibble_message(.name_repair)
-  tibble::repair_names(
-    tibble::as_tibble(l, validate = FALSE),
-    prefix = "X", sep = "__"
-  )
 }
-
-tibble_message <- (function(.name_repair) {
-  first_call <- TRUE
-  function(.name_repair) {
-    if (first_call) {
-      message(
-        "readxl works best with a newer version of the tibble package.\n",
-        "You currently have tibble v",
-        utils::packageVersion("tibble"), ".\n",
-        "Falling back to column name repair from tibble <= v1.4.2.\n",
-        "Message displays once per session."
-      )
-      first_call <<- FALSE
-      return()
-    }
-
-    if (!first_call && !identical(.name_repair, "unique")) {
-      message(
-        "Update the tibble package to use the `.name_repair` argument. ",
-        "Ignoring."
-      )
-    }
-  }
-})()

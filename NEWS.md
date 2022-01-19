@@ -2,6 +2,8 @@
 
 * readxl is now licensed as MIT (#632).
 
+* The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.
+
 ## Dependency changes
 
 readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0).
