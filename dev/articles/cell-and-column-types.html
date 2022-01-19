@@ -43,7 +43,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-3">
+    <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -90,9 +90,6 @@
   </div>
 </nav><div class="container template-article" id="container">
 
-
-
-
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Cell and Column Types</h1>
@@ -115,7 +112,7 @@
 <div class="section level2">
 <h2 id="type-guessing">Type guessing<a class="anchor" aria-label="anchor" href="#type-guessing"></a>
 </h2>
-<p>If you use other packages in the <a href="http://tidyverse.org" class="external-link">tidyverse</a>, you are probably familiar with <a href="http://readr.tidyverse.org" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
+<p>If you use other packages in the <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>, you are probably familiar with <a href="https://readr.tidyverse.org/" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
 <ul>
 <li>readr guesses column type <em>based on the data</em>.</li>
 <li>readxl guesses column type <em>based on Excel cell types</em>.</li>
@@ -347,7 +344,7 @@
 <div class="section level3">
 <h3 id="numeric-column">Numeric column<a class="anchor" aria-label="anchor" href="#numeric-column"></a>
 </h3>
-<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
+<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://docs.microsoft.com/en-US/office/troubleshoot/excel/1900-and-1904-date-system" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"numeric_coercion"</span>,
                  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
@@ -428,7 +425,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
   </div></footer>
