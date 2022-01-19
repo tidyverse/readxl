@@ -43,9 +43,7 @@ NULL
 #'   [readxl_progress()] for more details.
 #' @param .name_repair Handling of column names. Passed along to
 #'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
-#'   ensures column names are not empty and are unique. If `.name_repair =
-#'   NULL`, we don't pass `.name_repair` along at all, which means you will get
-#'   the default `.name_repair` behaviour from tibble.
+#'   ensures column names are not empty and are unique.
 #' @return A [tibble][tibble::tibble-package]
 #' @seealso [cell-specification] for more details on targetting cells with the
 #'   `range` argument

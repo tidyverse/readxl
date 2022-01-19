@@ -102,8 +102,8 @@ and when the call is likely to run for several seconds or more. See
 \code{\link[=readxl_progress]{readxl_progress()}} for more details.}
 
 \item{.name_repair}{Handling of column names. Passed along to
-\code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is \verb{.name_repair = "unique", which ensures column names are not empty and are unique. If }.name_repair =
-NULL\verb{, we don't pass }.name_repair\verb{along at all, which means you will get the default}.name_repair` behaviour from tibble.}
+\code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is `.name_repair = "unique", which
+ensures column names are not empty and are unique.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}
