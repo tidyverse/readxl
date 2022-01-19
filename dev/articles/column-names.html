@@ -43,7 +43,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -90,6 +90,9 @@
   </div>
 </nav><div class="container template-article" id="container">
 
+
+
+
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Column Names</h1>
@@ -131,8 +134,8 @@
 <div class="section level2">
 <h2 id="built-in-levels-of--name_repair">Built-in levels of <code>.name_repair</code><a class="anchor" aria-label="anchor" href="#built-in-levels-of--name_repair"></a>
 </h2>
-<p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired. This requires v2.0.0 or higher of the <a href="https://tibble.tidyverse.org" class="external-link">tibble package</a>, which powers this feature under the hood.</p>
-<p>The <code>.name_repair</code> argument in <code><a href="../reference/read_excel.html">read_excel()</a></code>, <code><a href="../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link"><code>tibble::tibble()</code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link"><code>tibble::as_tibble()</code></a>. Full documentation is in the <a href="https://tibble.tidyverse.org/dev/reference/name-repair.html" class="external-link"><code>?name-repair</code> topic</a> of tibble. The reasoning behind the name repair strategy is laid out in <a href="https://principles.tidyverse.org/names-attribute.html" class="external-link">principles.tidyverse.org</a>.</p>
+<p>As of v1.2.0, readxl provides the <code>.name_repair</code> argument, which affords control over how column names are checked or repaired.</p>
+<p>The <code>.name_repair</code> argument in <code><a href="../reference/read_excel.html">read_excel()</a></code>, <code><a href="../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> works exactly the same way as it does in <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link"><code>tibble::tibble()</code></a> and <a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link"><code>tibble::as_tibble()</code></a>. The reasoning behind the name repair strategy is laid out in <a href="https://principles.tidyverse.org/names-attribute.html" class="external-link">principles.tidyverse.org</a>.</p>
 <p>readxl’s default is <code>.name_repair = "unique"</code>, which ensures each column has a unique name. If that is already true of the column names, readxl won’t touch them.</p>
 <p>The value <code>.name_repair = "universal"</code> goes further and makes column names syntactic, i.e. makes sure they don’t contain any forbidden characters or reserved words. This makes life easier if you use packages like ggplot2 and dplyr downstream, because the column names will “just work” everywhere and won’t require protection via backtick quotes.</p>
 <p>Compare the column names in these two calls. This shows the difference between <code>"unique"</code> (names can contain spaces) and <code>"universal"</code> (spaces replaced by <code>.</code>).</p>
@@ -204,7 +207,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   179 horsebean</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   160 horsebean</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   136 horsebean</span></code></pre></div>
-<p>This means you can also perform name repair in the style of base R or another package, such as <code>janitor::make_clean_names()</code> (<em>requires janitor &gt; v1.1.1</em>).</p>
+<p>This means you can also perform name repair in the style of base R or another package, such as <code>janitor::make_clean_names()</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="va">SOME_SPREADSHEET</span>,
@@ -213,7 +216,7 @@
 
 <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>
   <span class="va">SOME_SPREADSHEET</span>,
-  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu">janitor</span><span class="fu">::</span><span class="va">make_clean_names</span>
+  .name_repair <span class="op">=</span> <span class="fu">janitor</span><span class="fu">::</span><span class="va">make_clean_names</span>
 <span class="op">)</span></code></pre></div>
 <p>What if you have a spreadsheet with lots of missing column names? Here’s how you could fall back to letter-based column names, for easier troubleshooting.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -237,7 +240,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer>
