@@ -3,14 +3,14 @@
 
 # readxl <img src='man/figures/logo.png' align="right" height="139" />
 
-[![Travis-CI Build
-Status](https://travis-ci.org/tidyverse/readxl.svg?branch=master)](https://travis-ci.org/tidyverse/readxl)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/readxl?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/readxl)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg)](https://codecov.io/github/tidyverse/readxl?branch=master)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: start -->
+
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
+[![R-CMD-check](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/readxl?branch=main)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+<!-- badges: end -->
 
 ## Overview
 
@@ -21,10 +21,10 @@ install and use on all operating systems. It is designed to work with
 *tabular* data.
 
 readxl supports both the legacy `.xls` format and the modern xml-based
-`.xlsx` format. The [libxls](https://github.com/evanmiller/libxls) C
-library is used to support `.xls`, which abstracts away many of the
-complexities of the underlying binary format. To parse `.xlsx`, we use
-the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+`.xlsx` format. The [libxls](https://github.com/libxls/libxls) C library
+is used to support `.xls`, which abstracts away many of the complexities
+of the underlying binary format. To parse `.xlsx`, we use the
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
@@ -51,6 +51,14 @@ Or install the development version from GitHub:
 devtools::install_github("tidyverse/readxl")
 ```
 
+## Cheatsheet
+
+You can see how to read data with readxl in the **data import
+cheatsheet**, which also covers similar functionality in the related
+packages readr and googlesheets4.
+
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
+
 ## Usage
 
 ``` r
@@ -76,7 +84,7 @@ the extension.
 ``` r
 xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
@@ -86,7 +94,7 @@ read_excel(xlsx_example)
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
@@ -106,7 +114,7 @@ Specify a worksheet by name or number.
 
 ``` r
 read_excel(xlsx_example, sheet = "chickwts")
-#> # A tibble: 71 x 2
+#> # A tibble: 71 × 2
 #>   weight feed     
 #>    <dbl> <chr>    
 #> 1    179 horsebean
@@ -114,7 +122,7 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 3    136 horsebean
 #> # … with 68 more rows
 read_excel(xls_example, sheet = 4)
-#> # A tibble: 1,000 x 5
+#> # A tibble: 1,000 × 5
 #>     lat  long depth   mag stations
 #>   <dbl> <dbl> <dbl> <dbl>    <dbl>
 #> 1 -20.4  182.   562   4.8       41
@@ -128,28 +136,28 @@ specify the sheet here, if providing an Excel-style cell range.
 
 ``` r
 read_excel(xlsx_example, n_max = 3)
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa
 read_excel(xlsx_example, range = "C1:E4")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   Petal.Length Petal.Width Species
 #>          <dbl>       <dbl> <chr>  
 #> 1          1.4         0.2 setosa 
 #> 2          1.4         0.2 setosa 
 #> 3          1.3         0.2 setosa
 read_excel(xlsx_example, range = cell_rows(1:4))
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 setosa 
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa
 read_excel(xlsx_example, range = cell_cols("B:D"))
-#> # A tibble: 150 x 3
+#> # A tibble: 150 × 3
 #>   Sepal.Width Petal.Length Petal.Width
 #>         <dbl>        <dbl>       <dbl>
 #> 1         3.5          1.4         0.2
@@ -157,7 +165,7 @@ read_excel(xlsx_example, range = cell_cols("B:D"))
 #> 3         3.2          1.3         0.2
 #> # … with 147 more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
-#> # A tibble: 4 x 3
+#> # A tibble: 4 × 3
 #>     cyl  disp    hp
 #>   <dbl> <dbl> <dbl>
 #> 1     6   160   110
@@ -171,7 +179,7 @@ If `NA`s are represented by something other than blank cells, set the
 
 ``` r
 read_excel(xlsx_example, na = "setosa")
-#> # A tibble: 150 x 5
+#> # A tibble: 150 × 5
 #>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
 #> 1          5.1         3.5          1.4         0.2 <NA>   
@@ -182,50 +190,50 @@ read_excel(xlsx_example, na = "setosa")
 
 If you are new to the tidyverse conventions for data import, you may
 want to consult the [data import
-chapter](http://r4ds.had.co.nz/data-import.html) in R for Data Science.
+chapter](https://r4ds.had.co.nz/data-import.html) in R for Data Science.
 readxl will become increasingly consistent with other packages, such as
-[readr](http://readr.tidyverse.org).
+[readr](https://readr.tidyverse.org/).
 
 ## Articles
 
 Broad topics are explained in [these
 articles](https://readxl.tidyverse.org/articles/index.html):
 
-  - [Cell and Column
+-   [Cell and Column
     Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
-  - [Sheet
+-   [Sheet
     Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html):
     how to specify which cells to read
-  - [readxl
+-   [readxl
     Workflows](https://readxl.tidyverse.org/articles/articles/readxl-workflows.html):
     Iterating over multiple tabs or worksheets, stashing a csv snapshot
 
 We also have some focused articles that address specific aggravations
 presented by the world’s spreadsheets:
 
-  - [Column
+-   [Column
     Names](https://readxl.tidyverse.org/articles/articles/column-names.html)
-  - [Multiple Header
+-   [Multiple Header
     Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
 
 ## Features
 
-  - No external dependency on, e.g., Java or Perl.
+-   No external dependency on, e.g., Java or Perl.
 
-  - Re-encodes non-ASCII characters to UTF-8.
+-   Re-encodes non-ASCII characters to UTF-8.
 
-  - Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
+-   Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
     (1904) date specifications are processed correctly.
 
-  - Discovers the minimal data rectangle and returns that, by default.
+-   Discovers the minimal data rectangle and returns that, by default.
     User can exert more control with `range`, `skip`, and `n_max`.
 
-  - Column names and types are determined from the data in the sheet, by
+-   Column names and types are determined from the data in the sheet, by
     default. User can also supply via `col_names` and `col_types` and
     control name repair via `.name_repair`.
 
-  - Returns a
-    [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a
+-   Returns a
+    [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a
     data frame with an additional `tbl_df` class. Among other things,
     this provide nicer printing.
 
@@ -238,8 +246,7 @@ readxl and that also avoid a Java dependency.
 `datasets.xls` were created with the help of
 [openxlsx](https://CRAN.R-project.org/package=openxlsx) (and Excel).
 openxlsx provides “a high level interface to writing, styling and
-editing
-worksheets”.
+editing worksheets”.
 
 ``` r
 l <- list(iris = iris, mtcars = mtcars, chickwts = chickwts, quakes = quakes)
