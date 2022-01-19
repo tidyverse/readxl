@@ -8,8 +8,8 @@
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
 [![R-CMD-check](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=main)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/readxl?branch=main)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 ## Overview
@@ -21,7 +21,7 @@ install and use on all operating systems. It is designed to work with
 *tabular* data.
 
 readxl supports both the legacy `.xls` format and the modern xml-based
-`.xlsx` format. The [libxls](https://github.com/evanmiller/libxls) C
+`.xlsx` format. The [libxls](https://github.com/libxls/libxls) C
 library is used to support `.xls`, which abstracts away many of the
 complexities of the underlying binary format. To parse `.xlsx`, we use
 the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
@@ -190,9 +190,9 @@ read_excel(xlsx_example, na = "setosa")
 
 If you are new to the tidyverse conventions for data import, you may
 want to consult the [data import
-chapter](http://r4ds.had.co.nz/data-import.html) in R for Data Science.
+chapter](https://r4ds.had.co.nz/data-import.html) in R for Data Science.
 readxl will become increasingly consistent with other packages, such as
-[readr](http://readr.tidyverse.org).
+[readr](https://readr.tidyverse.org/).
 
 ## Articles
 
@@ -233,7 +233,7 @@ presented by the world’s spreadsheets:
     control name repair via `.name_repair`.
 
 -   Returns a
-    [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a
+    [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a
     data frame with an additional `tbl_df` class. Among other things,
     this provide nicer printing.
 

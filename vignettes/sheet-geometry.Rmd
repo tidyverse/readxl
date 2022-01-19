@@ -19,7 +19,7 @@ options(tibble.print_min = 4, tibble.print_max = 4)
 library(readxl)
 ```
 
-`readxl::read_excel()` brings data from a rectangle of cells into R as a data frame or, more specifically, a [tibble](http://tibble.tidyverse.org/reference/tibble.html).
+`readxl::read_excel()` brings data from a rectangle of cells into R as a data frame or, more specifically, a [tibble](https://tibble.tidyverse.org/reference/tibble.html).
 
 The extent of the data rectangle can be determined in various ways:
 

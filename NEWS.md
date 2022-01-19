@@ -31,7 +31,7 @@ readxl embeds libxls v1.5.0. This is the first *official* release of libxls in s
 
 ## Column name repair
 
-readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of the tibble package](https://www.tidyverse.org/articles/2018/11/tibble-2.0.0-pre-announce/). The readxl default is `.name_repair = "unique"`, keeping with the readxl convention to ensure column names are neither missing nor duplicated.
+readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of the tibble package](https://www.tidyverse.org/blog/2018/11/tibble-2.0.0-pre-announce/). The readxl default is `.name_repair = "unique"`, keeping with the readxl convention to ensure column names are neither missing nor duplicated.
 
 * [Column Names](https://readxl.tidyverse.org/articles/articles/column-names.html) is a new article about this feature.
 * readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.
@@ -58,7 +58,7 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
 
 readxl is now tested back to R >= 3.1.
 
-Embedded libxls has been updated, using the source in <https://github.com/evanmiller/libxls>. readxl's DESCRIPTION now records the SHA associated to the embedded libxls in a `Note`.
+Embedded libxls has been updated, using the source in <https://github.com/libxls/libxls>. readxl's DESCRIPTION now records the SHA associated to the embedded libxls in a `Note`.
 
 # readxl 1.1.0
 
@@ -70,8 +70,8 @@ Embedded libxls has been updated, using the source in <https://github.com/evanmi
 
 * Embedded libxls has been updated to address security vulnerabilitities identified in late 2017 (#441, #442).
 
-  - [CVE-2017-12110](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0462), [CVE-2017-2896](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0403), and [CVE-2017-2897](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0404) were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.
-  - Although [CVE-2017-12111](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0463) and [CVE-2017-2919](https://www.talosintelligence.com/vulnerability_reports/TALOS-2017-0426) mention readxl, the notices clarify that these CVEs do not actually affect readxl. Both have been fixed in libxls for quite a while: CVE-2017-12111 since 2014 and CVE-2017-2919 since 2012.
+  - [CVE-2017-12110](https://talosintelligence.com/vulnerability_reports/TALOS-2017-0462), [CVE-2017-2896](https://talosintelligence.com/vulnerability_reports/TALOS-2017-0403), and [CVE-2017-2897](https://talosintelligence.com/vulnerability_reports/TALOS-2017-0404) were demonstrated to affect readxl v1.0.0. These have been addressed in libxls and the embedded version of libxls incorporates those fixes.
+  - Although [CVE-2017-12111](https://talosintelligence.com/vulnerability_reports/TALOS-2017-0463) and [CVE-2017-2919](https://talosintelligence.com/vulnerability_reports/TALOS-2017-0426) mention readxl, the notices clarify that these CVEs do not actually affect readxl. Both have been fixed in libxls for quite a while: CVE-2017-12111 since 2014 and CVE-2017-2919 since 2012.
 
 * xlsx structured as a "minimal conformant SpreadsheetML package" can be read. Most obvious feature of such sheets is the lack of an `xl/` directory in the unzipped form. (xlsx, #435, #437)
 
@@ -145,7 +145,7 @@ Many 3rd party tools write xls and xlsx that comply with the spec, but that are 
 
   * More robust logic for sheet lookup in xlsx. Improves compatibility with xlsx written by a variety of tools and/or xlsx containing chartsheets. (#233, #104, #200, #168, #116, @jimhester and @jennybc)
 
-  * The `numFmtId` attribute is no longer accessed when it does not exist (xlsx written by <http://epplus.codeplex.com>). (#191, #229)
+  * The `numFmtId` attribute is no longer accessed when it does not exist (xlsx written by <https://www.epplussoftware.com>). (#191, #229)
 
   * Location is inferred for cells that do not declare their location (xlsx written by JMP). (#240, #163, #102)
 
@@ -153,7 +153,7 @@ Many 3rd party tools write xls and xlsx that comply with the spec, but that are 
 
 * `read_xls()` and `read_xlsx()` are now exposed, such that files without an `.xls` or `.xlsx` extension can be read. (#85, @jirkalewandowski)
 
-* The [Lotus 1-2-3 leap year bug](https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year) is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)
+* The [Lotus 1-2-3 leap year bug](https://docs.microsoft.com/en-US/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year) is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)
 
 * The tibble package is now imported (#175, @krlmlr) and `tibble::repair_names()` is used to prevent empty, `NA`, or duplicated column names. (#216, #208, #199 #182, #53, #247).
 
