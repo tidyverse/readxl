@@ -22,11 +22,9 @@ news:
   - text: "Version 1.1.0"
     href: https://www.tidyverse.org/articles/2018/04/readxl-1-1-0/
   - text: "Version 1.0.0"
-    href: articles/releases/readxl-1.0.0.html
-  - text: "Version 0.1.1"
-    href: articles/releases/readxl-0.1.1.html
+    href: https://www.rstudio.com/blog/readxl-1-0-0/
   - text: "Version 0.1.0"
-    href: articles/releases/readxl-0.1.0.html
+    href: https://www.rstudio.com/blog/readxl-0-1-0/
 
 reference:
   - title: "Read spreadsheets"
