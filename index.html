@@ -101,12 +101,13 @@
 <img src="logo.png" class="logo" alt=""><h1 id="readxl-">readxl <a class="anchor" aria-label="anchor" href="#readxl-"></a>
 </h1>
 </div>
+<!-- badges: start -->
 
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data.</p>
-<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/evanmiller/libxls" class="external-link">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net" class="external-link">RapidXML</a> C++ library.</p>
+<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/libxls/libxls" class="external-link">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net" class="external-link">RapidXML</a> C++ library.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -122,6 +123,12 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tidyverse/readxl"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="cheatsheet">Cheatsheet<a class="anchor" aria-label="anchor" href="#cheatsheet"></a>
+</h2>
+<p>You can see how to read data with readxl in the <strong>data import cheatsheet</strong>, which also covers similar functionality in the related packages readr and googlesheets4.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf" class="external-link"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"></a></p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -140,7 +147,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xlsx_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 150 x 5</span>
+<span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span>
@@ -150,7 +157,7 @@
 
 <span class="va">xls_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xls"</span><span class="op">)</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 150 x 5</span>
+<span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span>
@@ -164,7 +171,7 @@
 <p>Specify a worksheet by name or number.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, sheet <span class="op">=</span> <span class="st">"chickwts"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 71 x 2</span>
+<span class="co">#&gt; # A tibble: 71 × 2</span>
 <span class="co">#&gt;   weight feed     </span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;    </span>
 <span class="co">#&gt; 1    179 horsebean</span>
@@ -172,7 +179,7 @@
 <span class="co">#&gt; 3    136 horsebean</span>
 <span class="co">#&gt; # … with 68 more rows</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span>, sheet <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,000 x 5</span>
+<span class="co">#&gt; # A tibble: 1,000 × 5</span>
 <span class="co">#&gt;     lat  long depth   mag stations</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span>
@@ -182,28 +189,28 @@
 <p>There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, n_max <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 5</span>
+<span class="co">#&gt; # A tibble: 3 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span>
 <span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="st">"C1:E4"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          1.4         0.2 setosa </span>
 <span class="co">#&gt; 2          1.4         0.2 setosa </span>
 <span class="co">#&gt; 3          1.3         0.2 setosa</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="fu"><a href="reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 5</span>
+<span class="co">#&gt; # A tibble: 3 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span>
 <span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="fu"><a href="reference/cell-specification.html">cell_cols</a></span><span class="op">(</span><span class="st">"B:D"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 150 x 3</span>
+<span class="co">#&gt; # A tibble: 150 × 3</span>
 <span class="co">#&gt;   Sepal.Width Petal.Length Petal.Width</span>
 <span class="co">#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         3.5          1.4         0.2</span>
@@ -211,7 +218,7 @@
 <span class="co">#&gt; 3         3.2          1.3         0.2</span>
 <span class="co">#&gt; # … with 147 more rows</span>
 <span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="st">"mtcars!B1:D5"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt; # A tibble: 4 × 3</span>
 <span class="co">#&gt;     cyl  disp    hp</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     6   160   110</span>
@@ -221,14 +228,14 @@
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, na <span class="op">=</span> <span class="st">"setosa"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 150 x 5</span>
+<span class="co">#&gt; # A tibble: 150 × 5</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1          5.1         3.5          1.4         0.2 &lt;NA&gt;   </span>
 <span class="co">#&gt; 2          4.9         3            1.4         0.2 &lt;NA&gt;   </span>
 <span class="co">#&gt; 3          4.7         3.2          1.3         0.2 &lt;NA&gt;   </span>
 <span class="co">#&gt; # … with 147 more rows</span></code></pre></div>
-<p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="http://r4ds.had.co.nz/data-import.html" class="external-link">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="http://readr.tidyverse.org" class="external-link">readr</a>.</p>
+<p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="https://r4ds.had.co.nz/data-import.html" class="external-link">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="https://readr.tidyverse.org/" class="external-link">readr</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="articles">Articles<a class="anchor" aria-label="anchor" href="#articles"></a>
@@ -261,7 +268,7 @@
 </li>
 <li><p>Discovers the minimal data rectangle and returns that, by default. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
 <li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code> and control name repair via <code>.name_repair</code>.</p></li>
-<li><p>Returns a <a href="http://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
+<li><p>Returns a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -325,11 +332,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/tidyverse/readxl" class="external-link"><img src="https://travis-ci.org/tidyverse/readxl.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/tidyverse/readxl" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/github/tidyverse/readxl?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
-<li><a href="https://codecov.io/github/tidyverse/readxl?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=readxl" class="external-link"><img src="https://www.r-pkg.org/badges/version/readxl" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
+<li><a href="https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/tidyverse/readxl?branch=main" class="external-link"><img src="https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
 </ul>
 </div>
 
