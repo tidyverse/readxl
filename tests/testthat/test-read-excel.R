@@ -121,4 +121,4 @@ test_that("styles and sharedStrings parts can be absent", {
   )
   expect_identical(df$Language[1], "german")
   expect_true(all(df$Age > 0))
- })
+})

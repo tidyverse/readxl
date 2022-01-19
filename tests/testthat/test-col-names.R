@@ -119,9 +119,9 @@ test_that(".name_repair is passed through to tibble", {
 
   ## default is "unique"
   nms <- if (tibble_version > "2.0.1") {
-    c("a b...1", "a b...2","...3", "c%&$")
+    c("a b...1", "a b...2", "...3", "c%&$")
   } else {
-    c("a b..1", "a b..2","..3", "c%&$")
+    c("a b..1", "a b..2", "..3", "c%&$")
   }
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"))
   expect_colnames(xlsx, nms)
@@ -130,9 +130,9 @@ test_that(".name_repair is passed through to tibble", {
 
   ## "universal" names are available
   nms <- if (tibble_version > "2.0.1") {
-    c("a.b...1", "a.b...2","...3", "c...")
+    c("a.b...1", "a.b...2", "...3", "c...")
   } else {
-    c("a.b..1", "a.b..2","...3", "c...")
+    c("a.b..1", "a.b..2", "...3", "c...")
   }
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal")
   expect_colnames(xlsx, nms)
@@ -140,7 +140,7 @@ test_that(".name_repair is passed through to tibble", {
   expect_colnames(xls, nms)
 
   ## "minimal" names are available
-  nms <- c("", "var2","", "var2")
+  nms <- c("", "var2", "", "var2")
   xlsx <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"), .name_repair = "minimal")
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("unnamed-duplicated-columns.xls"), .name_repair = "minimal")
@@ -164,12 +164,14 @@ test_that(".name_repair is passed through to tibble", {
   ## specify name repair as an anonymous function
   nms <- c("wei", "fee")
   xlsx <- read_excel(
-    readxl_example("datasets.xlsx"), sheet = "chickwts",
+    readxl_example("datasets.xlsx"),
+    sheet = "chickwts",
     .name_repair = ~ substr(.x, start = 1, stop = 3)
   )
   expect_colnames(xlsx, nms)
   xls <- read_excel(
-    readxl_example("datasets.xls"), sheet = "chickwts",
+    readxl_example("datasets.xls"),
+    sheet = "chickwts",
     .name_repair = ~ substr(.x, start = 1, stop = 3)
   )
   expect_colnames(xls, nms)
@@ -183,7 +185,7 @@ test_that("use of .name_repair is caught and handled with old tibble", {
     expect_identical(colnames(df), expected)
   }
 
-  nms <- c("a b", "a b__1","X__1", "c%&$")
+  nms <- c("a b", "a b__1", "X__1", "c%&$")
   expect_message(
     xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal"),
     "Ignoring"

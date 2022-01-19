@@ -34,7 +34,8 @@ test_that("we can finally read Ekaterinburg", {
 ## We have a small patch now in libxls for that.
 test_that("we can read the BIFF5, LABEL record sheet", {
   df <- read_excel(
-    test_sheet("biff5-label-records.xls"), skip = 2,
+    test_sheet("biff5-label-records.xls"),
+    skip = 2,
     na = c("", "--")
   )
   expect_identical(dim(df), c(14L, 4L))
