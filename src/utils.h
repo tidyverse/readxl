@@ -157,7 +157,7 @@ inline std::string trim(const std::string& s) {
 }
 
 inline std::string dirName(const std::string& path) {
-  std::size_t found = path.find_last_of("/");
+  std::size_t found = path.find_last_of('/');
   if (found == std::string::npos) {
     return "";
   }
@@ -165,7 +165,7 @@ inline std::string dirName(const std::string& path) {
 }
 
 inline std::string baseName(const std::string& path) {
-  std::size_t found = path.find_last_of("/");
+  std::size_t found = path.find_last_of('/');
   if (found == std::string::npos) {
     return path;
   }
@@ -173,7 +173,7 @@ inline std::string baseName(const std::string& path) {
 }
 
 inline std::string removeLeadingSlashes(const std::string& s) {
-  size_t start = s.find_first_not_of("/");
+  size_t start = s.find_first_not_of('/');
   if (start == std::string::npos) {
     return "";
   }
