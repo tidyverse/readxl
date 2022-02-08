@@ -43,7 +43,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -89,6 +89,9 @@
   </div>
 </nav><div class="container template-article" id="container">
 
+
+
+
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Cell and Column Types</h1>
@@ -129,7 +132,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Carrie Fisher actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Chuck Berry   musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bill Paxton   actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows, and 1 more variable: Date of death &lt;dttm&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows, and 1 more variable: `Date of death` &lt;dttm&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="excel-types-r-types-col_types">Excel types, R types, <code>col_types</code><a class="anchor" aria-label="anchor" href="#excel-types-r-types-col_types"></a>
@@ -266,26 +269,26 @@
 <span class="co">#&gt; * `` -&gt; ...6</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 6</span></span>
-<span class="co">#&gt;    `Lots of people`             ...2        ...3   ...4   ...5    ...6    </span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> simply cannot resist writing <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      some no…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> at                           the         top    <span style="color: #BB0000;">NA</span>     of      their s…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> or                           merging     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      cells   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Name                         Profession  Age    Has k… Date o… Date of…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> David Bowie                  musician    69     TRUE   17175   42379   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Carrie Fisher                actor       60     TRUE   20749   42731   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Chuck Berry                  musician    90     TRUE   9788    42812   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Bill Paxton                  actor       61     TRUE   20226   42791   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Prince                       musician    57     TRUE   21343   42481   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alan Rickman                 actor       69     FALSE  16854   42383   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Florence Henderson           actor       82     TRUE   12464   42698   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Harper Lee                   author      89     FALSE  9615    42419   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Zsa Zsa Gábor                actor       99     TRUE   6247    42722   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> George Michael               musician    53     FALSE  23187   42729   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Some                         <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #BB0000;">NA</span>                           also like … <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>          at the botto… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      too!</span></code></pre></div>
+<span class="co">#&gt;    `Lots of people`             ...2               ...3  ...4  ...5  ...6 </span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> simply cannot resist writing <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    some…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> at                           the                top   <span style="color: #BB0000;">NA</span>    of    thei…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> or                           merging            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    cells</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Name                         Profession         Age   Has … Date… Date…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> David Bowie                  musician           69    TRUE  17175 42379</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Carrie Fisher                actor              60    TRUE  20749 42731</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Chuck Berry                  musician           90    TRUE  9788  42812</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Bill Paxton                  actor              61    TRUE  20226 42791</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Prince                       musician           57    TRUE  21343 42481</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alan Rickman                 actor              69    FALSE 16854 42383</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Florence Henderson           actor              82    TRUE  12464 42698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Harper Lee                   author             89    FALSE 9615  42419</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Zsa Zsa Gábor                actor              99    TRUE  6247  42722</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> George Michael               musician           53    FALSE 23187 42729</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Some                         <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #BB0000;">NA</span>                           also like to writ… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 at t… bott… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    too!</span></code></pre></div>
 <p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div class="section level3">
@@ -424,7 +427,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer>
