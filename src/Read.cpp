@@ -1,5 +1,7 @@
 #include "WingAndPrayer.hpp"
 
+#include "cpp11/as.hpp"
+#include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
 
 #include <string>
@@ -10,6 +12,7 @@ cpp11::strings read_this_(
     int sheet_i,
     cpp11::integers limits,
     bool shim,
+    cpp11::sexp col_names,
     std::vector<std::string> na,
     bool trim_ws,
     bool progress) {
@@ -25,7 +28,18 @@ cpp11::strings read_this_(
 
   // Get column names -------------------------------------------------
   cpp11::writable::strings colNames;
-  colNames = ws.colNames(na, trim_ws);
+  bool has_col_names = false;
+  switch(TYPEOF(col_names)) {
+  case STRSXP:
+    colNames = cpp11::writable::strings(static_cast<SEXP>(col_names));
+    break;
+  case LGLSXP:
+    has_col_names = cpp11::as_cpp<bool>(col_names);
+    colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
+    break;
+  default:
+    cpp11::stop("`col_names` must be a logical or character vector");
+  }
   return colNames;
 }
 
@@ -35,10 +49,11 @@ cpp11::strings read_this_xls_(
     int sheet_i,
     cpp11::integers limits,
     bool shim,
+    cpp11::sexp col_names,
     std::vector<std::string> na,
     bool trim_ws,
     bool progress) {
-  return read_this_<Xls>(path, sheet_i, limits, shim, na, trim_ws, progress);
+  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, na, trim_ws, progress);
 }
 
 [[cpp11::register]]
@@ -47,8 +62,9 @@ cpp11::strings read_this_xlsx_(
     int sheet_i,
     cpp11::integers limits,
     bool shim,
+    cpp11::sexp col_names,
     std::vector<std::string> na,
     bool trim_ws,
     bool progress) {
-  return read_this_<Xlsx>(path, sheet_i, limits, shim, na, trim_ws, progress);
+  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, na, trim_ws, progress);
 }
