@@ -16,8 +16,6 @@
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
-const int PROGRESS_TICK = 131072; // 2^17
-
 class XlsWorkSheet {
   // the host workbook
   XlsWorkBook wb_;

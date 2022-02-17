@@ -3,6 +3,8 @@
 
 #include <RProgress.h>
 
+const int PROGRESS_TICK = 131072; // 2^17
+
 class Spinner {
   bool progress_;
   RProgress::RProgress pb_;

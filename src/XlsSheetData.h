@@ -15,8 +15,6 @@
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
-const int PROGRESS_TICK = 131072; // 2^17
-
 class XlsSheetData {
   // xls specifics
   xls::xlsWorkBook* pWB_;

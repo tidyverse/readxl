@@ -1,30 +1,12 @@
 #include "XlsWorkBook.h"
 #include "XlsxWorkBook.h"
 #include "XlsSheetData.h"
+#include "XlsxSheetData.h"
 
 #include "cpp11/R.hpp"
 
 #include <string>
 #include <vector>
-
-class XlsxSheetData {
-
-  std::string sheetName_;
-  int ncol_, nrow_;
-
-public:
-  XlsxSheetData(const XlsxWorkBook wb, int sheet_i,
-                cpp11::integers limits, bool shim, bool progress)
-    : sheetName_("xlsx sheet name"), ncol_(1), nrow_(2)
-  {
-    Rprintf("XlsxSheetData() constructor\n");
-  }
-
-  int ncol() const { return ncol_; }
-  int nrow() const { return nrow_; }
-  std::string sheetName() const {return sheetName_; }
-
-};
 
 //class XlsCell {};
 //class XlsxCell {};
