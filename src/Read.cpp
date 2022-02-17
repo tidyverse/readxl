@@ -1,5 +1,7 @@
 #include "WingAndPrayer.hpp"
 
+#include "ColSpec.h"
+
 #include "cpp11/as.hpp"
 #include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
@@ -13,9 +15,11 @@ cpp11::strings read_this_(
     cpp11::integers limits,
     bool shim,
     cpp11::sexp col_names,
+    cpp11::strings col_types,
     std::vector<std::string> na,
     bool trim_ws,
-    bool progress) {
+    int guess_max = 1000,
+    bool progress = true) {
   // Construct worksheet ----------------------------------------------
   Sheet<T> ws(path, sheet_i, limits, shim, progress);
 
@@ -40,7 +44,24 @@ cpp11::strings read_this_(
   default:
     cpp11::stop("`col_names` must be a logical or character vector");
   }
-  return colNames;
+
+  // Get column types --------------------------------------------------
+  if (TYPEOF(col_types) != STRSXP) {
+    cpp11::stop("`col_types` must be a character vector");
+  }
+  std::vector<ColType> colTypes = colTypeStrings(col_types);
+  colTypes = recycleTypes(colTypes, ws.ncol());
+  if ((int) colTypes.size() != ws.ncol()) {
+    cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+                sheet_i + 1, ws.ncol(), colTypes.size());
+  }
+  if (requiresGuess(colTypes)) {
+    colTypes = ws.colTypes(colTypes, na, trim_ws, guess_max, has_col_names);
+  }
+  colTypes = finalizeTypes(colTypes);
+
+  //return colNames;
+  return colTypeDescs(colTypes);
 }
 
 [[cpp11::register]]
@@ -50,10 +71,12 @@ cpp11::strings read_this_xls_(
     cpp11::integers limits,
     bool shim,
     cpp11::sexp col_names,
+    cpp11::strings col_types,
     std::vector<std::string> na,
     bool trim_ws,
-    bool progress) {
-  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, na, trim_ws, progress);
+    int guess_max = 1000,
+    bool progress = true) {
+  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
 }
 
 [[cpp11::register]]
@@ -63,8 +86,10 @@ cpp11::strings read_this_xlsx_(
     cpp11::integers limits,
     bool shim,
     cpp11::sexp col_names,
+    cpp11::strings col_types,
     std::vector<std::string> na,
     bool trim_ws,
-    bool progress) {
-  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, na, trim_ws, progress);
+    int guess_max = 1000,
+    bool progress = true) {
+  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
 }

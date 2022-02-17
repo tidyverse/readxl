@@ -1,3 +1,5 @@
+#include "CellLimits.h"
+#include "ColSpec.h"
 #include "XlsWorkBook.h"
 #include "XlsxWorkBook.h"
 #include "XlsSheetData.h"
@@ -8,6 +10,7 @@
 #include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -53,6 +56,55 @@ public:
       xcell++;
     }
     return out;
+  }
+
+  std::vector<ColType> colTypes(std::vector<ColType> types,
+                                const StringSet &na,
+                                const bool trimWs,
+                                int guess_max = 1000,
+                                bool has_col_names = false) {
+    if (guess_max == 0) {
+      return types;
+    }
+
+    typename std::vector<typename T::Cell>::iterator xcell;
+    xcell = has_col_names ? advance_row(sd_.cells_) : sd_.cells_.begin();
+
+    // no cell data to consult re: types
+    if (xcell == sd_.cells_.end()) {
+      std::fill(types.begin(), types.end(), COL_BLANK);
+      return types;
+    }
+
+    std::vector<bool> type_known(types.size());
+    for (size_t j = 0; j < types.size(); j++) {
+      type_known[j] = types[j] != COL_UNKNOWN;
+    }
+
+    // count is for spinner and checking for interrupt
+    int count = 0;
+    // base is row the data starts on **in the spreadsheet**
+    int base = sd_.cells_.begin()->row() + has_col_names;
+    while (xcell != sd_.cells_.end() && xcell->row() - base < guess_max) {
+      count++;
+      if (count % PROGRESS_TICK == 0) {
+        //spinner_.spin();
+        cpp11::check_user_interrupt();
+      }
+      int j = xcell->col() - sd_.startCol();
+      if (type_known[j] || types[j] == COL_TEXT) {
+        xcell++;
+        continue;
+      }
+      xcell->inferType(na, trimWs, wb_.dateFormats(), wb_.stringTable());
+      ColType type = as_ColType(xcell->type());
+      if (type > types[j]) {
+        types[j] = type;
+      }
+      xcell++;
+    }
+
+    return types;
   }
 
   int ncol() const { return sd_.ncol(); }
