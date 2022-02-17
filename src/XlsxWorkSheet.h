@@ -74,13 +74,20 @@ public:
     }
     dateFormats_ = wb.dateFormats();
 
-    // nominal_ holds user's geometry request
+    // shim = TRUE when user specifies geometry via `range`
+    // shim = FALSE when user specifies no geometry or uses `skip` and `n_max`
+    // nominal_ holds user's geometry request, where -1 means "unspecified"
     loadCells(shim);
     // nominal_ may have been shifted (case of implicit skipping and n_max)
     // actual_ reports populated cells inside the nominal_ rectangle
 
-    // insert shims and update actual_
-    if (shim) insertShims();
+    // When shim = FALSE, we shrink-wrap the data that falls inside
+    // the nominal_ rectangle.
+    //
+    // When shim = TRUE, we may need to insert dummy cells to fill out
+    // the nominal_rectangle.
+    // actual_ is updated to reflect the insertions.
+    if (shim) insertShims(cells_, nominal_, actual_);
 
     nrow_ = (actual_.minRow() < 0) ? 0 : actual_.maxRow() - actual_.minRow() + 1;
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
@@ -397,78 +404,6 @@ private:
       }
       i++;
     }
-  }
-
-  // shim = TRUE when user specifies geometry via `range`
-  // shim = FALSE when user specifies no geometry or uses `skip` and `n_max`
-  //
-  // nominal_ reflects user's geometry request
-  // actual_ reports populated cells inside the nominal_ rectangle
-  //
-  // When shim = FALSE, we shrink-wrap the data that falls inside
-  // the nominal_ rectangle.
-  //
-  // When shim = TRUE, we may need to insert dummy cells to fill out
-  // the nominal_rectangle.
-  //
-  // actual_ is updated to reflect the insertions
-  void insertShims() {
-
-    // no cells were loaded
-    if (cells_.empty()) {
-      return;
-    }
-
-    // Recall cell limits are -1 by convention if the limit is unspecified.
-    // funny_*() functions account for that.
-
-    // if nominal min row or col is less than actual,
-    // add a shim cell to the front of cells_
-    bool   shim_up = funny_lt(nominal_.minRow(), actual_.minRow());
-    bool shim_left = funny_lt(nominal_.minCol(), actual_.minCol());
-    if (shim_up || shim_left) {
-      int ul_row = funny_min(nominal_.minRow(), actual_.minRow());
-      int ul_col = funny_min(nominal_.minCol(), actual_.minCol());
-      XlsxCell ul_shim(std::make_pair(ul_row, ul_col));
-      cells_.insert(cells_.begin(), ul_shim);
-      actual_.update(ul_row, ul_col);
-    }
-
-    // if nominal max row or col is greater than actual,
-    // add a shim cell to the back of cells_
-    bool  shim_down = funny_gt(nominal_.maxRow(), actual_.maxRow());
-    bool shim_right = funny_gt(nominal_.maxCol(), actual_.maxCol());
-    if (shim_down || shim_right) {
-      int lr_row = funny_max(nominal_.maxRow(), actual_.maxRow());
-      int lr_col = funny_max(nominal_.maxCol(), actual_.maxCol());
-      XlsxCell lr_shim(std::make_pair(lr_row, lr_col));
-      cells_.push_back(lr_shim);
-      actual_.update(lr_row, lr_col);
-    }
-  }
-
-  bool funny_lt(const int funny, const int val) {
-    return (funny >= 0) && (funny < val);
-  }
-
-  bool funny_gt(const int funny, const int val) {
-    return (funny >= 0) && (funny > val);
-  }
-
-  int funny_min(const int funny, const int val) {
-    return funny_lt(funny, val) ? funny : val;
-  }
-
-  int funny_max(const int funny, const int val) {
-    return funny_gt(funny, val) ? funny : val;
-  }
-
-  std::vector<XlsxCell>::iterator advance_row(std::vector<XlsxCell>& x) {
-    std::vector<XlsxCell>::iterator it = x.begin();
-    while (it != x.end() && it->row() == x.begin()->row()) {
-      ++it;
-    }
-    return(it);
   }
 
 };
