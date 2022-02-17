@@ -55,21 +55,10 @@ public:
     return out;
   }
 
-  void commonMethod() {
-    Rprintf("I'm the common Sheet method!\n");
-    Rprintf("Path to this Sheet's Book: %s\n", wb_.path().c_str());
-  }
   int ncol() const { return sd_.ncol(); }
   int nrow() const { return sd_.nrow(); }
 
 private:
   typename T::Book wb_;
   typename T::SheetData sd_;
-  //std::vector<typename T::Cell> cells_;
 };
-
-template <>
-void Sheet<Xlsx>::commonMethod() {
-  Rprintf("I'm doing something special for xlsx Sheets!\n");
-  Rprintf("Path to xlsx: %s\n", wb_.path().c_str());
-}

@@ -27,8 +27,6 @@ cpp11::strings read_this_(
   cpp11::writable::strings colNames;
   colNames = ws.colNames(na, trim_ws);
   return colNames;
-
-  //ws.commonMethod();
 }
 
 [[cpp11::register]]
