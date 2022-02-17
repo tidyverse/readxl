@@ -35,10 +35,34 @@ private:
 
 };
 
-class XlsSheet {
+class XlsSheetData {
+
+public:
+  XlsSheetData(const XlsBook& wb, int sheet_i)
+    : pos_(sheet_i)
+  {
+    Rprintf("XlsSheetData() constructor\n");
+  }
+
+  int pos() const { return pos_; }
+
+private:
+  int pos_;
 };
 
-class XlsxSheet {
+class XlsxSheetData {
+
+public:
+  XlsxSheetData(const XlsxBook& wb, int sheet_i)
+    : pos_(sheet_i)
+  {
+    Rprintf("XlsxSheetData() constructor\n");
+  }
+
+  int pos() const { return pos_; }
+
+private:
+  int pos_;
 };
 
 class XlsCell {};
@@ -46,26 +70,30 @@ class XlsxCell {};
 
 class Xls {
 public:
- typedef XlsBook  Book;
- typedef XlsSheet Sheet;
- typedef XlsCell  Cell;
+ typedef XlsBook      Book;
+ typedef XlsSheetData SheetData;
+ typedef XlsCell      Cell;
 };
 
 class Xlsx {
 public:
- typedef XlsxBook  Book;
- typedef XlsxSheet Sheet;
- typedef XlsxCell  Cell;
+  typedef XlsxBook      Book;
+  typedef XlsxSheetData SheetData;
+  typedef XlsxCell      Cell;
 };
 
 template <typename T>
 class Sheet {
 
 public:
- Sheet(const std::string& path)
-  : wb_(path)
+ Sheet(const std::string& path,
+       int sheet_i)
+  : wb_(path),
+    sd_(wb_, sheet_i)
  {
    Rprintf("Sheet() constructor\n");
+   Rprintf("Path to this Sheet's Book: %s\n", wb_.path().c_str());
+   Rprintf("This Sheet's SheetData pos: %d\n", sd_.pos());
  }
 
  void commonMethod() {
@@ -75,7 +103,8 @@ public:
 
 private:
  typename T::Book wb_;
- std::vector<typename T::Cell> cells_;
+ typename T::SheetData sd_;
+ //std::vector<typename T::Cell> cells_;
 };
 
 template <>

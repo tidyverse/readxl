@@ -6,18 +6,18 @@
 #include <R_ext/Visibility.h>
 
 // Read.cpp
-void read_this_xls_(std::string path);
-extern "C" SEXP _readxl_read_this_xls_(SEXP path) {
+void read_this_xls_(std::string path, int sheet_i);
+extern "C" SEXP _readxl_read_this_xls_(SEXP path, SEXP sheet_i) {
   BEGIN_CPP11
-    read_this_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path));
+    read_this_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i));
     return R_NilValue;
   END_CPP11
 }
 // Read.cpp
-void read_this_xlsx_(std::string path);
-extern "C" SEXP _readxl_read_this_xlsx_(SEXP path) {
+void read_this_xlsx_(std::string path, int sheet_i);
+extern "C" SEXP _readxl_read_this_xlsx_(SEXP path, SEXP sheet_i) {
   BEGIN_CPP11
-    read_this_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path));
+    read_this_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i));
     return R_NilValue;
   END_CPP11
 }
@@ -89,8 +89,8 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_readxl_parse_ref",         (DL_FUNC) &_readxl_parse_ref,          1},
-    {"_readxl_read_this_xls_",    (DL_FUNC) &_readxl_read_this_xls_,     1},
-    {"_readxl_read_this_xlsx_",   (DL_FUNC) &_readxl_read_this_xlsx_,    1},
+    {"_readxl_read_this_xls_",    (DL_FUNC) &_readxl_read_this_xls_,     2},
+    {"_readxl_read_this_xlsx_",   (DL_FUNC) &_readxl_read_this_xlsx_,    2},
     {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
     {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        10},
     {"_readxl_xls_date_formats",  (DL_FUNC) &_readxl_xls_date_formats,   1},
