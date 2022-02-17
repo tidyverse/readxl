@@ -40,7 +40,7 @@ public:
                 cpp11::integers limits, bool shim, bool progress)
     :  spinner_(progress), nominal_(limits)
   {
-    Rprintf("XlsxSheetData() constructor\n");
+    //Rprintf("XlsxSheetData() constructor\n");
 
     rapidxml::xml_node<>* rootNode;
 
@@ -88,7 +88,7 @@ public:
   }
 
   ~XlsxSheetData() {
-    Rprintf("XlsxSheetData() destructor\n");
+    //Rprintf("XlsxSheetData() destructor\n");
     // should I be doing something here?
   }
 

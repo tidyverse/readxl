@@ -37,11 +37,11 @@ public:
     : wb_(path),
       sd_(wb_, sheet_i, limits, shim, progress)
   {
-    Rprintf("Sheet() constructor\n");
-    Rprintf("Reading from: %s\n", wb_.path().c_str());
-    Rprintf(
-      "Reading %d rows x %d cols from worksheet '%s'\n",
-      sd_.nrow(), sd_.ncol(), sd_.sheetName().c_str());
+    //Rprintf("Sheet() constructor\n");
+    //Rprintf("Reading from: %s\n", wb_.path().c_str());
+    // Rprintf(
+    //   "Reading %d rows x %d cols from worksheet '%s'\n",
+    //   sd_.nrow(), sd_.ncol(), sd_.sheetName().c_str());
   }
 
   int ncol() const { return sd_.ncol(); }

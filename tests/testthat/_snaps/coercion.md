@@ -33,8 +33,8 @@
     Warning <simpleWarning>
       Expecting date in A4 / R4C1: got boolean
       Expecting date in A5 / R5C1: got 'cabbage'
-      Coercing numeric to date A6 / R6C1
-      Coercing numeric to date A7 / R7C1
+      Coercing numeric to date in A6 / R6C1
+      Coercing numeric to date in A7 / R7C1
 
 # contaminated, explicit numeric is read as numeric
 

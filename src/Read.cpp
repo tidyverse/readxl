@@ -68,7 +68,7 @@ cpp11::list read_this_(
 }
 
 [[cpp11::register]]
-cpp11::list read_this_xls_(
+cpp11::list read_xls_(
     std::string path,
     int sheet_i,
     cpp11::integers limits,
@@ -83,7 +83,7 @@ cpp11::list read_this_xls_(
 }
 
 [[cpp11::register]]
-cpp11::list read_this_xlsx_(
+cpp11::list read_xlsx_(
     std::string path,
     int sheet_i,
     cpp11::integers limits,
