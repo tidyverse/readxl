@@ -1,44 +1,15 @@
+#include "XlsWorkBook.h"
+#include "XlsxWorkBook.h"
+
 #include "cpp11/R.hpp"
 
 #include <string>
 #include <vector>
 
-class XlsBook {
-
-public:
- XlsBook(const std::string& path)
-  : path_(path)
- {
-   Rprintf("XlsBook() constructor\n");
- }
-
- std::string path() const { return path_; }
-
-private:
- std::string path_;
-
-};
-
-class XlsxBook {
-
-public:
- XlsxBook(const std::string& path)
-  : path_(path)
- {
-   Rprintf("XlsxBook() constructor\n");
- }
-
- std::string path() const { return path_; }
-
-private:
- std::string path_;
-
-};
-
 class XlsSheetData {
 
 public:
-  XlsSheetData(const XlsBook& wb, int sheet_i)
+  XlsSheetData(const XlsWorkBook& wb, int sheet_i)
     : pos_(sheet_i)
   {
     Rprintf("XlsSheetData() constructor\n");
@@ -53,7 +24,7 @@ private:
 class XlsxSheetData {
 
 public:
-  XlsxSheetData(const XlsxBook& wb, int sheet_i)
+  XlsxSheetData(const XlsxWorkBook& wb, int sheet_i)
     : pos_(sheet_i)
   {
     Rprintf("XlsxSheetData() constructor\n");
@@ -70,14 +41,14 @@ class XlsxCell {};
 
 class Xls {
 public:
- typedef XlsBook      Book;
+ typedef XlsWorkBook  Book;
  typedef XlsSheetData SheetData;
  typedef XlsCell      Cell;
 };
 
 class Xlsx {
 public:
-  typedef XlsxBook      Book;
+  typedef XlsxWorkBook  Book;
   typedef XlsxSheetData SheetData;
   typedef XlsxCell      Cell;
 };
