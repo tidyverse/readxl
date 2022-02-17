@@ -108,9 +108,10 @@ public:
     int base = xcell->row();
 
     while(xcell != cells_.end() && xcell->row() == base) {
-      xcell->inferType(na, trimWs, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_, wb_.stringTable());
       int position = xcell->col() - actual_.minCol();
-      out[position] = cpp11::r_string(xcell->asCharSxp(trimWs));
+      out[position] =
+        cpp11::r_string(xcell->asCharSxp(trimWs, wb_.stringTable()));
       xcell++;
     }
     return out;
@@ -154,7 +155,7 @@ public:
         xcell++;
         continue;
       }
-      xcell->inferType(na, trimWs, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_, wb_.stringTable());
       ColType type = as_ColType(xcell->type());
       if (type > types[j]) {
         types[j] = type;
@@ -206,7 +207,7 @@ public:
         continue;
       }
 
-      xcell->inferType(na, trimWs, dateFormats_);
+      xcell->inferType(na, trimWs, dateFormats_, wb_.stringTable());
       CellType type = xcell->type();
       cpp11::sexp column = cpp11::as_sexp(cols[col]);
       // row to write into
@@ -239,7 +240,7 @@ public:
           LOGICAL(column)[row] = xcell->asLogical();
           break;
         case CELL_TEXT: {
-          std::string text_string = xcell->asStdString(trimWs);
+          std::string text_string = xcell->asStdString(trimWs, wb_.stringTable());
           bool text_boolean;
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(column)[row] = text_boolean;
@@ -262,9 +263,8 @@ public:
                         cellPosition(i, j).c_str());
         }
         if (type == CELL_TEXT) {
-          cpp11::warning("Expecting date in %s: got '%s'",
-                        cellPosition(i, j).c_str(),
-                        (xcell->asStdString(trimWs)).c_str());
+          cpp11::warning("Expecting date in %s: got '%s'", cellPosition(i, j).c_str(),
+                         (xcell->asStdString(trimWs, wb_.stringTable())).c_str());
         }
         REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
@@ -286,7 +286,7 @@ public:
           REAL(column)[row] = xcell->asDouble();
           break;
         case CELL_TEXT: {
-          std::string num_string = xcell->asStdString(trimWs);
+          std::string num_string = xcell->asStdString(trimWs, wb_.stringTable());
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
@@ -306,7 +306,7 @@ public:
       case COL_TEXT:
         // not issuing warnings for NAs or coercion, because "text" is the
         // fallback column type and there are too many warnings to be helpful
-        SET_STRING_ELT(column, row, xcell->asCharSxp(trimWs));
+        SET_STRING_ELT(column, row, xcell->asCharSxp(trimWs, wb_.stringTable()));
         break;
 
       case COL_LIST:
@@ -330,7 +330,7 @@ public:
           break;
         case CELL_TEXT: {
           cpp11::writable::strings rStringVector({NA_STRING});
-          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(trimWs));
+          SET_STRING_ELT(rStringVector, 0, xcell->asCharSxp(trimWs, wb_.stringTable()));
           SET_VECTOR_ELT(column, row, rStringVector);
           break;
         }
