@@ -1,71 +1,63 @@
 #include "XlsWorkBook.h"
 #include "XlsxWorkBook.h"
+#include "XlsSheetData.h"
 
 #include "cpp11/R.hpp"
 
 #include <string>
 #include <vector>
 
-class XlsSheetData {
-
-public:
-  XlsSheetData(const XlsWorkBook& wb, int sheet_i)
-    : pos_(sheet_i)
-  {
-    Rprintf("XlsSheetData() constructor\n");
-  }
-
-  int pos() const { return pos_; }
-
-private:
-  int pos_;
-};
-
 class XlsxSheetData {
 
+  std::string sheetName_;
+  int ncol_, nrow_;
+
 public:
-  XlsxSheetData(const XlsxWorkBook& wb, int sheet_i)
-    : pos_(sheet_i)
+  XlsxSheetData(const XlsxWorkBook wb, int sheet_i,
+                cpp11::integers limits, bool shim, bool progress)
+    : sheetName_("xlsx sheet name"), ncol_(1), nrow_(2)
   {
     Rprintf("XlsxSheetData() constructor\n");
   }
 
-  int pos() const { return pos_; }
+  int ncol() const { return ncol_; }
+  int nrow() const { return nrow_; }
+  std::string sheetName() const {return sheetName_; }
 
-private:
-  int pos_;
 };
 
-class XlsCell {};
-class XlsxCell {};
+//class XlsCell {};
+//class XlsxCell {};
 
 class Xls {
 public:
  typedef XlsWorkBook  Book;
  typedef XlsSheetData SheetData;
- typedef XlsCell      Cell;
+ //typedef XlsCell      Cell;
 };
 
 class Xlsx {
 public:
   typedef XlsxWorkBook  Book;
   typedef XlsxSheetData SheetData;
-  typedef XlsxCell      Cell;
+  //typedef XlsxCell      Cell;
 };
 
 template <typename T>
 class Sheet {
 
 public:
- Sheet(const std::string& path,
-       int sheet_i)
-  : wb_(path),
-    sd_(wb_, sheet_i)
- {
-   Rprintf("Sheet() constructor\n");
-   Rprintf("Path to this Sheet's Book: %s\n", wb_.path().c_str());
-   Rprintf("This Sheet's SheetData pos: %d\n", sd_.pos());
- }
+  Sheet(const std::string& path,
+        int sheet_i, cpp11::integers limits, bool shim, bool progress)
+    : wb_(path),
+      sd_(wb_, sheet_i, limits, shim, progress)
+  {
+    Rprintf("Sheet() constructor\n");
+    Rprintf("Reading from: %s\n", wb_.path().c_str());
+    Rprintf(
+      "Reading %d rows x %d cols from worksheet '%s'\n",
+      sd_.nrow(), sd_.ncol(), sd_.sheetName().c_str());
+  }
 
  void commonMethod() {
   Rprintf("I'm the common Sheet method!\n");
