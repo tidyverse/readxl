@@ -30,10 +30,11 @@ class XlsxSheetData {
   Spinner spinner_;
   std::string sheetName_;
   CellLimits nominal_, actual_;
-  std::vector<XlsxCell> cells_;
   int ncol_, nrow_;
 
 public:
+
+  std::vector<XlsxCell> cells_;
 
   XlsxSheetData(const XlsxWorkBook wb, int sheet_i,
                 cpp11::integers limits, bool shim, bool progress)
@@ -94,6 +95,7 @@ public:
   int ncol() const { return ncol_; }
   int nrow() const { return nrow_; }
   std::string sheetName() const { return sheetName_; }
+  int startCol() const { return actual_.minCol(); }
 
 private:
 
