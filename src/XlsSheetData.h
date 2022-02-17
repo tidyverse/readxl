@@ -93,6 +93,7 @@ public:
   int nrow() const { return nrow_; }
   std::string sheetName() const {return sheetName_; }
   int startCol() const { return actual_.minCol(); }
+  int lastRow() const { return actual_.maxRow(); }
 
 private:
 

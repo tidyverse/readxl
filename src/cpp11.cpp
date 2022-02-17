@@ -6,14 +6,14 @@
 #include <R_ext/Visibility.h>
 
 // Read.cpp
-cpp11::strings read_this_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+cpp11::list read_this_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
 extern "C" SEXP _readxl_read_this_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
   BEGIN_CPP11
     return cpp11::as_sexp(read_this_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
   END_CPP11
 }
 // Read.cpp
-cpp11::strings read_this_xlsx_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
+cpp11::list read_this_xlsx_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
 extern "C" SEXP _readxl_read_this_xlsx_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
   BEGIN_CPP11
     return cpp11::as_sexp(read_this_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));

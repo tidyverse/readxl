@@ -3,13 +3,14 @@
 #include "ColSpec.h"
 
 #include "cpp11/as.hpp"
+#include "cpp11/list.hpp"
 #include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
 
 #include <string>
 
 template <typename T>
-cpp11::strings read_this_(
+cpp11::list read_this_(
     std::string path,
     int sheet_i,
     cpp11::integers limits,
@@ -26,8 +27,7 @@ cpp11::strings read_this_(
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
     using namespace cpp11::literals;
-    //return cpp11::writable::list (0_xl);
-    return cpp11::strings();
+    return cpp11::writable::list (0_xl);
   }
 
   // Get column names -------------------------------------------------
@@ -60,12 +60,15 @@ cpp11::strings read_this_(
   }
   colTypes = finalizeTypes(colTypes);
 
-  //return colNames;
-  return colTypeDescs(colTypes);
+  // Reconcile column names and types ----------------------------------
+  colNames = reconcileNames(colNames, colTypes, sheet_i);
+
+  // Get data ----------------------------------------------------------
+  return ws.readCols(colNames, colTypes, na, trim_ws, has_col_names);
 }
 
 [[cpp11::register]]
-cpp11::strings read_this_xls_(
+cpp11::list read_this_xls_(
     std::string path,
     int sheet_i,
     cpp11::integers limits,
@@ -80,7 +83,7 @@ cpp11::strings read_this_xls_(
 }
 
 [[cpp11::register]]
-cpp11::strings read_this_xlsx_(
+cpp11::list read_this_xlsx_(
     std::string path,
     int sheet_i,
     cpp11::integers limits,
