@@ -23,9 +23,18 @@
 
 class XlsxCellSet {
   // xlsx specifics
+
+  // http://rapidxml.sourceforge.net/manual.html
+  // "In-situ parsing requires that source text lives at least as long as the
+  // document object. If source text is destroyed, names and values of nodes in
+  // DOM tree will become destroyed as well."
+  // sheetXml_ = the document object
+  // sheet_    = the source text
+  // I.e. sheet_ is the memory that backs sheetXml_ and therefore must belong
+  // to the class and cannot just be local to the constructor.
   rapidxml::xml_document<> sheetXml_;
-  rapidxml::xml_node<>* sheetData_;
   std::string sheet_;
+  rapidxml::xml_node<>* sheetData_;
 
   // common to xls[x]
   Spinner spinner_;
