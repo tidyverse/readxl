@@ -23,7 +23,6 @@ test_that("date subsecond rounding works", {
 ## Lotus 1-2-3 leap year bug ----
 ## #264, #148
 test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xlsx]", {
-  skip("Still need to figure this out")
   expect_warning(
     df <- read_excel(
       test_sheet("dates-leap-year-1900-xlsx.xlsx"),

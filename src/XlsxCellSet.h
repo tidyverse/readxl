@@ -25,6 +25,7 @@ class XlsxCellSet {
   // xlsx specifics
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* sheetData_;
+  std::string sheet_;
 
   // common to xls[x]
   Spinner spinner_;
@@ -51,7 +52,7 @@ public:
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
     spinner_.spin();
-    std::string sheet_ = zip_buffer(wb.path(), sheetPath);
+    sheet_ = zip_buffer(wb.path(), sheetPath);
     spinner_.spin();
     sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&sheet_[0]);
     spinner_.spin();
