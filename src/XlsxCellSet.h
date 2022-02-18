@@ -97,11 +97,6 @@ public:
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
 
-  ~XlsxCellSet() {
-    //Rprintf("XlsxCellSet() destructor\n");
-    // should I be doing something here?
-  }
-
   int ncol() const { return ncol_; }
   int nrow() const { return nrow_; }
   std::string sheetName() const { return sheetName_; }
