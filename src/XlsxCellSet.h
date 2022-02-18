@@ -21,7 +21,7 @@
 // 18.3.1.96  v           (Cell Value) [p1707]
 // 18.18.11   ST_CellType (Cell Type)  [p2451]
 
-class XlsxSheetData {
+class XlsxCellSet {
   // xlsx specifics
   rapidxml::xml_document<> sheetXml_;
   rapidxml::xml_node<>* sheetData_;
@@ -36,11 +36,11 @@ public:
 
   std::vector<XlsxCell> cells_;
 
-  XlsxSheetData(const XlsxWorkBook wb, int sheet_i,
+  XlsxCellSet(const XlsxWorkBook wb, int sheet_i,
                 cpp11::integers limits, bool shim, bool progress)
     :  spinner_(progress), nominal_(limits)
   {
-    //Rprintf("XlsxSheetData() constructor\n");
+    //Rprintf("XlsxCellSet() constructor\n");
 
     rapidxml::xml_node<>* rootNode;
 
@@ -87,8 +87,8 @@ public:
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
 
-  ~XlsxSheetData() {
-    //Rprintf("XlsxSheetData() destructor\n");
+  ~XlsxCellSet() {
+    //Rprintf("XlsxCellSet() destructor\n");
     // should I be doing something here?
   }
 

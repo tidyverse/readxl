@@ -2,8 +2,8 @@
 #include "ColSpec.h"
 #include "XlsWorkBook.h"
 #include "XlsxWorkBook.h"
-#include "XlsSheetData.h"
-#include "XlsxSheetData.h"
+#include "XlsCellSet.h"
+#include "XlsxCellSet.h"
 #include "XlsCell.h"
 #include "XlsxCell.h"
 
@@ -16,45 +16,48 @@
 
 class Xls {
 public:
- typedef XlsWorkBook  Book;
- typedef XlsSheetData SheetData;
- typedef XlsCell      Cell;
+ typedef XlsWorkBook Book;
+ typedef XlsCellSet  CellSet;
+ typedef XlsCell     Cell;
 };
 
 class Xlsx {
 public:
-  typedef XlsxWorkBook  Book;
-  typedef XlsxSheetData SheetData;
-  typedef XlsxCell      Cell;
+  typedef XlsxWorkBook Book;
+  typedef XlsxCellSet  CellSet;
+  typedef XlsxCell     Cell;
 };
 
 template <typename T>
 class Sheet {
 
+  typename T::Book wb_;
+  typename T::CellSet cs_;
+
 public:
   Sheet(const std::string& path,
         int sheet_i, cpp11::integers limits, bool shim, bool progress)
     : wb_(path),
-      sd_(wb_, sheet_i, limits, shim, progress)
+      cs_(wb_, sheet_i, limits, shim, progress)
   {
     //Rprintf("Sheet() constructor\n");
     //Rprintf("Reading from: %s\n", wb_.path().c_str());
     // Rprintf(
     //   "Reading %d rows x %d cols from worksheet '%s'\n",
-    //   sd_.nrow(), sd_.ncol(), sd_.sheetName().c_str());
+    //   cs_.nrow(), cs_.ncol(), cs_.sheetName().c_str());
   }
 
-  int ncol() const { return sd_.ncol(); }
-  int nrow() const { return sd_.nrow(); }
+  int ncol() const { return cs_.ncol(); }
+  int nrow() const { return cs_.nrow(); }
 
   cpp11::strings colNames(const StringSet &na, const bool trimWs) {
-    cpp11::writable::strings out(sd_.ncol());
-    typename std::vector<typename T::Cell>::iterator xcell = sd_.cells_.begin();
+    cpp11::writable::strings out(cs_.ncol());
+    typename std::vector<typename T::Cell>::iterator xcell = cs_.cells_.begin();
     int base = xcell->row();
 
-    while(xcell != sd_.cells_.end() && xcell->row() == base) {
+    while(xcell != cs_.cells_.end() && xcell->row() == base) {
       xcell->inferType(na, trimWs, wb_.dateFormats(), wb_.stringTable());
-      int position = xcell->col() - sd_.startCol();
+      int position = xcell->col() - cs_.startCol();
       out[position] = cpp11::r_string(xcell->asCharSxp(trimWs, wb_.stringTable()));
       xcell++;
     }
@@ -71,10 +74,10 @@ public:
     }
 
     typename std::vector<typename T::Cell>::iterator xcell;
-    xcell = has_col_names ? advance_row(sd_.cells_) : sd_.cells_.begin();
+    xcell = has_col_names ? advance_row(cs_.cells_) : cs_.cells_.begin();
 
     // no cell data to consult re: types
-    if (xcell == sd_.cells_.end()) {
+    if (xcell == cs_.cells_.end()) {
       std::fill(types.begin(), types.end(), COL_BLANK);
       return types;
     }
@@ -87,14 +90,14 @@ public:
     // count is for spinner and checking for interrupt
     int count = 0;
     // base is row the data starts on **in the spreadsheet**
-    int base = sd_.cells_.begin()->row() + has_col_names;
-    while (xcell != sd_.cells_.end() && xcell->row() - base < guess_max) {
+    int base = cs_.cells_.begin()->row() + has_col_names;
+    while (xcell != cs_.cells_.end() && xcell->row() - base < guess_max) {
       count++;
       if (count % PROGRESS_TICK == 0) {
         //spinner_.spin();
         cpp11::check_user_interrupt();
       }
-      int j = xcell->col() - sd_.startCol();
+      int j = xcell->col() - cs_.startCol();
       if (type_known[j] || types[j] == COL_TEXT) {
         xcell++;
         continue;
@@ -116,14 +119,14 @@ public:
                        bool has_col_names = false) {
 
     typename std::vector<typename T::Cell>::iterator xcell;
-    xcell = has_col_names ? advance_row(sd_.cells_) : sd_.cells_.begin();
+    xcell = has_col_names ? advance_row(cs_.cells_) : cs_.cells_.begin();
 
     // base is row the data starts on **in the spreadsheet**
-    int base = sd_.cells_.begin()->row() + has_col_names;
-    int n = (xcell == sd_.cells_.end()) ? 0 : sd_.lastRow() - base + 1;
-    cpp11::writable::list cols(sd_.ncol());
+    int base = cs_.cells_.begin()->row() + has_col_names;
+    int n = (xcell == cs_.cells_.end()) ? 0 : cs_.lastRow() - base + 1;
+    cpp11::writable::list cols(cs_.ncol());
     cols.attr("names") = names;
-    for (int j = 0; j < sd_.ncol(); ++j) {
+    for (int j = 0; j < cs_.ncol(); ++j) {
       cols[j] = makeCol(types[j], n);
     }
 
@@ -133,12 +136,12 @@ public:
 
     // count is for spinner and checking for interrupt
     int count = 0;
-    while (xcell != sd_.cells_.end()) {
+    while (xcell != cs_.cells_.end()) {
 
       int i = xcell->row();
       int j = xcell->col();
       // col to write into
-      int col = j - sd_.startCol();
+      int col = j - cs_.startCol();
 
       count++;
       if (count % PROGRESS_TICK == 0) {
@@ -286,7 +289,4 @@ public:
     return removeSkippedColumns(cols, names, types);
   }
 
-private:
-  typename T::Book wb_;
-  typename T::SheetData sd_;
 };

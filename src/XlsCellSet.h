@@ -15,7 +15,7 @@
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
-class XlsSheetData {
+class XlsCellSet {
   // xls specifics
   xls::xlsWorkBook* pWB_;
   xls::xlsWorkSheet* pWS_;
@@ -30,11 +30,11 @@ public:
 
   std::vector<XlsCell> cells_;
 
-  XlsSheetData(const XlsWorkBook wb, int sheet_i,
+  XlsCellSet(const XlsWorkBook wb, int sheet_i,
                cpp11::integers limits, bool shim, bool progress)
     : spinner_(progress), nominal_(limits)
   {
-    //Rprintf("XlsSheetData() constructor\n");
+    //Rprintf("XlsCellSet() constructor\n");
 
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
@@ -81,8 +81,8 @@ public:
     ncol_ = (actual_.minCol() < 0) ? 0 : actual_.maxCol() - actual_.minCol() + 1;
   }
 
-  ~XlsSheetData() {
-    //Rprintf("XlsSheetData() destructor\n");
+  ~XlsCellSet() {
+    //Rprintf("XlsCellSet() destructor\n");
     try {
       xls::xls_close_WS(pWS_);
       xls::xls_close_WB(pWB_);
