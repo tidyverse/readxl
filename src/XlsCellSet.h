@@ -34,8 +34,6 @@ public:
                cpp11::integers limits, bool shim, bool progress)
     : spinner_(progress), nominal_(limits)
   {
-    //Rprintf("XlsCellSet() constructor\n");
-
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                   sheet_i + 1, wb.n_sheets());
@@ -82,7 +80,6 @@ public:
   }
 
   ~XlsCellSet() {
-    //Rprintf("XlsCellSet() destructor\n");
     try {
       xls::xls_close_WS(pWS_);
       xls::xls_close_WB(pWB_);

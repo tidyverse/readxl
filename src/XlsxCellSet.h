@@ -50,8 +50,6 @@ public:
                 cpp11::integers limits, bool shim, bool progress)
     :  spinner_(progress), nominal_(limits)
   {
-    //Rprintf("XlsxCellSet() constructor\n");
-
     rapidxml::xml_node<>* rootNode;
 
     if (sheet_i >= wb.n_sheets()) {
