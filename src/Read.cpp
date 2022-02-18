@@ -1,4 +1,4 @@
-#include "Sheet.h"
+#include "SheetView.h"
 
 #include "ColSpec.h"
 
@@ -22,7 +22,7 @@ cpp11::list read_this_(
     int guess_max = 1000,
     bool progress = true) {
   // Construct worksheet ----------------------------------------------
-  Sheet<T> ws(path, sheet_i, limits, shim, progress);
+  SheetView<T> ws(path, sheet_i, limits, shim, progress);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {

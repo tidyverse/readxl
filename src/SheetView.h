@@ -29,22 +29,17 @@ public:
 };
 
 template <typename T>
-class Sheet {
+class SheetView {
 
   typename T::Book wb_;
   typename T::CellSet cs_;
 
 public:
-  Sheet(const std::string& path,
+  SheetView(const std::string& path,
         int sheet_i, cpp11::integers limits, bool shim, bool progress)
     : wb_(path),
       cs_(wb_, sheet_i, limits, shim, progress)
   {
-    //Rprintf("Sheet() constructor\n");
-    //Rprintf("Reading from: %s\n", wb_.path().c_str());
-    // Rprintf(
-    //   "Reading %d rows x %d cols from worksheet '%s'\n",
-    //   cs_.nrow(), cs_.ncol(), cs_.sheetName().c_str());
   }
 
   int ncol() const { return cs_.ncol(); }
