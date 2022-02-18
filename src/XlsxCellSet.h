@@ -50,8 +50,6 @@ public:
                 cpp11::integers limits, bool shim, bool progress)
     :  spinner_(progress), nominal_(limits)
   {
-    rapidxml::xml_node<>* rootNode;
-
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
                   sheet_i + 1,  wb.n_sheets());
@@ -64,6 +62,7 @@ public:
     sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&sheet_[0]);
     spinner_.spin();
 
+    rapidxml::xml_node<>* rootNode;
     rootNode = sheetXml_.first_node("worksheet");
     if (!rootNode) {
       cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
