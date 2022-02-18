@@ -28,10 +28,6 @@ xlsx_date_formats <- function(path) {
   .Call(`_readxl_xlsx_date_formats`, path)
 }
 
-parse_ref <- function(ref) {
-  .Call(`_readxl_parse_ref`, ref)
-}
-
 zip_xml <- function(zip_path, file_path) {
   invisible(.Call(`_readxl_zip_xml`, zip_path, file_path))
 }

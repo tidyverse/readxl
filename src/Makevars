@@ -3,7 +3,7 @@ PKG_CPPFLAGS = -Iunix -I.
 PKG_CFLAGS = $(C_VISIBILITY)
 PKG_CXXFLAGS = $(CXX_VISIBILITY)
 
-SOURCES = cpp11.cpp XlsWorkBook.cpp XlsxWorkBook.cpp XlsxWorkSheet.cpp zip.cpp Read.cpp
+SOURCES = cpp11.cpp XlsWorkBook.cpp XlsxWorkBook.cpp zip.cpp Read.cpp
 OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o libxls/locale.o
 
 all: $(SHLIB)

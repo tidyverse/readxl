@@ -54,13 +54,6 @@ extern "C" SEXP _readxl_xlsx_date_formats(SEXP path) {
     return cpp11::as_sexp(xlsx_date_formats(cpp11::as_cpp<cpp11::decay_t<std::string>>(path)));
   END_CPP11
 }
-// XlsxWorkSheet.cpp
-cpp11::integers parse_ref(std::string ref);
-extern "C" SEXP _readxl_parse_ref(SEXP ref) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(parse_ref(cpp11::as_cpp<cpp11::decay_t<std::string>>(ref)));
-  END_CPP11
-}
 // zip.cpp
 void zip_xml(const std::string& zip_path, const std::string& file_path);
 extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
@@ -72,7 +65,6 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readxl_parse_ref",         (DL_FUNC) &_readxl_parse_ref,          1},
     {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
     {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        10},
     {"_readxl_xls_date_formats",  (DL_FUNC) &_readxl_xls_date_formats,   1},
