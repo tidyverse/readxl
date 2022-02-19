@@ -1,5 +1,4 @@
-#ifndef READXL_XLSWORKBOOK_
-#define READXL_XLSWORKBOOK_
+#pragma once
 
 #include "ColSpec.h"
 
@@ -17,6 +16,7 @@ class XlsWorkBook {
   std::string path_;
   bool is1904_;
   std::set<int> dateFormats_;
+  std::vector<std::string> stringTable_;
 
   // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
   int n_sheets_;
@@ -24,7 +24,9 @@ class XlsWorkBook {
 
 public:
 
-  XlsWorkBook(const std::string& path) {
+  XlsWorkBook(const std::string& path):
+  stringTable_{"placeholder"}
+  {
     // the user's path has probably been translated to UTF-8 by
     // normalizePath() on the R side
     // even if that were not true, cpp11 does this automatically when
@@ -73,6 +75,10 @@ public:
     return dateFormats_;
   }
 
+  const std::vector<std::string>& stringTable() const {
+    return stringTable_;
+  }
+
 private:
 
   void cacheDateFormats(xls::xlsWorkBook* pWB) {
@@ -112,5 +118,3 @@ private:
   }
 
 };
-
-#endif

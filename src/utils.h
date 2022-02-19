@@ -1,5 +1,4 @@
-#ifndef UTILS_
-#define UTILS_
+#pragma once
 
 #include "cpp11/protect.hpp"
 
@@ -179,5 +178,3 @@ inline std::string removeLeadingSlashes(const std::string& s) {
   }
   return s.substr(start);
 }
-
-#endif

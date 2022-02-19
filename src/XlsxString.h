@@ -1,5 +1,4 @@
-#ifndef READXL_XLSXSTRING_
-#define READXL_XLSXSTRING_
+#pragma once
 
 #include "rapidxml/rapidxml.h"
 
@@ -72,5 +71,3 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string *out) {
   }
   return found;
 }
-
-#endif

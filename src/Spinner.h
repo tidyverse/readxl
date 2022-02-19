@@ -1,7 +1,8 @@
-#ifndef READXL_SPINNER_
-#define READXL_SPINNER_
+#pragma once
 
 #include <RProgress.h>
+
+const int PROGRESS_TICK = 131072; // 2^17
 
 class Spinner {
   bool progress_;
@@ -21,5 +22,3 @@ public:
   void finish() { if (progress_) pb_.update(1);   }
   ~Spinner() { if (this->progress_) this->finish(); }
 };
-
-#endif

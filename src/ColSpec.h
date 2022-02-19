@@ -1,5 +1,4 @@
-#ifndef READXL_COLSPEC_
-#define READXL_COLSPEC_
+#pragma once
 
 #include "utils.h"
 #include "StringSet.h"
@@ -289,5 +288,3 @@ inline cpp11::list removeSkippedColumns(cpp11::list cols,
 
   return out;
 }
-
-#endif

@@ -1,30 +1,28 @@
-#include "XlsxWorkSheet.h"
+#include "SheetView.h"
+
 #include "ColSpec.h"
-#include "utils.h"
 
-#include "cpp11/integers.hpp"
+#include "cpp11/as.hpp"
 #include "cpp11/list.hpp"
+#include "cpp11/R.hpp"
+#include "cpp11/strings.hpp"
 
-#include <unistd.h>
-#include <sys/time.h>
+#include <string>
 
-[[cpp11::register]]
-cpp11::integers parse_ref(std::string ref) {
-  std::pair<int,int> parsed = parseRef(ref.c_str());
-
-  cpp11::writable::integers x = {parsed.first, parsed.second};
-  return x;
-}
-
-[[cpp11::register]]
-cpp11::list read_xlsx_(std::string path, int sheet_i,
-                       cpp11::integers limits, bool shim,
-                       cpp11::sexp col_names, cpp11::strings col_types,
-                       std::vector<std::string> na, bool trim_ws,
-                       int guess_max = 1000, bool progress = true) {
-
+template <typename T>
+cpp11::list read_this_(
+    std::string path,
+    int sheet_i,
+    cpp11::integers limits,
+    bool shim,
+    cpp11::sexp col_names,
+    cpp11::strings col_types,
+    std::vector<std::string> na,
+    bool trim_ws,
+    int guess_max = 1000,
+    bool progress = true) {
   // Construct worksheet ----------------------------------------------
-  XlsxWorkSheet ws(path, sheet_i, limits, shim, progress);
+  SheetView<T> ws(path, sheet_i, limits, shim, progress);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
@@ -55,7 +53,7 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
     cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
-               sheet_i + 1, ws.ncol(), colTypes.size());
+                sheet_i + 1, ws.ncol(), colTypes.size());
   }
   if (requiresGuess(colTypes)) {
     colTypes = ws.colTypes(colTypes, na, trim_ws, guess_max, has_col_names);
@@ -67,4 +65,34 @@ cpp11::list read_xlsx_(std::string path, int sheet_i,
 
   // Get data ----------------------------------------------------------
   return ws.readCols(colNames, colTypes, na, trim_ws, has_col_names);
+}
+
+[[cpp11::register]]
+cpp11::list read_xls_(
+    std::string path,
+    int sheet_i,
+    cpp11::integers limits,
+    bool shim,
+    cpp11::sexp col_names,
+    cpp11::strings col_types,
+    std::vector<std::string> na,
+    bool trim_ws,
+    int guess_max = 1000,
+    bool progress = true) {
+  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
+}
+
+[[cpp11::register]]
+cpp11::list read_xlsx_(
+    std::string path,
+    int sheet_i,
+    cpp11::integers limits,
+    bool shim,
+    cpp11::sexp col_names,
+    cpp11::strings col_types,
+    std::vector<std::string> na,
+    bool trim_ws,
+    int guess_max = 1000,
+    bool progress = true) {
+  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
 }

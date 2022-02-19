@@ -1,5 +1,4 @@
-#ifndef READXL_STRINGSET_
-#define READXL_STRINGSET_
+#pragma once
 
 #include "utils.h"
 
@@ -36,5 +35,3 @@ public:
     return contains(str.str());
   }
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef READXL_XLSCELL_
-#define READXL_XLSCELL_
+#pragma once
 
 #include "ColSpec.h"
 #include "utils.h"
@@ -53,7 +52,8 @@ public:
 
   void inferType(const StringSet& na,
                  const bool trimWs,
-                 const std::set<int>& dateFormats) {
+                 const std::set<int>& dateFormats,
+                 const std::vector<std::string>& stringTable) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -225,7 +225,8 @@ public:
     type_ = ct;
   }
 
-  std::string asStdString(const bool trimWs) const {
+  std::string asStdString(const bool trimWs,
+                          const std::vector<std::string>& stringTable) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -268,8 +269,10 @@ public:
     }
   }
 
-  cpp11::sexp asCharSxp(const bool trimWs) const {
-    std::string out_string = asStdString(trimWs);
+  cpp11::sexp asCharSxp(
+      const bool trimWs,
+      const std::vector<std::string>& stringTable) const {
+    std::string out_string = asStdString(trimWs, stringTable);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
@@ -334,5 +337,3 @@ public:
   }
 
 };
-
-#endif
