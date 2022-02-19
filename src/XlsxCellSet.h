@@ -37,7 +37,6 @@ class XlsxCellSet {
   rapidxml::xml_node<>* sheetData_;
 
   // common to xls[x]
-  Spinner spinner_;
   std::string sheetName_;
   CellLimits nominal_, actual_;
   int ncol_, nrow_;
@@ -47,8 +46,8 @@ public:
   std::vector<XlsxCell> cells_;
 
   XlsxCellSet(const XlsxWorkBook wb, int sheet_i,
-                cpp11::integers limits, bool shim, bool progress)
-    :  spinner_(progress), nominal_(limits)
+                cpp11::integers limits, bool shim, Spinner spinner_)
+    :  nominal_(limits)
   {
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
@@ -78,7 +77,7 @@ public:
     // shim = TRUE when user specifies geometry via `range`
     // shim = FALSE when user specifies no geometry or uses `skip` and `n_max`
     // nominal_ holds user's geometry request, where -1 means "unspecified"
-    loadCells(shim);
+    loadCells(shim, spinner_);
     // nominal_ may have been shifted (case of implicit skipping and n_max)
     // actual_ reports populated cells inside the nominal_ rectangle
 
@@ -102,7 +101,7 @@ public:
 
 private:
 
-  void loadCells(const bool shim) {
+  void loadCells(const bool shim, Spinner spinner_) {
     // by convention, min_row = -2 means 'read no data'
     if (nominal_.minRow() < -1) {
       return;

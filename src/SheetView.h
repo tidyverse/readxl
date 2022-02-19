@@ -31,14 +31,16 @@ public:
 template <typename T>
 class SheetView {
 
+  Spinner spinner_;
   typename T::Book wb_;
   typename T::CellSet cs_;
 
 public:
   SheetView(const std::string& path,
-        int sheet_i, cpp11::integers limits, bool shim, bool progress)
-    : wb_(path),
-      cs_(wb_, sheet_i, limits, shim, progress)
+            int sheet_i, cpp11::integers limits, bool shim, bool progress)
+    : spinner_(progress),
+      wb_(path),
+      cs_(wb_, sheet_i, limits, shim, spinner_)
   {
   }
 
@@ -89,7 +91,7 @@ public:
     while (xcell != cs_.cells_.end() && xcell->row() - base < guess_max) {
       count++;
       if (count % PROGRESS_TICK == 0) {
-        //spinner_.spin();
+        spinner_.spin();
         cpp11::check_user_interrupt();
       }
       int j = xcell->col() - cs_.startCol();
@@ -140,7 +142,7 @@ public:
 
       count++;
       if (count % PROGRESS_TICK == 0) {
-        //spinner_.spin();
+        spinner_.spin();
         cpp11::check_user_interrupt();
       }
 
