@@ -119,7 +119,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ───────────────────────────────── tidyverse 1.3.1 ──</span>
 <span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2</span> 3.3.5     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr  </span> 0.3.4</span>
-<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble </span> 3.1.6     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr  </span> 1.0.7</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble </span> 3.1.6     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr  </span> 1.0.8</span>
 <span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr  </span> 1.2.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr</span> 1.4.0</span>
 <span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr  </span> 2.1.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats</span> 0.5.1</span>
 <span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────────── tidyverse_conflicts() ──</span>
@@ -162,8 +162,8 @@
 <span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): Species</span>
 <span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use <span style="color: #262626; background-color: #DADADA;">`spec()`</span> to retrieve the full column specification for this data.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set <span style="color: #262626; background-color: #DADADA;">`show_col_types = FALSE`</span> to quiet this message.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="co">## readr leaves a note-to-self in `spec` that records its column guessing,</span>
 <span class="co">## so we remove that attribute before the check</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">iris_alt</span>, <span class="st">"spec"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
@@ -399,7 +399,7 @@ devtools::session_info()
 #>  collate  C.UTF-8
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2022-02-08
+#>  date     2022-02-19
 #>  pandoc   2.14.2 @ /usr/bin/ (via rmarkdown)
 #> 
 #>  [1m [36m─ Packages ───────────────────────────────────────────────────────────── [39m [22m
@@ -414,15 +414,15 @@ devtools::session_info()
 #>  cachem        1.0.6       [90m2021-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  callr         3.7.0       [90m2021-04-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cellranger    1.1.0       [90m2016-07-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  cli           3.1.1       [90m2022-01-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  cli           3.2.0       [90m2022-02-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  colorspace    2.0-2       [90m2021-06-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  crayon        1.4.2       [90m2021-10-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  crayon        1.5.0       [90m2022-02-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  DBI           1.1.2       [90m2021-12-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  dbplyr        2.1.1       [90m2021-04-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  desc          1.4.0       [90m2021-09-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  devtools      2.4.3       [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  digest        0.6.29      [90m2021-12-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  dplyr       * 1.0.7       [90m2021-06-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  dplyr       * 1.0.8       [90m2022-02-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  ellipsis      0.3.2       [90m2021-04-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  evaluate      0.14        [90m2019-05-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fansi         1.0.2       [90m2022-01-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -458,7 +458,7 @@ devtools::session_info()
 #>  R6            2.5.1       [90m2021-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  ragg          1.2.1       [90m2021-12-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  readr       * 2.1.2       [90m2022-01-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  readxl      *  [1m [35m1.3.1.9000 [39m [22m  [90m2022-02-08 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
+#>  readxl      *  [1m [35m1.3.1.9000 [39m [22m  [90m2022-02-19 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
 #>  rematch       1.0.1       [90m2016-04-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  remotes       2.4.2       [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  reprex        2.0.1       [90m2021-08-05 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -472,7 +472,7 @@ devtools::session_info()
 #>  sessioninfo   1.2.2       [90m2021-12-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  stringi       1.7.6       [90m2021-11-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  stringr     * 1.4.0       [90m2019-02-10 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  systemfonts   1.0.3       [90m2021-10-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  systemfonts   1.0.4       [90m2022-02-11 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  testthat      3.1.2       [90m2022-01-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  textshaping   0.3.6       [90m2021-10-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  tibble      * 3.1.6       [90m2021-11-07 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
