@@ -1,5 +1,4 @@
-#ifndef READXL_CELLLIMITS_
-#define READXL_CELLLIMITS_
+#pragma once
 
 #include "XlsCell.h"
 #include "cpp11/integers.hpp"
@@ -171,5 +170,3 @@ typename std::vector<T>::iterator advance_row(std::vector<T>& x) {
   }
   return(it);
 }
-
-#endif

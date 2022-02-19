@@ -1,5 +1,4 @@
-#ifndef READXL_XLSCELL_
-#define READXL_XLSCELL_
+#pragma once
 
 #include "ColSpec.h"
 #include "utils.h"
@@ -338,5 +337,3 @@ public:
   }
 
 };
-
-#endif

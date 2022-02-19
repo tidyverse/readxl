@@ -1,5 +1,4 @@
-#ifndef READXL_SPINNER_
-#define READXL_SPINNER_
+#pragma once
 
 #include <RProgress.h>
 
@@ -23,5 +22,3 @@ public:
   void finish() { if (progress_) pb_.update(1);   }
   ~Spinner() { if (this->progress_) this->finish(); }
 };
-
-#endif

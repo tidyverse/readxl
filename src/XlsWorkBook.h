@@ -1,5 +1,4 @@
-#ifndef READXL_XLSWORKBOOK_
-#define READXL_XLSWORKBOOK_
+#pragma once
 
 #include "ColSpec.h"
 
@@ -119,5 +118,3 @@ private:
   }
 
 };
-
-#endif
