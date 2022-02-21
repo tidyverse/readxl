@@ -23,17 +23,17 @@
 
 class XlsxCellSet {
   // xlsx specifics
-
   // http://rapidxml.sourceforge.net/manual.html
   // "In-situ parsing requires that source text lives at least as long as the
   // document object. If source text is destroyed, names and values of nodes in
   // DOM tree will become destroyed as well."
-  // sheetXml_ = the document object
-  // sheet_    = the source text
-  // I.e. sheet_ is the memory that backs sheetXml_ and therefore must belong
-  // to the class and cannot just be local to the constructor.
+  //              sheetXml_ = the document object
+  // preciousXmlSourceText_ = the source text
+  // Note: preciousXmlSourceText_ is the memory that backs sheetXml_ and,
+  // ultimately, cells_. Therefore it must belong to the class and cannot just
+  // be local to the constructor.
   rapidxml::xml_document<> sheetXml_;
-  std::string sheet_;
+  std::string preciousXmlSourceText_;
   rapidxml::xml_node<>* sheetData_;
 
   // common to xls[x]
@@ -56,9 +56,9 @@ public:
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
     spinner_.spin();
-    sheet_ = zip_buffer(wb.path(), sheetPath);
+    preciousXmlSourceText_ = zip_buffer(wb.path(), sheetPath);
     spinner_.spin();
-    sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&sheet_[0]);
+    sheetXml_.parse<rapidxml::parse_strip_xml_namespaces>(&preciousXmlSourceText_[0]);
     spinner_.spin();
 
     rapidxml::xml_node<>* rootNode;
