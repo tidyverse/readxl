@@ -12,6 +12,8 @@
 
 #include <algorithm>
 #include <string>
+#include <sys/time.h> // alpine linux / musl
+#include <unistd.h>   // alpine linux / musl
 #include <vector>
 
 class Xls {
