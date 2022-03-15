@@ -1,3 +1,6 @@
+#include <unistd.h>
+#include <sys/time.h>
+
 #include "CellLimits.h"
 #include "ColSpec.h"
 #include "XlsWorkBook.h"
