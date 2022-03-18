@@ -1,17 +1,3 @@
-## Test environments
-
-* local macOS Mojave 10.14.2 + R 3.5.2
-* macOS Sierra 10.12.6 + R 3.5.2 via travis-ci
-* OS X El Capitan 10.11.6 + R 3.5.2 via travis-ci
-* Ubuntu trusty (14.04.5 LTS) via travis-ci
-  - R 3.1.3, 3.2.5, 3.3.3
-  - R-oldrel = R 3.4.4
-  - R-release = R 3.5.2
-  - R-devel = (unstable) (2019-03-09 r76216)
-* local Windows 10 VM, R 3.5.2
-* Windows Server 2012 + R 3.5.3 Patched (2019-03-11 r76221) via appveyor
-* Windows + R Under development (unstable) (2019-03-12 r76226) via win-builder
-
 ## R CMD check results
 
 The only reason for this release is adapt a few tests for a patch release of tibble that is imminent. Otherwise the only change since readxl v1.3.0 is that I updated a few URLs.
