@@ -67,14 +67,19 @@ inline double dateRound(double dttm) {
 // https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year
 // How we address this:
 // If date is *prior* to the non-existent leap day: add a day
-// If date is on the non-existent leap day: make negative and, in due course, NA
+// If date is on the non-existent leap day: warn and return NA
 // Otherwise: do nothing
 inline double POSIXctFromSerial(double xlDate, bool is1904) {
   if (!is1904 && xlDate < 61) {
-    xlDate = (xlDate < 60) ? xlDate + 1 : -1;
+    if (xlDate < 60) {
+      xlDate = xlDate + 1;
+    } else {
+      Rf_warning("NA inserted for impossible 1900-02-29 datetime");
+      return NA_REAL;
+    }
   }
   if (xlDate < 0) {
-    Rf_warning("NA inserted for impossible 1900-02-29 datetime");
+    Rf_warning("NA inserted for an unsupported date prior to 1900");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);

@@ -1,5 +1,10 @@
 # readxl (development version)
 
+* Warning messages for impossible dates are more specific.
+  Unsupported dates prior to 1900 have their own message now, instead of being
+  lumped in with dates on the non-existent day of February 29, 1900
+  (#551, #554, @cderv).
+
 * readxl is now licensed as MIT (#632).
 
 * The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.
