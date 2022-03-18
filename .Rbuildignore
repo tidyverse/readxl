@@ -32,3 +32,4 @@
 ^src/patch-to-libxls-upstream\.R$
 ^LICENSE\.md$
 ^\.vscode$
+^debug$
