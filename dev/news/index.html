@@ -65,10 +65,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="readxl-development-version">readxl (development version)<a class="anchor" aria-label="anchor" href="#readxl-development-version"></a></h2>
-<ul><li><p>readxl is now licensed as MIT (<a href="https://github.com/tidyverse/readxl/issues/632" class="external-link">#632</a>).</p></li>
-<li><p>The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.</p></li>
+<ul><li><p>Warning messages for impossible dates are more specific. Unsupported dates prior to 1900 have their own message now, instead of being lumped in with dates on the non-existent day of February 29, 1900 (<a href="https://github.com/tidyverse/readxl/issues/551" class="external-link">#551</a>, <a href="https://github.com/tidyverse/readxl/issues/554" class="external-link">#554</a>, <a href="https://github.com/cderv" class="external-link">@cderv</a>).</p></li>
+<li><p>readxl is now licensed as MIT (<a href="https://github.com/tidyverse/readxl/issues/632" class="external-link">#632</a>).</p></li>
 </ul><div class="section level3">
 <h3 id="dependency-changes-development-version">Dependency changes<a class="anchor" aria-label="anchor" href="#dependency-changes-development-version"></a></h3>
+<ul><li>
 <p>readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0). The libxls project is hosted at <a href="https://github.com/libxls/libxls" class="external-link uri">https://github.com/libxls/libxls</a> and you can learn more about the cumulative changes in its release notes:</p>
 <ul><li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.2" class="external-link">v1.6.2</a></li>
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.1" class="external-link">v1.6.1</a></li>
@@ -76,6 +77,8 @@
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.3" class="external-link">v1.5.3</a></li>
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.2" class="external-link">v1.5.2</a></li>
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.1" class="external-link">v1.5.1</a></li>
+</ul></li>
+<li><p>The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
