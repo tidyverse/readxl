@@ -7,19 +7,22 @@
 
 * readxl is now licensed as MIT (#632).
 
-* The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.
-
 ## Dependency changes
 
-readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0).
-The libxls project is hosted at <https://github.com/libxls/libxls> and you can learn more about the cumulative changes in its release notes:
+* readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0).
+  The libxls project is hosted at <https://github.com/libxls/libxls> and you can
+  learn more about the cumulative changes in its release notes:
 
-* [v1.6.2](https://github.com/libxls/libxls/releases/tag/v1.6.2)
-* [v1.6.1](https://github.com/libxls/libxls/releases/tag/v1.6.1)
-* [v1.6.0](https://github.com/libxls/libxls/releases/tag/v1.6.0)
-* [v1.5.3](https://github.com/libxls/libxls/releases/tag/v1.5.3)
-* [v1.5.2](https://github.com/libxls/libxls/releases/tag/v1.5.2)
-* [v1.5.1](https://github.com/libxls/libxls/releases/tag/v1.5.1)
+  - [v1.6.2](https://github.com/libxls/libxls/releases/tag/v1.6.2)
+  - [v1.6.1](https://github.com/libxls/libxls/releases/tag/v1.6.1)
+  - [v1.6.0](https://github.com/libxls/libxls/releases/tag/v1.6.0)
+  - [v1.5.3](https://github.com/libxls/libxls/releases/tag/v1.5.3)
+  - [v1.5.2](https://github.com/libxls/libxls/releases/tag/v1.5.2)
+  - [v1.5.1](https://github.com/libxls/libxls/releases/tag/v1.5.1)
+
+* The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12),
+  completing the transition to an approach to column name repair used across the
+  tidyverse.
 
 # readxl 1.3.1
 
