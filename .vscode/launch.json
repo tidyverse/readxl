@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "(lldb) Launch R  ",
+      "name": "(lldb) Launch R",
       "type": "lldb",
       "request": "launch",
       "program": "/Library/Frameworks/R.framework/Resources/bin/exec/R",
@@ -15,6 +15,13 @@
         "R_HOME" : "/Library/Frameworks/R.framework/Resources"
       },
       "terminal": "console",
+      "stopOnEntry": false
+    },
+    {
+      "name": "(lldb) Attach to R",
+      "type": "lldb",
+      "request": "attach",
+      "pid": "${command:pickMyProcess}",
       "stopOnEntry": false
     }
   ]
