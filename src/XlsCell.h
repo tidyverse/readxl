@@ -130,6 +130,7 @@ public:
     switch(cell_->id) {
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
+    case XLS_RECORD_RSTRING:
     {
       std::string s = cell_->str == NULL ? "" : cell_->str;
       ct = na.contains(s, trimWs) ? CELL_BLANK : CELL_TEXT;

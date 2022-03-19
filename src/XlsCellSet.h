@@ -152,6 +152,7 @@ private:
   bool cell_is_readable(const xls::xlsCell* cell) {
     return cell && (
         cell->id == XLS_RECORD_MULRK ||
+        cell->id == XLS_RECORD_RSTRING ||
         cell->id == XLS_RECORD_NUMBER ||
         cell->id == XLS_RECORD_RK ||
         cell->id == XLS_RECORD_LABELSST ||
