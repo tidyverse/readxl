@@ -90,6 +90,9 @@ private:
     if (n_formats > 0) {
       for (int i = 0; i < n_formats; ++i) {
         const xls::st_format::st_format_data format = pWB->formats.format[i];
+        if (format.value == nullptr) {
+          continue;
+        }
         // format.value = format string
         // in xlsx, this is formatCode
         std::string code((char*) format.value);
