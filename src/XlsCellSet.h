@@ -12,6 +12,7 @@
 #include "cpp11/integers.hpp"
 #include "cpp11/list.hpp"
 #include "cpp11/protect.hpp"
+#include "cpp11/R.hpp"
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
@@ -43,7 +44,8 @@ public:
     spinner_.spin();
     pWB_ = xls_open_file(wb.path().c_str(), "UTF-8", &error);
     if (!pWB_) {
-      cpp11::stop(
+      Rf_errorcall(
+        R_NilValue,
         "\n  filepath: %s\n  libxls error: %s",
         wb.path().c_str(),
         xls::xls_getError(error)
@@ -56,7 +58,16 @@ public:
       cpp11::stop("Sheet '%s' (position %d): cannot be opened",
                   sheetName_.c_str(), sheet_i + 1);
     }
-    xls_parseWorkSheet(pWS_);
+    error = xls::xls_parseWorkSheet(pWS_);
+    if (error != xls::LIBXLS_OK) {
+      Rf_errorcall(
+        R_NilValue,
+        "\n  filepath: %s\n  sheet: %s\n  libxls error: %s",
+        wb.path().c_str(),
+        sheetName_.c_str(),
+        xls::xls_getError(error)
+      );
+    }
     spinner_.spin();
 
     // shim = TRUE when user specifies geometry via `range`

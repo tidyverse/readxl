@@ -5,10 +5,9 @@
 #include "libxls/xls.h"
 #include "libxls/xlsstruct.h"
 
+#include "cpp11/R.hpp"
 #include "cpp11/r_string.hpp"
 #include "cpp11/strings.hpp"
-
-#include <sstream>
 
 class XlsWorkBook {
 
@@ -37,10 +36,12 @@ public:
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      auto err = xls::xls_getError(error);
-      std::stringstream ss;
-      ss << "\n filepath: " << path_ << "\n libxls error: " << err;
-      throw std::runtime_error(ss.str());
+      Rf_errorcall(
+        R_NilValue,
+        "\n  filepath: %s\n  libxls error: %s",
+        path_.c_str(),
+        xls::xls_getError(error)
+      );
     }
 
     n_sheets_ = pWB_->sheets.count;
