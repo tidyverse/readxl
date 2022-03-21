@@ -7,7 +7,7 @@ articles:
   readxl-workflows: readxl-workflows.html
   cell-and-column-types: cell-and-column-types.html
   sheet-geometry: sheet-geometry.html
-last_built: 2022-03-19T22:38Z
+last_built: 2022-03-21T17:20Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles
