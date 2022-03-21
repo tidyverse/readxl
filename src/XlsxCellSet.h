@@ -127,6 +127,14 @@ private:
           cpp11::check_user_interrupt();
         }
 
+        // if cell declares its location, take this opportunity to update i and j
+        rapidxml::xml_attribute<>* ref = cell->first_attribute("r");
+        if (ref) {
+          std::pair<int, int> location = parseRef(ref->value());
+          i = location.first;
+          j = location.second;
+        }
+
         rapidxml::xml_node<>* first_child = cell->first_node(0);
         // only consider cells that have >= 1 child nodes
         // we require cell to have content, not just, e.g., a format
@@ -136,8 +144,6 @@ private:
           // (i, j) is our best guess at location, but if cell declares
           // it's own location, we store that instead
           XlsxCell xcell(cell, i, j);
-          i = xcell.row();
-          j = xcell.col();
 
           if (nominal_needs_checking) {
             if (i > nominal_.minRow()) { // implicit skip happened

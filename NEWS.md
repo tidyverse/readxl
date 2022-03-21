@@ -1,5 +1,9 @@
 # readxl (development version)
 
+* Cell location is determined more robustly in `.xlsx` files, guarding against
+  the idiosyncratic way in which certain 3rd party tools include (or, rather,
+  do not include) cell location in individual cell nodes (#648).
+
 * Warning messages for impossible dates are more specific.
   Unsupported dates prior to 1900 have their own message now, instead of being
   lumped in with dates on the non-existent day of February 29, 1900
