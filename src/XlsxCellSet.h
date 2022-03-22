@@ -14,8 +14,6 @@
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
-#include <stdlib.h>
-
 // Page and section numbers below refer to
 // ECMA-376 (version, date, and download URL given in XlsxCell.h)
 // 18.3.1.73  row         (Row)        [p1685]
