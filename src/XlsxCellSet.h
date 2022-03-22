@@ -14,6 +14,8 @@
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
 
+#include <stdlib.h>
+
 // Page and section numbers below refer to
 // ECMA-376 (version, date, and download URL given in XlsxCell.h)
 // 18.3.1.73  row         (Row)        [p1685]
@@ -118,7 +120,14 @@ private:
     int i = 0;
     bool nominal_needs_checking = !shim && nominal_.maxRow() >= 0;
     for (; row; row = row->next_sibling("row")) {
+      // if row declares its number, take this opportunity to update i
+      // when it exists, this row number is 1-indexed, but i is 0-indexed
+      rapidxml::xml_attribute<>* ref = row->first_attribute("r");
+      if (ref) {
+        i = std::atoi(ref->value()) - 1;
+      }
       int j = 0;
+
       for (rapidxml::xml_node<>* cell = row->first_node("c");
            cell; cell = cell->next_sibling("c")) {
         count++;
@@ -128,7 +137,7 @@ private:
         }
 
         // if cell declares its location, take this opportunity to update i and j
-        rapidxml::xml_attribute<>* ref = cell->first_attribute("r");
+        ref = cell->first_attribute("r");
         if (ref) {
           std::pair<int, int> location = parseRef(ref->value());
           i = location.first;
