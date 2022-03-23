@@ -1,20 +1,29 @@
 library(fs)
 library(tidyverse)
 library(here)
-library(git2r)
+library(gert)
 library(desc)
 
-libxls_path <- "~/rrr/libxls-evanmiller-github"
-libxls_SHA <- sha(last_commit(libxls_path))
+libxls_path <- "~/rrr/libxls"
 there <- function(x) path(libxls_path, x)
 
-if (repository_head(libxls_path)[["name"]] != "master") {
+if (git_branch(repo = libxls_path) != "master") {
   message("YO! You are not on master in libxls! Are you sure about this?")
 }
 
-## the subset of libxls files that we embed
+target_version <- "v1.6.2"
+(tag <- git_tag_list(target_version, repo = libxls_path))
+
+libxls_SHA <- git_commit_id(repo = libxls_path)
+
+if (tag$commit != libxls_SHA) {
+   message("YO! SHA associated with HEAD isn't associated with target version!")
+}
+
+# the subset of libxls files that we embed
 paths <- c(
   "src/endian.c",
+  "src/locale.c",
   "src/ole.c",
   "src/xls.c",
   "src/xlstool.c",
@@ -22,36 +31,38 @@ paths <- c(
   "include/libxls/brdb.c.h",
   "include/libxls/brdb.h",
   "include/libxls/endian.h",
+  "include/libxls/locale.h",
   "include/libxls/ole.h",
   "include/libxls/xlsstruct.h",
   "include/libxls/xlstool.h",
   "include/libxls/xlstypes.h"
 )
 
-new_paths <- paths
+file_copy(
+  path     = there(paths),
+  new_path = here(path("src", "libxls", path_file(paths))),
+  overwrite = TRUE
+)
 
-## btw xls.h doesn't live with the other headers in libxls
-## but it needs to do so in readxl
-header_file <- grepl(".h$", new_paths)
-new_paths[header_file] <-
-  path("src", "libxls", path_file(new_paths))[header_file]
+desc::desc_set(Note = paste("libxls", target_version, substr(libxls_SHA, 1, 7)))
 
-file_copy(path = there(paths), new_path = here(new_paths), overwrite = TRUE)
+# as needed, I rerun the configure script to regenerate
+# unix/config.h and windows/config.h
 
-desc::desc_set(Note = paste("libxls-SHA", substr(libxls_SHA, 1, 7)))
+# as of libxls v1.6.2, we've had to adopt different static config files for
+# macOS and other unix (basically motivated by what we see on GHA Ubuntu jobs)
 
-## at this point, you'll have a diff
-## selectively commit the bits we truly want; call this commit X
-## now commit the reversals of our usual patches; call this commit Y
-## revert commit Y; this ADDS our usual patches; call this commit Z
-## rebase and squash X and Y
-## rebase and edit the message for commit Z
-## revel in all the xls issues that are newly resolved
+# on windows, you may need to manually & temporarily add the directory
+# containing gcc in Rtools to the PATH
 
-## as needed (less often), I rerun the configure script to regenerate
-## unix/config.h and windows/config.h
-## on windows, you may need to manually & temporarily add the directory
-## containing gcc in Rtools to the PATH
-## we have manually applied patches in config.h as well
-## basically some fixes we have long had around iconv prototypes have moved out
-## of xlstool.c and into config.h, which is probably a good thing
+# things I needed to do on a fresh Big Sur system to run ./bootstrap
+# brew install autoconf
+# brew install autoconf-archive
+# brew install automake
+# brew install gettext
+# brew install libtool
+# ./bootstrap
+# ./configure
+
+# I later learned from Jim that I could also download and unpack the libxls
+# release and probably just run ./configure w/o installing so much stuff

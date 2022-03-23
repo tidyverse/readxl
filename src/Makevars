@@ -1,3 +1,13 @@
-PKG_CPPFLAGS = -Iunix -I. -DRCPP_DEFAULT_INCLUDE_CALL=false
+CXX_STD = CXX11
+PKG_CPPFLAGS = -Iunix -I.
 PKG_CFLAGS = $(C_VISIBILITY)
 PKG_CXXFLAGS = $(CXX_VISIBILITY)
+
+SOURCES = cpp11.cpp XlsWorkBook.cpp XlsxWorkBook.cpp zip.cpp Read.cpp
+OBJECTS = $(SOURCES:.cpp=.o) cran.o libxls/xlstool.o libxls/endian.o libxls/ole.o libxls/xls.o libxls/locale.o
+
+all: $(SHLIB)
+
+.PHONY: clean
+clean:
+	rm -f $(SHLIB) $(OBJECTS)

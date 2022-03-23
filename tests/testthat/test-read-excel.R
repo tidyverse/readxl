@@ -1,5 +1,3 @@
-context("read_excel")
-
 test_that("can read sheets with inlineStr", {
   # Original source: http://our.componentone.com/wp-content/uploads/2011/12/TestExcel.xlsx
   # These appear to come from LibreOffice 4.2.7.2.
@@ -22,7 +20,11 @@ test_that("xlsx is not read as xls and vice versa", {
     read_xls(test_sheet("iris-excel-xlsx.xlsx")),
     "libxls error: Unable to open file"
   )
-  expect_error(read_xlsx(test_sheet("iris-excel-xls.xls")), "cannot be opened")
+  expect_error(
+    read_xlsx(test_sheet("iris-excel-xls.xls")),
+    "cannot be opened",
+    class = "error"
+  )
 })
 
 test_that("non-existent file throws error", {
@@ -119,4 +121,4 @@ test_that("styles and sharedStrings parts can be absent", {
   )
   expect_identical(df$Language[1], "german")
   expect_true(all(df$Age > 0))
- })
+})

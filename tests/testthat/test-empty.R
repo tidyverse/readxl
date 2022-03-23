@@ -1,5 +1,3 @@
-context("Empty sheets")
-
 test_that("completely empty sheets are handled [xlsx]", {
   out <- read_excel(test_sheet("empty-sheets.xlsx"), "empty")
   expect_identical(out, tibble::tibble())

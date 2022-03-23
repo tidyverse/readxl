@@ -1,13 +1,14 @@
-#ifndef READXL_XLSCELL_
-#define READXL_XLSCELL_
+#pragma once
 
-#include <limits.h>
-#include <Rcpp.h>
-#include <libxls/xls.h>
-#include <libxls/xlstypes.h>
-#include <libxls/xlsstruct.h>
 #include "ColSpec.h"
 #include "utils.h"
+
+#include "libxls/xls.h"
+#include "libxls/xlsstruct.h"
+#include "libxls/xlstypes.h"
+
+#include <iomanip>
+#include <limits.h>
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure
@@ -51,7 +52,8 @@ public:
 
   void inferType(const StringSet& na,
                  const bool trimWs,
-                 const std::set<int>& dateFormats) {
+                 const std::set<int>& dateFormats,
+                 const std::vector<std::string>& stringTable) {
     // 1. Review of Excel's declared cell types, then
     // 2. Summary of how Excel's cell types map to our CellType enum
     //
@@ -128,6 +130,7 @@ public:
     switch(cell_->id) {
     case XLS_RECORD_LABELSST:
     case XLS_RECORD_LABEL:
+    case XLS_RECORD_RSTRING:
     {
       std::string s = cell_->str == NULL ? "" : cell_->str;
       ct = na.contains(s, trimWs) ? CELL_BLANK : CELL_TEXT;
@@ -215,15 +218,16 @@ public:
       break;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     ct = CELL_UNKNOWN;
     }
 
     type_ = ct;
   }
 
-  std::string asStdString(const bool trimWs) const {
+  std::string asStdString(const bool trimWs,
+                          const std::vector<std::string>& stringTable) const {
     switch(type_) {
 
     case CELL_UNKNOWN:
@@ -260,14 +264,16 @@ public:
     }
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
       return "";
     }
   }
 
-  Rcpp::RObject asCharSxp(const bool trimWs) const {
-    std::string out_string = asStdString(trimWs);
+  cpp11::sexp asCharSxp(
+      const bool trimWs,
+      const std::vector<std::string>& stringTable) const {
+    std::string out_string = asStdString(trimWs, stringTable);
     return out_string.empty() ? NA_STRING : Rf_mkCharCE(out_string.c_str(), CE_UTF8);
   }
 
@@ -285,8 +291,8 @@ public:
       return cell_->d != 0;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_LOGICAL;
     }
   }
@@ -305,8 +311,8 @@ public:
       return cell_->d;
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }
@@ -325,12 +331,10 @@ public:
       return POSIXctFromSerial(cell_->d, is1904);
 
     default:
-      Rcpp::warning("Unrecognized cell type at %s: '%s'",
-                    cellPosition(row(), col()), cell_->id);
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }
 
 };
-
-#endif

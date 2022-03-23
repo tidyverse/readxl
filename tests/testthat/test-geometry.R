@@ -1,9 +1,8 @@
-context("Sheet geometry")
-
 ## testing of the unexported standardise_limits() ---------------------
 
 limitize <- function(x) {
   stopifnot(length(x) == 4)
+  x <- as.integer(x)
   setNames(x, c("min_row", "max_row", "min_col", "max_col"))
 }
 

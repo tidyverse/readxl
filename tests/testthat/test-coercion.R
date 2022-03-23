@@ -1,58 +1,56 @@
-context("coercion")
-
 test_that("contaminated, explicit logical is read as logical", {
   ## xls
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "logical_coercion",
+      test_sheet("types.xls"),
+      sheet = "logical_coercion",
       col_types = c("logical", "text")
-    ),
-    "Expecting logical",
-    all = TRUE
+    )
   )
-  expect_is(df$logical, "logical")
+
+  expect_true(is.logical(df$logical))
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
   expect_false(anyNA(df$logical[!should_be_NA]))
 
   ## xlsx
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xlsx"), sheet = "logical_coercion",
+      test_sheet("types.xlsx"),
+      sheet = "logical_coercion",
       col_types = c("logical", "text")
-    ),
-    "Expecting logical",
-    all = TRUE
+    )
   )
-  expect_is(df$logical, "logical")
+  expect_true(is.logical(df$logical))
+
   should_be_NA <- df$explanation %in% c("string not logical", "blank", "date")
   expect_false(anyNA(df$logical[!should_be_NA]))
 })
 
 test_that("contaminated, explicit date is read as date", {
   ## xls
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "date_coercion",
+      test_sheet("types.xls"),
+      sheet = "date_coercion",
       col_types = "date"
-    ),
-    "Expecting date|Coercing numeric",
-    all = TRUE
+    )
   )
-  expect_is(df$date, "POSIXct")
+
+  expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
   expect_true(all(is.na(df$date[c(2, 3, 4)])))
   expect_identical(df$date[6], as.POSIXct("2012-01-02 UTC", tz = "UTC"))
 
   ## xlsx
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xlsx"), sheet = "date_coercion",
+      test_sheet("types.xlsx"),
+      sheet = "date_coercion",
       col_types = "date"
-    ),
-    "Expecting date|Coercing numeric",
-    all = TRUE
+    )
   )
-  expect_is(df$date, "POSIXct")
+
+  expect_s3_class(df$date, "POSIXct")
   expect_false(anyNA(df$date[c(1, 5, 6, 7)]))
   expect_true(all(is.na(df$date[c(2, 3, 4)])))
   expect_identical(df$date[6], as.POSIXct("2012-01-02 UTC", tz = "UTC"))
@@ -60,28 +58,28 @@ test_that("contaminated, explicit date is read as date", {
 
 test_that("contaminated, explicit numeric is read as numeric", {
   ## xls
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xls"), sheet = "numeric_coercion",
+      test_sheet("types.xls"),
+      sheet = "numeric_coercion",
       col_types = "numeric"
-    ),
-    "Expecting numeric|Coercing boolean|Coercing text",
-    all = TRUE
+    )
   )
-  expect_is(df$numeric, "numeric")
+
+  expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
   expect_equal(df$numeric[2], 72) # "Number stored as text"
 
   ## xlsx
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
-      test_sheet("types.xlsx"), sheet = "numeric_coercion",
+      test_sheet("types.xlsx"),
+      sheet = "numeric_coercion",
       col_types = "numeric"
-    ),
-    "Expecting numeric|Coercing boolean|Coercing text",
-    all = TRUE
+    )
   )
-  expect_is(df$numeric, "numeric")
+
+  expect_true(is.numeric(df$numeric))
   expect_false(anyNA(df$numeric[c(1, 2, 4, 7)]))
   expect_equal(df$numeric[2], 72) # "Number stored as text"
 })
@@ -91,20 +89,22 @@ test_that("contaminated, explicit numeric is read as numeric", {
 test_that("contaminated, explicit text is read as text", {
   ## xls
   df <- read_excel(
-    test_sheet("types.xls"), sheet = "text_coercion",
+    test_sheet("types.xls"),
+    sheet = "text_coercion",
     col_types = c("text", "text")
   )
-  expect_is(df$text, "character")
+  expect_true(is.character(df$text))
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
 
   ## xlsx
   df <- read_excel(
-    test_sheet("types.xlsx"), sheet = "text_coercion",
+    test_sheet("types.xlsx"),
+    sheet = "text_coercion",
     col_types = c("text", "text")
   )
-  expect_is(df$text, "character")
+  expect_true(is.character(df$text))
   expect_false(anyNA(df$explanation != "blank"))
   expect_identical(df$text[df$explanation == "floating point"], "1.3")
   expect_identical(df$text[df$explanation == "student number"], "36436153")
@@ -117,7 +117,7 @@ test_that("integery-y numbers > 2^31 can be coerced to string", {
   expect_identical(
     xls[["number"]][-1],
     as.character(
-      c(2 ^ 31 - 1, 2 ^ 31, 2 ^ 31 + 1, -1 * (2 ^ 31), -1 * (2 ^ 31 + 1))
+      c(2^31 - 1, 2^31, 2^31 + 1, -1 * (2^31), -1 * (2^31 + 1))
     )
   )
 })

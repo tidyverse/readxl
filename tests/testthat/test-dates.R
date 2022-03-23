@@ -1,5 +1,3 @@
-context("Dates")
-
 test_that("dates respect worksheet date setting", {
   nms <- paste0("X", 1:5)
   d1900 <- read_xls(test_sheet("dates-1900.xls"), col_names = nms)
@@ -22,10 +20,9 @@ test_that("date subsecond rounding works", {
   expect_identical(as.character(df$dttm), df$dttm_string)
 })
 
-## Lotus 1-2-3 leap year bug
+## Lotus 1-2-3 leap year bug ----
 ## #264, #148
-test_that("we get correct dates prior to March 1, 1900, in 1900 date system", {
-  ## xlsx
+test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xlsx]", {
   expect_warning(
     df <- read_excel(
       test_sheet("dates-leap-year-1900-xlsx.xlsx"),
@@ -37,8 +34,11 @@ test_that("we get correct dates prior to March 1, 1900, in 1900 date system", {
   leap_day <- df$dttm_string == "1900-02-29 08:00:00"
   expect_identical(df$dttm[!leap_day], dttms[!leap_day])
   expect_true(is.na(df$dttm[leap_day]))
+})
 
-  ## xls
+## Lotus 1-2-3 leap year bug
+## #264, #148
+test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xls]", {
   expect_warning(
     df <- read_excel(
       test_sheet("dates-leap-year-1900-xls.xls"),

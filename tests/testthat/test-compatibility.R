@@ -1,5 +1,3 @@
-context("Compatibility")
-
 test_that("can read document from google doc", {
   iris_1 <- read_excel(test_sheet("iris-excel-xlsx.xlsx"))
   iris_2 <- read_excel(test_sheet("iris-google-doc.xlsx"))
@@ -36,7 +34,8 @@ test_that("we can finally read Ekaterinburg", {
 ## We have a small patch now in libxls for that.
 test_that("we can read the BIFF5, LABEL record sheet", {
   df <- read_excel(
-    test_sheet("biff5-label-records.xls"), skip = 2,
+    test_sheet("biff5-label-records.xls"),
+    skip = 2,
     na = c("", "--")
   )
   expect_identical(dim(df), c(14L, 4L))
@@ -63,4 +62,21 @@ test_that("we can read LAPD arrest sheets", {
   expect_identical(dim(lapd), c(193L, 36L))
   expect_match(lapd$ARR_LOC[9], "HOLLYWOOD")
   expect_identical(lapd$CHG_DESC[27], "EX CON W/ A GUN")
+})
+
+# https://github.com/tidyverse/readxl/issues/611
+# xls file produced by ABBYY FineReader (OCR of PDFs)
+# inspired libxls to add support for rich-text strings in BIFF5
+# https://github.com/libxls/libxls/commit/b6d9d872756f69780b743dbaec9cd2ec30c37740
+test_that("we can read xls from ABBYY FineReader", {
+  expect_error_free(
+    abbyy <- read_excel(
+      test_sheet("biff5-rich-text-string.xls"),
+      col_names = FALSE,
+      n_max = 1
+    )
+  )
+  expect_equal(nrow(abbyy), 1)
+  expect_equal(ncol(abbyy), 1)
+  expect_match(abbyy[[1,1]], "^ELECTORAL")
 })

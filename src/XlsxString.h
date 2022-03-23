@@ -1,9 +1,10 @@
-#ifndef READXL_XLSXSTRING_
-#define READXL_XLSXSTRING_
+#pragma once
 
-#include <Rcpp.h>
-#include "rapidxml.h"
+#include "rapidxml/rapidxml.h"
+
+#include <R_ext/GraphicsEngine.h>
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
+
 
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]
 inline std::string unescape(const std::string &s) {
@@ -70,5 +71,3 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string *out) {
   }
   return found;
 }
-
-#endif

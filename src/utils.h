@@ -1,8 +1,18 @@
-#ifndef UTILS_
-#define UTILS_
+#pragma once
+
+#include "cpp11/protect.hpp"
 
 #include <cerrno>
-#include "StringSet.h"
+#include <cmath>
+#include <sstream>
+
+//May appear in cpp11
+template <typename T, typename N>
+T new_vector(R_xlen_t size, N val) {
+  T out(size);
+  std::fill(out.begin(), out.end(), val);
+  return out;
+}
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
 // depends on the "date system".
@@ -40,14 +50,14 @@ inline double dateOffset(bool is1904) {
 }
 
 // this is sort of horrible
-// convert serial date to decimilliseconds
+// convert serial date to milliseconds
 // use well-known hack to round to nearest integer w/o C++11 or boost, e.g.
 // http://stackoverflow.com/questions/485525/round-for-float-in-c
 // convert back to serial date
 inline double dateRound(double dttm) {
-  double ms = dttm * 10000;
+  double ms = dttm * 1000;
   ms = (ms >= 0.0 ? std::floor(ms + 0.5) : std::ceil(ms - 0.5));
-  return ms / 10000;
+  return ms / 1000;
 }
 
 // this is even more horrible
@@ -57,14 +67,19 @@ inline double dateRound(double dttm) {
 // https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year
 // How we address this:
 // If date is *prior* to the non-existent leap day: add a day
-// If date is on the non-existent leap day: make negative and, in due course, NA
+// If date is on the non-existent leap day: warn and return NA
 // Otherwise: do nothing
 inline double POSIXctFromSerial(double xlDate, bool is1904) {
   if (!is1904 && xlDate < 61) {
-    xlDate = (xlDate < 60) ? xlDate + 1 : -1;
+    if (xlDate < 60) {
+      xlDate = xlDate + 1;
+    } else {
+      Rf_warning("NA inserted for impossible 1900-02-29 datetime");
+      return NA_REAL;
+    }
   }
   if (xlDate < 0) {
-    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    Rf_warning("NA inserted for an unsupported date prior to 1900");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);
@@ -81,7 +96,7 @@ inline std::pair<int, int> parseRef(const char* ref) {
     } else if (*cur >= 'A' && *cur <= 'Z') {
       col = 26 * col + (*cur - 'A' + 1);
     } else {
-      Rcpp::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
+      cpp11::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
     }
   }
 
@@ -146,7 +161,7 @@ inline std::string trim(const std::string& s) {
 }
 
 inline std::string dirName(const std::string& path) {
-  std::size_t found = path.find_last_of("/");
+  std::size_t found = path.find_last_of('/');
   if (found == std::string::npos) {
     return "";
   }
@@ -154,7 +169,7 @@ inline std::string dirName(const std::string& path) {
 }
 
 inline std::string baseName(const std::string& path) {
-  std::size_t found = path.find_last_of("/");
+  std::size_t found = path.find_last_of('/');
   if (found == std::string::npos) {
     return path;
   }
@@ -162,11 +177,9 @@ inline std::string baseName(const std::string& path) {
 }
 
 inline std::string removeLeadingSlashes(const std::string& s) {
-  size_t start = s.find_first_not_of("/");
+  size_t start = s.find_first_not_of('/');
   if (start == std::string::npos) {
     return "";
   }
   return s.substr(start);
 }
-
-#endif

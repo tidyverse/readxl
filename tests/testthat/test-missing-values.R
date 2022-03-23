@@ -1,5 +1,3 @@
-context("Missing values")
-
 test_that("blanks in different rows read as missing [xlsx]", {
   blanks <- read_excel(test_sheet("blanks.xlsx"), sheet = "different_rows")
   expect_equal(blanks$x, c(NA, 1))
@@ -66,7 +64,7 @@ test_that("na arg works with multiple strings and for shared strings [xlsx]", {
   ## sst[2] = "c"
   ## sst[3] = "d"
   expect_identical(df, tibble::tribble(
-    ~ a, ~ c,
+    ~a, ~c,
     "b", NA
   ))
 })
@@ -77,7 +75,7 @@ test_that("na arg works with multiple strings and for shared strings [xls]", {
     na = c("1", "d")
   )
   expect_identical(df, tibble::tribble(
-    ~ a, ~ c,
+    ~a, ~c,
     "b", NA
   ))
 })

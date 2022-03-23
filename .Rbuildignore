@@ -1,4 +1,5 @@
 ^pkgdown$
+^.covrignore$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
@@ -29,3 +30,6 @@
 ^CRAN-RELEASE$
 ^investigations$
 ^src/patch-to-libxls-upstream\.R$
+^LICENSE\.md$
+^\.vscode$
+^debug$

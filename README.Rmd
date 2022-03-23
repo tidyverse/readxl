@@ -14,14 +14,18 @@ knitr::opts_chunk$set(
 
 # readxl <img src='man/figures/logo.png' align="right" height="139" />
 
-[![Travis-CI Build Status](https://travis-ci.org/tidyverse/readxl.svg?branch=master)](https://travis-ci.org/tidyverse/readxl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/readxl?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/readxl) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/readxl/master.svg)](https://codecov.io/github/tidyverse/readxl?branch=master) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: start -->
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
+[![R-CMD-check](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/readxl?branch=main)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+<!-- badges: end -->
 
 ## Overview
 
 The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it's easy to install and use on all operating systems.  It is designed to work with _tabular_ data.
 
-readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. The [libxls](https://github.com/evanmiller/libxls) C library is used to support `.xls`, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+readxl supports both the legacy `.xls` format and the modern xml-based `.xlsx` format. The [libxls](https://github.com/libxls/libxls) C library is used to support `.xls`, which abstracts away many of the complexities of the underlying binary format. To parse `.xlsx`, we use the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
@@ -45,6 +49,12 @@ Or install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("tidyverse/readxl")
 ```
+
+## Cheatsheet
+
+You can see how to read data with readxl in the **data import cheatsheet**, which also covers similar functionality in the related packages readr and googlesheets4.
+
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 ## Usage
 
@@ -102,7 +112,7 @@ If `NA`s are represented by something other than blank cells, set the `na` argum
 read_excel(xlsx_example, na = "setosa")
 ```
 
-If you are new to the tidyverse conventions for data import, you may want to consult the [data import chapter](http://r4ds.had.co.nz/data-import.html) in R for Data Science. readxl will become increasingly consistent with other packages, such as [readr](http://readr.tidyverse.org).
+If you are new to the tidyverse conventions for data import, you may want to consult the [data import chapter](https://r4ds.had.co.nz/data-import.html) in R for Data Science. readxl will become increasingly consistent with other packages, such as [readr](https://readr.tidyverse.org/).
 
 ## Articles
 
@@ -130,7 +140,7 @@ We also have some focused articles that address specific aggravations presented 
 
 * Column names and types are determined from the data in the sheet, by default. User can also supply via `col_names` and `col_types` and control name repair via `.name_repair`.
 
-* Returns a [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a data frame with an additional `tbl_df` class. Among other things, this provide nicer printing.
+* Returns a [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a data frame with an additional `tbl_df` class. Among other things, this provide nicer printing.
 
 ## Other relevant packages
 

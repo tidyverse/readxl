@@ -1,5 +1,3 @@
-context("Column names")
-
 test_that("col_names = FALSE mimics missing column names [xlsx]", {
   df1 <- read_excel(
     test_sheet("no-yes-col-names.xlsx"),
@@ -45,13 +43,7 @@ test_that("col_names = FALSE mimics missing column names [xls]", {
 })
 
 test_that("missing column names are populated", {
-  tibble_version <- utils::packageVersion("tibble")
-  nms <- if (tibble_version > "1.4.2") {
-    c("..1", "..3")
-  } else {
-    c("X__1", "X__2")
-  }
-
+  nms <- c("...1", "...3")
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
   expect_identical(names(df)[c(1, 3)], nms)
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xls"))
@@ -59,8 +51,7 @@ test_that("missing column names are populated", {
 })
 
 test_that("column names are de-duplicated", {
-  tibble_version <- utils::packageVersion("tibble")
-  nm <- if (tibble_version > "1.4.2") "var2..4" else "var2__1"
+  nm <- "var2...4"
 
   df <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"))
   expect_identical(names(df)[4], nm)
@@ -104,29 +95,26 @@ test_that("column_names can anticipate skipping", {
 })
 
 test_that(".name_repair is passed through to tibble", {
-  tibble_version <- utils::packageVersion("tibble")
-  skip_if(tibble_version <= "1.4.2")
-
   expect_colnames <- function(df, expected) {
     expect_identical(colnames(df), expected)
   }
 
   ## default is "unique"
-  nms <- c("a b..1", "a b..2","..3", "c%&$")
+  nms <- c("a b...1", "a b...2", "...3", "c%&$")
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"))
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("names-need-repair-xls.xls"))
   expect_colnames(xls, nms)
 
   ## "universal" names are available
-  nms <- c("a.b..1", "a.b..2","...3", "c...")
+  nms <- c("a.b...1", "a.b...2", "...3", "c...")
   xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal")
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("names-need-repair-xls.xls"), .name_repair = "universal")
   expect_colnames(xls, nms)
 
   ## "minimal" names are available
-  nms <- c("", "var2","", "var2")
+  nms <- c("", "var2", "", "var2")
   xlsx <- read_excel(test_sheet("unnamed-duplicated-columns.xlsx"), .name_repair = "minimal")
   expect_colnames(xlsx, nms)
   xls <- read_excel(test_sheet("unnamed-duplicated-columns.xls"), .name_repair = "minimal")
@@ -150,34 +138,15 @@ test_that(".name_repair is passed through to tibble", {
   ## specify name repair as an anonymous function
   nms <- c("wei", "fee")
   xlsx <- read_excel(
-    readxl_example("datasets.xlsx"), sheet = "chickwts",
+    readxl_example("datasets.xlsx"),
+    sheet = "chickwts",
     .name_repair = ~ substr(.x, start = 1, stop = 3)
   )
   expect_colnames(xlsx, nms)
   xls <- read_excel(
-    readxl_example("datasets.xls"), sheet = "chickwts",
+    readxl_example("datasets.xls"),
+    sheet = "chickwts",
     .name_repair = ~ substr(.x, start = 1, stop = 3)
-  )
-  expect_colnames(xls, nms)
-})
-
-test_that("use of .name_repair is caught and handled with old tibble", {
-  tibble_version <- utils::packageVersion("tibble")
-  skip_if(tibble_version > "1.4.2")
-
-  expect_colnames <- function(df, expected) {
-    expect_identical(colnames(df), expected)
-  }
-
-  nms <- c("a b", "a b__1","X__1", "c%&$")
-  expect_message(
-    xlsx <- read_excel(test_sheet("names-need-repair-xlsx.xlsx"), .name_repair = "universal"),
-    "Ignoring"
-  )
-  expect_colnames(xlsx, nms)
-  expect_message(
-    xls <- read_excel(test_sheet("names-need-repair-xls.xls"), .name_repair = "universal"),
-    "Ignoring"
   )
   expect_colnames(xls, nms)
 })
