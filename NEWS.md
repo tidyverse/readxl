@@ -1,5 +1,10 @@
 # readxl (development version)
 
+* "Date or Not Date": The classification of number formats as being datetime-ish
+  is more sophisticated and should no longer be so easily fooled by, e.g.,
+  colours or currencies. This affects cell and column type guessing, hopefully
+  for the better (#388, #559, @nacnudus, @reviewher).
+
 * Cell location is determined more robustly in `.xlsx` files, guarding against
   the idiosyncratic way in which certain 3rd party tools include (or, rather,
   do not include) cell location in individual cell nodes (#648, #671).

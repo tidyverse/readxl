@@ -148,35 +148,47 @@ bool inline isDateTime(int id, const std::set<int> custom) {
   return custom.count(id) > 0;
 }
 
+// Adapted from @reviewher https://github.com/tidyverse/readxl/issues/388
+// Similar code has long been used in https://github.com/nacnudus/tidyxl
+// See also ECMA Part 1 page 1785 (actual page 1795) section 18.8.31 "numFmts
+// (Number Formats)"
+#define CASEI(c) case c: case (c | 0x20)
+#define CMPLC(j,n) if(x[i+j] | (0x20 == n))
 inline bool isDateFormat(std::string x) {
-  // TO FIX? So far no bug reports due to this.
-  // Logic below is too simple. For example, it deems this format string a date:
-  // "$"#,##0_);[Red]\("$"#,##0\)
-  // because of the `d` in `[Red]`
-  //
-  // Ideally this can wait until we are using something like
-  // https://github.com/WizardMac/TimeFormatStrings
-  // which presumably offers fancier ways to analyze format codes.
-  for (size_t i = 0; i < x.size(); ++i) {
-    switch (x[i]) {
-    case 'd':
-    case 'D':
-    case 'm': // 'mm' for minutes
-    case 'M':
-    case 'y':
-    case 'Y':
-    case 'h': // 'hh'
-    case 'H':
-    case 's': // 'ss'
-    case 'S':
-      return true;
-    default:
+  char escaped = 0;
+  char bracket = 0;
+  for (size_t i = 0; i < x.size(); ++i) switch (x[i]) {
+    CASEI('D'):
+    // https://github.com/nacnudus/tidyxl/pull/75
+    // CASEI('E'):
+    CASEI('H'):
+    CASEI('M'):
+    CASEI('S'):
+    CASEI('Y'):
+      if(!escaped && !bracket) return true;
       break;
-    }
+    case '"':
+      escaped = 1 - escaped; break;
+    case '\\':
+    case '_':
+      ++i;
+      break;
+    case '[': if(!escaped) bracket = 1; break;
+    case ']': if(!escaped) bracket = 0; break;
+    CASEI('G'):
+      if(i + 6 < x.size())
+      CMPLC(1,'e')
+      CMPLC(2,'n')
+      CMPLC(3,'e')
+      CMPLC(4,'r')
+      CMPLC(5,'a')
+      CMPLC(6,'l')
+        return false;
   }
-
   return false;
 }
+#undef CMPLC
+#undef CASEI
 
 inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
                                          int ncol) {
