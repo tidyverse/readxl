@@ -16,6 +16,8 @@ devtools::load_all()
 read_excel("investigations/iss633-currency-date-confusion/EUR-then-CHF.xlsx")
 read_excel("investigations/iss633-currency-date-confusion/EUR-only.xlsx")
 
+read_excel(test_sheet("currency-formats-xlsx.xlsx"))
+
 "investigations/iss633-currency-date-confusion/EUR-only.xlsx" %>%
   xg_unzip() %>%
   xg_linkify() %>%
