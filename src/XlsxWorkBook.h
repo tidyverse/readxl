@@ -301,7 +301,7 @@ private:
         //             this number format.
         int id = atoi(numFmt->first_attribute("numFmtId")->value());
 
-        if (isDateFormat(code)) {
+        if (isDateFormat2(code)) {
           customDateFormats.insert(id);
         }
       }

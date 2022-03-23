@@ -97,7 +97,7 @@ private:
         // format.value = format string
         // in xlsx, this is formatCode
         std::string code((char*) format.value);
-        if (isDateFormat(code)) {
+        if (isDateFormat2(code)) {
           // format.index = identifier used by other records
           // in xlsx, this is numFormatId
           customDateFormats.insert(format.index);

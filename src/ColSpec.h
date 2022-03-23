@@ -178,6 +178,47 @@ inline bool isDateFormat(std::string x) {
   return false;
 }
 
+// Adapted from @reviewher https://github.com/tidyverse/readxl/issues/388
+// See also ECMA Part 1 page 1785 (actual page 1795) section 18.8.31 "numFmts
+// (Number Formats)"
+#define CASEI(c) case c: case (c | 0x20)
+#define CMPLC(j,n) if(x[i+j] | (0x20 == n))
+inline bool isDateFormat2(std::string x) {
+  char escaped = 0;
+  char bracket = 0;
+  for (size_t i = 0; i < x.size(); ++i) switch (x[i]) {
+    CASEI('D'):
+    // https://github.com/nacnudus/tidyxl/pull/75
+    // CASEI('E'):
+    CASEI('H'):
+    CASEI('M'):
+    CASEI('S'):
+    CASEI('Y'):
+      if(!escaped && !bracket) return true;
+      break;
+    case '"':
+      escaped = 1 - escaped; break;
+    case '\\':
+    case '_':
+      ++i;
+      break;
+    case '[': if(!escaped) bracket = 1; break;
+    case ']': if(!escaped) bracket = 0; break;
+    CASEI('G'):
+      if(i + 6 < x.size())
+      CMPLC(1,'e')
+      CMPLC(2,'n')
+      CMPLC(3,'e')
+      CMPLC(4,'r')
+      CMPLC(5,'a')
+      CMPLC(6,'l')
+        return false;
+  }
+  return false;
+}
+#undef CMPLC
+#undef CASEI
+
 inline std::vector<ColType> recycleTypes(std::vector<ColType> types,
                                          int ncol) {
   if (types.size() == 1) {
