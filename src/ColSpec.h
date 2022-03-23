@@ -142,18 +142,18 @@ bool inline isDateTime(int id, const std::set<int> custom) {
 }
 
 // Adapted from @reviewher https://github.com/tidyverse/readxl/issues/388
-#define CASEI(c) case c: case c | 0x20
-#define CMPLC(i,n) if(x[i+i] | 0x20 == n)
-
+// Similar code has long been used in https://github.com/nacnudus/tidyxl
+// See also ECMA Part 1 page 1785 (actual page 1795) section 18.8.31 "numFmts
+// (Number Formats)"
+#define CASEI(c) case c: case (c | 0x20)
+#define CMPLC(j,n) if(x[i+j] | (0x20 == n))
 inline bool isDateFormat(std::string x) {
-  // Ideally this would use something like
-  // https://github.com/WizardMac/TimeFormatStrings
-  // which presumably offers fancier ways to analyze format codes.
   char escaped = 0;
   char bracket = 0;
   for (size_t i = 0; i < x.size(); ++i) switch (x[i]) {
     CASEI('D'):
-    CASEI('E'):
+    // https://github.com/nacnudus/tidyxl/pull/75
+    // CASEI('E'):
     CASEI('H'):
     CASEI('M'):
     CASEI('S'):
@@ -162,7 +162,10 @@ inline bool isDateFormat(std::string x) {
       break;
     case '"':
       escaped = 1 - escaped; break;
-    case '\\': ++i; break;
+    case '\\':
+    case '_':
+      ++i;
+      break;
     case '[': if(!escaped) bracket = 1; break;
     case ']': if(!escaped) bracket = 0; break;
     CASEI('G'):
@@ -175,10 +178,8 @@ inline bool isDateFormat(std::string x) {
       CMPLC(6,'l')
         return false;
   }
-
   return false;
 }
-
 #undef CMPLC
 #undef CASEI
 
