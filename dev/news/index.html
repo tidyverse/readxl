@@ -65,13 +65,19 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="readxl-development-version">readxl (development version)<a class="anchor" aria-label="anchor" href="#readxl-development-version"></a></h2>
+<p>This release is mostly about substantial internal changes that should not be noticeable to most users (but that set the stage for future work):</p>
+<ul><li>Updating the embedded version of libxls (more below)</li>
+<li>Switching from Rcpp to cpp11 (more below)</li>
+<li>Refactoring to reduce duplication between the <code>.xls</code> and <code>.xlsx</code> branches</li>
+</ul><p>However, there are a few small features / bug fixes:</p>
 <ul><li><p>“Date or Not Date”: The classification of number formats as being datetime-ish is more sophisticated and should no longer be so easily fooled by, e.g., colours or currencies. This affects cell and column type guessing, hopefully for the better (<a href="https://github.com/tidyverse/readxl/issues/388" class="external-link">#388</a>, <a href="https://github.com/tidyverse/readxl/issues/559" class="external-link">#559</a>, <a href="https://github.com/nacnudus" class="external-link">@nacnudus</a>, <a href="https://github.com/reviewher" class="external-link">@reviewher</a>).</p></li>
 <li><p>Cell location is determined more robustly in <code>.xlsx</code> files, guarding against the idiosyncratic way in which certain 3rd party tools include (or, rather, do not include) cell location in individual cell nodes (<a href="https://github.com/tidyverse/readxl/issues/648" class="external-link">#648</a>, <a href="https://github.com/tidyverse/readxl/issues/671" class="external-link">#671</a>).</p></li>
 <li><p>Warning messages for impossible dates are more specific. Unsupported dates prior to 1900 have their own message now, instead of being lumped in with dates on the non-existent day of February 29, 1900 (<a href="https://github.com/tidyverse/readxl/issues/551" class="external-link">#551</a>, <a href="https://github.com/tidyverse/readxl/issues/554" class="external-link">#554</a>, <a href="https://github.com/cderv" class="external-link">@cderv</a>).</p></li>
-<li><p>readxl is now licensed as MIT (<a href="https://github.com/tidyverse/readxl/issues/632" class="external-link">#632</a>).</p></li>
 </ul><div class="section level3">
-<h3 id="dependency-changes-development-version">Dependency changes<a class="anchor" aria-label="anchor" href="#dependency-changes-development-version"></a></h3>
-<ul><li>
+<h3 id="dependency-and-licensing-changes-development-version">Dependency and licensing changes<a class="anchor" aria-label="anchor" href="#dependency-and-licensing-changes-development-version"></a></h3>
+<ul><li><p>readxl is now licensed as MIT (<a href="https://github.com/tidyverse/readxl/issues/632" class="external-link">#632</a>).</p></li>
+<li><p>readxl now states its support for R &gt;= 3.4 explicitly. Why 3.4? Because the <a href="https://www.tidyverse.org/blog/2019/04/r-version-support/" class="external-link">tidyverse policy</a> is to support the current version, the devel version, and four previous versions of R. It was necessary to introduce a minimum R version, in order to state a minimum version for a package listed in <code>LinkingTo</code>.</p></li>
+<li>
 <p>readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0). The libxls project is hosted at <a href="https://github.com/libxls/libxls" class="external-link uri">https://github.com/libxls/libxls</a> and you can learn more about the cumulative changes in its release notes:</p>
 <ul><li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.2" class="external-link">v1.6.2</a></li>
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.6.1" class="external-link">v1.6.1</a></li>
@@ -80,6 +86,7 @@
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.2" class="external-link">v1.5.2</a></li>
 <li><a href="https://github.com/libxls/libxls/releases/tag/v1.5.1" class="external-link">v1.5.1</a></li>
 </ul></li>
+<li><p>readxl has switched from Rcpp to cpp11 and now requires C++11 (<a href="https://github.com/tidyverse/readxl/issues/659" class="external-link">#659</a>, <a href="https://github.com/sbearrows" class="external-link">@sbearrows</a>).</p></li>
 <li><p>The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12), completing the transition to an approach to column name repair used across the tidyverse.</p></li>
 </ul></div>
 </div>
