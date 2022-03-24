@@ -30,7 +30,6 @@ URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
 Imports:
     cellranger,
-    cpp11 (>= 0.4.0),
     tibble (>= 2.0.1),
     utils
 Suggests:
@@ -40,7 +39,7 @@ Suggests:
     rprojroot (>= 1.1),
     testthat (>= 2.0.0)
 LinkingTo: 
-    cpp11,
+    cpp11 (>= 0.4.0),
     progress
 VignetteBuilder: 
     knitr
