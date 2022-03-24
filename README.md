@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmpxLRgSx/temp_libpath73d11fffcc6e/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmpxLRgSx/temp_libpath73d16b200d00/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -265,7 +265,3 @@ about twice as fast and to write smaller files.
 importing awkward and non-tabular data from Excel. It also “exposes cell
 content, position and formatting in a tidy structure for further
 manipulation”.
-
-Please note that the readxl project is released with a [Contributor Code
-of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
-project, you agree to abide by its terms.
