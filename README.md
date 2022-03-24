@@ -21,10 +21,10 @@ install and use on all operating systems. It is designed to work with
 *tabular* data.
 
 readxl supports both the legacy `.xls` format and the modern xml-based
-`.xlsx` format. The [libxls](https://github.com/libxls/libxls) C
-library is used to support `.xls`, which abstracts away many of the
-complexities of the underlying binary format. To parse `.xlsx`, we use
-the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+`.xlsx` format. The [libxls](https://github.com/libxls/libxls) C library
+is used to support `.xls`, which abstracts away many of the complexities
+of the underlying binary format. To parse `.xlsx`, we use the
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmpQ7Z0zv/temp_libpath3e147aec1464/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmpxLRgSx/temp_libpath73d11fffcc6e/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -222,8 +222,8 @@ presented by the world’s spreadsheets:
 
 -   Re-encodes non-ASCII characters to UTF-8.
 
--   Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
-    (1904) date specifications are processed correctly.
+-   Loads datetimes into POSIXct columns. Both Windows (1900) and
+    Mac (1904) date specifications are processed correctly.
 
 -   Discovers the minimal data rectangle and returns that, by default.
     User can exert more control with `range`, `skip`, and `n_max`.
