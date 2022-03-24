@@ -33,11 +33,9 @@ Imports:
     tibble (>= 2.0.1),
     utils
 Suggests:
-    covr,
     knitr,
     rmarkdown,
-    rprojroot (>= 1.1),
-    testthat (>= 2.0.0)
+    testthat (>= 3.0.0)
 LinkingTo: 
     cpp11 (>= 0.4.0),
     progress
