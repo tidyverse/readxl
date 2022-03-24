@@ -1,5 +1,14 @@
 # readxl (development version)
 
+This release is mostly about substantial internal changes that should not be
+noticeable to most users (but that set the stage for future work):
+
+* Updating the embedded version of libxls (more below)
+* Switching from Rcpp to cpp11 (more below)
+* Refactoring to reduce duplication between the `.xls` and `.xlsx` branches
+
+However, there are a few small features / bug fixes:
+
 * "Date or Not Date": The classification of number formats as being datetime-ish
   is more sophisticated and should no longer be so easily fooled by, e.g.,
   colours or currencies. This affects cell and column type guessing, hopefully
@@ -14,9 +23,16 @@
   lumped in with dates on the non-existent day of February 29, 1900
   (#551, #554, @cderv).
 
+## Dependency and licensing changes
+
 * readxl is now licensed as MIT (#632).
 
-## Dependency changes
+* readxl now states its support for R >= 3.4 explicitly. 
+  Why 3.4? Because the [tidyverse policy](https://www.tidyverse.org/blog/2019/04/r-version-support/)
+  is to support the current version, the devel version, and four previous
+  versions of R.
+  It was necessary to introduce a minimum R version, in order to state a minimum
+  version for a package listed in `LinkingTo`.
 
 * readxl embeds libxls v1.6.2 (the previous release embedded v1.5.0).
   The libxls project is hosted at <https://github.com/libxls/libxls> and you can
@@ -28,6 +44,9 @@
   - [v1.5.3](https://github.com/libxls/libxls/releases/tag/v1.5.3)
   - [v1.5.2](https://github.com/libxls/libxls/releases/tag/v1.5.2)
   - [v1.5.1](https://github.com/libxls/libxls/releases/tag/v1.5.1)
+  
+* readxl has switched from Rcpp to cpp11 and now requires C++11 (#659,
+  @sbearrows).
 
 * The minimum version of tibble has been bumped to 2.0.1 (released 2019-01-12),
   completing the transition to an approach to column name repair used across the
