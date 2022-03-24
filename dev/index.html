@@ -141,7 +141,7 @@
 <span class="co">#&gt;  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"</span>
 <span class="co">#&gt;  [9] "type-me.xls"   "type-me.xlsx"</span>
 <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xls"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/private/tmp/RtmpQ7Z0zv/temp_libpath3e147aec1464/readxl/extdata/clippy.xls"</span></code></pre></div>
+<span class="co">#&gt; [1] "/private/tmp/RtmpxLRgSx/temp_libpath73d11fffcc6e/readxl/extdata/clippy.xls"</span></code></pre></div>
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xlsx_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>
@@ -259,12 +259,7 @@
 <ul>
 <li><p>No external dependency on, e.g., Java or Perl.</p></li>
 <li><p>Re-encodes non-ASCII characters to UTF-8.</p></li>
-<li>
-<p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac</p>
-<ol start="1904" style="list-style-type: decimal">
-<li>date specifications are processed correctly.</li>
-</ol>
-</li>
+<li><p>Loads datetimes into POSIXct columns. Both Windows (1900) and Mac (1904) date specifications are processed correctly.</p></li>
 <li><p>Discovers the minimal data rectangle and returns that, by default. User can exert more control with <code>range</code>, <code>skip</code>, and <code>n_max</code>.</p></li>
 <li><p>Column names and types are determined from the data in the sheet, by default. User can also supply via <code>col_names</code> and <code>col_types</code> and control name repair via <code>.name_repair</code>.</p></li>
 <li><p>Returns a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>, i.e. a data frame with an additional <code>tbl_df</code> class. Among other things, this provide nicer printing.</p></li>
