@@ -33,3 +33,4 @@
 ^LICENSE\.md$
 ^\.vscode$
 ^debug$
+^CRAN-SUBMISSION$
