@@ -34,15 +34,17 @@
 
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
 #ifdef __GNUC__
-  // g++ 10 indicates Rtools42 and UCRT
-  #if __GNUC__ < 10
-    #define WINDOWS_BEFORE_RTOOLS_42
-  #endif
+    // Rtools42 | R 4.2 | GCC 10 | UCRT
+    // Rtools40 | R 4.0.x to 4.1.x | GCC 8.3.0 | MSVCRT
+    // Rtools35 | R 3.3.x to 3.6.x | GCC 4.9.3 | MSVCRT
+    #if __GNUC__ < 10
+      #define WINDOWS_BEFORE_RTOOLS_42
+    #endif
 #endif
 #endif
 
 #ifdef WINDOWS_BEFORE_RTOOLS_42
-static char* old_locale;
+    static char* old_locale;
 #endif
 
 xls_locale_t xls_createlocale() {
