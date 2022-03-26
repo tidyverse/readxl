@@ -32,8 +32,24 @@
 #include <stdlib.h>
 #include "libxls/locale.h"
 
-xls_locale_t xls_createlocale() {
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+#ifdef __GNUC__
+  // g++ 10 indicates Rtools42 and UCRT
+  #if __GNUC__ < 10
+    #define WINDOWS_BEFORE_RTOOLS_42
+  #endif
+#endif
+#endif
+
+#ifdef WINDOWS_BEFORE_RTOOLS_42
+static char* old_locale;
+#endif
+
+xls_locale_t xls_createlocale() {
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
+    old_locale = setlocale(LC_CTYPE, ".65001");
+    return NULL;
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _create_locale(LC_CTYPE, ".65001");
 #else
     return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
@@ -41,6 +57,11 @@ xls_locale_t xls_createlocale() {
 }
 
 void xls_freelocale(xls_locale_t locale) {
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
+    setlocale(LC_ALL, old_locale);
+    return;
+#endif
+
     if (!locale)
         return;
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
@@ -51,7 +72,9 @@ void xls_freelocale(xls_locale_t locale) {
 }
 
 size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc) {
-#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
+    return wcstombs(s, pwcs, n);
+#elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _wcstombs_l(s, pwcs, n, loc);
 #elif defined(HAVE_WCSTOMBS_L)
     return wcstombs_l(s, pwcs, n, loc);
