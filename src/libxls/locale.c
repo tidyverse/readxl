@@ -60,7 +60,7 @@ xls_locale_t xls_createlocale() {
 
 void xls_freelocale(xls_locale_t locale) {
 #if defined(WINDOWS_BEFORE_RTOOLS_42)
-    setlocale(LC_ALL, old_locale);
+    setlocale(LC_CTYPE, old_locale);
     return;
 #endif
 
