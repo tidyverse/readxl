@@ -37,18 +37,18 @@
     // Rtools42 | R 4.2 | GCC 10 | UCRT
     // Rtools40 | R 4.0.x to 4.1.x | GCC 8.3.0 | MSVCRT
     // Rtools35 | R 3.3.x to 3.6.x | GCC 4.9.3 | MSVCRT
-    #if __GNUC__ < 10
-      #define WINDOWS_BEFORE_RTOOLS_42
+    #if __GNUC__ < 8
+      #define WINDOWS_BEFORE_RTOOLS_40
     #endif
 #endif
 #endif
 
-#ifdef WINDOWS_BEFORE_RTOOLS_42
+#ifdef WINDOWS_BEFORE_RTOOLS_40
     static char* old_locale;
 #endif
 
 xls_locale_t xls_createlocale() {
-#if defined(WINDOWS_BEFORE_RTOOLS_42)
+#if defined(WINDOWS_BEFORE_RTOOLS_40)
     old_locale = setlocale(LC_CTYPE, ".65001");
     return NULL;
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
@@ -59,7 +59,7 @@ xls_locale_t xls_createlocale() {
 }
 
 void xls_freelocale(xls_locale_t locale) {
-#if defined(WINDOWS_BEFORE_RTOOLS_42)
+#if defined(WINDOWS_BEFORE_RTOOLS_40)
     setlocale(LC_CTYPE, old_locale);
     return;
 #endif
@@ -74,7 +74,7 @@ void xls_freelocale(xls_locale_t locale) {
 }
 
 size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc) {
-#if defined(WINDOWS_BEFORE_RTOOLS_42)
+#if defined(WINDOWS_BEFORE_RTOOLS_40)
     return wcstombs(s, pwcs, n);
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _wcstombs_l(s, pwcs, n, loc);
