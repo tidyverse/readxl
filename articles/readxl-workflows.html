@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.0/font.css" rel="stylesheet">
-<link href="../deps/_Source%20Code%20Pro-0.4.0/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="readxl Workflows">
@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">readxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,9 +118,9 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ───────────────────────────────── tidyverse 1.3.1 ──</span>
 <span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2</span> 3.3.5     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr  </span> 0.3.4</span>
-<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble </span> 3.1.6     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr  </span> 1.0.7</span>
-<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr  </span> 1.1.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr</span> 1.4.0</span>
-<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr  </span> 2.1.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats</span> 0.5.1</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble </span> 3.1.6     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr  </span> 1.0.8</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr  </span> 1.2.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr</span> 1.4.0</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr  </span> 2.1.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats</span> 0.5.1</span>
 <span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
@@ -161,8 +161,8 @@
 <span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): Species</span>
 <span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use <span style="color: #262626; background-color: #DADADA;">`spec()`</span> to retrieve the full column specification for this data.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set <span style="color: #262626; background-color: #DADADA;">`show_col_types = FALSE`</span> to quiet this message.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="co">## readr leaves a note-to-self in `spec` that records its column guessing,</span>
 <span class="co">## so we remove that attribute before the check</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">iris_alt</span>, <span class="st">"spec"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
@@ -322,7 +322,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill        journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn        astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit        coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: Date of death &lt;dttm&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `Date of death` &lt;dttm&gt;</span></span></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here. <code>deaths.xlsx</code> is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.</p>
 </div>
 <div class="section level2">
@@ -378,7 +378,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill        journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn        astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit        coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: Date of death &lt;dttm&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `Date of death` &lt;dttm&gt;</span></span></code></pre></div>
 <!--
 
 ## Session info
@@ -390,15 +390,15 @@
 devtools::session_info()
 #>  [1m [36m─ Session info ───────────────────────────────────────────────────────── [39m [22m
 #>   [3m [90msetting  [39m [23m  [3m [90mvalue [39m [23m
-#>  version  R version 4.1.2 (2021-11-01)
-#>  os       Ubuntu 20.04.3 LTS
+#>  version  R version 4.1.3 (2022-03-10)
+#>  os       Ubuntu 20.04.4 LTS
 #>  system   x86_64, linux-gnu
 #>  ui       X11
 #>  language en
 #>  collate  C.UTF-8
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2022-01-19
+#>  date     2022-03-28
 #>  pandoc   2.14.2 @ /usr/bin/ (via rmarkdown)
 #> 
 #>  [1m [36m─ Packages ───────────────────────────────────────────────────────────── [39m [22m
@@ -407,89 +407,89 @@ devtools::session_info()
 #>  backports     1.4.1    [90m2021-12-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bit           4.0.4    [90m2020-08-04 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bit64         4.0.5    [90m2020-08-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  broom         0.7.11   [90m2022-01-03 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  brio          1.1.3    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  broom         0.7.12   [90m2022-01-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bslib         0.3.1    [90m2021-10-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cachem        1.0.6    [90m2021-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  callr         3.7.0    [90m2021-04-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cellranger    1.1.0    [90m2016-07-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  cli           3.1.0    [90m2021-10-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  colorspace    2.0-2    [90m2021-06-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  crayon        1.4.2    [90m2021-10-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  cli           3.2.0    [90m2022-02-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  colorspace    2.0-3    [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  crayon        1.5.1    [90m2022-03-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  DBI           1.1.2    [90m2021-12-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  dbplyr        2.1.1    [90m2021-04-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  desc          1.4.0    [90m2021-09-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  desc          1.4.1    [90m2022-03-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  devtools      2.4.3    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  digest        0.6.29   [90m2021-12-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  dplyr       * 1.0.7    [90m2021-06-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  dplyr       * 1.0.8    [90m2022-02-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  ellipsis      0.3.2    [90m2021-04-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  evaluate      0.14     [90m2019-05-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  fansi         1.0.2    [90m2022-01-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  evaluate      0.15     [90m2022-02-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  fansi         1.0.3    [90m2022-03-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fastmap       1.1.0    [90m2021-01-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  forcats     * 0.5.1    [90m2021-01-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fs            1.5.2    [90m2021-12-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  generics      0.1.1    [90m2021-10-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  generics      0.1.2    [90m2022-01-31 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  ggplot2     * 3.3.5    [90m2021-06-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  glue          1.6.0    [90m2021-12-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  glue          1.6.2    [90m2022-02-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  gtable        0.3.0    [90m2019-03-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  haven         2.4.3    [90m2021-08-04 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  hms           1.1.1    [90m2021-09-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  htmltools     0.5.2    [90m2021-08-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  httr          1.4.2    [90m2020-07-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  jquerylib     0.1.4    [90m2021-04-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  jsonlite      1.7.3    [90m2022-01-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  knitr         1.37     [90m2021-12-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  jsonlite      1.8.0    [90m2022-02-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  knitr         1.38     [90m2022-03-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  lifecycle     1.0.1    [90m2021-09-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  lubridate     1.8.0    [90m2021-10-07 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  magrittr      2.0.1    [90m2020-11-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  magrittr      2.0.2    [90m2022-01-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  memoise       2.0.1    [90m2021-11-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  modelr        0.1.8    [90m2020-05-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  munsell       0.5.0    [90m2018-06-12 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  pillar        1.6.4    [90m2021-10-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  pillar        1.7.0    [90m2022-02-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgbuild      1.3.1    [90m2021-12-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgconfig     2.0.3    [90m2019-09-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgdown       2.0.2    [90m2022-01-13 [39m  [90m[1] [39m  [1m [35many (@2.0.2) [39m [22m
 #>  pkgload       1.2.4    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  prettyunits   1.1.1    [90m2020-01-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  processx      3.5.2    [90m2021-04-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  processx      3.5.3    [90m2022-03-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  ps            1.6.0    [90m2021-02-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  purrr       * 0.3.4    [90m2020-04-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  R6            2.5.1    [90m2021-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  ragg          1.2.1    [90m2021-12-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  Rcpp          1.0.8    [90m2022-01-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  readr       * 2.1.1    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  readxl      * 1.3.1    [90m2022-01-19 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
+#>  ragg          1.2.2    [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  readr       * 2.1.2    [90m2022-01-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  readxl      * 1.4.0    [90m2022-03-28 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
 #>  rematch       1.0.1    [90m2016-04-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  remotes       2.4.2    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  reprex        2.0.1    [90m2021-08-05 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  rlang         0.4.12   [90m2021-10-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  rmarkdown     2.11     [90m2021-09-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  rlang         1.0.2    [90m2022-03-04 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  rmarkdown     2.13     [90m2022-03-10 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  rprojroot     2.0.2    [90m2020-11-15 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  rstudioapi    0.13     [90m2020-11-12 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  rvest         1.0.2    [90m2021-10-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  sass          0.4.0    [90m2021-05-12 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  sass          0.4.1    [90m2022-03-23 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  scales        1.1.1    [90m2020-05-11 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  sessioninfo   1.2.2    [90m2021-12-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  stringi       1.7.6    [90m2021-11-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  stringr     * 1.4.0    [90m2019-02-10 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  systemfonts   1.0.3    [90m2021-10-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  testthat      3.1.1    [90m2021-12-03 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  systemfonts   1.0.4    [90m2022-02-11 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  testthat      3.1.2    [90m2022-01-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  textshaping   0.3.6    [90m2021-10-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  tibble      * 3.1.6    [90m2021-11-07 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  tidyr       * 1.1.4    [90m2021-09-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  tidyselect    1.1.1    [90m2021-04-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  tidyr       * 1.2.0    [90m2022-02-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  tidyselect    1.1.2    [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  tidyverse   * 1.3.1    [90m2021-04-15 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  tzdb          0.2.0    [90m2021-10-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  usethis       2.1.5    [90m2021-12-09 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  utf8          1.2.2    [90m2021-07-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  vctrs         0.3.8    [90m2021-04-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  vroom         1.5.7    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  withr         2.4.3    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  xfun          0.29     [90m2021-12-14 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  withr         2.5.0    [90m2022-03-03 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  xfun          0.30     [90m2022-03-02 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  xml2          1.3.3    [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  yaml          2.2.1    [90m2020-02-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  yaml          2.3.5    [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #> 
 #>  [90m [1] /home/runner/work/_temp/Library [39m
-#>  [90m [2] /opt/R/4.1.2/lib/R/library [39m
+#>  [90m [2] /opt/R/4.1.3/lib/R/library [39m
 #> 
 #>  [1m [36m──────────────────────────────────────────────────────────────────────── [39m [22m
 ```

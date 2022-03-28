@@ -3,7 +3,7 @@
 read_excel() calls excel_format() to determine if path is xls or xlsx,
 based on the file extension and the file itself, in that order. Use
 read_xls() and read_xlsx() directly if you know better and want to
-prevent such guessing."><title>Read xls and xlsx files — read_excel • readxl</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.0/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.0/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Read xls and xlsx files — read_excel"><meta property="og:description" content="Read xls and xlsx files
+prevent such guessing."><title>Read xls and xlsx files — read_excel • readxl</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Read xls and xlsx files — read_excel"><meta property="og:description" content="Read xls and xlsx files
 read_excel() calls excel_format() to determine if path is xls or xlsx,
 based on the file extension and the file itself, in that order. Use
 read_xls() and read_xlsx() directly if you know better and want to
@@ -18,7 +18,7 @@ prevent such guessing."><meta property="og:image" content="https://readxl.tidyve
     
     <a class="navbar-brand me-2" href="../index.html">readxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,20 +82,50 @@ prevent such guessing.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_excel</span><span class="op">(</span><span class="va">path</span>, sheet <span class="op">=</span> <span class="cn">NULL</span>, range <span class="op">=</span> <span class="cn">NULL</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span>,
-  col_types <span class="op">=</span> <span class="cn">NULL</span>, na <span class="op">=</span> <span class="st">""</span>, trim_ws <span class="op">=</span> <span class="cn">TRUE</span>, skip <span class="op">=</span> <span class="fl">0</span>,
-  n_max <span class="op">=</span> <span class="cn">Inf</span>, guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
-  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="st">"unique"</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_excel</span><span class="op">(</span>
+  <span class="va">path</span>,
+  sheet <span class="op">=</span> <span class="cn">NULL</span>,
+  range <span class="op">=</span> <span class="cn">NULL</span>,
+  col_names <span class="op">=</span> <span class="cn">TRUE</span>,
+  col_types <span class="op">=</span> <span class="cn">NULL</span>,
+  na <span class="op">=</span> <span class="st">""</span>,
+  trim_ws <span class="op">=</span> <span class="cn">TRUE</span>,
+  skip <span class="op">=</span> <span class="fl">0</span>,
+  n_max <span class="op">=</span> <span class="cn">Inf</span>,
+  guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
+  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>,
+  .name_repair <span class="op">=</span> <span class="st">"unique"</span>
+<span class="op">)</span>
 
-<span class="fu">read_xls</span><span class="op">(</span><span class="va">path</span>, sheet <span class="op">=</span> <span class="cn">NULL</span>, range <span class="op">=</span> <span class="cn">NULL</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span>,
-  col_types <span class="op">=</span> <span class="cn">NULL</span>, na <span class="op">=</span> <span class="st">""</span>, trim_ws <span class="op">=</span> <span class="cn">TRUE</span>, skip <span class="op">=</span> <span class="fl">0</span>,
-  n_max <span class="op">=</span> <span class="cn">Inf</span>, guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
-  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="st">"unique"</span><span class="op">)</span>
+<span class="fu">read_xls</span><span class="op">(</span>
+  <span class="va">path</span>,
+  sheet <span class="op">=</span> <span class="cn">NULL</span>,
+  range <span class="op">=</span> <span class="cn">NULL</span>,
+  col_names <span class="op">=</span> <span class="cn">TRUE</span>,
+  col_types <span class="op">=</span> <span class="cn">NULL</span>,
+  na <span class="op">=</span> <span class="st">""</span>,
+  trim_ws <span class="op">=</span> <span class="cn">TRUE</span>,
+  skip <span class="op">=</span> <span class="fl">0</span>,
+  n_max <span class="op">=</span> <span class="cn">Inf</span>,
+  guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
+  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>,
+  .name_repair <span class="op">=</span> <span class="st">"unique"</span>
+<span class="op">)</span>
 
-<span class="fu">read_xlsx</span><span class="op">(</span><span class="va">path</span>, sheet <span class="op">=</span> <span class="cn">NULL</span>, range <span class="op">=</span> <span class="cn">NULL</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span>,
-  col_types <span class="op">=</span> <span class="cn">NULL</span>, na <span class="op">=</span> <span class="st">""</span>, trim_ws <span class="op">=</span> <span class="cn">TRUE</span>, skip <span class="op">=</span> <span class="fl">0</span>,
-  n_max <span class="op">=</span> <span class="cn">Inf</span>, guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
-  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="st">"unique"</span><span class="op">)</span></code></pre></div>
+<span class="fu">read_xlsx</span><span class="op">(</span>
+  <span class="va">path</span>,
+  sheet <span class="op">=</span> <span class="cn">NULL</span>,
+  range <span class="op">=</span> <span class="cn">NULL</span>,
+  col_names <span class="op">=</span> <span class="cn">TRUE</span>,
+  col_types <span class="op">=</span> <span class="cn">NULL</span>,
+  na <span class="op">=</span> <span class="st">""</span>,
+  trim_ws <span class="op">=</span> <span class="cn">TRUE</span>,
+  skip <span class="op">=</span> <span class="fl">0</span>,
+  n_max <span class="op">=</span> <span class="cn">Inf</span>,
+  guess_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">n_max</span><span class="op">)</span>,
+  progress <span class="op">=</span> <span class="fu"><a href="readxl_progress.html">readxl_progress</a></span><span class="op">(</span><span class="op">)</span>,
+  .name_repair <span class="op">=</span> <span class="st">"unique"</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -150,11 +180,9 @@ only in an interactive session, outside the context of knitting a document,
 and when the call is likely to run for several seconds or more. See
 <code><a href="readxl_progress.html">readxl_progress()</a></code> for more details.</p></dd>
 <dt>.name_repair</dt>
-<dd><p>Handling of column names. By default, readxl ensures
-column names are not empty and are unique. If the tibble package version is
-recent enough, there is full support for <code>.name_repair</code> as documented in
-<code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code>. If an older version of tibble is present, readxl falls
-back to name repair in the style of tibble v1.4.2.</p></dd>
+<dd><p>Handling of column names. Passed along to
+<code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code>. readxl's default is `.name_repair = "unique", which
+ensures column names are not empty and are unique.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -382,37 +410,69 @@ back to name repair in the style of tibble v1.4.2.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Species"     </span>
 <span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"tibble"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.4.2"</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co">## exploit full .name_repair flexibility from tibble</span></span>
+<span class="r-in"><span class="co"># exploit full .name_repair flexibility from tibble</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="co">## "universal" names are unique and syntactic</span></span>
-<span class="r-in">  <span class="fu">read_excel</span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,</span>
-<span class="r-in">    range <span class="op">=</span> <span class="st">"arts!A5:F15"</span>,</span>
-<span class="r-in">    .name_repair <span class="op">=</span> <span class="st">"universal"</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## specify name repair as a built-in function</span></span>
-<span class="r-in">  <span class="fu">read_excel</span><span class="op">(</span><span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="va">toupper</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## specify name repair as a custom function</span></span>
-<span class="r-in">  <span class="va">my_custom_name_repair</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nms</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[.]"</span>, <span class="st">"_"</span>, <span class="va">nms</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">read_excel</span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>,</span>
-<span class="r-in">    .name_repair <span class="op">=</span> <span class="va">my_custom_name_repair</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## specify name repair as an anonymous function</span></span>
-<span class="r-in">  <span class="fu">read_excel</span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>,</span>
-<span class="r-in">    sheet <span class="op">=</span> <span class="st">"chickwts"</span>,</span>
-<span class="r-in">    .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">.x</span>, start <span class="op">=</span> <span class="fl">1</span>, stop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="co"># "universal" names are unique and syntactic</span></span>
+<span class="r-in"><span class="fu">read_excel</span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>,</span>
+<span class="r-in">  range <span class="op">=</span> <span class="st">"arts!A5:F15"</span>,</span>
+<span class="r-in">  .name_repair <span class="op">=</span> <span class="st">"universal"</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> New names:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `Has kids` -&gt; Has.kids</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `Date of birth` -&gt; Date.of.birth</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `Date of death` -&gt; Date.of.death</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Name  Profession   Age Has.kids Date.of.birth       Date.of.death      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Davi… musician      69 TRUE     1947-01-08 <span style="color: #949494;">00:00:00</span> 2016-01-10 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Carr… actor         60 TRUE     1956-10-21 <span style="color: #949494;">00:00:00</span> 2016-12-27 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Chuc… musician      90 TRUE     1926-10-18 <span style="color: #949494;">00:00:00</span> 2017-03-18 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Bill… actor         61 TRUE     1955-05-17 <span style="color: #949494;">00:00:00</span> 2017-02-25 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Prin… musician      57 TRUE     1958-06-07 <span style="color: #949494;">00:00:00</span> 2016-04-21 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Alan… actor         69 FALSE    1946-02-21 <span style="color: #949494;">00:00:00</span> 2016-01-14 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Flor… actor         82 TRUE     1934-02-14 <span style="color: #949494;">00:00:00</span> 2016-11-24 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Harp… author        89 FALSE    1926-04-28 <span style="color: #949494;">00:00:00</span> 2016-02-19 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Zsa … actor         99 TRUE     1917-02-06 <span style="color: #949494;">00:00:00</span> 2016-12-18 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Geor… musician      53 FALSE    1963-06-25 <span style="color: #949494;">00:00:00</span> 2016-12-25 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># specify name repair as a built-in function</span></span>
+<span class="r-in"><span class="fu">read_excel</span><span class="op">(</span><span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="va">toupper</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   NAME                 VALUE    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Name                 Clippy   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Species              paperclip</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Approx date of death 39083    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Weight in grams      0.9      </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># specify name repair as a custom function</span></span>
+<span class="r-in"><span class="va">my_custom_name_repair</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nms</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[.]"</span>, <span class="st">"_"</span>, <span class="va">nms</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">read_excel</span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>,</span>
+<span class="r-in">  .name_repair <span class="op">=</span> <span class="va">my_custom_name_repair</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 150 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    sepal_length sepal_width petal_length petal_width species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>          5.1         3.5          1.4         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>          4.9         3            1.4         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>          4.7         3.2          1.3         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>          4.6         3.1          1.5         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>          5           3.6          1.4         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>          5.4         3.9          1.7         0.4 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>          4.6         3.4          1.4         0.3 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>          5           3.4          1.5         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>          4.4         2.9          1.4         0.2 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>          4.9         3.1          1.5         0.1 setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 140 more rows</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># specify name repair as an anonymous function</span></span>
+<span class="r-in"><span class="fu">read_excel</span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>,</span>
+<span class="r-in">  sheet <span class="op">=</span> <span class="st">"chickwts"</span>,</span>
+<span class="r-in">  .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">.x</span>, start <span class="op">=</span> <span class="fl">1</span>, stop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 71 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      wei fee      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>

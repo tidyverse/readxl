@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.0/font.css" rel="stylesheet">
-<link href="../deps/_Source%20Code%20Pro-0.4.0/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Cell and Column Types">
@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">readxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,7 @@
 <div class="section level2">
 <h2 id="type-guessing">Type guessing<a class="anchor" aria-label="anchor" href="#type-guessing"></a>
 </h2>
-<p>If you use other packages in the <a href="http://tidyverse.org" class="external-link">tidyverse</a>, you are probably familiar with <a href="http://readr.tidyverse.org" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
+<p>If you use other packages in the <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>, you are probably familiar with <a href="https://readr.tidyverse.org/" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
 <ul>
 <li>readr guesses column type <em>based on the data</em>.</li>
 <li>readxl guesses column type <em>based on Excel cell types</em>.</li>
@@ -131,7 +131,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Carrie Fisher actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Chuck Berry   musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bill Paxton   actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows, and 1 more variable: Date of death &lt;dttm&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows, and 1 more variable: `Date of death` &lt;dttm&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="excel-types-r-types-col_types">Excel types, R types, <code>col_types</code><a class="anchor" aria-label="anchor" href="#excel-types-r-types-col_types"></a>
@@ -268,26 +268,26 @@
 <span class="co">#&gt; * `` -&gt; ...6</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 6</span></span>
-<span class="co">#&gt;    `Lots of people`             ...2        ...3   ...4   ...5    ...6    </span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> simply cannot resist writing <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      some no…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> at                           the         top    <span style="color: #BB0000;">NA</span>     of      their s…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> or                           merging     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      cells   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Name                         Profession  Age    Has k… Date o… Date of…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> David Bowie                  musician    69     TRUE   17175   42379   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Carrie Fisher                actor       60     TRUE   20749   42731   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Chuck Berry                  musician    90     TRUE   9788    42812   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Bill Paxton                  actor       61     TRUE   20226   42791   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Prince                       musician    57     TRUE   21343   42481   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alan Rickman                 actor       69     FALSE  16854   42383   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Florence Henderson           actor       82     TRUE   12464   42698   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Harper Lee                   author      89     FALSE  9615    42419   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Zsa Zsa Gábor                actor       99     TRUE   6247    42722   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> George Michael               musician    53     FALSE  23187   42729   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Some                         <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #BB0000;">NA</span>                           also like … <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>          at the botto… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>      too!</span></code></pre></div>
+<span class="co">#&gt;    `Lots of people`             ...2               ...3  ...4  ...5  ...6 </span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> simply cannot resist writing <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    some…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> at                           the                top   <span style="color: #BB0000;">NA</span>    of    thei…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> or                           merging            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    cells</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Name                         Profession         Age   Has … Date… Date…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> David Bowie                  musician           69    TRUE  17175 42379</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Carrie Fisher                actor              60    TRUE  20749 42731</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Chuck Berry                  musician           90    TRUE  9788  42812</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Bill Paxton                  actor              61    TRUE  20226 42791</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Prince                       musician           57    TRUE  21343 42481</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alan Rickman                 actor              69    FALSE 16854 42383</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Florence Henderson           actor              82    TRUE  12464 42698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Harper Lee                   author             89    FALSE 9615  42419</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Zsa Zsa Gábor                actor              99    TRUE  6247  42722</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> George Michael               musician           53    FALSE 23187 42729</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Some                         <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #BB0000;">NA</span>                           also like to writ… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 at t… bott… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    too!</span></code></pre></div>
 <p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
 <p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
 <div class="section level3">
@@ -324,10 +324,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"logical_coercion"</span>,
                  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"logical"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting logical in A5 / R5C1: got a date</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting logical in A8 / R8C1: got 'cabbage'</span>
+<span class="co">#&gt; Warning: Expecting logical in A5 / R5C1: got a date</span>
+<span class="co">#&gt; Warning: Expecting logical in A8 / R8C1: got 'cabbage'</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span>
 <span class="co">#&gt;    `maybe boolean?` description                         </span>
@@ -347,20 +345,15 @@
 <div class="section level3">
 <h3 id="numeric-column">Numeric column<a class="anchor" aria-label="anchor" href="#numeric-column"></a>
 </h3>
-<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://support.microsoft.com/en-us/help/214330/differences-between-the-1900-and-the-1904-date-system-in-excel" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
+<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://docs.microsoft.com/en-US/office/troubleshoot/excel/1900-and-1904-date-system" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"numeric_coercion"</span>,
                  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Coercing boolean to numeric in A3 / R3C1</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Coercing boolean to numeric in A4 / R4C1</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting numeric in A5 / R5C1: got a date</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Coercing text to numeric in A6 / R6C1: '123456'</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting numeric in A8 / R8C1: got 'cabbage'</span>
+<span class="co">#&gt; Warning: Coercing boolean to numeric in A3 / R3C1</span>
+<span class="co">#&gt; Warning: Coercing boolean to numeric in A4 / R4C1</span>
+<span class="co">#&gt; Warning: Expecting numeric in A5 / R5C1: got a date</span>
+<span class="co">#&gt; Warning: Coercing text to numeric in A6 / R6C1: '123456'</span>
+<span class="co">#&gt; Warning: Expecting numeric in A8 / R8C1: got 'cabbage'</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 2</span></span>
 <span class="co">#&gt;   `maybe numeric?` explanation            </span>
@@ -381,14 +374,10 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"date_coercion"</span>,
                  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting date in A5 / R5C1: got boolean</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Expecting date in A6 / R6C1: got 'cabbage'</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Coercing numeric to date A7 / R7C1</span>
-<span class="co">#&gt; Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =</span>
-<span class="co">#&gt; sheet, : Coercing numeric to date A8 / R8C1</span>
+<span class="co">#&gt; Warning: Expecting date in A5 / R5C1: got boolean</span>
+<span class="co">#&gt; Warning: Expecting date in A6 / R6C1: got 'cabbage'</span>
+<span class="co">#&gt; Warning: Coercing numeric to date in A7 / R7C1</span>
+<span class="co">#&gt; Warning: Coercing numeric to date in A8 / R8C1</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 2</span></span>
 <span class="co">#&gt;   `maybe a datetime?` explanation           </span>
