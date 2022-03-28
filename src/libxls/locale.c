@@ -32,30 +32,35 @@
 #include <stdlib.h>
 #include "libxls/locale.h"
 
-#ifdef __sun
-#include <string.h>
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+#ifdef __GNUC__
+    // Rtools42 | R 4.2 | GCC 10 | UCRT
+    // Rtools40 | R 4.0.x to 4.1.x | GCC 8.3.0 | MSVCRT
+    // Rtools35 | R 3.3.x to 3.6.x | GCC 4.9.3 | MSVCRT
+    #if __GNUC__ < 10
+      #define WINDOWS_BEFORE_RTOOLS_42
+    #endif
+#endif
 #endif
 
-#if defined(__MINGW32__)
-  static char* old_locale;
+#ifdef WINDOWS_BEFORE_RTOOLS_42
+    static char* old_locale;
 #endif
 
 xls_locale_t xls_createlocale() {
-#if defined(__MINGW32__)
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
     old_locale = setlocale(LC_CTYPE, ".65001");
     return NULL;
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _create_locale(LC_CTYPE, ".65001");
-#elif defined(__sun)
-    return NULL;
 #else
     return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
 #endif
 }
 
 void xls_freelocale(xls_locale_t locale) {
-#if defined(__MINGW32__)
-    setlocale(LC_ALL, old_locale);
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
+    setlocale(LC_CTYPE, old_locale);
     return;
 #endif
 
@@ -63,22 +68,18 @@ void xls_freelocale(xls_locale_t locale) {
         return;
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     _free_locale(locale);
-#elif defined(__sun)
-   return;
 #else
     freelocale(locale);
 #endif
 }
 
 size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc) {
-#if defined(__MINGW32__)
+#if defined(WINDOWS_BEFORE_RTOOLS_42)
     return wcstombs(s, pwcs, n);
 #elif defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _wcstombs_l(s, pwcs, n, loc);
 #elif defined(HAVE_WCSTOMBS_L)
     return wcstombs_l(s, pwcs, n, loc);
-#elif defined(__sun)
-    return wcstombs(s, pwcs, n);
 #else
     locale_t oldlocale = uselocale(loc);
     size_t result = wcstombs(s, pwcs, n);
