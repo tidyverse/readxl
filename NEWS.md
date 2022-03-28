@@ -1,4 +1,4 @@
-# readxl (development version)
+# readxl 1.4.0
 
 This release is mostly about substantial internal changes that should not be
 noticeable to most users (but that set the stage for future work):
