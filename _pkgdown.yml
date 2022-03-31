@@ -17,6 +17,8 @@ home:
 
 news:
   releases:
+  - text: "Version 1.4.0"
+    href: https://www.tidyverse.org/blog/2022/03/readxl-1-4-0/
   - text: "Version 1.2.0"
     href: https://www.tidyverse.org/articles/2018/12/readxl-1-2-0/
   - text: "Version 1.1.0"
