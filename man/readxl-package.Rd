@@ -6,9 +6,9 @@
 \alias{readxl-package}
 \title{readxl: Read Excel Files}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Import excel files into R. Supports '.xls' via the embedded 'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via the embedded 'RapidXML' C++ library <http://rapidxml.sourceforge.net>. Works on Windows, Mac and Linux without external dependencies.
+Import excel files into R. Supports '.xls' via the embedded 'libxls' C library \url{https://github.com/libxls/libxls} and '.xlsx' via the embedded 'RapidXML' C++ library \url{http://rapidxml.sourceforge.net}. Works on Windows, Mac and Linux without external dependencies.
 }
 \seealso{
 Useful links:
