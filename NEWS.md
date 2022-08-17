@@ -1,3 +1,5 @@
+# readxl (development version)
+
 # readxl 1.4.1
 
 Help files below `man/` have been re-generated, so that they give rise to valid HTML5. (This is the impetus for this release, to keep the package safely on CRAN.)
