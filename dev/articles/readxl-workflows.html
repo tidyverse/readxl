@@ -121,8 +121,8 @@
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ───────────────────────────────── tidyverse 1.3.2 ──</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2</span> 3.3.6     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr  </span> 0.3.4</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble </span> 3.1.8     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr  </span> 1.0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr  </span> 1.2.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr</span> 1.4.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr  </span> 2.1.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats</span> 0.5.1</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr  </span> 1.2.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr</span> 1.4.1</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr  </span> 2.1.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats</span> 0.5.2</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────────── tidyverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
@@ -152,7 +152,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 147 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"iris"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "iris-raw.csv"</span></span></code></pre></div>
 <p>Yes! Is the data written to CSV an exact copy of what we imported from Excel?</p>
@@ -197,7 +196,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 147 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $mtcars</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span></span>
@@ -207,7 +205,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 29 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $chickwts</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 2</span></span></span>
@@ -217,7 +214,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    160 horsebean</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    136 horsebean</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 68 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $quakes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 5</span></span></span>
@@ -226,8 +222,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> -<span style="color: #BB0000;">20.4</span>  182.   562   4.8       41</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">20.6</span>  181.   650   4.2       15</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">26</span>    184.    42   5.4       43</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 997 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 997 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="csv-caching-and-iterating-over-sheets">CSV caching and iterating over sheets<a class="anchor" aria-label="anchor" href="#csv-caching-and-iterating-over-sheets"></a>
@@ -257,7 +252,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 147 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $mtcars</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span></span>
@@ -267,7 +261,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 29 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $chickwts</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 2</span></span></span>
@@ -277,7 +270,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    160 horsebean</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    136 horsebean</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 68 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $quakes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 5</span></span></span>
@@ -287,7 +279,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">20.6</span>  181.   650   4.2       15</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">26</span>    184.    42   5.4       43</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 997 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"^datasets.*\\.csv$"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "datasets-chickwts.csv" "datasets-iris.csv"    </span></span>
 <span><span class="co">#&gt; [3] "datasets-mtcars.csv"   "datasets-quakes.csv"</span></span></code></pre></div>
@@ -334,8 +325,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn         astronaut     95 TRUE      1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit         coach         64 TRUE      1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `Date of death` &lt;dttm&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`Has kids`</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`Has kids`</span></span></span></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here. <code>deaths.xlsx</code> is a typical spreadsheet and includes a few non-data lines at the top and bottom and this argument specifies where the data rectangle lives.</p>
 </div>
 <div class="section level2">
@@ -392,8 +382,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn         astronaut     95 TRUE      1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit         coach         64 TRUE      1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `Date of death` &lt;dttm&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`Has kids`</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`Has kids`</span></span></span></code></pre></div>
 <!--
 
 ## Session info
@@ -413,7 +402,7 @@ devtools::session_info()
 #>  collate  C.UTF-8
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2022-08-17
+#>  date     2022-09-01
 #>  pandoc   2.14.2 @ /usr/bin/ (via rmarkdown)
 #> 
 #>  [1m [36m─ Packages ───────────────────────────────────────────────────────────── [39m [22m
@@ -422,10 +411,10 @@ devtools::session_info()
 #>  backports       1.4.1       [90m2021-12-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bit             4.0.4       [90m2020-08-04 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bit64           4.0.5       [90m2020-08-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  broom           1.0.0       [90m2022-07-01 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  broom           1.0.1       [90m2022-08-29 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  bslib           0.4.0       [90m2022-07-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cachem          1.0.6       [90m2021-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  callr           3.7.1       [90m2022-07-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  callr           3.7.2       [90m2022-08-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cellranger      1.1.0       [90m2016-07-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  cli             3.3.0       [90m2022-04-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  colorspace      2.0-3       [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -441,7 +430,7 @@ devtools::session_info()
 #>  evaluate        0.16        [90m2022-08-09 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fansi           1.0.3       [90m2022-03-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fastmap         1.1.0       [90m2021-01-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  forcats       * 0.5.1       [90m2021-01-27 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  forcats       * 0.5.2       [90m2022-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  fs              1.5.2       [90m2021-12-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  gargle          1.2.0       [90m2021-07-02 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  generics        0.1.3       [90m2022-07-05 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -450,15 +439,15 @@ devtools::session_info()
 #>  googledrive     2.0.0       [90m2021-07-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  googlesheets4   1.0.1       [90m2022-08-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  gtable          0.3.0       [90m2019-03-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  haven           2.5.0       [90m2022-04-15 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  hms             1.1.1       [90m2021-09-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  haven           2.5.1       [90m2022-08-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  hms             1.1.2       [90m2022-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  htmltools       0.5.3       [90m2022-07-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  htmlwidgets     1.5.4       [90m2021-09-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  httpuv          1.6.5       [90m2022-01-05 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  httr            1.4.4       [90m2022-08-17 [39m  [90m[1] [39m  [90mCRAN (R 4.2.1) [39m
+#>  httr            1.4.4       [90m2022-08-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  jquerylib       0.1.4       [90m2021-04-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  jsonlite        1.8.0       [90m2022-02-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  knitr           1.39        [90m2022-04-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  knitr           1.40        [90m2022-08-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  later           1.3.0       [90m2021-08-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  lifecycle       1.0.1       [90m2021-09-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  lubridate       1.8.0       [90m2021-10-07 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -466,9 +455,9 @@ devtools::session_info()
 #>  memoise         2.0.1       [90m2021-11-26 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  mime            0.12        [90m2021-09-28 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  miniUI          0.1.1.1     [90m2018-05-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  modelr          0.1.8       [90m2020-05-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  modelr          0.1.9       [90m2022-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  munsell         0.5.0       [90m2018-06-12 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  pillar          1.8.0       [90m2022-07-18 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  pillar          1.8.1       [90m2022-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgbuild        1.3.1       [90m2021-12-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgconfig       2.0.3       [90m2019-09-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  pkgdown         2.0.6       [90m2022-07-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
@@ -483,20 +472,20 @@ devtools::session_info()
 #>  ragg            1.2.2       [90m2022-02-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  Rcpp            1.0.9       [90m2022-07-08 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  readr         * 2.1.2       [90m2022-01-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  readxl        *  [1m [35m1.4.1.9000 [39m [22m  [90m2022-08-17 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
+#>  readxl        *  [1m [35m1.4.1.9000 [39m [22m  [90m2022-09-01 [39m  [90m[1] [39m  [1m [35mlocal [39m [22m
 #>  rematch         1.0.1       [90m2016-04-21 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  remotes         2.4.2       [90m2021-11-30 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  reprex          2.0.1       [90m2021-08-05 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  reprex          2.0.2       [90m2022-08-17 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  rlang           1.0.4       [90m2022-07-12 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  rmarkdown       2.14        [90m2022-04-25 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  rmarkdown       2.16        [90m2022-08-24 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  rprojroot       2.0.3       [90m2022-04-02 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  rvest           1.0.2       [90m2021-10-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  rvest           1.0.3       [90m2022-08-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  sass            0.4.2       [90m2022-07-16 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  scales          1.2.0       [90m2022-04-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  scales          1.2.1       [90m2022-08-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  sessioninfo     1.2.2       [90m2021-12-06 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  shiny           1.7.2       [90m2022-07-19 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  stringi         1.7.8       [90m2022-07-11 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
-#>  stringr       * 1.4.0       [90m2019-02-10 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
+#>  stringr       * 1.4.1       [90m2022-08-20 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  systemfonts     1.0.4       [90m2022-02-11 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  textshaping     0.3.6       [90m2021-10-13 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
 #>  tibble        * 3.1.8       [90m2022-07-22 [39m  [90m[1] [39m  [1m [35mRSPM [39m [22m
