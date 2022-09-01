@@ -59,4 +59,4 @@ If you want a way to save that metadata without polluting your actual data, you 
 ```
 
 
-> This vignette has been adapted from a post on [Alison Hill's blog](https://alison.rbind.io/post/read-multiple-header-rows/).
+> This vignette has been adapted from a post on [Alison Hill's blog](https://www.apreshill.com/blog/2018-07-multiple-headers/).
