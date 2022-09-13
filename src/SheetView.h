@@ -1,3 +1,6 @@
+#include <sys/time.h> // alpine linux / musl must be before others
+#include <unistd.h>   // alpine linux / musl must be before others
+
 #include "CellLimits.h"
 #include "ColSpec.h"
 #include "XlsWorkBook.h"
@@ -12,8 +15,6 @@
 
 #include <algorithm>
 #include <string>
-#include <sys/time.h> // alpine linux / musl
-#include <unistd.h>   // alpine linux / musl
 #include <vector>
 
 class Xls {
