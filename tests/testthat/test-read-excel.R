@@ -6,11 +6,11 @@ test_that("can read sheets with inlineStr", {
 })
 
 test_that("can read files with and without extension [xls]", {
-  file.copy(test_sheet("iris-excel-xls.xls"), "iris-xls-no-ending")
-  on.exit(file.remove("iris-xls-no-ending"))
+  iris_xls_no_ending <- withr::local_tempfile()
+  file.copy(test_sheet("iris-excel-xls.xls"), iris_xls_no_ending)
   iris_xls <- read_excel(test_sheet("iris-excel-xls.xls"))
-  iris_guess <- read_excel("iris-xls-no-ending")
-  iris_explicit <- read_xls("iris-xls-no-ending")
+  iris_guess <- read_excel(iris_xls_no_ending)
+  iris_explicit <- read_xls(iris_xls_no_ending)
   expect_equal(iris_xls, iris_guess)
   expect_equal(iris_xls, iris_explicit)
 })
