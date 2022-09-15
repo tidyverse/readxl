@@ -11,7 +11,7 @@ options(tibble.print_min = 3, tibble.print_max = 3)
 delete_on_exit <- character()
 ```
 
-Ideas for using readxl to increase reproducibiliy and reduce tedium.
+Ideas for using readxl to increase reproducibility and reduce tedium.
 
 Reproducibility is much easier in theory than in reality. Here are some special dilemmas we face with spreadsheets:
 
