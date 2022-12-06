@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.4/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.4/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sheet Geometry">
@@ -106,19 +106,39 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> brings data from a rectangle of cells into R as a data frame or, more specifically, a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>.</p>
-<p>The extent of the data rectangle can be determined in various ways:</p>
+<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> brings data from a rectangle of
+cells into R as a data frame or, more specifically, a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>.</p>
+<p>The extent of the data rectangle can be determined in various
+ways:</p>
 <ul>
 <li>
-<strong>Discovered</strong>: By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> uses the smallest rectangle that contains the non-empty cells. It “shrink wraps” the data.</li>
+<strong>Discovered</strong>: By default, <code><a href="../reference/read_excel.html">read_excel()</a></code>
+uses the smallest rectangle that contains the non-empty cells. It
+“shrink wraps” the data.</li>
 <li>
-<strong>Bounded</strong>: The <code>skip</code> and <code>n_max</code> arguments constrain <code><a href="../reference/read_excel.html">read_excel()</a></code>’s discovery process with respect to rows. At least <code>skip</code> spreadsheet rows will be skipped or ignored and at most <code>n_max</code> spreadsheet rows will be considered as data. Compared to the default of <strong>discovery</strong>, these arguments can only lead to making the output tibble smaller.</li>
+<strong>Bounded</strong>: The <code>skip</code> and
+<code>n_max</code> arguments constrain <code><a href="../reference/read_excel.html">read_excel()</a></code>’s
+discovery process with respect to rows. At least <code>skip</code>
+spreadsheet rows will be skipped or ignored and at most
+<code>n_max</code> spreadsheet rows will be considered as data. Compared
+to the default of <strong>discovery</strong>, these arguments can only
+lead to making the output tibble smaller.</li>
 <li>
-<strong>Set</strong>: The <code>range</code> argument is taken literally, even if that means you will have leading or trailing rows or columns filled with <code>NA</code>. If you ask for <code>range = "A1:D4"</code>, you are guaranteed to get a tibble with 4 columns (A through D) and either 3 rows (<code>col_names = TRUE</code>, default) or 4 rows (<code>col_names = FALSE</code>).</li>
+<strong>Set</strong>: The <code>range</code> argument is taken
+literally, even if that means you will have leading or trailing rows or
+columns filled with <code>NA</code>. If you ask for
+<code>range = "A1:D4"</code>, you are guaranteed to get a tibble with 4
+columns (A through D) and either 3 rows (<code>col_names = TRUE</code>,
+default) or 4 rows (<code>col_names = FALSE</code>).</li>
 <li>
-<strong>Mixed</strong>: In typical use, <code><a href="../reference/read_excel.html">read_excel()</a></code>’s geometry arguments often imply that certain limits are <strong>discovered</strong> while others are <strong>bounded</strong> or <strong>set</strong>. This will be more clear in the concrete examples below.</li>
+<strong>Mixed</strong>: In typical use, <code><a href="../reference/read_excel.html">read_excel()</a></code>’s
+geometry arguments often imply that certain limits are
+<strong>discovered</strong> while others are <strong>bounded</strong> or
+<strong>set</strong>. This will be more clear in the concrete examples
+below.</li>
 </ul>
-<p>For now, here are a few ways <code><a href="../reference/read_excel.html">read_excel()</a></code> can look when you take control of the geometry:</p>
+<p>For now, here are a few ways <code><a href="../reference/read_excel.html">read_excel()</a></code> can look when
+you take control of the geometry:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, skip <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span>, n_max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -130,35 +150,66 @@
 <div class="section level2">
 <h2 id="little-known-excel-facts">Little known Excel facts<a class="anchor" aria-label="anchor" href="#little-known-excel-facts"></a>
 </h2>
-<p>readxl’s behavior and interface may be easier to understand if you understand this about Excel:</p>
+<p>readxl’s behavior and interface may be easier to understand if you
+understand this about Excel:</p>
 <blockquote>
-<p>Cells you can see don’t necessarily exist. Cells that look blank aren’t necessarily so.</p>
+<p>Cells you can see don’t necessarily exist. Cells that look blank
+aren’t necessarily so.</p>
 </blockquote>
-<p>Among lots of other information, Excel files obviously must contain information on each cell. Let’s use the word “item” to denote one cell’s-worth of info.</p>
-<p>Just because you see a cell on the screen in Excel, that doesn’t mean there’s a corresponding item on file. Why? Because Excel presents a huge gridded canvas for you to write on. Until you actually populate a cell, though, it doesn’t really exist.</p>
-<p>The stream of cell items describes the existing cells, going from upper left to lower right, travelling by row. Blank cells simply do not exist in it.</p>
-<p>Ah, but what is a blank cell? Some cells appear blank to the naked eye but are not considered so by Excel and, indeed, are represented by a cell item. This happens when a cell has no content but does have an associated format. This format could have been applied directly to a single cell or, more often, indirectly via formatting applied to an entire row or column. Once a human has spent some quality time with a spreadsheet, many seemingly empty cells will bear a format and will thus have an associated cell item.</p>
+<p>Among lots of other information, Excel files obviously must contain
+information on each cell. Let’s use the word “item” to denote one
+cell’s-worth of info.</p>
+<p>Just because you see a cell on the screen in Excel, that doesn’t mean
+there’s a corresponding item on file. Why? Because Excel presents a huge
+gridded canvas for you to write on. Until you actually populate a cell,
+though, it doesn’t really exist.</p>
+<p>The stream of cell items describes the existing cells, going from
+upper left to lower right, travelling by row. Blank cells simply do not
+exist in it.</p>
+<p>Ah, but what is a blank cell? Some cells appear blank to the naked
+eye but are not considered so by Excel and, indeed, are represented by a
+cell item. This happens when a cell has no content but does have an
+associated format. This format could have been applied directly to a
+single cell or, more often, indirectly via formatting applied to an
+entire row or column. Once a human has spent some quality time with a
+spreadsheet, many seemingly empty cells will bear a format and will thus
+have an associated cell item.</p>
 <div class="section level3">
 <h3 id="implications-for-readxl">Implications for readxl<a class="anchor" aria-label="anchor" href="#implications-for-readxl"></a>
 </h3>
-<p>readxl only reads cell items that have content. It ignores cell items that exist strictly to convey formatting.</p>
-<p>The tibble returned by readxl will often cover cells that are empty in the spreadsheet, filled with <code>NA</code>. But only because there was some other reason for the associated row or column to exist: actual data or user-specified geometry.</p>
+<p>readxl only reads cell items that have content. It ignores cell items
+that exist strictly to convey formatting.</p>
+<p>The tibble returned by readxl will often cover cells that are empty
+in the spreadsheet, filled with <code>NA</code>. But only because there
+was some other reason for the associated row or column to exist: actual
+data or user-specified geometry.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="skip-and-n_max">
 <code>skip</code> and <code>n_max</code><a class="anchor" aria-label="anchor" href="#skip-and-n_max"></a>
 </h2>
-<p><code>skip</code> and <code>n_max</code> are the “entry-level” solution for controlling the data rectangle. They work only in the row direction. Column-wise, you’re letting readxl discover which columns are populated.</p>
-<p>If you specify <code>range</code> (covered below), <code>skip</code> and <code>n_max</code> are ignored.</p>
+<p><code>skip</code> and <code>n_max</code> are the “entry-level”
+solution for controlling the data rectangle. They work only in the row
+direction. Column-wise, you’re letting readxl discover which columns are
+populated.</p>
+<p>If you specify <code>range</code> (covered below), <code>skip</code>
+and <code>n_max</code> are ignored.</p>
 <div class="section level3">
 <h3 id="skip">
 <code>skip</code><a class="anchor" aria-label="anchor" href="#skip"></a>
 </h3>
-<p>The <code>skip</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to start looking for populated cells after skipping at least <code>skip</code> rows. If the new start point begins with 1 or more empty rows, <code><a href="../reference/read_excel.html">read_excel()</a></code> will skip even more before it starts reading from the sheet.</p>
-<p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet that ships with readxl, accessible via <code>readxl_example("geometry.xlsx")</code>.</p>
+<p>The <code>skip</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to
+start looking for populated cells after skipping at least
+<code>skip</code> rows. If the new start point begins with 1 or more
+empty rows, <code><a href="../reference/read_excel.html">read_excel()</a></code> will skip even more before it
+starts reading from the sheet.</p>
+<p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet
+that ships with readxl, accessible via
+<code>readxl_example("geometry.xlsx")</code>.</p>
 <p><img src="img/geometry.png" width="70%"></p>
-<p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data rectangle:</p>
+<p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data
+rectangle:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -167,7 +218,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B4    C4    D4   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B5    C5    D5   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B6    C6    D6</span></span></code></pre></div>
-<p>If you explicitly skip one row, note that <code><a href="../reference/read_excel.html">read_excel()</a></code> still skips row 2, which is also empty, leading to the same result as before:</p>
+<p>If you explicitly skip one row, note that <code><a href="../reference/read_excel.html">read_excel()</a></code>
+still skips row 2, which is also empty, leading to the same result as
+before:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -176,7 +229,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B4    C4    D4   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B5    C5    D5   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B6    C6    D6</span></span></code></pre></div>
-<p>You can also use <code>skip</code> to skip over populated cells. In real life, this is a mighty weapon against the explanatory text that people like to include at the top of spreadsheets.</p>
+<p>You can also use <code>skip</code> to skip over populated cells. In
+real life, this is a mighty weapon against the explanatory text that
+people like to include at the top of spreadsheets.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
@@ -184,14 +239,22 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B5    C5    D5   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B6    C6    D6</span></span></code></pre></div>
-<p>Summary: <code>skip</code> tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to skip <em>at least this many</em> spreadsheet rows before reading anything.</p>
+<p>Summary: <code>skip</code> tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to skip
+<em>at least this many</em> spreadsheet rows before reading
+anything.</p>
 </div>
 <div class="section level3">
 <h3 id="n_max">
 <code>n_max</code><a class="anchor" aria-label="anchor" href="#n_max"></a>
 </h3>
-<p>The <code>n_max</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to read at most <code>n_max</code> rows, once it has found the data rectangle. Note that <code>n_max</code> is specifically about <em>the data</em>. You still use <code>col_names</code> to express whether the first spreadsheet row should be used to create column names (default is <code>TRUE</code>).</p>
-<p><code>n_max = 2</code> causes us to ignore the last data row – the 3rd one – in <code>geometry.xlsx</code>.</p>
+<p>The <code>n_max</code> argument tells <code><a href="../reference/read_excel.html">read_excel()</a></code> to
+read at most <code>n_max</code> rows, once it has found the data
+rectangle. Note that <code>n_max</code> is specifically about <em>the
+data</em>. You still use <code>col_names</code> to express whether the
+first spreadsheet row should be used to create column names (default is
+<code>TRUE</code>).</p>
+<p><code>n_max = 2</code> causes us to ignore the last data row – the
+3rd one – in <code>geometry.xlsx</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
@@ -199,7 +262,9 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B4    C4    D4   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B5    C5    D5</span></span></code></pre></div>
-<p><code>n_max</code> is an upper bound. It will never cause empty rows to be included in the tibble. Note how we get 3 data rows here, even though <code>n_max</code> is much greater.</p>
+<p><code>n_max</code> is an upper bound. It will never cause empty rows
+to be included in the tibble. Note how we get 3 data rows here, even
+though <code>n_max</code> is much greater.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -214,11 +279,23 @@
 <h2 id="range">
 <code>range</code><a class="anchor" aria-label="anchor" href="#range"></a>
 </h2>
-<p>The <code>range</code> argument is the most flexible way to control geometry and is powered by the <a href="https://github.com/rsheets/cellranger#readme" class="external-link">cellranger</a> package.</p>
-<p>One huge difference from <code>skip</code> and <code>n_max</code> is that <code>range</code> is taken literally! Even if it means the returned tibble will have entire rows or columns consisting of <code>NA</code>.</p>
+<p>The <code>range</code> argument is the most flexible way to control
+geometry and is powered by the <a href="https://github.com/rsheets/cellranger#readme" class="external-link">cellranger</a>
+package.</p>
+<p>One huge difference from <code>skip</code> and <code>n_max</code> is
+that <code>range</code> is taken literally! Even if it means the
+returned tibble will have entire rows or columns consisting of
+<code>NA</code>.</p>
 <p>You can describe cell limits in a variety of ways:</p>
-<p><strong>Excel-style range</strong>: Specify a fixed rectangle with <code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You can even prepend the worksheet name like so: <code>range = "foofy!A1:D4"</code> and it will be passed along to the <code>sheet</code> argument.</p>
-<p>The <code>deaths.xlsx</code> example sheet features junk rows both before and after the data rectangle. The payoff for specifying the data rectangle precisely is that we get the data frame we want, with correct guesses for the column types.</p>
+<p><strong>Excel-style range</strong>: Specify a fixed rectangle with
+<code>range = "A1:D4"</code> or <code>range = "R1C1:R4C4"</code>. You
+can even prepend the worksheet name like so:
+<code>range = "foofy!A1:D4"</code> and it will be passed along to the
+<code>sheet</code> argument.</p>
+<p>The <code>deaths.xlsx</code> example sheet features junk rows both
+before and after the data rectangle. The payoff for specifying the data
+rectangle precisely is that we get the data frame we want, with correct
+guesses for the column types.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="st">"arts!A5:F15"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
@@ -230,9 +307,13 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bill Paxt… actor      61 TRUE    1955-05-17 <span style="color: #949494;">00:00:00</span> 2017-02-25 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows, and abbreviated variable names ¹​Profession,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ²​`Has kids`</span></span></span></code></pre></div>
-<p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual reference.</p>
+<p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual
+reference.</p>
 <p><img src="img/geometry.png" width="70%"></p>
-<p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle that only partially overlaps the data. Note the use of default column names, because the first row of cells is empty, and the leading column of <code>NA</code>s.</p>
+<p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle
+that only partially overlaps the data. Note the use of default column
+names, because the first row of cells is empty, and the leading column
+of <code>NA</code>s.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="st">"A2:C4"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; New names:</span></span>
@@ -244,7 +325,9 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>    B3    C3   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #BB0000;">NA</span>    B4    C4</span></span></code></pre></div>
-<p><strong>Specific range of rows or columns</strong>: Set exact limits on just the rows or just the columns and allow the limits in the other direction to be discovered. Example calls:</p>
+<p><strong>Specific range of rows or columns</strong>: Set exact limits
+on just the rows or just the columns and allow the limits in the other
+direction to be discovered. Example calls:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rows only</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_rows</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## is equivalent to</span></span>
@@ -257,7 +340,9 @@
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="st">"A:Z"</span>))</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(LETTERS))</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(..., <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"Z"</span>))</span></code></pre></div>
-<p>We use <code>geometry.xlsx</code> to demonstrate setting hard limits on the rows, running past the data, while allowing column limits to discovered. Note the trailing rows of <code>NA</code>.</p>
+<p>We use <code>geometry.xlsx</code> to demonstrate setting hard limits
+on the rows, running past the data, while allowing column limits to
+discovered. Note the trailing rows of <code>NA</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
@@ -267,8 +352,11 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B6    C6    D6   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
-<p><strong>Anchored rectangle</strong>: Helper functions <code><a href="../reference/cell-specification.html">anchored()</a></code> and <code><a href="../reference/cell-specification.html">cell_limits()</a></code> let you specify limits via the corner(s) of the rectangle.</p>
-<p>Here we get a 3 by 4 rectangle with cell C5 as the upper left corner:</p>
+<p><strong>Anchored rectangle</strong>: Helper functions
+<code><a href="../reference/cell-specification.html">anchored()</a></code> and <code><a href="../reference/cell-specification.html">cell_limits()</a></code> let you specify
+limits via the corner(s) of the rectangle.</p>
+<p>Here we get a 3 by 4 rectangle with cell C5 as the upper left
+corner:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>,</span>
@@ -281,7 +369,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> C5    D5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C6    D6    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
-<p>Here we set C5 as the upper left corner and allow the other limits to be discovered:</p>
+<p>Here we set C5 as the upper left corner and allow the other limits to
+be discovered:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"geometry.xlsx"</span><span class="op">)</span>,</span>

@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.4/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.4/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Cell and Column Types">
@@ -106,7 +106,12 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> will guess column types, by default, or you can provide them explicitly via the <code>col_types</code> argument. The <code>col_types</code> argument is more flexible than you might think; you can mix actual types in with <code>"skip"</code> and <code>"guess"</code> and a single type will be recycled to the necessary length.</p>
+<p><code><a href="../reference/read_excel.html">readxl::read_excel()</a></code> will guess column types, by
+default, or you can provide them explicitly via the
+<code>col_types</code> argument. The <code>col_types</code> argument is
+more flexible than you might think; you can mix actual types in with
+<code>"skip"</code> and <code>"guess"</code> and a single type will be
+recycled to the necessary length.</p>
 <p>Here are different ways this might look:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"yo.xlsx"</span><span class="op">)</span></span>
@@ -115,15 +120,26 @@
 <div class="section level2">
 <h2 id="type-guessing">Type guessing<a class="anchor" aria-label="anchor" href="#type-guessing"></a>
 </h2>
-<p>If you use other packages in the <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>, you are probably familiar with <a href="https://readr.tidyverse.org/" class="external-link">readr</a>, which reads data from flat files. Like readxl, readr also provides column type guessing, but readr and readxl are very different under the hood.</p>
+<p>If you use other packages in the <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>, you are probably
+familiar with <a href="https://readr.tidyverse.org/" class="external-link">readr</a>, which
+reads data from flat files. Like readxl, readr also provides column type
+guessing, but readr and readxl are very different under the hood.</p>
 <ul>
 <li>readr guesses column type <em>based on the data</em>.</li>
 <li>readxl guesses column type <em>based on Excel cell types</em>.</li>
 </ul>
-<p>Each cell in an Excel spreadsheet has its own type. For all intents and purposes, they are:</p>
+<p>Each cell in an Excel spreadsheet has its own type. For all intents
+and purposes, they are:</p>
 <p>       empty &lt; boolean &lt; numeric &lt; text</p>
-<p>with the wrinkle that datetimes are a very special flavor of numeric. A cell of any particular type can always be represented as one of any higher type and, possibly, as one of lower type. When guessing, <code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it has seen in any given column. Once it has visited <code>guess_max</code> rows or run out of data, this is the guessed type for that column. There is a strong current towards “text”, the column type of last resort.</p>
-<p>Here’s an example of column guessing with <code>deaths.xlsx</code> which ships with readxl.</p>
+<p>with the wrinkle that datetimes are a very special flavor of numeric.
+A cell of any particular type can always be represented as one of any
+higher type and, possibly, as one of lower type. When guessing,
+<code><a href="../reference/read_excel.html">read_excel()</a></code> keeps a running “maximum” on the cell types it
+has seen in any given column. Once it has visited <code>guess_max</code>
+rows or run out of data, this is the guessed type for that column. There
+is a strong current towards “text”, the column type of last resort.</p>
+<p>Here’s an example of column guessing with <code>deaths.xlsx</code>
+which ships with readxl.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span>, range <span class="op">=</span> <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
@@ -139,8 +155,14 @@
 <div class="section level2">
 <h2 id="excel-types-r-types-col_types">Excel types, R types, <code>col_types</code><a class="anchor" aria-label="anchor" href="#excel-types-r-types-col_types"></a>
 </h2>
-<p>Here’s how the Excel cell/column types are translated into R types and how to force the type explicitly in <code>col_types</code>:</p>
+<p>Here’s how the Excel cell/column types are translated into R types
+and how to force the type explicitly in <code>col_types</code>:</p>
 <table class="table">
+<colgroup>
+<col width="26%">
+<col width="32%">
+<col width="40%">
+</colgroup>
 <thead><tr class="header">
 <th>How it is in Excel</th>
 <th>How it will be in R</th>
@@ -189,8 +211,14 @@
 </table>
 <p>Some explanation about the weird cases in the first two rows:</p>
 <ul>
-<li>If a column falls in your data rectangle, but you do not want an associated variable in the output, specify the column type <code>"skip"</code>. Internally, these cells may be visited in order to learn their location, but they are not loaded and their data is never read.</li>
-<li>You cannot request that a column be included but filled with <code>NA</code>s. Such a column can arise naturally, if all the cells are empty, or you can skip a column (see previous point).</li>
+<li>If a column falls in your data rectangle, but you do not want an
+associated variable in the output, specify the column type
+<code>"skip"</code>. Internally, these cells may be visited in order to
+learn their location, but they are not loaded and their data is never
+read.</li>
+<li>You cannot request that a column be included but filled with
+<code>NA</code>s. Such a column can arise naturally, if all the cells
+are empty, or you can skip a column (see previous point).</li>
 </ul>
 <p>Example of skipping and guessing:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -209,9 +237,15 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
 <p>More about the <code>"list"</code> column type in the last row:</p>
 <ul>
-<li>This will create a list-column in the output, each component of which is a length one atomic vector. The type of these vectors is determined using the logic described above. This can be useful if data of truly disparate type is arranged in a column.</li>
+<li>This will create a list-column in the output, each component of
+which is a length one atomic vector. The type of these vectors is
+determined using the logic described above. This can be useful if data
+of truly disparate type is arranged in a column.</li>
 </ul>
-<p>We demonstrate the <code>"list"</code> column type using the <code>clippy.xlsx</code> sheet that ship with Excel. Its second column holds information about Clippy that would be really hard to store with just one type.</p>
+<p>We demonstrate the <code>"list"</code> column type using the
+<code>clippy.xlsx</code> sheet that ship with Excel. Its second column
+holds information about Clippy that would be really hard to store with
+just one type.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">clippy</span> <span class="op">&lt;-</span> </span>
 <span>   <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"list"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -246,21 +280,38 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
 <span><span class="co">#&gt; [1] "numeric"</span></span></code></pre></div>
-<p>Final note: all datetimes are imported as having the UTC timezone, because, mercifully, Excel has no notion of timezones.</p>
+<p>Final note: all datetimes are imported as having the UTC timezone,
+because, mercifully, Excel has no notion of timezones.</p>
 </div>
 <div class="section level2">
 <h2 id="when-column-guessing-goes-wrong">When column guessing goes wrong<a class="anchor" aria-label="anchor" href="#when-column-guessing-goes-wrong"></a>
 </h2>
-<p>It’s pretty common to expect a column to import as, say, numeric or datetime. And to then be sad when it imports as character instead. Two main causes:</p>
-<p><strong>Contamination by embedded missing or bad data of incompatible type.</strong> Example: missing data entered as <code>??</code> in a numeric column.</p>
+<p>It’s pretty common to expect a column to import as, say, numeric or
+datetime. And to then be sad when it imports as character instead. Two
+main causes:</p>
+<p><strong>Contamination by embedded missing or bad data of incompatible
+type.</strong> Example: missing data entered as <code>??</code> in a
+numeric column.</p>
 <ul>
-<li>Fix: use the <code>na</code> argument of <code><a href="../reference/read_excel.html">read_excel()</a></code> to describe all possible forms for missing data. This should prevent such cells from influencing type guessing and cause them to import as <code>NA</code> of the appropriate type.</li>
+<li>Fix: use the <code>na</code> argument of <code><a href="../reference/read_excel.html">read_excel()</a></code>
+to describe all possible forms for missing data. This should prevent
+such cells from influencing type guessing and cause them to import as
+<code>NA</code> of the appropriate type.</li>
 </ul>
-<p><strong>Contamination of the data rectangle by leading or trailing non-data rows.</strong> Example: the sheet contains a few lines of explanatory prose before the data table begins.</p>
+<p><strong>Contamination of the data rectangle by leading or trailing
+non-data rows.</strong> Example: the sheet contains a few lines of
+explanatory prose before the data table begins.</p>
 <ul>
-<li>Fix: specify the target rectangle. Use <code>skip</code> and <code>n_max</code> to provide a minimum number of rows to skip and a maximum number of data rows to read, respectively. Or use the more powerful <code>range</code> argument to describe the cell rectangle in various ways. See the examples for <code><a href="../reference/read_excel.html">read_excel()</a></code> help or <code><a href="../articles/sheet-geometry.html">vignette("sheet-geometry")</a></code> for more detail.</li>
+<li>Fix: specify the target rectangle. Use <code>skip</code> and
+<code>n_max</code> to provide a minimum number of rows to skip and a
+maximum number of data rows to read, respectively. Or use the more
+powerful <code>range</code> argument to describe the cell rectangle in
+various ways. See the examples for <code><a href="../reference/read_excel.html">read_excel()</a></code> help or
+<code><a href="../articles/sheet-geometry.html">vignette("sheet-geometry")</a></code> for more detail.</li>
 </ul>
-<p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly. Here’s how it imports if we don’t specify <code>range</code> as we did above:</p>
+<p>The <code>deaths.xlsx</code> sheet demonstrates this perfectly.
+Here’s how it imports if we don’t specify <code>range</code> as we did
+above:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; New names:</span></span>
@@ -291,13 +342,25 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #BB0000;">NA</span>                           also like to writ… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 at t… bott… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    too!</span></span></code></pre></div>
-<p>Non-data rows above and below the main data rectangle are causing all the columns to import as character.</p>
-<p>If your column typing problem can’t be solved by specifying <code>na</code> or the data rectangle, request the <code>"list"</code> column type and handle missing data and coercion after import.</p>
+<p>Non-data rows above and below the main data rectangle are causing all
+the columns to import as character.</p>
+<p>If your column typing problem can’t be solved by specifying
+<code>na</code> or the data rectangle, request the <code>"list"</code>
+column type and handle missing data and coercion after import.</p>
 <div class="section level3">
 <h3 id="peek-at-column-names">Peek at column names<a class="anchor" aria-label="anchor" href="#peek-at-column-names"></a>
 </h3>
-<p>Sometimes you aren’t completely sure of column count or order, and yet you need to provide <em>some</em> information via <code>col_types</code>. For example, you might know that the column named “foofy” should be text, but you’re not sure where it appears. Or maybe you want to ensure that lots of empty cells at the top of “foofy” don’t cause it to be guessed as logical.</p>
-<p>Here’s an efficient trick to get the column names, so you can programmatically build the <code>col_types</code> vector you need for your main reading of the Excel file. Let’s imagine I want to force the columns whose names include “Petal” to be text, but leave everything else to be guessed.</p>
+<p>Sometimes you aren’t completely sure of column count or order, and
+yet you need to provide <em>some</em> information via
+<code>col_types</code>. For example, you might know that the column
+named “foofy” should be text, but you’re not sure where it appears. Or
+maybe you want to ensure that lots of empty cells at the top of “foofy”
+don’t cause it to be guessed as logical.</p>
+<p>Here’s an efficient trick to get the column names, so you can
+programmatically build the <code>col_types</code> vector you need for
+your main reading of the Excel file. Let’s imagine I want to force the
+columns whose names include “Petal” to be text, but leave everything
+else to be guessed.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">nms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </span></span>
@@ -318,12 +381,23 @@
 <div class="section level2">
 <h2 id="square-pegs-in-round-holes">Square pegs in round holes<a class="anchor" aria-label="anchor" href="#square-pegs-in-round-holes"></a>
 </h2>
-<p>You can force a column to have a specific type via <code>col_types</code>. So what happens to cells of another type? They will either be coerced to the requested type or to an <code>NA</code> of appropriate type.</p>
-<p>For each column type, below we present a screen shot of a sheet from the built-in example <code>type-me.xlsx</code>. We force the first column to have a specific type and the second column explains what is in the first. You’ll see how mismatches between cell type and column type are resolved.</p>
+<p>You can force a column to have a specific type via
+<code>col_types</code>. So what happens to cells of another type? They
+will either be coerced to the requested type or to an <code>NA</code> of
+appropriate type.</p>
+<p>For each column type, below we present a screen shot of a sheet from
+the built-in example <code>type-me.xlsx</code>. We force the first
+column to have a specific type and the second column explains what is in
+the first. You’ll see how mismatches between cell type and column type
+are resolved.</p>
 <div class="section level3">
 <h3 id="logical-column">Logical column<a class="anchor" aria-label="anchor" href="#logical-column"></a>
 </h3>
-<p>A numeric cell is coerced to <code>FALSE</code> if it is zero and <code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as <code>TRUE</code> and “F”, “FALSE”, “False”, “false” as <code>FALSE</code>. Other strings import as <code>NA</code>.</p>
+<p>A numeric cell is coerced to <code>FALSE</code> if it is zero and
+<code>TRUE</code> otherwise. A date cell becomes <code>NA</code>. Just
+like in R, the strings “T”, “TRUE”, “True”, and “true” are regarded as
+<code>TRUE</code> and “F”, “FALSE”, “False”, “false” as
+<code>FALSE</code>. Other strings import as <code>NA</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"logical_coercion"</span>,</span>
 <span>                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"logical"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
@@ -348,7 +422,12 @@
 <div class="section level3">
 <h3 id="numeric-column">Numeric column<a class="anchor" aria-label="anchor" href="#numeric-column"></a>
 </h3>
-<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if <code>TRUE</code>. A datetime comes in as the underlying serial date, which is the number of days, possibly fractional, since the <a href="https://docs.microsoft.com/en-US/office/troubleshoot/excel/1900-and-1904-date-system" class="external-link">date origin</a>. For text, numeric conversion is attempted, to handle the “number as text” phenomenon. If unsuccessful, text cells import as <code>NA</code>.</p>
+<p>A boolean cell is coerced to zero if <code>FALSE</code> and one if
+<code>TRUE</code>. A datetime comes in as the underlying serial date,
+which is the number of days, possibly fractional, since the <a href="https://docs.microsoft.com/en-US/office/troubleshoot/excel/1900-and-1904-date-system" class="external-link">date
+origin</a>. For text, numeric conversion is attempted, to handle the
+“number as text” phenomenon. If unsuccessful, text cells import as
+<code>NA</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"numeric_coercion"</span>,</span>
 <span>                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
@@ -373,7 +452,9 @@
 <div class="section level3">
 <h3 id="date-column">Date column<a class="anchor" aria-label="anchor" href="#date-column"></a>
 </h3>
-<p>A numeric cell is interpreted as a serial date (<em>I’m questioning whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="external-link uri">https://github.com/tidyverse/readxl/issues/266</a></em>). Boolean or text cells become <code>NA</code>.</p>
+<p>A numeric cell is interpreted as a serial date (<em>I’m questioning
+whether this is wise, but <a href="https://github.com/tidyverse/readxl/issues/266" class="external-link uri">https://github.com/tidyverse/readxl/issues/266</a></em>).
+Boolean or text cells become <code>NA</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"date_coercion"</span>,</span>
 <span>                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
@@ -397,7 +478,10 @@
 <div class="section level3">
 <h3 id="text-or-character-column">Text or character column<a class="anchor" aria-label="anchor" href="#text-or-character-column"></a>
 </h3>
-<p>A boolean cell becomes either <code>"TRUE"</code> or <code>"FALSE"</code>. A numeric cell is converted to character, much like <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> in R. A date cell is handled like numeric, using the underlying serial value.</p>
+<p>A boolean cell becomes either <code>"TRUE"</code> or
+<code>"FALSE"</code>. A numeric cell is converted to character, much
+like <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> in R. A date cell is handled like
+numeric, using the underlying serial value.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"type-me.xlsx"</span><span class="op">)</span>, sheet <span class="op">=</span> <span class="st">"text_coercion"</span>,</span>
 <span>                 col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
