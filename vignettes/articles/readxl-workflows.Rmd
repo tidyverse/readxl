@@ -185,19 +185,6 @@ print(deaths, n = Inf)
 delete_on_exit <- c(delete_on_exit, "deaths.csv")
 ```
 
-<!--
-
-## Session info
-
-<details>
-<summary>devtools::session_info()</summary>
-```{r}
-devtools::session_info()
-```
-</details>
-
---> 
-
 ## Base version
 
 Rework examples from above but using base R only, other than readxl.
