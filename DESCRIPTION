@@ -44,7 +44,7 @@ LinkingTo:
     progress
 VignetteBuilder: 
     knitr
-Config/Needs/website: tidyverse/tidytemplate, tidyverse, devtools
+Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/testthat/edition: 3
 Encoding: UTF-8
 Note: libxls v1.6.2 4482400
