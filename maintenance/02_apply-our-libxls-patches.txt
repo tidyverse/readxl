@@ -43,3 +43,7 @@
 # discard changes
 # git apply maintenance/patches/strict-prototypes.patch
 
+# Implement the snprintf() for sprintf() swap:
+# git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/snprintf.patch
+# discard changes
+# git apply maintenance/patches/snprintf.patch

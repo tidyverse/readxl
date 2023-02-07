@@ -780,62 +780,62 @@ char* xls_getCSS(xlsWorkBook* pWB)
         switch (xf->linestyle & 0x0f)
         {
         case 0:
-            sprintf(borderleft,"%s", "");
+            snprintf(borderleft, 255, "%s", "");
             break;
         default:
-            sprintf(borderleft,"border-left: 1px solid black;");
+            snprintf(borderleft, 255, "border-left: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f0)
         {
         case 0:
-            sprintf(borderright,"%s", "");
+            snprintf(borderright, 255, "%s", "");
             break;
         default:
-            sprintf(borderright,"border-right: 1px solid black;");
+            snprintf(borderright, 255, "border-right: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f00)
         {
         case 0:
-            sprintf(bordertop,"%s", "");
+            snprintf(bordertop, 255, "%s", "");
             break;
         default:
-            sprintf(bordertop,"border-top: 1px solid black;");
+            snprintf(bordertop, 255, "border-top: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f000)
         {
         case 0:
-            sprintf(borderbottom,"%s", "");
+            snprintf(borderbottom, 255, "%s", "");
             break;
         default:
-            sprintf(borderbottom,"border-bottom: 1px solid Black;");
+            snprintf(borderbottom, 255, "border-bottom: 1px solid Black;");
             break;
         }
 
         if (xf->font)
-            sprintf(color,"color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
+            snprintf(color, 255, "color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
         else
-            sprintf(color,"%s", "");
+            snprintf(color, 255, "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].flag & 2))
-            sprintf(italic,"font-style: italic;");
+            snprintf(italic, 255, "font-style: italic;");
         else
-            sprintf(italic,"%s", "");
+            snprintf(italic, 255, "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].bold>400))
-            sprintf(bold,"font-weight: bold;");
+            snprintf(bold, 255, "font-weight: bold;");
         else
-            sprintf(bold,"%s", "");
+            snprintf(bold, 255, "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].underline))
-            sprintf(underline,"text-decoration: underline;");
+            snprintf(underline, 255, "text-decoration: underline;");
         else
-            sprintf(underline,"%s", "");
+            snprintf(underline, 255, "%s", "");
 
         if (xf->font)
             size=pWB->fonts.font[xf->font-1].height/20;
@@ -843,12 +843,12 @@ char* xls_getCSS(xlsWorkBook* pWB)
             size=10;
 
         if (xf->font)
-            sprintf(fontname,"%s",pWB->fonts.font[xf->font-1].name);
+            snprintf(fontname, 255,"%s",pWB->fonts.font[xf->font-1].name);
         else
-            sprintf(fontname,"Arial");
+            snprintf(fontname, 255,"Arial");
 
         background=xls_getColor((WORD)(xf->groundcolor & 0x7f),1);
-        sprintf(buf,".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
+        snprintf(buf, 4096, ".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
                 i,size,fontname,background,align,valign,borderleft,borderright,bordertop,borderbottom,color,italic,bold,underline);
 
 		strcat(ret,buf);
