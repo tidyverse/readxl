@@ -1,5 +1,13 @@
 # readxl (development version)
 
+Embeds a development version of libxls, which is based on the most recent released version, v1.6.2.
+The libxls project is hosted at <https://github.com/libxls/libxls>.
+The reason for embedding a development version is to ship a version of libxls that incorporates the fix for this CVE (#679):
+
+  * [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/CVE-2021-27836)
+
+Other small readxl-specific patches have been made to the embedded libxls code to comply with CRAN requests, such as avoiding the use of `sprintf()`.
+
 # readxl 1.4.1
 
 Help files below `man/` have been re-generated, so that they give rise to valid HTML5. (This is the impetus for this release, to keep the package safely on CRAN.)
