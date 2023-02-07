@@ -18,22 +18,23 @@
 # I implemented the filepath changes (and only the filepath changes) and did:
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/filepaths.patch
 # https://stackoverflow.com/questions/10415100/exclude-file-from-git-diff
-
 # undo those changes
-
-# apply the changes by applying a patch
 # git apply maintenance/patches/filepaths.patch
 
 # Implement the change where we mask functions cran doesn't like in this file:
 # src/libxls/xlstypes.h
 # then make the .patch file
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/cran.patch
+# undo those changes
+# git apply maintenance/patches/cran.patch
 
 # Implement the locale related changes in
 # src/libxls/locale.c
 # src/libxls/locale.h
 # then make the .patch file
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/locale.patch
+# undo those changes
+# git apply maintenance/patches/locale.patch
 
 # Implement the fix for this warning:
 # libxls/endian.c:38:21: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]

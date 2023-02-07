@@ -36,6 +36,11 @@
 #ifndef OLE_INCLUDE
 #define OLE_INCLUDE
 
+#ifdef _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 #ifdef __cplusplus
 #include <cstdio>			// FILE *
 #else

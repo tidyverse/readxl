@@ -741,6 +741,11 @@ static ssize_t read_MSAT_body(OLE2 *ole2, DWORD sectorOffset, DWORD sectorCount)
                 sectorNum++;
             }
         }
+        if (sid == sector[posInSector]) {
+            if (xls_debug) fprintf(stderr, "Error: Loop detected in sector #%d\n", sid);
+            total_bytes_read = -1;
+            goto cleanup;
+        }
         sid = sector[posInSector];
         //printf("   s[%d]=%d (0x%x)\n", posInSector, sid, sid);
     }
