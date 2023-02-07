@@ -1,12 +1,36 @@
-src/libxls/brdb.h
-src/libxls/endian.c
-src/libxls/endian.h
-src/libxls/locale.c
-src/libxls/locale.h
-src/libxls/ole.c
-src/libxls/ole.h
-src/libxls/xls.c
-src/libxls/xlsstruct.h
-src/libxls/xlstool.c
-src/libxls/xlstool.h
-src/libxls/xlstypes.h
+# https://stackoverflow.com/questions/6336440/how-can-i-make-git-am-git-apply-work-fuzzy-like-the-patch-command
+# https://www.thegeekstuff.com/2014/12/patch-command-examples/
+
+# files that need a patch only related to filepaths
+# src/libxls/brdb.h
+# src/libxls/endian.c
+# src/libxls/endian.h
+# src/libxls/ole.c
+# src/libxls/ole.h
+# src/libxls/xls.c
+# src/libxls/xlsstruct.h
+# src/libxls/xlstool.c
+# src/libxls/xlstool.h
+
+# file that has a patch related to filepaths (but also other patches)
+# src/libxls/locale.c
+
+# I implemented the filepath changes (and only the filepath changes) and did:
+# git diff ':!maintenance/02_apply-our-libxls-patches.R' > maintenance/patches/filepaths.patch
+# https://stackoverflow.com/questions/10415100/exclude-file-from-git-diff
+
+# undo those changes
+
+# apply the changes by applying a patch
+# git apply maintenance/patches/filepaths.patch
+
+# Still TODO:
+
+# path and locale stuff
+# src/libxls/locale.c
+
+# locale only
+# src/libxls/locale.h
+
+# masking functions cran doesn't like
+# src/libxls/xlstypes.h
