@@ -1,0 +1,15 @@
+diff --git a/src/libxls/xlstypes.h b/src/libxls/xlstypes.h
+index 52da772..fb68147 100644
+--- a/src/libxls/xlstypes.h
++++ b/src/libxls/xlstypes.h
+@@ -36,6 +36,10 @@
+ #ifndef XLS_TYPES_INC
+ #define XLS_TYPES_INC
+ 
++/* Mask illegal functions for CMD check */
++/* an analysis of header file includes shows that doing this here covers everything */
++#include "cran.h"
++
+ #ifdef __cplusplus
+ #include <cstdint>
+ #else
