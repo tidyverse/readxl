@@ -1,0 +1,12 @@
+src/libxls/brdb.h
+src/libxls/endian.c
+src/libxls/endian.h
+src/libxls/locale.c
+src/libxls/locale.h
+src/libxls/ole.c
+src/libxls/ole.h
+src/libxls/xls.c
+src/libxls/xlsstruct.h
+src/libxls/xlstool.c
+src/libxls/xlstool.h
+src/libxls/xlstypes.h

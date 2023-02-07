@@ -31,9 +31,9 @@
 
 #include <stdlib.h>
 
-#include "libxls/xlstypes.h"
-#include "libxls/endian.h"
-#include "libxls/ole.h"
+#include "../include/libxls/xlstypes.h"
+#include "../include/libxls/endian.h"
+#include "../include/libxls/ole.h"
 
 int xls_is_bigendian()
 {
