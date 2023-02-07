@@ -34,3 +34,12 @@
 # src/libxls/locale.h
 # then make the .patch file
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/locale.patch
+
+# Implement the fix for this warning:
+# libxls/endian.c:38:21: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+# libxls/locale.c:50:30: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+# then make the .patch file
+# git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/strict-prototypes.patch
+# discard changes
+# git apply maintenance/patches/strict-prototypes.patch
+

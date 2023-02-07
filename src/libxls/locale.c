@@ -47,7 +47,7 @@
     static char* old_locale;
 #endif
 
-xls_locale_t xls_createlocale() {
+xls_locale_t xls_createlocale(void) {
 #if defined(WINDOWS_BEFORE_RTOOLS_42)
     old_locale = setlocale(LC_CTYPE, ".65001");
     return NULL;
