@@ -35,6 +35,7 @@ Imports:
     tibble (>= 2.0.1),
     utils
 Suggests:
+    covr,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
