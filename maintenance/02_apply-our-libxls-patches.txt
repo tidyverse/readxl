@@ -29,11 +29,8 @@
 # then make the .patch file
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/cran.patch
 
-# Still TODO:
-
-# path and locale stuff
+# Implement the locale related changes in
 # src/libxls/locale.c
-
-# locale only
 # src/libxls/locale.h
-
+# then make the .patch file
+# git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/locale.patch
