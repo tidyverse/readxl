@@ -34,3 +34,4 @@
 ^\.vscode$
 ^debug$
 ^CRAN-SUBMISSION$
+^maintenance$

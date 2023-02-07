@@ -37,7 +37,7 @@
 #define XLS_TYPES_INC
 
 /* Mask illegal functions for CMD check */
-/* an analysis header file includes shows that doing this here covers everything */
+/* an analysis of header file includes shows that doing this here covers everything */
 #include "cran.h"
 
 #ifdef __cplusplus

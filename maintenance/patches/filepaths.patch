@@ -1,0 +1,152 @@
+diff --git a/src/libxls/brdb.h b/src/libxls/brdb.h
+index a84b7d6..08698a2 100644
+--- a/src/libxls/brdb.h
++++ b/src/libxls/brdb.h
+@@ -43,7 +43,7 @@ typedef struct str_brdb record_brdb;
+ 
+ record_brdb brdb[] =
+     {
+-#include "../libxls/brdb.c.h"
++#include "libxls/brdb.c.h"
+     };
+ 
+ static int get_brbdnum(int id)
+diff --git a/src/libxls/endian.c b/src/libxls/endian.c
+index 1b5032f..f126936 100644
+--- a/src/libxls/endian.c
++++ b/src/libxls/endian.c
+@@ -31,9 +31,9 @@
+ 
+ #include <stdlib.h>
+ 
+-#include "../include/libxls/xlstypes.h"
+-#include "../include/libxls/endian.h"
+-#include "../include/libxls/ole.h"
++#include "libxls/xlstypes.h"
++#include "libxls/endian.h"
++#include "libxls/ole.h"
+ 
+ int xls_is_bigendian()
+ {
+diff --git a/src/libxls/endian.h b/src/libxls/endian.h
+index 68a7c75..8315da8 100644
+--- a/src/libxls/endian.h
++++ b/src/libxls/endian.h
+@@ -29,7 +29,7 @@
+  *
+  */
+ 
+-#include "../libxls/xlsstruct.h"
++#include "libxls/xlsstruct.h"
+ 
+ int xls_is_bigendian(void);
+ DWORD xlsIntVal (DWORD i);
+diff --git a/src/libxls/locale.c b/src/libxls/locale.c
+index 65b5b28..f8fc4a9 100644
+--- a/src/libxls/locale.c
++++ b/src/libxls/locale.c
+@@ -30,7 +30,7 @@
+  */
+ #include "config.h"
+ #include <stdlib.h>
+-#include "../include/libxls/locale.h"
++#include "libxls/locale.h"
+ 
+ xls_locale_t xls_createlocale() {
+ #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+diff --git a/src/libxls/ole.c b/src/libxls/ole.c
+index 082ac2a..90527ee 100644
+--- a/src/libxls/ole.c
++++ b/src/libxls/ole.c
+@@ -40,9 +40,9 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include "../include/libxls/ole.h"
+-#include "../include/libxls/xlstool.h"
+-#include "../include/libxls/endian.h"
++#include "libxls/ole.h"
++#include "libxls/xlstool.h"
++#include "libxls/endian.h"
+ 
+ extern int xls_debug;
+ 
+diff --git a/src/libxls/ole.h b/src/libxls/ole.h
+index 09e802e..b376299 100644
+--- a/src/libxls/ole.h
++++ b/src/libxls/ole.h
+@@ -42,7 +42,7 @@
+ #include <stdio.h>			// FILE *
+ #endif
+ 
+-#include "../libxls/xlstypes.h"
++#include "libxls/xlstypes.h"
+ 
+ #if defined(_AIX) || defined(__sun)
+ #pragma pack(1)
+diff --git a/src/libxls/xls.c b/src/libxls/xls.c
+index fcbcacc..cf17895 100644
+--- a/src/libxls/xls.c
++++ b/src/libxls/xls.c
+@@ -49,9 +49,9 @@
+ #include <string.h>
+ #include <wchar.h>
+ 
+-#include "../include/libxls/endian.h"
+-#include "../include/libxls/locale.h"
+-#include "../include/xls.h"
++#include "libxls/endian.h"
++#include "libxls/locale.h"
++#include "libxls/xls.h"
+ 
+ #ifndef min
+ #define min(a,b) ((a) < (b) ? (a) : (b))
+diff --git a/src/libxls/xlsstruct.h b/src/libxls/xlsstruct.h
+index cfa3a96..9878506 100644
+--- a/src/libxls/xlsstruct.h
++++ b/src/libxls/xlsstruct.h
+@@ -36,7 +36,7 @@
+ #ifndef XLS_STRUCT_INC
+ #define XLS_STRUCT_INC
+ 
+-#include "../libxls/ole.h"
++#include "libxls/ole.h"
+ 
+ #define XLS_RECORD_EOF          0x000A
+ #define XLS_RECORD_DEFINEDNAME  0x0018
+diff --git a/src/libxls/xlstool.c b/src/libxls/xlstool.c
+index 14df59a..1bede81 100644
+--- a/src/libxls/xlstool.c
++++ b/src/libxls/xlstool.c
+@@ -50,12 +50,12 @@
+ #include <string.h>
+ 
+ //#include "xls.h"
+-#include "../include/libxls/xlstypes.h"
+-#include "../include/libxls/xlsstruct.h"
+-#include "../include/libxls/xlstool.h"
+-#include "../include/libxls/brdb.h"
+-#include "../include/libxls/endian.h"
+-#include "../include/libxls/locale.h"
++#include "libxls/xlstypes.h"
++#include "libxls/xlsstruct.h"
++#include "libxls/xlstool.h"
++#include "libxls/brdb.h"
++#include "libxls/endian.h"
++#include "libxls/locale.h"
+ 
+ extern int xls_debug;
+ 
+diff --git a/src/libxls/xlstool.h b/src/libxls/xlstool.h
+index 5c91529..ae1f04c 100644
+--- a/src/libxls/xlstool.h
++++ b/src/libxls/xlstool.h
+@@ -33,7 +33,7 @@
+  *
+  */
+ 
+-#include "../libxls/xlsstruct.h"
++#include "libxls/xlsstruct.h"
+ 
+ void verbose(char* str);
+ 
