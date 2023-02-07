@@ -29,7 +29,7 @@
  *
  */
 
-#include "libxls/xlsstruct.h"
+#include "../libxls/xlsstruct.h"
 
 int xls_is_bigendian(void);
 DWORD xlsIntVal (DWORD i);

@@ -40,9 +40,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "libxls/ole.h"
-#include "libxls/xlstool.h"
-#include "libxls/endian.h"
+#include "../include/libxls/ole.h"
+#include "../include/libxls/xlstool.h"
+#include "../include/libxls/endian.h"
 
 extern int xls_debug;
 
@@ -740,6 +740,11 @@ static ssize_t read_MSAT_body(OLE2 *ole2, DWORD sectorOffset, DWORD sectorCount)
                 total_bytes_read += bytes_read;
                 sectorNum++;
             }
+        }
+        if (sid == sector[posInSector]) {
+            if (xls_debug) fprintf(stderr, "Error: Loop detected in sector #%d\n", sid);
+            total_bytes_read = -1;
+            goto cleanup;
         }
         sid = sector[posInSector];
         //printf("   s[%d]=%d (0x%x)\n", posInSector, sid, sid);

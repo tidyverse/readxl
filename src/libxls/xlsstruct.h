@@ -36,12 +36,13 @@
 #ifndef XLS_STRUCT_INC
 #define XLS_STRUCT_INC
 
-#include "libxls/ole.h"
+#include "../libxls/ole.h"
 
 #define XLS_RECORD_EOF          0x000A
 #define XLS_RECORD_DEFINEDNAME  0x0018
 #define XLS_RECORD_NOTE         0x001C
 #define XLS_RECORD_1904         0x0022
+#define XLS_RECORD_FILEPASS     0x002F
 #define XLS_RECORD_CONTINUE     0x003C
 #define XLS_RECORD_WINDOW1      0x003D
 #define XLS_RECORD_CODEPAGE     0x0042

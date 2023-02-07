@@ -50,12 +50,12 @@
 #include <string.h>
 
 //#include "xls.h"
-#include "libxls/xlstypes.h"
-#include "libxls/xlsstruct.h"
-#include "libxls/xlstool.h"
-#include "libxls/brdb.h"
-#include "libxls/endian.h"
-#include "libxls/locale.h"
+#include "../include/libxls/xlstypes.h"
+#include "../include/libxls/xlsstruct.h"
+#include "../include/libxls/xlstool.h"
+#include "../include/libxls/brdb.h"
+#include "../include/libxls/endian.h"
+#include "../include/libxls/locale.h"
 
 extern int xls_debug;
 
@@ -780,62 +780,62 @@ char* xls_getCSS(xlsWorkBook* pWB)
         switch (xf->linestyle & 0x0f)
         {
         case 0:
-            snprintf(borderleft, 255, "%s", "");
+            sprintf(borderleft,"%s", "");
             break;
         default:
-            snprintf(borderleft, 255, "border-left: 1px solid black;");
+            sprintf(borderleft,"border-left: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f0)
         {
         case 0:
-            snprintf(borderright, 255, "%s", "");
+            sprintf(borderright,"%s", "");
             break;
         default:
-            snprintf(borderright, 255, "border-right: 1px solid black;");
+            sprintf(borderright,"border-right: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f00)
         {
         case 0:
-            snprintf(bordertop, 255, "%s", "");
+            sprintf(bordertop,"%s", "");
             break;
         default:
-            snprintf(bordertop, 255, "border-top: 1px solid black;");
+            sprintf(bordertop,"border-top: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f000)
         {
         case 0:
-            snprintf(borderbottom, 255, "%s", "");
+            sprintf(borderbottom,"%s", "");
             break;
         default:
-            snprintf(borderbottom, 255, "border-bottom: 1px solid Black;");
+            sprintf(borderbottom,"border-bottom: 1px solid Black;");
             break;
         }
 
         if (xf->font)
-            snprintf(color, 255, "color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
+            sprintf(color,"color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
         else
-            snprintf(color, 255, "%s", "");
+            sprintf(color,"%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].flag & 2))
-            snprintf(italic, 255, "font-style: italic;");
+            sprintf(italic,"font-style: italic;");
         else
-            snprintf(italic, 255, "%s", "");
+            sprintf(italic,"%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].bold>400))
-            snprintf(bold, 255, "font-weight: bold;");
+            sprintf(bold,"font-weight: bold;");
         else
-            snprintf(bold, 255, "%s", "");
+            sprintf(bold,"%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].underline))
-            snprintf(underline, 255, "text-decoration: underline;");
+            sprintf(underline,"text-decoration: underline;");
         else
-            snprintf(underline, 255, "%s", "");
+            sprintf(underline,"%s", "");
 
         if (xf->font)
             size=pWB->fonts.font[xf->font-1].height/20;
@@ -843,12 +843,12 @@ char* xls_getCSS(xlsWorkBook* pWB)
             size=10;
 
         if (xf->font)
-            snprintf(fontname, 255,"%s",pWB->fonts.font[xf->font-1].name);
+            sprintf(fontname,"%s",pWB->fonts.font[xf->font-1].name);
         else
-            snprintf(fontname, 255,"Arial");
+            sprintf(fontname,"Arial");
 
         background=xls_getColor((WORD)(xf->groundcolor & 0x7f),1);
-        snprintf(buf, 4096, ".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
+        sprintf(buf,".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
                 i,size,fontname,background,align,valign,borderleft,borderright,bordertop,borderbottom,color,italic,bold,underline);
 
 		strcat(ret,buf);
