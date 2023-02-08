@@ -111,12 +111,12 @@ test_that("non-ASCII filenames can be read", {
   expect_true(file.exists(tricky_xlsx_file))
   on.exit(file.remove(tricky_xls_file))
   on.exit(file.remove(tricky_xlsx_file))
-  expect_without_error(read_xls(tricky_xls_file))
-  expect_without_error(read_xlsx(tricky_xlsx_file))
+  expect_no_error(read_xls(tricky_xls_file))
+  expect_no_error(read_xlsx(tricky_xlsx_file))
 })
 
 test_that("styles and sharedStrings parts can be absent", {
-  expect_without_error(
+  expect_no_error(
     df <- read_xlsx(test_sheet("no-styles-or-sharedStrings-parts.xlsx"))
   )
   expect_identical(df$Language[1], "german")

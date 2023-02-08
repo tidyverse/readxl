@@ -56,7 +56,7 @@ test_that("formula cell with no v node does not cause crash", {
 ## LAPD uses a tool to produce xlsx that implements the minimal SpreadsheetML
 ## package structure described on pp65-66 of ECMA 5th edition
 test_that("we can read LAPD arrest sheets", {
-  expect_without_error(
+  expect_no_error(
     lapd <- read_excel(test_sheet("los-angeles-arrests-xlsx.xlsx"), skip = 2)
   )
   expect_identical(dim(lapd), c(193L, 36L))
@@ -69,7 +69,7 @@ test_that("we can read LAPD arrest sheets", {
 # inspired libxls to add support for rich-text strings in BIFF5
 # https://github.com/libxls/libxls/commit/b6d9d872756f69780b743dbaec9cd2ec30c37740
 test_that("we can read xls from ABBYY FineReader", {
-  expect_without_error(
+  expect_no_error(
     abbyy <- read_excel(
       test_sheet("biff5-rich-text-string.xls"),
       col_names = FALSE,
