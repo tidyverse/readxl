@@ -206,7 +206,7 @@ Many 3rd party tools write xls and xlsx that comply with the spec, but that are 
 
 * `read_xls()` and `read_xlsx()` are now exposed, such that files without an `.xls` or `.xlsx` extension can be read. (#85, @jirkalewandowski)
 
-* The [Lotus 1-2-3 leap year bug](https://docs.microsoft.com/en-US/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year) is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)
+* The [Lotus 1-2-3 leap year bug](https://learn.microsoft.com/en-US/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year) is now accounted for, i.e. date-times prior to March 1, 1900 import correctly. Date-times on the non-existent leap day February 29, 1900 import as NA and throw a warning. (#264, #148, #292)
 
 * The tibble package is now imported (#175, @krlmlr) and `tibble::repair_names()` is used to prevent empty, `NA`, or duplicated column names. (#216, #208, #199 #182, #53, #247).
 

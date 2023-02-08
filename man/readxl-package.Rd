@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Import excel files into R. Supports '.xls' via the embedded 'libxls' C library \url{https://github.com/libxls/libxls} and '.xlsx' via the embedded 'RapidXML' C++ library \url{http://rapidxml.sourceforge.net}. Works on Windows, Mac and Linux without external dependencies.
+Import excel files into R. Supports '.xls' via the embedded 'libxls' C library \url{https://github.com/libxls/libxls} and '.xlsx' via the embedded 'RapidXML' C++ library \url{https://rapidxml.sourceforge.net/}. Works on Windows, Mac and Linux without external dependencies.
 }
 \seealso{
 Useful links:

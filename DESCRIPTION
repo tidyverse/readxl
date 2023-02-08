@@ -23,7 +23,7 @@ Authors@R: c(
   )
 Description: Import excel files into R. Supports '.xls' via the embedded
     'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via
-    the embedded 'RapidXML' C++ library <http://rapidxml.sourceforge.net>.
+    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net/>.
     Works on Windows, Mac and Linux without external dependencies.
 License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl

@@ -24,7 +24,7 @@ readxl supports both the legacy `.xls` format and the modern xml-based
 `.xlsx` format. The [libxls](https://github.com/libxls/libxls) C library
 is used to support `.xls`, which abstracts away many of the complexities
 of the underlying binary format. To parse `.xlsx`, we use the
-[RapidXML](http://rapidxml.sourceforge.net) C++ library.
+[RapidXML](https://rapidxml.sourceforge.net/) C++ library.
 
 ## Installation
 
@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmpG5ZAUG/temp_libpath1374b3dd1a473/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmptoRhn8/temp_libpathcb0a467b0652/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -91,7 +91,6 @@ read_excel(xlsx_example)
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa 
 #> # … with 147 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
@@ -102,7 +101,6 @@ read_excel(xls_example)
 #> 2          4.9         3            1.4         0.2 setosa 
 #> 3          4.7         3.2          1.3         0.2 setosa 
 #> # … with 147 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 List the sheet names with `excel_sheets()`.
@@ -123,7 +121,6 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 2    160 horsebean
 #> 3    136 horsebean
 #> # … with 68 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 read_excel(xls_example, sheet = 4)
 #> # A tibble: 1,000 × 5
 #>     lat  long depth   mag stations
@@ -132,7 +129,6 @@ read_excel(xls_example, sheet = 4)
 #> 2 -20.6  181.   650   4.2       15
 #> 3 -26    184.    42   5.4       43
 #> # … with 997 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 There are various ways to control which cells are read. You can even
@@ -168,7 +164,6 @@ read_excel(xlsx_example, range = cell_cols("B:D"))
 #> 2         3            1.4         0.2
 #> 3         3.2          1.3         0.2
 #> # … with 147 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
 #> # A tibble: 4 × 3
 #>     cyl  disp    hp
@@ -177,7 +172,6 @@ read_excel(xlsx_example, range = "mtcars!B1:D5")
 #> 2     6   160   110
 #> 3     4   108    93
 #> # … with 1 more row
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 If `NA`s are represented by something other than blank cells, set the
@@ -192,7 +186,6 @@ read_excel(xlsx_example, na = "setosa")
 #> 2          4.9         3            1.4         0.2 <NA>   
 #> 3          4.7         3.2          1.3         0.2 <NA>   
 #> # … with 147 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 If you are new to the tidyverse conventions for data import, you may
@@ -206,43 +199,43 @@ readxl will become increasingly consistent with other packages, such as
 Broad topics are explained in [these
 articles](https://readxl.tidyverse.org/articles/index.html):
 
--   [Cell and Column
-    Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
--   [Sheet
-    Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html):
-    how to specify which cells to read
--   [readxl
-    Workflows](https://readxl.tidyverse.org/articles/articles/readxl-workflows.html):
-    Iterating over multiple tabs or worksheets, stashing a csv snapshot
+- [Cell and Column
+  Types](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
+- [Sheet
+  Geometry](https://readxl.tidyverse.org/articles/sheet-geometry.html):
+  how to specify which cells to read
+- [readxl
+  Workflows](https://readxl.tidyverse.org/articles/articles/readxl-workflows.html):
+  Iterating over multiple tabs or worksheets, stashing a csv snapshot
 
 We also have some focused articles that address specific aggravations
 presented by the world’s spreadsheets:
 
--   [Column
-    Names](https://readxl.tidyverse.org/articles/articles/column-names.html)
--   [Multiple Header
-    Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
+- [Column
+  Names](https://readxl.tidyverse.org/articles/articles/column-names.html)
+- [Multiple Header
+  Rows](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html)
 
 ## Features
 
--   No external dependency on, e.g., Java or Perl.
+- No external dependency on, e.g., Java or Perl.
 
--   Re-encodes non-ASCII characters to UTF-8.
+- Re-encodes non-ASCII characters to UTF-8.
 
--   Loads datetimes into POSIXct columns. Both Windows (1900) and
-    Mac (1904) date specifications are processed correctly.
+- Loads datetimes into POSIXct columns. Both Windows (1900) and
+  Mac (1904) date specifications are processed correctly.
 
--   Discovers the minimal data rectangle and returns that, by default.
-    User can exert more control with `range`, `skip`, and `n_max`.
+- Discovers the minimal data rectangle and returns that, by default.
+  User can exert more control with `range`, `skip`, and `n_max`.
 
--   Column names and types are determined from the data in the sheet, by
-    default. User can also supply via `col_names` and `col_types` and
-    control name repair via `.name_repair`.
+- Column names and types are determined from the data in the sheet, by
+  default. User can also supply via `col_names` and `col_types` and
+  control name repair via `.name_repair`.
 
--   Returns a
-    [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a
-    data frame with an additional `tbl_df` class. Among other things,
-    this provide nicer printing.
+- Returns a
+  [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a
+  data frame with an additional `tbl_df` class. Among other things, this
+  provide nicer printing.
 
 ## Other relevant packages
 
