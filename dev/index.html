@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Import excel files into R. Supports .xls via the embedded
     libxls C library &lt;https://github.com/libxls/libxls&gt; and .xlsx via
-    the embedded RapidXML C++ library &lt;http://rapidxml.sourceforge.net&gt;.
+    the embedded RapidXML C++ library &lt;https://rapidxml.sourceforge.net/&gt;.
     Works on Windows, Mac and Linux without external dependencies.">
 <title>Read Excel Files • readxl</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -25,7 +25,7 @@
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Read Excel Files">
 <meta property="og:description" content="Import excel files into R. Supports .xls via the embedded
     libxls C library &lt;https://github.com/libxls/libxls&gt; and .xlsx via
-    the embedded RapidXML C++ library &lt;http://rapidxml.sourceforge.net&gt;.
+    the embedded RapidXML C++ library &lt;https://rapidxml.sourceforge.net/&gt;.
     Works on Windows, Mac and Linux without external dependencies.">
 <meta property="og:image" content="https://readxl.tidyverse.org/logo.png">
 <meta name="robots" content="noindex">
@@ -107,7 +107,7 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it’s easy to install and use on all operating systems. It is designed to work with <em>tabular</em> data.</p>
-<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/libxls/libxls" class="external-link">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="http://rapidxml.sourceforge.net" class="external-link">RapidXML</a> C++ library.</p>
+<p>readxl supports both the legacy <code>.xls</code> format and the modern xml-based <code>.xlsx</code> format. The <a href="https://github.com/libxls/libxls" class="external-link">libxls</a> C library is used to support <code>.xls</code>, which abstracts away many of the complexities of the underlying binary format. To parse <code>.xlsx</code>, we use the <a href="https://rapidxml.sourceforge.net/" class="external-link">RapidXML</a> C++ library.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -142,7 +142,7 @@
 <span><span class="co">#&gt;  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"</span></span>
 <span><span class="co">#&gt;  [9] "type-me.xls"   "type-me.xlsx"</span></span>
 <span><span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xls"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/private/tmp/RtmpG5ZAUG/temp_libpath1374b3dd1a473/readxl/extdata/clippy.xls"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/private/tmp/RtmptoRhn8/temp_libpathcb0a467b0652/readxl/extdata/clippy.xls"</span></span></code></pre></div>
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xlsx_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span></span>
@@ -154,7 +154,6 @@
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; # … with 147 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">xls_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xls"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span><span class="op">)</span></span>
@@ -164,8 +163,7 @@
 <span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 147 more rows</span></span></code></pre></div>
 <p>List the sheet names with <code><a href="reference/excel_sheets.html">excel_sheets()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">xlsx_example</span><span class="op">)</span></span>
@@ -180,7 +178,6 @@
 <span><span class="co">#&gt; 2    160 horsebean</span></span>
 <span><span class="co">#&gt; 3    136 horsebean</span></span>
 <span><span class="co">#&gt; # … with 68 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span>, sheet <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1,000 × 5</span></span>
 <span><span class="co">#&gt;     lat  long depth   mag stations</span></span>
@@ -188,8 +185,7 @@
 <span><span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span></span>
 <span><span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span></span>
 <span><span class="co">#&gt; 3 -26    184.    42   5.4       43</span></span>
-<span><span class="co">#&gt; # … with 997 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 997 more rows</span></span></code></pre></div>
 <p>There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, n_max <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -221,7 +217,6 @@
 <span><span class="co">#&gt; 2         3            1.4         0.2</span></span>
 <span><span class="co">#&gt; 3         3.2          1.3         0.2</span></span>
 <span><span class="co">#&gt; # … with 147 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="st">"mtcars!B1:D5"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
 <span><span class="co">#&gt;     cyl  disp    hp</span></span>
@@ -229,8 +224,7 @@
 <span><span class="co">#&gt; 1     6   160   110</span></span>
 <span><span class="co">#&gt; 2     6   160   110</span></span>
 <span><span class="co">#&gt; 3     4   108    93</span></span>
-<span><span class="co">#&gt; # … with 1 more row</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 1 more row</span></span></code></pre></div>
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, na <span class="op">=</span> <span class="st">"setosa"</span><span class="op">)</span></span>
@@ -240,8 +234,7 @@
 <span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span>
-<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 147 more rows</span></span></code></pre></div>
 <p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="https://r4ds.had.co.nz/data-import.html" class="external-link">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="https://readr.tidyverse.org/" class="external-link">readr</a>.</p>
 </div>
 <div class="section level2">
