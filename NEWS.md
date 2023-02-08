@@ -8,6 +8,8 @@ The reason for embedding a development version is to ship a version of libxls th
 
 Other small readxl-specific patches have been made to the embedded libxls code to comply with CRAN requests, such as avoiding the use of `sprintf()`.
 
+No longer specifies C++11 for R versions >= 3.6.
+
 # readxl 1.4.1
 
 Help files below `man/` have been re-generated, so that they give rise to valid HTML5. (This is the impetus for this release, to keep the package safely on CRAN.)
