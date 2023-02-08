@@ -37,7 +37,7 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    testthat (>= 3.1.4.9000),
+    testthat (>= 3.1.6),
     withr
 LinkingTo: 
     cpp11 (>= 0.4.0),
@@ -51,5 +51,3 @@ Note: libxls v1.6.2 4482400
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 SystemRequirements: C++11
-Remotes:  
-    r-lib/testthat#1690
