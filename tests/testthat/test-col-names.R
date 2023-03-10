@@ -60,16 +60,13 @@ test_that("column names are de-duplicated", {
 })
 
 test_that("wrong length column names are rejected", {
-  err_msg <- "Sheet 1 has 5 columns (5 unskipped), but `col_names` has length 3."
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_names = LETTERS[1:3]),
-    err_msg,
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_names = LETTERS[1:3])
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xls.xls"), col_names = LETTERS[1:3]),
-    err_msg,
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xls.xls"), col_names = LETTERS[1:3])
   )
 })
 

@@ -1,35 +1,33 @@
 test_that("informative error when requesting non-existent sheet by name", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "tulip"),
-    "Sheet 'tulip' not found"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "tulip")
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), range = "tulip!A1:A1"),
-    "Sheet 'tulip' not found"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), range = "tulip!A1:A1")
   )
 })
 
 test_that("informative error when requesting non-existent sheet by position", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 2),
-    "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 2)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xls.xls"), sheet = 2),
-    "Can't retrieve sheet in position 2, only 1 sheet(s) found.",
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xls.xls"), sheet = 2)
   )
 })
 
 test_that("invalid sheet values caught", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 0),
-    "`sheet` must be positive"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 0)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = rep(1L, 2)),
-    "`sheet` must have length 1"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = rep(1L, 2))
   )
 })
 
@@ -42,13 +40,12 @@ test_that("sheet can be parsed out of range", {
 })
 
 test_that("double specification of sheet generates message and range wins", {
-  expect_message(
+  expect_snapshot(
     double <-
       read_excel(
         test_sheet("sheet-xml-lookup.xlsx"),
         sheet = "Asia", range = "Oceania!A1:A1"
-      ),
-    "Two values given for `sheet`. Using the `sheet` found in `range`"
+      )
   )
   ref <- read_excel(test_sheet("sheet-xml-lookup.xlsx"), range = "Oceania!A1:A1")
   expect_identical(double, ref)

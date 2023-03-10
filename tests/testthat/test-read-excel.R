@@ -16,60 +16,61 @@ test_that("can read files with and without extension [xls]", {
 })
 
 test_that("xlsx is not read as xls and vice versa", {
-  expect_error(
-    read_xls(test_sheet("iris-excel-xlsx.xlsx")),
-    "libxls error: Unable to open file"
+  expect_snapshot(
+    error = TRUE,
+    read_xls(test_sheet("iris-excel-xlsx.xlsx"))
   )
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     read_xlsx(test_sheet("iris-excel-xls.xls")),
-    "cannot be opened",
-    class = "error"
   )
 })
 
 test_that("non-existent file throws error", {
-  expect_error(read_excel("foo"), "`path` does not exist")
+  expect_snapshot(
+    error = TRUE,
+    read_excel("foo")
+  )
 })
 
 test_that("read_excel catches invalid guess_max", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = NA),
-    "`guess_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = NA)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = -1),
-    "`guess_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = -1)
   )
-  expect_warning(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = Inf),
-    "`guess_max` is a very large value"
+  expect_snapshot(
+    out <- read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = Inf)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = NULL),
-    "`guess_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = NULL)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = 1:2),
-    "`guess_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), guess_max = 1:2)
   )
 })
 
 test_that("read_excel catches invalid n_max", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = NA),
-    "`n_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = NA)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = -1),
-    "`n_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = -1)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = NULL),
-    "`n_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = NULL)
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1:2),
-    "`n_max` must be a positive integer"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1:2)
   )
 })
 
@@ -80,16 +81,16 @@ test_that("xls with exactly 65536 rows does not enter infinite loop", {
 })
 
 test_that("sheet must be integer or string", {
-  expect_error(
-    read_excel(test_sheet("mtcars.xls"), sheet = TRUE),
-    "`sheet` must be either an integer or a string."
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("mtcars.xls"), sheet = TRUE)
   )
 })
 
 test_that("trim_ws must be a logical", {
-  expect_error(
-    read_excel(test_sheet("mtcars.xls"), trim_ws = "yes"),
-    "`trim_ws` must be either TRUE or FALSE"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("mtcars.xls"), trim_ws = "yes")
   )
 })
 

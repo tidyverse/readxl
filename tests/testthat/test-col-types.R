@@ -1,39 +1,34 @@
 test_that("illegal col_types are rejected", {
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     read_excel(
       test_sheet("types.xlsx"),
       col_types = c("foo", "numeric", "text", "bar")
-    ),
-    "Illegal column type"
+    )
   )
 })
 
 test_that("request for 'blank' col type gets deprecation message and fix", {
-  expect_message(
+  expect_snapshot(
     read_excel(
       test_sheet("types.xlsx"),
       col_types = rep_len(c("blank", "text"), length.out = 5)
-    ),
-    "`col_type = \"blank\"` deprecated. Use \"skip\" instead.",
-    fixed = TRUE
+    )
   )
 })
 
 test_that("invalid col_types are rejected", {
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     read_excel(test_sheet("types.xlsx"), col_types = character()),
-    "length(col_types) > 0 is not TRUE",
-    fixed = TRUE
   )
-  expect_error(
-    read_excel(test_sheet("types.xlsx"), col_types = 1:3),
-    "is.character(col_types) is not TRUE",
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("types.xlsx"), col_types = 1:3)
   )
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     read_excel(test_sheet("types.xlsx"), col_types = c(NA, "text", "numeric")),
-    "!anyNA(col_types) is not TRUE",
-    fixed = TRUE
   )
 })
 
@@ -91,38 +86,35 @@ test_that("we can specify some col_types and guess others", {
 })
 
 test_that("guess_max is honored for col_types", {
-  expect_warning(
+  expect_snapshot(
     types <- read_excel(
       test_sheet("types.xlsx"),
       sheet = "guess_max",
       guess_max = 2
-    ),
-    "Expecting numeric"
+    )
   )
 
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 
-  expect_warning(
+  expect_snapshot(
     types <- read_excel(
       test_sheet("types.xls"),
       sheet = "guess_max",
       guess_max = 2
-    ),
-    "Expecting numeric"
+    )
   )
 
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
 test_that("wrong length col types generates error", {
-  err_msg <- "Sheet 1 has 5 columns, but `col_types` has length 2."
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_types = c("numeric", "text")),
-    err_msg
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_types = c("numeric", "text"))
   )
-  expect_error(
-    read_excel(test_sheet("iris-excel-xls.xls"), col_types = c("numeric", "text")),
-    err_msg
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xls.xls"), col_types = c("numeric", "text"))
   )
 })
 

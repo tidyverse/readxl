@@ -22,12 +22,11 @@ test_that("date subsecond rounding works [xls]", {
 ## Lotus 1-2-3 leap year bug ----
 ## #264, #148
 test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xlsx]", {
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
       test_sheet("dates-leap-year-1900-xlsx.xlsx"),
       col_types = c("date", "text", "logical")
-    ),
-    "NA inserted for impossible 1900-02-29 datetime"
+    )
   )
   dttms <- as.POSIXct(df$dttm_string, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
   leap_day <- df$dttm_string == "1900-02-29 08:00:00"
@@ -38,12 +37,11 @@ test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xls
 ## Lotus 1-2-3 leap year bug
 ## #264, #148
 test_that("we get correct dates prior to March 1, 1900, in 1900 date system [xls]", {
-  expect_warning(
+  expect_snapshot(
     df <- read_excel(
       test_sheet("dates-leap-year-1900-xls.xls"),
       col_types = c("date", "text", "logical")
-    ),
-    "NA inserted for impossible 1900-02-29 datetime"
+    )
   )
   dttms <- as.POSIXct(df$dttm_string, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
   leap_day <- df$dttm_string == "1900-02-29 08:00:00"
@@ -63,21 +61,21 @@ test_that("colors in number formats aren't misinterpreted as dates", {
   #   <numFmt numFmtId="171" formatCode="[Yellow]0"/>
   #   <numFmt numFmtId="172" formatCode="[Cyan]0"/>
   # </numFmts>
-  expect_warning(
+  expect_no_warning(
+    # rather than "Expecting numeric in A1 / R1C1: got a date" etc.
     read_xlsx(
       test_sheet("color-date-xlsx.xlsx"),
       col_names = "X1",
       col_types = "numeric"
-    ),
-    NA # rather than "Expecting numeric in A1 / R1C1: got a date" etc.
+    )
   )
-  expect_warning(
+  expect_no_warning(
+    # rather than "Expecting numeric in A1 / R1C1: got a date"
     read_xls(
       test_sheet("color-date-xls.xls"),
       col_names = "X1",
       col_types = "numeric"
-    ),
-    NA # rather than "Expecting numeric in A1 / R1C1: got a date"
+    )
   )
 
   # <numFmts count="8">
@@ -90,13 +88,13 @@ test_that("colors in number formats aren't misinterpreted as dates", {
   #   <numFmt numFmtId="171" formatCode="[yellow]0"/>
   #   <numFmt numFmtId="172" formatCode="[cyan]0"/>
   # </numFmts>
-  expect_warning(
+  expect_no_warning(
+    # rather than "Expecting numeric in A1 / R1C1: got a date"
     read_xlsx(
       test_sheet("color-date-lowercase-xlsx.xlsx"),
       col_names = "X1",
       col_types = "numeric"
-    ),
-    NA # rather than "Expecting numeric in A1 / R1C1: got a date"
+    )
   )
 })
 
