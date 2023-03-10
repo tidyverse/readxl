@@ -16,13 +16,18 @@ test_that("can read files with and without extension [xls]", {
 })
 
 test_that("xlsx is not read as xls and vice versa", {
+  scrubfun <- function(x) {
+    sub("'?[^ ]*iris-excel-xlsx?[.]xlsx?'?", "'VOLATILE_FILEPATH'", x)
+  }
   expect_snapshot(
     error = TRUE,
-    read_xls(test_sheet("iris-excel-xlsx.xlsx"))
+    read_xls(test_sheet("iris-excel-xlsx.xlsx")),
+    transform = scrubfun
   )
   expect_snapshot(
     error = TRUE,
     read_xlsx(test_sheet("iris-excel-xls.xls")),
+    transform = scrubfun
   )
 })
 

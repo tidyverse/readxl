@@ -4,7 +4,7 @@
       read_xls(test_sheet("iris-excel-xlsx.xlsx"))
     Error <simpleError>
       
-        filepath: /Users/jenny/rrr/readxl/tests/testthat/sheets/iris-excel-xlsx.xlsx
+        filepath: 'VOLATILE_FILEPATH'
         libxls error: Unable to open file
 
 ---
@@ -12,7 +12,7 @@
     Code
       read_xlsx(test_sheet("iris-excel-xls.xls"))
     Error <simpleError>
-      zip file '/Users/jenny/rrr/readxl/tests/testthat/sheets/iris-excel-xls.xls' cannot be opened
+      zip file 'VOLATILE_FILEPATH' cannot be opened
 
 # non-existent file throws error
 
