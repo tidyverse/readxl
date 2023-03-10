@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# readxl <img src='man/figures/logo.png' align="right" height="139" />
+# readxl <a href="https://readxl.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)

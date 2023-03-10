@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# readxl <img src='man/figures/logo.png' align="right" height="139" />
+# readxl <a href="https://readxl.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmptoRhn8/temp_libpathcb0a467b0652/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/Rtmpjectat/temp_libpath3b7872397e4c/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
