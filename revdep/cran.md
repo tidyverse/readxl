@@ -1,18 +1,15 @@
 ## revdepcheck results
 
-We checked 358 reverse dependencies (319 from CRAN + 39 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 319 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 1 new problems
- * We failed to check 1 packages
+ * We failed to check 0 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* datplot
-  checking tests ... ERROR
+* rb3
+  checking re-building of vignette outputs ... ERROR
 
-### Failed to check
-
-* SSVS (NA)

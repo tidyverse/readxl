@@ -1,47 +1,41 @@
-# datplot
+# rb3
 
 <details>
 
-* Version: 1.0.0
-* GitHub: https://github.com/lsteinmann/datplot
-* Source code: https://github.com/cran/datplot
-* Date/Publication: 2021-03-04 10:00:05 UTC
-* Number of recursive dependencies: 126
+* Version: 0.0.10
+* GitHub: https://github.com/ropensci/rb3
+* Source code: https://github.com/cran/rb3
+* Date/Publication: 2023-04-14 12:10:02 UTC
+* Number of recursive dependencies: 120
 
-Run `revdepcheck::cloud_details(, "datplot")` for more info
+Run `revdepcheck::cloud_details(, "rb3")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking re-building of vignette outputs ... ERROR
     ```
-      Running ‘create_testing_df.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      [1] "stepsize has to be either 'auto' or numeric."
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 21 ]
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error ('test-datplot_utility.R:27:3'): (code run outside of `test_that()`) ──
-      Error in `seq.default(from = datmin, to = datmax, by = stepsize)`: wrong sign in 'by' argument
-      Backtrace:
-          ▆
-       1. └─datplot::get.step.sequence(...) at test-datplot_utility.R:27:2
-       2.   ├─base::seq(from = datmin, to = datmax, by = stepsize)
-       3.   └─base::seq.default(from = datmin, to = datmax, by = stepsize)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 21 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 1 marked Latin-1 string
-      Note: found 360 marked UTF-8 strings
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘B3-Indexes.Rmd’ using rmarkdown
+    
+    Quitting from lines 72-73 [unnamed-chunk-7] (B3-Indexes.Rmd)
+    Error: processing vignette 'B3-Indexes.Rmd' failed with diagnostics:
+    attempt to set 'colnames' on an object with less than two dimensions
+    --- failed re-building ‘B3-Indexes.Rmd’
+    
+    --- re-building ‘Fetching-historical-future-rates.Rmd’ using rmarkdown
+    ...
+    --- finished re-building ‘Fetching-historical-future-rates.Rmd’
+    
+    --- re-building ‘Fetching-historical-yield-curve.Rmd’ using rmarkdown
+    --- finished re-building ‘Fetching-historical-yield-curve.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘B3-Indexes.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
     ```
 
