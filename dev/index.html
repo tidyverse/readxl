@@ -143,7 +143,7 @@
 <span><span class="co">#&gt;  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"</span></span>
 <span><span class="co">#&gt;  [9] "type-me.xls"   "type-me.xlsx"</span></span>
 <span><span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xls"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/private/tmp/Rtmpjectat/temp_libpath3b7822c649d8/readxl/extdata/clippy.xls"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/private/tmp/RtmpM1GkLC/temp_libpatha8e46f7f62bf/readxl/extdata/clippy.xls"</span></span></code></pre></div>
 <p><code><a href="reference/read_excel.html">read_excel()</a></code> reads both xls and xlsx files and detects the format from the extension.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xlsx_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span></span>
@@ -154,7 +154,7 @@
 <span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 147 more rows</span></span>
 <span></span>
 <span><span class="va">xls_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xls"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span><span class="op">)</span></span>
@@ -164,7 +164,7 @@
 <span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 setosa </span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 147 more rows</span></span></code></pre></div>
 <p>List the sheet names with <code><a href="reference/excel_sheets.html">excel_sheets()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="va">xlsx_example</span><span class="op">)</span></span>
@@ -178,7 +178,7 @@
 <span><span class="co">#&gt; 1    179 horsebean</span></span>
 <span><span class="co">#&gt; 2    160 horsebean</span></span>
 <span><span class="co">#&gt; 3    136 horsebean</span></span>
-<span><span class="co">#&gt; # … with 68 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 68 more rows</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xls_example</span>, sheet <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1,000 × 5</span></span>
 <span><span class="co">#&gt;     lat  long depth   mag stations</span></span>
@@ -186,7 +186,7 @@
 <span><span class="co">#&gt; 1 -20.4  182.   562   4.8       41</span></span>
 <span><span class="co">#&gt; 2 -20.6  181.   650   4.2       15</span></span>
 <span><span class="co">#&gt; 3 -26    184.    42   5.4       43</span></span>
-<span><span class="co">#&gt; # … with 997 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 997 more rows</span></span></code></pre></div>
 <p>There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, n_max <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -217,7 +217,7 @@
 <span><span class="co">#&gt; 1         3.5          1.4         0.2</span></span>
 <span><span class="co">#&gt; 2         3            1.4         0.2</span></span>
 <span><span class="co">#&gt; 3         3.2          1.3         0.2</span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 147 more rows</span></span>
 <span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, range <span class="op">=</span> <span class="st">"mtcars!B1:D5"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
 <span><span class="co">#&gt;     cyl  disp    hp</span></span>
@@ -225,7 +225,7 @@
 <span><span class="co">#&gt; 1     6   160   110</span></span>
 <span><span class="co">#&gt; 2     6   160   110</span></span>
 <span><span class="co">#&gt; 3     4   108    93</span></span>
-<span><span class="co">#&gt; # … with 1 more row</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 1 more row</span></span></code></pre></div>
 <p>If <code>NA</code>s are represented by something other than blank cells, set the <code>na</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">xlsx_example</span>, na <span class="op">=</span> <span class="st">"setosa"</span><span class="op">)</span></span>
@@ -235,7 +235,7 @@
 <span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2 &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 2          4.9         3            1.4         0.2 &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2 &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; # … with 147 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 147 more rows</span></span></code></pre></div>
 <p>If you are new to the tidyverse conventions for data import, you may want to consult the <a href="https://r4ds.had.co.nz/data-import.html" class="external-link">data import chapter</a> in R for Data Science. readxl will become increasingly consistent with other packages, such as <a href="https://readr.tidyverse.org/" class="external-link">readr</a>.</p>
 </div>
 <div class="section level2">
