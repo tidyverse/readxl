@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.6/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.6/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.7/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.7/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Cell and Column Types">
@@ -417,7 +417,12 @@ like in R, the strings “T”, “TRUE”, “True”, and “true” are regar
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> TRUE             <span style="color: #949494;">"</span>the string \"true\"<span style="color: #949494;">"</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> FALSE            <span style="color: #949494;">"</span>the letter \"F\"<span style="color: #949494;">"</span>                  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> FALSE            <span style="color: #949494;">"</span>\"False\" preceded by single quote<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-logical.png" alt='Screenshot of the worksheet named "logical_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-logical.png” alt=“Screenshot of the
+worksheet named”logical_coercion” inside the “type-me.xlsx” example
+spreadsheet. The cells in the first column (column A) have very mixed
+contents, such as empty, datetime, or string. The cells in the second
+column (column B) describe the contents of the first column in precise
+language.” width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="numeric-column">Numeric column<a class="anchor" aria-label="anchor" href="#numeric-column"></a>
@@ -447,7 +452,12 @@ origin</a>. For text, numeric conversion is attempted, to handle the
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>           <span style="text-decoration: underline;">123</span>456 <span style="color: #949494;">"</span>the string \"123456\"<span style="color: #949494;">"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>           <span style="text-decoration: underline;">123</span>456 <span style="color: #949494;">"</span>the number 123456<span style="color: #949494;">"</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>               <span style="color: #BB0000;">NA</span> <span style="color: #949494;">"</span>\"cabbage\"<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-numeric.png" alt='Screenshot of the worksheet named "numeric_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-numeric.png” alt=“Screenshot of the
+worksheet named”numeric_coercion” inside the “type-me.xlsx” example
+spreadsheet. The cells in the first column (column A) have very mixed
+contents, such as empty, datetime, or string. The cells in the second
+column (column B) describe the contents of the first column in precise
+language.” width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="date-column">Date column<a class="anchor" aria-label="anchor" href="#date-column"></a>
@@ -473,7 +483,12 @@ Boolean or text cells become <code>NA</code>.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">"</span>\"cabbage\"<span style="color: #949494;">"</span>         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1904-01-05 <span style="color: #949494;">07:12:00</span> <span style="color: #949494;">"</span>4.3 (numeric)<span style="color: #949494;">"</span>       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 2012-01-02 <span style="color: #949494;">00:00:00</span> <span style="color: #949494;">"</span>another numeric<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-date.png" alt='Screenshot of the worksheet named "date_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-date.png” alt=“Screenshot of the worksheet
+named”date_coercion” inside the “type-me.xlsx” example spreadsheet. The
+cells in the first column (column A) have very mixed contents, such as
+empty, datetime, or string. The cells in the second column (column B)
+describe the contents of the first column in precise language.”
+width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="text-or-character-column">Text or character column<a class="anchor" aria-label="anchor" href="#text-or-character-column"></a>
@@ -495,7 +510,12 @@ numeric, using the underlying serial value.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1.3      <span style="color: #949494;">"</span>numeric<span style="color: #949494;">"</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 41175    <span style="color: #949494;">"</span>datetime<span style="color: #949494;">"</span>       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 36436153 <span style="color: #949494;">"</span>another numeric<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-text.png" alt='Screenshot of the worksheet named "text_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-text.png” alt=“Screenshot of the worksheet
+named”text_coercion” inside the “type-me.xlsx” example spreadsheet. The
+cells in the first column (column A) have very mixed contents, such as
+empty, datetime, or string. The cells in the second column (column B)
+describe the contents of the first column in precise language.”
+width=“70%” /&gt;</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
