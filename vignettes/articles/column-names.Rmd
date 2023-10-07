@@ -33,7 +33,7 @@ But users have long wanted a way to specify a name repair *strategy*, as opposed
 As of v1.2.0, readxl provides the `.name_repair` argument, which affords control over how column names are checked or repaired.
 
 The `.name_repair` argument in `read_excel()`, `read_xls()`, and `read_xlsx()` works exactly the same way as it does in [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html) and [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html).
-The reasoning behind the name repair strategy is laid out in [principles.tidyverse.org](https://principles.tidyverse.org/names-attribute.html).
+The reasoning behind the name repair strategy is laid out in [design.tidyverse.org](https://design.tidyverse.org/names.html).
 
 readxl's default is `.name_repair = "unique"`, which ensures each column has a unique name.
 If that is already true of the column names, readxl won't touch them.
