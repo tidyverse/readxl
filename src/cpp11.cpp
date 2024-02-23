@@ -34,7 +34,7 @@ extern "C" SEXP _readxl_xls_date_formats(SEXP path) {
   END_CPP11
 }
 // XlsxWorkBook.cpp
-cpp11::strings xlsx_names(std::string path);
+cpp11::list xlsx_names(std::string path);
 extern "C" SEXP _readxl_xlsx_names(SEXP path) {
   BEGIN_CPP11
     return cpp11::as_sexp(xlsx_names(cpp11::as_cpp<cpp11::decay_t<std::string>>(path)));

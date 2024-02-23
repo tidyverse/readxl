@@ -21,8 +21,10 @@ excel_names <- function(path) {
   format <- check_format(path)
   path <- normalizePath(path)
 
-  switch(format,
+  result <- switch(format,
     xls = xls_names(path),
     xlsx = xlsx_names(path)
   )
+
+  tibble::as_tibble(result)
 }
