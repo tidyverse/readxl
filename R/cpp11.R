@@ -16,6 +16,10 @@ xls_date_formats <- function(path) {
   .Call(`_readxl_xls_date_formats`, path)
 }
 
+xlsx_names <- function(path) {
+  .Call(`_readxl_xlsx_names`, path)
+}
+
 xlsx_sheets <- function(path) {
   .Call(`_readxl_xlsx_sheets`, path)
 }

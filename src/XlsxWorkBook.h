@@ -218,6 +218,10 @@ public:
     return rel_.n_sheets();
   }
 
+  cpp11::strings definedNames() const {
+    return rel_.names();
+  }
+
   cpp11::strings sheets() const {
     return rel_.names();
   }
