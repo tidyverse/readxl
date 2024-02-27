@@ -2105,9 +2105,16 @@ return_null:
 static int escape_sheetname(char *sheetname)
 {
   int n = strlen(sheetname);
-  for(int i = 0; i < n; i++) {
-    char c = sheetname[i];
-    if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')))
+  if(n == 0)
+    return 0;
+
+  char c = sheetname[0];
+  if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_'))
+    return 1;
+
+  for(int i = 1; i < n; i++) {
+    c = sheetname[i];
+    if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_'))
       return 1;
   }
   return 0;
