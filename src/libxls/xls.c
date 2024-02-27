@@ -1976,7 +1976,8 @@ char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
 
   case 0x3A: // PtgRef3D
   case 0x3B: // PtgArea3D
-    int is_area = (bytes[0] == 0x3B);
+    int is_area;
+    is_area = (bytes[0] == 0x3B);
     if(is_area) {
       area_rel = (RGCE_AREAREL *)(bytes + 3);
     } else {
