@@ -1,21 +1,17 @@
-# TODO - update documentation
-#' List all sheets in an excel spreadsheet
+#' List all defined names in an excel spreadsheet, with any associated range reference
 #'
-#' The list of sheet names is especially useful when you want to iterate over
-#' all of the sheets in a workbook. The `vignette("readxl-workflows")` article
-#' provides several worked examples of this, showing how to combine readxl with
-#' other packages in the tidyverse, such as purrr, or with base R functions like
-#' [lapply()].
+#' The list of defined names is especially useful when you want to avoid hard-coding
+#' the range of cells to be read from a workbook. Instead, if a range of cells to be
+#' read is named in the workbook, this function allows you to obtain the actual cell
+#' range, which may then be used in a subsequent call to [excel_names] to read the
+#' range.
 #'
-#' @inheritParams read_excel
+#' @inheritParams excel_names
 #' @export
 #' @examples
-#' excel_sheets(readxl_example("datasets.xlsx"))
-#' excel_sheets(readxl_example("datasets.xls"))
-#'
-#' # To load all sheets in a workbook, use lapply()
-#' path <- readxl_example("datasets.xls")
-#' lapply(excel_sheets(path), read_excel, path = path)
+#' names <- excel_names(readxl_example("names.xlsx"))
+#' ref <- names[names$name == "data"]$ref
+#' read_excel(readxl_example("names.xlsx"), range = ref)
 excel_names <- function(path) {
   path <- check_file(path)
   format <- check_format(path)
