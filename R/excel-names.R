@@ -3,8 +3,13 @@
 #' The list of defined names is especially useful when you want to avoid hard-coding
 #' the range of cells to be read from a workbook. Instead, if a range of cells to be
 #' read is named in the workbook, this function allows you to obtain the actual cell
-#' range, which may then be used in a subsequent call to [excel_names] to read the
+#' range, which may then be used in a subsequent call to \link{excel_names} to read the
 #' range.
+#'
+#' The function returns a \link{tibble::tibble} with three columns:
+#' * name: the name defined in the workbook
+#' * context: for names defined on a worksheet, the worksheet name; NA for workbook names
+#' * ref: for names defined as a range in the same workbook, the associated range
 #'
 #' @inheritParams excel_names
 #' @export
