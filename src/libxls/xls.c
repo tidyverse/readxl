@@ -1957,6 +1957,15 @@ void xls_set_formula_hander(xls_formula_handler handler)
 
 char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
 {
+  int is_area;
+  unsigned row1, row2, col1, col2, row;
+  int col, is_relative_col, is_relative_row, is_all_rows, is_all_cols;
+  char *sheet1, *sheet2;
+  int escape;
+
+  char cellref[50];
+  int j = 0;
+
   size_t buflen = 50;
   char *result = calloc(buflen, sizeof(char));
   result[0] = '\0';
@@ -1976,21 +1985,12 @@ char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
 
   case 0x3A: // PtgRef3D
   case 0x3B: // PtgArea3D
-    int is_area;
     is_area = (bytes[0] == 0x3B);
     if(is_area) {
       area_rel = (RGCE_AREAREL *)(bytes + 3);
     } else {
       loc_rel = (RGCE_LOCREL *)(bytes + 3);
     }
-
-    unsigned row1, row2, col1, col2, row;
-    int col, is_relative_col, is_relative_row, is_all_rows, is_all_cols;
-    char *sheet1, *sheet2;
-    int escape;
-
-    char cellref[50];
-    int j = 0;
 
     // get related externsheet and supbook records
     uint16_t ext_i = *(uint16_t *)(bytes + 1);
