@@ -22,10 +22,17 @@ excel_names <- function(path) {
   format <- check_format(path)
   path <- normalizePath(path)
 
-  result <- switch(format,
-    xls = xls_names(path),
-    xlsx = xlsx_names(path)
-  )
+  if(format == 'xls') {
+    result <- xls_names(path)
+  } else if(format == 'xlsx') {
+    result <- xlsx_names(path)
+
+    # replace any non-ranges or external ranges with NA
+    j <- !grepl("^(('[^[']+'|[A-Za-z0-9_]+))!(\\$?[A-Z]{1,2})?(\\$?[0-9]+)?(:(\\$?[A-Z]{1,2})?(\\$?[0-9]+)?)?$", result$ref)
+    if(any(j))  {
+      result$ref[j] <- NA
+    }
+  }
 
   tibble::as_tibble(result)
 }

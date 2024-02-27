@@ -5,6 +5,7 @@ test_that("excel_names can read names from xlsx workbook", {
   expect_equal(nrow(x), 16)
   expect_setequal(unique(x$context), c(NA, 'Sheet1', 'Sheet 2'))
   expect_length(na.omit(x$context), 5)
+  expect_length(na.omit(x$ref), 14)
 })
 
 test_that("excel_names can read names from xls workbook", {
