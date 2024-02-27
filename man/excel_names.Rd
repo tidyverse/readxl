@@ -2,7 +2,7 @@
 % Please edit documentation in R/excel-names.R
 \name{excel_names}
 \alias{excel_names}
-\title{List all sheets in an excel spreadsheet}
+\title{List defined named names in a workbook}
 \usage{
 excel_names(path)
 }
@@ -10,17 +10,23 @@ excel_names(path)
 \item{path}{Path to the xls/xlsx file.}
 }
 \description{
-The list of sheet names is especially useful when you want to iterate over
-all of the sheets in a workbook. The \code{vignette("readxl-workflows")} article
-provides several worked examples of this, showing how to combine readxl with
-other packages in the tidyverse, such as purrr, or with base R functions like
-\code{\link[=lapply]{lapply()}}.
+Lists all defined names in a workbook, with any associated local range references.
+The list of defined names is especially useful when you want to avoid hard-coding
+the range of cells to be read from a workbook. Instead, if a range of cells to be
+read is named in the workbook, this function allows you to obtain the actual cell
+range, which may then be used in a subsequent call to \link{read_excel} to read the
+range.
+}
+\details{
+The function returns a \code{tibble} with three columns:
+\itemize{
+\item name: the name defined in the workbook
+\item context: for names defined on a worksheet, the worksheet name; NA for workbook names
+\item ref: for names defined as a range in the same workbook, the associated range
+}
 }
 \examples{
-excel_sheets(readxl_example("datasets.xlsx"))
-excel_sheets(readxl_example("datasets.xls"))
-
-# To load all sheets in a workbook, use lapply()
-path <- readxl_example("datasets.xls")
-lapply(excel_sheets(path), read_excel, path = path)
+names <- excel_names(readxl_example("names.xlsx"))
+ref <- names[names$name == "data"]$ref
+read_excel(readxl_example("names.xlsx"), range = ref)
 }
