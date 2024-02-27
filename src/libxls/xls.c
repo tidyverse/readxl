@@ -1965,6 +1965,7 @@ char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
 
   char cellref[50];
   int j = 0;
+  int CELLREF_LEN = 50;
 
   size_t buflen = 50;
   char *result = calloc(buflen, sizeof(char));
@@ -2057,7 +2058,7 @@ char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
     if(!is_all_rows || is_all_cols) {
       if(!is_relative_row)
         cellref[j++] = '$';
-      sprintf(cellref + j, "%d", row+1);
+      snprintf(cellref + j, CELLREF_LEN - j, "%d", row+1);
       j = strlen(cellref);
     }
 
@@ -2079,7 +2080,7 @@ char *xls_parseFormulaBytes(xlsWorkBook* pWB, BYTE *bytes, size_t len)
       if(!is_all_rows || is_all_cols) {
         if(!is_relative_row)
           cellref[j++] = '$';
-        sprintf(cellref + j, "%d", row+1);
+        snprintf(cellref + j, CELLREF_LEN - j, "%d", row+1);
         j = strlen(cellref);
       }
     }
