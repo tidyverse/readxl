@@ -237,9 +237,10 @@ standardise_sheet <- function(sheet, range, sheet_names) {
 
   if (is.numeric(sheet)) {
     if (sheet < 1) {
-      stop("`sheet` must be positive", call. = FALSE)
+      length(sheet_names) + sheet
+    } else {
+      floor(sheet) - 1L
     }
-    floor(sheet) - 1L
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
