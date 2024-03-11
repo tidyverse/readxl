@@ -237,8 +237,10 @@ standardise_sheet <- function(sheet, range, sheet_names) {
 
   if (is.numeric(sheet)) {
     if (sheet < 1) {
+      if(is.infinite(sheet)) sheet <- -length(sheet_names)
       length(sheet_names) + sheet
     } else {
+      if(is.infinite(sheet)) sheet <- length(sheet_names)
       floor(sheet) - 1L
     }
   } else if (is.character(sheet)) {
