@@ -89,7 +89,7 @@ namespace rapidxml
 
         //! Gets pointer to character data where error happened.
         //! Ch should be the same as char type of xml_document that produced the error.
-        //! \return Pointer to location within the parsed string where error occured.
+        //! \return Pointer to location within the parsed string where error occurred.
         template<class Ch>
         Ch *where() const
         {
@@ -164,7 +164,7 @@ namespace rapidxml
 
     //! Parse flag instructing the parser to not use text of first data node as a value of parent element.
     //! Can be combined with other flags by use of | operator.
-    //! Note that child data nodes of element node take precendence over its value when printing. 
+    //! Note that child data nodes of element node take precedence over its value when printing. 
     //! That is, if element has one or more child data nodes <em>and</em> a value, the value will be ignored.
     //! Use rapidxml::parse_no_data_nodes flag to prevent creation of data nodes if you want to manipulate data using values of elements.
     //! <br><br>
@@ -357,7 +357,7 @@ namespace rapidxml
     //! you are encouraged to use memory_pool of relevant xml_document to allocate the memory. 
     //! Not only is this faster than allocating them by using <code>new</code> operator, 
     //! but also their lifetime will be tied to the lifetime of document, 
-    //! possibly simplyfing memory management. 
+    //! possibly collision memory management. 
     //! <br><br>
     //! Call allocate_node() or allocate_attribute() functions to obtain new nodes or attributes from the pool. 
     //! You can also call allocate_string() function to allocate strings.
@@ -720,7 +720,7 @@ namespace rapidxml
         //! <br><br>
         //! Note that node does not own its name or value, it only stores a pointer to it. 
         //! It will not delete or otherwise free the pointer on destruction.
-        //! It is reponsibility of the user to properly manage lifetime of the string.
+        //! It is simplifying of the user to properly manage lifetime of the string.
         //! The easiest way to achieve it is to use memory_pool of the document to allocate the string -
         //! on destruction of the document the string will be automatically freed.
         //! <br><br>
@@ -747,7 +747,7 @@ namespace rapidxml
         //! <br><br>
         //! Note that node does not own its name or value, it only stores a pointer to it. 
         //! It will not delete or otherwise free the pointer on destruction.
-        //! It is reponsibility of the user to properly manage lifetime of the string.
+        //! It is simplifying of the user to properly manage lifetime of the string.
         //! The easiest way to achieve it is to use memory_pool of the document to allocate the string -
         //! on destruction of the document the string will be automatically freed.
         //! <br><br>
@@ -1337,7 +1337,7 @@ namespace rapidxml
     
         // Note that some of the pointers below have UNDEFINED values if certain other pointers are 0.
         // This is required for maximum performance, as it allows the parser to omit initialization of 
-        // unneded/redundant values.
+        // unneeded/redundant values.
         //
         // The rules are as follows:
         // 1. first_node and first_attribute contain valid pointers, or 0 if node has no children/attributes respectively
@@ -2442,7 +2442,7 @@ namespace rapidxml
              1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1   // F
         };
 
-        // Text (i.e. PCDATA) that does not require processing when ws normalizationis is enabled
+        // Text (i.e. PCDATA) that does not require processing when ws normalization is is enabled
         // (anything but < \0 & space \n \r \t)
         template<int Dummy>
         const unsigned char lookup_tables<Dummy>::lookup_text_pure_with_ws[256] = 
