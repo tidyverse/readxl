@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/cell-and-column-types.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/column-names.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/multiple-header-rows.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/readxl-workflows.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/articles/sheet-geometry.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/cell-specification.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/excel_format.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/excel_sheets.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/read_excel.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/readxl-package.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/readxl_example.html</loc>
-  </url>
-  <url>
-    <loc>https://readxl.tidyverse.org/dev/reference/readxl_progress.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://readxl.tidyverse.org/dev/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/CONTRIBUTING.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/LICENSE-text.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/LICENSE.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/SUPPORT.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/cell-and-column-types.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/column-names.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/index.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/multiple-header-rows.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/readxl-workflows.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/articles/sheet-geometry.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/authors.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/index.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/news/index.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/cell-specification.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/excel_format.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/excel_sheets.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/index.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/read_excel.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/readxl-package.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/readxl_example.html</loc></url>
+<url><loc>https://readxl.tidyverse.org/dev/reference/readxl_progress.html</loc></url>
 </urlset>
+
