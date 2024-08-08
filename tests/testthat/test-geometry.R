@@ -48,7 +48,7 @@ test_that("geometry sheet is identical in xls and xlsx and shrink wraps by defau
     var3 = c("cc", "ff", "ii")
   )
   xls <- read_excel(test_sheet("geometry.xls"))
-  xlsx <- read_excel(test_sheet("geometry.xls"))
+  xlsx <- read_excel(test_sheet("geometry.xlsx"))
   expect_identical(xls, xlsx)
   expect_identical(xls, ref)
 })
