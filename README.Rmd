@@ -93,7 +93,7 @@ Specify a worksheet by name or number.
 
 ```{r}
 read_excel(xlsx_example, sheet = "chickwts")
-read_excel(xls_example, sheet = 4)
+read_excel(xls_example, sheet = 3)
 ```
 
 There are various ways to control which cells are read. You can even specify the sheet here, if providing an Excel-style cell range.
@@ -109,7 +109,7 @@ read_excel(xlsx_example, range = "mtcars!B1:D5")
 If `NA`s are represented by something other than blank cells, set the `na` argument.
 
 ```{r}
-read_excel(xlsx_example, na = "setosa")
+read_excel(xlsx_example, na = "0")
 ```
 
 If you are new to the tidyverse conventions for data import, you may want to consult the [data import chapter](https://r4ds.had.co.nz/data-import.html) in R for Data Science. readxl will become increasingly consistent with other packages, such as [readr](https://readr.tidyverse.org/).
@@ -149,7 +149,7 @@ Here are some other packages with functionality that is complementary to readxl 
 __Writing Excel files__: The example files `datasets.xlsx` and `datasets.xls` were created with the help of [openxlsx](https://CRAN.R-project.org/package=openxlsx) (and Excel). openxlsx provides "a high level interface to writing, styling and editing worksheets".
 
 ```{r eval = FALSE}
-l <- list(iris = iris, mtcars = mtcars, chickwts = chickwts, quakes = quakes)
+l <- list(mtcars = mtcars, chickwts = chickwts, quakes = quakes)
 openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ```
 
