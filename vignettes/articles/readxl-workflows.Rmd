@@ -134,7 +134,7 @@ What if the datasets found on different sheets have the same variables? Then you
 
 readxl ships with an example sheet `deaths.xlsx`, containing data on famous people who died in 2016 or 2017. It has two worksheets named "arts" and "other", but the spreadsheet layout is the same in each and the data tables have the same variables, e.g., name and date of death.
 
-The `map` function from purrr makes it easy to iterate over worksheets. Use the `list_rbind` to glue together the resulting data frames. 
+The `map()` function from purrr makes it easy to iterate over worksheets. Use `purrr::list_rbind()` to glue together the resulting data frames. 
 
   * Store a self-named vector of worksheet names (critical for the ID variable below).
   * Use `purrr::map() %>% purrr::list_rbind()` to import the data, create an ID variable for the source worksheet, and row bind.
@@ -144,8 +144,8 @@ path <- readxl_example("deaths.xlsx")
 deaths <- path %>%
   excel_sheets() %>%
   set_names() %>% 
-  map(~ read_excel(path = path, sheet = .x, range = "A5:F15"), .id = "sheet") %>%
-  list_rbind()
+  map(~ read_excel(path = path, sheet = .x, range = "A5:F15")) %>%
+  list_rbind(names_to = "sheet")
 print(deaths, n = Inf)
 ```
 
