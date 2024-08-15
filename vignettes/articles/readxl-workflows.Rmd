@@ -175,10 +175,9 @@ ranges <- list("A5:F15", cell_rows(5:15))
 deaths <- map2(
   sheets,
   ranges,
-  ~ read_excel(path, sheet = .x, range = .y),
-  .id = "sheet"
+  ~ read_excel(path, sheet = .x, range = .y)
 ) %>%
-  list_rbind() %>%
+  list_rbind(names_to = "sheet") %>%
   write_csv("deaths.csv")
 print(deaths, n = Inf)
 ```
