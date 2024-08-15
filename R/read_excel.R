@@ -57,13 +57,13 @@ NULL
 #' read_excel(datasets, "mtcars")
 #'
 #' # Skip rows and use default column names
-#' read_excel(datasets, skip = 148, col_names = FALSE)
+#' read_excel(datasets, skip = 10, col_names = FALSE)
 #'
 #' # Recycle a single column type
 #' read_excel(datasets, col_types = "text")
 #'
 #' # Specify some col_types and guess others
-#' read_excel(datasets, col_types = c("text", "guess", "numeric", "guess", "guess"))
+#' read_excel(datasets, col_types = rep("guess", 11))
 #'
 #' # Accomodate a column with disparate types via col_type = "list"
 #' df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
