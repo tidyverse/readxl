@@ -336,21 +336,23 @@ containing data on famous people who died in 2016 or 2017. It has two
 worksheets named “arts” and “other”, but the spreadsheet layout is the
 same in each and the data tables have the same variables, e.g., name and
 date of death.</p>
-<p>The <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df()</a></code> function from purrr makes it easy to
-iterate over worksheets and glue together the resulting data frames, all
-at once.</p>
+<p>The <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> function from purrr makes it easy to iterate
+over worksheets. Use <code><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">purrr::list_rbind()</a></code> to glue together
+the resulting data frames.</p>
 <ul>
 <li>Store a self-named vector of worksheet names (critical for the ID
 variable below).</li>
-<li>Use <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">purrr::map_df()</a></code> to import the data, create an ID
-variable for the source worksheet, and row bind.</li>
+<li>Use <code>purrr::map() %&gt;% purrr::list_rbind()</code> to import
+the data, create an ID variable for the source worksheet, and row
+bind.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"deaths.xlsx"</span><span class="op">)</span></span>
 <span><span class="va">deaths</span> <span class="op">&lt;-</span> <span class="va">path</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span>, .id <span class="op">=</span> <span class="st">"sheet"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"sheet"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 7</span></span></span>
 <span><span class="co">#&gt;    sheet Name              Profession   Age `Has kids` `Date of birth`    </span></span>
@@ -397,9 +399,9 @@ it’s own peculiar geometry. Here’s the workflow:</p>
 <ul>
 <li>Store a self-named vector of worksheet names.</li>
 <li>Store a vector of cell range specifications.</li>
-<li>Use <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">purrr::map2_df()</a></code> to iterate over those two vectors
-in parallel, importing the data, row binding, and creating an ID
-variable for the source worksheet.</li>
+<li>Use <code>purrr::map2() %&gt;% purrr::list_rbind()</code> to iterate
+over those two vectors in parallel, importing the data, row binding, and
+creating an ID variable for the source worksheet.</li>
 <li>Cache the unified data to CSV.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -408,37 +410,38 @@ variable for the source worksheet.</li>
 <span>  <span class="fu"><a href="../reference/excel_sheets.html">excel_sheets</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"A5:F15"</span>, <span class="fu"><a href="../reference/cell-specification.html">cell_rows</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map2_df</a></span><span class="op">(</span></span>
+<span><span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span></span>
 <span>  <span class="va">sheets</span>,</span>
 <span>  <span class="va">ranges</span>,</span>
 <span>  <span class="op">~</span> <span class="fu"><a href="../reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span>, sheet <span class="op">=</span> <span class="va">.x</span>, range <span class="op">=</span> <span class="va">.y</span><span class="op">)</span>,</span>
 <span>  .id <span class="op">=</span> <span class="st">"sheet"</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="st">"deaths.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 7</span></span></span>
-<span><span class="co">#&gt;    sheet Name              Profession   Age `Has kids` `Date of birth`    </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> arts  David Bowie       musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> arts  Carrie Fisher     actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> arts  Chuck Berry       musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> arts  Bill Paxton       actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> arts  Prince            musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> arts  Alan Rickman      actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> arts  Florence Henders… actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> arts  Harper Lee        author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> arts  Zsa Zsa Gábor     actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> arts  George Michael    musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> other Vera Rubin        scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> other Mohamed Ali       athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> other Morley Safer      journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> other Fidel Castro      politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> other Antonin Scalia    lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> other Jo Cox            politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> other Janet Reno        lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill        journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn        astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit        coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 6</span></span></span>
+<span><span class="co">#&gt;    Name               Profession   Age `Has kids` `Date of birth`    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> David Bowie        musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Carrie Fisher      actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Chuck Berry        musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Bill Paxton        actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Prince             musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Alan Rickman       actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Florence Henderson actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Harper Lee         author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Zsa Zsa Gábor      actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> George Michael     musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Vera Rubin         scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mohamed Ali        athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Morley Safer       journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Fidel Castro       politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Antonin Scalia     lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Jo Cox             politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> Janet Reno         lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> Gwen Ifill         journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> John Glenn         astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> Pat Summit         coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Date of death` &lt;dttm&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
