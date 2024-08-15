@@ -47,13 +47,13 @@ Solution: cache a CSV snapshot of your raw data tables at the time of export. Ev
 Pipe the output of `read_excel()` directly into `readr::write_csv()` like so:
 
 ```{r}
-iris_xl <- readxl_example("datasets.xlsx") %>% 
-  read_excel(sheet = "iris") %>% 
-  write_csv("iris-raw.csv")
+mtcars_xl <- readxl_example("datasets.xlsx") %>% 
+  read_excel(sheet = "mtcars") %>% 
+  write_csv("mtcars-raw.csv")
 ```
 
 ```{r include = FALSE}
-delete_on_exit <- c(delete_on_exit, "iris-raw.csv")
+delete_on_exit <- c(delete_on_exit, "mtcars-raw.csv")
 ```
 
 Why does this work? `readr::write_csv()` is a well-mannered "write" function: it does its main job *and returns its input invisibly*. The above command reads the iris sheet from readxl's `datasets.xlsx` example workbook and caches a CSV version of the resulting data frame to file.
@@ -61,18 +61,18 @@ Why does this work? `readr::write_csv()` is a well-mannered "write" function: it
 Let's check. Did we still import the data? Did we write the CSV file?
 
 ```{r}
-iris_xl
-dir(pattern = "iris")
+mtcars_xl
+dir(pattern = "mtcars")
 ```
 
 Yes! Is the data written to CSV an exact copy of what we imported from Excel?
 
 ```{r}
-iris_alt <- read_csv("iris-raw.csv")
+mtcars_alt <- read_csv("mtcars-raw.csv")
 ## readr leaves a note-to-self in `spec` that records its column guessing,
 ## so we remove that attribute before the check
-attr(iris_alt, "spec") <- NULL
-identical(iris_xl, iris_alt)
+attr(mtcars_alt, "spec") <- NULL
+identical(mtcars_xl, mtcars_alt)
 ```
 
 Yes! If we needed to restart or troubleshoot this fictional analysis, `iris-raw.csv` is available as a second, highly accessible alternative to `datasets.xlsx`.
@@ -192,11 +192,11 @@ Rework examples from above but using base R only, other than readxl.
 ### Cache a CSV snapshot
 
 ```{r eval = FALSE}
-iris_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "iris")
-write.csv(iris_xl, "iris-raw.csv", row.names = FALSE, quote = FALSE)
-iris_alt <- read.csv("iris-raw.csv", stringsAsFactors = FALSE)
+mtcars_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "mtcars")
+write.csv(iris_xl, "mtcars-raw.csv", row.names = FALSE, quote = FALSE)
+mtcars_alt <- read.csv("mtcars-raw.csv", stringsAsFactors = FALSE)
 ## coerce iris_xl back to a data.frame
-identical(as.data.frame(iris_xl), iris_alt)
+identical(as.data.frame(mtcars_xl), mtcars_alt)
 ```
 
 ### Iterate over multiple worksheets in a workbook
