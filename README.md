@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmpM1GkLC/temp_libpatha8e46f7f62bf/readxl/extdata/clippy.xls"
+#> [1] "/Users/fontikar/Library/R/arm64/4.4/library/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -84,30 +84,30 @@ the extension.
 ``` r
 xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
-#> # A tibble: 150 × 5
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
-#> 1          5.1         3.5          1.4         0.2 setosa 
-#> 2          4.9         3            1.4         0.2 setosa 
-#> 3          4.7         3.2          1.3         0.2 setosa 
-#> # ℹ 147 more rows
+#> # A tibble: 32 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+#> # ℹ 29 more rows
 
 xls_example <- readxl_example("datasets.xls")
 read_excel(xls_example)
-#> # A tibble: 150 × 5
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
-#> 1          5.1         3.5          1.4         0.2 setosa 
-#> 2          4.9         3            1.4         0.2 setosa 
-#> 3          4.7         3.2          1.3         0.2 setosa 
-#> # ℹ 147 more rows
+#> # A tibble: 32 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+#> # ℹ 29 more rows
 ```
 
 List the sheet names with `excel_sheets()`.
 
 ``` r
 excel_sheets(xlsx_example)
-#> [1] "iris"     "mtcars"   "chickwts" "quakes"
+#> [1] "mtcars"   "chickwts" "quakes"
 ```
 
 Specify a worksheet by name or number.
@@ -121,7 +121,7 @@ read_excel(xlsx_example, sheet = "chickwts")
 #> 2    160 horsebean
 #> 3    136 horsebean
 #> # ℹ 68 more rows
-read_excel(xls_example, sheet = 4)
+read_excel(xls_example, sheet = 3)
 #> # A tibble: 1,000 × 5
 #>     lat  long depth   mag stations
 #>   <dbl> <dbl> <dbl> <dbl>    <dbl>
@@ -136,34 +136,34 @@ specify the sheet here, if providing an Excel-style cell range.
 
 ``` r
 read_excel(xlsx_example, n_max = 3)
-#> # A tibble: 3 × 5
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
-#> 1          5.1         3.5          1.4         0.2 setosa 
-#> 2          4.9         3            1.4         0.2 setosa 
-#> 3          4.7         3.2          1.3         0.2 setosa
+#> # A tibble: 3 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
 read_excel(xlsx_example, range = "C1:E4")
 #> # A tibble: 3 × 3
-#>   Petal.Length Petal.Width Species
-#>          <dbl>       <dbl> <chr>  
-#> 1          1.4         0.2 setosa 
-#> 2          1.4         0.2 setosa 
-#> 3          1.3         0.2 setosa
+#>    disp    hp  drat
+#>   <dbl> <dbl> <dbl>
+#> 1   160   110  3.9 
+#> 2   160   110  3.9 
+#> 3   108    93  3.85
 read_excel(xlsx_example, range = cell_rows(1:4))
-#> # A tibble: 3 × 5
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
-#> 1          5.1         3.5          1.4         0.2 setosa 
-#> 2          4.9         3            1.4         0.2 setosa 
-#> 3          4.7         3.2          1.3         0.2 setosa
+#> # A tibble: 3 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
 read_excel(xlsx_example, range = cell_cols("B:D"))
-#> # A tibble: 150 × 3
-#>   Sepal.Width Petal.Length Petal.Width
-#>         <dbl>        <dbl>       <dbl>
-#> 1         3.5          1.4         0.2
-#> 2         3            1.4         0.2
-#> 3         3.2          1.3         0.2
-#> # ℹ 147 more rows
+#> # A tibble: 32 × 3
+#>     cyl  disp    hp
+#>   <dbl> <dbl> <dbl>
+#> 1     6   160   110
+#> 2     6   160   110
+#> 3     4   108    93
+#> # ℹ 29 more rows
 read_excel(xlsx_example, range = "mtcars!B1:D5")
 #> # A tibble: 4 × 3
 #>     cyl  disp    hp
@@ -178,14 +178,14 @@ If `NA`s are represented by something other than blank cells, set the
 `na` argument.
 
 ``` r
-read_excel(xlsx_example, na = "setosa")
-#> # A tibble: 150 × 5
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>          <dbl>       <dbl>        <dbl>       <dbl> <chr>  
-#> 1          5.1         3.5          1.4         0.2 <NA>   
-#> 2          4.9         3            1.4         0.2 <NA>   
-#> 3          4.7         3.2          1.3         0.2 <NA>   
-#> # ℹ 147 more rows
+read_excel(xlsx_example, na = "0")
+#> # A tibble: 32 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5    NA     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0    NA     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+#> # ℹ 29 more rows
 ```
 
 If you are new to the tidyverse conventions for data import, you may
@@ -249,7 +249,7 @@ openxlsx provides “a high level interface to writing, styling and
 editing worksheets”.
 
 ``` r
-l <- list(iris = iris, mtcars = mtcars, chickwts = chickwts, quakes = quakes)
+l <- list(mtcars = mtcars, chickwts = chickwts, quakes = quakes)
 openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ```
 
