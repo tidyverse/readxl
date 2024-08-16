@@ -131,7 +131,11 @@ read_excel(datasets, skip = 10, col_names = FALSE)
 read_excel(datasets, col_types = "text")
 
 # Specify some col_types and guess others
-read_excel(datasets, col_types = rep("guess", 11))
+read_excel(
+  readxl_example("deaths.xlsx"),
+  skip = 4, n_max = 10, col_names = TRUE,
+  col_types = c("text", "text", "guess", "guess", "guess", "guess")
+)
 
 # Accomodate a column with disparate types via col_type = "list"
 df <- read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list"))
