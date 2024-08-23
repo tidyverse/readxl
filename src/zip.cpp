@@ -2,8 +2,10 @@
 
 #include "rapidxml/rapidxml_print.h"
 
+#include "cpp11/as.hpp"
 #include "cpp11/function.hpp"
 #include "cpp11/raws.hpp"
+#include "cpp11/sexp.hpp"
 
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
@@ -19,7 +21,8 @@ std::string zip_buffer(const std::string& zip_path,
 bool zip_has_file(const std::string& zip_path,
                   const std::string& file_path) {
   cpp11::function zip_has_file = cpp11::package("readxl")["zip_has_file"];
-  return zip_has_file(zip_path, file_path);
+  cpp11::sexp out = zip_has_file(zip_path, file_path);
+  return cpp11::as_cpp<bool>(out);
 }
 
 std::string xml_print(std::string xml) {
