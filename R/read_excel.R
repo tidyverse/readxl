@@ -93,30 +93,30 @@ NULL
 #' # Get a preview of column names
 #' names(read_excel(readxl_example("datasets.xlsx"), n_max = 0))
 #'
-#' # exploit full .name_repair flexibility from tibble
+#' # exploit full name_repair flexibility from tibble
 #'
 #' # "universal" names are unique and syntactic
 #' read_excel(
 #'   readxl_example("deaths.xlsx"),
 #'   range = "arts!A5:F15",
-#'   .name_repair = "universal"
+#'   name_repair = "universal"
 #' )
 #'
 #' # specify name repair as a built-in function
-#' read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
+#' read_excel(readxl_example("clippy.xlsx"), name_repair = toupper)
 #'
 #' # specify name repair as a custom function
 #' my_custom_name_repair <- function(nms) tolower(gsub("[.]", "_", nms))
 #' read_excel(
 #'   readxl_example("datasets.xlsx"),
-#'   .name_repair = my_custom_name_repair
+#'   name_repair = my_custom_name_repair
 #' )
 #'
 #' # specify name repair as an anonymous function
 #' read_excel(
 #'   readxl_example("datasets.xlsx"),
 #'   sheet = "chickwts",
-#'   .name_repair = ~ substr(.x, start = 1, stop = 3)
+#'   name_repair = ~ substr(.x, start = 1, stop = 3)
 #' )
 read_excel <- function(path, sheet = NULL, range = NULL,
                        col_names = TRUE, col_types = NULL,
