@@ -18,7 +18,8 @@ read_excel(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  name_repair = "unique",
+  .name_repair = deprecated()
 )
 
 read_xls(
@@ -33,7 +34,8 @@ read_xls(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  name_repair = "unique",
+  .name_repair = deprecated()
 )
 
 read_xlsx(
@@ -48,7 +50,8 @@ read_xlsx(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  name_repair = "unique",
+  .name_repair = deprecated()
 )
 }
 \arguments{
@@ -101,9 +104,12 @@ only in an interactive session, outside the context of knitting a document,
 and when the call is likely to run for several seconds or more. See
 \code{\link[=readxl_progress]{readxl_progress()}} for more details.}
 
-\item{.name_repair}{Handling of column names. Passed along to
-\code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is `.name_repair = "unique", which
+\item{name_repair}{Handling of column names. Passed along to
+\code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is \code{name_repair = "unique"}, which
 ensures column names are not empty and are unique.}
+}
+\item{.name_repair}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{name_repair} instead.
 }
 \value{
 A \link[tibble:tibble-package]{tibble}
