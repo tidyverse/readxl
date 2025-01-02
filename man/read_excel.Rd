@@ -107,9 +107,8 @@ and when the call is likely to run for several seconds or more. See
 \item{name_repair}{Handling of column names. Passed along to
 \code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is \code{name_repair = "unique"}, which
 ensures column names are not empty and are unique.}
-}
-\item{.name_repair}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-Use \code{name_repair} instead.
+
+\item{.name_repair}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}. Use \code{name_repair} instead.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}
