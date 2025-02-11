@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   cell-and-column-types: cell-and-column-types.html
@@ -7,7 +7,7 @@ articles:
   articles/multiple-header-rows: multiple-header-rows.html
   articles/readxl-workflows: readxl-workflows.html
   sheet-geometry: sheet-geometry.html
-last_built: 2024-08-24T00:02Z
+last_built: 2025-02-11T20:33Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles

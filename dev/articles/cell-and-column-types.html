@@ -16,8 +16,8 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Cell and Column Types">
 <meta name="robots" content="noindex">
 <script defer data-domain="readxl.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
@@ -404,7 +404,12 @@ like in R, the strings “T”, “TRUE”, “True”, and “true” are regar
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> TRUE             <span style="color: #949494;">"</span>the string \"true\"<span style="color: #949494;">"</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> FALSE            <span style="color: #949494;">"</span>the letter \"F\"<span style="color: #949494;">"</span>                  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> FALSE            <span style="color: #949494;">"</span>\"False\" preceded by single quote<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-logical.png" alt='Screenshot of the worksheet named "logical_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-logical.png” alt=“Screenshot of the
+worksheet named”logical_coercion” inside the “type-me.xlsx” example
+spreadsheet. The cells in the first column (column A) have very mixed
+contents, such as empty, datetime, or string. The cells in the second
+column (column B) describe the contents of the first column in precise
+language.” width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="numeric-column">Numeric column<a class="anchor" aria-label="anchor" href="#numeric-column"></a>
@@ -434,7 +439,12 @@ origin</a>. For text, numeric conversion is attempted, to handle the
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>           <span style="text-decoration: underline;">123</span>456 <span style="color: #949494;">"</span>the string \"123456\"<span style="color: #949494;">"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>           <span style="text-decoration: underline;">123</span>456 <span style="color: #949494;">"</span>the number 123456<span style="color: #949494;">"</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>               <span style="color: #BB0000;">NA</span> <span style="color: #949494;">"</span>\"cabbage\"<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-numeric.png" alt='Screenshot of the worksheet named "numeric_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-numeric.png” alt=“Screenshot of the
+worksheet named”numeric_coercion” inside the “type-me.xlsx” example
+spreadsheet. The cells in the first column (column A) have very mixed
+contents, such as empty, datetime, or string. The cells in the second
+column (column B) describe the contents of the first column in precise
+language.” width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="date-column">Date column<a class="anchor" aria-label="anchor" href="#date-column"></a>
@@ -460,7 +470,12 @@ Boolean or text cells become <code>NA</code>.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">"</span>\"cabbage\"<span style="color: #949494;">"</span>         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1904-01-05 <span style="color: #949494;">07:12:00</span> <span style="color: #949494;">"</span>4.3 (numeric)<span style="color: #949494;">"</span>       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 2012-01-02 <span style="color: #949494;">00:00:00</span> <span style="color: #949494;">"</span>another numeric<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-date.png" alt='Screenshot of the worksheet named "date_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-date.png” alt=“Screenshot of the worksheet
+named”date_coercion” inside the “type-me.xlsx” example spreadsheet. The
+cells in the first column (column A) have very mixed contents, such as
+empty, datetime, or string. The cells in the second column (column B)
+describe the contents of the first column in precise language.”
+width=“70%” /&gt;</p>
 </div>
 <div class="section level3">
 <h3 id="text-or-character-column">Text or character column<a class="anchor" aria-label="anchor" href="#text-or-character-column"></a>
@@ -482,7 +497,12 @@ numeric, using the underlying serial value.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1.3      <span style="color: #949494;">"</span>numeric<span style="color: #949494;">"</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 41175    <span style="color: #949494;">"</span>datetime<span style="color: #949494;">"</span>       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 36436153 <span style="color: #949494;">"</span>another numeric<span style="color: #949494;">"</span></span></span></code></pre></div>
-<p><img src="img/type-me-text.png" alt='Screenshot of the worksheet named "text_coercion" inside the "type-me.xlsx" example spreadsheet. The cells in the first column (column A) have very mixed contents, such as empty, datetime, or string. The cells in the second column (column B) describe the contents of the first column in precise language.' width="70%"></p>
+<p>&lt;img src=“img/type-me-text.png” alt=“Screenshot of the worksheet
+named”text_coercion” inside the “type-me.xlsx” example spreadsheet. The
+cells in the first column (column A) have very mixed contents, such as
+empty, datetime, or string. The cells in the second column (column B)
+describe the contents of the first column in precise language.”
+width=“70%” /&gt;</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -498,7 +518,7 @@ numeric, using the underlying serial value.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
   </div></footer>
