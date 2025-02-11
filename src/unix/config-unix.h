@@ -44,7 +44,7 @@
 #define HAVE_WCHAR_H 1
 
 /* Define to 1 if you have the 'wcstombs_l' function. */
-#define HAVE_WCSTOMBS_L 1
+/* #undef HAVE_WCSTOMBS_L */
 
 /* Define to 1 if you have the <xlocale.h> header file. */
 /* #undef HAVE_XLOCALE_H */
