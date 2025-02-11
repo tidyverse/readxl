@@ -33,7 +33,7 @@
  *
  */
 
-#include "libxls/xlsstruct.h"
+#include "../libxls/xlsstruct.h"
 
 void verbose(char* str);
 
