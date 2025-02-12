@@ -1,0 +1,80 @@
+name: rhub-ci.yaml
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      containers: ${{ steps.rhub-setup.outputs.containers }}
+      platforms: ${{ steps.rhub-setup.outputs.platforms }}
+
+    steps:
+    # NO NEED TO CHECKOUT HERE
+    - uses: r-hub/actions/setup@main
+      with:
+        config: clang-asan,clang-ubsan,rchk,valgrind
+      id: rhub-setup
+
+  linux-containers:
+    needs: setup
+    if: ${{ needs.setup.outputs.containers != '[]' }}
+    runs-on: ubuntu-latest
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.containers) }}
+    container:
+      image: ${{ matrix.config.container }}
+
+    steps:
+      - uses: r-hub/actions/checkout@main
+      - uses: r-hub/actions/platform-info@main
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: r-hub/actions/setup-deps@main
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: r-hub/actions/run-check@main
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+
+  other-platforms:
+    needs: setup
+    if: ${{ needs.setup.outputs.platforms != '[]' }}
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.platforms) }}
+
+    steps:
+      - uses: r-hub/actions/checkout@main
+      - uses: r-hub/actions/setup-r@main
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+      - uses: r-hub/actions/platform-info@main
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: r-hub/actions/setup-deps@main
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+      - uses: r-hub/actions/run-check@main
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
