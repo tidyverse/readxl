@@ -48,6 +48,6 @@ VignetteBuilder:
 Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/testthat/edition: 3
 Encoding: UTF-8
-Note: libxls v1.6.2 (patched) 45abe77
+Note: libxls v1.6.3 c199d13
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

@@ -13,24 +13,16 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
-/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
-   to 0 otherwise. */
-#define HAVE_MALLOC 1
-
-/* Define to 1 if you have the <memory.h> header file. */
-#define HAVE_MEMORY_H 1
-
-/* Define to 1 if your system has a GNU libc compatible `realloc' function,
-   and to 0 otherwise. */
-#define HAVE_REALLOC 1
-
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
 
-/* Define to 1 if you have the `strdup' function. */
+/* Define to 1 if you have the 'strdup' function. */
 #define HAVE_STRDUP 1
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -51,20 +43,20 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #define HAVE_WCHAR_H 1
 
-/* Define to 1 if you have the `wcstombs_l' function. */
+/* Define to 1 if you have the 'wcstombs_l' function. */
 /* #undef HAVE_WCSTOMBS_L */
 
 /* Define to 1 if you have the <xlocale.h> header file. */
 /* #undef HAVE_XLOCALE_H */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#define ICONV_CONST
 
 /* Major version */
 #define LIBXLS_MAJOR_VERSION 1
 
 /* Micro version */
-#define LIBXLS_MICRO_VERSION 2
+#define LIBXLS_MICRO_VERSION 3
 
 /* Minor version */
 #define LIBXLS_MINOR_VERSION 6
@@ -82,7 +74,7 @@
 #define PACKAGE_NAME "libxls"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libxls 1.6.2"
+#define PACKAGE_STRING "libxls 1.6.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libxls"
@@ -91,19 +83,15 @@
 #define PACKAGE_URL "https://github.com/libxls/libxls"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.6.2"
+#define PACKAGE_VERSION "1.6.3"
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.6.2"
+#define VERSION "1.6.3"
 
-/* Define to rpl_malloc if the replacement function should be used. */
-/* #undef malloc */
-
-/* Define to rpl_realloc if the replacement function should be used. */
-/* #undef realloc */
-
-/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* Define as 'unsigned int' if <stddef.h> doesn't define. */
 /* #undef size_t */

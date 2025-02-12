@@ -737,7 +737,8 @@ char* xls_getCSS(xlsWorkBook* pWB)
     DWORD i;
 
     char *ret = malloc(65535);
-    char *buf = malloc(4096);
+    size_t buf_len = 4096;
+    char *buf = malloc(buf_len);
 	ret[0] = '\0';
 
     for (i=0;i<pWB->xfs.count;i++)
@@ -780,62 +781,62 @@ char* xls_getCSS(xlsWorkBook* pWB)
         switch (xf->linestyle & 0x0f)
         {
         case 0:
-            snprintf(borderleft, 255, "%s", "");
+            snprintf(borderleft, sizeof(borderleft), "%s", "");
             break;
         default:
-            snprintf(borderleft, 255, "border-left: 1px solid black;");
+            snprintf(borderleft, sizeof(borderleft), "border-left: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f0)
         {
         case 0:
-            snprintf(borderright, 255, "%s", "");
+            snprintf(borderright, sizeof(borderright), "%s", "");
             break;
         default:
-            snprintf(borderright, 255, "border-right: 1px solid black;");
+            snprintf(borderright, sizeof(borderright), "border-right: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f00)
         {
         case 0:
-            snprintf(bordertop, 255, "%s", "");
+            snprintf(bordertop, sizeof(bordertop), "%s", "");
             break;
         default:
-            snprintf(bordertop, 255, "border-top: 1px solid black;");
+            snprintf(bordertop, sizeof(bordertop), "border-top: 1px solid black;");
             break;
         }
 
         switch (xf->linestyle & 0x0f000)
         {
         case 0:
-            snprintf(borderbottom, 255, "%s", "");
+            snprintf(borderbottom, sizeof(borderbottom), "%s", "");
             break;
         default:
-            snprintf(borderbottom, 255, "border-bottom: 1px solid Black;");
+            snprintf(borderbottom, sizeof(borderbottom), "border-bottom: 1px solid Black;");
             break;
         }
 
         if (xf->font)
-            snprintf(color, 255, "color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
+            snprintf(color, sizeof(color), "color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
         else
-            snprintf(color, 255, "%s", "");
+            snprintf(color, sizeof(color), "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].flag & 2))
-            snprintf(italic, 255, "font-style: italic;");
+            snprintf(italic, sizeof(italic), "font-style: italic;");
         else
-            snprintf(italic, 255, "%s", "");
+            snprintf(italic, sizeof(italic), "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].bold>400))
-            snprintf(bold, 255, "font-weight: bold;");
+            snprintf(bold, sizeof(bold), "font-weight: bold;");
         else
-            snprintf(bold, 255, "%s", "");
+            snprintf(bold, sizeof(bold), "%s", "");
 
         if (xf->font && (pWB->fonts.font[xf->font-1].underline))
-            snprintf(underline, 255, "text-decoration: underline;");
+            snprintf(underline, sizeof(underline), "text-decoration: underline;");
         else
-            snprintf(underline, 255, "%s", "");
+            snprintf(underline, sizeof(underline), "%s", "");
 
         if (xf->font)
             size=pWB->fonts.font[xf->font-1].height/20;
@@ -843,12 +844,12 @@ char* xls_getCSS(xlsWorkBook* pWB)
             size=10;
 
         if (xf->font)
-            snprintf(fontname, 255,"%s",pWB->fonts.font[xf->font-1].name);
+            snprintf(fontname, sizeof(fontname),"%s",pWB->fonts.font[xf->font-1].name);
         else
-            snprintf(fontname, 255,"Arial");
+            snprintf(fontname, sizeof(fontname),"Arial");
 
         background=xls_getColor((WORD)(xf->groundcolor & 0x7f),1);
-        snprintf(buf, 4096, ".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
+        snprintf(buf, buf_len, ".xf%i{ font-size:%ipt;font-family: \"%s\";background:#%.6X;text-align:%s;vertical-align:%s;%s%s%s%s%s%s%s%s}\n",
                 i,size,fontname,background,align,valign,borderleft,borderright,bordertop,borderbottom,color,italic,bold,underline);
 
 		strcat(ret,buf);

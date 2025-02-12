@@ -800,7 +800,7 @@ static xls_error_t xls_mergedCells(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
     return LIBXLS_OK;
 }
 
-int xls_isRecordTooSmall(xlsWorkBook *pWB, BOF *bof1) {
+int xls_isRecordTooSmall(xlsWorkBook *pWB, BOF *bof1, const BYTE* buf) {
     switch (bof1->id) {
         case XLS_RECORD_BOF:	// BIFF5-8
             return (bof1->size < 2 * sizeof(WORD));
@@ -822,6 +822,24 @@ int xls_isRecordTooSmall(xlsWorkBook *pWB, BOF *bof1) {
             return (bof1->size < offsetof(FONT, name));
         case XLS_RECORD_FORMAT:
             return (bof1->size < offsetof(FORMAT, value));
+        case XLS_RECORD_STYLE:
+            {
+                struct {
+                    unsigned short idx;
+                    unsigned char ident;
+                    unsigned char lvl;
+                } *styl;
+                if(bof1->size < 2) {
+                    return 1;
+                }
+                styl = (void *)buf;
+                if(xlsShortVal(styl->idx) & 0x8000) {
+                    return bof1->size < 4;
+                } else {
+                    if(bof1->size < 3) return 1;
+                    return bof1->size < 3 + styl->ident;
+                }
+            }
 		case XLS_RECORD_1904:
             return (bof1->size < sizeof(BYTE));
         default:
@@ -869,7 +887,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
             }
         }
 
-        if (xls_isRecordTooSmall(pWB, &bof1)) {
+        if (xls_isRecordTooSmall(pWB, &bof1, buf)) {
             retval = LIBXLS_ERROR_PARSE;
             goto cleanup;
         }
