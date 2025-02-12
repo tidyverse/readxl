@@ -54,20 +54,14 @@ desc::desc_set(Note = paste("libxls", target_version, substr(libxls_SHA, 1, 7)))
 # as needed, I rerun the configure script to regenerate
 # unix/config.h and windows/config.h
 
+# shortcut from a tip Jim gave long ago:
+# download and unpack a libxls release (for windows or *nix) and just run
+# ./configure
+
 # as of libxls v1.6.2, we've had to adopt different static config files for
 # macOS and other unix (basically motivated by what we see on GHA Ubuntu jobs)
 
 # on windows, you may need to manually & temporarily add the directory
 # containing gcc in Rtools to the PATH
-
-# things I needed to do on a fresh Big Sur system to run ./bootstrap
-# brew install autoconf
-# brew install autoconf-archive
-# brew install automake
-# brew install gettext
-# brew install libtool
-# ./bootstrap
-# ./configure
-
-# I later learned from Jim that I could also download and unpack the libxls
-# release and probably just run ./configure w/o installing so much stuff
+# 2025-02-11 Rtools 4.4 this meant adding:
+# C:\rtools44\x86_64-w64-mingw32.static.posix\bin
