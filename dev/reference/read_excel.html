@@ -288,18 +288,18 @@ ensures column names are not empty and are unique.</p></dd>
 <span class="r-in"><span><span class="co"># Recycle a single column type</span></span></span>
 <span class="r-in"><span><span class="fu">read_excel</span><span class="op">(</span><span class="va">datasets</span>, col_types <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    mpg         cyl   disp  hp    drat  wt    qsec  vs    am    gear  carb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 21          6     160   110   3.9   2.62  16.46 0     1     4     4    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 21          6     160   110   3.9   2.875 17.02 0     1     4     4    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 22.8        4     108   93    3.85  2.31… 18.61 1     1     4     1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 21.4        6     258   110   3.08  3.21… 19.4… 1     0     3     1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 18.7        8     360   175   3.15  3.44  17.02 0     0     3     2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 18.1000000… 6     225   105   2.76  3.46  20.22 1     0     3     1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 14.3        8     360   245   3.21  3.57  15.84 0     0     3     4    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 24.4        4     146.… 62    3.69  3.19  20    1     0     4     2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 22.8        4     140.… 95    3.92  3.15  22.9  1     0     4     2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 19.2        6     167.6 123   3.92  3.44  18.3  1     0     4     4    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    mpg      cyl   disp  hp    drat  wt    qsec  vs    am    gear  carb </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 21       6     160   110   3.9   2.62  16.46 0     1     4     4    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 21       6     160   110   3.9   2.875 17.02 0     1     4     4    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 22.8     4     108   93    3.85  2.31… 18.61 1     1     4     1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 21.4     6     258   110   3.08  3.21… 19.4… 1     0     3     1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 18.7     8     360   175   3.15  3.44  17.02 0     0     3     2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 18.1000… 6     225   105   2.76  3.46  20.22 1     0     3     1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 14.3     8     360   245   3.21  3.57  15.84 0     0     3     4    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 24.4     4     146.… 62    3.69  3.19  20    1     0     4     2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 22.8     4     140.… 95    3.92  3.15  22.9  1     0     4     2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 19.2     6     167.6 123   3.92  3.44  18.3  1     0     4     4    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Specify some col_types and guess others</span></span></span>
@@ -417,8 +417,8 @@ ensures column names are not empty and are unique.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get a preview of column names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">read_excel</span><span class="op">(</span><span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"datasets.xlsx"</span><span class="op">)</span>, n_max <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "carb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "gear" "carb"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># exploit full .name_repair flexibility from tibble</span></span></span>
 <span class="r-in"><span></span></span>
@@ -433,18 +433,19 @@ ensures column names are not empty and are unique.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `Date of birth` -&gt; `Date.of.birth`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `Date of death` -&gt; `Date.of.death`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Name  Profession   Age Has.kids Date.of.birth       Date.of.death      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Davi… musician      69 TRUE     1947-01-08 <span style="color: #949494;">00:00:00</span> 2016-01-10 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Carr… actor         60 TRUE     1956-10-21 <span style="color: #949494;">00:00:00</span> 2016-12-27 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Chuc… musician      90 TRUE     1926-10-18 <span style="color: #949494;">00:00:00</span> 2017-03-18 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Bill… actor         61 TRUE     1955-05-17 <span style="color: #949494;">00:00:00</span> 2017-02-25 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Prin… musician      57 TRUE     1958-06-07 <span style="color: #949494;">00:00:00</span> 2016-04-21 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Alan… actor         69 FALSE    1946-02-21 <span style="color: #949494;">00:00:00</span> 2016-01-14 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Flor… actor         82 TRUE     1934-02-14 <span style="color: #949494;">00:00:00</span> 2016-11-24 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Harp… author        89 FALSE    1926-04-28 <span style="color: #949494;">00:00:00</span> 2016-02-19 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Zsa … actor         99 TRUE     1917-02-06 <span style="color: #949494;">00:00:00</span> 2016-12-18 <span style="color: #949494;">00:00:00</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Geor… musician      53 FALSE    1963-06-25 <span style="color: #949494;">00:00:00</span> 2016-12-25 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Name               Profession   Age Has.kids Date.of.birth      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> David Bowie        musician      69 TRUE     1947-01-08 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Carrie Fisher      actor         60 TRUE     1956-10-21 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Chuck Berry        musician      90 TRUE     1926-10-18 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Bill Paxton        actor         61 TRUE     1955-05-17 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Prince             musician      57 TRUE     1958-06-07 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Alan Rickman       actor         69 FALSE    1946-02-21 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Florence Henderson actor         82 TRUE     1934-02-14 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Harper Lee         author        89 FALSE    1926-04-28 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Zsa Zsa Gábor      actor         99 TRUE     1917-02-06 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> George Michael     musician      53 FALSE    1963-06-25 <span style="color: #949494;">00:00:00</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: Date.of.death &lt;dttm&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># specify name repair as a built-in function</span></span></span>
 <span class="r-in"><span><span class="fu">read_excel</span><span class="op">(</span><span class="fu"><a href="readxl_example.html">readxl_example</a></span><span class="op">(</span><span class="st">"clippy.xlsx"</span><span class="op">)</span>, .name_repair <span class="op">=</span> <span class="va">toupper</span><span class="op">)</span></span></span>

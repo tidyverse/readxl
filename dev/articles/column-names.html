@@ -163,11 +163,12 @@ difference between <code>"unique"</code> (names can contain spaces) and
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Date of birth` -&gt; `Date.of.birth`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Date of death` -&gt; `Date.of.death`</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
-<span><span class="co">#&gt;   Name   Profession   Age Has.kids Date.of.birth       Date.of.death      </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> David… musician      69 TRUE     1947-01-08 <span style="color: #949494;">00:00:00</span> 2016-01-10 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Carri… actor         60 TRUE     1956-10-21 <span style="color: #949494;">00:00:00</span> 2016-12-27 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Chuck… musician      90 TRUE     1926-10-18 <span style="color: #949494;">00:00:00</span> 2017-03-18 <span style="color: #949494;">00:00:00</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   Name          Profession   Age Has.kids Date.of.birth      </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> David Bowie   musician      69 TRUE     1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Carrie Fisher actor         60 TRUE     1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Chuck Berry   musician      90 TRUE     1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: Date.of.death &lt;dttm&gt;</span></span></span></code></pre></div>
 <p>If you don’t want readxl to touch your column names at all, use
 <code>.name_repair = "minimal"</code>.</p>
 </div>

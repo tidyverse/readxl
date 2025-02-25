@@ -120,13 +120,13 @@ solutions using base R only (other than readxl).</p>
 tidyverse.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ────────────────── tidyverse 2.0.0 ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ─────────────── tidyverse 2.0.0 ──</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr    </span> 1.1.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr    </span> 2.1.5</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.5.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2  </span> 3.5.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble   </span> 3.2.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">lubridate</span> 1.9.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr    </span> 1.3.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr    </span> 1.0.4     </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────────── tidyverse_conflicts() ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────── tidyverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use the conflicted package (<span style="color: #0000BB; font-style: italic;">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors</span></span>
@@ -185,7 +185,7 @@ from Excel?</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"mtcars-raw.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">32</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">11</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">───────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (11): mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -336,28 +336,28 @@ bind.</li>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"sheet"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 7</span></span></span>
-<span><span class="co">#&gt;    sheet Name              Profession   Age `Has kids` `Date of birth`    </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> arts  David Bowie       musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> arts  Carrie Fisher     actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> arts  Chuck Berry       musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> arts  Bill Paxton       actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> arts  Prince            musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> arts  Alan Rickman      actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> arts  Florence Henders… actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> arts  Harper Lee        author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> arts  Zsa Zsa Gábor     actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> arts  George Michael    musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> other Vera Rubin        scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> other Mohamed Ali       athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> other Morley Safer      journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> other Fidel Castro      politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> other Antonin Scalia    lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> other Jo Cox            politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> other Janet Reno        lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill        journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn        astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit        coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt;    sheet Name           Profession   Age `Has kids` `Date of birth`    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> arts  David Bowie    musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> arts  Carrie Fisher  actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> arts  Chuck Berry    musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> arts  Bill Paxton    actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> arts  Prince         musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> arts  Alan Rickman   actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> arts  Florence Hend… actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> arts  Harper Lee     author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> arts  Zsa Zsa Gábor  actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> arts  George Michael musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> other Vera Rubin     scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> other Mohamed Ali    athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> other Morley Safer   journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> other Fidel Castro   politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> other Antonin Scalia lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> other Jo Cox         politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> other Janet Reno     lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill     journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn     astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit     coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Date of death` &lt;dttm&gt;</span></span></span></code></pre></div>
 <p>Note the use of <code>range = "A5:E15"</code> here.
 <code>deaths.xlsx</code> is a typical spreadsheet and includes a few
@@ -400,28 +400,28 @@ creating an ID variable for the source worksheet.</li>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="st">"deaths.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deaths</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 7</span></span></span>
-<span><span class="co">#&gt;    sheet Name              Profession   Age `Has kids` `Date of birth`    </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> arts  David Bowie       musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> arts  Carrie Fisher     actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> arts  Chuck Berry       musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> arts  Bill Paxton       actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> arts  Prince            musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> arts  Alan Rickman      actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> arts  Florence Henders… actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> arts  Harper Lee        author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> arts  Zsa Zsa Gábor     actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> arts  George Michael    musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> other Vera Rubin        scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> other Mohamed Ali       athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> other Morley Safer      journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> other Fidel Castro      politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> other Antonin Scalia    lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> other Jo Cox            politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> other Janet Reno        lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill        journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn        astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit        coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt;    sheet Name           Profession   Age `Has kids` `Date of birth`    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> arts  David Bowie    musician      69 TRUE       1947-01-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> arts  Carrie Fisher  actor         60 TRUE       1956-10-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> arts  Chuck Berry    musician      90 TRUE       1926-10-18 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> arts  Bill Paxton    actor         61 TRUE       1955-05-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> arts  Prince         musician      57 TRUE       1958-06-07 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> arts  Alan Rickman   actor         69 FALSE      1946-02-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> arts  Florence Hend… actor         82 TRUE       1934-02-14 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> arts  Harper Lee     author        89 FALSE      1926-04-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> arts  Zsa Zsa Gábor  actor         99 TRUE       1917-02-06 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> arts  George Michael musician      53 FALSE      1963-06-25 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> other Vera Rubin     scientist     88 TRUE       1928-07-23 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> other Mohamed Ali    athlete       74 TRUE       1942-01-17 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> other Morley Safer   journalist    84 TRUE       1931-11-08 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> other Fidel Castro   politician    90 TRUE       1926-08-13 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> other Antonin Scalia lawyer        79 TRUE       1936-03-11 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> other Jo Cox         politician    41 TRUE       1974-06-22 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> other Janet Reno     lawyer        78 FALSE      1938-07-21 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other Gwen Ifill     journalist    61 FALSE      1955-09-29 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> other John Glenn     astronaut     95 TRUE       1921-07-28 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> other Pat Summit     coach         64 TRUE       1952-06-14 <span style="color: #949494;">00:00:00</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Date of death` &lt;dttm&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
