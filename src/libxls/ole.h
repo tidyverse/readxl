@@ -41,11 +41,7 @@
 typedef SSIZE_T ssize_t;
 #endif
 
-#ifdef __cplusplus
-#include <cstdio>			// FILE *
-#else
 #include <stdio.h>			// FILE *
-#endif
 
 #include "libxls/xlstypes.h"
 
