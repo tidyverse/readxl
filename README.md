@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/Users/fontikar/Library/R/arm64/4.4/library/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/Rtmpzymw54/temp_libpath117f779f0191c/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from

@@ -4,6 +4,7 @@
 
 #include <cerrno>
 #include <cmath>
+#include <cstring>
 #include <sstream>
 
 //May appear in cpp11
@@ -129,13 +130,25 @@ inline std::string cellPosition(const int row, const int col) {
 }
 
 inline bool logicalFromString(std::string maybe_tf, bool *out) {
+  static const char *truenames[] = {"T", "True", "TRUE", "true"};
+  static const char *falsenames[] = {"F", "False", "FALSE", "false"};
+
   bool matches = false;
-  if (Rf_StringTrue(maybe_tf.c_str())) {
-    *out = true;
-    matches = true;
-  } else if (Rf_StringFalse(maybe_tf.c_str())) {
-    *out = false;
-    matches = true;
+  for (const char *name : truenames) {
+    if (!strcmp(maybe_tf.c_str(), name)) {
+      *out = true;
+      matches = true;
+      break;
+    }
+  }
+  if (!matches) {
+    for (const char *name : falsenames) {
+      if (!strcmp(maybe_tf.c_str(), name)) {
+        *out = false;
+        matches = true;
+        break;
+      }
+    }
   }
   return matches;
 }
