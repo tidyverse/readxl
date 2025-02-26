@@ -45,6 +45,9 @@
 
 /* Define to 1 if you have the 'wcstombs_l' function. */
 /* #undef HAVE_WCSTOMBS_L */
+#ifdef __NetBSD__
+#define HAVE_WCSTOMBS_L 1
+#endif
 
 /* Define to 1 if you have the <xlocale.h> header file. */
 /* #undef HAVE_XLOCALE_H */
