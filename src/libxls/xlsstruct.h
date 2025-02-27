@@ -199,7 +199,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD   value;
-	}		rk[1];
+	}		rk[];
 	//WORD	last_col;
 }
 MULRK;
