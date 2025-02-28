@@ -10,8 +10,8 @@
 
 name: rhub.yaml
 run-name: >
-  ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.name != '' &&
-  format('Manually run by {0}', github.triggering_actor) ||
+  ${{ github.event_name == 'workflow_dispatch' &&
+  (github.event.inputs.name || format('Manually run by @{0}', github.triggering_actor)) ||
   github.event_name == 'push' &&
   github.event.head_commit.message ||
   github.event_name == 'pull_request' &&
