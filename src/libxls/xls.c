@@ -117,6 +117,11 @@ typedef struct {
 
 #pragma pack(pop)
 
+// begin readxl patch
+#define MULRK_RK_XF(mulrk, i) (*(WORD *)((BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0])))
+#define MULRK_RK_VALUE(mulrk, i) (*(DWORD *)((BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0]) + sizeof(WORD)))
+// end readxl patch
+
 int xls(int debug)
 {
 	xls_debug = debug;
@@ -580,8 +585,8 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_RK;
-            cell->xf=xlsShortVal(((MULRK*)buf)->rk[i].xf);
-            cell->d=NumFromRk(xlsIntVal(((MULRK*)buf)->rk[i].value));
+            cell->xf = xlsShortVal(MULRK_RK_XF((MULRK*)buf, i));
+            cell->d = NumFromRk(xlsIntVal(MULRK_RK_VALUE((MULRK*)buf, i)));
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
