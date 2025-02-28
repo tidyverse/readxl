@@ -13,7 +13,7 @@ run-name: >
   ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.name != '' &&
   format('Manually run by {0}', github.triggering_actor) ||
   github.event_name == 'push' &&
-  format('Push to {0}', github.ref) ||
+  github.event.head_commit.message ||
   github.event_name == 'pull_request' &&
   format('Pull request {0}', github.event.pull_request.title) ||
   'GitHub Actions Run' }}
