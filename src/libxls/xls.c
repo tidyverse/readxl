@@ -118,9 +118,16 @@ typedef struct {
 #pragma pack(pop)
 
 // begin readxl patch
-#define MULRK_RK_XF(mulrk, i) (*(WORD *)((BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0])))
-#define MULRK_RK_VALUE(mulrk, i) (*(DWORD *)((BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0]) + sizeof(WORD)))
-// end readxl patch
+#define MULRK_RK_XF(mulrk, i) ({ \
+    WORD xf; \
+    memcpy(&xf, (BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0]), sizeof(WORD)); \
+    xf; \
+})
+#define MULRK_RK_VALUE(mulrk, i) ({ \
+    DWORD value; \
+    memcpy(&value, (BYTE *)(mulrk) + offsetof(MULRK, rk) + (i) * sizeof((mulrk)->rk[0]) + sizeof(WORD), sizeof(DWORD)); \
+    value; \
+})// end readxl patch
 
 int xls(int debug)
 {
@@ -869,7 +876,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 			printf("READ WORKBOOK filePos=%ld\n",  (long)pWB->filepos);
 			printf("  OLE: start=%d pos=%u size=%u fatPos=%u\n",
                     pWB->olestr->start, (unsigned int)pWB->olestr->pos,
-                    (unsigned int)pWB->olestr->size, (unsigned int)pWB->olestr->fatpos); 
+                    (unsigned int)pWB->olestr->size, (unsigned int)pWB->olestr->fatpos);
 		}
 
         if (ole2_read(&bof1, 1, 4, pWB->olestr) != 4) {
@@ -1070,7 +1077,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 		case XLS_RECORD_FILEPASS:
 			retval = LIBXLS_ERROR_UNSUPPORTED_ENCRYPTION;
 			goto cleanup;
-		
+
 		case XLS_RECORD_DEFINEDNAME:
 			if(xls_debug) {
 				int i;
@@ -1079,7 +1086,7 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
 				printf("\n");
 			}
 			break;
-			
+
         default:
 			if(xls_debug)
 			{
