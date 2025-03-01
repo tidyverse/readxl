@@ -37,6 +37,7 @@
 #define XLS_STRUCT_INC
 
 #include "libxls/ole.h"
+#include <string.h>
 
 #define XLS_RECORD_EOF          0x000A
 #define XLS_RECORD_DEFINEDNAME  0x0018
@@ -203,6 +204,20 @@ typedef struct MULRK
 	//WORD	last_col;
 }
 MULRK;
+
+// begin readxl patch
+static inline WORD get_MULRK_RK_XF(MULRK *mulrk, int i) {
+    WORD xf;
+    memcpy(&xf, (BYTE *)mulrk + offsetof(MULRK, rk) + i * (sizeof(WORD) + sizeof(DWORD)), sizeof(WORD));
+    return xf;
+}
+
+static inline DWORD get_MULRK_RK_VALUE(MULRK *mulrk, int i) {
+    DWORD value;
+    memcpy(&value, (BYTE *)mulrk + offsetof(MULRK, rk) + i * (sizeof(WORD) + sizeof(DWORD)) + sizeof(WORD), sizeof(DWORD));
+    return value;
+}
+// end readxl patch
 
 typedef struct MULBLANK
 {
