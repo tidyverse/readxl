@@ -228,6 +228,12 @@ typedef struct MULBLANK
 }
 MULBLANK;
 
+static inline WORD get_MULBLANK_XF(MULBLANK *mulblank, int i) {
+    WORD xf;
+    memcpy(&xf, (BYTE *)mulblank + offsetof(MULBLANK, xf) + i * sizeof(WORD), sizeof(WORD));
+    return xf;
+}
+
 typedef struct BLANK
 {
     WORD	row;
