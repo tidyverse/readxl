@@ -595,7 +595,7 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_BLANK;
-            cell->xf = xlsShortVal(get_MULRK_RK_XF((MULRK*)buf, i));
+            cell->xf=xlsShortVal(((MULBLANK*)buf)->xf[i]);
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
