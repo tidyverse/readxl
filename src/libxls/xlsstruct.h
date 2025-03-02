@@ -251,6 +251,13 @@ typedef struct LABEL
 }
 LABEL;
 
+// begin readxl patch
+// Add after LABEL struct definition
+static inline BYTE *get_LABEL_value(LABEL *label) {
+    return (BYTE *)label + offsetof(LABEL, value);
+}
+// end readxl patch
+
 typedef struct BOOLERR
 {
     WORD    row;
