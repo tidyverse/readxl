@@ -27,7 +27,7 @@ on:
       config:
         description: 'A comma separated list of R-hub platforms to use. These default choices have been customized for readxl.'
         type: string
-        default: 'gcc-asan,valgrind,rchk,gcc15,clang-asan,clang-ubsan,'
+        default: 'gcc-asan,valgrind,rchk,gcc15,clang-asan,clang-ubsan'
       name:
         description: 'Run name. You can leave this empty now.'
         type: string
