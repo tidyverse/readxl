@@ -478,8 +478,10 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         if (bof->size < offsetof(LABEL, value) + 2)
             return 1;
 
+        // --- Start readxl ---
         BYTE *value = get_LABEL_value((LABEL*)buf);
         size_t label_len = value[0] + (value[1] << 8);
+        // --- End readxl ---
         if (pWB->is5ver) {
             return (bof->size < offsetof(LABEL, value) + 2 + label_len);
         }
@@ -581,8 +583,10 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_RK;
-            cell->xf = xlsShortVal(get_MULRK_RK_XF((MULRK*)buf, i));
-            cell->d = NumFromRk(xlsIntVal(get_MULRK_RK_VALUE((MULRK*)buf, i)));
+            // --- Start readxl ---
+            cell->xf=xlsShortVal(get_MULRK_RK_XF((MULRK*)buf, i));
+            cell->d=NumFromRk(xlsIntVal(get_MULRK_RK_VALUE((MULRK*)buf, i)));
+            // --- End readxl ---
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
@@ -596,7 +600,9 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_BLANK;
-            cell->xf = xlsShortVal(get_MULBLANK_XF((MULBLANK*)buf, i));
+            // --- Start readxl ---
+            cell->xf=xlsShortVal(get_MULBLANK_XF((MULBLANK*)buf, i));
+            // --- End readxl ---
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
