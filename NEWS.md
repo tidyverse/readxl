@@ -1,5 +1,8 @@
 # readxl (development version)
 
+This release contains no user-facing changes.
+It eliminates a warning seen with gcc UBSAN.
+
 # readxl 1.4.4
 
 This release contains no user-facing changes.
@@ -22,7 +25,7 @@ This release contains no user-facing changes.
 The reason for embedding a development version is to ship a version of libxls that incorporates the fix for this CVE (#679):
 
   - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/CVE-2021-27836)
-  
+
 * readxl no longer declares the use of C++11.
 
 * readxl should once again compile on Alpine Linux.
@@ -62,7 +65,7 @@ However, there are a few small features / bug fixes:
 
 * readxl is now licensed as MIT (#632).
 
-* readxl now states its support for R >= 3.4 explicitly. 
+* readxl now states its support for R >= 3.4 explicitly.
   Why 3.4? Because the [tidyverse policy](https://www.tidyverse.org/blog/2019/04/r-version-support/)
   is to support the current version, the devel version, and four previous
   versions of R.
@@ -79,7 +82,7 @@ However, there are a few small features / bug fixes:
   - [v1.5.3](https://github.com/libxls/libxls/releases/tag/v1.5.3)
   - [v1.5.2](https://github.com/libxls/libxls/releases/tag/v1.5.2)
   - [v1.5.1](https://github.com/libxls/libxls/releases/tag/v1.5.1)
-  
+
 * readxl has switched from Rcpp to cpp11 and now requires C++11 (#659,
   @sbearrows).
 
@@ -110,11 +113,11 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
 * readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.
 * If tibble >= v2.0.0, the full power of `.name_repair` is available, defaulting to `.name_repair = "unique"`. Otherwise, the legacy function `tibble::repair_names(prefix = "X", sep = "__")` is used, replicating the behaviour of readxl v1.1.0.
   - Consider a spreadsheet with three columns: one unnamed and two named `x`.
-  - Content of cells in Excel: `""`, `x`, `x` 
+  - Content of cells in Excel: `""`, `x`, `x`
   - New style column names: `..1`, `x..2`, `x..3`
   - Legacy column names: `X__1`, `x`, `x__1`
 * Once per session, readxl emits a message stating that it works best with tibble >= v2.0.0. It is anticipated that this will become a hard minimum version requirement in a future version of readxl.
-  
+
 ## Other changes
 
 * `read_excel()` and friends gain a `progress` argument that controls a progress spinner (#243, #538).
@@ -126,7 +129,7 @@ readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of t
 * xlsx files that do not have a "styles" part can now be read (#505, #506 @jt6)
 
 * All paths are passed through `normalizePath()` (#498, #499, new behaviour for xlsx but not xls) and `enc2native()` (#370).
-  
+
 ## Dependency changes
 
 readxl is now tested back to R >= 3.1.
@@ -171,7 +174,7 @@ Embedded libxls has been updated, using the source in <https://github.com/libxls
 * `n_max` is a new argument that limits the number of data rows read. (#306, #281)
 
 * Empty cells, rows, columns (xlsx #248 and #240, xls #271): Cells with no content are no longer loaded, even if they appear in the file. Affects cells that have no data but that carry explicit formatting, detectable in Excel as seemingly empty cells with a format other than "General". Such cells may still exist in the returned tibble, with value `NA`, depending on the sheet geometry.
-  
+
     * Eliminates a source of trailing rows (#203) and columns (#236, #162, #146) consisting entirely of `NA`.
     * Eliminates a subtle source of disagreement between user-provided column names and guessed column types (#169, #81).
     * Embedded empty columns are no longer automatically dropped, regardless of whether there is a column name. (#157, #261)
@@ -238,5 +241,5 @@ Many 3rd party tools write xls and xlsx that comply with the spec, but that are 
 
 # readxl 0.1.1
 
-* Add support for correctly reading strings in .xlsx files containing escaped 
+* Add support for correctly reading strings in .xlsx files containing escaped
   unicode characters (e.g. `_x005F_`). (#51, @jmarshallnz)
