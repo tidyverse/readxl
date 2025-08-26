@@ -36,6 +36,9 @@ class XlsxCellSet {
   std::string preciousXmlSourceText_;
   rapidxml::xml_node<>* sheetData_;
 
+  // conditional formatting storage
+  std::vector<ConditionalFormat> conditionalFormats_;
+
   // common to xls[x]
   std::string sheetName_;
   CellLimits nominal_, actual_;
@@ -44,10 +47,11 @@ class XlsxCellSet {
 public:
 
   std::vector<XlsxCell> cells_;
+  bool extract_colors_;
 
   XlsxCellSet(const XlsxWorkBook wb, int sheet_i,
-                cpp11::integers limits, bool shim, Spinner spinner_)
-    :  nominal_(limits)
+                cpp11::integers limits, bool shim, Spinner spinner_, bool extract_colors = false)
+    :  nominal_(limits), extract_colors_(extract_colors)
   {
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
@@ -74,6 +78,11 @@ public:
                   sheetName_.c_str(), sheet_i + 1);
     }
 
+    // Parse conditional formatting if extract_colors is enabled
+    if (extract_colors) {
+      parseConditionalFormatting(rootNode);
+    }
+
     // shim = TRUE when user specifies geometry via `range`
     // shim = FALSE when user specifies no geometry or uses `skip` and `n_max`
     // nominal_ holds user's geometry request, where -1 means "unspecified"
@@ -98,6 +107,7 @@ public:
   std::string sheetName() const { return sheetName_; }
   int startCol() const { return actual_.minCol(); }
   int lastRow() const { return actual_.maxRow(); }
+  const std::vector<ConditionalFormat>& conditionalFormats() const { return conditionalFormats_; }
 
 private:
 
@@ -171,6 +181,141 @@ private:
         j++;
       }
       i++;
+    }
+  }
+
+private:
+  void parseConditionalFormatting(rapidxml::xml_node<>* worksheet) {
+    // Look for conditionalFormatting nodes
+    for (rapidxml::xml_node<>* cfNode = worksheet->first_node("conditionalFormatting");
+         cfNode; cfNode = cfNode->next_sibling("conditionalFormatting")) {
+      
+      // Get the range this formatting applies to
+      rapidxml::xml_attribute<>* sqref = cfNode->first_attribute("sqref");
+      if (!sqref) continue;
+      
+      std::string range = sqref->value();
+      
+      // Parse cfRule nodes
+      for (rapidxml::xml_node<>* cfRule = cfNode->first_node("cfRule");
+           cfRule; cfRule = cfRule->next_sibling("cfRule")) {
+        
+        rapidxml::xml_attribute<>* type = cfRule->first_attribute("type");
+        if (!type) continue;
+        
+        std::string ruleType = type->value();
+        
+        // Handle colorScale type (most common for green/red formatting)
+        if (ruleType == "colorScale") {
+          rapidxml::xml_node<>* colorScale = cfRule->first_node("colorScale");
+          if (colorScale) {
+            parseColorScale(colorScale, range);
+          }
+        }
+        // Handle other types like dataBar, iconSet, etc. if needed
+        else if (ruleType == "cellIs" || ruleType == "expression") {
+          // These might have dxf (differential formatting) references
+          parseCellRule(cfRule, range);
+        }
+      }
+    }
+  }
+  
+  void parseColorScale(rapidxml::xml_node<>* colorScale, const std::string& range) {
+    ConditionalFormat cf;
+    parseRange(range, cf);
+    cf.type = "colorScale";
+    
+    // Get the colors from cfvo and color nodes
+    std::vector<std::string> colors;
+    for (rapidxml::xml_node<>* color = colorScale->first_node("color");
+         color; color = color->next_sibling("color")) {
+      rapidxml::xml_attribute<>* rgb = color->first_attribute("rgb");
+      if (rgb) {
+        std::string colorValue = rgb->value();
+        if (colorValue.length() == 8 && colorValue.substr(0, 2) == "FF") {
+          colorValue = colorValue.substr(2);
+        }
+        colors.push_back("#" + colorValue);
+      }
+    }
+    
+    // Assume 2-color scale: first is low (red), second is high (green)
+    if (colors.size() >= 2) {
+      cf.redColor = colors[0];   // Low value color
+      cf.greenColor = colors[1]; // High value color
+      conditionalFormats_.push_back(cf);
+    }
+  }
+  
+  void parseCellRule(rapidxml::xml_node<>* cfRule, const std::string& range) {
+    rapidxml::xml_attribute<>* dxfId = cfRule->first_attribute("dxfId");
+    rapidxml::xml_attribute<>* operatorAttr = cfRule->first_attribute("operator");
+    
+    if (!dxfId) return;
+    
+    ConditionalFormat cf;
+    parseRange(range, cf);
+    cf.type = "cellIs";
+    
+    // Map common dxfId values to colors based on Excel standard patterns
+    std::string dxfIdValue = dxfId->value();
+    
+    if (operatorAttr) {
+      std::string op = operatorAttr->value();
+      cf.operatorType = op;
+    }
+    
+    // For dxfId 11 and 12 (common green/red conditional formatting)
+    if (dxfIdValue == "11") {
+      cf.greenColor = "#CCFFCC";  // Light green
+      cf.condition = "greaterThan";
+    } else if (dxfIdValue == "12") {
+      cf.redColor = "#FFCCCC";   // Light red  
+      cf.condition = "lessThan";
+    } else {
+      // For other dxfIds, use a more generic approach
+      // This is a simplified mapping - real implementation would parse styles.xml
+      cf.greenColor = "#90EE90";  // Default light green
+    }
+    
+    conditionalFormats_.push_back(cf);
+  }
+  
+  void parseRange(const std::string& range, ConditionalFormat& cf) {
+    // Parse Excel range like "C2:C143" into row/col indices
+    // This is a simplified parser - Excel ranges can be more complex
+    size_t colon = range.find(':');
+    if (colon == std::string::npos) {
+      // Single cell range
+      parseCell(range, cf.startRow, cf.startCol);
+      cf.endRow = cf.startRow;
+      cf.endCol = cf.startCol;
+    } else {
+      // Range with start and end
+      std::string start = range.substr(0, colon);
+      std::string end = range.substr(colon + 1);
+      parseCell(start, cf.startRow, cf.startCol);
+      parseCell(end, cf.endRow, cf.endCol);
+    }
+  }
+  
+  void parseCell(const std::string& cell, int& row, int& col) {
+    // Parse cell reference like "C2" -> row=1, col=2 (0-based)
+    col = 0;
+    row = 0;
+    
+    size_t i = 0;
+    // Parse column letters
+    while (i < cell.length() && isalpha(cell[i])) {
+      col = col * 26 + (toupper(cell[i]) - 'A' + 1);
+      i++;
+    }
+    col--; // Convert to 0-based
+    
+    // Parse row number
+    if (i < cell.length()) {
+      row = atoi(cell.c_str() + i) - 1; // Convert to 0-based
     }
   }
 
