@@ -9,12 +9,15 @@
 #include "cpp11/r_string.hpp"
 #include "cpp11/strings.hpp"
 
+#include <map>
+
 class XlsWorkBook {
 
   // common to Xls[x]WorkBook
   std::string path_;
   bool is1904_;
   std::set<int> dateFormats_;
+  std::map<int, std::string> backgroundColors_;
   std::vector<std::string> stringTable_;
 
   // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
@@ -74,6 +77,10 @@ public:
 
   const std::set<int>& dateFormats() const {
     return dateFormats_;
+  }
+
+  const std::map<int, std::string>& backgroundColors() const {
+    return backgroundColors_;
   }
 
   const std::vector<std::string>& stringTable() const {

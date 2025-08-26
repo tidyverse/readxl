@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* Adds an option to convert categories coded as background color to an extra column (e.g., `bad_data <- read_excel(file, sheet = "bad", extract_colors = TRUE)`) @pachadotdev.
+
 # readxl 1.4.5
 
 This release contains no user-facing changes.

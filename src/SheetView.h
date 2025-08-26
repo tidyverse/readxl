@@ -40,10 +40,10 @@ class SheetView {
 
 public:
   SheetView(const std::string& path,
-            int sheet_i, cpp11::integers limits, bool shim, bool progress)
+            int sheet_i, cpp11::integers limits, bool shim, bool progress, bool extract_colors = false)
     : spinner_(progress),
       wb_(path),
-      cs_(wb_, sheet_i, limits, shim, spinner_)
+      cs_(wb_, sheet_i, limits, shim, spinner_, extract_colors)
   {
   }
 
@@ -124,10 +124,58 @@ public:
     // base is row the data starts on **in the spreadsheet**
     int base = cs_.cells_.begin()->row() + has_col_names;
     int n = (xcell == cs_.cells_.end()) ? 0 : cs_.lastRow() - base + 1;
-    cpp11::writable::list cols(cs_.ncol());
-    cols.attr("names") = names;
+    
+    // First pass: determine which columns have background colors if extract_colors is enabled
+    std::vector<bool> has_colors(cs_.ncol(), false);
+    int color_column_count = 0;
+    
+    if (cs_.extract_colors_ && n > 0) {
+      typename std::vector<typename T::Cell>::iterator scan_cell = xcell;
+      while (scan_cell != cs_.cells_.end()) {
+        int col = scan_cell->col() - cs_.startCol();
+        if (col >= 0 && col < cs_.ncol() && types[col] != COL_SKIP) {
+          std::string bg_color = scan_cell->getBackgroundColor(wb_.backgroundColors());
+          if (!bg_color.empty()) {
+            if (!has_colors[col]) {
+              has_colors[col] = true;
+              color_column_count++;
+            }
+          }
+        }
+        scan_cell++;
+      }
+    }
+    
+    // Determine the number of columns - add only color columns that have actual colors
+    int total_cols = cs_.ncol() + color_column_count;
+    cpp11::writable::list cols(total_cols);
+    
+    // Create column names - add "_bg" suffix only for columns with colors
+    cpp11::writable::strings col_names(total_cols);
+    std::vector<int> color_col_mapping(cs_.ncol(), -1); // maps data col to color col index
+    int next_color_col = cs_.ncol();
+    
+    for (int j = 0; j < cs_.ncol(); ++j) {
+      col_names[j] = names[j];
+      if (cs_.extract_colors_ && has_colors[j]) {
+        std::string base_name = static_cast<std::string>(names[j]);
+        std::string color_name = base_name + "_bg";
+        col_names[next_color_col] = color_name;
+        color_col_mapping[j] = next_color_col;
+        next_color_col++;
+      }
+    }
+    cols.attr("names") = col_names;
+    
+    // Create data columns
     for (int j = 0; j < cs_.ncol(); ++j) {
       cols[j] = makeCol(types[j], n);
+    }
+    // Create color columns only for columns that have colors
+    for (int j = 0; j < cs_.ncol(); ++j) {
+      if (cs_.extract_colors_ && has_colors[j]) {
+        cols[color_col_mapping[j]] = makeCol(COL_TEXT, n);
+      }
     }
 
     if (n == 0) {
@@ -283,10 +331,46 @@ public:
         }
         }
       }
+      
+      // Extract background color if enabled and this column has colors
+      if (cs_.extract_colors_ && types[col] != COL_SKIP && color_col_mapping[col] != -1) {
+        cpp11::sexp color_column = cpp11::as_sexp(cols[color_col_mapping[col]]);
+        std::string bg_color = xcell->getBackgroundColor(wb_.backgroundColors());
+        if (bg_color.empty()) {
+          SET_STRING_ELT(color_column, row, NA_STRING);
+        } else {
+          SET_STRING_ELT(color_column, row, Rf_mkCharCE(bg_color.c_str(), CE_UTF8));
+        }
+      }
+      
       xcell++;
     }
 
-    return removeSkippedColumns(cols, names, types);
+    // Handle column filtering for color extraction
+    if (cs_.extract_colors_ && color_column_count > 0) {
+      // Create extended types vector for both data and color columns
+      std::vector<ColType> extended_types(total_cols);
+      cpp11::writable::strings extended_names(total_cols);
+      
+      for (int j = 0; j < cs_.ncol(); ++j) {
+        extended_types[j] = types[j];
+        extended_names[j] = names[j];
+      }
+      
+      // Add types for color columns (they follow same skip pattern as their data columns)
+      int color_idx = cs_.ncol();
+      for (int j = 0; j < cs_.ncol(); ++j) {
+        if (has_colors[j]) {
+          extended_types[color_idx] = types[j];
+          extended_names[color_idx] = col_names[color_idx];
+          color_idx++;
+        }
+      }
+      
+      return removeSkippedColumns(cols, extended_names, extended_types);
+    } else {
+      return removeSkippedColumns(cols, names, types);
+    }
   }
 
 };

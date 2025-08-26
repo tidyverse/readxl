@@ -20,9 +20,10 @@ cpp11::list read_this_(
     std::vector<std::string> na,
     bool trim_ws,
     int guess_max = 1000,
-    bool progress = true) {
+    bool progress = true,
+    bool extract_colors = false) {
   // Construct worksheet ----------------------------------------------
-  SheetView<T> ws(path, sheet_i, limits, shim, progress);
+  SheetView<T> ws(path, sheet_i, limits, shim, progress, extract_colors);
 
   // catches empty sheets and sheets where requested rectangle contains no data
   if (ws.nrow() == 0 && ws.ncol() == 0) {
@@ -78,8 +79,9 @@ cpp11::list read_xls_(
     std::vector<std::string> na,
     bool trim_ws,
     int guess_max = 1000,
-    bool progress = true) {
-  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
+    bool progress = true,
+    bool extract_colors = false) {
+  return read_this_<Xls>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress, extract_colors);
 }
 
 [[cpp11::register]]
@@ -93,6 +95,7 @@ cpp11::list read_xlsx_(
     std::vector<std::string> na,
     bool trim_ws,
     int guess_max = 1000,
-    bool progress = true) {
-  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress);
+    bool progress = true,
+    bool extract_colors = false) {
+  return read_this_<Xlsx>(path, sheet_i, limits, shim, col_names, col_types, na, trim_ws, guess_max, progress, extract_colors);
 }

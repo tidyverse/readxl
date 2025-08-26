@@ -6,17 +6,17 @@
 #include <R_ext/Visibility.h>
 
 // Read.cpp
-cpp11::list read_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
-extern "C" SEXP _readxl_read_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
+cpp11::list read_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress, bool extract_colors);
+extern "C" SEXP _readxl_read_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress, SEXP extract_colors) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
+    return cpp11::as_sexp(read_xls_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress), cpp11::as_cpp<cpp11::decay_t<bool>>(extract_colors)));
   END_CPP11
 }
 // Read.cpp
-cpp11::list read_xlsx_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
-extern "C" SEXP _readxl_read_xlsx_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
+cpp11::list read_xlsx_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress, bool extract_colors);
+extern "C" SEXP _readxl_read_xlsx_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress, SEXP extract_colors) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress)));
+    return cpp11::as_sexp(read_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<int>>(sheet_i), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(limits), cpp11::as_cpp<cpp11::decay_t<bool>>(shim), cpp11::as_cpp<cpp11::decay_t<cpp11::sexp>>(col_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(col_types), cpp11::as_cpp<cpp11::decay_t<std::vector<std::string>>>(na), cpp11::as_cpp<cpp11::decay_t<bool>>(trim_ws), cpp11::as_cpp<cpp11::decay_t<int>>(guess_max), cpp11::as_cpp<cpp11::decay_t<bool>>(progress), cpp11::as_cpp<cpp11::decay_t<bool>>(extract_colors)));
   END_CPP11
 }
 // XlsWorkBook.cpp
@@ -65,8 +65,8 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
-    {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        10},
+    {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         11},
+    {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        11},
     {"_readxl_xls_date_formats",  (DL_FUNC) &_readxl_xls_date_formats,   1},
     {"_readxl_xls_sheets",        (DL_FUNC) &_readxl_xls_sheets,         1},
     {"_readxl_xlsx_date_formats", (DL_FUNC) &_readxl_xlsx_date_formats,  1},

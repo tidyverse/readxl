@@ -44,6 +44,10 @@ NULL
 #' @param .name_repair Handling of column names. Passed along to
 #'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
 #'   ensures column names are not empty and are unique.
+#' @param extract_colors Logical. If `TRUE`, extracts background colors from 
+#'   cells and adds them as additional columns with "_bg" suffix. Default is 
+#'   `FALSE`. When enabled, for each data column, an additional column with the 
+#'   background color information is added.
 #' @return A [tibble][tibble::tibble-package]
 #' @seealso [cell-specification] for more details on targetting cells with the
 #'   `range` argument
@@ -122,7 +126,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                        guess_max = min(1000, n_max),
                        progress = readxl_progress(),
-                       .name_repair = "unique") {
+                       .name_repair = "unique", extract_colors = FALSE) {
   path <- check_file(path)
   format <- check_format(path)
   read_excel_(
@@ -132,7 +136,7 @@ read_excel <- function(path, sheet = NULL, range = NULL,
     n_max = n_max, guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
-    format = format
+    format = format, extract_colors = extract_colors
   )
 }
 
@@ -147,7 +151,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                      guess_max = min(1000, n_max),
                      progress = readxl_progress(),
-                     .name_repair = "unique") {
+                     .name_repair = "unique", extract_colors = FALSE) {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -156,7 +160,7 @@ read_xls <- function(path, sheet = NULL, range = NULL,
     n_max = n_max, guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
-    format = "xls"
+    format = "xls", extract_colors = extract_colors
   )
 }
 
@@ -167,7 +171,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
                       guess_max = min(1000, n_max),
                       progress = readxl_progress(),
-                      .name_repair = "unique") {
+                      .name_repair = "unique", extract_colors = FALSE) {
   path <- check_file(path)
   read_excel_(
     path = path, sheet = sheet, range = range,
@@ -176,7 +180,7 @@ read_xlsx <- function(path, sheet = NULL, range = NULL,
     n_max = n_max, guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
-    format = "xlsx"
+    format = "xlsx", extract_colors = extract_colors
   )
 }
 
@@ -186,7 +190,7 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
                         guess_max = min(1000, n_max),
                         progress = readxl_progress(),
                         .name_repair = NULL,
-                        format) {
+                        format, extract_colors = FALSE) {
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -204,13 +208,14 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   guess_max <- check_guess_max(guess_max)
   trim_ws <- check_bool(trim_ws, "trim_ws")
   progress <- check_bool(progress, "progress")
+  extract_colors <- check_bool(extract_colors, "extract_colors")
   set_readxl_names(
     read_fun(
       path = path, sheet_i = sheet,
       limits = limits, shim = shim,
       col_names = col_names, col_types = col_types,
       na = na, trim_ws = trim_ws, guess_max = guess_max,
-      progress = progress
+      progress = progress, extract_colors = extract_colors
     ),
     .name_repair = .name_repair
   )

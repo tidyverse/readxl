@@ -194,6 +194,7 @@ class XlsxWorkBook {
   std::string path_;
   bool is1904_;
   std::set<int> dateFormats_;
+  std::map<int, std::string> backgroundColors_;
 
   // specific to XlsxWorkBook
   PackageRelations rel_;
@@ -208,6 +209,7 @@ public:
     is1904_ = uses1904();
     cacheStringTable();
     cacheDateFormats();
+    cacheBackgroundColors();
   }
 
   const std::string& path() const{
@@ -228,6 +230,10 @@ public:
 
   const std::set<int>& dateFormats() const {
     return dateFormats_;
+  }
+
+  const std::map<int, std::string>& backgroundColors() const {
+    return backgroundColors_;
   }
 
   std::string sheetPath(int sheet_i) const {
@@ -325,6 +331,74 @@ private:
       int formatId = atoi(cellXf->first_attribute("numFmtId")->value());
       if (isDateTime(formatId, customDateFormats))
         dateFormats_.insert(i);
+      ++i;
+    }
+  }
+
+  void cacheBackgroundColors() {
+    if (!zip_has_file(path_, rel_.part("styles"))) {
+      return;
+    }
+
+    std::string stylesXml = zip_buffer(path_, rel_.part("styles"));
+    rapidxml::xml_document<> styles;
+    styles.parse<rapidxml::parse_strip_xml_namespaces>(&stylesXml[0]);
+
+    rapidxml::xml_node<>* styleSheet = styles.first_node("styleSheet");
+    if (styleSheet == NULL) {
+      return;
+    }
+
+    // Cache 0-based indices of the master cell style records that have background colors
+    rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
+    if (cellXfs == NULL) {
+      return;
+    }
+
+    // First, let's cache the fill definitions
+    std::map<int, std::string> fills;
+    rapidxml::xml_node<>* fillsNode = styleSheet->first_node("fills");
+    if (fillsNode != NULL) {
+      int fillIndex = 0;
+      for (rapidxml::xml_node<>* fill = fillsNode->first_node("fill");
+           fill; fill = fill->next_sibling()) {
+        rapidxml::xml_node<>* patternFill = fill->first_node("patternFill");
+        if (patternFill != NULL) {
+          rapidxml::xml_node<>* bgColor = patternFill->first_node("bgColor");
+          if (bgColor != NULL) {
+            rapidxml::xml_attribute<>* rgb = bgColor->first_attribute("rgb");
+            if (rgb != NULL) {
+              std::string colorValue = rgb->value();
+              // Convert ARGB to RGB if necessary
+              if (colorValue.length() == 8 && colorValue.substr(0, 2) == "FF") {
+                colorValue = colorValue.substr(2);
+              }
+              fills[fillIndex] = "#" + colorValue;
+            } else {
+              // Check for indexed color
+              rapidxml::xml_attribute<>* indexed = bgColor->first_attribute("indexed");
+              if (indexed != NULL) {
+                int colorIndex = atoi(indexed->value());
+                fills[fillIndex] = "indexed:" + std::to_string(colorIndex);
+              }
+            }
+          }
+        }
+        fillIndex++;
+      }
+    }
+
+    // Now process cellXfs to map style indices to fill colors
+    int i = 0;
+    for (rapidxml::xml_node<>* cellXf = cellXfs->first_node();
+         cellXf; cellXf = cellXf->next_sibling()) {
+      rapidxml::xml_attribute<>* fillId = cellXf->first_attribute("fillId");
+      if (fillId != NULL) {
+        int fillIndex = atoi(fillId->value());
+        if (fills.find(fillIndex) != fills.end()) {
+          backgroundColors_[i] = fills[fillIndex];
+        }
+      }
       ++i;
     }
   }

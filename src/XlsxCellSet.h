@@ -44,10 +44,11 @@ class XlsxCellSet {
 public:
 
   std::vector<XlsxCell> cells_;
+  bool extract_colors_;
 
   XlsxCellSet(const XlsxWorkBook wb, int sheet_i,
-                cpp11::integers limits, bool shim, Spinner spinner_)
-    :  nominal_(limits)
+                cpp11::integers limits, bool shim, Spinner spinner_, bool extract_colors = false)
+    :  nominal_(limits), extract_colors_(extract_colors)
   {
     if (sheet_i >= wb.n_sheets()) {
       cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",

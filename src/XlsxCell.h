@@ -309,6 +309,24 @@ public:
     }
   }
 
+  std::string getBackgroundColor(const std::map<int, std::string>& backgroundColors) const {
+    if (cell_ == NULL) {
+      return "";
+    }
+
+    rapidxml::xml_attribute<>* s = cell_->first_attribute("s");
+    if (s == NULL) {
+      return "";
+    }
+
+    int styleId = atoi(s->value());
+    auto it = backgroundColors.find(styleId);
+    if (it != backgroundColors.end()) {
+      return it->second;
+    }
+    return "";
+  }
+
 private:
 
   std::string stringFromTable(const char* val,

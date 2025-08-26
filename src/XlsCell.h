@@ -9,6 +9,7 @@
 
 #include <iomanip>
 #include <limits.h>
+#include <map>
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure
@@ -335,6 +336,12 @@ public:
                     cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
+  }
+
+  std::string getBackgroundColor(const std::map<int, std::string>& backgroundColors) const {
+    // For XLS files, background color extraction is not implemented yet
+    // This is a placeholder to maintain template compatibility
+    return "";
   }
 
 };
