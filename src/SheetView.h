@@ -134,8 +134,12 @@ public:
       while (scan_cell != cs_.cells_.end()) {
         int col = scan_cell->col() - cs_.startCol();
         if (col >= 0 && col < cs_.ncol() && types[col] != COL_SKIP) {
+          // Check static background color
           std::string bg_color = scan_cell->getBackgroundColor(wb_.backgroundColors());
-          if (!bg_color.empty()) {
+          // Check conditional formatting color (for XLSX)
+          std::string cf_color = getConditionalFormattingColor(*scan_cell);
+          
+          if (!bg_color.empty() || !cf_color.empty()) {
             if (!has_colors[col]) {
               has_colors[col] = true;
               color_column_count++;
@@ -336,6 +340,12 @@ public:
       if (cs_.extract_colors_ && types[col] != COL_SKIP && color_col_mapping[col] != -1) {
         cpp11::sexp color_column = cpp11::as_sexp(cols[color_col_mapping[col]]);
         std::string bg_color = xcell->getBackgroundColor(wb_.backgroundColors());
+        
+        // If no static background color, check conditional formatting
+        if (bg_color.empty()) {
+          bg_color = getConditionalFormattingColor(*xcell);
+        }
+        
         if (bg_color.empty()) {
           SET_STRING_ELT(color_column, row, NA_STRING);
         } else {
@@ -373,4 +383,16 @@ public:
     }
   }
 
+private:
+  // Get conditional formatting color - non-template method
+  std::string getConditionalFormattingColor(const typename T::Cell& cell) {
+    return ""; // Default: no conditional formatting for XLS
+  }
+
 };
+
+// Template specialization for XLSX conditional formatting
+template<>
+inline std::string SheetView<Xlsx>::getConditionalFormattingColor(const XlsxCell& cell) {
+  return cell.getConditionalFormattingColor(cs_.conditionalFormats());
+}
