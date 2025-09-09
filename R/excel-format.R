@@ -72,10 +72,20 @@ first_8_bytes <- function(x) readBin(x, n = 8, what = "raw")
 sig_to_fmt <- function(x) {
   ## https://en.wikipedia.org/wiki/List_of_file_signatures
   xlsx_sig <- as.raw(c(
-    "0x50", "0x4B", "0x03", "0x04"
+    "0x50",
+    "0x4B",
+    "0x03",
+    "0x04"
   ))
   xls_sig <- as.raw(c(
-    "0xD0", "0xCF", "0x11", "0xE0", "0xA1", "0xB1", "0x1A", "0xE1"
+    "0xD0",
+    "0xCF",
+    "0x11",
+    "0xE0",
+    "0xA1",
+    "0xB1",
+    "0x1A",
+    "0xE1"
   ))
 
   if (identical(x[1:4], xlsx_sig)) {

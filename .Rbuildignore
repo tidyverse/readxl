@@ -35,3 +35,4 @@
 ^debug$
 ^CRAN-SUBMISSION$
 ^maintenance$
+^[.]?air[.]toml$

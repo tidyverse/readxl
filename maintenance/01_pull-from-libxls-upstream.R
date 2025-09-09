@@ -20,7 +20,7 @@ libxls_SHA <- git_commit_id(repo = libxls_path)
 
 # relevant when I am embedding an official release
 if (tag$commit != libxls_SHA) {
-    message("YO! SHA associated with HEAD isn't associated with target version!")
+  message("YO! SHA associated with HEAD isn't associated with target version!")
 }
 
 # the subset of libxls files that we embed
@@ -42,7 +42,7 @@ paths <- c(
 )
 
 file_copy(
-  path     = there(paths),
+  path = there(paths),
   new_path = here(path("src", "libxls", path_file(paths))),
   overwrite = TRUE
 )

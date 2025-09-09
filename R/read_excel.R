@@ -117,19 +117,33 @@ NULL
 #'   sheet = "chickwts",
 #'   .name_repair = ~ substr(.x, start = 1, stop = 3)
 #' )
-read_excel <- function(path, sheet = NULL, range = NULL,
-                       col_names = TRUE, col_types = NULL,
-                       na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                       guess_max = min(1000, n_max),
-                       progress = readxl_progress(),
-                       .name_repair = "unique") {
+read_excel <- function(
+  path,
+  sheet = NULL,
+  range = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  na = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = readxl_progress(),
+  .name_repair = "unique"
+) {
   path <- check_file(path)
   format <- check_format(path)
   read_excel_(
-    path = path, sheet = sheet, range = range,
-    col_names = col_names, col_types = col_types,
-    na = na, trim_ws = trim_ws, skip = skip,
-    n_max = n_max, guess_max = guess_max,
+    path = path,
+    sheet = sheet,
+    range = range,
+    col_names = col_names,
+    col_types = col_types,
+    na = na,
+    trim_ws = trim_ws,
+    skip = skip,
+    n_max = n_max,
+    guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
     format = format
@@ -142,18 +156,32 @@ read_excel <- function(path, sheet = NULL, range = NULL,
 #' prevent such guessing.
 #' @rdname read_excel
 #' @export
-read_xls <- function(path, sheet = NULL, range = NULL,
-                     col_names = TRUE, col_types = NULL,
-                     na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                     guess_max = min(1000, n_max),
-                     progress = readxl_progress(),
-                     .name_repair = "unique") {
+read_xls <- function(
+  path,
+  sheet = NULL,
+  range = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  na = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = readxl_progress(),
+  .name_repair = "unique"
+) {
   path <- check_file(path)
   read_excel_(
-    path = path, sheet = sheet, range = range,
-    col_names = col_names, col_types = col_types,
-    na = na, trim_ws = trim_ws, skip = skip,
-    n_max = n_max, guess_max = guess_max,
+    path = path,
+    sheet = sheet,
+    range = range,
+    col_names = col_names,
+    col_types = col_types,
+    na = na,
+    trim_ws = trim_ws,
+    skip = skip,
+    n_max = n_max,
+    guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
     format = "xls"
@@ -162,31 +190,53 @@ read_xls <- function(path, sheet = NULL, range = NULL,
 
 #' @rdname read_excel
 #' @export
-read_xlsx <- function(path, sheet = NULL, range = NULL,
-                      col_names = TRUE, col_types = NULL,
-                      na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                      guess_max = min(1000, n_max),
-                      progress = readxl_progress(),
-                      .name_repair = "unique") {
+read_xlsx <- function(
+  path,
+  sheet = NULL,
+  range = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  na = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = readxl_progress(),
+  .name_repair = "unique"
+) {
   path <- check_file(path)
   read_excel_(
-    path = path, sheet = sheet, range = range,
-    col_names = col_names, col_types = col_types,
-    na = na, trim_ws = trim_ws, skip = skip,
-    n_max = n_max, guess_max = guess_max,
+    path = path,
+    sheet = sheet,
+    range = range,
+    col_names = col_names,
+    col_types = col_types,
+    na = na,
+    trim_ws = trim_ws,
+    skip = skip,
+    n_max = n_max,
+    guess_max = guess_max,
     progress = progress,
     .name_repair = .name_repair,
     format = "xlsx"
   )
 }
 
-read_excel_ <- function(path, sheet = NULL, range = NULL,
-                        col_names = TRUE, col_types = NULL,
-                        na = "", trim_ws = TRUE, skip = 0, n_max = Inf,
-                        guess_max = min(1000, n_max),
-                        progress = readxl_progress(),
-                        .name_repair = NULL,
-                        format) {
+read_excel_ <- function(
+  path,
+  sheet = NULL,
+  range = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  na = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = readxl_progress(),
+  .name_repair = NULL,
+  format
+) {
   if (format == "xls") {
     sheets_fun <- xls_sheets
     read_fun <- read_xls_
@@ -198,7 +248,10 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   sheet <- standardise_sheet(sheet, range, sheets_fun(path))
   shim <- !is.null(range)
   limits <- standardise_limits(
-    range, skip, n_max, has_col_names = isTRUE(col_names)
+    range,
+    skip,
+    n_max,
+    has_col_names = isTRUE(col_names)
   )
   col_types <- check_col_types(col_types)
   guess_max <- check_guess_max(guess_max)
@@ -206,10 +259,15 @@ read_excel_ <- function(path, sheet = NULL, range = NULL,
   progress <- check_bool(progress, "progress")
   set_readxl_names(
     read_fun(
-      path = path, sheet_i = sheet,
-      limits = limits, shim = shim,
-      col_names = col_names, col_types = col_types,
-      na = na, trim_ws = trim_ws, guess_max = guess_max,
+      path = path,
+      sheet_i = sheet,
+      limits = limits,
+      shim = shim,
+      col_names = col_names,
+      col_types = col_types,
+      na = na,
+      trim_ws = trim_ws,
+      guess_max = guess_max,
       progress = progress
     ),
     .name_repair = .name_repair
@@ -225,7 +283,8 @@ standardise_sheet <- function(sheet, range, sheet_names) {
     if (!is.null(sheet)) {
       message(
         "Two values given for `sheet`. ",
-        "Using the `sheet` found in `range`:\n", range_sheet
+        "Using the `sheet` found in `range`:\n",
+        range_sheet
       )
     }
     sheet <- range_sheet
@@ -319,20 +378,26 @@ check_bool <- function(bool, arg_name) {
 }
 
 check_non_negative_integer <- function(i, arg_name) {
-  if (length(i) != 1 || !is.numeric(i) || !is_integerish(i) ||
-    is.na(i) || i < 0) {
+  if (
+    length(i) != 1 || !is.numeric(i) || !is_integerish(i) || is.na(i) || i < 0
+  ) {
     stop("`", arg_name, "` must be a positive integer", call. = FALSE)
   }
   i
 }
 
 ## from readr
-check_guess_max <- function(guess_max, max_limit = .Machine$integer.max %/% 100) {
+check_guess_max <- function(
+  guess_max,
+  max_limit = .Machine$integer.max %/% 100
+) {
   guess_max <- check_non_negative_integer(guess_max, "guess_max")
   if (guess_max > max_limit) {
     warning(
-      "`guess_max` is a very large value, setting to `", max_limit,
-      "` to avoid exhausting memory", call. = FALSE
+      "`guess_max` is a very large value, setting to `",
+      max_limit,
+      "` to avoid exhausting memory",
+      call. = FALSE
     )
     guess_max <- max_limit
   }
