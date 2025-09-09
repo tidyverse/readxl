@@ -23,7 +23,7 @@ library(readxl)
 A common problem when reading data into R is having multiple header rows in the source excel file. Take a look at this messy excel file from sheet 2 in the `clippy.xlsx` example file, which ships with readxl:
 
 ```{r}
-readxl_example("clippy.xlsx") %>% 
+readxl_example("clippy.xlsx") |>
     read_excel(sheet = 2)
 ```
 
@@ -36,8 +36,8 @@ readxl_example("clippy.xlsx") %>%
 In this step, we read in the first row only (by setting `n_max = 0`), extract the names from that row (using the `names()` function), and assign those to a character vector called `cnames`. This object now contains the correct column names that we’ll need in Step 2.
 
 ```{r}
-(cnames <- readxl_example("clippy.xlsx") %>% 
-    read_excel(sheet = 2, n_max = 0) %>% 
+(cnames <- readxl_example("clippy.xlsx") |>
+    read_excel(sheet = 2, n_max = 0) |>
     names())
 ```
 
@@ -46,7 +46,7 @@ In this step, we read in the first row only (by setting `n_max = 0`), extract th
 Now we'll read in all the rows except for the first two rows (using `skip = 2`), which contained the variable names and variable descriptions, and set the column names to `cnames`, which we created in Step 1. Now our column types are guessed correctly.
 
 ```{r}
-(clippy2 <- readxl_example("clippy.xlsx") %>% 
+(clippy2 <- readxl_example("clippy.xlsx") |>
   read_excel(sheet = 2, skip = 2, col_names = cnames))
 ```
 
@@ -54,7 +54,7 @@ Now we'll read in all the rows except for the first two rows (using `skip = 2`),
 If you want a way to save that metadata without polluting your actual data, you can do a third read using `n_max = 1`:
 
 ```{r}
-(clippy_meta <- readxl_example("clippy.xlsx") %>% 
+(clippy_meta <- readxl_example("clippy.xlsx") |>
   read_excel(sheet = 2, n_max = 1))
 ```
 
