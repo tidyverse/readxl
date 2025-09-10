@@ -110,11 +110,17 @@ test_that("guess_max is honored for col_types", {
 test_that("wrong length col types generates error", {
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), col_types = c("numeric", "text"))
+    read_excel(
+      test_sheet("iris-excel-xlsx.xlsx"),
+      col_types = c("numeric", "text")
+    )
   )
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("iris-excel-xls.xls"), col_types = c("numeric", "text"))
+    read_excel(
+      test_sheet("iris-excel-xls.xls"),
+      col_types = c("numeric", "text")
+    )
   )
 })
 
@@ -129,7 +135,11 @@ test_that("list column reads data correctly [xlsx]", {
 })
 
 test_that("setting `na` works in list columns [xlsx]", {
-  na_defined <- read_excel(test_sheet("list_type.xlsx"), col_types = "list", na = "a")
+  na_defined <- read_excel(
+    test_sheet("list_type.xlsx"),
+    col_types = "list",
+    na = "a"
+  )
   expect_equal(na_defined$var1[[3]], NA)
 })
 
@@ -144,7 +154,11 @@ test_that("list column reads data correctly [xls]", {
 })
 
 test_that("setting `na` works in list columns [xls]", {
-  na_defined <- read_excel(test_sheet("list_type.xls"), col_types = "list", na = "a")
+  na_defined <- read_excel(
+    test_sheet("list_type.xls"),
+    col_types = "list",
+    na = "a"
+  )
   expect_equal(na_defined$var1[[3]], NA)
 })
 
@@ -153,9 +167,7 @@ test_that("setting `na` works in list columns [xls]", {
 ## refines fix initiated in #398
 test_that("numeric is correctly coerced to logical [xlsx]", {
   expect_snapshot(
-    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"),
-      guess_max = 0
-    )
+    df <- read_xlsx(test_sheet("missing-values-xlsx.xlsx"), guess_max = 0)
   )
 
   expect_identical(df$z, c(NA, TRUE, TRUE))
@@ -164,9 +176,7 @@ test_that("numeric is correctly coerced to logical [xlsx]", {
 
 test_that("numeric is correctly coerced to logical [xls]", {
   expect_snapshot(
-    df <- read_xls(test_sheet("missing-values-xls.xls"),
-      guess_max = 0
-    )
+    df <- read_xls(test_sheet("missing-values-xls.xls"), guess_max = 0)
   )
 
   expect_identical(df$z, c(NA, TRUE, TRUE))

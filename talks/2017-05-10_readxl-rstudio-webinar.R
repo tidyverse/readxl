@@ -37,7 +37,6 @@ read_excel(datasets)
 ## File > Import Dataset > paste the URL and Update
 ## Nice touch: code includes commands necessary to download
 
-
 ## Data rectangle ------------------------------------------------------
 
 ## using read_excel() "by hand"
@@ -121,4 +120,3 @@ deaths
 browseURL("http://readxl.tidyverse.org/articles/articles/readxl-workflows.html")
 
 ## bye bye now :)
-

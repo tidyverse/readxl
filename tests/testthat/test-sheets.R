@@ -33,7 +33,11 @@ test_that("invalid sheet values caught", {
 
 test_that("sheet can be parsed out of range", {
   direct <-
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = "iris", range = "A1:A1")
+    read_excel(
+      test_sheet("iris-excel-xlsx.xlsx"),
+      sheet = "iris",
+      range = "A1:A1"
+    )
   indirect <-
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), range = "iris!A1:A1")
   expect_identical(direct, indirect)
@@ -44,10 +48,14 @@ test_that("double specification of sheet generates message and range wins", {
     double <-
       read_excel(
         test_sheet("sheet-xml-lookup.xlsx"),
-        sheet = "Asia", range = "Oceania!A1:A1"
+        sheet = "Asia",
+        range = "Oceania!A1:A1"
       )
   )
-  ref <- read_excel(test_sheet("sheet-xml-lookup.xlsx"), range = "Oceania!A1:A1")
+  ref <- read_excel(
+    test_sheet("sheet-xml-lookup.xlsx"),
+    range = "Oceania!A1:A1"
+  )
   expect_identical(double, ref)
 })
 

@@ -78,5 +78,5 @@ test_that("we can read xls from ABBYY FineReader", {
   )
   expect_equal(nrow(abbyy), 1)
   expect_equal(ncol(abbyy), 1)
-  expect_match(abbyy[[1,1]], "^ELECTORAL")
+  expect_match(abbyy[[1, 1]], "^ELECTORAL")
 })

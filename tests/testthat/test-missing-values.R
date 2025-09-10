@@ -63,10 +63,15 @@ test_that("na arg works with multiple strings and for shared strings [xlsx]", {
   ## sst[1] = "b" <-- make sure this does not become NA!
   ## sst[2] = "c"
   ## sst[3] = "d"
-  expect_identical(df, tibble::tribble(
-    ~a, ~c,
-    "b", NA
-  ))
+  expect_identical(
+    df,
+    tibble::tribble(
+      ~a,
+      ~c,
+      "b",
+      NA
+    )
+  )
 })
 
 test_that("na arg works with multiple strings and for shared strings [xls]", {
@@ -74,10 +79,15 @@ test_that("na arg works with multiple strings and for shared strings [xls]", {
     test_sheet("numbers-as-na-and-shared-strings-xls.xls"),
     na = c("1", "d")
   )
-  expect_identical(df, tibble::tribble(
-    ~a, ~c,
-    "b", NA
-  ))
+  expect_identical(
+    df,
+    tibble::tribble(
+      ~a,
+      ~c,
+      "b",
+      NA
+    )
+  )
 })
 
 test_that("empty first column gives valid data.frame [xls]", {
