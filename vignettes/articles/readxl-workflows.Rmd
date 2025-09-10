@@ -17,7 +17,7 @@ Reproducibility is much easier in theory than in reality. Here are some special 
 
   * We say: Keep raw data raw! But we also say: Store data in a tool-agnostic, future-proof format! If data comes in the form of an `.xls[x]` file, we're in a pickle. The `.xls[x]` file should obviously be preserved, and probably write-protected. But a faithful copy as CSV is a wonderful complement, as long as you can ensure the two are the same.
   * We say: Don't do analysis "by hand" or "by mouse"! But then we break this rule by manually exporting spreadsheets to file with *File > Save As ... > (save to `.csv`)*. readxl helps you get data directly out of a spreadsheet and into R, where you can record every step of your analysis as code. Below we show how to cache a CSV snapshot as part of this process.
-  
+
 The examples below also demonstrate the use of functional programming or "apply" techniques to iterate over the worksheets in a workbook.
 
 ## Load packages
@@ -47,8 +47,8 @@ Solution: cache a CSV snapshot of your raw data tables at the time of export. Ev
 Pipe the output of `read_excel()` directly into `readr::write_csv()` like so:
 
 ```{r}
-mtcars_xl <- readxl_example("datasets.xlsx") %>% 
-  read_excel(sheet = "mtcars") %>% 
+mtcars_xl <- readxl_example("datasets.xlsx") |>
+  read_excel(sheet = "mtcars") |>
   write_csv("mtcars-raw.csv")
 ```
 
@@ -90,23 +90,23 @@ Here's how to load all the sheets in a workbook into a list of data frames:
 
 ```{r}
 path <- readxl_example("datasets.xlsx")
-path %>% 
-  excel_sheets() %>% 
-  set_names() %>% 
+path |>
+  excel_sheets() |>
+  set_names() |>
   map(read_excel, path = path)
 ```
 
 ## CSV caching and iterating over sheets
 
-What if we want to read all the sheets in at once and simultaneously cache to CSV? We define `read_then_csv()` as `read_excel(...) %>% write_csv()` and use `purrr::map()` again.
+What if we want to read all the sheets in at once and simultaneously cache to CSV? We define `read_then_csv()` as `read_excel(...) |> write_csv()` and use `purrr::map()` again.
 
 ```{r}
 read_then_csv <- function(sheet, path) {
-  pathbase <- path %>%
-    basename() %>%
+  pathbase <- path |>
+    basename() |>
     tools::file_path_sans_ext()
-  path %>%
-    read_excel(sheet = sheet) %>% 
+  path |>
+    read_excel(sheet = sheet) |>
     write_csv(paste0(pathbase, "-", sheet, ".csv"))
 }
 ```
@@ -115,9 +115,9 @@ We could even define this on-the-fly as an anonymous function inside `map()`, bu
 
 ```{r}
 path <- readxl_example("datasets.xlsx")
-path %>%
-  excel_sheets() %>%
-  set_names() %>% 
+path |>
+  excel_sheets() |>
+  set_names() |>
   map(read_then_csv, path = path)
 dir(pattern = "^datasets.*\\.csv$")
 ```
@@ -134,17 +134,17 @@ What if the datasets found on different sheets have the same variables? Then you
 
 readxl ships with an example sheet `deaths.xlsx`, containing data on famous people who died in 2016 or 2017. It has two worksheets named "arts" and "other", but the spreadsheet layout is the same in each and the data tables have the same variables, e.g., name and date of death.
 
-The `map()` function from purrr makes it easy to iterate over worksheets. Use `purrr::list_rbind()` to glue together the resulting data frames. 
+The `map()` function from purrr makes it easy to iterate over worksheets. Use `purrr::list_rbind()` to glue together the resulting data frames.
 
   * Store a self-named vector of worksheet names (critical for the ID variable below).
-  * Use `purrr::map() %>% purrr::list_rbind()` to import the data, create an ID variable for the source worksheet, and row bind.
+  * Use `purrr::map() |> purrr::list_rbind()` to import the data, create an ID variable for the source worksheet, and row bind.
 
 ```{r}
 path <- readxl_example("deaths.xlsx")
-deaths <- path %>%
-  excel_sheets() %>%
-  set_names() %>% 
-  map(~ read_excel(path = path, sheet = .x, range = "A5:F15")) %>%
+deaths <- path |>
+  excel_sheets() |>
+  set_names() |>
+  map(~ read_excel(path = path, sheet = .x, range = "A5:F15")) |>
   list_rbind(names_to = "sheet")
 print(deaths, n = Inf)
 ```
@@ -163,21 +163,21 @@ Even though the worksheets in `deaths.xlsx` have the same layout, we'll pretend 
 
   * Store a self-named vector of worksheet names.
   * Store a vector of cell range specifications.
-  * Use `purrr::map2() %>% purrr::list_rbind()` to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.
+  * Use `purrr::map2() |> purrr::list_rbind()` to iterate over those two vectors in parallel, importing the data, row binding, and creating an ID variable for the source worksheet.
   * Cache the unified data to CSV.
 
 ```{r}
 path <- readxl_example("deaths.xlsx")
-sheets <- path %>%
-  excel_sheets() %>% 
+sheets <- path |>
+  excel_sheets() |>
   set_names()
 ranges <- list("A5:F15", cell_rows(5:15))
 deaths <- map2(
   sheets,
   ranges,
   ~ read_excel(path, sheet = .x, range = .y)
-) %>%
-  list_rbind(names_to = "sheet") %>%
+) |>
+  list_rbind(names_to = "sheet") |>
   write_csv("deaths.csv")
 print(deaths, n = Inf)
 ```
@@ -205,7 +205,7 @@ identical(as.data.frame(mtcars_xl), mtcars_alt)
 ```{r eval = FALSE}
 path <- readxl_example("datasets.xls")
 sheets <- excel_sheets(path)
-xl_list <- lapply(excel_sheets(path), read_excel, path = path) 
+xl_list <- lapply(excel_sheets(path), read_excel, path = path)
 names(xl_list) <- sheets
 ```
 
@@ -258,4 +258,3 @@ write.csv(xl_list, "deaths.csv", row.names = FALSE, quote = FALSE)
 delete_on_exit <- unique(delete_on_exit)
 file.remove(delete_on_exit)
 ```
-
