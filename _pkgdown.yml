@@ -8,6 +8,7 @@ template:
   bootstrap: 5
   includes:
     in_header: |
+      <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
       <script defer data-domain="readxl.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 home:
@@ -29,35 +30,35 @@ news:
     href: https://www.rstudio.com/blog/readxl-0-1-0/
 
 reference:
-  - title: "Read spreadsheets"
-    desc: >
-      Functions for reading tabular data out of xls and xlsx files.
-    contents:
-      - read_excel
-      - read_xls
-      - read_xlsx
-  - title: "Get spreadsheet metadata"
-    desc: >
-      Functions to learn properties of xls and xlsx files.
-    contents:
-      - excel_sheets
-      - excel_format
-  - title: "Describe a target rectangle"
-    desc: >
-      Flexible specification of cell rectangles.
-    contents:
-      - "`cell-specification`"
-      - cell_rows
-      - cell_cols
-      - anchored
-      - cell_limits
-  - title: "Example files"
-    desc: >
-      List or get the path to xls and xlsx example files in the package.
-    contents:
-      - readxl_example
-  - title: "Options"
-    desc: >
-      Options consulted by readxl.
-    contents:
-      - readxl_progress
+- title: "Read spreadsheets"
+  desc: >
+    Functions for reading tabular data out of xls and xlsx files.
+  contents:
+  - read_excel
+  - read_xls
+  - read_xlsx
+- title: "Get spreadsheet metadata"
+  desc: >
+    Functions to learn properties of xls and xlsx files.
+  contents:
+  - excel_sheets
+  - excel_format
+- title: "Describe a target rectangle"
+  desc: >
+    Flexible specification of cell rectangles.
+  contents:
+  - "`cell-specification`"
+  - cell_rows
+  - cell_cols
+  - anchored
+  - cell_limits
+- title: "Example files"
+  desc: >
+    List or get the path to xls and xlsx example files in the package.
+  contents:
+  - readxl_example
+- title: "Options"
+  desc: >
+    Options consulted by readxl.
+  contents:
+  - readxl_progress
