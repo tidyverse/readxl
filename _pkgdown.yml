@@ -8,7 +8,12 @@ template:
   bootstrap: 5
   includes:
     in_header: |
-      <script defer data-domain="readxl.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+      <!-- Privacy-friendly analytics by Plausible -->
+      <script async src="https://plausible.io/js/pa-RiKmOPwtLHuC63AhWHW4B.js"></script>
+      <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
+      </script>
 
 home:
   links:
