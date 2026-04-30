@@ -31,13 +31,14 @@ We must load readxl explicitly because it is not part of the core
 tidyverse.
 
 ``` r
+
 library(tidyverse)
 #> ── Attaching core tidyverse packages ─────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.2.1     ✔ readr     2.2.0
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+#> ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-#> ✔ purrr     1.2.1     
+#> ✔ purrr     1.2.2     
 #> ── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
@@ -84,6 +85,7 @@ directly into
 like so:
 
 ``` r
+
 mtcars_xl <- readxl_example("datasets.xlsx") |>
   read_excel(sheet = "mtcars") |>
   write_csv("mtcars-raw.csv")
@@ -99,6 +101,7 @@ the resulting data frame to file.
 Let’s check. Did we still import the data? Did we write the CSV file?
 
 ``` r
+
 mtcars_xl
 #> # A tibble: 32 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -115,6 +118,7 @@ Yes! Is the data written to CSV an exact copy of what we imported from
 Excel?
 
 ``` r
+
 mtcars_alt <- read_csv("mtcars-raw.csv")
 #> Rows: 32 Columns: 11
 #> ── Column specification ───────────────────────────────────────────────
@@ -153,6 +157,7 @@ frames:
   to iterate sheet reading.
 
 ``` r
+
 path <- readxl_example("datasets.xlsx")
 path |>
   excel_sheets() |>
@@ -194,6 +199,7 @@ cache to CSV? We define `read_then_csv()` as
 [`purrr::map()`](https://purrr.tidyverse.org/reference/map.html) again.
 
 ``` r
+
 read_then_csv <- function(sheet, path) {
   pathbase <- path |>
     basename() |>
@@ -209,6 +215,7 @@ We could even define this on-the-fly as an anonymous function inside
 this is more readable.
 
 ``` r
+
 path <- readxl_example("datasets.xlsx")
 path |>
   excel_sheets() |>
@@ -270,6 +277,7 @@ to glue together the resulting data frames.
   an ID variable for the source worksheet, and row bind.
 
 ``` r
+
 path <- readxl_example("deaths.xlsx")
 deaths <- path |>
   excel_sheets() |>
@@ -328,6 +336,7 @@ peculiar geometry. Here’s the workflow:
 - Cache the unified data to CSV.
 
 ``` r
+
 path <- readxl_example("deaths.xlsx")
 sheets <- path |>
   excel_sheets() |>
@@ -374,6 +383,7 @@ Rework examples from above but using base R only, other than readxl.
 ### Cache a CSV snapshot
 
 ``` r
+
 mtcars_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "mtcars")
 write.csv(mtcars_xl, "mtcars-raw.csv", row.names = FALSE, quote = FALSE)
 mtcars_alt <- read.csv("mtcars-raw.csv", stringsAsFactors = FALSE)
@@ -384,6 +394,7 @@ identical(as.data.frame(mtcars_xl), mtcars_alt)
 ### Iterate over multiple worksheets in a workbook
 
 ``` r
+
 path <- readxl_example("datasets.xls")
 sheets <- excel_sheets(path)
 xl_list <- lapply(excel_sheets(path), read_excel, path = path)
@@ -393,6 +404,7 @@ names(xl_list) <- sheets
 ### CSV caching and iterating over sheets
 
 ``` r
+
 read_then_csv <- function(sheet, path) {
   pathbase <- tools::file_path_sans_ext(basename(path))
   df <- read_excel(path = path, sheet = sheet)
@@ -409,6 +421,7 @@ names(xl_list) <- sheets
 ### Concatenate worksheets into one data frame
 
 ``` r
+
 path <- readxl_example("deaths.xlsx")
 sheets <- excel_sheets(path)
 xl_list <-
@@ -422,6 +435,7 @@ xl_list <- do.call(rbind, xl_list)
 ### Putting it all together
 
 ``` r
+
 path <- readxl_example("deaths.xlsx")
 sheets <- excel_sheets(path)
 ranges <- list("A5:F15", cell_rows(5:15))

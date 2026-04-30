@@ -1,6 +1,7 @@
 # Column Names
 
 ``` r
+
 library(readxl)
 ```
 
@@ -10,6 +11,7 @@ readxl has always let you specify `col_names` explicitly at the time of
 import:
 
 ``` r
+
 read_excel(
   readxl_example("datasets.xlsx"), sheet = "chickwts",
   col_names = c("chick_weight", "chick_ate_this"), skip = 1
@@ -65,6 +67,7 @@ between `"unique"` (names can contain spaces) and `"universal"` (spaces
 replaced by `.`).
 
 ``` r
+
 read_excel(
   readxl_example("deaths.xlsx"),  range = "arts!A5:F8"
 )
@@ -103,6 +106,7 @@ written by you – or an anonymous formula. This function must operate on
 a “names in, names out” basis.
 
 ``` r
+
 ## ALL CAPS! via built-in toupper()
 read_excel(readxl_example("clippy.xlsx"), .name_repair = toupper)
 #> # A tibble: 4 × 2
@@ -144,6 +148,7 @@ This means you can also perform name repair in the style of base R or
 another package, such as `janitor::make_clean_names()`.
 
 ``` r
+
 read_excel(
   SOME_SPREADSHEET,
   .name_repair = ~ make.names(.x, unique = TRUE)
@@ -160,6 +165,7 @@ how you could fall back to letter-based column names, for easier
 troubleshooting.
 
 ``` r
+
 read_excel(
   SOME_SPREADSHEET,
   .name_repair = ~ ifelse(nzchar(.x), .x, LETTERS[seq_along(.x)])

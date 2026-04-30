@@ -1,6 +1,7 @@
 # Sheet Geometry
 
 ``` r
+
 library(readxl)
 ```
 
@@ -37,6 +38,7 @@ For now, here are a few ways
 can look when you take control of the geometry:
 
 ``` r
+
 read_excel("yo.xlsx", skip = 5)
 read_excel("yo.xlsx", n_max = 100)
 read_excel("yo.xlsx", skip = 5, n_max = 100)
@@ -116,6 +118,7 @@ By default,
 just discovers the data rectangle:
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"))
 #> # A tibble: 3 × 3
 #>   B3    C3    D3   
@@ -131,6 +134,7 @@ still skips row 2, which is also empty, leading to the same result as
 before:
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), skip = 1)
 #> # A tibble: 3 × 3
 #>   B3    C3    D3   
@@ -145,6 +149,7 @@ is a mighty weapon against the explanatory text that people like to
 include at the top of spreadsheets.
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), skip = 3)
 #> # A tibble: 2 × 3
 #>   B4    C4    D4   
@@ -170,6 +175,7 @@ column names (default is `TRUE`).
 `geometry.xlsx`.
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), n_max = 2)
 #> # A tibble: 2 × 3
 #>   B3    C3    D3   
@@ -183,6 +189,7 @@ in the tibble. Note how we get 3 data rows here, even though `n_max` is
 much greater.
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), n_max = 1000)
 #> # A tibble: 3 × 3
 #>   B3    C3    D3   
@@ -215,6 +222,7 @@ precisely is that we get the data frame we want, with correct guesses
 for the column types.
 
 ``` r
+
 read_excel(readxl_example("deaths.xlsx"), range = "arts!A5:F15")
 #> # A tibble: 10 × 6
 #>   Name          Profession   Age `Has kids` `Date of birth`    
@@ -240,6 +248,7 @@ because the first row of cells is empty, and the leading column of
 `NA`s.
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), range = "A2:C4")
 #> New names:
 #> • `` -> `...1`
@@ -276,6 +285,7 @@ running past the data, while allowing column limits to discovered. Note
 the trailing rows of `NA`.
 
 ``` r
+
 read_excel(readxl_example("geometry.xlsx"), range = cell_rows(4:8))
 #> # A tibble: 4 × 3
 #>   B4    C4    D4   
@@ -295,6 +305,7 @@ let you specify limits via the corner(s) of the rectangle.
 Here we get a 3 by 4 rectangle with cell C5 as the upper left corner:
 
 ``` r
+
 read_excel(
   readxl_example("geometry.xlsx"),
   col_names = paste("var", 1:4, sep = "_"),
@@ -312,6 +323,7 @@ Here we set C5 as the upper left corner and allow the other limits to be
 discovered:
 
 ``` r
+
 read_excel(
   readxl_example("geometry.xlsx"),
   col_names = FALSE,

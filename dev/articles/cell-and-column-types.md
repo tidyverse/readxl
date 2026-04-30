@@ -1,6 +1,7 @@
 # Cell and Column Types
 
 ``` r
+
 library(readxl)
 ```
 
@@ -13,6 +14,7 @@ than you might think; you can mix actual types in with `"skip"` and
 Here are different ways this might look:
 
 ``` r
+
 read_excel("yo.xlsx")
 read_excel("yo.xlsx", col_types = "numeric")
 read_excel("yo.xlsx", col_types = c("date", "skip", "guess", "numeric"))
@@ -47,6 +49,7 @@ Here’s an example of column guessing with `deaths.xlsx` which ships with
 readxl.
 
 ``` r
+
 read_excel(readxl_example("deaths.xlsx"), range = cell_rows(5:15))
 #> # A tibble: 10 × 6
 #>   Name          Profession   Age `Has kids` `Date of birth`    
@@ -87,6 +90,7 @@ Some explanation about the weird cases in the first two rows:
 Example of skipping and guessing:
 
 ``` r
+
 read_excel(
   readxl_example("deaths.xlsx"),
   range = cell_rows(5:15),
@@ -114,6 +118,7 @@ that ship with Excel. Its second column holds information about Clippy
 that would be really hard to store with just one type.
 
 ``` r
+
 (clippy <- 
    read_excel(readxl_example("clippy.xlsx"), col_types = c("text", "list")))
 #> # A tibble: 4 × 2
@@ -184,6 +189,7 @@ The `deaths.xlsx` sheet demonstrates this perfectly. Here’s how it
 imports if we don’t specify `range` as we did above:
 
 ``` r
+
 deaths <- read_excel(readxl_example("deaths.xlsx"))
 #> New names:
 #> • `` -> `...2`
@@ -237,6 +243,7 @@ whose names include “Petal” to be text, but leave everything else to be
 guessed.
 
 ``` r
+
 (nms <- names(read_excel(readxl_example("datasets.xlsx"), n_max = 0)))
 #>  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"  
 #> [10] "gear" "carb"
@@ -274,6 +281,7 @@ A date cell becomes `NA`. Just like in R, the strings “T”, “TRUE”,
 “false” as `FALSE`. Other strings import as `NA`.
 
 ``` r
+
 df <- read_excel(readxl_example("type-me.xlsx"), sheet = "logical_coercion",
                  col_types = c("logical", "text"))
 #> Warning: Expecting logical in A5 / R5C1: got a date
@@ -311,6 +319,7 @@ For text, numeric conversion is attempted, to handle the “number as
 text” phenomenon. If unsuccessful, text cells import as `NA`.
 
 ``` r
+
 df <- read_excel(readxl_example("type-me.xlsx"), sheet = "numeric_coercion",
                  col_types = c("numeric", "text"))
 #> Warning: Coercing boolean to numeric in A3 / R3C1
@@ -345,6 +354,7 @@ this is wise, but <https://github.com/tidyverse/readxl/issues/266>*).
 Boolean or text cells become `NA`.
 
 ``` r
+
 df <- read_excel(readxl_example("type-me.xlsx"), sheet = "date_coercion",
                  col_types = c("date", "text"))
 #> Warning: Expecting date in A5 / R5C1: got boolean
@@ -379,6 +389,7 @@ converted to character, much like
 cell is handled like numeric, using the underlying serial value.
 
 ``` r
+
 df <- read_excel(readxl_example("type-me.xlsx"), sheet = "text_coercion",
                  col_types = c("text", "text"))
 print(df, n = Inf)

@@ -20,6 +20,7 @@ The easiest way to install the latest released version from CRAN is to
 install the whole tidyverse.
 
 ``` r
+
 install.packages("tidyverse")
 ```
 
@@ -30,12 +31,14 @@ core tidyverse package loaded via
 Alternatively, install just readxl from CRAN:
 
 ``` r
+
 install.packages("readxl")
 ```
 
 Or install the development version from GitHub:
 
 ``` r
+
 #install.packages("pak")
 pak::pak("tidyverse/readxl")
 ```
@@ -51,6 +54,7 @@ packages readr and googlesheets4.
 ## Usage
 
 ``` r
+
 library(readxl)
 ```
 
@@ -61,6 +65,7 @@ with no arguments to list them or call it with an example filename to
 get the path.
 
 ``` r
+
 readxl_example()
 #>  [1] "clippy.xls"    "clippy.xlsx"   "datasets.xls"  "datasets.xlsx"
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
@@ -73,6 +78,7 @@ readxl_example("clippy.xls")
 reads both xls and xlsx files and detects the format from the extension.
 
 ``` r
+
 xlsx_example <- readxl_example("datasets.xlsx")
 read_excel(xlsx_example)
 #> # A tibble: 32 × 11
@@ -98,6 +104,7 @@ List the sheet names with
 [`excel_sheets()`](https://readxl.tidyverse.org/dev/reference/excel_sheets.md).
 
 ``` r
+
 excel_sheets(xlsx_example)
 #> [1] "mtcars"   "chickwts" "quakes"
 ```
@@ -105,6 +112,7 @@ excel_sheets(xlsx_example)
 Specify a worksheet by name or number.
 
 ``` r
+
 read_excel(xlsx_example, sheet = "chickwts")
 #> # A tibble: 71 × 2
 #>   weight feed     
@@ -127,6 +135,7 @@ There are various ways to control which cells are read. You can even
 specify the sheet here, if providing an Excel-style cell range.
 
 ``` r
+
 read_excel(xlsx_example, n_max = 3)
 #> # A tibble: 3 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -170,6 +179,7 @@ If `NA`s are represented by something other than blank cells, set the
 `na` argument.
 
 ``` r
+
 read_excel(xlsx_example, na = "0")
 #> # A tibble: 32 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -241,6 +251,7 @@ openxlsx provides “a high level interface to writing, styling and
 editing worksheets”.
 
 ``` r
+
 l <- list(mtcars = mtcars, chickwts = chickwts, quakes = quakes)
 openxlsx::write.xlsx(l, file = "inst/extdata/datasets.xlsx")
 ```

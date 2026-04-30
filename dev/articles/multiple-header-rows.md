@@ -1,6 +1,7 @@
 # Multiple Header Rows
 
 ``` r
+
 library(magrittr)
 library(readxl)
 ```
@@ -10,6 +11,7 @@ in the source excel file. Take a look at this messy excel file from
 sheet 2 in the `clippy.xlsx` example file, which ships with readxl:
 
 ``` r
+
 readxl_example("clippy.xlsx") |>
     read_excel(sheet = 2)
 #> # A tibble: 2 × 4
@@ -41,6 +43,7 @@ those to a character vector called `cnames`. This object now contains
 the correct column names that we’ll need in Step 2.
 
 ``` r
+
 (cnames <- readxl_example("clippy.xlsx") |>
     read_excel(sheet = 2, n_max = 0) |>
     names())
@@ -55,6 +58,7 @@ descriptions, and set the column names to `cnames`, which we created in
 Step 1. Now our column types are guessed correctly.
 
 ``` r
+
 (clippy2 <- readxl_example("clippy.xlsx") |>
   read_excel(sheet = 2, skip = 2, col_names = cnames))
 #> # A tibble: 1 × 4
@@ -67,6 +71,7 @@ If you want a way to save that metadata without polluting your actual
 data, you can do a third read using `n_max = 1`:
 
 ``` r
+
 (clippy_meta <- readxl_example("clippy.xlsx") |>
   read_excel(sheet = 2, n_max = 1))
 #> # A tibble: 1 × 4
