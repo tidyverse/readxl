@@ -34,7 +34,7 @@ class XlsxWorkBook {
 
       rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
       if (relationships == NULL) {
-        cpp11::stop("Spreadsheet has no package-level relationships");
+        readxl_stop("Spreadsheet has no package-level relationships");
       }
 
       std::map<std::string, std::string> scratch;
@@ -56,7 +56,7 @@ class XlsxWorkBook {
       // ECMA-376 Part 1 section 8.5 SpreadsheetML
       std::map<std::string, std::string>::iterator m = scratch.find("officeDocument");
       if (m == scratch.end()) {
-        cpp11::stop("No workbook part found");
+        readxl_stop("No workbook part found");
       }
       // store 'xl/workbook.xml', not '/xl/workbook.xml' (rare, but have seen)
       part_["officeDocument"] = removeLeadingSlashes(m->second);
@@ -174,7 +174,7 @@ class XlsxWorkBook {
       std::string id = cpp11::r_string(id_[sheet_i]);
       std::map<std::string, std::string>::const_iterator it = target_.find(id);
       if (it == target_.end()) {
-        cpp11::stop("`%s` not found", id.c_str());
+        readxl_stop("`" + id + "` not found");
       }
       return it->second;
     }

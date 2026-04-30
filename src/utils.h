@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
+#include <string>
 
 //May appear in cpp11
 template <typename T, typename N>
@@ -13,6 +14,37 @@ T new_vector(R_xlen_t size, N val) {
   T out(size);
   std::fill(out.begin(), out.end(), val);
   return out;
+}
+
+// Pre-formatted warning/error helpers that avoid cpp11's variadic-template
+// forwarding for warning()/stop(). With clang 21 + R 4.6 on Apple Silicon
+// (and Linux clang on CRAN), `cpp11::warning(fmt, args...)` segfaults inside
+// its closure/tuple forwarding to Rf_warningcall. Wrapping a direct call to
+// Rf_warningcall / Rf_errorcall in cpp11::unwind_protect keeps longjmp
+// protection without going through the broken path.
+inline void readxl_warning(const char* msg) {
+  cpp11::unwind_protect([&] {
+    Rf_warningcall(R_NilValue, "%s", msg);
+  });
+}
+
+inline void readxl_warning(const std::string& msg) {
+  readxl_warning(msg.c_str());
+}
+
+[[noreturn]] inline void readxl_stop(const char* msg) {
+  cpp11::unwind_protect([&] {
+    Rf_errorcall(R_NilValue, "%s", msg);
+  });
+  // Unreachable: Rf_errorcall longjmps and cpp11::unwind_protect rethrows it
+  // as a unwind_exception. The compiler can't see through that, so hint it
+  // explicitly to satisfy [[noreturn]] without leaving a real terminator
+  // (R CMD check flags `abort` / `exit` in compiled code).
+  __builtin_unreachable();
+}
+
+[[noreturn]] inline void readxl_stop(const std::string& msg) {
+  readxl_stop(msg.c_str());
 }
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
@@ -97,7 +129,8 @@ inline std::pair<int, int> parseRef(const char* ref) {
     } else if (*cur >= 'A' && *cur <= 'Z') {
       col = 26 * col + (*cur - 'A' + 1);
     } else {
-      cpp11::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
+      readxl_stop(std::string("Invalid character '") + *cur +
+                  "' in cell ref '" + ref + "'");
     }
   }
 
