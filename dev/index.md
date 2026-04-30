@@ -71,7 +71,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/Rtmpzymw54/temp_libpath117f779f0191c/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmpkPT2Y6/temp_libpathfed65a294c90/readxl/extdata/clippy.xls"
 ```
 
 [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
