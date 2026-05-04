@@ -25,7 +25,7 @@ on:
   workflow_dispatch:
     inputs:
       config:
-        description: 'A comma separated list of R-hub platforms to use. These default choices have been customized for readxl.'
+        description: 'Comma-separated list of R-hub platforms (defaults customized for readxl). Full list: https://r-hub.github.io/containers/'
         type: string
         default: 'gcc-asan,valgrind,rchk,gcc15,clang-asan,clang-ubsan'
       name:
