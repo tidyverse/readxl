@@ -177,8 +177,8 @@ public:
       return;
     }
 
-    cpp11::warning("Unrecognized cell type at %s: '%s'",
-                  cellPosition(row(), col()).c_str(), t->value());
+    readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
+                   ": '" + std::string(t->value()) + "'");
   }
 
   std::string asStdString(const bool trimWs,
@@ -231,7 +231,7 @@ public:
     }
 
     default:
-      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
+      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()));
       return "";
   }
   }
@@ -260,7 +260,7 @@ public:
     }
 
     default:
-      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
+      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()));
       return NA_LOGICAL;
     }
   }
@@ -282,7 +282,7 @@ public:
     }
 
     default:
-      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
+      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()));
       return NA_REAL;
     }
   }
@@ -304,7 +304,7 @@ public:
     }
 
     default:
-      cpp11::warning("Unrecognized cell type at %s", cellPosition(row(), col()).c_str());
+      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()));
       return NA_REAL;
     }
   }
@@ -315,7 +315,8 @@ private:
                               const std::vector<std::string>& stringTable) const {
     int id = atoi(val);
     if (id < 0 || id >= (int) stringTable.size()) {
-      cpp11::warning("Invalid string id at %s: %i", cellPosition(row(), col()).c_str(), id);
+      readxl_warning("Invalid string id at " + cellPosition(row(), col()) +
+                     ": " + std::to_string(id));
       return "";
     }
     const std::string& string = stringTable.at(id);
