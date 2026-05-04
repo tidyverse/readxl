@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 //May appear in cpp11
@@ -17,11 +18,10 @@ T new_vector(R_xlen_t size, N val) {
 }
 
 // Pre-formatted warning/error helpers that avoid cpp11's variadic-template
-// forwarding for warning()/stop(). With clang 21 + R 4.6 on Apple Silicon
-// (and Linux clang on CRAN), `cpp11::warning(fmt, args...)` segfaults inside
-// its closure/tuple forwarding to Rf_warningcall. Wrapping a direct call to
-// Rf_warningcall / Rf_errorcall in cpp11::unwind_protect keeps longjmp
-// protection without going through the broken path.
+// forwarding for warning()/stop(). With clang and cpp11 0.5.4, we've seen
+// segfaults from `cpp11::warning(fmt, args...)`.
+// https://github.com/tidyverse/readxl/issues/784
+// https://github.com/r-lib/cpp11/issues/491
 inline void readxl_warning(const char* msg) {
   cpp11::unwind_protect([&] {
     Rf_warningcall(R_NilValue, "%s", msg);
@@ -36,11 +36,12 @@ inline void readxl_warning(const std::string& msg) {
   cpp11::unwind_protect([&] {
     Rf_errorcall(R_NilValue, "%s", msg);
   });
-  // Unreachable: Rf_errorcall longjmps and cpp11::unwind_protect rethrows it
-  // as a unwind_exception. The compiler can't see through that, so hint it
-  // explicitly to satisfy [[noreturn]] without leaving a real terminator
-  // (R CMD check flags `abort` / `exit` in compiled code).
-  __builtin_unreachable();
+  // Approach taken from cpp11.
+  // Compiler hint to allow [[noreturn]] attribute; this is never executed since
+  // the above call will not return.
+  // Avoids trouble with R CMD check.
+
+  throw std::runtime_error("[[noreturn]]");
 }
 
 [[noreturn]] inline void readxl_stop(const std::string& msg) {
