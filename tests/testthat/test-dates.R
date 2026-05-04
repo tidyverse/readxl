@@ -1,3 +1,17 @@
+test_that("davis's test", {
+  R.version.string
+  packageVersion("cpp11")
+  packageVersion("readxl")
+
+  read_excel(
+    readxl_example("type-me.xlsx"),
+    sheet = "logical_coercion",
+    col_types = c("logical", "skip")
+  )
+
+  expect_identical(1, 1)
+})
+
 test_that("dates respect worksheet date setting", {
   nms <- paste0("X", 1:5)
   d1900 <- read_xls(test_sheet("dates-1900.xls"), col_names = nms)
