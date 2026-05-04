@@ -38,3 +38,4 @@
 ^[.]?air[.]toml$
 ^compile_commands\.json$
 ^\.cache$
+^\.claude$
