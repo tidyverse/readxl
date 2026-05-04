@@ -6,26 +6,19 @@
 #
 # rhub::rhub_setup()
 #
-# ~It is unlikely that you need to modify this file manually.~
+# It is unlikely that you need to modify this file manually.
 
-name: rhub.yaml
-run-name: >
-  ${{ github.event_name == 'workflow_dispatch' &&
-  (github.event.inputs.name || format('Manually run by @{0}', github.triggering_actor)) ||
-  github.event_name == 'push' &&
-  github.event.head_commit.message ||
-  github.event_name == 'pull_request' &&
-  format('Pull request {0}', github.event.pull_request.title) ||
-  'GitHub Actions Run' }}
+name: R-hub
+run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
   workflow_dispatch:
     inputs:
       config:
-        description: 'Comma-separated list of R-hub platforms (defaults customized for readxl). Full list: https://r-hub.github.io/containers/'
+        description: >-
+          Comma-separated list of R-hub platforms to use
+          (defaults customized for readxl).
+          Full list: https://r-hub.github.io/containers/
         type: string
         default: 'gcc-asan,valgrind,rchk,gcc15,clang-asan,clang-ubsan'
       name:
@@ -34,7 +27,6 @@ on:
       id:
         description: 'Unique ID. You can leave this empty now.'
         type: string
-permissions: read-all
 
 jobs:
 
@@ -48,7 +40,7 @@ jobs:
     # NO NEED TO CHECKOUT HERE
     - uses: r-hub/actions/setup@v1
       with:
-        config: ${{ github.event.inputs.config || 'gcc-asan' }}
+        config: ${{ github.event.inputs.config }}
       id: rhub-setup
 
   linux-containers:
