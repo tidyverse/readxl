@@ -36,3 +36,5 @@
 ^CRAN-SUBMISSION$
 ^maintenance$
 ^[.]?air[.]toml$
+^compile_commands\.json$
+^\.cache$
