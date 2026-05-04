@@ -7,7 +7,7 @@ articles:
   articles/multiple-header-rows: multiple-header-rows.html
   articles/readxl-workflows: readxl-workflows.html
   sheet-geometry: sheet-geometry.html
-last_built: 2026-04-30T22:48Z
+last_built: 2026-05-04T20:22Z
 urls:
   reference: https://readxl.tidyverse.org/reference
   article: https://readxl.tidyverse.org/articles
