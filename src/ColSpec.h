@@ -95,8 +95,7 @@ inline std::vector<ColType> colTypeStrings(cpp11::strings x) {
     } else if (type == "skip") {
       types.push_back(COL_SKIP);
     } else {
-      readxl_stop("Unknown column type '" + type + "' at position " +
-                  std::to_string(i + 1));
+      cpp11::stop("Unknown column type '%s' at position %i", type.c_str(), (i + 1));
     }
   }
 
@@ -231,11 +230,8 @@ inline cpp11::strings reconcileNames(cpp11::strings names,
     }
   }
   if (ncol_names != ncol_noskip) {
-    readxl_stop("Sheet " + std::to_string(sheet_i + 1) +
-                " has " + std::to_string(ncol_types) +
-                " columns (" + std::to_string(ncol_noskip) +
-                " unskipped), but `col_names` has length " +
-                std::to_string(ncol_names) + ".");
+    cpp11::stop("Sheet %d has %d columns (%d unskipped), but `col_names` has length %d.",
+               (sheet_i + 1), ncol_types, ncol_noskip, ncol_names);
   }
 
   cpp11::writable::strings newNames(ncol_types);

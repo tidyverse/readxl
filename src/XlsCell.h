@@ -218,8 +218,8 @@ public:
       break;
 
     default:
-      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
-                     ": '" + std::to_string(cell_->id) + "'");
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     ct = CELL_UNKNOWN;
     }
 
@@ -264,8 +264,8 @@ public:
     }
 
     default:
-      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
-                     ": '" + std::to_string(cell_->id) + "'");
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
       return "";
     }
   }
@@ -291,8 +291,8 @@ public:
       return cell_->d != 0;
 
     default:
-      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
-                     ": '" + std::to_string(cell_->id) + "'");
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_LOGICAL;
     }
   }
@@ -311,8 +311,8 @@ public:
       return cell_->d;
 
     default:
-      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
-                     ": '" + std::to_string(cell_->id) + "'");
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }
@@ -331,8 +331,8 @@ public:
       return POSIXctFromSerial(cell_->d, is1904);
 
     default:
-      readxl_warning("Unrecognized cell type at " + cellPosition(row(), col()) +
-                     ": '" + std::to_string(cell_->id) + "'");
+      cpp11::warning("Unrecognized cell type at %s: '%s'",
+                    cellPosition(row(), col()).c_str(), cell_->id);
     return NA_REAL;
     }
   }

@@ -42,20 +42,18 @@ cpp11::list read_this_(
     colNames = has_col_names ? ws.colNames(na, trim_ws) : cpp11::writable::strings(ws.ncol());
     break;
   default:
-    readxl_stop("`col_names` must be a logical or character vector");
+    cpp11::stop("`col_names` must be a logical or character vector");
   }
 
   // Get column types --------------------------------------------------
   if (TYPEOF(col_types) != STRSXP) {
-    readxl_stop("`col_types` must be a character vector");
+    cpp11::stop("`col_types` must be a character vector");
   }
   std::vector<ColType> colTypes = colTypeStrings(col_types);
   colTypes = recycleTypes(colTypes, ws.ncol());
   if ((int) colTypes.size() != ws.ncol()) {
-    readxl_stop("Sheet " + std::to_string(sheet_i + 1) + " has " +
-                std::to_string(ws.ncol()) +
-                " columns, but `col_types` has length " +
-                std::to_string(colTypes.size()) + ".");
+    cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
+                sheet_i + 1, ws.ncol(), colTypes.size());
   }
   if (requiresGuess(colTypes)) {
     colTypes = ws.colTypes(colTypes, na, trim_ws, guess_max, has_col_names);

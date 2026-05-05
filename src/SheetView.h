@@ -174,7 +174,8 @@ public:
       case COL_LOGICAL:
         if (type == CELL_DATE) {
           // print date string here, when/if it's possible to do so
-          readxl_warning("Expecting logical in " + cellPosition(i, j) + ": got a date");
+          cpp11::warning("Expecting logical in %s: got a date",
+                         cellPosition(i, j).c_str());
         }
 
         switch(type) {
@@ -191,7 +192,8 @@ public:
           if (logicalFromString(text_string, &text_boolean)) {
             LOGICAL(column)[row] = text_boolean;
           } else {
-            readxl_warning("Expecting logical in " + cellPosition(i, j) + ": got '" + text_string + "'");
+            cpp11::warning("Expecting logical in %s: got '%s'",
+                           cellPosition(i, j).c_str(), text_string.c_str());
             LOGICAL(column)[row] = NA_LOGICAL;
           }
         }
@@ -201,25 +203,26 @@ public:
 
       case COL_DATE:
         if (type == CELL_LOGICAL) {
-          readxl_warning("Expecting date in " + cellPosition(i, j) + ": got boolean");
+          cpp11::warning("Expecting date in %s: got boolean", cellPosition(i, j).c_str());
         }
         if (type == CELL_NUMERIC) {
-          readxl_warning("Coercing numeric to date in " + cellPosition(i, j));
+          cpp11::warning("Coercing numeric to date in %s",
+                         cellPosition(i, j).c_str());
         }
         if (type == CELL_TEXT) {
-          readxl_warning("Expecting date in " + cellPosition(i, j) + ": got '" +
-                         xcell->asStdString(trimWs, wb_.stringTable()) + "'");
+          cpp11::warning("Expecting date in %s: got '%s'", cellPosition(i, j).c_str(),
+                         (xcell->asStdString(trimWs, wb_.stringTable())).c_str());
         }
         REAL(column)[row] = xcell->asDate(wb_.is1904());
         break;
 
       case COL_NUMERIC:
         if (type == CELL_LOGICAL) {
-          readxl_warning("Coercing boolean to numeric in " + cellPosition(i, j));
+          cpp11::warning("Coercing boolean to numeric in %s", cellPosition(i, j).c_str());
         }
         if (type == CELL_DATE) {
           // print date string here, when/if possible
-          readxl_warning("Expecting numeric in " + cellPosition(i, j) + ": got a date");
+          cpp11::warning("Expecting numeric in %s: got a date", cellPosition(i, j).c_str());
         }
         switch(type) {
         case CELL_UNKNOWN:
@@ -234,10 +237,12 @@ public:
           double num_num;
           bool success = doubleFromString(num_string, num_num);
           if (success) {
-            readxl_warning("Coercing text to numeric in " + cellPosition(i, j) + ": '" + num_string + "'");
+            cpp11::warning("Coercing text to numeric in %s: '%s'",
+                           cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = num_num;
           } else {
-            readxl_warning("Expecting numeric in " + cellPosition(i, j) + ": got '" + num_string + "'");
+            cpp11::warning("Expecting numeric in %s: got '%s'",
+                           cellPosition(i, j).c_str(), num_string.c_str());
             REAL(column)[row] = NA_REAL;
           }
         }

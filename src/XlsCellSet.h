@@ -35,9 +35,8 @@ public:
     : nominal_(limits)
   {
     if (sheet_i >= wb.n_sheets()) {
-      readxl_stop("Can't retrieve sheet in position " +
-                  std::to_string(sheet_i + 1) + ", only " +
-                  std::to_string(wb.n_sheets()) + " sheet(s) found.");
+      cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+                  sheet_i + 1, wb.n_sheets());
     }
     sheetName_ = wb.sheets()[sheet_i];
 
@@ -56,8 +55,8 @@ public:
 
     pWS_ = xls::xls_getWorkSheet(pWB_, sheet_i);
     if (!pWS_) {
-      readxl_stop("Sheet '" + sheetName_ + "' (position " +
-                  std::to_string(sheet_i + 1) + "): cannot be opened");
+      cpp11::stop("Sheet '%s' (position %d): cannot be opened",
+                  sheetName_.c_str(), sheet_i + 1);
     }
     error = xls::xls_parseWorkSheet(pWS_);
     if (error != xls::LIBXLS_OK) {
