@@ -6,8 +6,6 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
-#include <stdexcept>
-#include <string>
 
 //May appear in cpp11
 template <typename T, typename N>
@@ -15,37 +13,6 @@ T new_vector(R_xlen_t size, N val) {
   T out(size);
   std::fill(out.begin(), out.end(), val);
   return out;
-}
-
-// Pre-formatted warning/error helpers that avoid cpp11's variadic-template
-// forwarding for warning()/stop(). With clang and cpp11 0.5.4, we've seen
-// segfaults from `cpp11::warning(fmt, args...)`.
-// https://github.com/tidyverse/readxl/issues/784
-// https://github.com/r-lib/cpp11/issues/491
-inline void readxl_warning(const char* msg) {
-  cpp11::unwind_protect([&] {
-    Rf_warningcall(R_NilValue, "%s", msg);
-  });
-}
-
-inline void readxl_warning(const std::string& msg) {
-  readxl_warning(msg.c_str());
-}
-
-[[noreturn]] inline void readxl_stop(const char* msg) {
-  cpp11::unwind_protect([&] {
-    Rf_errorcall(R_NilValue, "%s", msg);
-  });
-  // Approach taken from cpp11.
-  // Compiler hint to allow [[noreturn]] attribute; this is never executed since
-  // the above call will not return.
-  // Avoids trouble with R CMD check.
-
-  throw std::runtime_error("[[noreturn]]");
-}
-
-[[noreturn]] inline void readxl_stop(const std::string& msg) {
-  readxl_stop(msg.c_str());
 }
 
 // The date offset needed to align Excel dates with R's use of 1970-01-01
@@ -108,12 +75,12 @@ inline double POSIXctFromSerial(double xlDate, bool is1904) {
     if (xlDate < 60) {
       xlDate = xlDate + 1;
     } else {
-      Rf_warning("NA inserted for impossible 1900-02-29 datetime");
+      cpp11::warning("NA inserted for impossible 1900-02-29 datetime");
       return NA_REAL;
     }
   }
   if (xlDate < 0) {
-    Rf_warning("NA inserted for an unsupported date prior to 1900");
+    cpp11::warning("NA inserted for an unsupported date prior to 1900");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);
@@ -130,8 +97,7 @@ inline std::pair<int, int> parseRef(const char* ref) {
     } else if (*cur >= 'A' && *cur <= 'Z') {
       col = 26 * col + (*cur - 'A' + 1);
     } else {
-      readxl_stop(std::string("Invalid character '") + *cur +
-                  "' in cell ref '" + ref + "'");
+      cpp11::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
     }
   }
 

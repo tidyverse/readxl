@@ -50,9 +50,8 @@ public:
     :  nominal_(limits)
   {
     if (sheet_i >= wb.n_sheets()) {
-      readxl_stop("Can't retrieve sheet in position " +
-                  std::to_string(sheet_i + 1) + ", only " +
-                  std::to_string(wb.n_sheets()) + " sheet(s) found.");
+      cpp11::stop("Can't retrieve sheet in position %d, only %d sheet(s) found.",
+                  sheet_i + 1,  wb.n_sheets());
     }
     sheetName_ = wb.sheets()[sheet_i];
     std::string sheetPath = wb.sheetPath(sheet_i);
@@ -65,16 +64,14 @@ public:
     rapidxml::xml_node<>* rootNode;
     rootNode = sheetXml_.first_node("worksheet");
     if (!rootNode) {
-      readxl_stop("Sheet '" + sheetName_ + "' (position " +
-                  std::to_string(sheet_i + 1) +
-                  "): Invalid sheet xml (no <worksheet>)");
+      cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <worksheet>)",
+                  sheetName_.c_str(), sheet_i + 1);
     }
 
     sheetData_ = rootNode->first_node("sheetData");
     if (!sheetData_) {
-      readxl_stop("Sheet '" + sheetName_ + "' (position " +
-                  std::to_string(sheet_i + 1) +
-                  "): Invalid sheet xml (no <sheetData>)");
+      cpp11::stop("Sheet '%s' (position %d): Invalid sheet xml (no <sheetData>)",
+                  sheetName_.c_str(), sheet_i + 1);
     }
 
     // shim = TRUE when user specifies geometry via `range`
