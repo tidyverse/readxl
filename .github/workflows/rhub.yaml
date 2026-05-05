@@ -10,7 +10,7 @@
 
 name: R-hub
 run-name: >-
-  ${{ github.event.inputs.id || format('Manual dispatch by @{0}', github.triggering_actor) }}:
+  ${{ github.event.inputs.id || format('Manual run by @{0}', github.triggering_actor) }}:
   ${{ github.event.inputs.name || github.event.inputs.config }}
 
 on:
