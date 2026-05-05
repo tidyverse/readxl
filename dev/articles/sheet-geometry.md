@@ -108,10 +108,10 @@ will skip even more before it starts reading from the sheet.
 Here’s a screen shot of the `geometry.xlsx` example sheet that ships
 with readxl, accessible via `readxl_example("geometry.xlsx")`.
 
-\<img src=“img/geometry.png” class=“r-plt” alt=“Screenshot of
-the”geometry.xlsx” example spreadsheet. The cells in the range B3:D6 are
-populated, each with the string of the cell’s address. For example, the
-cell B3 contains the string “B3”.” width=“70%” /\>
+![Screenshot of the 'geometry.xlsx' example spreadsheet. The cells in
+the range B3:D6 are populated, each with the string of the cell's
+address. For example, the cell B3 contains the string
+'B3'.](img/geometry.png)
 
 By default,
 [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
@@ -237,10 +237,10 @@ read_excel(readxl_example("deaths.xlsx"), range = "arts!A5:F15")
 
 We repeat the screenshot of `geometry.xlsx` as a visual reference.
 
-\<img src=“img/geometry.png” class=“r-plt” alt=“Screenshot of
-the”geometry.xlsx” example spreadsheet. The cells in the range B3:D6 are
-populated, each with the string of the cell’s address. For example, the
-cell B3 contains the string “B3”.” width=“70%” /\>
+![Screenshot of the 'geometry.xlsx' example spreadsheet. The cells in
+the range B3:D6 are populated, each with the string of the cell's
+address. For example, the cell B3 contains the string
+'B3'.](img/geometry.png)
 
 Going back to `geometry.xlsx`, here we specify a rectangle that only
 partially overlaps the data. Note the use of default column names,

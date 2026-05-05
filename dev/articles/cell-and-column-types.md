@@ -302,12 +302,11 @@ print(df, n = Inf)
 #> 10 FALSE            "\"False\" preceded by single quote"
 ```
 
-\<img src=“img/type-me-logical.png” class=“r-plt” alt=“Screenshot of the
-worksheet named”logical_coercion” inside the “type-me.xlsx” example
-spreadsheet. The cells in the first column (column A) have very mixed
-contents, such as empty, datetime, or string. The cells in the second
-column (column B) describe the contents of the first column in precise
-language.” width=“70%” /\>
+![Screenshot of the worksheet named 'logical_coercion' inside the
+'type-me.xlsx' example spreadsheet. The cells in the first column
+(column A) have very mixed contents, such as empty, datetime, or string.
+The cells in the second column (column B) describe the contents of the
+first column in precise language.](img/type-me-logical.png)
 
 ### Numeric column
 
@@ -340,12 +339,11 @@ print(df, n = Inf)
 #> 7               NA "\"cabbage\""
 ```
 
-\<img src=“img/type-me-numeric.png” class=“r-plt” alt=“Screenshot of the
-worksheet named”numeric_coercion” inside the “type-me.xlsx” example
-spreadsheet. The cells in the first column (column A) have very mixed
-contents, such as empty, datetime, or string. The cells in the second
-column (column B) describe the contents of the first column in precise
-language.” width=“70%” /\>
+![Screenshot of the worksheet named 'numeric_coercion' inside the
+'type-me.xlsx' example spreadsheet. The cells in the first column
+(column A) have very mixed contents, such as empty, datetime, or string.
+The cells in the second column (column B) describe the contents of the
+first column in precise language.](img/type-me-numeric.png)
 
 ### Date column
 
@@ -374,12 +372,11 @@ print(df, n = Inf)
 #> 7 2012-01-02 00:00:00 "another numeric"
 ```
 
-\<img src=“img/type-me-date.png” class=“r-plt” alt=“Screenshot of the
-worksheet named”date_coercion” inside the “type-me.xlsx” example
-spreadsheet. The cells in the first column (column A) have very mixed
-contents, such as empty, datetime, or string. The cells in the second
-column (column B) describe the contents of the first column in precise
-language.” width=“70%” /\>
+![Screenshot of the worksheet named 'date_coercion' inside the
+'type-me.xlsx' example spreadsheet. The cells in the first column
+(column A) have very mixed contents, such as empty, datetime, or string.
+The cells in the second column (column B) describe the contents of the
+first column in precise language.](img/type-me-date.png)
 
 ### Text or character column
 
@@ -404,9 +401,8 @@ print(df, n = Inf)
 #> 6 36436153 "another numeric"
 ```
 
-\<img src=“img/type-me-text.png” class=“r-plt” alt=“Screenshot of the
-worksheet named”text_coercion” inside the “type-me.xlsx” example
-spreadsheet. The cells in the first column (column A) have very mixed
-contents, such as empty, datetime, or string. The cells in the second
-column (column B) describe the contents of the first column in precise
-language.” width=“70%” /\>
+![Screenshot of the worksheet named 'text_coercion' inside the
+'type-me.xlsx' example spreadsheet. The cells in the first column
+(column A) have very mixed contents, such as empty, datetime, or string.
+The cells in the second column (column B) describe the contents of the
+first column in precise language.](img/type-me-text.png)
