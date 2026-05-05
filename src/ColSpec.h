@@ -1,16 +1,16 @@
 #pragma once
 
-#include "utils.h"
-#include "StringSet.h"
-
-#include "libxls/xls.h"
-
 #include "cpp11/doubles.hpp"
 #include "cpp11/list.hpp"
 #include "cpp11/logicals.hpp"
 #include "cpp11/protect.hpp"
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
+
+#include "libxls/xls.h"
+
+#include "StringSet.h"
+#include "utils.h"
 
 enum CellType {
   CELL_UNKNOWN,

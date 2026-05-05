@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cpp11/protect.hpp"
-
 #include <cerrno>
 #include <cmath>
 #include <cstring>
 #include <sstream>
+
+#include "cpp11/protect.hpp"
 
 //May appear in cpp11
 template <typename T, typename N>

@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* readxl should once again compile on Alpine Linux. (#775)
+
 # readxl 1.4.5
 
 This release contains no user-facing changes.

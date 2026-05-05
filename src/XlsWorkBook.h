@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ColSpec.h"
+#include "cpp11/R.hpp"
+#include "cpp11/r_string.hpp"
+#include "cpp11/strings.hpp"
 
 #include "libxls/xls.h"
 #include "libxls/xlsstruct.h"
 
-#include "cpp11/R.hpp"
-#include "cpp11/r_string.hpp"
-#include "cpp11/strings.hpp"
+#include "ColSpec.h"
 
 class XlsWorkBook {
 

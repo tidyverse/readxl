@@ -1,13 +1,12 @@
-#include "SheetView.h"
-
-#include "ColSpec.h"
+#include <string>
 
 #include "cpp11/as.hpp"
 #include "cpp11/list.hpp"
 #include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
 
-#include <string>
+#include "ColSpec.h"
+#include "SheetView.h"
 
 template <typename T>
 cpp11::list read_this_(

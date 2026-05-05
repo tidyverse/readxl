@@ -1,11 +1,11 @@
 #include "zip.h"
 
-#include "rapidxml/rapidxml_print.h"
-
 #include "cpp11/as.hpp"
 #include "cpp11/function.hpp"
 #include "cpp11/raws.hpp"
 #include "cpp11/sexp.hpp"
+
+#include "rapidxml/rapidxml_print.h"
 
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
