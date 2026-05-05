@@ -44,8 +44,7 @@ public:
     spinner_.spin();
     pWB_ = xls_open_file(wb.path().c_str(), "UTF-8", &error);
     if (!pWB_) {
-      Rf_errorcall(
-        R_NilValue,
+      cpp11::stop(
         "\n  filepath: %s\n  libxls error: %s",
         wb.path().c_str(),
         xls::xls_getError(error)
@@ -60,8 +59,7 @@ public:
     }
     error = xls::xls_parseWorkSheet(pWS_);
     if (error != xls::LIBXLS_OK) {
-      Rf_errorcall(
-        R_NilValue,
+      cpp11::stop(
         "\n  filepath: %s\n  sheet: %s\n  libxls error: %s",
         wb.path().c_str(),
         sheetName_.c_str(),
