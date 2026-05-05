@@ -75,12 +75,12 @@ inline double POSIXctFromSerial(double xlDate, bool is1904) {
     if (xlDate < 60) {
       xlDate = xlDate + 1;
     } else {
-      Rf_warning("NA inserted for impossible 1900-02-29 datetime");
+      cpp11::warning("NA inserted for impossible 1900-02-29 datetime");
       return NA_REAL;
     }
   }
   if (xlDate < 0) {
-    Rf_warning("NA inserted for an unsupported date prior to 1900");
+    cpp11::warning("NA inserted for an unsupported date prior to 1900");
     return NA_REAL;
   } else {
     return dateRound((xlDate - dateOffset(is1904)) * 86400);
