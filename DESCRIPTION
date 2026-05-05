@@ -23,8 +23,9 @@ Authors@R: c(
   )
 Description: Import excel files into R. Supports '.xls' via the embedded
     'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via
-    the embedded 'RapidXML' C++ library <https://rapidxml.sourceforge.net/>.
-    Works on Windows, Mac and Linux without external dependencies.
+    the embedded 'RapidXML' C++ library
+    <https://rapidxml.sourceforge.net/>.  Works on Windows, Mac and Linux
+    without external dependencies.
 License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
@@ -45,12 +46,12 @@ LinkingTo:
     progress
 VignetteBuilder:
     knitr
+Remotes:
+    r-lib/cpp11
+Config/build/compilation-database: true
 Config/Needs/website: tidyverse/tidytemplate, tidyverse
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Note: libxls v1.6.3 c199d13
 Roxygen: list(markdown = TRUE)
-Config/build/compilation-database: true
-Remotes:
-    r-lib/cpp11
-Config/roxygen2/version: 8.0.0
