@@ -97,7 +97,7 @@ inline std::pair<int, int> parseRef(const char* ref) {
     } else if (*cur >= 'A' && *cur <= 'Z') {
       col = 26 * col + (*cur - 'A' + 1);
     } else {
-      cpp11::stop("Invalid character '%s' in cell ref '%s'", *cur, ref);
+      cpp11::stop("Invalid character '%c' in cell ref '%s'", *cur, ref);
     }
   }
 
