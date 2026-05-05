@@ -145,8 +145,8 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-#| fig-alt: Screenshot of the worksheet named "logical_coercion" inside the
-#|     "type-me.xlsx" example spreadsheet. The cells in the first column
+#| fig-alt: Screenshot of the worksheet named 'logical_coercion' inside the
+#|     'type-me.xlsx' example spreadsheet. The cells in the first column
 #|     (column A) have very mixed contents, such as empty, datetime, or string.
 #|     The cells in the second column (column B) describe the contents of the
 #|     first column in precise language.
@@ -164,8 +164,8 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-#| fig-alt: Screenshot of the worksheet named "numeric_coercion" inside the
-#|     "type-me.xlsx" example spreadsheet. The cells in the first column
+#| fig-alt: Screenshot of the worksheet named 'numeric_coercion' inside the
+#|     'type-me.xlsx' example spreadsheet. The cells in the first column
 #|     (column A) have very mixed contents, such as empty, datetime, or string.
 #|     The cells in the second column (column B) describe the contents of the
 #|     first column in precise language.
@@ -183,8 +183,8 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-#| fig-alt: Screenshot of the worksheet named "date_coercion" inside the
-#|     "type-me.xlsx" example spreadsheet. The cells in the first column
+#| fig-alt: Screenshot of the worksheet named 'date_coercion' inside the
+#|     'type-me.xlsx' example spreadsheet. The cells in the first column
 #|     (column A) have very mixed contents, such as empty, datetime, or string.
 #|     The cells in the second column (column B) describe the contents of the
 #|     first column in precise language.
@@ -202,8 +202,8 @@ print(df, n = Inf)
 ```
 
 ```{r out.width = '70%', echo = FALSE}
-#| fig-alt: Screenshot of the worksheet named "text_coercion" inside the
-#|     "type-me.xlsx" example spreadsheet. The cells in the first column
+#| fig-alt: Screenshot of the worksheet named 'text_coercion' inside the
+#|     'type-me.xlsx' example spreadsheet. The cells in the first column
 #|     (column A) have very mixed contents, such as empty, datetime, or string.
 #|     The cells in the second column (column B) describe the contents of the
 #|     first column in precise language.
