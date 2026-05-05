@@ -40,10 +40,10 @@ Suggests:
     rmarkdown,
     testthat (>= 3.1.6),
     withr
-LinkingTo: 
-    cpp11 (>= 0.4.0),
+LinkingTo:
+    cpp11 (>= 0.5.4.9000),
     progress
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/testthat/edition: 3
@@ -52,3 +52,5 @@ Note: libxls v1.6.3 c199d13
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Config/build/compilation-database: true
+Remotes:
+    r-lib/cpp11
