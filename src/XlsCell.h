@@ -1,14 +1,18 @@
 #pragma once
 
-#include "ColSpec.h"
-#include "utils.h"
+#include <cstdint>
+#include <iomanip>
+#include <limits.h>
+
+#include "cpp11/protect.hpp"
+#include "cpp11/sexp.hpp"
 
 #include "libxls/xls.h"
 #include "libxls/xlsstruct.h"
 #include "libxls/xlstypes.h"
 
-#include <iomanip>
-#include <limits.h>
+#include "ColSpec.h"
+#include "utils.h"
 
 // Key reference for understanding the structure of the xls format is
 // [MS-XLS]: Excel Binary File Format (.xls) Structure

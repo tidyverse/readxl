@@ -1,9 +1,10 @@
 #pragma once
 
-#include "rapidxml/rapidxml.h"
-
+// R_ext/GraphicsEngine.h must be included before R_ext/GraphicsDevice.h
 #include <R_ext/GraphicsEngine.h>
-#include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
+#include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported here
+
+#include "rapidxml/rapidxml.h"
 
 
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]

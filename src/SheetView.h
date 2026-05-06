@@ -1,21 +1,20 @@
-#include <sys/time.h> // alpine linux / musl must be before others
-#include <unistd.h>   // alpine linux / musl must be before others
-
-#include "CellLimits.h"
-#include "ColSpec.h"
-#include "XlsWorkBook.h"
-#include "XlsxWorkBook.h"
-#include "XlsCellSet.h"
-#include "XlsxCellSet.h"
-#include "XlsCell.h"
-#include "XlsxCell.h"
+#include <algorithm>
+#include <string>
+#include <sys/time.h>
+#include <unistd.h>
+#include <vector>
 
 #include "cpp11/R.hpp"
 #include "cpp11/strings.hpp"
 
-#include <algorithm>
-#include <string>
-#include <vector>
+#include "CellLimits.h"
+#include "ColSpec.h"
+#include "XlsCell.h"
+#include "XlsCellSet.h"
+#include "XlsWorkBook.h"
+#include "XlsxCell.h"
+#include "XlsxCellSet.h"
+#include "XlsxWorkBook.h"
 
 class Xls {
 public:

@@ -33,7 +33,14 @@
 
 #ifndef XLS_INCLUDE
 #define XLS_INCLUDE
- 
+
+/* readxl modification: process <stdint.h> in the global namespace, not inside
+ * namespace xls. Otherwise, on libcs (e.g. musl/Alpine) where <stdint.h> has
+ * not been transitively pre-loaded by other system or vendored headers, its
+ * typedefs (int64_t etc.) end up trapped in xls:: when libxls is consumed
+ * from C++ code. See readxl issue #775. */
+#include <stdint.h>
+
 #ifdef __cplusplus
 namespace xls {
 extern "C" {

@@ -1,18 +1,18 @@
 #pragma once
 
-#include "CellLimits.h"
-#include "ColSpec.h"
-#include "Spinner.h"
-#include "XlsxCell.h"
-#include "XlsxWorkBook.h"
-
-#include "rapidxml/rapidxml.h"
-
 #include "cpp11/integers.hpp"
 #include "cpp11/list.hpp"
 #include "cpp11/protect.hpp"
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
+
+#include "rapidxml/rapidxml.h"
+
+#include "CellLimits.h"
+#include "ColSpec.h"
+#include "Spinner.h"
+#include "XlsxCell.h"
+#include "XlsxWorkBook.h"
 
 // Page and section numbers below refer to
 // ECMA-376 (version, date, and download URL given in XlsxCell.h)

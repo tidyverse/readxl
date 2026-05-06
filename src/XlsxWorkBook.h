@@ -1,16 +1,16 @@
 #pragma once
 
-#include "ColSpec.h"
-#include "utils.h"
-#include "XlsxString.h"
-#include "zip.h"
-
-#include "rapidxml/rapidxml.h"
+#include <map>
 
 #include "cpp11/protect.hpp"
 #include "cpp11/strings.hpp"
 
-#include <map>
+#include "rapidxml/rapidxml.h"
+
+#include "ColSpec.h"
+#include "utils.h"
+#include "XlsxString.h"
+#include "zip.h"
 
 class XlsxWorkBook {
 

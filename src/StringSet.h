@@ -1,12 +1,12 @@
 #pragma once
 
-#include "utils.h"
-
-#include "cpp11/strings.hpp"
-
 #include <cstring>
 #include <set>
 #include <vector>
+
+#include "cpp11/strings.hpp"
+
+#include "utils.h"
 
 class StringSet
 {

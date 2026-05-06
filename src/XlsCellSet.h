@@ -1,13 +1,5 @@
 #pragma once
 
-#include "CellLimits.h"
-#include "Spinner.h"
-#include "XlsCell.h"
-#include "XlsWorkBook.h"
-
-#include "libxls/xls.h"
-#include "libxls/xlsstruct.h"
-
 #include "cpp11/as.hpp"
 #include "cpp11/integers.hpp"
 #include "cpp11/list.hpp"
@@ -15,6 +7,14 @@
 #include "cpp11/R.hpp"
 #include "cpp11/sexp.hpp"
 #include "cpp11/strings.hpp"
+
+#include "libxls/xls.h"
+#include "libxls/xlsstruct.h"
+
+#include "CellLimits.h"
+#include "Spinner.h"
+#include "XlsCell.h"
+#include "XlsWorkBook.h"
 
 class XlsCellSet {
   // xls specifics

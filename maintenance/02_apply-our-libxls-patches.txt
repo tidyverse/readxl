@@ -48,3 +48,12 @@
 # git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/snprintf.patch
 # discard changes
 # git apply maintenance/patches/snprintf.patch
+
+# Implement the include of <stdint.h> in the global namespace at the top of
+# src/libxls/xls.h, before the `namespace xls { extern "C" {` block opens, so
+# that stdint typedefs (int64_t etc.) aren't trapped in xls:: when libxls is
+# consumed from C++ on a libc (e.g. musl/Alpine) that hasn't transitively
+# pre-loaded <stdint.h>. (#775)
+# git diff ':!maintenance/02_apply-our-libxls-patches.txt' > maintenance/patches/stdint.patch
+# discard changes
+# git apply maintenance/patches/stdint.patch
