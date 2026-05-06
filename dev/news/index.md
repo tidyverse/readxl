@@ -2,11 +2,15 @@
 
 ## readxl (development version)
 
-- [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
-  and friends should no longer emit a spurious “Access is denied”
-  warning when reading a file on a network drive and the user doesn’t
-  have access to a parent directory
-  ([\#730](https://github.com/tidyverse/readxl/issues/730)).
+\<\<\<\<\<\<\< reorder-header-includes \* readxl should once again
+compile on Alpine Linux.
+([\#775](https://github.com/tidyverse/readxl/issues/775)) ======= \*
+[`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+and friends should no longer emit a spurious “Access is denied” warning
+when reading a file on a network drive and the user doesn’t have access
+to a parent directory
+([\#730](https://github.com/tidyverse/readxl/issues/730)).
+\>\>\>\>\>\>\> main
 
 ## readxl 1.4.5
 
