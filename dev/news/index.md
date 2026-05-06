@@ -2,6 +2,12 @@
 
 ## readxl (development version)
 
+- [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+  and friends should no longer emit a spurious “Access is denied”
+  warning when reading a file on a network drive and the user doesn’t
+  have access to a parent directory
+  ([\#730](https://github.com/tidyverse/readxl/issues/730)).
+
 ## readxl 1.4.5
 
 CRAN release: 2025-03-07
