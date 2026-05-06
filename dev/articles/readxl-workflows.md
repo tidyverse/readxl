@@ -127,11 +127,10 @@ mtcars_alt <- read_csv("mtcars-raw.csv")
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## readr leaves a note-to-self in `spec` that records its column guessing,
-## so we remove that attribute before the check
-attr(mtcars_alt, "spec") <- NULL
-identical(mtcars_xl, mtcars_alt)
-#> [1] FALSE
+## readr leaves some special attributes behind to record its
+## column guessing, so we remove those with `[]`
+identical(mtcars_xl, mtcars_alt[])
+#> [1] TRUE
 ```
 
 Yes! If we needed to restart or troubleshoot this fictional analysis,
@@ -282,7 +281,7 @@ path <- readxl_example("deaths.xlsx")
 deaths <- path |>
   excel_sheets() |>
   set_names() |>
-  map(~ read_excel(path = path, sheet = .x, range = "A5:F15")) |>
+  map(\(x) read_excel(path = path, sheet = x, range = "A5:F15")) |>
   list_rbind(names_to = "sheet")
 print(deaths, n = Inf)
 #> # A tibble: 20 × 7
@@ -345,7 +344,7 @@ ranges <- list("A5:F15", cell_rows(5:15))
 deaths <- map2(
   sheets,
   ranges,
-  ~ read_excel(path, sheet = .x, range = .y)
+  \(x, y) read_excel(path, sheet = x, range = y)
 ) |>
   list_rbind(names_to = "sheet") |>
   write_csv("deaths.csv")
@@ -386,9 +385,9 @@ Rework examples from above but using base R only, other than readxl.
 
 mtcars_xl <- read_excel(readxl_example("datasets.xlsx"), sheet = "mtcars")
 write.csv(mtcars_xl, "mtcars-raw.csv", row.names = FALSE, quote = FALSE)
-mtcars_alt <- read.csv("mtcars-raw.csv", stringsAsFactors = FALSE)
-## coerce mtcars_xl back to a data.frame
-identical(as.data.frame(mtcars_xl), mtcars_alt)
+mtcars_alt <- read.csv("mtcars-raw.csv")
+## coerce mtcars_xl to a data.frame, instead of a tibble
+all.equal(as.data.frame(mtcars_xl), mtcars_alt)
 ```
 
 ### Iterate over multiple worksheets in a workbook
@@ -408,8 +407,12 @@ names(xl_list) <- sheets
 read_then_csv <- function(sheet, path) {
   pathbase <- tools::file_path_sans_ext(basename(path))
   df <- read_excel(path = path, sheet = sheet)
-  write.csv(df, paste0(pathbase, "-", sheet, ".csv"),
-            quote = FALSE, row.names = FALSE)
+  write.csv(
+    df,
+    paste0(pathbase, "-", sheet, ".csv"),
+    quote = FALSE,
+    row.names = FALSE
+  )
   df
 }
 path <- readxl_example("datasets.xlsx")
@@ -439,9 +442,14 @@ xl_list <- do.call(rbind, xl_list)
 path <- readxl_example("deaths.xlsx")
 sheets <- excel_sheets(path)
 ranges <- list("A5:F15", cell_rows(5:15))
-xl_list <- mapply(function(x, y) {
-  read_excel(path = path, sheet = x, range = y)
-}, sheets, ranges, SIMPLIFY = FALSE)
+xl_list <- mapply(
+  function(x, y) {
+    read_excel(path = path, sheet = x, range = y)
+  },
+  sheets,
+  ranges,
+  SIMPLIFY = FALSE
+)
 xl_list <- lapply(seq_along(sheets), function(i) {
   data.frame(sheet = I(sheets[i]), xl_list[[i]])
 })
