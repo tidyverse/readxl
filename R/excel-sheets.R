@@ -18,7 +18,6 @@
 excel_sheets <- function(path) {
   path <- check_file(path)
   format <- check_format(path)
-  path <- normalizePath(path)
 
   switch(format, xls = xls_sheets(path), xlsx = xlsx_sheets(path))
 }
