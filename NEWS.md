@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* `read_excel()` and friends should no longer emit a spurious "Access is denied" warning when reading a file on a network drive and the user doesn't have access to a parent directory (#730).
+
 # readxl 1.4.5
 
 This release contains no user-facing changes.
