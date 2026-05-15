@@ -1,7 +1,5 @@
 #include <algorithm>
 #include <string>
-#include <sys/time.h>
-#include <unistd.h>
 #include <vector>
 
 #include "cpp11/R.hpp"
