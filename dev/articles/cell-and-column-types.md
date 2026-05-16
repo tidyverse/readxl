@@ -22,11 +22,11 @@ read_excel("yo.xlsx", col_types = c("date", "skip", "guess", "numeric"))
 
 ## Type guessing
 
-If you use other packages in the
-[tidyverse](https://www.tidyverse.org/), you are probably familiar with
-[readr](https://readr.tidyverse.org/), which reads data from flat files.
-Like readxl, readr also provides column type guessing, but readr and
-readxl are very different under the hood.
+If you use other packages in the [tidyverse](https://tidyverse.org/),
+you are probably familiar with [readr](https://readr.tidyverse.org/),
+which reads data from flat files. Like readxl, readr also provides
+column type guessing, but readr and readxl are very different under the
+hood.
 
 - readr guesses column type *based on the data*.
 - readxl guesses column type *based on Excel cell types*.

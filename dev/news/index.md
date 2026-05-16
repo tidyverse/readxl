@@ -114,8 +114,8 @@ However, there are a few small features / bug fixes:
 
 - readxl now states its support for R \>= 3.4 explicitly. Why 3.4?
   Because the [tidyverse
-  policy](https://www.tidyverse.org/blog/2019/04/r-version-support/) is
-  to support the current version, the devel version, and four previous
+  policy](https://tidyverse.org/blog/2019/04/r-version-support/) is to
+  support the current version, the devel version, and four previous
   versions of R. It was necessary to introduce a minimum R version, in
   order to state a minimum version for a package listed in `LinkingTo`.
 
@@ -159,8 +159,8 @@ development version in the interim. The libxls project is now officially
 hosted at <https://github.com/libxls/libxls>. In particular, libxls
 v1.5.0 addresses these two CVEs:
 
-- [CVE-2018-20452](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452)
-- [CVE-2018-20450](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450)
+- [CVE-2018-20452](https://www.cve.org/CVERecord?id=CVE-2018-20452)
+- [CVE-2018-20450](https://www.cve.org/CVERecord?id=CVE-2018-20450)
 
 ## readxl 1.2.0
 
@@ -170,7 +170,7 @@ CRAN release: 2018-12-19
 
 readxl exposes the `.name_repair` argument that is [coming to version
 2.0.0 of the tibble
-package](https://www.tidyverse.org/blog/2018/11/tibble-2.0.0-pre-announce/).
+package](https://tidyverse.org/blog/2018/11/tibble-2.0.0-pre-announce/).
 The readxl default is `.name_repair = "unique"`, keeping with the readxl
 convention to ensure column names are neither missing nor duplicated.
 
