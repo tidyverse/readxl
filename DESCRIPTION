@@ -33,6 +33,7 @@ Depends:
     R (>= 4.1)
 Imports:
     cellranger,
+    cpp11 (>= 0.5.5),
     tibble (>= 2.0.1),
     utils
 Suggests:
@@ -46,8 +47,6 @@ LinkingTo:
     progress
 VignetteBuilder:
     knitr
-Remotes:
-    r-lib/cpp11
 Config/build/compilation-database: true
 Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/roxygen2/version: 8.0.0
