@@ -1,4 +1,4 @@
-# readxl (development version)
+# readxl 1.5.0
 
 * readxl should once again compile on Alpine Linux (#775).
 * `read_excel()` and friends should no longer emit a spurious "Access is denied" warning when reading a file on a network drive and the user doesn't have access to a parent directory (#730).
