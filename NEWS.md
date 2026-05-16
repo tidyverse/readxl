@@ -72,7 +72,7 @@ However, there are a few small features / bug fixes:
 * readxl is now licensed as MIT (#632).
 
 * readxl now states its support for R >= 3.4 explicitly.
-  Why 3.4? Because the [tidyverse policy](https://www.tidyverse.org/blog/2019/04/r-version-support/)
+  Why 3.4? Because the [tidyverse policy](https://tidyverse.org/blog/2019/04/r-version-support/)
   is to support the current version, the devel version, and four previous
   versions of R.
   It was necessary to introduce a minimum R version, in order to state a minimum
@@ -106,14 +106,14 @@ Pragmatic patch release to update some tests in advance of v2.1.0 of the tibble 
 
 readxl embeds libxls v1.5.0. This is the first *official* release of libxls in several years, although readxl has been tracking the development version in the interim. The libxls project is now officially hosted at <https://github.com/libxls/libxls>. In particular, libxls v1.5.0 addresses these two CVEs:
 
-  * [CVE-2018-20452](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20452)
-  * [CVE-2018-20450](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20450)
+  * [CVE-2018-20452](https://www.cve.org/CVERecord?id=CVE-2018-20452)
+  * [CVE-2018-20450](https://www.cve.org/CVERecord?id=CVE-2018-20450)
 
 # readxl 1.2.0
 
 ## Column name repair
 
-readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of the tibble package](https://www.tidyverse.org/blog/2018/11/tibble-2.0.0-pre-announce/). The readxl default is `.name_repair = "unique"`, keeping with the readxl convention to ensure column names are neither missing nor duplicated.
+readxl exposes the `.name_repair` argument that is [coming to version 2.0.0 of the tibble package](https://tidyverse.org/blog/2018/11/tibble-2.0.0-pre-announce/). The readxl default is `.name_repair = "unique"`, keeping with the readxl convention to ensure column names are neither missing nor duplicated.
 
 * [Column Names](https://readxl.tidyverse.org/articles/articles/column-names.html) is a new article about this feature.
 * readxl delegates name repair to tibble, therefore the installed tibble version determines how names are repaired.
