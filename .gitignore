@@ -14,3 +14,4 @@ investigations
 compile_commands.json
 .cache
 .claude/settings.local.json
+.positai/settings.json
