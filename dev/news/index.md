@@ -2,8 +2,8 @@
 
 ## readxl (development version)
 
-- readxl should once again compile on Alpine Linux.
-  ([\#775](https://github.com/tidyverse/readxl/issues/775))
+- readxl should once again compile on Alpine Linux
+  ([\#775](https://github.com/tidyverse/readxl/issues/775)).
 - [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
   and friends should no longer emit a spurious “Access is denied”
   warning when reading a file on a network drive and the user doesn’t
