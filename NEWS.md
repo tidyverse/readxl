@@ -2,6 +2,7 @@
 
 * readxl should once again compile on Alpine Linux. (#775)
 * `read_excel()` and friends should no longer emit a spurious "Access is denied" warning when reading a file on a network drive and the user doesn't have access to a parent directory (#730).
+* Minimum version of cpp11 has been bumped to v0.5.5, because cpp11 v0.5.4 (and only that exact version of cpp11) causes readxl to segfault when warning about coercion issues (#784).
 
 # readxl 1.4.5
 
