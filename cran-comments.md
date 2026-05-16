@@ -1,5 +1,8 @@
-This is a patch release in response to correspondence from Prof Brian Ripley (deadline 2025-03-14). This release eliminates a warning seen with gcc-UBSAN.
+This release is motivated by the need to require cpp11 > 0.5.5 in order to skip over version 0.5.4 which causes readxl to segfault when warning about coercion issues (#784).
 
 ## revdepcheck results
 
-I did a patch release 1 week ago, so I did not repeat reverse dependency checks for this small internal change to readxl.
+We checked 521 reverse dependencies (520 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
