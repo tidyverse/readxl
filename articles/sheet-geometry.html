@@ -6,20 +6,22 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Sheet Geometry • readxl</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sheet Geometry">
-<script defer data-domain="readxl.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-RiKmOPwtLHuC63AhWHW4B.js"></script><script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -29,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">readxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +85,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Sheet Geometry</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/v1.4.5/vignettes/sheet-geometry.Rmd" class="external-link"><code>vignettes/sheet-geometry.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/readxl/blob/main/vignettes/sheet-geometry.Rmd" class="external-link"><code>vignettes/sheet-geometry.Rmd</code></a></small>
       <div class="d-none name"><code>sheet-geometry.Rmd</code></div>
     </div>
 
@@ -192,10 +194,7 @@ starts reading from the sheet.</p>
 <p>Here’s a screen shot of the <code>geometry.xlsx</code> example sheet
 that ships with readxl, accessible via
 <code>readxl_example("geometry.xlsx")</code>.</p>
-<p>&lt;img src=“img/geometry.png” alt=“Screenshot of the”geometry.xlsx”
-example spreadsheet. The cells in the range B3:D6 are populated, each
-with the string of the cell’s address. For example, the cell B3 contains
-the string “B3”.” width=“70%” /&gt;</p>
+<p><img src="img/geometry.png" class="r-plt" alt="Screenshot of the 'geometry.xlsx' example spreadsheet. The cells in the range B3:D6 are populated, each with the string of the cell's address. For example, the cell B3 contains the string 'B3'." width="70%"></p>
 <p>By default, <code><a href="../reference/read_excel.html">read_excel()</a></code> just discovers the data
 rectangle:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -297,10 +296,7 @@ guesses for the column types.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Date of death` &lt;dttm&gt;</span></span></span></code></pre></div>
 <p>We repeat the screenshot of <code>geometry.xlsx</code> as a visual
 reference.</p>
-<p>&lt;img src=“img/geometry.png” alt=“Screenshot of the”geometry.xlsx”
-example spreadsheet. The cells in the range B3:D6 are populated, each
-with the string of the cell’s address. For example, the cell B3 contains
-the string “B3”.” width=“70%” /&gt;</p>
+<p><img src="img/geometry.png" class="r-plt" alt="Screenshot of the 'geometry.xlsx' example spreadsheet. The cells in the range B3:D6 are populated, each with the string of the cell's address. For example, the cell B3 contains the string 'B3'." width="70%"></p>
 <p>Going back to <code>geometry.xlsx</code>, here we specify a rectangle
 that only partially overlaps the data. Note the use of default column
 names, because the first row of cells is empty, and the leading column
@@ -390,7 +386,7 @@ be discovered:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>
