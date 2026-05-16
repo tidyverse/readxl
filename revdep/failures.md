@@ -1,56 +1,84 @@
-# TestGenerator
+# colleyRstats (NA)
 
-<details>
+* : <UNKNOWN>
 
-* Version: 0.3.3
-* GitHub: https://github.com/darwin-eu/TestGenerator
-* Source code: https://github.com/cran/TestGenerator
-* Date/Publication: 2024-11-08 16:20:02 UTC
-* Number of recursive dependencies: 96
+Run `revdepcheck::cloud_details(, "colleyRstats")` for more info
 
-Run `revdepcheck::cloud_details(, "TestGenerator")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘TestGenerator’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/TestGenerator/new/TestGenerator.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
+## Error before installation
 
 ### Devel
 
 ```
-* installing *source* package ‘TestGenerator’ ...
-** package ‘TestGenerator’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: object ‘eunomia_dir’ is not exported by 'namespace:CDMConnector'
-Execution halted
-ERROR: lazy loading failed for package ‘TestGenerator’
-* removing ‘/tmp/workdir/TestGenerator/new/TestGenerator.Rcheck/TestGenerator’
+
+
+
+
 
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘TestGenerator’ ...
-** package ‘TestGenerator’ successfully unpacked and MD5 sums checked
+
+
+
+
+
+
+```
+# fio (1.0.0)
+
+* GitHub: <https://github.com/albersonmiranda/fio>
+* Email: <mailto:albersonmiranda@hotmail.com>
+* GitHub mirror: <https://github.com/cran/fio>
+
+Run `revdepcheck::cloud_details(, "fio")` for more info
+
+## In both
+
+*   checking whether package ‘fio’ can be installed ... ERROR
+     ```
+     Installation failed.
+     See ‘/tmp/workdir/fio/new/fio.Rcheck/00install.out’ for details.
+     ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘fio’ ...
+** this is package ‘fio’ version ‘1.0.0’
+** package ‘fio’ successfully unpacked and MD5 sums checked
 ** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: object ‘eunomia_dir’ is not exported by 'namespace:CDMConnector'
+Error in eval(ei, envir) : 
+------------------ [UNSUPPORTED RUST VERSION]------------------
+- Minimum supported Rust version is 1.84.
+- Installed Rust version is 1.75.0.
+---------------------------------------------------------------
+Calls: source -> withVisible -> eval -> eval
 Execution halted
-ERROR: lazy loading failed for package ‘TestGenerator’
-* removing ‘/tmp/workdir/TestGenerator/old/TestGenerator.Rcheck/TestGenerator’
+ERROR: configuration failed for package ‘fio’
+* removing ‘/tmp/workdir/fio/new/fio.Rcheck/fio’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘fio’ ...
+** this is package ‘fio’ version ‘1.0.0’
+** package ‘fio’ successfully unpacked and MD5 sums checked
+** using staged installation
+Error in eval(ei, envir) : 
+------------------ [UNSUPPORTED RUST VERSION]------------------
+- Minimum supported Rust version is 1.84.
+- Installed Rust version is 1.75.0.
+---------------------------------------------------------------
+Calls: source -> withVisible -> eval -> eval
+Execution halted
+ERROR: configuration failed for package ‘fio’
+* removing ‘/tmp/workdir/fio/old/fio.Rcheck/fio’
 
 
 ```
