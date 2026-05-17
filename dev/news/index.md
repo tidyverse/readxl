@@ -2,6 +2,10 @@
 
 ## readxl (development version)
 
+## readxl 1.5.0
+
+CRAN release: 2026-05-16
+
 - readxl should once again compile on Alpine Linux
   ([\#775](https://github.com/tidyverse/readxl/issues/775)).
 - [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)

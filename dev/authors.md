@@ -37,12 +37,12 @@ Source:
 [`DESCRIPTION`](https://github.com/tidyverse/readxl/blob/main/DESCRIPTION)
 
 Wickham H, Bryan J (2026). *readxl: Read Excel Files*. R package version
-1.4.5.9000, <https://readxl.tidyverse.org>.
+1.5.0.9000, <https://readxl.tidyverse.org>.
 
     @Manual{,
       title = {readxl: Read Excel Files},
       author = {Hadley Wickham and Jennifer Bryan},
       year = {2026},
-      note = {R package version 1.4.5.9000},
+      note = {R package version 1.5.0.9000},
       url = {https://readxl.tidyverse.org},
     }
