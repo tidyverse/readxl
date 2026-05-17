@@ -34,7 +34,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidyverse/readxl/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidyverse/readxl/blob/v1.5.0/DESCRIPTION)
 
 Wickham H, Bryan J (2026). *readxl: Read Excel Files*. R package version
 1.5.0, <https://readxl.tidyverse.org>.
