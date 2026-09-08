@@ -298,7 +298,7 @@ standardise_sheet <- function(sheet, range, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
-    if (sheet < 1) {
+    if (is.na(sheet) || sheet < 1) {
       stop("`sheet` must be positive", call. = FALSE)
     }
     floor(sheet) - 1L
@@ -337,9 +337,18 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
       max_col = limits[["lr"]][2] - 1
     )
   }
-  limits[is.na(limits)] <- -1
+  na_limits <- is.na(limits)
   names <- names(limits)
-  limits <- as.integer(limits)
+  limits <- suppressWarnings(as.integer(limits))
+  too_large <- !na_limits & is.na(limits)
+  if (any(too_large)) {
+    stop(
+      "`", paste(names[too_large], collapse = "`, `"),
+      "` limit is too large to be represented as an integer",
+      call. = FALSE
+    )
+  }
+  limits[na_limits] <- -1
   names(limits) <- names
   limits
 }
