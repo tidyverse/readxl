@@ -349,7 +349,7 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
       call. = FALSE
     )
   }
-  limits[na_limits] <- -1
+  limits[na_limits] <- -1L
   names(limits) <- names
   limits
 }
