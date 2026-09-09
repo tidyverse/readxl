@@ -343,7 +343,8 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
   too_large <- !na_limits & is.na(limits)
   if (any(too_large)) {
     stop(
-      "`", paste(names[too_large], collapse = "`, `"),
+      "`",
+      paste(names[too_large], collapse = "`, `"),
       "` limit is too large to be represented as an integer",
       call. = FALSE
     )
