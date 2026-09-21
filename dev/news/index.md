@@ -2,6 +2,12 @@
 
 ## readxl (development version)
 
+## readxl 1.5.0.1
+
+CRAN release: 2026-09-16
+
+- CRAN-authored release with internal changes for LLVM 23 compatibility.
+
 ## readxl 1.5.0
 
 CRAN release: 2026-05-16
@@ -56,7 +62,7 @@ This release contains no user-facing changes.
   the fix for this CVE
   ([\#679](https://github.com/tidyverse/readxl/issues/679)):
 
-  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/CVE-2021-27836)
+  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/cve-2021-27836)
 
 - readxl no longer declares the use of C++11.
 
