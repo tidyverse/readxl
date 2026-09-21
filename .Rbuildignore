@@ -39,4 +39,5 @@
 ^compile_commands\.json$
 ^\.cache$
 ^\.claude$
-^\.positai$
+^\.posit$
+^AGENTS\.md$

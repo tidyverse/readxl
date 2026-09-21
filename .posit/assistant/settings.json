@@ -1,0 +1,17 @@
+{
+  "permission": {
+    "bash": {
+      "gh pr view *": "allow",
+      "gh pr list *": "allow",
+      "gh pr diff *": "allow",
+      "gh run view *": "allow",
+      "gh issue list *": "allow",
+      "gh issue view *": "allow",
+      "gh search *": "allow",
+      "git status *": "allow",
+      "git log *": "allow",
+      "head *": "allow",
+      "grep *": "allow"
+    }
+  }
+}
