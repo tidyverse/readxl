@@ -2,7 +2,7 @@
 
 # readxl 1.5.0.1
 
-* Correctiosns for LLVM 23, by the CRNA team after notification was inored.
+* CRAN-authored release with internal changes for LLVM 23 compatibility.
 
 # readxl 1.5.0
 
