@@ -19,8 +19,8 @@ void Rprintf2(FILE * stream, const char *format, ...);
 #undef stderr
 #define stderr NULL
 
-#undef assert
-#define assert(X) if (X) {}
-#define exit assert
+//#undef assert
+//#define assert(X) if (X) {}
+//#define exit assert
 
 #endif

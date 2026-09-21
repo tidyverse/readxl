@@ -1,5 +1,9 @@
 # readxl (development version)
 
+# readxl 1.5.0.1
+
+* Correctiosns for LLVM 23, by the CRNA team after notification was inored.
+
 # readxl 1.5.0
 
 * readxl should once again compile on Alpine Linux (#775).
@@ -32,7 +36,7 @@ This release contains no user-facing changes.
 * We embed a development version of libxls (<https://github.com/libxls/libxls>), which is based on the most recent released version, v1.6.2.
 The reason for embedding a development version is to ship a version of libxls that incorporates the fix for this CVE (#679):
 
-  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/CVE-2021-27836)
+  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/cve-2021-27836)
 
 * readxl no longer declares the use of C++11.
 
