@@ -79,6 +79,17 @@ test_that("read_excel catches invalid n_max", {
   )
 })
 
+test_that("read_excel catches limits too large for an integer", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1e10)
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), skip = 1e10)
+  )
+})
+
 ## https://github.com/tidyverse/readxl/issues/373
 test_that("xls with exactly 65536 rows does not enter infinite loop", {
   out <- read_excel(test_sheet("65536-rows-xls.xls"))
@@ -89,6 +100,13 @@ test_that("sheet must be integer or string", {
   expect_snapshot(
     error = TRUE,
     read_excel(test_sheet("mtcars.xls"), sheet = TRUE)
+  )
+})
+
+test_that("sheet must not be NA", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("mtcars.xls"), sheet = NA)
   )
 })
 

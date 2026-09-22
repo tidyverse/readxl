@@ -296,6 +296,9 @@ standardise_sheet <- function(sheet, range, sheet_names) {
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
   }
+  if (is.na(sheet)) {
+    stop("`sheet` must not be `NA`", call. = FALSE)
+  }
 
   if (is.numeric(sheet)) {
     if (sheet < 1) {
@@ -337,9 +340,18 @@ standardise_limits <- function(range, skip, n_max, has_col_names) {
       max_col = limits[["lr"]][2] - 1
     )
   }
-  limits[is.na(limits)] <- -1
+  na_limits <- is.na(limits)
   names <- names(limits)
-  limits <- as.integer(limits)
+  limits <- suppressWarnings(as.integer(limits))
+  too_large <- !na_limits & is.na(limits)
+  if (any(too_large)) {
+    stop(
+      "Row limits implied by `skip` and `n_max` are too large to be ",
+      "represented as an integer",
+      call. = FALSE
+    )
+  }
+  limits[na_limits] <- -1L
   names(limits) <- names
   limits
 }
