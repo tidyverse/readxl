@@ -307,17 +307,14 @@ standardise_sheet <- function(sheet, range, sheet_names) {
     if (sheet < 1) {
       stop("`sheet` must be positive", call. = FALSE)
     }
-    if (sheet > length(sheet_names)) {
+    sheet <- suppressWarnings(as.integer(sheet))
+    if (is.na(sheet)) {
       stop(
-        "Can't retrieve sheet in position ",
-        sheet,
-        ", only ",
-        length(sheet_names),
-        " sheet(s) found.",
+        "`sheet` is too large to be represented as an integer",
         call. = FALSE
       )
     }
-    as.integer(sheet) - 1L
+    sheet - 1L
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)

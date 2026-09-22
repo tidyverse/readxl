@@ -70,6 +70,14 @@
       Error:
       ! `sheet` must be a finite whole number
 
+---
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 3e+09)
+    Condition
+      Error:
+      ! `sheet` is too large to be represented as an integer
+
 # double specification of sheet generates message and range wins
 
     Code
