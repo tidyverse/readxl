@@ -79,10 +79,14 @@ test_that("read_excel catches invalid n_max", {
   )
 })
 
-test_that("read_excel catches n_max too large for an integer", {
-  expect_error(
-    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1e10),
-    "too large to be represented as an integer"
+test_that("read_excel catches limits too large for an integer", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1e10)
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), skip = 1e10)
   )
 })
 
@@ -100,9 +104,9 @@ test_that("sheet must be integer or string", {
 })
 
 test_that("sheet must not be NA", {
-  expect_error(
-    read_excel(test_sheet("mtcars.xls"), sheet = NA_real_),
-    "must be positive"
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("mtcars.xls"), sheet = NA)
   )
 })
 

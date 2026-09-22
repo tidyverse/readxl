@@ -96,6 +96,22 @@
       Error:
       ! `n_max` must be a positive integer
 
+# read_excel catches limits too large for an integer
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), n_max = 1e+10)
+    Condition
+      Error:
+      ! Row limits implied by `skip` and `n_max` are too large to be represented as an integer
+
+---
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), skip = 1e+10)
+    Condition
+      Error:
+      ! Row limits implied by `skip` and `n_max` are too large to be represented as an integer
+
 # sheet must be integer or string
 
     Code
@@ -103,6 +119,14 @@
     Condition
       Error:
       ! `sheet` must be either an integer or a string.
+
+# sheet must not be NA
+
+    Code
+      read_excel(test_sheet("mtcars.xls"), sheet = NA)
+    Condition
+      Error:
+      ! `sheet` must not be `NA`
 
 # trim_ws must be a logical
 
