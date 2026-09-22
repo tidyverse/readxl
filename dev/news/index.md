@@ -2,6 +2,15 @@
 
 ## readxl (development version)
 
+- [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
+  [`read_xls()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
+  and
+  [`read_xlsx()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+  now error informatively when `sheet` is `NA`
+  ([\#798](https://github.com/tidyverse/readxl/issues/798),
+  [@sims1253](https://github.com/sims1253)) or is `Inf` or not a whole
+  number ([\#801](https://github.com/tidyverse/readxl/issues/801)).
+
 ## readxl 1.5.0.1
 
 CRAN release: 2026-09-16
