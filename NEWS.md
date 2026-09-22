@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* `read_excel()`, `read_xls()`, and `read_xlsx()` now error informatively when `sheet` is `NA` (#798, @sims1253) or is `Inf` or not a whole number (#801).
+
 # readxl 1.5.0.1
 
 * CRAN-authored release with internal changes for LLVM 23 compatibility.

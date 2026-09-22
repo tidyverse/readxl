@@ -29,6 +29,22 @@ test_that("invalid sheet values caught", {
     error = TRUE,
     read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = rep(1L, 2))
   )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = Inf)
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = -Inf)
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 2.5)
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 3e9)
+  )
 })
 
 test_that("sheet can be parsed out of range", {

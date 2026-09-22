@@ -301,10 +301,20 @@ standardise_sheet <- function(sheet, range, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
+    if (!is.finite(sheet) || !is_integerish(sheet)) {
+      stop("`sheet` must be a finite whole number", call. = FALSE)
+    }
     if (sheet < 1) {
       stop("`sheet` must be positive", call. = FALSE)
     }
-    floor(sheet) - 1L
+    sheet <- suppressWarnings(as.integer(sheet))
+    if (is.na(sheet)) {
+      stop(
+        "`sheet` is too large to be represented as an integer",
+        call. = FALSE
+      )
+    }
+    sheet - 1L
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)
