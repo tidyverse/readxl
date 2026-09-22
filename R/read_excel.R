@@ -289,7 +289,9 @@ standardise_sheet <- function(sheet, range, sheet_names) {
     sheet <- range_sheet
   }
 
-  sheet <- sheet %||% 1L
+  if (is.null(sheet)) {
+    sheet <- 1L
+  }
 
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
