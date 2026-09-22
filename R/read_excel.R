@@ -289,9 +289,7 @@ standardise_sheet <- function(sheet, range, sheet_names) {
     sheet <- range_sheet
   }
 
-  if (is.null(sheet)) {
-    sheet <- 1L
-  }
+  sheet <- sheet %||% 1L
 
   if (length(sheet) != 1) {
     stop("`sheet` must have length 1", call. = FALSE)
@@ -301,10 +299,23 @@ standardise_sheet <- function(sheet, range, sheet_names) {
   }
 
   if (is.numeric(sheet)) {
+    if (!is.finite(sheet) || !is_integerish(sheet)) {
+      stop("`sheet` must be a finite whole number", call. = FALSE)
+    }
     if (sheet < 1) {
       stop("`sheet` must be positive", call. = FALSE)
     }
-    floor(sheet) - 1L
+    if (sheet > length(sheet_names)) {
+      stop(
+        "Can't retrieve sheet in position ",
+        sheet,
+        ", only ",
+        length(sheet_names),
+        " sheet(s) found.",
+        call. = FALSE
+      )
+    }
+    as.integer(sheet) - 1L
   } else if (is.character(sheet)) {
     if (!(sheet %in% sheet_names)) {
       stop("Sheet '", sheet, "' not found", call. = FALSE)

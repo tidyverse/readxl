@@ -46,6 +46,30 @@
       Error:
       ! `sheet` must have length 1
 
+---
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = Inf)
+    Condition
+      Error:
+      ! `sheet` must be a finite whole number
+
+---
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = -Inf)
+    Condition
+      Error:
+      ! `sheet` must be a finite whole number
+
+---
+
+    Code
+      read_excel(test_sheet("iris-excel-xlsx.xlsx"), sheet = 2.5)
+    Condition
+      Error:
+      ! `sheet` must be a finite whole number
+
 # double specification of sheet generates message and range wins
 
     Code
