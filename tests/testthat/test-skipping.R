@@ -1,15 +1,15 @@
 skipping_xlsx <- test_sheet("skipping.xlsx")
 skipping_xls <- test_sheet("skipping.xls")
 ref <- tibble::tribble(
-  ~var1,
-  ~var2,
-  NA,
-  NA,
-  "v2,1",
-  "v2,2",
-  NA,
-  NA,
-  "v4,1",
+  ~var1  ,
+  ~var2  ,
+  NA     ,
+  NA     ,
+  "v2,1" ,
+  "v2,2" ,
+  NA     ,
+  NA     ,
+  "v4,1" ,
   "v4,2"
 )
 
