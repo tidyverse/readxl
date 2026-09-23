@@ -19,13 +19,19 @@ Authors@R: c(
     person("David Hoerl", role = c("ctb", "cph"),
            comment = "Author of included libxls code"),
     person("Evan Miller", role = c("ctb", "cph"),
-           comment = "Author of included libxls code")
+           comment = "Author of included libxls code"),
+    person("Cybozu Labs, Inc.", role = "cph",
+           comment = "Copyright holder of included msoffice/cybozu decryption code"),
+    person("Shigeo", "Mitsunari", role = c("ctb", "cph"),
+           comment = "Author of included msoffice decryption code")
   )
 Description: Import excel files into R. Supports '.xls' via the embedded
     'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via
     the embedded 'RapidXML' C++ library
     <https://rapidxml.sourceforge.net/>.  Works on Windows, Mac and Linux
-    without external dependencies.
+    without external dependencies. Reading of password-encrypted 'xlsx' files is
+    supported via the embedded 'msoffice' C++ library
+    <https://github.com/herumi/msoffice>.
 License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
@@ -33,6 +39,8 @@ Depends:
     R (>= 4.1)
 Imports:
     cellranger,
+    cli,
+    rlang,
     tibble (>= 2.0.1),
     utils
 Suggests:
@@ -51,5 +59,5 @@ Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
-Note: libxls v1.6.3 c199d13
+Note: libxls v1.6.3 c199d13; msoffice b5fed29; cybozu (from msoffice)
 Roxygen: list(markdown = TRUE)

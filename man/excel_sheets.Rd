@@ -4,10 +4,16 @@
 \alias{excel_sheets}
 \title{List all sheets in an excel spreadsheet}
 \usage{
-excel_sheets(path)
+excel_sheets(path, password = NULL)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
+
+\item{password}{Password for reading a password-encrypted xlsx file. readxl
+supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
+protected via \emph{File > Info > Protect Workbook > Encrypt with Password} in
+modern Excel. Leave as \code{NULL} (the default) for files that are not
+encrypted. Decrypting legacy (RC4) encrypted xls files is not supported.}
 }
 \description{
 The list of sheet names is especially useful when you want to iterate over

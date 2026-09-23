@@ -18,7 +18,8 @@ read_excel(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 )
 
 read_xls(
@@ -33,7 +34,8 @@ read_xls(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 )
 
 read_xlsx(
@@ -48,7 +50,8 @@ read_xlsx(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 )
 }
 \arguments{
@@ -104,6 +107,12 @@ and when the call is likely to run for several seconds or more. See
 \item{.name_repair}{Handling of column names. Passed along to
 \code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is `.name_repair = "unique", which
 ensures column names are not empty and are unique.}
+
+\item{password}{Password for reading a password-encrypted xlsx file. readxl
+supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
+protected via \emph{File > Info > Protect Workbook > Encrypt with Password} in
+modern Excel. Leave as \code{NULL} (the default) for files that are not
+encrypted. Decrypting legacy (RC4) encrypted xls files is not supported.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}

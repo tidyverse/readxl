@@ -41,6 +41,11 @@ NULL
 #'   only in an interactive session, outside the context of knitting a document,
 #'   and when the call is likely to run for several seconds or more. See
 #'   [readxl_progress()] for more details.
+#' @param password Password for reading a password-encrypted xlsx file. readxl
+#'   supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
+#'   protected via *File > Info > Protect Workbook > Encrypt with Password* in
+#'   modern Excel. Leave as `NULL` (the default) for files that are not
+#'   encrypted. Decrypting legacy (RC4) encrypted xls files is not supported.
 #' @param .name_repair Handling of column names. Passed along to
 #'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
 #'   ensures column names are not empty and are unique.
@@ -129,10 +134,16 @@ read_excel <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 ) {
   path <- check_file(path)
-  format <- check_format(path)
+  enc <- resolve_encryption(path, password)
+  if (enc$decrypted) {
+    on.exit(unlink(enc$path), add = TRUE)
+  }
+  path <- enc$path
+  format <- enc$format %||% check_format(path)
   read_excel_(
     path = path,
     sheet = sheet,
@@ -168,9 +179,19 @@ read_xls <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 ) {
   path <- check_file(path)
+  if (!is.null(password)) {
+    cli::cli_abort(
+      c(
+        "Reading password-encrypted xls files is not supported.",
+        i = "Only ECMA-376 encrypted xlsx files can be decrypted."
+      ),
+      class = "readxl_error_password_unsupported"
+    )
+  }
   read_excel_(
     path = path,
     sheet = sheet,
@@ -202,9 +223,15 @@ read_xlsx <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 ) {
   path <- check_file(path)
+  enc <- resolve_encryption(path, password)
+  if (enc$decrypted) {
+    on.exit(unlink(enc$path), add = TRUE)
+  }
+  path <- enc$path
   read_excel_(
     path = path,
     sheet = sheet,
