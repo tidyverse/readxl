@@ -23,8 +23,11 @@
 #endif
 
 #ifdef __APPLE__
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+	// --- Start readxl ---
+	// readxl: drop warning-suppression pragma (CRAN)
+	// #pragma GCC diagnostic push
+	// #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+	// --- End readxl ---
 	#ifndef CYBOZU_USE_APPLE_COMMONCRYPTO
 		#define CYBOZU_USE_APPLE_COMMONCRYPTO 1
 	#endif
@@ -843,6 +846,9 @@ public:
 
 } }	// cybozu::crypto
 
-#ifdef __APPLE__
-	#pragma GCC diagnostic pop
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __APPLE__
+// 	#pragma GCC diagnostic pop
+// #endif
+// --- End readxl ---

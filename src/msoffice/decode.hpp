@@ -202,16 +202,15 @@ bool decode(const char *data, uint32_t dataSize, const String& outFile, const st
 	// readxl: copy by value; upstream's const& trips GCC 13 -Wdangling-reference
 	// (a false positive here). Copying avoids the warning without a pragma.
 	const std::string encryptedPackage = GetContensByName(cfb, "EncryptedPackage"); // data
-	/*
-#if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdangling-reference"
-#endif
-	const std::string& encryptedPackage = GetContensByName(cfb, "EncryptedPackage"); // data
-#if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
-	#pragma GCC diagnostic pop
-#endif
-	*/
+	// Upstream, for reference:
+	// #if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
+	// 	#pragma GCC diagnostic push
+	// 	#pragma GCC diagnostic ignored "-Wdangling-reference"
+	// #endif
+	// const std::string& encryptedPackage = GetContensByName(cfb, "EncryptedPackage"); // data
+	// #if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
+	// 	#pragma GCC diagnostic pop
+	// #endif
 	// --- End readxl ---
 	const EncryptionInfo info(GetContensByName(cfb, "EncryptionInfo")); // xml
 	if (pSpinCount) {

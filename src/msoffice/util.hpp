@@ -47,14 +47,20 @@ inline void dprintf(const char *format, ...)
 	if (!isDebug()) return;
 	va_list args;
 	va_start(args, format);
-#ifdef __GNUC__
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __GNUC__
+// 	#pragma GCC diagnostic push
+// 	#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+// #endif
+// --- End readxl ---
 	vprintf(format, args);
-#ifdef __GNUC__
-	#pragma GCC diagnostic pop
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __GNUC__
+// 	#pragma GCC diagnostic pop
+// #endif
+// --- End readxl ---
 	va_end(args);
 }
 

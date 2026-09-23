@@ -16,10 +16,13 @@
 
 #if CYBOZU_USE_APPLE_COMMONCRYPTO == 1
 
-#ifdef __APPLE__
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __APPLE__
+// 	#pragma GCC diagnostic push
+// 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+// #endif
+// --- End readxl ---
 
 namespace cybozu {
 
@@ -60,9 +63,12 @@ public:
 
 } // cybozu
 
-#ifdef __APPLE__
-	#pragma GCC diagnostic pop
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __APPLE__
+// 	#pragma GCC diagnostic pop
+// #endif
+// --- End readxl ---
 
 #elif defined(CYBOZU_USE_BCRYPT_SHA)
 

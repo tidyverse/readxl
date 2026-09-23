@@ -183,16 +183,22 @@ public:
 		bool isOK = gmtime_r(&time_, &tm) != 0;
 #endif
 		if (!isOK) throw cybozu::Exception("time::toString") << time_;
-#ifdef __GNUC__
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __GNUC__
+// 	#pragma GCC diagnostic push
+// 	#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+// #endif
+// --- End readxl ---
 		if (std::strftime(buf, sizeof(buf), format, &tm) == 0) {
 			throw cybozu::Exception("time::toString::too long") << format << time_;
 		}
-#ifdef __GNUC__
-	#pragma GCC diagnostic pop
-#endif
+// --- Start readxl ---
+// readxl: drop warning-suppression pragma (CRAN)
+// #ifdef __GNUC__
+// 	#pragma GCC diagnostic pop
+// #endif
+// --- End readxl ---
 		out += buf;
 		if (appendMsec) {
 			out += cybozu::itoaWithZero(msec_, 3);
