@@ -28,15 +28,27 @@ resolve_encryption <- function(path, password, call = rlang::caller_env()) {
   }
 
   if (is.null(password)) {
-    cli::cli_abort(
-      c(
+    if (is_interactive() && askpass_installed()) {
+      password <- prompt_for_password(call = call)
+    } else {
+      msg <- c(
         "{.arg path} is a password-encrypted file.",
-        i = "Supply the password via the {.arg password} argument, e.g. \\
-        {.code password = askpass::askpass} to enter it interactively."
-      ),
-      class = "readxl_error_password_required",
-      call = call
-    )
+        i = "Supply the password via the {.arg password} argument, e.g. as a \\
+        string or a function such as {.code askpass::askpass()}."
+      )
+      if (!askpass_installed()) {
+        msg <- c(
+          msg,
+          i = "Install {.pkg askpass} to be prompted for the password \\
+          interactively."
+        )
+      }
+      cli::cli_abort(
+        msg,
+        class = "readxl_error_password_required",
+        call = call
+      )
+    }
   }
   password <- check_password(password, call = call)
 
@@ -52,6 +64,13 @@ resolve_encryption <- function(path, password, call = rlang::caller_env()) {
   }
 
   list(path = out, format = "xlsx", decrypted = TRUE)
+}
+
+prompt_for_password <- function(call = rlang::caller_env()) {
+  tryCatch(
+    askpass_askpass(),
+    error = function(cnd) password_obtain_error(cnd, call = call)
+  )
 }
 
 check_password <- function(password, call = rlang::caller_env()) {
@@ -76,18 +95,34 @@ check_password <- function(password, call = rlang::caller_env()) {
 call_password_function <- function(fun, call = rlang::caller_env()) {
   tryCatch(
     fun(),
-    error = function(cnd) {
-      cli::cli_abort(
-        c(
-          "The {.arg password} function failed with an error.",
-          i = "Interactive prompts, e.g. {.fun askpass::askpass}, require an \\
-          interactive session. Otherwise supply the password as a string, \\
-          possibly retrieved from an environment variable."
-        ),
-        class = "readxl_error_password_function",
-        call = call,
-        parent = cnd
-      )
-    }
+    error = function(cnd) password_obtain_error(cnd, call = call)
   )
+}
+
+password_obtain_error <- function(cnd, call = rlang::caller_env()) {
+  cli::cli_abort(
+    c(
+      "Failed to obtain a password.",
+      i = "Interactive prompts require an interactive session. Otherwise \\
+      supply the password as a string, possibly retrieved from an environment \\
+      variable."
+    ),
+    class = "readxl_error_password_function",
+    call = call,
+    parent = cnd
+  )
+}
+
+# Mockable wrappers around session state and askpass, for tests ---------------
+
+is_interactive <- function() {
+  rlang::is_interactive()
+}
+
+askpass_installed <- function() {
+  rlang::is_installed("askpass")
+}
+
+askpass_askpass <- function() {
+  askpass::askpass()
 }

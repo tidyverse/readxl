@@ -44,14 +44,15 @@ NULL
 #' @param password Password for reading a password-encrypted xlsx file. readxl
 #'   supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
 #'   protected via *File > Info > Protect Workbook > Encrypt with Password* in
-#'   modern Excel. Leave as `NULL` (the default) for files that are not
-#'   encrypted. Either a string, or a function called with no arguments that
-#'   returns the password as a string, such as `askpass::askpass` for an
-#'   interactive prompt; a function is only ever called if the file is
-#'   actually encrypted. For non-interactive use, retrieve the string from an
-#'   environment variable or a key store such as keyring, rather than
-#'   embedding a literal password in a script. Decrypting legacy (RC4)
-#'   encrypted xls files is not supported.
+#'   modern Excel. Either a string, or a function called with no arguments
+#'   that returns the password as a string, such as `askpass::askpass` for an
+#'   interactive prompt. A function is only ever called if the file is
+#'   actually encrypted. If `NULL` (the default) and the file is encrypted,
+#'   you are prompted for the password when the session is interactive and the
+#'   askpass package is installed. For non-interactive use, retrieve the
+#'   string from an environment variable or a key store such as keyring,
+#'   rather than embedding a literal password in a script. Decrypting legacy
+#'   (RC4) encrypted xls files is not supported.
 #' @param .name_repair Handling of column names. Passed along to
 #'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
 #'   ensures column names are not empty and are unique.

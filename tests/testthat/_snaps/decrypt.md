@@ -5,7 +5,7 @@
     Condition
       Error in `read_excel()`:
       ! `path` is a password-encrypted file.
-      i Supply the password via the `password` argument, e.g. `password = askpass::askpass` to enter it interactively.
+      i Supply the password via the `password` argument, e.g. as a string or a function such as `askpass::askpass()`.
 
 # encrypted xlsx with the wrong password errors
 
@@ -40,8 +40,8 @@
         "no console"))
     Condition
       Error in `read_excel()`:
-      ! The `password` function failed with an error.
-      i Interactive prompts, e.g. `askpass::askpass()`, require an interactive session. Otherwise supply the password as a string, possibly retrieved from an environment variable.
+      ! Failed to obtain a password.
+      i Interactive prompts require an interactive session. Otherwise supply the password as a string, possibly retrieved from an environment variable.
       Caused by error in `fun()`:
       ! no console
 
@@ -62,4 +62,25 @@
       Error in `read_excel()`:
       ! `password` must be a single string or a function that returns one.
       i Use `password = askpass::askpass` to enter the password interactively.
+
+# encrypted xlsx with no password errors when prompting is impossible
+
+    Code
+      read_excel(test_sheet("Encrypted.xlsx"))
+    Condition
+      Error in `read_excel()`:
+      ! `path` is a password-encrypted file.
+      i Supply the password via the `password` argument, e.g. as a string or a function such as `askpass::askpass()`.
+      i Install askpass to be prompted for the password interactively.
+
+# a cancelled auto-prompt errors informatively
+
+    Code
+      read_excel(test_sheet("Encrypted.xlsx"))
+    Condition
+      Error in `read_excel()`:
+      ! Failed to obtain a password.
+      i Interactive prompts require an interactive session. Otherwise supply the password as a string, possibly retrieved from an environment variable.
+      Caused by error in `askpass_askpass()`:
+      ! Password prompt cancelled
 

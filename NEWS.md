@@ -1,6 +1,6 @@
 # readxl (development version)
 
-* `read_excel()`, `read_xlsx()`, and `excel_sheets()` gain a `password` argument for reading password-encrypted (ECMA-376 agile or standard) xlsx files, decrypted via the newly embedded msoffice C++ library (#794). The password can be given as a string or as a function called on demand, e.g. `password = askpass::askpass` to enter it interactively.
+* `read_excel()`, `read_xlsx()`, and `excel_sheets()` gain a `password` argument for reading password-encrypted (ECMA-376 agile or standard) xlsx files, decrypted via the newly embedded msoffice C++ library (#794). The password can be given as a string or as a function called on demand, e.g. `password = askpass::askpass` to enter it interactively; if no password is supplied for an encrypted file, readxl prompts for one when the session is interactive and askpass is installed.
 * `read_excel()`, `read_xls()`, and `read_xlsx()` now error informatively when `sheet` is `NA` (#798, @sims1253) or is `Inf` or not a whole number (#801).
 
 # readxl 1.5.0.1

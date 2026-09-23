@@ -78,3 +78,35 @@ test_that("password must be a single string or a function", {
     read_excel(test_sheet("Encrypted.xlsx"), password = 42)
   )
 })
+
+test_that("encrypted xlsx prompts when interactive and askpass is installed", {
+  local_mocked_bindings(
+    is_interactive = function() TRUE,
+    askpass_installed = function() TRUE,
+    askpass_askpass = function(prompt) "msoc"
+  )
+  expect_equal(
+    read_excel(test_sheet("Encrypted.xlsx")),
+    read_excel(test_sheet("Untitled1.xlsx"))
+  )
+})
+
+test_that("encrypted xlsx with no password errors when prompting is impossible", {
+  local_mocked_bindings(askpass_installed = function() FALSE)
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("Encrypted.xlsx"))
+  )
+})
+
+test_that("a cancelled auto-prompt errors informatively", {
+  local_mocked_bindings(
+    is_interactive = function() TRUE,
+    askpass_installed = function() TRUE,
+    askpass_askpass = function(prompt) stop("Password prompt cancelled")
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("Encrypted.xlsx"))
+  )
+})
