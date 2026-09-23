@@ -112,7 +112,13 @@ ensures column names are not empty and are unique.}
 supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
 protected via \emph{File > Info > Protect Workbook > Encrypt with Password} in
 modern Excel. Leave as \code{NULL} (the default) for files that are not
-encrypted. Decrypting legacy (RC4) encrypted xls files is not supported.}
+encrypted. Either a string, or a function called with no arguments that
+returns the password as a string, such as \code{askpass::askpass} for an
+interactive prompt; a function is only ever called if the file is
+actually encrypted. For non-interactive use, retrieve the string from an
+environment variable or a key store such as keyring, rather than
+embedding a literal password in a script. Decrypting legacy (RC4)
+encrypted xls files is not supported.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}
@@ -194,6 +200,11 @@ read_excel(
   sheet = "chickwts",
   .name_repair = ~ substr(.x, start = 1, stop = 3)
 )
+
+# Prompt for the password of an encrypted file interactively
+if (FALSE) {
+  read_excel("secret.xlsx", password = askpass::askpass)
+}
 }
 \seealso{
 \link{cell-specification} for more details on targetting cells with the

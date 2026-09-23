@@ -44,6 +44,7 @@ Imports:
     tibble (>= 2.0.1),
     utils
 Suggests:
+    askpass,
     covr,
     knitr,
     rmarkdown,

@@ -40,3 +40,41 @@ test_that("password on a non-encrypted file errors", {
     read_xls(test_sheet("iris-excel-xls.xls"), password = "msoc")
   )
 })
+
+test_that("a function-valued password is only called when needed", {
+  called <- FALSE
+  pw <- function() {
+    called <<- TRUE
+    "msoc"
+  }
+  expect_equal(
+    read_excel(test_sheet("Encrypted.xlsx"), password = pw),
+    read_excel(test_sheet("Untitled1.xlsx"))
+  )
+  expect_true(called)
+
+  called <- FALSE
+  expect_no_error(read_excel(test_sheet("Untitled1.xlsx"), password = pw))
+  expect_false(called)
+})
+
+test_that("a function-valued password that fails errors informatively", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(
+      test_sheet("Encrypted.xlsx"),
+      password = function() stop("no console")
+    )
+  )
+})
+
+test_that("password must be a single string or a function", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("Encrypted.xlsx"), password = function() c("a", "b"))
+  )
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("Encrypted.xlsx"), password = 42)
+  )
+})
