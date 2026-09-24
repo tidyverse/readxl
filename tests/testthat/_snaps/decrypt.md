@@ -1,86 +1,66 @@
 # encrypted xlsx without a password errors
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"))
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
     Condition
-      Error in `read_excel()`:
-      ! `path` is a password-encrypted file.
-      i Supply the password via the `password` argument, e.g. as a string or a function such as `askpass::askpass()`.
+      Error in `read_xlsx()`:
+      ! `path` appears to be a password-encrypted xlsx, but no password is available.
+      i Read the documentation for the `password` argument.
 
 # encrypted xlsx with the wrong password errors
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"), password = "wrong")
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = "wrong")
     Condition
-      Error in `read_excel()`:
-      ! The `password` is incorrect.
-
-# password on a non-encrypted file errors
-
-    Code
-      read_excel(test_sheet("Untitled1.xlsx"), password = "msoc")
-    Condition
-      Error in `read_excel()`:
-      ! `password` was supplied, but `path` is not an encrypted file.
-      i readxl can only decrypt ECMA-376 (agile or standard) encrypted xlsx files.
-
----
-
-    Code
-      read_xls(test_sheet("iris-excel-xls.xls"), password = "msoc")
-    Condition
-      Error in `read_xls()`:
-      ! Reading password-encrypted xls files is not supported.
-      i Only ECMA-376 encrypted xlsx files can be decrypted.
+      Error in `read_xlsx()`:
+      ! `path` appears to be a password-encrypted xlsx, but decryption failed.
+      i Perhaps the password is incorrect?
 
 # a function-valued password that fails errors informatively
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"), password = function() stop(
-        "no console"))
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = function()
+        stop("no password available"))
     Condition
-      Error in `read_excel()`:
+      Error in `read_xlsx()`:
       ! Failed to obtain a password.
-      i Interactive prompts require an interactive session. Otherwise supply the password as a string, possibly retrieved from an environment variable.
-      Caused by error in `fun()`:
-      ! no console
+      Caused by error in `password()`:
+      ! no password available
 
 # password must be a single string or a function
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"), password = function() c("a", "b"))
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = function()
+        c("a", "b"))
     Condition
-      Error in `read_excel()`:
-      ! `password` must be a single string or a function that returns one.
-      i Use `password = askpass::askpass` to enter the password interactively.
+      Error in `read_xlsx()`:
+      ! `password` must be a single string, not a character vector.
 
 ---
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"), password = 42)
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = 42)
     Condition
-      Error in `read_excel()`:
-      ! `password` must be a single string or a function that returns one.
-      i Use `password = askpass::askpass` to enter the password interactively.
+      Error in `read_xlsx()`:
+      ! `password` must be a single string, not the number 42.
 
 # encrypted xlsx with no password errors when prompting is impossible
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"))
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
     Condition
-      Error in `read_excel()`:
-      ! `path` is a password-encrypted file.
-      i Supply the password via the `password` argument, e.g. as a string or a function such as `askpass::askpass()`.
-      i Install askpass to be prompted for the password interactively.
+      Error in `read_xlsx()`:
+      ! `path` appears to be a password-encrypted xlsx, but no password is available.
+      i If the askpass package is installed, readxl can prompt for the password in interactive sessions.
+      i Read the documentation for the `password` argument.
 
 # a cancelled auto-prompt errors informatively
 
     Code
-      read_excel(test_sheet("Encrypted.xlsx"))
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
     Condition
-      Error in `read_excel()`:
+      Error in `read_xlsx()`:
       ! Failed to obtain a password.
-      i Interactive prompts require an interactive session. Otherwise supply the password as a string, possibly retrieved from an environment variable.
-      Caused by error in `askpass_askpass()`:
+      Caused by error in `password()`:
       ! Password prompt cancelled
 

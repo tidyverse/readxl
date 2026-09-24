@@ -51,7 +51,7 @@ std::string password_to_utf16(const std::string& password) {
 // Probe an OLE2 (compound document) file for the streams that mark it as an
 // ECMA-376 encrypted Office document, as opposed to a legacy .xls file.
 [[cpp11::register]]
-bool xlsx_is_encrypted_(std::string path) {
+bool is_encrypted_xlsx_(std::string path) {
   try {
     // Cheap gate: only OLE2 (compound document) files can be encrypted Office
     // documents, so peek at the 8-byte signature before reading the whole file.

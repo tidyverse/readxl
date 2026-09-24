@@ -1,43 +1,45 @@
-test_that("encrypted xlsx round-trips to its plaintext equivalent", {
+test_that("encrypted xlsx gives same data as its unencrypted equivalent", {
   expect_equal(
-    read_excel(test_sheet("Encrypted.xlsx"), password = "msoc"),
-    read_excel(test_sheet("Untitled1.xlsx"))
-  )
-  expect_equal(
-    read_xlsx(test_sheet("Encrypted.xlsx"), password = "msoc"),
-    read_xlsx(test_sheet("Untitled1.xlsx"))
+    read_xlsx(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = "cars"
+    ),
+    read_xlsx(test_sheet("mtcars-xlsx.xlsx"))
   )
 })
 
 test_that("excel_sheets() reads an encrypted xlsx", {
   expect_equal(
-    excel_sheets(test_sheet("Encrypted.xlsx"), password = "msoc"),
-    excel_sheets(test_sheet("Untitled1.xlsx"))
+    excel_sheets(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = "cars"
+    ),
+    excel_sheets(test_sheet("mtcars-xlsx.xlsx"))
   )
 })
 
+test_that("excel_sheets() does not probe encryption for actual xls files", {
+  local_mocked_bindings(
+    is_encrypted_xlsx_ = function(path) stop("unexpected encryption probe")
+  )
+  expect_equal(excel_sheets(test_sheet("mtcars.xls")), "head(mtcars)")
+})
+
 test_that("encrypted xlsx without a password errors", {
+  rlang::local_interactive(FALSE)
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"))
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
   )
 })
 
 test_that("encrypted xlsx with the wrong password errors", {
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"), password = "wrong")
-  )
-})
-
-test_that("password on a non-encrypted file errors", {
-  expect_snapshot(
-    error = TRUE,
-    read_excel(test_sheet("Untitled1.xlsx"), password = "msoc")
-  )
-  expect_snapshot(
-    error = TRUE,
-    read_xls(test_sheet("iris-excel-xls.xls"), password = "msoc")
+    read_xlsx(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = "wrong"
+    )
   )
 })
 
@@ -45,25 +47,28 @@ test_that("a function-valued password is only called when needed", {
   called <- FALSE
   pw <- function() {
     called <<- TRUE
-    "msoc"
+    "cars"
   }
+
+  expect_no_error(read_xlsx(test_sheet("mtcars-xlsx.xlsx"), password = pw))
+  expect_false(called)
+
   expect_equal(
-    read_excel(test_sheet("Encrypted.xlsx"), password = pw),
-    read_excel(test_sheet("Untitled1.xlsx"))
+    read_xlsx(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = pw
+    ),
+    read_xlsx(test_sheet("mtcars-xlsx.xlsx"))
   )
   expect_true(called)
-
-  called <- FALSE
-  expect_no_error(read_excel(test_sheet("Untitled1.xlsx"), password = pw))
-  expect_false(called)
 })
 
 test_that("a function-valued password that fails errors informatively", {
   expect_snapshot(
     error = TRUE,
-    read_excel(
-      test_sheet("Encrypted.xlsx"),
-      password = function() stop("no console")
+    read_xlsx(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = function() stop("no password available")
     )
   )
 })
@@ -71,23 +76,26 @@ test_that("a function-valued password that fails errors informatively", {
 test_that("password must be a single string or a function", {
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"), password = function() c("a", "b"))
+    read_xlsx(
+      test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+      password = function() c("a", "b")
+    )
   )
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"), password = 42)
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = 42)
   )
 })
 
 test_that("encrypted xlsx prompts when interactive and askpass is installed", {
+  rlang::local_interactive(TRUE)
   local_mocked_bindings(
-    is_interactive = function() TRUE,
     askpass_installed = function() TRUE,
-    askpass_askpass = function(prompt) "msoc"
+    askpass_askpass = function() "cars"
   )
   expect_equal(
-    read_excel(test_sheet("Encrypted.xlsx")),
-    read_excel(test_sheet("Untitled1.xlsx"))
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx")),
+    read_xlsx(test_sheet("mtcars-xlsx.xlsx"))
   )
 })
 
@@ -95,18 +103,18 @@ test_that("encrypted xlsx with no password errors when prompting is impossible",
   local_mocked_bindings(askpass_installed = function() FALSE)
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"))
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
   )
 })
 
 test_that("a cancelled auto-prompt errors informatively", {
+  rlang::local_interactive(TRUE)
   local_mocked_bindings(
-    is_interactive = function() TRUE,
     askpass_installed = function() TRUE,
-    askpass_askpass = function(prompt) stop("Password prompt cancelled")
+    askpass_askpass = function() stop("Password prompt cancelled")
   )
   expect_snapshot(
     error = TRUE,
-    read_excel(test_sheet("Encrypted.xlsx"))
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
   )
 })

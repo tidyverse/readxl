@@ -9,18 +9,19 @@ excel_sheets(path, password = NULL)
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
 
-\item{password}{Password for reading a password-encrypted xlsx file. readxl
-supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
-protected via \emph{File > Info > Protect Workbook > Encrypt with Password} in
-modern Excel. Either a string, or a function called with no arguments
-that returns the password as a string, such as \code{askpass::askpass} for an
-interactive prompt. A function is only ever called if the file is
-actually encrypted. If \code{NULL} (the default) and the file is encrypted,
-you are prompted for the password when the session is interactive and the
-askpass package is installed. For non-interactive use, retrieve the
-string from an environment variable or a key store such as keyring,
-rather than embedding a literal password in a script. Decrypting legacy
-(RC4) encrypted xls files is not supported.}
+\item{password}{Password for reading a protected xlsx file. readxl supports
+ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
+via \emph{File > Info > Protect Workbook > Encrypt with Password} in modern
+Excel. Decrypting legacy xls files is not supported. Valid values:
+\itemize{
+\item \code{NULL}: If the file appears to be encrypted, the session is interactive,
+and the askpass package is installed, \code{\link[askpass:askpass]{askpass::askpass()}} is called to
+get the password from the user.
+\item A string or something that evaluates to a string, such as
+\code{Sys.getenv("SUPER_SECRET_PASSWORD")}.
+\item A function that can be called with no arguments and returns the password
+as a single string.
+}}
 }
 \description{
 The list of sheet names is especially useful when you want to iterate over

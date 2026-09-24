@@ -18,8 +18,7 @@ read_excel(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique",
-  password = NULL
+  .name_repair = "unique"
 )
 
 read_xls(
@@ -34,8 +33,7 @@ read_xls(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique",
-  password = NULL
+  .name_repair = "unique"
 )
 
 read_xlsx(
@@ -108,29 +106,29 @@ and when the call is likely to run for several seconds or more. See
 \code{\link[tibble:as_tibble]{tibble::as_tibble()}}. readxl's default is `.name_repair = "unique", which
 ensures column names are not empty and are unique.}
 
-\item{password}{Password for reading a password-encrypted xlsx file. readxl
-supports ECMA-376 (agile and standard) encrypted xlsx files, i.e. those
-protected via \emph{File > Info > Protect Workbook > Encrypt with Password} in
-modern Excel. Either a string, or a function called with no arguments
-that returns the password as a string, such as \code{askpass::askpass} for an
-interactive prompt. A function is only ever called if the file is
-actually encrypted. If \code{NULL} (the default) and the file is encrypted,
-you are prompted for the password when the session is interactive and the
-askpass package is installed. For non-interactive use, retrieve the
-string from an environment variable or a key store such as keyring,
-rather than embedding a literal password in a script. Decrypting legacy
-(RC4) encrypted xls files is not supported.}
+\item{password}{Password for reading a protected xlsx file. readxl supports
+ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
+via \emph{File > Info > Protect Workbook > Encrypt with Password} in modern
+Excel. Decrypting legacy xls files is not supported. Valid values:
+\itemize{
+\item \code{NULL}: If the file appears to be encrypted, the session is interactive,
+and the askpass package is installed, \code{\link[askpass:askpass]{askpass::askpass()}} is called to
+get the password from the user.
+\item A string or something that evaluates to a string, such as
+\code{Sys.getenv("SUPER_SECRET_PASSWORD")}.
+\item A function that can be called with no arguments and returns the password
+as a single string.
+}}
 }
 \value{
 A \link[tibble:tibble-package]{tibble}
 }
 \description{
-Read xls and xlsx files
-
 \code{read_excel()} calls \code{\link[=excel_format]{excel_format()}} to determine if \code{path} is xls or xlsx,
 based on the file extension and the file itself, in that order. Use
 \code{read_xls()} and \code{read_xlsx()} directly if you know better and want to
-prevent such guessing.
+prevent such guessing. To read a password-protected xlsx, you must call
+\code{read_xlsx()} directly.
 }
 \examples{
 datasets <- readxl_example("datasets.xlsx")
