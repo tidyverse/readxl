@@ -4,6 +4,7 @@
 #include <string>
 
 #include "cpp11/R.hpp"
+#include "cpp11/r_string.hpp"
 
 // The vendored msoffice headers use printf/fprintf for optional debug output.
 // Include cran.h to mask those to Rprintf/Rprintf2 for R CMD check, the same
@@ -17,8 +18,13 @@
 
 namespace {
 
+std::string path_to_native(const std::string& path) {
+  return std::string(Rf_translateChar(cpp11::r_string(path)));
+}
+
 std::string read_file_bytes(const std::string& path) {
-  std::ifstream ifs(path.c_str(), std::ios::binary);
+  const std::string native_path = path_to_native(path);
+  std::ifstream ifs(native_path.c_str(), std::ios::binary);
   if (!ifs) {
     throw std::runtime_error("Failed to open file for reading.");
   }
@@ -53,9 +59,10 @@ std::string password_to_utf16(const std::string& password) {
 [[cpp11::register]]
 bool is_encrypted_xlsx_(std::string path) {
   try {
+    const std::string native_path = path_to_native(path);
     // Cheap gate: only OLE2 (compound document) files can be encrypted Office
     // documents, so peek at the 8-byte signature before reading the whole file.
-    std::ifstream ifs(path.c_str(), std::ios::binary);
+    std::ifstream ifs(native_path.c_str(), std::ios::binary);
     if (!ifs) {
       return false;
     }
@@ -86,11 +93,12 @@ bool xlsx_decrypt_(std::string path,
                    std::string out_path) {
   const std::string data = read_file_bytes(path);
   const std::string pass = password_to_utf16(password);
+  const std::string native_out_path = path_to_native(out_path);
   std::string secretKey;
   bool ok = ms::decode(
     data.data(),
     static_cast<uint32_t>(data.size()),
-    out_path,
+    native_out_path,
     pass,
     secretKey,
     /* doView = */ false

@@ -8,6 +8,23 @@ test_that("encrypted xlsx gives same data as its unencrypted equivalent", {
   )
 })
 
+test_that("encrypted xlsx with a non-ASCII filename can be read", {
+  skip_on_cran()
+  tricky_filename <- "\u00C0\u00CB\u00D0-encrypted.xlsx"
+  path <- file.path(tempdir(), tricky_filename)
+  file.copy(
+    test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
+    path,
+    overwrite = TRUE
+  )
+  on.exit(unlink(path))
+
+  expect_equal(
+    read_xlsx(path, password = "cars"),
+    read_xlsx(test_sheet("mtcars-xlsx.xlsx"))
+  )
+})
+
 test_that("excel_sheets() reads an encrypted xlsx", {
   expect_equal(
     excel_sheets(
