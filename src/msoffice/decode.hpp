@@ -30,7 +30,12 @@ inline void DecContent(std::string& dec, const std::string& data, const CipherPa
 	dec.reserve(data.size());
 	const size_t n = (data.size() + blockSize - 1) / blockSize;
 	for (size_t i = 0; i < n; i++) {
-		const size_t len = (i < n - 1) ? blockSize : (data.size() % blockSize);
+		// --- Start readxl ---
+		// readxl: final block length = min(blockSize, remaining); upstream's
+		// data.size() % blockSize is 0 when size is an exact multiple of blockSize
+		// const size_t len = (i < n - 1) ? blockSize : (data.size() % blockSize);
+		const size_t len = std::min(blockSize, data.size() - i * blockSize);
+		// --- End readxl ---
 		std::string blockKey(4, 0);
 		cybozu::Set32bitAsLE(&blockKey[0], static_cast<uint32_t>(i));
 		const std::string iv = generateKey(param, salt, blockKey);
@@ -171,9 +176,17 @@ inline bool decodeStandardEncryption(std::string& dec, const std::string& encryp
 	}
 
 	const char *p = encryptedPackage.data();
-	size_t decSize = cybozu::Get32bitAsLE(p);
+	// --- Start readxl ---
+	// readxl: the 8-byte LE prefix holds the full (64-bit) decrypted size, so
+	// read it with Get64bitAsLE and drop those 8 bytes from dataSize; the loop
+	// block-length computation below is fixed likewise
+	// size_t decSize = cybozu::Get32bitAsLE(p);
+	// p += 8;
+	// const size_t dataSize = encryptedPackage.size();
+	const uint64_t decSize = cybozu::Get64bitAsLE(p);
 	p += 8;
-	const size_t dataSize = encryptedPackage.size();
+	const size_t dataSize = encryptedPackage.size() - 8;
+	// --- End readxl ---
 	if (decSize > dataSize) {
 		throw cybozu::Exception("ms:decodeStandardEncryption:bad decSize") << decSize << dataSize;
 	}
@@ -182,7 +195,11 @@ inline bool decodeStandardEncryption(std::string& dec, const std::string& encryp
 	const size_t n = (dataSize + blockSize - 1) / blockSize;
 	const std::string iv;
 	for (size_t i = 0; i < n; i++) {
-		const size_t len = (i < n - 1) ? blockSize : (dataSize % blockSize);
+		// --- Start readxl ---
+		// readxl: see above; final block length = min(blockSize, remaining)
+		// const size_t len = (i < n - 1) ? blockSize : (dataSize % blockSize);
+		const size_t len = std::min(blockSize, dataSize - i * blockSize);
+		// --- End readxl ---
 		dec.append(cipher(header.cipherName, p + i * blockSize, len, secretKey, iv, cybozu::crypto::Cipher::Decoding));
 	}
 	dec.resize(decSize);

@@ -307,13 +307,25 @@ struct EncryptionInfo {
 		p += encryptionHeaderSizePos + 4;
 		dataSize -= encryptionHeaderSizePos + 4;
 		seHeader.analyze(p, encryptionHeaderSize);
-		seHeader.put();
+		// --- Start readxl ---
+		// readxl: gate diagnostic output behind isDebug() (silent normal reads)
+		// seHeader.put();
+		if (isDebug()) seHeader.put();
+		// --- End readxl ---
 
 		p += encryptionHeaderSize;
 		dataSize -= encryptionHeaderSize;
-		printf("dataSize=%u\n", (uint32_t)dataSize);
+		// --- Start readxl ---
+		// readxl: gate diagnostic output behind isDebug() (silent normal reads)
+		// printf("dataSize=%u\n", (uint32_t)dataSize);
+		if (isDebug()) printf("dataSize=%u\n", (uint32_t)dataSize);
+		// --- End readxl ---
 		seVerifier.analyze(p, dataSize);
-		seVerifier.put();
+		// --- Start readxl ---
+		// readxl: gate diagnostic output behind isDebug() (silent normal reads)
+		// seVerifier.put();
+		if (isDebug()) seVerifier.put();
+		// --- End readxl ---
 	}
 
 	void setAgileEncryptionInfo(const std::string& data)

@@ -8,6 +8,44 @@ test_that("encrypted xlsx gives same data as its unencrypted equivalent", {
   )
 })
 
+test_that("Excelize encrypted xlsx fixtures can be read", {
+  expect_equal(
+    read_xlsx(
+      test_sheet("encryptAES.xlsx"),
+      password = "password",
+      col_names = FALSE
+    )[[1]],
+    "SECRET"
+  )
+  expect_equal(
+    read_xlsx(
+      test_sheet("encryptSHA1.xlsx"),
+      password = "password",
+      col_names = FALSE
+    )[[1]],
+    "SECRET"
+  )
+  expect_equal(
+    read_xlsx(
+      test_sheet("encryptSHA512.xlsx"),
+      password = "password",
+      col_names = FALSE
+    )[[1]],
+    "SECRET"
+  )
+})
+
+test_that("standard-encrypted xlsx does not print diagnostics", {
+  expect_output(
+    read_xlsx(
+      test_sheet("encryptAES.xlsx"),
+      password = "password",
+      col_names = FALSE
+    ),
+    NA
+  )
+})
+
 test_that("encrypted xlsx with a non-ASCII filename can be read", {
   skip_on_cran()
   tricky_filename <- "\u00C0\u00CB\u00D0-encrypted.xlsx"
