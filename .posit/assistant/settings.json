@@ -12,6 +12,9 @@
       "git log *": "allow",
       "head *": "allow",
       "grep *": "allow"
+    },
+    "webfetch": {
+      "https://poi.apache.org/*": "allow"
     }
   }
 }
