@@ -7,12 +7,18 @@
 	Office Document Cryptography Structure Specification
 */
 #include <fstream>
-#include <cybozu/mmap.hpp>
-#include <cybozu/file.hpp>
+// --- Start readxl ---
+// readxl: cybozu File/Mmap pull in mach-o/dyld.h which collides with R headers
+// #include <cybozu/mmap.hpp>
+// #include <cybozu/file.hpp>
+// --- End readxl ---
 #include <cybozu/minixml.hpp>
 #include <cybozu/atoi.hpp>
 #include <cybozu/crypto.hpp>
-#include <cybozu/random_generator.hpp>
+// --- Start readxl ---
+// readxl: encrypt-only RNG, unused for decrypt (random_generator.hpp deleted)
+// #include <cybozu/random_generator.hpp>
+// --- End readxl ---
 #include "cfb.hpp"
 #include "crypto_util.hpp"
 
@@ -192,6 +198,11 @@ bool decode(const char *data, uint32_t dataSize, const String& outFile, const st
 	ms::cfb::CompoundFile cfb(data, dataSize);
 	cfb.put();
 
+	// --- Start readxl ---
+	// readxl: copy by value; upstream's const& trips GCC 13 -Wdangling-reference
+	// (a false positive here). Copying avoids the warning without a pragma.
+	const std::string encryptedPackage = GetContensByName(cfb, "EncryptedPackage"); // data
+	/*
 #if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wdangling-reference"
@@ -200,6 +211,8 @@ bool decode(const char *data, uint32_t dataSize, const String& outFile, const st
 #if defined(__GNUC__) && __GNUC__ >= 13 && !defined(__clang__)
 	#pragma GCC diagnostic pop
 #endif
+	*/
+	// --- End readxl ---
 	const EncryptionInfo info(GetContensByName(cfb, "EncryptionInfo")); // xml
 	if (pSpinCount) {
 		*pSpinCount = info.spinCount;
@@ -214,13 +227,26 @@ bool decode(const char *data, uint32_t dataSize, const String& outFile, const st
 	}
 	if (!doView) {
 		DetectFormat(decData.c_str(), decData.size());
+		// --- Start readxl ---
+		// readxl: std::ofstream instead of cybozu::File (dropped cybozu/file.hpp)
+		std::ofstream out(outFile.c_str(), std::ios::binary);
+		if (!out) {
+			throw cybozu::Exception("ms:decode:cannot open output file") << outFile;
+		}
+		out.write(decData.c_str(), decData.size());
+		/*
 		cybozu::File out;
 		out.openW(outFile);
 		out.write(decData.c_str(), decData.size());
+		*/
+		// --- End readxl ---
 	}
 	return true;
 }
 
+// --- Start readxl ---
+// readxl: unused helper that used cybozu::Mmap (dropped); no callers in readxl
+/*
 inline std::string getSecretKey(const std::string& keyFile, const std::string& pass)
 {
 	cybozu::Mmap m(keyFile);
@@ -242,5 +268,7 @@ inline std::string getSecretKey(const std::string& keyFile, const std::string& p
 	if (!getAgileSecretKey(secretKey, info, pass)) throw cybozu::Exception("getSecretKey:can't get") << keyFile;
 	return secretKey;
 }
+*/
+// --- End readxl ---
 
 } // ms

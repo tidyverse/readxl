@@ -5,6 +5,9 @@
 	Copyright (C) 2012 Cybozu Labs, Inc., all rights reserved.
 */
 #include <string>
+// --- Start readxl ---
+#include <fstream> // readxl: for std::ofstream in saveFile (dropped cybozu/file.hpp)
+// --- End readxl ---
 #include <cybozu/atoi.hpp>
 #include <cybozu/itoa.hpp>
 #include <cybozu/base64.hpp>
@@ -96,8 +99,17 @@ inline void dump16(const std::string& str, size_t size = size_t(-1))
 
 inline void saveFile(const std::string& file, const std::string& str)
 {
+	// --- Start readxl ---
+	// readxl: std::ofstream instead of cybozu::File (dropped cybozu/file.hpp)
+	std::ofstream f(file.c_str(), std::ios::binary);
+	if (f) {
+		f.write(str.c_str(), str.size());
+	}
+	/*
 	cybozu::File f(file, std::ios::out);
 	f.write(str.c_str(), str.size());
+	*/
+	// --- End readxl ---
 }
 
 inline std::string fromHex(const std::string& hex, bool skipColon = false)

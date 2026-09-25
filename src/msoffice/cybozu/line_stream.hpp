@@ -6,7 +6,10 @@
 #include <string>
 #include <memory.h>
 #include <iosfwd>
-#include <cybozu/file.hpp>
+// --- Start readxl ---
+// readxl: reaches the decrypt TU via base64.hpp; file.hpp's dyld.h collides with R
+// #include <cybozu/file.hpp>
+// --- End readxl ---
 
 namespace cybozu {
 

@@ -51,7 +51,11 @@
 		#pragma comment(lib, "bcrypt.lib")
 	#endif
 #endif
-#if !defined(CYBOZU_AES_NI) && CYBOZU_USE_WIN_BCRYPT != 1
+// --- Start readxl ---
+// readxl: also skip OpenSSL when using the Apple CommonCrypto backend
+#if !defined(CYBOZU_AES_NI) && CYBOZU_USE_WIN_BCRYPT != 1 && CYBOZU_USE_APPLE_COMMONCRYPTO != 1
+// #if !defined(CYBOZU_AES_NI) && CYBOZU_USE_WIN_BCRYPT != 1
+// --- End readxl ---
 	#include <openssl/evp.h>
 #ifdef _MSC_VER
 	#include <cybozu/link_libeay32.hpp>
