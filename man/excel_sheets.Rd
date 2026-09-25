@@ -4,10 +4,24 @@
 \alias{excel_sheets}
 \title{List all sheets in an excel spreadsheet}
 \usage{
-excel_sheets(path)
+excel_sheets(path, password = NULL)
 }
 \arguments{
 \item{path}{Path to the xls/xlsx file.}
+
+\item{password}{Password for reading a protected xlsx file. readxl supports
+ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
+via \emph{File > Info > Protect Workbook > Encrypt with Password} in modern
+Excel. Decrypting legacy xls files is not supported. Valid values:
+\itemize{
+\item \code{NULL}: If the file appears to be encrypted, the session is interactive,
+and the askpass package is installed, \code{\link[askpass:askpass]{askpass::askpass()}} is called to
+get the password from the user.
+\item A string or something that evaluates to a string, such as
+\code{Sys.getenv("SUPER_SECRET_PASSWORD")}.
+\item A function that can be called with no arguments and returns the password
+as a single string.
+}}
 }
 \description{
 The list of sheet names is especially useful when you want to iterate over
