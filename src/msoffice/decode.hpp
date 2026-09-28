@@ -32,7 +32,11 @@ inline void DecContent(std::string& dec, const std::string& data, const CipherPa
 	for (size_t i = 0; i < n; i++) {
 		// --- Start readxl ---
 		// readxl: final block length = min(blockSize, remaining); upstream's
-		// data.size() % blockSize is 0 when size is an exact multiple of blockSize
+		// data.size() % blockSize is 0 when size is an exact multiple of blockSize,
+		// so the final segment was skipped and decodeAgile()'s resize() zero-filled
+		// it, wiping out the end of the zip. Excelize had a bug with the same trigger
+		// (https://github.com/qax-os/excelize/pull/2329); that PR's regression
+		// fixture is our encryptSHA512.xlsx (payload = 2 * 4096 bytes).
 		// const size_t len = (i < n - 1) ? blockSize : (data.size() % blockSize);
 		const size_t len = std::min(blockSize, data.size() - i * blockSize);
 		// --- End readxl ---
@@ -177,12 +181,19 @@ inline bool decodeStandardEncryption(std::string& dec, const std::string& encryp
 
 	const char *p = encryptedPackage.data();
 	// --- Start readxl ---
-	// readxl: the 8-byte LE prefix holds the full (64-bit) decrypted size, so
-	// read it with Get64bitAsLE and drop those 8 bytes from dataSize; the loop
-	// block-length computation below is fixed likewise
+	// readxl: the stream is an 8-byte LE size prefix, then the payload. Upstream
+	// counted the prefix in dataSize, so the last segment read 8 bytes past the
+	// end of encryptedPackage. Output was still correct (the junk decrypts past
+	// decSize, which resize() trims) but ASan/valgrind can flag the read. As in
+	// GetEncodedData() for agile, reject a stream too short for the prefix and
+	// chunk only the payload; also read the size as 64 bits. Same approach as
+	// https://github.com/qax-os/excelize/pull/2329
 	// size_t decSize = cybozu::Get32bitAsLE(p);
 	// p += 8;
 	// const size_t dataSize = encryptedPackage.size();
+	if (encryptedPackage.size() < 8) {
+		throw cybozu::Exception("ms:decodeStandardEncryption:too small") << encryptedPackage.size();
+	}
 	const uint64_t decSize = cybozu::Get64bitAsLE(p);
 	p += 8;
 	const size_t dataSize = encryptedPackage.size() - 8;
@@ -196,7 +207,10 @@ inline bool decodeStandardEncryption(std::string& dec, const std::string& encryp
 	const std::string iv;
 	for (size_t i = 0; i < n; i++) {
 		// --- Start readxl ---
-		// readxl: see above; final block length = min(blockSize, remaining)
+		// readxl: final block length = min(blockSize, remaining). Now that
+		// dataSize excludes the prefix it can be an exact multiple of blockSize,
+		// and upstream's dataSize % blockSize would then be 0, dropping the last
+		// segment (the same bug as in DecContent()).
 		// const size_t len = (i < n - 1) ? blockSize : (dataSize % blockSize);
 		const size_t len = std::min(blockSize, dataSize - i * blockSize);
 		// --- End readxl ---

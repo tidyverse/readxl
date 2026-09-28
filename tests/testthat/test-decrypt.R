@@ -25,6 +25,9 @@ test_that("Excelize encrypted xlsx fixtures can be read", {
     )[[1]],
     "SECRET"
   )
+  # EncryptedPackage payload is exactly 2 x 4096 bytes, so this exercises the
+  # final-segment fix in DecContent(). This fixture was added to Excelize in
+  # https://github.com/qax-os/excelize/pull/2329
   expect_equal(
     read_xlsx(
       test_sheet("encryptSHA512.xlsx"),
