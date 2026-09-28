@@ -5,6 +5,20 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
+// Decrypt.cpp
+bool is_encrypted_xlsx_(std::string path);
+extern "C" SEXP _readxl_is_encrypted_xlsx_(SEXP path) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(is_encrypted_xlsx_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path)));
+  END_CPP11
+}
+// Decrypt.cpp
+bool xlsx_decrypt_(std::string path, std::string password, std::string out_path);
+extern "C" SEXP _readxl_xlsx_decrypt_(SEXP path, SEXP password, SEXP out_path) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(xlsx_decrypt_(cpp11::as_cpp<cpp11::decay_t<std::string>>(path), cpp11::as_cpp<cpp11::decay_t<std::string>>(password), cpp11::as_cpp<cpp11::decay_t<std::string>>(out_path)));
+  END_CPP11
+}
 // Read.cpp
 cpp11::list read_xls_(std::string path, int sheet_i, cpp11::integers limits, bool shim, cpp11::sexp col_names, cpp11::strings col_types, std::vector<std::string> na, bool trim_ws, int guess_max, bool progress);
 extern "C" SEXP _readxl_read_xls_(SEXP path, SEXP sheet_i, SEXP limits, SEXP shim, SEXP col_names, SEXP col_types, SEXP na, SEXP trim_ws, SEXP guess_max, SEXP progress) {
@@ -65,14 +79,16 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
-    {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        10},
-    {"_readxl_xls_date_formats",  (DL_FUNC) &_readxl_xls_date_formats,   1},
-    {"_readxl_xls_sheets",        (DL_FUNC) &_readxl_xls_sheets,         1},
-    {"_readxl_xlsx_date_formats", (DL_FUNC) &_readxl_xlsx_date_formats,  1},
-    {"_readxl_xlsx_sheets",       (DL_FUNC) &_readxl_xlsx_sheets,        1},
-    {"_readxl_xlsx_strings",      (DL_FUNC) &_readxl_xlsx_strings,       1},
-    {"_readxl_zip_xml",           (DL_FUNC) &_readxl_zip_xml,            2},
+    {"_readxl_is_encrypted_xlsx_", (DL_FUNC) &_readxl_is_encrypted_xlsx_,  1},
+    {"_readxl_read_xls_",          (DL_FUNC) &_readxl_read_xls_,          10},
+    {"_readxl_read_xlsx_",         (DL_FUNC) &_readxl_read_xlsx_,         10},
+    {"_readxl_xls_date_formats",   (DL_FUNC) &_readxl_xls_date_formats,    1},
+    {"_readxl_xls_sheets",         (DL_FUNC) &_readxl_xls_sheets,          1},
+    {"_readxl_xlsx_date_formats",  (DL_FUNC) &_readxl_xlsx_date_formats,   1},
+    {"_readxl_xlsx_decrypt_",      (DL_FUNC) &_readxl_xlsx_decrypt_,       3},
+    {"_readxl_xlsx_sheets",        (DL_FUNC) &_readxl_xlsx_sheets,         1},
+    {"_readxl_xlsx_strings",       (DL_FUNC) &_readxl_xlsx_strings,        1},
+    {"_readxl_zip_xml",            (DL_FUNC) &_readxl_zip_xml,             2},
     {NULL, NULL, 0}
 };
 }

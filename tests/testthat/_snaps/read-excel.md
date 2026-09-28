@@ -13,8 +13,10 @@
     Code
       read_xlsx(test_sheet("iris-excel-xls.xls"))
     Condition
-      Error in `utils::unzip()`:
-      ! zip file 'VOLATILE_FILEPATH' cannot be opened
+      Error in `read_xlsx()`:
+      ! This `path` does not appear to be an xlsx file:
+        'VOLATILE_FILEPATH'
+      i Did you mean to call `read_xls()`?
 
 # non-existent file throws error
 

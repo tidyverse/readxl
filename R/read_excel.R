@@ -3,6 +3,12 @@ NULL
 
 #' Read xls and xlsx files
 #'
+#' `read_excel()` calls [excel_format()] to determine if `path` is xls or xlsx,
+#' based on the file extension and the file itself, in that order. Use
+#' `read_xls()` and `read_xlsx()` directly if you know better and want to
+#' prevent such guessing. To read a password-protected xlsx, you must call
+#' `read_xlsx()` directly.
+#'
 #' @param path Path to the xls/xlsx file.
 #' @param sheet Sheet to read. Either a string (the name of a sheet), or an
 #'   integer (the position of the sheet). Ignored if the sheet is specified via
@@ -41,6 +47,17 @@ NULL
 #'   only in an interactive session, outside the context of knitting a document,
 #'   and when the call is likely to run for several seconds or more. See
 #'   [readxl_progress()] for more details.
+#' @param password Password for reading a protected xlsx file. readxl supports
+#'   ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
+#'   via *File > Info > Protect Workbook > Encrypt with Password* in modern
+#'   Excel. Decrypting legacy xls files is not supported. Valid values:
+#'   * `NULL`: If the file appears to be encrypted, the session is interactive,
+#'     and the askpass package is installed, [askpass::askpass()] is called to
+#'     get the password from the user.
+#'   * A string or something that evaluates to a string, such as
+#'     `Sys.getenv("SUPER_SECRET_PASSWORD")`.
+#'   * A function that can be called with no arguments and returns the password
+#'     as a single string.
 #' @param .name_repair Handling of column names. Passed along to
 #'   [tibble::as_tibble()]. readxl's default is `.name_repair = "unique", which
 #'   ensures column names are not empty and are unique.
@@ -117,6 +134,11 @@ NULL
 #'   sheet = "chickwts",
 #'   .name_repair = ~ substr(.x, start = 1, stop = 3)
 #' )
+#'
+#' # Prompt for the password of an encrypted file interactively
+#' if (FALSE) {
+#'   read_excel("secret.xlsx", password = askpass::askpass)
+#' }
 read_excel <- function(
   path,
   sheet = NULL,
@@ -150,10 +172,6 @@ read_excel <- function(
   )
 }
 
-#' `read_excel()` calls [excel_format()] to determine if `path` is xls or xlsx,
-#' based on the file extension and the file itself, in that order. Use
-#' `read_xls()` and `read_xlsx()` directly if you know better and want to
-#' prevent such guessing.
 #' @rdname read_excel
 #' @export
 read_xls <- function(
@@ -202,9 +220,33 @@ read_xlsx <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 ) {
   path <- check_file(path)
+
+  # It looks weird to determine the format, because the implied format is
+  # obviously xlsx here inside read_xlsx().
+  # However, an encrypted xlsx has the same signature as xls, so this is a cheap
+  # guard to put in front of resolve_encryption().
+  format <- format_from_signature(path) # returns xlsx, xls, or NA
+  if (is.na(format)) {
+    cli::cli_abort("The input does not appear to be an xlsx file.")
+  }
+  if (format == "xls") {
+    enc <- resolve_encryption(path, password)
+    if (enc$decrypted) {
+      on.exit(unlink(enc$path), add = TRUE)
+    } else {
+      cli::cli_abort(c(
+        "This {.arg path} does not appear to be an xlsx file:",
+        " " = "{.path {path}}",
+        "i" = "Did you mean to call {.fun read_xls}?"
+      ))
+    }
+    path <- enc$path
+  }
+
   read_excel_(
     path = path,
     sheet = sheet,

@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Import excel files into R. Supports '.xls' via the embedded 'libxls' C library \url{https://github.com/libxls/libxls} and '.xlsx' via the embedded 'RapidXML' C++ library \url{https://rapidxml.sourceforge.net/}. Works on Windows, Mac and Linux without external dependencies.
+Import excel files into R. Supports '.xls' via the embedded 'libxls' C library \url{https://github.com/libxls/libxls} and '.xlsx' via the embedded 'RapidXML' C++ library \url{https://rapidxml.sourceforge.net/}. Works on Windows, Mac and Linux without external dependencies. Reading of password-encrypted 'xlsx' files is supported via the embedded 'msoffice' C++ library \url{https://github.com/herumi/msoffice}.
 }
 \seealso{
 Useful links:
@@ -37,6 +37,8 @@ Other contributors:
   \item Bob Colbert (Author of included libxls code) [contributor, copyright holder]
   \item David Hoerl (Author of included libxls code) [contributor, copyright holder]
   \item Evan Miller (Author of included libxls code) [contributor, copyright holder]
+  \item Cybozu Labs, Inc. (Copyright holder of included msoffice/cybozu decryption code) [copyright holder]
+  \item Shigeo Mitsunari (Author of included msoffice decryption code) [contributor, copyright holder]
 }
 
 }
