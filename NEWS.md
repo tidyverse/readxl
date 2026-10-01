@@ -2,6 +2,8 @@
 
 * `read_excel()`, `read_xls()`, and `read_xlsx()` now error informatively when `sheet` is `NA` (#798, @sims1253) or is `Inf` or not a whole number (#801).
 
+* `read_excel()`, `read_xls()`, and `read_xlsx()` now return a tibble of `NA`s of the requested size when `range` is fully specified but contains no data, instead of a 0 x 0 tibble (#550).
+
 # readxl 1.5.0.1
 
 * CRAN-authored release with internal changes for LLVM 23 compatibility.
