@@ -133,6 +133,19 @@ inline int funny_max(const int funny, const int val) {
 template <typename T>
 void insertShims(std::vector<T>& cells, const CellLimits& nominal, CellLimits& actual) {
   if (cells.empty()) {
+    // no data in the nominal rectangle: if it is fully specified, fill it with
+    // blank cells (via the corner shims) instead of returning nothing
+    if (nominal.minRow() < 0 || nominal.maxRow() < 0 ||
+        nominal.minCol() < 0 || nominal.maxCol() < 0) {
+      return;
+    }
+    cells.push_back(T(std::make_pair(nominal.minRow(), nominal.minCol())));
+    actual.update(nominal.minRow(), nominal.minCol());
+    if (nominal.maxRow() != nominal.minRow() ||
+        nominal.maxCol() != nominal.minCol()) {
+      cells.push_back(T(std::make_pair(nominal.maxRow(), nominal.maxCol())));
+      actual.update(nominal.maxRow(), nominal.maxCol());
+    }
     return;
   }
 

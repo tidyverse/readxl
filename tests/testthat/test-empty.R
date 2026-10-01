@@ -39,3 +39,47 @@ test_that("non-empty sheets act that way if we skip past everything", {
   out <- read_excel(test_sheet("skipping.xls"), skip = 10)
   expect_identical(out, tibble::tibble())
 })
+
+test_that("a fully specified range over empty cells returns blank cells", {
+  for (ext in c("xlsx", "xls")) {
+    path <- test_sheet(paste0("empty-sheets.", ext))
+
+    out <- read_excel(path, "empty", range = "A1:C1", col_names = FALSE)
+    expect_identical(
+      out,
+      tibble::tibble(...1 = NA, ...2 = NA, ...3 = NA)
+    )
+
+    out <- read_excel(path, "empty", range = "D14", col_names = FALSE)
+    expect_identical(out, tibble::tibble(...1 = NA))
+
+    out <- read_excel(path, "empty", range = "B2:C4", col_names = c("a", "b"))
+    expect_identical(out, tibble::tibble(a = rep(NA, 3), b = rep(NA, 3)))
+
+    out <- read_excel(path, "empty", range = "A1:C1")
+    expect_identical(
+      out,
+      tibble::tibble(...1 = logical(), ...2 = logical(), ...3 = logical())
+    )
+  }
+})
+
+test_that("a range over empty cells in a non-empty sheet returns blank cells", {
+  for (ext in c("xlsx", "xls")) {
+    path <- test_sheet(paste0("skipping.", ext))
+    out <- read_excel(path, range = "A100:B102", col_names = FALSE)
+    expect_identical(out, tibble::tibble(...1 = rep(NA, 3), ...2 = rep(NA, 3)))
+  }
+})
+
+test_that("an open-ended range over empty cells still returns nothing", {
+  path <- test_sheet("empty-sheets.xlsx")
+  expect_identical(
+    read_excel(path, "empty", range = cellranger::cell_rows(1:3)),
+    tibble::tibble()
+  )
+  expect_identical(
+    read_excel(path, "empty", range = cellranger::cell_cols("B:D")),
+    tibble::tibble()
+  )
+})
