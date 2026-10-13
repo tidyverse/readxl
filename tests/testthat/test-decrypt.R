@@ -1,4 +1,5 @@
 test_that("encrypted xlsx gives same data as its unencrypted equivalent", {
+  skip_if_no_decryption()
   expect_equal(
     read_xlsx(
       test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
@@ -9,6 +10,7 @@ test_that("encrypted xlsx gives same data as its unencrypted equivalent", {
 })
 
 test_that("Excelize encrypted xlsx fixtures can be read", {
+  skip_if_no_decryption()
   expect_equal(
     read_xlsx(
       test_sheet("encryptAES.xlsx"),
@@ -39,6 +41,7 @@ test_that("Excelize encrypted xlsx fixtures can be read", {
 })
 
 test_that("standard-encrypted xlsx does not print diagnostics", {
+  skip_if_no_decryption()
   expect_output(
     read_xlsx(
       test_sheet("encryptAES.xlsx"),
@@ -51,6 +54,7 @@ test_that("standard-encrypted xlsx does not print diagnostics", {
 
 test_that("encrypted xlsx with a non-ASCII filename can be read", {
   skip_on_cran()
+  skip_if_no_decryption()
   tricky_filename <- "\u00C0\u00CB\u00D0-encrypted.xlsx"
   path <- file.path(tempdir(), tricky_filename)
   file.copy(
@@ -67,6 +71,7 @@ test_that("encrypted xlsx with a non-ASCII filename can be read", {
 })
 
 test_that("excel_sheets() reads an encrypted xlsx", {
+  skip_if_no_decryption()
   expect_equal(
     excel_sheets(
       test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"),
@@ -83,7 +88,17 @@ test_that("excel_sheets() does not probe encryption for actual xls files", {
   expect_equal(excel_sheets(test_sheet("mtcars.xls")), "head(mtcars)")
 })
 
+test_that("encrypted xlsx errors without prompting where decryption is unavailable", {
+  local_mocked_bindings(decryption_available = \() FALSE)
+  pw <- \() stop("The password should not be requested.")
+  expect_snapshot(
+    error = TRUE,
+    read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = pw)
+  )
+})
+
 test_that("encrypted xlsx without a password errors", {
+  skip_if_no_decryption()
   rlang::local_interactive(FALSE)
   expect_snapshot(
     error = TRUE,
@@ -92,6 +107,7 @@ test_that("encrypted xlsx without a password errors", {
 })
 
 test_that("encrypted xlsx with the wrong password errors", {
+  skip_if_no_decryption()
   expect_snapshot(
     error = TRUE,
     read_xlsx(
@@ -102,6 +118,7 @@ test_that("encrypted xlsx with the wrong password errors", {
 })
 
 test_that("a function-valued password is only called when needed", {
+  skip_if_no_decryption()
   called <- FALSE
   pw <- function() {
     called <<- TRUE
@@ -122,6 +139,7 @@ test_that("a function-valued password is only called when needed", {
 })
 
 test_that("a function-valued password that fails errors informatively", {
+  skip_if_no_decryption()
   expect_snapshot(
     error = TRUE,
     read_xlsx(
@@ -132,6 +150,7 @@ test_that("a function-valued password that fails errors informatively", {
 })
 
 test_that("password must be a single string or a function", {
+  skip_if_no_decryption()
   expect_snapshot(
     error = TRUE,
     read_xlsx(
@@ -146,6 +165,7 @@ test_that("password must be a single string or a function", {
 })
 
 test_that("encrypted xlsx prompts when interactive and askpass is installed", {
+  skip_if_no_decryption()
   rlang::local_interactive(TRUE)
   local_mocked_bindings(
     askpass_installed = function() TRUE,
@@ -158,6 +178,7 @@ test_that("encrypted xlsx prompts when interactive and askpass is installed", {
 })
 
 test_that("encrypted xlsx with no password errors when prompting is impossible", {
+  skip_if_no_decryption()
   local_mocked_bindings(askpass_installed = function() FALSE)
   expect_snapshot(
     error = TRUE,
@@ -166,6 +187,7 @@ test_that("encrypted xlsx with no password errors when prompting is impossible",
 })
 
 test_that("a cancelled auto-prompt errors informatively", {
+  skip_if_no_decryption()
   rlang::local_interactive(TRUE)
   local_mocked_bindings(
     askpass_installed = function() TRUE,

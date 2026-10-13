@@ -50,7 +50,9 @@ NULL
 #' @param password Password for reading a protected xlsx file. readxl supports
 #'   ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
 #'   via *File > Info > Protect Workbook > Encrypt with Password* in modern
-#'   Excel. Decrypting legacy xls files is not supported. Valid values:
+#'   Excel. Decrypting legacy xls files is not supported. Decryption requires
+#'   Windows, macOS, or an x86 (Intel or AMD) processor, so it's not available
+#'   on, e.g., Linux on ARM or webR. Valid values:
 #'   * `NULL`: If the file appears to be encrypted, the session is interactive,
 #'     and the askpass package is installed, [askpass::askpass()] is called to
 #'     get the password from the user.

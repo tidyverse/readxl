@@ -1,3 +1,12 @@
+# encrypted xlsx errors without prompting where decryption is unavailable
+
+    Code
+      read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"), password = pw)
+    Condition
+      Error in `read_xlsx()`:
+      ! `path` appears to be a password-encrypted xlsx, but readxl can't decrypt files on this platform.
+      i Decryption requires Windows, macOS, or an x86 (Intel or AMD) processor.
+
 # encrypted xlsx without a password errors
 
     Code

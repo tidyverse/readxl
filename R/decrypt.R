@@ -12,6 +12,7 @@ resolve_encryption <- function(path, password, call = rlang::caller_env()) {
     return(list(path = path, decrypted = FALSE))
   }
 
+  check_decryption_available(call = call)
   password <- obtain_password(password, call = call)
 
   out <- tempfile(fileext = ".xlsx")
@@ -28,6 +29,24 @@ resolve_encryption <- function(path, password, call = rlang::caller_env()) {
   }
 
   list(path = out, decrypted = TRUE)
+}
+
+# Decryption is compiled out where the vendored AES code isn't self-contained
+# (see READXL_DECRYPTION in src/Decrypt.cpp). Check this before
+# obtain_password(), so we never ask for a password we can't use.
+check_decryption_available <- function(call = rlang::caller_env()) {
+  if (decryption_available()) {
+    return(invisible())
+  }
+  cli::cli_abort(
+    c(
+      "{.arg path} appears to be a password-encrypted xlsx, but readxl can't \\
+       decrypt files on this platform.",
+      "i" = "Decryption requires Windows, macOS, or an x86 (Intel or AMD) \\
+             processor."
+    ),
+    call = call
+  )
 }
 
 obtain_password <- function(password, call = rlang::caller_env()) {
@@ -82,4 +101,8 @@ askpass_installed <- function() {
 
 askpass_askpass <- function() {
   askpass::askpass()
+}
+
+decryption_available <- function() {
+  decryption_available_()
 }

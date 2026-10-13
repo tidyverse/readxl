@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <fstream>
 #include <iterator>
+#include <stdexcept>
 #include <string>
 
 #include "cpp11/R.hpp"
@@ -13,8 +14,27 @@
 // msoffice headers included below.
 #include "cran.h"
 
-#include "msoffice/decode.hpp"
+// Detecting an encrypted file only needs the compound document reader, which
+// has no crypto dependencies, so that works on every platform.
+#include "msoffice/cfb.hpp"
+#include "msoffice/cybozu/inttype.hpp"
 #include "msoffice/util.hpp"
+
+// Decrypting needs AES, and the vendored cybozu/aes.hpp is only
+// self-contained on x86 (AES-NI), Apple (CommonCrypto) and Windows (bcrypt).
+// Anywhere else (e.g. Linux on ARM, webR) it falls back to OpenSSL, which
+// readxl doesn't link, so decryption is compiled out there.
+#ifndef READXL_DECRYPTION
+#if CYBOZU_HOST == CYBOZU_HOST_INTEL || defined(__APPLE__) || defined(_WIN32)
+#define READXL_DECRYPTION 1
+#else
+#define READXL_DECRYPTION 0
+#endif
+#endif
+
+#if READXL_DECRYPTION
+#include "msoffice/decode.hpp"
+#endif
 
 namespace {
 
@@ -44,6 +64,7 @@ bool has_stream(const ms::cfb::CompoundFile& cfb, const char* name) {
   return false;
 }
 
+#if READXL_DECRYPTION
 // UTF-8 -> UTF-16LE bytes, as expected by [MS-OFFCRYPTO]
 std::string password_to_utf16(const std::string& password) {
   if (password.empty()) {
@@ -51,8 +72,15 @@ std::string password_to_utf16(const std::string& password) {
   }
   return ms::Char16toChar8(cybozu::ToUtf16(password));
 }
+#endif
 
 } // namespace
+
+// Whether this build can decrypt, i.e. the value of READXL_DECRYPTION.
+[[cpp11::register]]
+bool decryption_available_() {
+  return READXL_DECRYPTION == 1;
+}
 
 // Probe an OLE2 (compound document) file for the streams that mark it as an
 // ECMA-376 encrypted Office document, as opposed to a legacy .xls file.
@@ -91,6 +119,7 @@ bool is_encrypted_xlsx_(std::string path) {
 bool xlsx_decrypt_(std::string path,
                    std::string password,
                    std::string out_path) {
+#if READXL_DECRYPTION
   const std::string data = read_file_bytes(path);
   const std::string pass = password_to_utf16(password);
   const std::string native_out_path = path_to_native(out_path);
@@ -104,4 +133,11 @@ bool xlsx_decrypt_(std::string path,
     /* doView = */ false
   );
   return ok;
+#else
+  // Unreachable from R: resolve_encryption() checks decryption_available()
+  // first.
+  throw std::runtime_error(
+    "Decryption is not available in this build of readxl."
+  );
+#endif
 }

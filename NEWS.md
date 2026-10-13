@@ -1,6 +1,6 @@
 # readxl (development version)
 
-* `read_xlsx()`, and `excel_sheets()` gain a `password` argument to support reading password-encrypted xlsx files (#794).
+* `read_xlsx()` and `excel_sheets()` gain a `password` argument to support reading password-encrypted xlsx files (#794). Decryption requires Windows, macOS, or an x86 (Intel or AMD) processor; elsewhere, such as Linux on ARM or webR, readxl recognizes encrypted files but errors instead of decrypting them.
 * `read_excel()`, `read_xls()`, and `read_xlsx()` now error informatively when `sheet` is `NA` (#798, @sims1253) or is `Inf` or not a whole number (#801).
 
 # readxl 1.5.0.1
