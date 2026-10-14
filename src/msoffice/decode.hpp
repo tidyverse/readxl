@@ -264,6 +264,11 @@ bool decode(const char *data, uint32_t dataSize, const String& outFile, const st
 			throw cybozu::Exception("ms:decode:cannot open output file") << outFile;
 		}
 		out.write(decData.c_str(), decData.size());
+		out.close();
+		if (!out) {
+			std::remove(outFile.c_str());
+			throw cybozu::Exception("ms:decode:cannot write output file") << outFile;
+		}
 		/*
 		cybozu::File out;
 		out.openW(outFile);
