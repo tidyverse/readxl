@@ -35,10 +35,6 @@
 
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
 typedef _locale_t xls_locale_t;
-#elif defined(__sun)
-/* we never actually use the only variable declared with this type on solaris,
- * so its precise type doesn't really matter */
-typedef void* xls_locale_t;
 #else
 typedef locale_t xls_locale_t;
 #endif

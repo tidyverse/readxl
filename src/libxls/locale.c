@@ -30,7 +30,7 @@
  */
 #include "config.h"
 #include <stdlib.h>
-#include "libxls/locale.h"
+#include "../include/libxls/locale.h"
 
 xls_locale_t xls_createlocale(void) {
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)

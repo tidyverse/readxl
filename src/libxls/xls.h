@@ -33,15 +33,7 @@
 
 #ifndef XLS_INCLUDE
 #define XLS_INCLUDE
-
-/* readxl modification: process these headers in the global namespace, not inside
- * namespace xls. Otherwise, on libcs (e.g. musl/Alpine) where these headers have
- * not been transitively pre-loaded by other system or vendored headers, their
- * typedefs (int64_t, gid_t, uid_t etc.) end up trapped in xls:: when libxls is
- * consumed from C++ code. See readxl issues #775 and #790. */
-#include <stdint.h>
-#include <sys/types.h>
-
+ 
 #ifdef __cplusplus
 namespace xls {
 extern "C" {

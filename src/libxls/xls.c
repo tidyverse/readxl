@@ -49,9 +49,9 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "libxls/endian.h"
-#include "libxls/locale.h"
-#include "libxls/xls.h"
+#include "../include/libxls/endian.h"
+#include "../include/libxls/locale.h"
+#include "../include/xls.h"
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -478,10 +478,7 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         if (bof->size < offsetof(LABEL, value) + 2)
             return 1;
 
-        // --- Start readxl ---
-        BYTE *value = get_LABEL_value((LABEL*)buf);
-        size_t label_len = value[0] + (value[1] << 8);
-        // --- End readxl ---
+        size_t label_len = ((LABEL*)buf)->value[0] + (((LABEL*)buf)->value[1] << 8);
         if (pWB->is5ver) {
             return (bof->size < offsetof(LABEL, value) + 2 + label_len);
         }
@@ -583,10 +580,8 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_RK;
-            // --- Start readxl ---
-            cell->xf=xlsShortVal(get_MULRK_RK_XF((MULRK*)buf, i));
-            cell->d=NumFromRk(xlsIntVal(get_MULRK_RK_VALUE((MULRK*)buf, i)));
-            // --- End readxl ---
+            cell->xf=xlsShortVal(((MULRK*)buf)->rk[i].xf);
+            cell->d=NumFromRk(xlsIntVal(((MULRK*)buf)->rk[i].value));
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
@@ -600,9 +595,7 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_BLANK;
-            // --- Start readxl ---
-            cell->xf=xlsShortVal(get_MULBLANK_XF((MULBLANK*)buf, i));
-            // --- End readxl ---
+            cell->xf=xlsShortVal(((MULBLANK*)buf)->xf[i]);
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;

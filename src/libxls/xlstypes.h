@@ -36,10 +36,6 @@
 #ifndef XLS_TYPES_INC
 #define XLS_TYPES_INC
 
-/* Mask illegal functions for CMD check */
-/* an analysis of header file includes shows that doing this here covers everything */
-#include "cran.h"
-
 #include <stdint.h>
 #include <sys/types.h>
 
