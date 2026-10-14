@@ -35,6 +35,8 @@
 xls_locale_t xls_createlocale(void) {
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
     return _create_locale(LC_CTYPE, ".65001");
+#elif defined(__APPLE__)
+    return newlocale(LC_CTYPE_MASK, "UTF-8", NULL);
 #else
     return newlocale(LC_CTYPE_MASK, "C.UTF-8", NULL);
 #endif

@@ -28,10 +28,22 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+
+#ifndef XLS_LOCALE_INC
+#define XLS_LOCALE_INC
+#include <stddef.h>
+#include <wchar.h>
 #ifdef HAVE_XLOCALE_H
 #include <xlocale.h>
 #endif
 #include <locale.h>
+
+/* `restrict' is a C99 keyword that C++ does not have. */
+#ifdef __cplusplus
+#define XLS_RESTRICT
+#else
+#define XLS_RESTRICT restrict
+#endif
 
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
 typedef _locale_t xls_locale_t;
@@ -41,4 +53,6 @@ typedef locale_t xls_locale_t;
 
 xls_locale_t xls_createlocale(void);
 void xls_freelocale(xls_locale_t locale);
-size_t xls_wcstombs_l(char *restrict s, const wchar_t *restrict pwcs, size_t n, xls_locale_t loc);
+size_t xls_wcstombs_l(char *XLS_RESTRICT s, const wchar_t *XLS_RESTRICT pwcs, size_t n, xls_locale_t loc);
+
+#endif /* XLS_LOCALE_INC */

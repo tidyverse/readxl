@@ -49,4 +49,15 @@ typedef unsigned __int64	unsigned64_t;
 typedef uint64_t			unsigned64_t;
 #endif
 
+/* Several record structures end in a variable-length array. In C this is a
+ * flexible array member (C99), which keeps -fsanitize=bounds happy. C++ has no
+ * such construct, so fall back to a one-element array there. Code that needs
+ * the size of the fixed part of such a struct must use offsetof(), never
+ * sizeof(), so that both declarations behave identically. */
+#ifdef __cplusplus
+#define XLS_FLEXIBLE_ARRAY 1
+#else
+#define XLS_FLEXIBLE_ARRAY
+#endif
+
 #endif

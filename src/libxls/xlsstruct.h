@@ -128,7 +128,7 @@ typedef struct BOUNDSHEET
     DWORD	filepos;
     BYTE	type;
     BYTE	visible;
-    char	name[1];
+    char	name[XLS_FLEXIBLE_ARRAY];
 }
 BOUNDSHEET;
 
@@ -166,7 +166,7 @@ typedef struct FORMULA // BIFF8
     WORD	flags;
     BYTE	chn[4]; // BIFF8
     WORD	len;
-    BYTE	value[1]; //var
+    BYTE	value[XLS_FLEXIBLE_ARRAY]; //var
 }
 FORMULA;
 
@@ -179,7 +179,7 @@ typedef struct FARRAY // BIFF8
     WORD	flags;
     BYTE	chn[4]; // BIFF8
     WORD	len;
-    BYTE	value[1]; //var
+    BYTE	value[XLS_FLEXIBLE_ARRAY]; //var
 }
 FARRAY;
 
@@ -199,7 +199,7 @@ typedef struct MULRK
 	struct {
 		WORD	xf;
 		DWORD   value;
-	}		rk[1];
+	}		rk[XLS_FLEXIBLE_ARRAY];
 	//WORD	last_col;
 }
 MULRK;
@@ -208,7 +208,7 @@ typedef struct MULBLANK
 {
     WORD	row;
     WORD	col;
-    WORD	xf[1];
+    WORD	xf[XLS_FLEXIBLE_ARRAY];
 	//WORD	last_col;
 }
 MULBLANK;
@@ -226,7 +226,7 @@ typedef struct LABEL
     WORD	row;
     WORD	col;
     WORD	xf;
-    BYTE	value[1]; // var
+    BYTE	value[XLS_FLEXIBLE_ARRAY]; // var
 }
 LABEL;
 
@@ -244,7 +244,7 @@ typedef struct SST
 {
     DWORD	num;
     DWORD	numofstr;
-    BYTE	strings[1];
+    BYTE	strings[XLS_FLEXIBLE_ARRAY];
 }
 SST;
 
@@ -321,14 +321,14 @@ typedef struct FONT
     BYTE	family;
     BYTE	charset;
     BYTE	notused;
-    char    name[1];
+    char    name[XLS_FLEXIBLE_ARRAY];
 }
 FONT;
 
 typedef struct FORMAT
 {
     WORD	index;
-    char	value[1];
+    char	value[XLS_FLEXIBLE_ARRAY];
 }
 FORMAT;
 
@@ -505,6 +505,9 @@ typedef struct xlsWorkBook
     void        *converter;
     void        *utf16_converter;
     void        *utf8_locale;
+
+    size_t      summary_len;    // bytes in summary
+    size_t      docSummary_len; // bytes in docSummary
 }
 xlsWorkBook;
 

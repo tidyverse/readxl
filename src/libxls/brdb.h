@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef XLS_BRDB_INC
+#define XLS_BRDB_INC
 struct str_brdb
 {
     WORD opcode;
@@ -60,3 +62,5 @@ static int get_brbdnum(int id)
     while (brdb[i].opcode!=0xFFF);
     return 0;
 }
+
+#endif /* XLS_BRDB_INC */

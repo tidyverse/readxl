@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef XLS_TOOL_INC
+#define XLS_TOOL_INC
 #include "../libxls/xlsstruct.h"
 
 void verbose(char* str);
@@ -53,3 +55,5 @@ void xls_showFormat(struct st_format_data* format);
 char* xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label);
 char* xls_getCSS(xlsWorkBook* pWB);
 void xls_showBOF(BOF* bof);
+
+#endif /* XLS_TOOL_INC */
