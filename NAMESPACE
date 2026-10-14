@@ -19,5 +19,4 @@ importFrom(cellranger,
   cell_limits,
   cell_rows
 )
-importFrom(rlang,"%||%")
 useDynLib(readxl, .registration = TRUE)

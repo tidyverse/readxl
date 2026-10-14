@@ -204,7 +204,7 @@ read_excel(
 
 # Prompt for the password of an encrypted file interactively
 if (FALSE) {
-  read_excel("secret.xlsx", password = askpass::askpass)
+  read_xlsx("secret.xlsx", password = askpass::askpass)
 }
 }
 \seealso{

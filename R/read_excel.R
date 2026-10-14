@@ -139,7 +139,7 @@ NULL
 #'
 #' # Prompt for the password of an encrypted file interactively
 #' if (FALSE) {
-#'   read_excel("secret.xlsx", password = askpass::askpass)
+#'   read_xlsx("secret.xlsx", password = askpass::askpass)
 #' }
 read_excel <- function(
   path,
@@ -233,7 +233,10 @@ read_xlsx <- function(
   # guard to put in front of resolve_encryption().
   format <- format_from_signature(path) # returns xlsx, xls, or NA
   if (is.na(format)) {
-    cli::cli_abort("The input does not appear to be an xlsx file.")
+    cli::cli_abort(c(
+      "This {.arg path} does not appear to be an xlsx file:",
+      " " = "{.path {path}}"
+    ))
   }
   if (format == "xls") {
     enc <- resolve_encryption(path, password)

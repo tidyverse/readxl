@@ -56,6 +56,8 @@
 #endif
 // --- Start readxl ---
 // readxl: also skip OpenSSL when using the Apple CommonCrypto backend
+// cybozulib fixed this upstream in cbc6ccb, so this patch can go once
+// herumi/msoffice (and then readxl) picks up that fix.
 #if !defined(CYBOZU_AES_NI) && CYBOZU_USE_WIN_BCRYPT != 1 && CYBOZU_USE_APPLE_COMMONCRYPTO != 1
 // #if !defined(CYBOZU_AES_NI) && CYBOZU_USE_WIN_BCRYPT != 1
 // --- End readxl ---
