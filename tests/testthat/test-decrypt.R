@@ -100,6 +100,7 @@ test_that("encrypted xlsx errors without prompting where decryption is unavailab
 test_that("encrypted xlsx without a password errors", {
   skip_if_no_decryption()
   rlang::local_interactive(FALSE)
+  local_mocked_bindings(askpass_installed = \() TRUE)
   expect_snapshot(
     error = TRUE,
     read_xlsx(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
