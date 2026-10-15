@@ -54,7 +54,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="readxl-development-version">readxl (development version)<a class="anchor" aria-label="anchor" href="#readxl-development-version"></a></h2>
-<ul><li>
+<ul><li>readxl embeds libxls v1.6.4, with release notes at <a href="https://github.com/libxls/libxls/releases/tag/v1.6.4" class="external-link uri">https://github.com/libxls/libxls/releases/tag/v1.6.4</a>. This version of libxls fixes several vulnerabilities, including <a href="https://www.cve.org/CVERecord?id=CVE-2026-26824" class="external-link">CVE-2026-26824</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-26825" class="external-link">CVE-2026-26825</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-79591" class="external-link">CVE-2026-79591</a>, and <a href="https://www.cve.org/CVERecord?id=CVE-2026-79592" class="external-link">CVE-2026-79592</a> (<a href="https://github.com/tidyverse/readxl/issues/795" class="external-link">#795</a>).</li>
+<li>
 <code><a href="../reference/read_excel.html">read_excel()</a></code>, <code><a href="../reference/read_excel.html">read_xls()</a></code>, and <code><a href="../reference/read_excel.html">read_xlsx()</a></code> now error informatively when <code>sheet</code> is <code>NA</code> (<a href="https://github.com/tidyverse/readxl/issues/798" class="external-link">#798</a>, <a href="https://github.com/sims1253" class="external-link">@sims1253</a>) or is <code>Inf</code> or not a whole number (<a href="https://github.com/tidyverse/readxl/issues/801" class="external-link">#801</a>).</li>
 </ul></div>
     <div class="section level2">

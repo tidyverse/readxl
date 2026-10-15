@@ -2,6 +2,14 @@
 
 ## readxl (development version)
 
+- readxl embeds libxls v1.6.4, with release notes at
+  <https://github.com/libxls/libxls/releases/tag/v1.6.4>. This version
+  of libxls fixes several vulnerabilities, including
+  [CVE-2026-26824](https://www.cve.org/CVERecord?id=CVE-2026-26824),
+  [CVE-2026-26825](https://www.cve.org/CVERecord?id=CVE-2026-26825),
+  [CVE-2026-79591](https://www.cve.org/CVERecord?id=CVE-2026-79591), and
+  [CVE-2026-79592](https://www.cve.org/CVERecord?id=CVE-2026-79592)
+  ([\#795](https://github.com/tidyverse/readxl/issues/795)).
 - [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
   [`read_xls()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
   and
