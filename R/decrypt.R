@@ -6,14 +6,13 @@
 #
 # The caller is responsible for cleaning up the decrypted tempfile.
 resolve_encryption <- function(path, password, call = rlang::caller_env()) {
-  bytes <- readBin(path, "raw", file.size(path))
-  if (!is_encrypted_xlsx_(bytes)) {
+  if (!is_encrypted_xlsx_(path)) {
     return(list(path = path, decrypted = FALSE))
   }
 
   password <- obtain_password(password, call = call)
   password <- iconv(enc2utf8(password), "UTF-8", "UTF-16LE", toRaw = TRUE)
-  decrypted <- xlsx_decrypt_(bytes, password[[1]])
+  decrypted <- xlsx_decrypt_(path, password[[1]])
   if (is.null(decrypted)) {
     cli::cli_abort(
       c(

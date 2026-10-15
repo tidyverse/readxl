@@ -6,17 +6,17 @@
 #include <R_ext/Visibility.h>
 
 // Decrypt.cpp
-bool is_encrypted_xlsx_(cpp11::raws data);
-extern "C" SEXP _readxl_is_encrypted_xlsx_(SEXP data) {
+bool is_encrypted_xlsx_(cpp11::strings path);
+extern "C" SEXP _readxl_is_encrypted_xlsx_(SEXP path) {
   BEGIN_CPP11
-    return cpp11::as_sexp(is_encrypted_xlsx_(cpp11::as_cpp<cpp11::decay_t<cpp11::raws>>(data)));
+    return cpp11::as_sexp(is_encrypted_xlsx_(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(path)));
   END_CPP11
 }
 // Decrypt.cpp
-cpp11::sexp xlsx_decrypt_(cpp11::raws data, cpp11::raws password);
-extern "C" SEXP _readxl_xlsx_decrypt_(SEXP data, SEXP password) {
+cpp11::sexp xlsx_decrypt_(cpp11::strings path, cpp11::raws password);
+extern "C" SEXP _readxl_xlsx_decrypt_(SEXP path, SEXP password) {
   BEGIN_CPP11
-    return cpp11::as_sexp(xlsx_decrypt_(cpp11::as_cpp<cpp11::decay_t<cpp11::raws>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::raws>>(password)));
+    return cpp11::as_sexp(xlsx_decrypt_(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(path), cpp11::as_cpp<cpp11::decay_t<cpp11::raws>>(password)));
   END_CPP11
 }
 // Read.cpp
