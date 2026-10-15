@@ -286,13 +286,27 @@ bool decrypt_agile(const std::string& info, const std::string& package,
 
 } // namespace
 
-// Is this an OLE2 (compound document) file holding an ECMA-376 encrypted
-// Office document, as opposed to e.g. a legacy .xls file?
+// Classify a file by the streams in its OLE2 compound document:
+// * "encrypted_xlsx": ECMA-376 encrypted Office document.
+// * "xls": has a workbook stream, as libxls looks for in xls_open_file().
+// * "other": some other compound document, e.g. a .doc.
+// * NA: not a compound document libxls can read, e.g. a regular xlsx (zip).
+//   libxls checks the signature first, so this is cheap.
 [[cpp11::register]]
-bool is_encrypted_xlsx_(cpp11::strings path) {
+cpp11::r_string ole_kind_(cpp11::strings path) {
   OlePtr ole = ole_open(native_path(path));
-  return ole && ole_has_stream(ole.get(), "EncryptionInfo") &&
-         ole_has_stream(ole.get(), "EncryptedPackage");
+  if (!ole) {
+    return cpp11::na<cpp11::r_string>();
+  }
+  if (ole_has_stream(ole.get(), "EncryptionInfo") &&
+      ole_has_stream(ole.get(), "EncryptedPackage")) {
+    return "encrypted_xlsx";
+  }
+  if (ole_has_stream(ole.get(), "Workbook") ||
+      ole_has_stream(ole.get(), "Book")) {
+    return "xls";
+  }
+  return "other";
 }
 
 // Decrypt an encrypted xlsx. `password` is UTF-16LE. Returns the decrypted

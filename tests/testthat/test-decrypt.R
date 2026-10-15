@@ -75,11 +75,24 @@ test_that("excel_sheets() reads an encrypted xlsx", {
   )
 })
 
-test_that("excel_sheets() does not probe encryption for actual xls files", {
-  local_mocked_bindings(
-    is_encrypted_xlsx_ = function(path) stop("unexpected encryption probe")
+test_that("ole_kind_() classifies files by their compound-file streams", {
+  expect_equal(
+    ole_kind_(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx")),
+    "encrypted_xlsx"
   )
+  expect_equal(ole_kind_(test_sheet("mtcars.xls")), "xls")
+  expect_equal(ole_kind_(test_sheet("mtcars-xlsx.xlsx")), NA_character_)
+})
+
+test_that("excel_sheets() still reads an unencrypted xls", {
   expect_equal(excel_sheets(test_sheet("mtcars.xls")), "head(mtcars)")
+})
+
+test_that("read_excel() points to read_xlsx() for an encrypted xlsx", {
+  expect_snapshot(
+    error = TRUE,
+    read_excel(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
+  )
 })
 
 test_that("encrypted xlsx without a password errors", {

@@ -1,15 +1,15 @@
 # An encrypted xlsx is an OLE2 compound document and has the same D0 CF 11 E0
 # signature as a legacy xls file. The compound document wraps the real xlsx zip
-# inside `EncryptionInfo` and `EncryptedPackage` streams. `resolve_encryption()`
-# probes for this, decrypts to a tempfile when a `password` is supplied, and
-# surfaces clean errors otherwise.
-#
-# The caller is responsible for cleaning up the decrypted tempfile.
-resolve_encryption <- function(path, password, call = rlang::caller_env()) {
-  if (!is_encrypted_xlsx_(path)) {
-    return(list(path = path, decrypted = FALSE))
-  }
+# inside `EncryptionInfo` and `EncryptedPackage` streams. `ole_kind_()` (in
+# C++) classifies such files by their streams.
+is_encrypted_xlsx <- function(path) {
+  identical(ole_kind_(path), "encrypted_xlsx")
+}
 
+# Decrypts an encrypted xlsx to a tempfile and returns its path. The caller is
+# responsible for checking `is_encrypted_xlsx()` first and for deleting the
+# tempfile.
+decrypt_xlsx <- function(path, password, call = rlang::caller_env()) {
   password <- obtain_password(password, call = call)
   password <- iconv(enc2utf8(password), "UTF-8", "UTF-16LE", toRaw = TRUE)
   decrypted <- xlsx_decrypt_(path, password[[1]])
@@ -25,7 +25,7 @@ resolve_encryption <- function(path, password, call = rlang::caller_env()) {
 
   out <- tempfile(fileext = ".xlsx")
   writeBin(decrypted, out)
-  list(path = out, decrypted = TRUE)
+  out
 }
 
 obtain_password <- function(password, call = rlang::caller_env()) {

@@ -154,6 +154,12 @@ read_excel <- function(
   .name_repair = "unique"
 ) {
   path <- check_file(path)
+  if (is_encrypted_xlsx(path)) {
+    cli::cli_abort(c(
+      "{.arg path} appears to be a password-encrypted xlsx.",
+      "i" = "Use {.fun read_xlsx} and its {.arg password} argument to read it."
+    ))
+  }
   format <- check_format(path)
   read_excel_(
     path = path,
@@ -224,30 +230,16 @@ read_xlsx <- function(
   password = NULL
 ) {
   path <- check_file(path)
-
-  # It looks weird to determine the format, because the implied format is
-  # obviously xlsx here inside read_xlsx().
-  # However, an encrypted xlsx has the same signature as xls, so this is a cheap
-  # guard to put in front of resolve_encryption().
-  format <- format_from_signature(path) # returns xlsx, xls, or NA
-  if (is.na(format)) {
+  kind <- ole_kind_(path)
+  if (identical(kind, "encrypted_xlsx")) {
+    path <- decrypt_xlsx(path, password)
+    on.exit(unlink(path), add = TRUE)
+  } else if (!identical(format_from_signature(path), "xlsx")) {
     cli::cli_abort(c(
       "This {.arg path} does not appear to be an xlsx file:",
-      " " = "{.path {path}}"
+      " " = "{.path {path}}",
+      "i" = if (identical(kind, "xls")) "Did you mean to call {.fun read_xls}?"
     ))
-  }
-  if (format == "xls") {
-    enc <- resolve_encryption(path, password)
-    if (enc$decrypted) {
-      on.exit(unlink(enc$path), add = TRUE)
-    } else {
-      cli::cli_abort(c(
-        "This {.arg path} does not appear to be an xlsx file:",
-        " " = "{.path {path}}",
-        "i" = "Did you mean to call {.fun read_xls}?"
-      ))
-    }
-    path <- enc$path
   }
 
   read_excel_(

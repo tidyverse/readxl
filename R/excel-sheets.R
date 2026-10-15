@@ -17,28 +17,11 @@
 #' lapply(excel_sheets(path), read_excel, path = path)
 excel_sheets <- function(path, password = NULL) {
   path <- check_file(path)
+  if (is_encrypted_xlsx(path)) {
+    path <- decrypt_xlsx(path, password)
+    on.exit(unlink(path), add = TRUE)
+    return(xlsx_sheets(path))
+  }
   format <- check_format(path)
-  # An encrypted xlsx file might present as "xls" at this point, because it
-  # shares the same D0 CF 11 E0 signature as a legacy xls file.
-  # But it's inefficient to test every "xls" for possibly being encrypted xlsx.
-  # First, try the obvious thing!
-  sheets <- tryCatch(
-    switch(format, xls = xls_sheets(path), xlsx = xlsx_sheets(path)),
-    error = identity
-  )
-
-  if (!inherits(sheets, "error")) {
-    return(sheets)
-  }
-
-  # The obvious stuff failed, so now we entertain the possibility that this is
-  # an encrypted xlsx.
-  original_error <- sheets
-  enc <- resolve_encryption(path, password)
-  if (!enc$decrypted) {
-    stop(original_error)
-  }
-  on.exit(unlink(enc$path), add = TRUE)
-
-  xlsx_sheets(enc$path)
+  switch(format, xls = xls_sheets(path), xlsx = xlsx_sheets(path))
 }

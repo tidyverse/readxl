@@ -6,10 +6,10 @@
 #include <R_ext/Visibility.h>
 
 // Decrypt.cpp
-bool is_encrypted_xlsx_(cpp11::strings path);
-extern "C" SEXP _readxl_is_encrypted_xlsx_(SEXP path) {
+cpp11::r_string ole_kind_(cpp11::strings path);
+extern "C" SEXP _readxl_ole_kind_(SEXP path) {
   BEGIN_CPP11
-    return cpp11::as_sexp(is_encrypted_xlsx_(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(path)));
+    return cpp11::as_sexp(ole_kind_(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(path)));
   END_CPP11
 }
 // Decrypt.cpp
@@ -79,16 +79,16 @@ extern "C" SEXP _readxl_zip_xml(SEXP zip_path, SEXP file_path) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readxl_is_encrypted_xlsx_", (DL_FUNC) &_readxl_is_encrypted_xlsx_,  1},
-    {"_readxl_read_xls_",          (DL_FUNC) &_readxl_read_xls_,          10},
-    {"_readxl_read_xlsx_",         (DL_FUNC) &_readxl_read_xlsx_,         10},
-    {"_readxl_xls_date_formats",   (DL_FUNC) &_readxl_xls_date_formats,    1},
-    {"_readxl_xls_sheets",         (DL_FUNC) &_readxl_xls_sheets,          1},
-    {"_readxl_xlsx_date_formats",  (DL_FUNC) &_readxl_xlsx_date_formats,   1},
-    {"_readxl_xlsx_decrypt_",      (DL_FUNC) &_readxl_xlsx_decrypt_,       2},
-    {"_readxl_xlsx_sheets",        (DL_FUNC) &_readxl_xlsx_sheets,         1},
-    {"_readxl_xlsx_strings",       (DL_FUNC) &_readxl_xlsx_strings,        1},
-    {"_readxl_zip_xml",            (DL_FUNC) &_readxl_zip_xml,             2},
+    {"_readxl_ole_kind_",         (DL_FUNC) &_readxl_ole_kind_,          1},
+    {"_readxl_read_xls_",         (DL_FUNC) &_readxl_read_xls_,         10},
+    {"_readxl_read_xlsx_",        (DL_FUNC) &_readxl_read_xlsx_,        10},
+    {"_readxl_xls_date_formats",  (DL_FUNC) &_readxl_xls_date_formats,   1},
+    {"_readxl_xls_sheets",        (DL_FUNC) &_readxl_xls_sheets,         1},
+    {"_readxl_xlsx_date_formats", (DL_FUNC) &_readxl_xlsx_date_formats,  1},
+    {"_readxl_xlsx_decrypt_",     (DL_FUNC) &_readxl_xlsx_decrypt_,      2},
+    {"_readxl_xlsx_sheets",       (DL_FUNC) &_readxl_xlsx_sheets,        1},
+    {"_readxl_xlsx_strings",      (DL_FUNC) &_readxl_xlsx_strings,       1},
+    {"_readxl_zip_xml",           (DL_FUNC) &_readxl_zip_xml,            2},
     {NULL, NULL, 0}
 };
 }

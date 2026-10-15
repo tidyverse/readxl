@@ -1,3 +1,12 @@
+# read_excel() points to read_xlsx() for an encrypted xlsx
+
+    Code
+      read_excel(test_sheet("mtcars-xlsx-encrypted-with-cars.xlsx"))
+    Condition
+      Error in `read_excel()`:
+      ! `path` appears to be a password-encrypted xlsx.
+      i Use `read_xlsx()` and its `password` argument to read it.
+
 # encrypted xlsx without a password errors
 
     Code
