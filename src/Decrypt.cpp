@@ -249,11 +249,13 @@ bool decrypt_agile(const std::string& info, const std::string& package,
   std::string alg = ek("hashAlgorithm");
   std::string salt = base64_decode(ek("saltValue").c_str());
   size_t key_bytes = std::stoul(ek("keyBits")) / 8;
-  size_t block_size = std::stoul(ek("blockSize"));
-  std::string h = hash_password(alg, salt, password, std::stoul(ek("spinCount")));
+  // Excel uses 100,000; cap it so a crafted file can't hang R
+  unsigned long spin_count = std::stoul(ek("spinCount"));
+  if (spin_count > 10000000) throw std::runtime_error("Unsupported spin count.");
+  std::string h = hash_password(alg, salt, password, spin_count);
   auto decrypt_attr = [&](const char* block_key, const char* attr) {
     std::string key = fit(hash(alg, h + std::string(block_key, 8)), key_bytes);
-    return aes_decrypt(key, base64_decode(ek(attr).c_str()), fit(salt, block_size));
+    return aes_decrypt(key, base64_decode(ek(attr).c_str()), fit(salt, 16));
   };
   std::string hash_input = decrypt_attr(
     "\xfe\xa7\xd2\x76\x3b\x4b\x9e\x79", "encryptedVerifierHashInput"
@@ -272,12 +274,11 @@ bool decrypt_agile(const std::string& info, const std::string& package,
   // The package is encrypted in 4096-byte segments, each with its own IV
   std::string pkg_alg = kd("hashAlgorithm");
   std::string pkg_salt = base64_decode(kd("saltValue").c_str());
-  size_t pkg_block_size = std::stoul(kd("blockSize"));
   out->clear();
   for (uint32_t i = 0; 8 + size_t(i) * 4096 < package.size(); i++) {
     std::string segment = package.substr(8 + size_t(i) * 4096, 4096);
     segment.resize(segment.size() / 16 * 16);
-    std::string iv = fit(hash(pkg_alg, pkg_salt + le32_bytes(i)), pkg_block_size);
+    std::string iv = fit(hash(pkg_alg, pkg_salt + le32_bytes(i)), 16);
     *out += aes_decrypt(secret_key, segment, iv);
   }
   return true;
