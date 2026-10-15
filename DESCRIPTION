@@ -30,7 +30,7 @@ License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
 Depends:
-    R (>= 4.1)
+    R (>= 4.2)
 Imports:
     cellranger,
     tibble (>= 2.0.1),
