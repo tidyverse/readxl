@@ -127,14 +127,13 @@ test_that("non-ASCII filenames can be read", {
   ## a-grave + e-diaeresis  + Eth + '.xls[x]'
   xls_filename <- "\u00C0\u00CB\u00D0\u002E\u0078\u006C\u0073"
   xlsx_filename <- "\u00C0\u00CB\u00D0\u002E\u0078\u006C\u0073\u0078"
-  tricky_xls_file <- file.path(tempdir(), xls_filename)
-  tricky_xlsx_file <- file.path(tempdir(), xlsx_filename)
+  tmp <- withr::local_tempdir()
+  tricky_xls_file <- file.path(tmp, xls_filename)
+  tricky_xlsx_file <- file.path(tmp, xlsx_filename)
   file.copy(test_sheet("list_type.xls"), tricky_xls_file)
   file.copy(test_sheet("list_type.xlsx"), tricky_xlsx_file)
   expect_true(file.exists(tricky_xls_file))
   expect_true(file.exists(tricky_xlsx_file))
-  on.exit(file.remove(tricky_xls_file))
-  on.exit(file.remove(tricky_xlsx_file))
   expect_no_error(read_xls(tricky_xls_file))
   expect_no_error(read_xlsx(tricky_xlsx_file))
 })

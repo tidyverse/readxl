@@ -49,9 +49,11 @@
 #include <string.h>
 #include <wchar.h>
 
+// --- Start readxl ---
 #include "libxls/endian.h"
 #include "libxls/locale.h"
 #include "libxls/xls.h"
+// --- End readxl ---
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -77,7 +79,8 @@ static xls_error_t xls_addColinfo(xlsWorkSheet* pWS, COLINFO* colinfo);
 static xls_error_t xls_mergedCells(xlsWorkSheet* pWS, BOF* bof, BYTE* buf);
 static xls_error_t xls_preparseWorkSheet(xlsWorkSheet* pWS);
 static xls_error_t xls_formatColumn(xlsWorkSheet* pWS);
-static void xls_dumpSummary(char *buf, int isSummary, xlsSummaryInfo *pSI);
+static void xls_dumpSummary(char *buf, size_t size, int isSummary, xlsSummaryInfo *pSI);
+static xls_error_t xls_readSummaryStream(xlsWorkBook *pWB, OLE2 *ole, const char *name, char **out, size_t *out_len);
 
 #if defined(_AIX) || defined(__sun)
 #pragma pack(1)
@@ -96,7 +99,7 @@ typedef struct {
 	uint32_t		os;
 	uint32_t		format[4];
 	uint32_t		count;
-	sectionList		secList[1];
+	sectionList		secList[];
 } header;
 
 typedef struct {
@@ -107,12 +110,12 @@ typedef struct {
 typedef struct {
 	uint32_t		length;
 	uint32_t		numProperties;
-	propertyList	properties[1];
+	propertyList	properties[];
 } sectionHeader;
 
 typedef struct {
 	uint32_t		propertyID;
-	uint32_t		data[1];
+	uint32_t		data[];
 } property;
 
 #pragma pack(pop)
@@ -139,9 +142,12 @@ static xls_error_t xls_addSST(xlsWorkBook* pWB,SST* sst,DWORD size)
     if (pWB->sst.string)
         return LIBXLS_ERROR_PARSE;
 
-    if ((pWB->sst.string = calloc(pWB->sst.count = sst->num,
-                    sizeof(struct str_sst_string))) == NULL)
+    if ((pWB->sst.string = calloc(sst->num,
+                    sizeof(struct str_sst_string))) == NULL) {
+        pWB->sst.count = 0;
         return LIBXLS_ERROR_MALLOC;
+    }
+    pWB->sst.count = sst->num;
 
     return xls_appendSST(pWB, sst->strings, size - offsetof(SST, strings));
 }
@@ -389,11 +395,12 @@ static xls_error_t xls_addSheet(xlsWorkBook* pWB, BOUNDSHEET *bs, DWORD size)
 		printf("   name: %s\n", name);
 	}
 
-    pWB->sheets.sheet = realloc(pWB->sheets.sheet,(pWB->sheets.count+1)*sizeof (struct st_sheet_data));
-    if (pWB->sheets.sheet == NULL) {
+    struct st_sheet_data *new_sheets = realloc(pWB->sheets.sheet,(pWB->sheets.count+1)*sizeof (struct st_sheet_data));
+    if (new_sheets == NULL) {
         free(name);
         return LIBXLS_ERROR_MALLOC;
     }
+    pWB->sheets.sheet = new_sheets;
 
     pWB->sheets.sheet[pWB->sheets.count].name=name;
     pWB->sheets.sheet[pWB->sheets.count].filepos=filepos;
@@ -444,8 +451,10 @@ static xls_error_t xls_makeTable(xlsWorkSheet* pWS)
         tmp->lcell=pWS->rows.lastcol;
 
 		tmp->cells.count = pWS->rows.lastcol+1;
-        if ((tmp->cells.cell = calloc(tmp->cells.count, sizeof(struct st_cell_data))) == NULL)
+        if ((tmp->cells.cell = calloc(tmp->cells.count, sizeof(struct st_cell_data))) == NULL) {
+            tmp->cells.count = 0;
             return LIBXLS_ERROR_MALLOC;
+        }
 
         for (i=0;i<=pWS->rows.lastcol;i++)
         {
@@ -463,7 +472,7 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         return 1;
 
     if (bof->id == XLS_RECORD_FORMULA || bof->id == XLS_RECORD_FORMULA_ALT)
-        return (bof->size < sizeof(FORMULA));
+        return (bof->size < offsetof(FORMULA, value));
 
     if (bof->id == XLS_RECORD_MULRK)
         return (bof->size < offsetof(MULRK, rk));
@@ -478,10 +487,7 @@ int xls_isCellTooSmall(xlsWorkBook* pWB, BOF* bof, BYTE* buf) {
         if (bof->size < offsetof(LABEL, value) + 2)
             return 1;
 
-        // --- Start readxl ---
-        BYTE *value = get_LABEL_value((LABEL*)buf);
-        size_t label_len = value[0] + (value[1] << 8);
-        // --- End readxl ---
+        size_t label_len = ((LABEL*)buf)->value[0] + (((LABEL*)buf)->value[1] << 8);
         if (pWB->is5ver) {
             return (bof->size < offsetof(LABEL, value) + 2 + label_len);
         }
@@ -583,10 +589,8 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_RK;
-            // --- Start readxl ---
-            cell->xf=xlsShortVal(get_MULRK_RK_XF((MULRK*)buf, i));
-            cell->d=NumFromRk(xlsIntVal(get_MULRK_RK_VALUE((MULRK*)buf, i)));
-            // --- End readxl ---
+            cell->xf=xlsShortVal(((MULRK*)buf)->rk[i].xf);
+            cell->d=NumFromRk(xlsIntVal(((MULRK*)buf)->rk[i].value));
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
@@ -600,9 +604,7 @@ static struct st_cell_data *xls_addCell(xlsWorkSheet* pWS,BOF* bof,BYTE* buf)
             }
             cell=&row->cells.cell[index];
             cell->id=XLS_RECORD_BLANK;
-            // --- Start readxl ---
-            cell->xf=xlsShortVal(get_MULBLANK_XF((MULBLANK*)buf, i));
-            // --- End readxl ---
+            cell->xf=xlsShortVal(((MULBLANK*)buf)->xf[i]);
             xls_cell_set_str(cell, xls_getfcell(pWS->workbook,cell, NULL));
         }
         break;
@@ -649,9 +651,10 @@ static char *xls_addFont(xlsWorkBook* pWB, FONT* font, DWORD size)
 
     verbose("xls_addFont");
 
-    pWB->fonts.font = realloc(pWB->fonts.font,(pWB->fonts.count+1)*sizeof(struct st_font_data));
-    if (pWB->fonts.font == NULL)
+    struct st_font_data *new_fonts = realloc(pWB->fonts.font,(pWB->fonts.count+1)*sizeof(struct st_font_data));
+    if (new_fonts == NULL)
         return NULL;
+    pWB->fonts.font = new_fonts;
 
     tmp=&pWB->fonts.font[pWB->fonts.count];
 
@@ -677,9 +680,10 @@ static xls_error_t xls_addFormat(xlsWorkBook* pWB, FORMAT* format, DWORD size)
     struct st_format_data* tmp;
 
     verbose("xls_addFormat");
-    pWB->formats.format = realloc(pWB->formats.format, (pWB->formats.count+1)*sizeof(struct st_format_data));
-    if (pWB->formats.format == NULL)
+    struct st_format_data *new_formats = realloc(pWB->formats.format, (pWB->formats.count+1)*sizeof(struct st_format_data));
+    if (new_formats == NULL)
         return LIBXLS_ERROR_MALLOC;
+    pWB->formats.format = new_formats;
 
     tmp = &pWB->formats.format[pWB->formats.count];
     tmp->index = format->index;
@@ -695,9 +699,10 @@ static xls_error_t xls_addXF8(xlsWorkBook* pWB,XF8* xf)
     struct st_xf_data* tmp;
 
     verbose("xls_addXF");
-    pWB->xfs.xf= realloc(pWB->xfs.xf, (pWB->xfs.count+1)*sizeof(struct st_xf_data));
-    if (pWB->xfs.xf == NULL)
+    struct st_xf_data *new_xfs8 = realloc(pWB->xfs.xf, (pWB->xfs.count+1)*sizeof(struct st_xf_data));
+    if (new_xfs8 == NULL)
         return LIBXLS_ERROR_MALLOC;
+    pWB->xfs.xf = new_xfs8;
 
     tmp=&pWB->xfs.xf[pWB->xfs.count];
 
@@ -723,9 +728,10 @@ static xls_error_t xls_addXF5(xlsWorkBook* pWB,XF5* xf)
     struct st_xf_data* tmp;
 
     verbose("xls_addXF");
-    pWB->xfs.xf = realloc(pWB->xfs.xf, (pWB->xfs.count+1)*sizeof(struct st_xf_data));
-    if (pWB->xfs.xf == NULL)
+    struct st_xf_data *new_xfs5 = realloc(pWB->xfs.xf, (pWB->xfs.count+1)*sizeof(struct st_xf_data));
+    if (new_xfs5 == NULL)
         return LIBXLS_ERROR_MALLOC;
+    pWB->xfs.xf = new_xfs5;
 
     tmp=&pWB->xfs.xf[pWB->xfs.count];
 
@@ -752,9 +758,10 @@ static xls_error_t xls_addColinfo(xlsWorkSheet* pWS,COLINFO* colinfo)
     struct st_colinfo_data* tmp;
 
     verbose("xls_addColinfo");
-    pWS->colinfo.col =  realloc(pWS->colinfo.col,(pWS->colinfo.count+1)*sizeof(struct st_colinfo_data));
-    if (pWS->colinfo.col == NULL)
+    struct st_colinfo_data *new_cols = realloc(pWS->colinfo.col,(pWS->colinfo.count+1)*sizeof(struct st_colinfo_data));
+    if (new_cols == NULL)
         return LIBXLS_ERROR_MALLOC;
+    pWS->colinfo.col = new_cols;
 
     tmp=&pWS->colinfo.col[pWS->colinfo.count];
     tmp->first=colinfo->first;
@@ -882,11 +889,14 @@ xls_error_t xls_parseWorkBook(xlsWorkBook* pWB)
  		if(xls_debug) xls_showBOF(&bof1);
 
         if (bof1.size) {
-            if ((buf = realloc(buf, bof1.size)) == NULL) {
+            BYTE *new_buf = realloc(buf, bof1.size);
+            if (new_buf == NULL) {
                 if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)bof1.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
+            buf = new_buf;
+            memset(buf, 0, bof1.size);
             if (ole2_read(buf, 1, bof1.size, pWB->olestr) != bof1.size) {
                 if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
@@ -1127,11 +1137,14 @@ static xls_error_t xls_preparseWorkSheet(xlsWorkSheet* pWS)
         }
         xlsConvertBof(&tmp);
         if (tmp.size) {
-            if ((buf = realloc(buf, tmp.size)) == NULL) {
+            BYTE *new_buf = realloc(buf, tmp.size);
+            if (new_buf == NULL) {
                 if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
+            buf = new_buf;
+            memset(buf, 0, tmp.size);
             if((read = ole2_read(buf, 1, tmp.size, pWS->workbook->olestr)) != tmp.size) {
                 if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
@@ -1300,11 +1313,14 @@ xls_error_t xls_parseWorkSheet(xlsWorkSheet* pWS)
         }
         xlsConvertBof((BOF *)&tmp);
         if (tmp.size) {
-            if ((buf = realloc(buf, tmp.size)) == NULL) {
+            BYTE *new_buf = realloc(buf, tmp.size);
+            if (new_buf == NULL) {
                 if (xls_debug) fprintf(stderr, "Error: failed to allocate buffer of size %d\n", (int)tmp.size);
                 retval = LIBXLS_ERROR_MALLOC;
                 goto cleanup;
             }
+            buf = new_buf;
+            memset(buf, 0, tmp.size);
             if((read = ole2_read(buf, 1, tmp.size, pWS->workbook->olestr)) != tmp.size) {
                 if (xls_debug) fprintf(stderr, "Error: failed to read OLE block\n");
                 retval = LIBXLS_ERROR_READ;
@@ -1434,6 +1450,8 @@ xlsWorkSheet * xls_getWorkSheet(xlsWorkBook* pWB,int num)
     verbose ("xls_getWorkSheet");
     if (num >= 0 && num < (int)pWB->sheets.count) {
         pWS = calloc(1, sizeof(xlsWorkSheet));
+        if (pWS == NULL)
+            return NULL;
         pWS->filepos=pWB->sheets.sheet[num].filepos;
         pWS->workbook=pWB;
         pWS->rows.lastcol=0;
@@ -1443,34 +1461,68 @@ xlsWorkSheet * xls_getWorkSheet(xlsWorkBook* pWB,int num)
     return pWS;
 }
 
+/* Streams larger than this are not plausible property sets; skip them rather
+ * than let a corrupt directory entry drive a huge allocation. */
+#define XLS_MAX_SUMMARY_STREAM_SIZE (16 * 1024 * 1024)
+
+/* Read an optional property-set stream (SummaryInformation or
+ * DocumentSummaryInformation) into a buffer sized to the stream. A missing
+ * stream is not an error. See https://github.com/libxls/libxls/issues/121 */
+static xls_error_t xls_readSummaryStream(xlsWorkBook *pWB, OLE2 *ole,
+        const char *name, char **out, size_t *out_len) {
+    ssize_t bytes_read;
+
+    *out = NULL;
+    *out_len = 0;
+
+    if (!(pWB->olestr = ole2_fopen(ole, name)))
+        return LIBXLS_OK;
+
+    if (pWB->olestr->size == 0 || pWB->olestr->size > XLS_MAX_SUMMARY_STREAM_SIZE) {
+        if (xls_debug) fprintf(stderr, "Skipping %s stream of %zu bytes\n",
+                name + 1, pWB->olestr->size);
+        ole2_fclose(pWB->olestr);
+        pWB->olestr = NULL;
+        return LIBXLS_OK;
+    }
+
+    if ((*out = calloc(1, pWB->olestr->size)) == NULL)
+        return LIBXLS_ERROR_MALLOC;
+
+    bytes_read = ole2_read(*out, 1, pWB->olestr->size, pWB->olestr);
+    if (bytes_read == -1) {
+        if (xls_debug) fprintf(stderr, "%s not found\n", name + 1);
+        return LIBXLS_ERROR_READ;
+    }
+    *out_len = bytes_read;
+
+    ole2_fclose(pWB->olestr);
+    pWB->olestr = NULL;
+    return LIBXLS_OK;
+}
+
 static xlsWorkBook *xls_open_ole(OLE2 *ole, const char *charset, xls_error_t *outError) {
     xlsWorkBook* pWB;
     xls_error_t retval = LIBXLS_OK;
 
     pWB = calloc(1, sizeof(xlsWorkBook));
+    if (pWB == NULL) {
+        ole2_close(ole);
+        if (outError)
+            *outError = LIBXLS_ERROR_MALLOC;
+        return NULL;
+    }
     verbose ("xls_open_ole");
 
-    if ((pWB->olestr=ole2_fopen(ole, "\005SummaryInformation")))
-    {
-        pWB->summary = calloc(1,4096);
-		if (ole2_read(pWB->summary, 4096, 1, pWB->olestr) == -1) {
-            if (xls_debug) fprintf(stderr, "SummaryInformation not found\n");
-            retval = LIBXLS_ERROR_READ;
-            goto cleanup;
-        }
-		ole2_fclose(pWB->olestr);
-	}
+    retval = xls_readSummaryStream(pWB, ole, "\005SummaryInformation",
+            &pWB->summary, &pWB->summary_len);
+    if (retval != LIBXLS_OK)
+        goto cleanup;
 
-    if ((pWB->olestr=ole2_fopen(ole, "\005DocumentSummaryInformation")))
-    {
-        pWB->docSummary = calloc(1, 4096);
-		if (ole2_read(pWB->docSummary, 4096, 1, pWB->olestr) == -1) {
-            if (xls_debug) fprintf(stderr, "DocumentSummaryInformation not found\n");
-            retval = LIBXLS_ERROR_READ;
-            goto cleanup;
-        }
-		ole2_fclose(pWB->olestr);
-	}
+    retval = xls_readSummaryStream(pWB, ole, "\005DocumentSummaryInformation",
+            &pWB->docSummary, &pWB->docSummary_len);
+    if (retval != LIBXLS_OK)
+        goto cleanup;
 
 #if 0
 	if(xls_debug) {
@@ -1501,6 +1553,10 @@ static xlsWorkBook *xls_open_ole(OLE2 *ole, const char *charset, xls_error_t *ou
     pWB->xfs.count=0;
     pWB->fonts.count=0;
     pWB->charset = strdup(charset ? charset : "UTF-8");
+    if (pWB->charset == NULL) {
+        retval = LIBXLS_ERROR_MALLOC;
+        goto cleanup;
+    }
 
     retval = xls_parseWorkBook(pWB);
 
@@ -1602,8 +1658,10 @@ void xls_close_WB(xlsWorkBook* pWB)
     // SST
     {
         DWORD i;
-        for(i=0; i<pWB->sst.count; ++i) {
-            free(pWB->sst.string[i].str);
+        if (pWB->sst.string) {
+            for(i=0; i<pWB->sst.count; ++i) {
+                free(pWB->sst.string[i].str);
+            }
         }
         free(pWB->sst.string);
     }
@@ -1657,8 +1715,10 @@ void xls_close_WS(xlsWorkSheet* pWS)
         DWORD i, j;
         for(j=0; j<=pWS->rows.lastrow; ++j) {
             struct st_row_data *row = &pWS->rows.row[j];
-            for(i=0; i<row->cells.count; ++i) {
-                free(row->cells.cell[i].str);
+            if (row->cells.cell) {
+                for(i=0; i<row->cells.count; ++i) {
+                    free(row->cells.cell[i].str);
+                }
             }
             free(row->cells.cell);
         }
@@ -1706,8 +1766,10 @@ xlsSummaryInfo *xls_summaryInfo(xlsWorkBook* pWB)
 	xlsSummaryInfo	*pSI;
 
 	pSI = (xlsSummaryInfo *)calloc(1, sizeof(xlsSummaryInfo));
-	xls_dumpSummary(pWB->summary, 1, pSI);
-	xls_dumpSummary(pWB->docSummary, 0, pSI);
+	if (pSI == NULL)
+		return NULL;
+	xls_dumpSummary(pWB->summary, pWB->summary_len, 1, pSI);
+	xls_dumpSummary(pWB->docSummary, pWB->docSummary_len, 0, pSI);
 
 	return pSI;
 }
@@ -1730,15 +1792,16 @@ void xls_close_summaryInfo(xlsSummaryInfo *pSI)
 	free(pSI);
 }
 
-static void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo *pSI) {
+static void xls_dumpSummary(char *buf, size_t size, int isSummary, xlsSummaryInfo *pSI) {
 	header			*head;
 	sectionList		*secList;
 	propertyList	*plist;
 	sectionHeader	*secHead;
 	property		*prop;
+	size_t			sectionOffset, sectionLength, propertyOffset, propertyDataSize;
 	uint32_t i, j;
 
-	if(!buf) return;	// perhaps the document was missing??
+	if(!buf || size < offsetof(header, secList)) return;	// perhaps the document was missing??
 
 	head = (header *)buf;
 	//printf("header: \n");
@@ -1747,6 +1810,8 @@ static void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo *pSI) {
 	//printf("  class=%8.8x%8.8x%8.8x%8.8x\n", head->format[0], head->format[1], head->format[2], head->format[3]);
 	//printf("  count=%x\n", head->count);
 
+	if (head->count > (size - offsetof(header, secList)) / sizeof(sectionList)) return;
+
 	for(i=0; i<head->count; ++i) {
 		secList = &head->secList[i];
 		//printf("Section %d:\n", i);
@@ -1754,7 +1819,18 @@ static void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo *pSI) {
 		//printf("  offset=%d (now at %ld\n", secList->offset, (char *)secList - (char *)buf + sizeof(sectionList));
 
 
-		secHead = (sectionHeader *)((char *)head + secList->offset);
+		sectionOffset = secList->offset;
+		if (sectionOffset > size ||
+			offsetof(sectionHeader, properties) > size - sectionOffset)
+			continue;
+
+		secHead = (sectionHeader *)((char *)head + sectionOffset);
+		sectionLength = secHead->length;
+		if (sectionLength < offsetof(sectionHeader, properties) ||
+			sectionLength > size - sectionOffset ||
+			secHead->numProperties >
+				(sectionLength - offsetof(sectionHeader, properties)) / sizeof(propertyList))
+			continue;
 		//printf("  len=%d\n", secHead->length);
 		//printf("  properties=%d\n", secHead->numProperties);
 		for(j=0; j<secHead->numProperties; ++j) {
@@ -1763,7 +1839,13 @@ static void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo *pSI) {
 			plist = &secHead->properties[j];
 			//printf("      ---------\n");
 			//printf("      propID=%d offset=%d\n", plist->propertyID, plist->sectionOffset);
-			prop = (property *)((char *)secHead + plist->sectionOffset);
+			propertyOffset = plist->sectionOffset;
+			if (propertyOffset > sectionLength ||
+				offsetof(property, data) > sectionLength - propertyOffset)
+				continue;
+
+			prop = (property *)((char *)secHead + propertyOffset);
+			propertyDataSize = sectionLength - propertyOffset - offsetof(property, data);
 			//printf("      propType=%d\n", prop->propertyID);
 
 			switch(prop->propertyID) {
@@ -1795,7 +1877,16 @@ static void xls_dumpSummary(char *buf,int isSummary,xlsSummaryInfo *pSI) {
 					default:	s = NULL;				break;
 					}
 				}
-				if(s) *s = (BYTE *)strdup((char *)prop->data + 4);
+				if (s && propertyDataSize >= sizeof(uint32_t)) {
+					uint32_t stringLength = prop->data[0];
+					char *string = (char *)prop->data + sizeof(uint32_t);
+					if (stringLength &&
+						stringLength <= propertyDataSize - sizeof(uint32_t) &&
+						string[stringLength - 1] == '\0') {
+						free(*s);
+						*s = (BYTE *)strdup(string);
+					}
+				}
 				break;
 			case 64:
 				//printf("      longVal=%llx\n", *(uint64_t *)prop->data);
