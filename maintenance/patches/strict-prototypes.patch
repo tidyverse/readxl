@@ -12,15 +12,15 @@ index f126936..3c41050 100644
  #if defined (__BIG_ENDIAN__)
      return 1;
 diff --git a/src/libxls/locale.c b/src/libxls/locale.c
-index 8f8eb35..8dcdcce 100644
+index f8fc4a9..3f3e903 100644
 --- a/src/libxls/locale.c
 +++ b/src/libxls/locale.c
-@@ -47,7 +47,7 @@
-     static char* old_locale;
- #endif
+@@ -32,7 +32,7 @@
+ #include <stdlib.h>
+ #include "libxls/locale.h"
  
 -xls_locale_t xls_createlocale() {
 +xls_locale_t xls_createlocale(void) {
- #if defined(WINDOWS_BEFORE_RTOOLS_42)
-     old_locale = setlocale(LC_CTYPE, ".65001");
-     return NULL;
+ #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64) || defined(WINDOWS)
+     return _create_locale(LC_CTYPE, ".65001");
+ #else
