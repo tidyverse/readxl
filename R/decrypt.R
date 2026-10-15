@@ -12,7 +12,16 @@ is_encrypted_xlsx <- function(path) {
 decrypt_xlsx <- function(path, password, call = rlang::caller_env()) {
   password <- obtain_password(password, call = call)
   password <- iconv(enc2utf8(password), "UTF-8", "UTF-16LE", toRaw = TRUE)
-  decrypted <- xlsx_decrypt_(path, password[[1]])
+  decrypted <- tryCatch(
+    xlsx_decrypt_(path, password[[1]]),
+    error = function(cnd) {
+      cli::cli_abort(
+        "Failed to decrypt {.path {path}}.",
+        call = call,
+        parent = cnd
+      )
+    }
+  )
   if (is.null(decrypted)) {
     cli::cli_abort(
       c(
