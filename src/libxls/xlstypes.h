@@ -36,6 +36,12 @@
 #ifndef XLS_TYPES_INC
 #define XLS_TYPES_INC
 
+// --- Start readxl ---
+/* Mask illegal functions for CMD check */
+/* an analysis of header file includes shows that doing this here covers everything */
+#include "cran.h"
+// --- End readxl ---
+
 #include <stdint.h>
 #include <sys/types.h>
 

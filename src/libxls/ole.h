@@ -43,7 +43,9 @@ typedef SSIZE_T ssize_t;
 
 #include <stdio.h>			// FILE *
 
-#include "../libxls/xlstypes.h"
+// --- Start readxl ---
+#include "libxls/xlstypes.h"
+// --- End readxl ---
 
 #if defined(_AIX) || defined(__sun)
 #pragma pack(1)

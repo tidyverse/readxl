@@ -49,9 +49,11 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "../include/libxls/endian.h"
-#include "../include/libxls/locale.h"
-#include "../include/xls.h"
+// --- Start readxl ---
+#include "libxls/endian.h"
+#include "libxls/locale.h"
+#include "libxls/xls.h"
+// --- End readxl ---
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))

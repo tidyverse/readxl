@@ -35,7 +35,9 @@
 
 #ifndef XLS_TOOL_INC
 #define XLS_TOOL_INC
-#include "../libxls/xlsstruct.h"
+// --- Start readxl ---
+#include "libxls/xlsstruct.h"
+// --- End readxl ---
 
 void verbose(char* str);
 

@@ -36,7 +36,9 @@
 #ifndef XLS_STRUCT_INC
 #define XLS_STRUCT_INC
 
-#include "../libxls/ole.h"
+// --- Start readxl ---
+#include "libxls/ole.h"
+// --- End readxl ---
 
 #define XLS_RECORD_EOF          0x000A
 #define XLS_RECORD_DEFINEDNAME  0x0018

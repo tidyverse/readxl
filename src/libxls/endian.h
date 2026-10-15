@@ -31,7 +31,9 @@
 
 #ifndef XLS_ENDIAN_INC
 #define XLS_ENDIAN_INC
-#include "../libxls/xlsstruct.h"
+// --- Start readxl ---
+#include "libxls/xlsstruct.h"
+// --- End readxl ---
 
 int xls_is_bigendian(void);
 DWORD xlsIntVal (DWORD i);
