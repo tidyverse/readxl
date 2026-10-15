@@ -36,9 +36,11 @@
 #ifndef XLS_TYPES_INC
 #define XLS_TYPES_INC
 
+// --- Start readxl ---
 /* Mask illegal functions for CMD check */
 /* an analysis of header file includes shows that doing this here covers everything */
 #include "cran.h"
+// --- End readxl ---
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -51,6 +53,17 @@ typedef uint32_t			DWORD;
 typedef unsigned __int64	unsigned64_t;
 #else
 typedef uint64_t			unsigned64_t;
+#endif
+
+/* Several record structures end in a variable-length array. In C this is a
+ * flexible array member (C99), which keeps -fsanitize=bounds happy. C++ has no
+ * such construct, so fall back to a one-element array there. Code that needs
+ * the size of the fixed part of such a struct must use offsetof(), never
+ * sizeof(), so that both declarations behave identically. */
+#ifdef __cplusplus
+#define XLS_FLEXIBLE_ARRAY 1
+#else
+#define XLS_FLEXIBLE_ARRAY
 #endif
 
 #endif

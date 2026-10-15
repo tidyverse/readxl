@@ -40,9 +40,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// --- Start readxl ---
 #include "libxls/ole.h"
 #include "libxls/xlstool.h"
 #include "libxls/endian.h"
+// --- End readxl ---
 
 extern int xls_debug;
 
@@ -57,24 +59,34 @@ static size_t sector_pos(OLE2* ole2, DWORD sid);
 static ssize_t sector_read(OLE2* ole2, void *buffer, size_t buffer_len, DWORD sid);
 static ssize_t read_MSAT(OLE2* ole2, OLE2Header *oleh);
 static void *ole_malloc(size_t len);
-static void *ole_realloc(void *ptr, size_t len);
 
 static void *ole_malloc(size_t len) {
     if (len > (1<<24) || len == 0) {
         return NULL;
     }
-    return malloc(len);
+    return calloc(1, len);
 }
 
-static void *ole_realloc(void *ptr, size_t len) {
-    if (len > (1<<24) || len == 0) {
+/* Reallocates memory and zero-fills only the newly grown region (from old_len to new_len). Frees ptr on failure. */
+static void *ole_realloc_zero(void *ptr, size_t old_len, size_t new_len) {
+    if (new_len > (1<<24) || new_len == 0) {
         free(ptr);
         return NULL;
     }
-    return realloc(ptr, len);
+    void *new_ptr = realloc(ptr, new_len);
+    if (!new_ptr) {
+        free(ptr);
+        return NULL;
+    }
+    if (new_len > old_len) {
+        memset((char *)new_ptr + old_len, 0, new_len - old_len);
+    }
+    return new_ptr;
 }
 
 static int ole2_validate_sector_chain(DWORD *chain, DWORD chain_count, DWORD chain_start) {
+    if (chain == NULL || chain_count == 0)
+        return 0;
     DWORD count = 0;
     DWORD sector = chain_start;
     while (sector != ENDOFCHAIN) {
@@ -172,6 +184,9 @@ ssize_t ole2_read(void* buf, size_t size, size_t count, OLE2Stream* olest)
     size_t totalReadCount;
 
 	totalReadCount=size*count;
+    if (buf && totalReadCount > 0) {
+        memset(buf, 0, totalReadCount);
+    }
 
 	// olest->size inited to -1
 	// printf("===== ole2_read(%ld bytes)\n", totalReadCount);
@@ -243,6 +258,8 @@ OLE2Stream* ole2_sopen(OLE2* ole,DWORD start, size_t size)
 #endif
 
     olest = calloc(1, sizeof(OLE2Stream));
+    if (olest == NULL)
+        return NULL;
     olest->ole=ole;
     olest->size=size;
     olest->fatpos=start;
@@ -402,7 +419,9 @@ static size_t ole2_fread(OLE2 *ole2, void *buffer, size_t buffer_len, size_t siz
 // read header and check magic numbers
 static ssize_t ole2_read_header(OLE2 *ole) {
     ssize_t bytes_read = 0, total_bytes_read = 0;
-    OLE2Header *oleh = malloc(sizeof(OLE2Header));
+    OLE2Header *oleh = calloc(1, sizeof(OLE2Header));
+    if (oleh == NULL)
+        return -1;
     if (ole2_fread(ole, oleh, sizeof(OLE2Header), sizeof(OLE2Header)) != 1) {
         total_bytes_read = -1;
         goto cleanup;
@@ -480,7 +499,11 @@ static ssize_t ole2_read_body(OLE2 *ole) {
         total_bytes_read = -1;
         goto cleanup;
     }
-    pss = malloc(sizeof(PSS));
+    pss = calloc(1, sizeof(PSS));
+    if (pss == NULL) {
+        total_bytes_read = -1;
+        goto cleanup;
+    }
     do {
         if ((bytes_read = ole2_read(pss,1,sizeof(PSS),olest)) == -1) {
             total_bytes_read = -1;
@@ -504,7 +527,14 @@ static ssize_t ole2_read_body(OLE2 *ole) {
                     pss->type == PS_USER_ROOT ? "root" : "user",
                     (int)ole->files.count, (int)pss->size);
 #endif		
-            ole->files.file = realloc(ole->files.file,(ole->files.count+1)*sizeof(struct st_olefiles_data));
+            struct st_olefiles_data *new_files = realloc(ole->files.file,
+                    (ole->files.count+1)*sizeof(struct st_olefiles_data));
+            if (new_files == NULL) {
+                free(name);
+                total_bytes_read = -1;
+                goto cleanup;
+            }
+            ole->files.file = new_files;
             ole->files.file[ole->files.count].name=name;
             ole->files.file[ole->files.count].start=pss->sstart;
             ole->files.file[ole->files.count].size=pss->size;
@@ -529,17 +559,27 @@ static ssize_t ole2_read_body(OLE2 *ole) {
 			if(pss->sstart == ENDOFCHAIN) {
 				if (xls_debug) verbose("END OF CHAIN\n");
 			} else if(pss->type == PS_USER_STREAM) {
+			} else if(pss->type == PS_USER_ROOT && pss->size == 0) {
+				/* Empty mini stream. The spec says the start sector should be
+				 * ENDOFCHAIN, but some writers store 0 instead; there is
+				 * nothing to read either way (Fixes #104). */
+				if (xls_debug) verbose("EMPTY MINI STREAM\n");
 			} else if(pss->type == PS_USER_ROOT) {
 				DWORD sector, k, blocks;
 				BYTE *wptr;
                 size_t bytes_left;
 				
 				blocks = (pss->size + (ole->lsector - 1)) / ole->lsector;	// count partial
+				if (ole->lsector == 0 || blocks > (1u << 24) / ole->lsector) {
+					total_bytes_read = -1;
+					goto cleanup;
+				}
 #ifdef OLE_DEBUG
                 fprintf(stderr, "OLE BLOCKS: %d = (%d + (%d - 1))/%d\n",
                         (int)blocks, (int)pss->size, (int)ole->lsector, (int)ole->lsector);
 #endif
-				if ((ole->SSAT = ole_realloc(ole->SSAT, blocks*ole->lsector)) == NULL) {
+				size_t old_ssat_bytes = ole->SSATCount;
+				if ((ole->SSAT = ole_realloc_zero(ole->SSAT, old_ssat_bytes, blocks*ole->lsector)) == NULL) {
                     total_bytes_read = -1;
                     goto cleanup;
                 }
@@ -602,6 +642,8 @@ OLE2 *ole2_read_header_and_body(OLE2 *ole) {
 // Open in-memory buffer
 OLE2 *ole2_open_buffer(const void *buffer, size_t len) {
     OLE2 *ole = calloc(1, sizeof(OLE2));
+    if (ole == NULL)
+        return NULL;
 
     ole->buffer = buffer;
     ole->buffer_len = len;
@@ -610,6 +652,78 @@ OLE2 *ole2_open_buffer(const void *buffer, size_t len) {
 }
 
 // Open physical file
+#ifdef _WIN32
+/* Convert a UTF-8 string to UTF-16 for _wfopen(). Returns NULL if the input
+ * is not well-formed UTF-8 (the path is probably in the ANSI code page then).
+ * Written by hand so that ole.c does not need <windows.h>, whose DWORD typedef
+ * conflicts with the one in xlstypes.h. */
+static wchar_t *ole2_utf8_to_utf16(const char *str) {
+    const unsigned char *in = (const unsigned char *)str;
+    size_t n = strlen(str);
+    wchar_t *out = malloc((n + 1) * sizeof(wchar_t));
+    size_t i = 0, o = 0;
+
+    if (out == NULL)
+        return NULL;
+
+    while (i < n) {
+        uint32_t cp;
+        size_t extra;
+        if (in[i] < 0x80) {
+            cp = in[i]; extra = 0;
+        } else if ((in[i] & 0xE0) == 0xC0 && in[i] >= 0xC2) {
+            cp = in[i] & 0x1F; extra = 1;
+        } else if ((in[i] & 0xF0) == 0xE0) {
+            cp = in[i] & 0x0F; extra = 2;
+        } else if ((in[i] & 0xF8) == 0xF0 && in[i] <= 0xF4) {
+            cp = in[i] & 0x07; extra = 3;
+        } else {
+            goto invalid;
+        }
+        for (size_t k = 1; k <= extra; k++) {
+            if (i + k >= n || (in[i + k] & 0xC0) != 0x80)
+                goto invalid;
+            cp = (cp << 6) | (in[i + k] & 0x3F);
+        }
+        if ((extra == 2 && cp < 0x800) || (extra == 3 && cp < 0x10000) ||
+                cp > 0x10FFFF || (cp >= 0xD800 && cp <= 0xDFFF))
+            goto invalid;
+        i += extra + 1;
+        if (cp >= 0x10000) {
+            cp -= 0x10000;
+            out[o++] = (wchar_t)(0xD800 | (cp >> 10));
+            out[o++] = (wchar_t)(0xDC00 | (cp & 0x3FF));
+        } else {
+            out[o++] = (wchar_t)cp;
+        }
+    }
+    out[o] = L'\0';
+    return out;
+
+invalid:
+    free(out);
+    return NULL;
+}
+#endif
+
+/* Open a file by path. On Windows fopen() interprets the path in the ANSI code
+ * page, so a UTF-8 path with non-ASCII characters fails; retry it as UTF-16.
+ * See https://github.com/libxls/libxls/issues/146 */
+static FILE *ole2_fopen_path(const char *file)
+{
+    FILE *fp = fopen(file, "rb");
+#ifdef _WIN32
+    if (fp == NULL) {
+        wchar_t *wfile = ole2_utf8_to_utf16(file);
+        if (wfile) {
+            fp = _wfopen(wfile, L"rb");
+            free(wfile);
+        }
+    }
+#endif
+    return fp;
+}
+
 OLE2* ole2_open_file(const char *file)
 {
     OLE2* ole = NULL;
@@ -621,8 +735,10 @@ OLE2* ole2_open_file(const char *file)
 
 	if(xls_debug) printf("ole2_open: %s\n", file);
     ole = calloc(1, sizeof(OLE2));
+    if (ole == NULL)
+        return NULL;
 
-    if (!(ole->file=fopen(file, "rb"))) {
+    if (!(ole->file=ole2_fopen_path(file))) {
         if(xls_debug) fprintf(stderr, "File not found\n");
         free(ole);
         return NULL;
@@ -688,8 +804,11 @@ static ssize_t read_MSAT_header(OLE2* ole2, OLE2Header* oleh, DWORD sectorCount)
 
     for (sectorNum = 0; sectorNum < sectorCount && sectorNum < 109; sectorNum++)
     {
-        if ((bytes_read = sector_read(ole2, sector, bytes_left, oleh->MSAT[sectorNum])) == -1) {
-            if (xls_debug) fprintf(stderr, "Error: Unable to read sector #%d\n", oleh->MSAT[sectorNum]);
+        DWORD s = oleh->MSAT[sectorNum];
+        if (s == ENDOFCHAIN || s == FREESECT)
+            break;
+        if ((bytes_read = sector_read(ole2, sector, bytes_left, s)) == -1) {
+            if (xls_debug) fprintf(stderr, "Error: Unable to read sector #%d\n", s);
             return -1;
         }
         sector += ole2->lsector;
@@ -706,6 +825,8 @@ static ssize_t read_MSAT_body(OLE2 *ole2, DWORD sectorOffset, DWORD sectorCount)
     DWORD sectorNum = sectorOffset;
 
     DWORD *sector = ole_malloc(ole2->lsector);
+    if (sector == NULL)
+        return -1;
     //printf("sid=%u (0x%x) sector=%u\n", sid, sid, ole2->lsector);
     while (sid != ENDOFCHAIN && sid != FREESECT) // FREESECT only here due to an actual file that requires it (old Apple Numbers bug)
     {
@@ -779,6 +900,7 @@ static ssize_t read_MSAT_trailer(OLE2 *ole2) {
         return -1;
     }
     ole2->SSecIDCount = ole2->csfat*(size_t)ole2->lsector/4;
+    memset(ole2->SSecID, 0xFF, ole2->SSecIDCount * sizeof(DWORD));
     sector = ole2->sfatstart;
     wptr=(BYTE*)ole2->SSecID;
     bytes_left = ole2->SSecIDCount * sizeof(DWORD);
@@ -828,6 +950,7 @@ static ssize_t read_MSAT(OLE2* ole2, OLE2Header* oleh)
         total_bytes_read = -1;
         goto cleanup;
     }
+    memset(ole2->SecID, 0xFF, ole2->SecIDCount * sizeof(DWORD));
 
     if ((bytes_read = read_MSAT_header(ole2, oleh, count)) == -1) {
         total_bytes_read = -1;

@@ -13,7 +13,10 @@ if (git_branch(repo = libxls_path) != target_branch) {
 }
 
 # relevant when I am embedding an official release
-target_version <- "v1.6.3"
+# see 02_readxl-patches.md for the overall workflow: this script gets run twice,
+# once with the currently-vendored version (to revert to pristine upstream) and
+# then again with the new version
+target_version <- "v1.6.4"
 (tag <- git_tag_list(target_version, repo = libxls_path))
 
 libxls_SHA <- git_commit_id(repo = libxls_path)
