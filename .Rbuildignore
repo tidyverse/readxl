@@ -24,9 +24,7 @@
 ^vignettes/releases$
 ^talks$
 ^scratch\.R$
-^src/fprintf-substitution\.R$
 ^\.github$
-^fprintf-matches\.txt$
 ^CRAN-RELEASE$
 ^investigations$
 ^src/patch-to-libxls-upstream\.R$
