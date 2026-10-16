@@ -71,7 +71,7 @@ other packages in the tidyverse, such as purrr, or with base R functions like
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">excel_sheets</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">excel_sheets</span><span class="op">(</span><span class="va">path</span>, password <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,6 +80,20 @@ other packages in the tidyverse, such as purrr, or with base R functions like
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>Path to the xls/xlsx file.</p></dd>
+
+
+<dt id="arg-password">password<a class="anchor" aria-label="anchor" href="#arg-password"></a></dt>
+<dd><p>Password for reading a protected xlsx file. readxl supports
+ECMA-376 (agile and standard) encrypted xlsx files, i.e. those protected
+via <em>File &gt; Info &gt; Protect Workbook &gt; Encrypt with Password</em> in modern
+Excel. Decrypting legacy xls files is not supported. Valid values:</p><ul><li><p><code>NULL</code>: If the file appears to be encrypted, the session is interactive,
+and the askpass package is installed, <code><a href="https://r-lib.r-universe.dev/askpass/reference/askpass.html" class="external-link">askpass::askpass()</a></code> is called to
+get the password from the user.</p></li>
+<li><p>A string or something that evaluates to a string, such as
+<code>Sys.getenv("SUPER_SECRET_PASSWORD")</code>.</p></li>
+<li><p>A function that can be called with no arguments and returns the password
+as a single string.</p></li>
+</ul></dd>
 
 </dl></div>
 

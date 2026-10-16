@@ -1,12 +1,11 @@
 # Read xls and xlsx files
 
-Read xls and xlsx files
-
 `read_excel()` calls
 [`excel_format()`](https://readxl.tidyverse.org/dev/reference/excel_format.md)
 to determine if `path` is xls or xlsx, based on the file extension and
 the file itself, in that order. Use `read_xls()` and `read_xlsx()`
-directly if you know better and want to prevent such guessing.
+directly if you know better and want to prevent such guessing. To read a
+password-protected xlsx, you must call `read_xlsx()` directly.
 
 ## Usage
 
@@ -53,7 +52,8 @@ read_xlsx(
   n_max = Inf,
   guess_max = min(1000, n_max),
   progress = readxl_progress(),
-  .name_repair = "unique"
+  .name_repair = "unique",
+  password = NULL
 )
 ```
 
@@ -137,6 +137,24 @@ read_xlsx(
   [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html).
   readxl's default is \`.name_repair = "unique", which ensures column
   names are not empty and are unique.
+
+- password:
+
+  Password for reading a protected xlsx file. readxl supports ECMA-376
+  (agile and standard) encrypted xlsx files, i.e. those protected via
+  *File \> Info \> Protect Workbook \> Encrypt with Password* in modern
+  Excel. Decrypting legacy xls files is not supported. Valid values:
+
+  - `NULL`: If the file appears to be encrypted, the session is
+    interactive, and the askpass package is installed,
+    [`askpass::askpass()`](https://r-lib.r-universe.dev/askpass/reference/askpass.html)
+    is called to get the password from the user.
+
+  - A string or something that evaluates to a string, such as
+    `Sys.getenv("SUPER_SECRET_PASSWORD")`.
+
+  - A function that can be called with no arguments and returns the
+    password as a single string.
 
 ## Value
 
@@ -441,4 +459,9 @@ read_excel(
 #>  9   143 horsebean
 #> 10   140 horsebean
 #> # ℹ 61 more rows
+
+# Prompt for the password of an encrypted file interactively
+if (FALSE) {
+  read_xlsx("secret.xlsx", password = askpass::askpass)
+}
 ```

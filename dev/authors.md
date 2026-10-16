@@ -31,6 +31,9 @@
 - **Evan Miller**. Contributor, copyright holder.  
   Author of included libxls code
 
+- **kokke**. Contributor.  
+  Author of included tiny-AES-c code
+
 ## Citation
 
 Source:

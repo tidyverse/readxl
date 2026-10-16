@@ -10,7 +10,7 @@ functions like [`lapply()`](https://rdrr.io/r/base/lapply.html).
 ## Usage
 
 ``` r
-excel_sheets(path)
+excel_sheets(path, password = NULL)
 ```
 
 ## Arguments
@@ -18,6 +18,24 @@ excel_sheets(path)
 - path:
 
   Path to the xls/xlsx file.
+
+- password:
+
+  Password for reading a protected xlsx file. readxl supports ECMA-376
+  (agile and standard) encrypted xlsx files, i.e. those protected via
+  *File \> Info \> Protect Workbook \> Encrypt with Password* in modern
+  Excel. Decrypting legacy xls files is not supported. Valid values:
+
+  - `NULL`: If the file appears to be encrypted, the session is
+    interactive, and the askpass package is installed,
+    [`askpass::askpass()`](https://r-lib.r-universe.dev/askpass/reference/askpass.html)
+    is called to get the password from the user.
+
+  - A string or something that evaluates to a string, such as
+    `Sys.getenv("SUPER_SECRET_PASSWORD")`.
+
+  - A function that can be called with no arguments and returns the
+    password as a single string.
 
 ## Examples
 

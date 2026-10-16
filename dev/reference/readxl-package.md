@@ -3,7 +3,9 @@
 Import excel files into R. Supports '.xls' via the embedded 'libxls' C
 library <https://github.com/libxls/libxls> and '.xlsx' via the embedded
 'RapidXML' C++ library <https://rapidxml.sourceforge.net/>. Works on
-Windows, Mac and Linux without external dependencies.
+Windows, Mac and Linux without external dependencies. Reading of
+password-encrypted '.xlsx' files is supported via the embedded
+'tiny-AES-c' C library <https://github.com/kokke/tiny-AES-c>.
 
 ## See also
 
@@ -50,3 +52,5 @@ Other contributors:
 
 - Evan Miller (Author of included libxls code) \[contributor, copyright
   holder\]
+
+- kokke (Author of included tiny-AES-c code) \[contributor\]

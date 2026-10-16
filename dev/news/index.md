@@ -18,6 +18,11 @@
   ([\#798](https://github.com/tidyverse/readxl/issues/798),
   [@sims1253](https://github.com/sims1253)) or is `Inf` or not a whole
   number ([\#801](https://github.com/tidyverse/readxl/issues/801)).
+- [`read_xlsx()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+  and
+  [`excel_sheets()`](https://readxl.tidyverse.org/dev/reference/excel_sheets.md)
+  gain a `password` argument to support reading password-encrypted xlsx
+  files ([\#794](https://github.com/tidyverse/readxl/issues/794)).
 
 ## readxl 1.5.0.1
 
