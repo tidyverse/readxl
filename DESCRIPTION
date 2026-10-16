@@ -19,23 +19,30 @@ Authors@R: c(
     person("David Hoerl", role = c("ctb", "cph"),
            comment = "Author of included libxls code"),
     person("Evan Miller", role = c("ctb", "cph"),
-           comment = "Author of included libxls code")
+           comment = "Author of included libxls code"),
+    person("kokke", role = "ctb",
+           comment = "Author of included tiny-AES-c code")
   )
 Description: Import excel files into R. Supports '.xls' via the embedded
     'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via
     the embedded 'RapidXML' C++ library
     <https://rapidxml.sourceforge.net/>.  Works on Windows, Mac and Linux
-    without external dependencies.
+    without external dependencies. Reading of password-encrypted '.xlsx'
+    files is supported via the embedded 'tiny-AES-c' C library
+    <https://github.com/kokke/tiny-AES-c>.
 License: MIT + file LICENSE
 URL: https://readxl.tidyverse.org, https://github.com/tidyverse/readxl
 BugReports: https://github.com/tidyverse/readxl/issues
 Depends:
-    R (>= 4.1)
+    R (>= 4.2)
 Imports:
     cellranger,
+    cli,
+    rlang,
     tibble (>= 2.0.1),
     utils
 Suggests:
+    askpass,
     covr,
     knitr,
     rmarkdown,
@@ -51,5 +58,5 @@ Config/Needs/website: tidyverse/tidytemplate, tidyverse
 Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
-Note: libxls v1.6.3 c199d13
+Note: libxls v1.6.4 34c7cc6; tiny-AES-c 2385675
 Roxygen: list(markdown = TRUE)

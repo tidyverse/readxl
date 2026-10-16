@@ -29,7 +29,11 @@
  *
  */
 
+#ifndef XLS_ENDIAN_INC
+#define XLS_ENDIAN_INC
+// --- Start readxl ---
 #include "libxls/xlsstruct.h"
+// --- End readxl ---
 
 int xls_is_bigendian(void);
 DWORD xlsIntVal (DWORD i);
@@ -59,3 +63,5 @@ void xlsConvertPss(PSS* pss);
 
 #define W_ENDIAN(a) a=xlsShortVal(a)
 #define D_ENDIAN(a) a=xlsIntVal(a)
+
+#endif /* XLS_ENDIAN_INC */

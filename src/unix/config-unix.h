@@ -59,7 +59,7 @@
 #define LIBXLS_MAJOR_VERSION 1
 
 /* Micro version */
-#define LIBXLS_MICRO_VERSION 3
+#define LIBXLS_MICRO_VERSION 4
 
 /* Minor version */
 #define LIBXLS_MINOR_VERSION 6
@@ -77,7 +77,7 @@
 #define PACKAGE_NAME "libxls"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libxls 1.6.3"
+#define PACKAGE_STRING "libxls 1.6.4"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libxls"
@@ -86,7 +86,7 @@
 #define PACKAGE_URL "https://github.com/libxls/libxls"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.6.3"
+#define PACKAGE_VERSION "1.6.4"
 
 /* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
@@ -94,7 +94,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.6.3"
+#define VERSION "1.6.4"
 
 /* Define as 'unsigned int' if <stddef.h> doesn't define. */
 /* #undef size_t */

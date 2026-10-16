@@ -50,12 +50,14 @@
 #include <string.h>
 
 //#include "xls.h"
+// --- Start readxl ---
 #include "libxls/xlstypes.h"
 #include "libxls/xlsstruct.h"
 #include "libxls/xlstool.h"
 #include "libxls/brdb.h"
 #include "libxls/endian.h"
 #include "libxls/locale.h"
+// --- End readxl ---
 
 extern int xls_debug;
 
@@ -260,6 +262,9 @@ static char *unicode_decode_wcstombs(const char *s, size_t len, xls_locale_t loc
     wchar_t *w = NULL;
 
     w = malloc((len/2+1)*sizeof(wchar_t));
+    if (w == NULL) {
+        goto cleanup;
+    }
 
     for(i=0; i<len/2; i++)
     {
@@ -274,6 +279,9 @@ static char *unicode_decode_wcstombs(const char *s, size_t len, xls_locale_t loc
     }
 
     converted = calloc(count+1, sizeof(char));
+    if (converted == NULL) {
+        goto cleanup;
+    }
     count2 = xls_wcstombs_l(converted, w, count, locale);
     if (count2 <= 0) {
         printf("wcstombs failed (%lu)\n", (unsigned long)len/2);
@@ -299,6 +307,8 @@ static char *transcode_latin1_to_utf8(const char *str, DWORD len)
     }
 	
     char *out = ret = malloc(len+utf8_chars+1);
+    if (ret == NULL)
+        return NULL;
     // UTF-8 encoding inline
     for(i=0; i<len; ++i) {
         BYTE c = str[i];
@@ -333,6 +343,8 @@ char* codepage_decode(const char *s, size_t len, xlsWorkBook *pWB) {
     return unicode_decode_iconv(s, len, pWB->converter);
 #else
     char *ret = malloc(len+1);
+    if (ret == NULL)
+        return NULL;
     memcpy(ret, s, len);
     ret[len] = 0;
     return ret;
@@ -677,13 +689,19 @@ char *xls_getfcell(xlsWorkBook* pWB, struct st_cell_data* cell, BYTE *label)
     case XLS_RECORD_RK:
     case XLS_RECORD_NUMBER:
         ret = malloc(retlen);
-        snprintf(ret, retlen, "%lf", cell->d);
+        if (ret == NULL)
+            return NULL;
+        /* Up to 15 significant digits, like Excel and xls2csv; "%lf" truncated
+         * everything past six decimal places (Fixes #142) */
+        snprintf(ret, retlen, "%.15g", cell->d);
 		break;
 		//		if( RK || MULRK || NUMBER || FORMULA)
 		//		if (cell->id==0x27e || cell->id==0x0BD || cell->id==0x203 || 6 (formula))
     default:
         if (xf) {
             ret = malloc(retlen);
+            if (ret == NULL)
+                return NULL;
             switch (xf->format)
             {
                 case XLS_FORMAT_GENERAL:
@@ -733,17 +751,28 @@ char* xls_getCSS(xlsWorkBook* pWB)
     WORD size;
     char fontname[255];
     struct st_xf_data* xf;
+    struct st_font_data* font;
     DWORD background;
     DWORD i;
 
     char *ret = malloc(65535);
     size_t buf_len = 4096;
-    char *buf = malloc(buf_len);
+    char *buf;
+    if (ret == NULL)
+        return NULL;
+    buf = malloc(buf_len);
+    if (buf == NULL) {
+        free(ret);
+        return NULL;
+    }
 	ret[0] = '\0';
 
     for (i=0;i<pWB->xfs.count;i++)
     {
         xf=&pWB->xfs.xf[i];
+        font = NULL;
+        if (xf->font && xf->font <= pWB->fonts.count)
+            font = &pWB->fonts.font[xf->font-1];
         switch ((xf->align & 0x70)>>4)
         {
         case 0:
@@ -818,33 +847,33 @@ char* xls_getCSS(xlsWorkBook* pWB)
             break;
         }
 
-        if (xf->font)
-            snprintf(color, sizeof(color), "color:#%.6X;",xls_getColor(pWB->fonts.font[xf->font-1].color,0));
+        if (font)
+            snprintf(color, sizeof(color), "color:#%.6X;",xls_getColor(font->color,0));
         else
             snprintf(color, sizeof(color), "%s", "");
 
-        if (xf->font && (pWB->fonts.font[xf->font-1].flag & 2))
+        if (font && (font->flag & 2))
             snprintf(italic, sizeof(italic), "font-style: italic;");
         else
             snprintf(italic, sizeof(italic), "%s", "");
 
-        if (xf->font && (pWB->fonts.font[xf->font-1].bold>400))
+        if (font && (font->bold>400))
             snprintf(bold, sizeof(bold), "font-weight: bold;");
         else
             snprintf(bold, sizeof(bold), "%s", "");
 
-        if (xf->font && (pWB->fonts.font[xf->font-1].underline))
+        if (font && font->underline)
             snprintf(underline, sizeof(underline), "text-decoration: underline;");
         else
             snprintf(underline, sizeof(underline), "%s", "");
 
-        if (xf->font)
-            size=pWB->fonts.font[xf->font-1].height/20;
+        if (font)
+            size=font->height/20;
         else
             size=10;
 
-        if (xf->font)
-            snprintf(fontname, sizeof(fontname),"%s",pWB->fonts.font[xf->font-1].name);
+        if (font && font->name)
+            snprintf(fontname, sizeof(fontname),"%s",font->name);
         else
             snprintf(fontname, sizeof(fontname),"Arial");
 
@@ -854,7 +883,11 @@ char* xls_getCSS(xlsWorkBook* pWB)
 
 		strcat(ret,buf);
     }
-	ret = realloc(ret, strlen(ret)+1);
+	{
+		char *shrunk = realloc(ret, strlen(ret)+1);
+		if (shrunk != NULL)
+			ret = shrunk;
+	}
 	free(buf);
 
     return ret;

@@ -15,9 +15,13 @@
 #' # To load all sheets in a workbook, use lapply()
 #' path <- readxl_example("datasets.xls")
 #' lapply(excel_sheets(path), read_excel, path = path)
-excel_sheets <- function(path) {
+excel_sheets <- function(path, password = NULL) {
   path <- check_file(path)
+  if (is_encrypted_xlsx(path)) {
+    path <- decrypt_xlsx(path, password)
+    on.exit(unlink(path), add = TRUE)
+    return(xlsx_sheets(path))
+  }
   format <- check_format(path)
-
   switch(format, xls = xls_sheets(path), xlsx = xlsx_sheets(path))
 }
