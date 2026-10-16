@@ -3,8 +3,7 @@
 * readxl embeds libxls v1.6.4, with release notes at <https://github.com/libxls/libxls/releases/tag/v1.6.4>. This version of libxls fixes several vulnerabilities, including [CVE-2026-26824](https://www.cve.org/CVERecord?id=CVE-2026-26824), [CVE-2026-26825](https://www.cve.org/CVERecord?id=CVE-2026-26825), [CVE-2026-79591](https://www.cve.org/CVERecord?id=CVE-2026-79591), and [CVE-2026-79592](https://www.cve.org/CVERecord?id=CVE-2026-79592) (#795).
 * `read_excel()`, `read_xls()`, and `read_xlsx()` now error informatively when `sheet` is `NA` (#798, @sims1253) or is `Inf` or not a whole number (#801).
 * `read_xlsx()` and `excel_sheets()` gain a `password` argument to support reading password-encrypted xlsx files (#794).
-
-* `read_excel()`, `read_xls()`, and `read_xlsx()` now return a tibble of `NA`s of the requested size when `range` is fully specified but contains no data, instead of a 0 x 0 tibble (#550).
+* `read_excel()` and friends now return a tibble of `NA`s of the requested size when `range` is fully specified but contains no data, instead of a 0 x 0 tibble (#550, @taekop).
 
 # readxl 1.5.0.1
 
