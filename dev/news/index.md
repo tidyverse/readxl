@@ -10,6 +10,11 @@
   [CVE-2026-79591](https://www.cve.org/CVERecord?id=CVE-2026-79591), and
   [CVE-2026-79592](https://www.cve.org/CVERecord?id=CVE-2026-79592)
   ([\#795](https://github.com/tidyverse/readxl/issues/795)).
+- [`read_xlsx()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+  and
+  [`excel_sheets()`](https://readxl.tidyverse.org/dev/reference/excel_sheets.md)
+  gain a `password` argument to support reading password-encrypted xlsx
+  files ([\#794](https://github.com/tidyverse/readxl/issues/794)).
 - [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
   [`read_xls()`](https://readxl.tidyverse.org/dev/reference/read_excel.md),
   and
@@ -18,11 +23,6 @@
   ([\#798](https://github.com/tidyverse/readxl/issues/798),
   [@sims1253](https://github.com/sims1253)) or is `Inf` or not a whole
   number ([\#801](https://github.com/tidyverse/readxl/issues/801)).
-- [`read_xlsx()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
-  and
-  [`excel_sheets()`](https://readxl.tidyverse.org/dev/reference/excel_sheets.md)
-  gain a `password` argument to support reading password-encrypted xlsx
-  files ([\#794](https://github.com/tidyverse/readxl/issues/794)).
 - [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
   and friends now return a tibble of `NA`s of the requested size when
   `range` is fully specified but contains no data, instead of a 0 x 0
