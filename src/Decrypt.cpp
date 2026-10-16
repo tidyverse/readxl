@@ -139,7 +139,7 @@ std::string hash(const std::string& alg, const std::string& data) {
   if (alg == "SHA256") return sha::sha256(data);
   if (alg == "SHA384") return sha::sha512(data, 48);
   if (alg == "SHA512") return sha::sha512(data);
-  throw std::runtime_error("Unsupported hash algorithm: " + alg);
+  throw std::runtime_error("Unsupported hash algorithm.");
 }
 
 // H(salt + password), then `spin_count` rounds of H(iterator + H)
@@ -242,7 +242,7 @@ bool decrypt_agile(const std::string& info, const std::string& package,
     }
   } kd = {key_data}, ek = {enc_key};
   if (kd("cipherAlgorithm") != "AES" || ek("cipherAlgorithm") != "AES") {
-    throw std::runtime_error("Unsupported cipher: " + ek("cipherAlgorithm"));
+    throw std::runtime_error("Unsupported cipher.");
   }
 
   // Derive the key that encrypts the verifier and the package key
