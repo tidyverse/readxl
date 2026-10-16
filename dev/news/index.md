@@ -23,6 +23,11 @@
   [`excel_sheets()`](https://readxl.tidyverse.org/dev/reference/excel_sheets.md)
   gain a `password` argument to support reading password-encrypted xlsx
   files ([\#794](https://github.com/tidyverse/readxl/issues/794)).
+- [`read_excel()`](https://readxl.tidyverse.org/dev/reference/read_excel.md)
+  and friends now return a tibble of `NA`s of the requested size when
+  `range` is fully specified but contains no data, instead of a 0 x 0
+  tibble ([\#550](https://github.com/tidyverse/readxl/issues/550),
+  [@taekop](https://github.com/taekop)).
 
 ## readxl 1.5.0.1
 
