@@ -1,6 +1,45 @@
 # Changelog
 
+## readxl 1.6.0
+
+CRAN release: 2026-10-17
+
+- readxl embeds libxls v1.6.4, with release notes at
+  <https://github.com/libxls/libxls/releases/tag/v1.6.4>. This version
+  of libxls fixes several vulnerabilities, including
+  [CVE-2026-26824](https://www.cve.org/CVERecord?id=CVE-2026-26824),
+  [CVE-2026-26825](https://www.cve.org/CVERecord?id=CVE-2026-26825),
+  [CVE-2026-79591](https://www.cve.org/CVERecord?id=CVE-2026-79591), and
+  [CVE-2026-79592](https://www.cve.org/CVERecord?id=CVE-2026-79592)
+  ([\#795](https://github.com/tidyverse/readxl/issues/795)).
+- [`read_xlsx()`](https://readxl.tidyverse.org/reference/read_excel.md)
+  and
+  [`excel_sheets()`](https://readxl.tidyverse.org/reference/excel_sheets.md)
+  gain a `password` argument to support reading password-encrypted xlsx
+  files ([\#794](https://github.com/tidyverse/readxl/issues/794)).
+- [`read_excel()`](https://readxl.tidyverse.org/reference/read_excel.md),
+  [`read_xls()`](https://readxl.tidyverse.org/reference/read_excel.md),
+  and
+  [`read_xlsx()`](https://readxl.tidyverse.org/reference/read_excel.md)
+  now error informatively when `sheet` is `NA`
+  ([\#798](https://github.com/tidyverse/readxl/issues/798),
+  [@sims1253](https://github.com/sims1253)) or is `Inf` or not a whole
+  number ([\#801](https://github.com/tidyverse/readxl/issues/801)).
+- [`read_excel()`](https://readxl.tidyverse.org/reference/read_excel.md)
+  and friends now return a tibble of `NA`s of the requested size when
+  `range` is fully specified but contains no data, instead of a 0 x 0
+  tibble ([\#550](https://github.com/tidyverse/readxl/issues/550),
+  [@taekop](https://github.com/taekop)).
+
+## readxl 1.5.0.1
+
+CRAN release: 2026-09-16
+
+- CRAN-authored release with internal changes for LLVM 23 compatibility.
+
 ## readxl 1.5.0
+
+CRAN release: 2026-05-16
 
 - readxl should once again compile on Alpine Linux
   ([\#775](https://github.com/tidyverse/readxl/issues/775)).
@@ -52,7 +91,7 @@ This release contains no user-facing changes.
   the fix for this CVE
   ([\#679](https://github.com/tidyverse/readxl/issues/679)):
 
-  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/CVE-2021-27836)
+  - [CVE-2021-27836](https://nvd.nist.gov/vuln/detail/cve-2021-27836)
 
 - readxl no longer declares the use of C++11.
 

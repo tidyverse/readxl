@@ -31,18 +31,21 @@
 - **Evan Miller**. Contributor, copyright holder.  
   Author of included libxls code
 
+- **kokke**. Contributor.  
+  Author of included tiny-AES-c code
+
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidyverse/readxl/blob/v1.5.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidyverse/readxl/blob/main/DESCRIPTION)
 
 Wickham H, Bryan J (2026). *readxl: Read Excel Files*. R package version
-1.5.0, <https://readxl.tidyverse.org>.
+1.6.0, <https://readxl.tidyverse.org>.
 
     @Manual{,
       title = {readxl: Read Excel Files},
       author = {Hadley Wickham and Jennifer Bryan},
       year = {2026},
-      note = {R package version 1.5.0},
+      note = {R package version 1.6.0},
       url = {https://readxl.tidyverse.org},
     }
