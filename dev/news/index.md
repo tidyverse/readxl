@@ -2,6 +2,10 @@
 
 ## readxl (development version)
 
+## readxl 1.6.0
+
+CRAN release: 2026-10-17
+
 - readxl embeds libxls v1.6.4, with release notes at
   <https://github.com/libxls/libxls/releases/tag/v1.6.4>. This version
   of libxls fixes several vulnerabilities, including
