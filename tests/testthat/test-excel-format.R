@@ -30,6 +30,15 @@ test_that("excel_format(guess = FALSE) == format_from_ext()", {
   expect_identical(format_from_ext(files), excel_format(files))
 })
 
+test_that("signature read errors suggest closing a file open elsewhere", {
+  path <- tempfile(fileext = ".xlsx")
+  expect_error(
+    format_from_signature(path),
+    "close it and try again",
+    class = "readxl_error_cant_open_file"
+  )
+})
+
 test_that("excel_format(guess = TRUE) == format_from_signature()", {
   orig_files <- c(
     test_sheet("iris-excel-xlsx.xlsx"),

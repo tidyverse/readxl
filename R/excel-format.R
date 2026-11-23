@@ -67,7 +67,26 @@ format_from_signature <- function(path) {
   vapply(signature, sig_to_fmt, "xlsx?")
 }
 
-first_8_bytes <- function(x) readBin(x, n = 8, what = "raw")
+first_8_bytes <- function(path) {
+  abort_open <- function(cnd) {
+    cli::cli_abort(
+      c(
+        "Can't open {.path {path}} for reading.",
+        i = "If the file is open in another program, close it and try again.",
+        i = "Check that you have permission to read the file."
+      ),
+      class = "readxl_error_cant_open_file",
+      parent = cnd
+    )
+  }
+  con <- tryCatch(
+    file(path, open = "rb"),
+    error = abort_open,
+    warning = abort_open
+  )
+  on.exit(close(con))
+  readBin(con, n = 8, what = "raw")
+}
 
 sig_to_fmt <- function(x) {
   ## https://en.wikipedia.org/wiki/List_of_file_signatures

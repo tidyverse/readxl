@@ -1,5 +1,7 @@
 # readxl (development version)
 
+* `read_excel()` and friends give a more helpful error for an xlsx file they can't open, including a hint to close the file if it is open in another program (#773, @M-Colley).
+
 # readxl 1.6.0
 
 * readxl embeds libxls v1.6.4, with release notes at <https://github.com/libxls/libxls/releases/tag/v1.6.4>. This version of libxls fixes several vulnerabilities, including [CVE-2026-26824](https://www.cve.org/CVERecord?id=CVE-2026-26824), [CVE-2026-26825](https://www.cve.org/CVERecord?id=CVE-2026-26825), [CVE-2026-79591](https://www.cve.org/CVERecord?id=CVE-2026-79591), and [CVE-2026-79592](https://www.cve.org/CVERecord?id=CVE-2026-79592) (#795).
