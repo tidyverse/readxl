@@ -1,6 +1,6 @@
 # Called only from C++ code, but currently needs to be implemented in R.
 zip_buffer <- function(zip_path, file_path) {
-  files <- utils::unzip(zip_path, list = TRUE)
+  files <- zip_list(zip_path)
 
   indx <- match(file_path, files$Name)
   if (is.na(indx)) {
@@ -15,5 +15,16 @@ zip_buffer <- function(zip_path, file_path) {
 }
 
 zip_has_file <- function(zip_path, file_path) {
-  file_path %in% utils::unzip(zip_path, list = TRUE)$Name
+  file_path %in% zip_list(zip_path)$Name
+}
+
+zip_list <- function(zip_path) {
+  tryCatch(
+    utils::unzip(zip_path, list = TRUE),
+    error = function(cnd) {
+      # Keep the ZIP error when the path is readable.
+      first_8_bytes(zip_path)
+      stop(cnd)
+    }
+  )
 }
