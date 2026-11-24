@@ -107,6 +107,31 @@ test_that("guess_max is honored for col_types", {
   expect_identical(types$string_in_row_3, c(1, 2, NA))
 })
 
+test_that("non-binary numbers in guessed logical columns warn", {
+  path <- test_sheet("types.xlsx")
+  range <- "text_coercion!A5:A6"
+
+  expect_snapshot(
+    guessed <- read_excel(
+      path,
+      range = range,
+      col_names = "value",
+      guess_max = 1
+    )
+  )
+  expect_identical(guessed$value, c(TRUE, TRUE))
+
+  expect_no_warning(
+    explicit <- read_excel(
+      path,
+      range = range,
+      col_names = "value",
+      col_types = "logical"
+    )
+  )
+  expect_identical(explicit, guessed)
+})
+
 test_that("wrong length col types generates error", {
   expect_snapshot(
     error = TRUE,

@@ -64,6 +64,14 @@
       Warning:
       Expecting numeric in A4 / R4C1: got 'ab'
 
+# non-binary numbers in guessed logical columns warn
+
+    Code
+      guessed <- read_excel(path, range = range, col_names = "value", guess_max = 1)
+    Condition
+      Warning:
+      Coercing non-binary number to logical in A6 / R6C1: 1.3
+
 # wrong length col types generates error
 
     Code
@@ -89,6 +97,12 @@
       Expecting logical in A2 / R2C1: got 'NA'
       Warning:
       Expecting logical in B2 / R2C2: got 'NA'
+      Warning:
+      Coercing non-binary number to logical in A4 / R4C1: 2
+      Warning:
+      Coercing non-binary number to logical in B4 / R4C2: 2
+      Warning:
+      Coercing non-binary number to logical in C4 / R4C3: 2
 
 # numeric is correctly coerced to logical [xls]
 
@@ -99,4 +113,10 @@
       Expecting logical in A2 / R2C1: got 'NA'
       Warning:
       Expecting logical in B2 / R2C2: got 'NA'
+      Warning:
+      Coercing non-binary number to logical in A4 / R4C1: 2
+      Warning:
+      Coercing non-binary number to logical in B4 / R4C2: 2
+      Warning:
+      Coercing non-binary number to logical in C4 / R4C3: 2
 
