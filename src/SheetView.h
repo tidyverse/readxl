@@ -114,6 +114,7 @@ public:
 
   cpp11::list readCols(cpp11::strings names,
                        const std::vector<ColType>& types,
+                       const std::vector<ColType>& requestedTypes,
                        const StringSet &na, const bool trimWs,
                        bool has_col_names = false) {
 
@@ -175,6 +176,13 @@ public:
           // print date string here, when/if it's possible to do so
           cpp11::warning("Expecting logical in %s: got a date",
                          cellPosition(i, j).c_str());
+        }
+        if (type == CELL_NUMERIC && requestedTypes[col] == COL_UNKNOWN) {
+          const double value = xcell->asDouble();
+          if (value != 0 && value != 1) {
+            cpp11::warning("Coercing non-binary number to logical in %s: %.17g",
+                           cellPosition(i, j).c_str(), value);
+          }
         }
 
         switch(type) {

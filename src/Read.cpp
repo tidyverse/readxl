@@ -54,6 +54,7 @@ cpp11::list read_this_(
     cpp11::stop("Sheet %d has %d columns, but `col_types` has length %d.",
                 sheet_i + 1, ws.ncol(), colTypes.size());
   }
+  const std::vector<ColType> requestedTypes = colTypes;
   if (requiresGuess(colTypes)) {
     colTypes = ws.colTypes(colTypes, na, trim_ws, guess_max, has_col_names);
   }
@@ -63,7 +64,7 @@ cpp11::list read_this_(
   colNames = reconcileNames(colNames, colTypes, sheet_i);
 
   // Get data ----------------------------------------------------------
-  return ws.readCols(colNames, colTypes, na, trim_ws, has_col_names);
+  return ws.readCols(colNames, colTypes, requestedTypes, na, trim_ws, has_col_names);
 }
 
 [[cpp11::register]]
